@@ -1,0 +1,266 @@
+/**
+ * ManagerSystems.js — Sistemas avançados do Modo Treinador
+ * 
+ * Contém:
+ * - Formações e táticas
+ * - Team Talks (preleção)
+ * - Treino do plantel
+ * - Finanças (salários, bilheteria, premiação)
+ * - Transfer AI (ofertas geradas)
+ * - Moral do elenco
+ * - Condições de jogo (clima)
+ */
+
+// ============================================================
+// FORMAÇÕES
+// ============================================================
+export const FORMATIONS = {
+    "4-3-3": { DEF: 4, MEI: 3, ATA: 3, style: "balanced", moralBonus: 0 },
+    "4-4-2": { DEF: 4, MEI: 4, ATA: 2, style: "balanced", moralBonus: 0 },
+    "3-5-2": { DEF: 3, MEI: 5, ATA: 2, style: "offensive", moralBonus: 0 },
+    "5-3-2": { DEF: 5, MEI: 3, ATA: 2, style: "defensive", moralBonus: 0 },
+    "4-2-3-1": { DEF: 4, MEI: 5, ATA: 1, style: "possession", moralBonus: 0 },
+    "4-1-4-1": { DEF: 4, MEI: 5, ATA: 1, style: "counter", moralBonus: 0 },
+    "3-4-3": { DEF: 3, MEI: 4, ATA: 3, style: "ultra_offensive", moralBonus: -5 },
+    "5-4-1": { DEF: 5, MEI: 4, ATA: 1, style: "park_the_bus", moralBonus: -5 },
+};
+
+// ============================================================
+// TÁTICAS DE JOGO
+// ============================================================
+export const TACTICS = {
+    normal:    { name: "Normal",       ataModifier: 1.0, defModifier: 1.0, description: "Jogo equilibrado." },
+    offensive: { name: "Ofensivo",     ataModifier: 1.3, defModifier: 0.7, description: "Ataque total. Defesa exposta." },
+    defensive: { name: "Defensivo",    ataModifier: 0.7, defModifier: 1.3, description: "Retranca. Contra-ataque." },
+    pressing:  { name: "Pressão Alta", ataModifier: 1.1, defModifier: 0.9, description: "Pressão no campo adversário. Gasta energia." },
+    counter:   { name: "Contra-Ataque",ataModifier: 1.2, defModifier: 1.1, description: "Espera e explode. Eficiente mas previsível." },
+    possession:{ name: "Posse de Bola",ataModifier: 0.9, defModifier: 1.1, description: "Controle. Menos chances mas mais seguras." },
+};
+
+// ============================================================
+// TEAM TALKS (Preleção pré-jogo)
+// ============================================================
+export const TEAM_TALKS = [
+    {
+        id: "motivational",
+        name: "💪 Motivacional",
+        text: "Hoje é tudo ou nada! Vamos mostrar quem somos!",
+        effect: { moralBoost: 5, energyCost: 5, ataModifier: 1.1, defModifier: 1.0 },
+        bestWhen: "losing_streak"  // funciona melhor quando time está em má fase
+    },
+    {
+        id: "calm",
+        name: "🧘 Calma e Foco",
+        text: "Sem pânico. Joguem o que treinamos. Confiança.",
+        effect: { moralBoost: 2, energyCost: 0, ataModifier: 1.0, defModifier: 1.05 },
+        bestWhen: "winning_streak"
+    },
+    {
+        id: "aggressive",
+        name: "🔥 Agressivo",
+        text: "Eu quero sangue nos olhos! Sem desculpas!",
+        effect: { moralBoost: -3, energyCost: 10, ataModifier: 1.2, defModifier: 0.9 },
+        bestWhen: "big_match"
+    },
+    {
+        id: "threatening",
+        name: "⚠️ Ameaçador",
+        text: "Quem não render vai pro banco. Simples assim.",
+        effect: { moralBoost: -8, energyCost: 0, ataModifier: 1.15, defModifier: 1.15 },
+        bestWhen: "complacent"
+    },
+    {
+        id: "tactical",
+        name: "📋 Tático",
+        text: "Explorar o lado direito deles. Marca encaixada no 9.",
+        effect: { moralBoost: 0, energyCost: 0, ataModifier: 1.05, defModifier: 1.1 },
+        bestWhen: "always"
+    },
+    {
+        id: "relaxed",
+        name: "😎 Descontraído",
+        text: "Jogo fácil. Aproveitem e divirtam-se.",
+        effect: { moralBoost: 3, energyCost: -5, ataModifier: 0.95, defModifier: 0.95 },
+        bestWhen: "easy_match"
+    }
+];
+
+// ============================================================
+// TREINO DO PLANTEL
+// ============================================================
+export const TRAINING_TYPES = [
+    {
+        id: "fitness",
+        name: "🏃 Preparação Física",
+        description: "Foco em resistência e recuperação.",
+        effect: { energyRecovery: 20, attrBoost: "FIS", attrAmount: 1, moralCost: -2 }
+    },
+    {
+        id: "tactical",
+        name: "📋 Treino Tático",
+        description: "Ensaios de jogadas e posicionamento.",
+        effect: { energyRecovery: 5, attrBoost: "DEF", attrAmount: 1, moralCost: 0 }
+    },
+    {
+        id: "technical",
+        name: "⚽ Treino Técnico",
+        description: "Passe, finalização e controle de bola.",
+        effect: { energyRecovery: 5, attrBoost: "CRI", attrAmount: 1, moralCost: 0 }
+    },
+    {
+        id: "attack",
+        name: "🎯 Treino de Ataque",
+        description: "Movimentação ofensiva e finalização.",
+        effect: { energyRecovery: 5, attrBoost: "FIN", attrAmount: 1, moralCost: -1 }
+    },
+    {
+        id: "rest",
+        name: "😴 Folga Total",
+        description: "Sem treino. Recuperação máxima.",
+        effect: { energyRecovery: 35, attrBoost: null, attrAmount: 0, moralCost: 3 }
+    },
+    {
+        id: "double",
+        name: "💀 Treino Dobrado",
+        description: "Dois períodos. Ganho máximo mas desgasta.",
+        effect: { energyRecovery: -15, attrBoost: "ALL", attrAmount: 1, moralCost: -8 }
+    }
+];
+
+// ============================================================
+// CONDIÇÕES DE JOGO
+// ============================================================
+export const MATCH_CONDITIONS = [
+    { id: "normal", name: "☀️ Tempo bom", ataModifier: 1.0, defModifier: 1.0, energyModifier: 1.0, probability: 0.40 },
+    { id: "rain", name: "🌧️ Chuva forte", ataModifier: 0.9, defModifier: 0.9, energyModifier: 1.2, probability: 0.15 },
+    { id: "heat", name: "🔥 Calor intenso", ataModifier: 1.0, defModifier: 1.0, energyModifier: 1.5, probability: 0.10 },
+    { id: "packed", name: "🏟️ Estádio lotado", ataModifier: 1.1, defModifier: 1.1, energyModifier: 1.0, probability: 0.15 },
+    { id: "night", name: "🌙 Jogo noturno", ataModifier: 1.05, defModifier: 1.0, energyModifier: 0.9, probability: 0.10 },
+    { id: "derby", name: "⚡ Clássico!", ataModifier: 1.15, defModifier: 1.15, energyModifier: 1.3, probability: 0.05 },
+    { id: "tv", name: "📺 Transmissão nacional", ataModifier: 1.05, defModifier: 1.0, energyModifier: 1.0, probability: 0.05 },
+];
+
+export function rollMatchCondition() {
+    const roll = Math.random();
+    let cumulative = 0;
+    for (const cond of MATCH_CONDITIONS) {
+        cumulative += cond.probability;
+        if (roll < cumulative) return cond;
+    }
+    return MATCH_CONDITIONS[0];
+}
+
+// ============================================================
+// FINANÇAS
+// ============================================================
+export function calculateWeeklyFinances(team, weekResults, teamId) {
+    const finance = { income: 0, expenses: 0, details: [] };
+
+    // Salários do plantel
+    const totalWages = team.squad.reduce((sum, p) => sum + (p.salary || 5000), 0);
+    finance.expenses += totalWages;
+    finance.details.push({ type: "expense", label: "Salários", amount: totalWages });
+
+    // Bilheteria (jogos em casa)
+    for (const tId in weekResults) {
+        const myMatch = weekResults[tId].find(m => m.home === teamId);
+        if (myMatch) {
+            const attendance = Math.floor(team.stadium * (0.5 + Math.random() * 0.5));
+            const ticketIncome = attendance * 30;
+            finance.income += ticketIncome;
+            finance.details.push({ type: "income", label: `Bilheteria (${attendance} torcedores)`, amount: ticketIncome });
+        }
+    }
+
+    // TV (semanal fixa baseada na divisão)
+    const tvMoney = team.division === 1 ? 200000 : team.division === 2 ? 80000 : 30000;
+    finance.income += tvMoney;
+    finance.details.push({ type: "income", label: "Cota de TV", amount: tvMoney });
+
+    return finance;
+}
+
+// ============================================================
+// TRANSFER AI (propostas automáticas)
+// ============================================================
+export function generateTransferOffers(team, currentWeek) {
+    // Ofertas só aparecem nas janelas: semanas 1-4 e 20-24
+    if (currentWeek > 4 && currentWeek < 20) return [];
+    if (currentWeek > 24) return [];
+
+    const offers = [];
+    // Chance de receber oferta por jogadores bons
+    team.squad.forEach(player => {
+        if (player.ovr >= 70 && Math.random() < 0.15) {
+            const multiplier = 1 + Math.random() * 2; // 1x a 3x do valor
+            offers.push({
+                playerId: player.id,
+                playerName: player.name,
+                playerOvr: player.ovr,
+                offerAmount: Math.floor((player.value || 5000000) * multiplier),
+                buyerClub: getRandomBuyer(),
+                deadline: currentWeek + 2
+            });
+        }
+    });
+    return offers;
+}
+
+function getRandomBuyer() {
+    const clubs = [
+        "Manchester City", "PSG", "Real Madrid", "Bayern Munich", "Barcelona",
+        "Inter Milan", "Liverpool", "Chelsea", "Juventus", "Atletico Madrid",
+        "Borussia Dortmund", "AC Milan", "Arsenal", "Napoli", "Tottenham"
+    ];
+    return clubs[Math.floor(Math.random() * clubs.length)];
+}
+
+// ============================================================
+// MORAL DO ELENCO
+// ============================================================
+export function calculateSquadMoral(team) {
+    if (!team.squad || team.squad.length === 0) return 50;
+    const avg = team.squad.reduce((sum, p) => sum + (p.moral || 50), 0) / team.squad.length;
+    return Math.round(avg);
+}
+
+export function applyTraining(team, trainingType) {
+    const training = TRAINING_TYPES.find(t => t.id === trainingType);
+    if (!training) return { success: false, msg: "Tipo de treino inválido." };
+
+    team.squad.forEach(player => {
+        // Energy
+        player.energy = Math.max(0, Math.min(100, player.energy + training.effect.energyRecovery));
+        // Moral
+        player.moral = Math.max(0, Math.min(100, (player.moral || 50) + training.effect.moralCost));
+        // Attribute boost
+        if (training.effect.attrBoost === "ALL") {
+            ['FIS', 'DEF', 'CRI', 'FIN'].forEach(attr => {
+                player.attributes[attr] = Math.min(99, (player.attributes[attr] || 50) + training.effect.attrAmount);
+            });
+        } else if (training.effect.attrBoost) {
+            const attr = training.effect.attrBoost;
+            player.attributes[attr] = Math.min(99, (player.attributes[attr] || 50) + training.effect.attrAmount);
+        }
+    });
+
+    // Recalculate OVR for each player
+    team.squad.forEach(p => {
+        const attrs = p.attributes;
+        p.ovr = Math.floor((attrs.FIS + attrs.DEF + attrs.CRI + attrs.FIN + (attrs.REF || 50)) / 5);
+    });
+
+    return { success: true, msg: `Treino "${training.name}" aplicado ao plantel.` };
+}
+
+export function applyTeamTalk(team, talkId) {
+    const talk = TEAM_TALKS.find(t => t.id === talkId);
+    if (!talk) return { success: false, talk: null };
+
+    team.squad.forEach(p => {
+        p.moral = Math.max(0, Math.min(100, (p.moral || 50) + talk.effect.moralBoost));
+        p.energy = Math.max(0, Math.min(100, p.energy - talk.effect.energyCost));
+    });
+
+    return { success: true, talk, modifiers: { ata: talk.effect.ataModifier, def: talk.effect.defModifier } };
+}

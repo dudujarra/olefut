@@ -4,6 +4,7 @@ import { League } from './tournaments/League';
 import { ContinentalCup } from './tournaments/ContinentalCup';
 import { KnockoutCup } from './tournaments/KnockoutCup';
 import { ProPlayer } from './PlayerCareer';
+import { FORMATIONS, TACTICS, rollMatchCondition, calculateWeeklyFinances, generateTransferOffers, applyTraining, applyTeamTalk } from './ManagerSystems';
 
 export class Engine {
     constructor() {
@@ -14,6 +15,16 @@ export class Engine {
         this.proPlayer = null;
         this.manager = { name: '', teamId: null, money: 0, salary: 5000 };
         this.marketPlayers = [];
+
+        // Manager Mode state
+        this.currentTactic = 'normal';
+        this.currentTraining = 'fitness';
+        this.lastTeamTalk = null;
+        this.teamTalkModifiers = { ata: 1.0, def: 1.0 };
+        this.matchCondition = null;
+        this.transferOffers = [];
+        this.weeklyFinance = null;
+        this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0 };
     }
 
     initGame(name, teamId, mode = 'manager', scenario = 'livre', playerPosition = 'ATA') {
@@ -152,6 +163,50 @@ export class Engine {
         }
     }
 
+    // === MANAGER ACTIONS ===
+    setTactic(tacticId) {
+        if (TACTICS[tacticId]) this.currentTactic = tacticId;
+    }
+
+    setFormation(formationId) {
+        const team = this.getTeam(this.manager.teamId);
+        if (team && FORMATIONS[formationId]) team.formation = formationId;
+    }
+
+    doTeamTalk(talkId) {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return null;
+        const result = applyTeamTalk(team, talkId);
+        if (result.success) {
+            this.lastTeamTalk = result.talk;
+            this.teamTalkModifiers = result.modifiers;
+        }
+        return result;
+    }
+
+    doTraining(trainingId) {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return null;
+        this.currentTraining = trainingId;
+        return applyTraining(team, trainingId);
+    }
+
+    acceptTransferOffer(offerId) {
+        const offer = this.transferOffers.find(o => o.playerId === offerId);
+        if (!offer) return { success: false, msg: 'Oferta não encontrada.' };
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return { success: false, msg: 'Time não encontrado.' };
+        team.squad = team.squad.filter(p => p.id !== offerId);
+        team.balance += offer.offerAmount;
+        this.transferOffers = this.transferOffers.filter(o => o.playerId !== offerId);
+        return { success: true, msg: `${offer.playerName} vendido para ${offer.buyerClub} por R$ ${(offer.offerAmount / 1000000).toFixed(1)}M!` };
+    }
+
+    rejectTransferOffer(offerId) {
+        this.transferOffers = this.transferOffers.filter(o => o.playerId !== offerId);
+        return { success: true, msg: 'Oferta recusada.' };
+    }
+
     playMatch(homeId, awayId, isCup = false) {
         const homeTeam = this.getTeam(homeId);
         const awayTeam = this.getTeam(awayId);
@@ -159,27 +214,53 @@ export class Engine {
         const homeSectors = this.getTeamSectors(homeId);
         const awaySectors = this.getTeamSectors(awayId);
 
+        // Apply tactic modifiers for manager's team
+        const tactic = TACTICS[this.currentTactic] || TACTICS.normal;
+        const isManagerHome = homeId === this.manager.teamId;
+        const isManagerAway = awayId === this.manager.teamId;
+
+        if (isManagerHome) {
+            homeSectors.attack = Math.floor(homeSectors.attack * tactic.ataModifier * this.teamTalkModifiers.ata);
+            homeSectors.defense = Math.floor(homeSectors.defense * tactic.defModifier * this.teamTalkModifiers.def);
+        } else if (isManagerAway) {
+            awaySectors.attack = Math.floor(awaySectors.attack * tactic.ataModifier * this.teamTalkModifiers.ata);
+            awaySectors.defense = Math.floor(awaySectors.defense * tactic.defModifier * this.teamTalkModifiers.def);
+        }
+
+        // Match condition modifiers
+        const cond = this.matchCondition || { ataModifier: 1, defModifier: 1, energyModifier: 1 };
+
         let homeGoals = 0;
         let awayGoals = 0;
         const events = { home: [], away: [], textLog: [], playerChances: [] };
 
+        // Log condition
+        if (this.matchCondition && this.matchCondition.id !== 'normal') {
+            events.textLog.push({ minute: 0, text: `${this.matchCondition.name}` });
+        }
+
+        // Moral factor
+        const homeMoral = (homeTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (homeTeam.squad?.length || 1);
+        const awayMoral = (awayTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (awayTeam.squad?.length || 1);
+        const homeMoralFactor = 0.8 + (homeMoral / 250); // 0.8 to 1.2
+        const awayMoralFactor = 0.8 + (awayMoral / 250);
+
         for (let minute = 1; minute <= 90; minute++) {
-            const isHomeAttacking = Math.random() > 0.45; // slight home advantage
-            const attackingSectors = isHomeAttacking ? homeSectors : awaySectors;
-            const defendingSectors = isHomeAttacking ? awaySectors : homeSectors;
+            const isHomeAttacking = Math.random() > 0.45;
+            const atkSectors = isHomeAttacking ? homeSectors : awaySectors;
+            const defSectors = isHomeAttacking ? awaySectors : homeSectors;
+            const atkMoral = isHomeAttacking ? homeMoralFactor : awayMoralFactor;
             const attName = isHomeAttacking ? homeTeam.name : awayTeam.name;
             const defName = isHomeAttacking ? awayTeam.name : homeTeam.name;
 
             if (minute % 15 === 0) events.textLog.push({ minute, text: `${attName} roda a bola no meio-campo.` });
 
-            const chanceRatio = attackingSectors.attack / (defendingSectors.defense || 1);
+            const chanceRatio = (atkSectors.attack * cond.ataModifier * atkMoral) / (defSectors.defense * cond.defModifier || 1);
             if (Math.random() < (0.15 * chanceRatio)) {
-                // Shot attempt
-                const shotPower = attackingSectors.attack * Math.random();
-                const saveChance = defendingSectors.goalkeeper * Math.random() * 0.6;
+                const shotPower = atkSectors.attack * cond.ataModifier * Math.random();
+                const saveChance = defSectors.goalkeeper * Math.random() * 0.6;
 
                 if (shotPower > saveChance) {
-                    // GOAL
                     if (isHomeAttacking) {
                         homeGoals++;
                         events.home.push({ minute, type: 'goal' });
@@ -205,6 +286,9 @@ export class Engine {
             }
         }
 
+        // Reset team talk modifiers after match
+        this.teamTalkModifiers = { ata: 1.0, def: 1.0 };
+
         return { homeGoals, awayGoals, events };
     }
 
@@ -218,22 +302,51 @@ export class Engine {
             if (results) weekResults[t.id] = results;
         });
 
-        // Aplicar fadiga/recuperação no squad do Manager (Akita: lógica na Engine, não no React)
+        // Manager mode: finanças, fadiga, condições, transferências
         if (this.mode === 'manager') {
             const team = this.getTeam(this.manager.teamId);
             if (team) {
+                // Energy management based on training
                 team.squad.forEach(p => {
                     if (p.isTitular) {
-                        p.energy = Math.max(0, p.energy - (Math.floor(Math.random() * 10) + 15));
+                        p.energy = Math.max(0, p.energy - (Math.floor(Math.random() * 10) + 12));
                     } else {
-                        p.energy = Math.min(100, p.energy + 10);
+                        p.energy = Math.min(100, p.energy + 12);
                     }
                 });
-                // Bilheteria para jogos em casa
+
+                // Finanças detalhadas
+                this.weeklyFinance = calculateWeeklyFinances(team, weekResults, team.id);
+                team.balance += this.weeklyFinance.income - this.weeklyFinance.expenses;
+
+                // Match condition para próxima partida
+                this.matchCondition = rollMatchCondition();
+
+                // Transfer offers (janelas)
+                const newOffers = generateTransferOffers(team, this.currentWeek);
+                if (newOffers.length > 0) {
+                    this.transferOffers.push(...newOffers);
+                }
+
+                // Win/Loss tracking
                 for (const tId in weekResults) {
-                    const myMatch = weekResults[tId].find(m => m.home === team.id);
-                    if (myMatch) {
-                        team.balance += (team.stadium * 20);
+                    const myMatch = weekResults[tId].find(m => m.home === team.id || m.away === team.id);
+                    if (myMatch && myMatch.score) {
+                        const isHome = myMatch.home === team.id;
+                        const myGoals = isHome ? myMatch.score.homeGoals : myMatch.score.awayGoals;
+                        const theirGoals = isHome ? myMatch.score.awayGoals : myMatch.score.homeGoals;
+                        if (myGoals > theirGoals) {
+                            this.managerStats.wins++;
+                            this.managerStats.streak = Math.max(0, this.managerStats.streak) + 1;
+                            team.squad.forEach(p => { p.moral = Math.min(100, (p.moral || 50) + 3); });
+                        } else if (myGoals < theirGoals) {
+                            this.managerStats.losses++;
+                            this.managerStats.streak = Math.min(0, this.managerStats.streak) - 1;
+                            team.squad.forEach(p => { p.moral = Math.max(0, (p.moral || 50) - 3); });
+                        } else {
+                            this.managerStats.draws++;
+                            this.managerStats.streak = 0;
+                        }
                         break;
                     }
                 }
