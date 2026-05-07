@@ -1,0 +1,70 @@
+import React, { useState } from 'react';
+import { useGame } from '../context/GameContext';
+import { RealDB } from '../engine/db/index';
+
+export function StartView() {
+    const { startGame } = useGame();
+    const [name, setName] = useState('');
+    const [scenario, setScenario] = useState('livre');
+    const [teamId, setTeamId] = useState('');
+    const [mode, setMode] = useState('manager');
+    const [position, setPosition] = useState('ATA');
+
+    // Build team list from RealDB
+    const allTeams = [];
+    let idCounter = 1;
+    for (const zone of Object.keys(RealDB)) {
+        for (const div of Object.keys(RealDB[zone])) {
+            RealDB[zone][div].forEach(club => {
+                allTeams.push({ id: idCounter++, name: club.name, zone, div: parseInt(div) });
+            });
+        }
+    }
+
+    const handleStart = () => {
+        if (!name.trim() || !teamId) return;
+        startGame(name, parseInt(teamId), scenario, mode, position);
+    };
+
+    return (
+        <div className="start-view fade-in">
+            <h1>ELIFOOT</h1>
+            <p>Soccer Manager RPG</p>
+            <div className="start-form">
+                <div className="mode-selector">
+                    <button className={`mode-btn ${mode === 'manager' ? 'active' : ''}`} onClick={() => setMode('manager')}>🧑‍💼 Treinador</button>
+                    <button className={`mode-btn ${mode === 'player' ? 'active' : ''}`} onClick={() => setMode('player')}>⚽ Jogador</button>
+                </div>
+
+                <input id="input-name" type="text" placeholder={mode === 'manager' ? "Nome do Treinador" : "Nome do Jogador"} value={name} onChange={e => setName(e.target.value)} />
+
+                {mode === 'player' && (
+                    <select id="select-position" value={position} onChange={e => setPosition(e.target.value)}>
+                        <option value="GOL">Goleiro</option>
+                        <option value="DEF">Zagueiro</option>
+                        <option value="MEI">Meia</option>
+                        <option value="ATA">Atacante</option>
+                    </select>
+                )}
+
+                {mode === 'manager' && (
+                    <select id="select-scenario" value={scenario} onChange={e => setScenario(e.target.value)}>
+                        <option value="livre">🌍 Sandbox (Livre)</option>
+                        <option value="fallen">📉 Gigante Caído (Orçamento -90%)</option>
+                    </select>
+                )}
+
+                <select id="select-team" value={teamId} onChange={e => setTeamId(e.target.value)}>
+                    <option value="">Selecione seu time...</option>
+                    {allTeams.map(t => (
+                        <option key={t.id} value={t.id}>{t.name} ({t.zone} - Div {t.div})</option>
+                    ))}
+                </select>
+
+                <button id="btn-start" className="btn btn-primary" onClick={handleStart} disabled={!name.trim() || !teamId}>
+                    ⚡ COMEÇAR CARREIRA
+                </button>
+            </div>
+        </div>
+    );
+}
