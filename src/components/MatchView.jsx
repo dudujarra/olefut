@@ -1,156 +1,289 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { TACTICS } from '../engine/ManagerSystems';
+import { getFormEmoji } from '../engine/PlayerDevelopment';
+import { getPlayerTraits } from '../engine/PlayerTraits';
 
 export function MatchView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
     const engine = getEngine();
     const team = engine.getTeam(gameState.teamId);
-    const [phase, setPhase] = useState('prematch'); // prematch | firsthalf | halftime | secondhalf | fulltime
+    const [phase, setPhase] = useState('prematch');
     const [result, setResult] = useState(null);
     const [narration, setNarration] = useState([]);
-    const [visibleNarr, setVisibleNarr] = useState([]);
+    const [displayedEvents, setDisplayedEvents] = useState([]);
+    const [currentMinute, setCurrentMinute] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [halfTimeData, setHalfTimeData] = useState(null);
     const [subUsed, setSubUsed] = useState(false);
     const [tacticChanged, setTacticChanged] = useState(false);
     const [matchStats, setMatchStats] = useState(null);
+    const [speed, setSpeed] = useState(200); // ms per tick
+    const logRef = useRef(null);
+    const timerRef = useRef(null);
 
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
 
-    // Pré-match info
+    // Auto-scroll narration log
+    useEffect(() => {
+        if (logRef.current) {
+            logRef.current.scrollTop = logRef.current.scrollHeight;
+        }
+    }, [displayedEvents]);
+
+    // Cleanup timer on unmount
+    useEffect(() => {
+        return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    }, []);
+
+    // === LIVE MATCH TICKER ===
+    const startLiveTicker = (events, startMin, endMin, onComplete) => {
+        setIsPlaying(true);
+        let min = startMin;
+        const eventQueue = events.filter(e => e && e.minute >= startMin && e.minute <= endMin);
+        let eventIdx = 0;
+
+        timerRef.current = setInterval(() => {
+            min++;
+            setCurrentMinute(min);
+
+            // Push all events at this minute
+            while (eventIdx < eventQueue.length && eventQueue[eventIdx].minute <= min) {
+                setDisplayedEvents(prev => [...prev, eventQueue[eventIdx]]);
+                eventIdx++;
+            }
+
+            if (min >= endMin) {
+                clearInterval(timerRef.current);
+                timerRef.current = null;
+                setIsPlaying(false);
+                if (onComplete) onComplete();
+            }
+        }, speed);
+    };
+
+    const skipToEnd = (events, endMin, onComplete) => {
+        if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+        const remaining = events.filter(e => e && e.minute <= endMin);
+        setDisplayedEvents(remaining);
+        setCurrentMinute(endMin);
+        setIsPlaying(false);
+        if (onComplete) onComplete();
+    };
+
+    // Compute running score from displayed events
+    const getRunningScore = () => {
+        if (!result) return { home: 0, away: 0 };
+        let h = 0, a = 0;
+        (displayedEvents || []).forEach(e => {
+            if (!e || !e.text) return;
+            if (e.text.includes('⚽')) {
+                const match = e.text.match(/\((\d+) x (\d+)\)/);
+                if (match) { h = parseInt(match[1]); a = parseInt(match[2]); }
+            }
+        });
+        return { home: h, away: a };
+    };
+
+    // === PRE-MATCH ===
     if (phase === 'prematch') {
         const titulares = team.squad.filter(p => p.isTitular && !p.injury);
+        const reservas = team.squad.filter(p => !p.isTitular && !p.injury).slice(0, 7);
         const lowEnergy = titulares.filter(p => p.energy < 40);
+        const sectors = engine.getTeamSectors(team.id);
 
         return (
             <div className="main-content fade-in">
-                <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
-                    <h2>⚽ Pré-Jogo — Semana {engine.currentWeek + 1}</h2>
-                    <div style={{fontSize:'0.9rem',color:'var(--text-muted)',margin:'0.5rem 0'}}>
+                <div className="card" style={{ textAlign: 'center' }}>
+                    <h2 style={{fontSize:'1.3rem'}}>⚽ Pré-Jogo — Semana {engine.currentWeek + 1}</h2>
+                    <div style={{fontSize:'0.85rem',color:'var(--text-muted)',margin:'0.3rem 0'}}>
                         {team.name} • {team.formation} • {tactic?.name}
                     </div>
-                    {cond && <div style={{fontSize:'0.85rem',color:'var(--accent)',marginBottom:'0.5rem'}}>{cond.name}</div>}
-
-                    <div className="card" style={{textAlign:'left',marginTop:'1rem'}}>
-                        <h4>Titulares ({titulares.length})</h4>
-                        <div style={{display:'flex',flexWrap:'wrap',gap:'0.3rem',marginTop:'0.5rem'}}>
-                            {titulares.map(p => (
-                                <span key={p.id} style={{
-                                    padding:'0.2rem 0.5rem',
-                                    borderRadius:'var(--radius-sm)',
-                                    fontSize:'0.75rem',
-                                    background: p.energy < 40 ? 'rgba(239,68,68,0.2)' : 'var(--bg-panel-hover)',
-                                    color: p.energy < 40 ? 'var(--danger)' : 'var(--text-main)'
-                                }}>
-                                    {p.name} ({p.position} {p.ovr}) ⚡{p.energy}%
-                                </span>
-                            ))}
-                        </div>
-                        {lowEnergy.length > 0 && (
-                            <p style={{color:'var(--danger)',fontSize:'0.75rem',marginTop:'0.5rem'}}>
-                                ⚠️ {lowEnergy.length} jogador(es) com energia baixa. Risco de lesão aumentado.
-                            </p>
-                        )}
-                    </div>
-
-                    <button className="btn btn-primary" style={{marginTop:'1rem',width:'100%'}} onClick={() => {
-                        // Simulate match
-                        const weekResults = engine.advanceWeek();
-                        let myMatch = null;
-                        for (const tId in weekResults) {
-                            const match = weekResults[tId].find(m => (m.home === team.id || m.away === team.id) && m.score);
-                            if (match) { myMatch = match; break; }
-                        }
-
-                        if (myMatch && myMatch.score) {
-                            const isHome = myMatch.home === team.id;
-                            const opponent = engine.getTeam(isHome ? myMatch.away : myMatch.home);
-                            const allEvents = myMatch.score.events?.textLog || [];
-
-                            // Split events: first half (min <= 45) and second half
-                            const firstHalf = allEvents.filter(e => e.minute <= 45);
-                            const secondHalf = allEvents.filter(e => e.minute > 45);
-
-                            setResult({
-                                home: isHome ? team.name : opponent.name,
-                                away: isHome ? opponent.name : team.name,
-                                homeGoals: myMatch.score.homeGoals,
-                                awayGoals: myMatch.score.awayGoals,
-                            });
-                            setNarration(allEvents);
-
-                            // Half time data
-                            const htHomeGoals = myMatch.score.events?.home?.filter(e => e.minute <= 45).length || 0;
-                            const htAwayGoals = myMatch.score.events?.away?.filter(e => e.minute <= 45).length || 0;
-                            setHalfTimeData({
-                                homeGoals: isHome ? htHomeGoals : htAwayGoals,
-                                awayGoals: isHome ? htAwayGoals : htHomeGoals,
-                            });
-
-                            // Match stats
-                            const totalChances = allEvents.filter(e => e.text && (e.text.includes('GOOOL') || e.text.includes('Defesaça'))).length;
-                            const goals = allEvents.filter(e => e.text && e.text.includes('GOOOL')).length;
-                            setMatchStats({
-                                totalChances,
-                                goals,
-                                injuries: engine.weekInjuries.length,
-                            });
-
-                            setVisibleNarr(firstHalf);
-                            setPhase('firsthalf');
-                        } else {
-                            setResult({ home: team.name, away: 'Sem Jogo', homeGoals: '-', awayGoals: '-' });
-                            setPhase('fulltime');
-                        }
-                        forceUpdate();
-                    }}>
-                        🟢 Iniciar Partida
-                    </button>
-
-                    <button className="btn btn-secondary" style={{marginTop:'0.5rem',width:'100%'}} onClick={() => changeView('dashboard')}>
-                        ← Voltar ao Dashboard
-                    </button>
+                    {cond && <div className="alert-badge info" style={{display:'inline-flex',margin:'0.3rem 0'}}>{cond.name}</div>}
                 </div>
+
+                {/* Sector summary */}
+                <div className="card card-compact">
+                    <div className="inline-stats" style={{justifyContent:'center'}}>
+                        <div className="inline-stat"><span className="stat-value">{sectors.goalkeeper}</span><span className="stat-label">GOL</span></div>
+                        <div className="inline-stat"><span className="stat-value">{sectors.defense}</span><span className="stat-label">DEF</span></div>
+                        <div className="inline-stat"><span className="stat-value">{sectors.midfield}</span><span className="stat-label">MEI</span></div>
+                        <div className="inline-stat"><span className="stat-value">{sectors.attack}</span><span className="stat-label">ATA</span></div>
+                    </div>
+                </div>
+
+                {/* Titulares */}
+                <div className="card card-compact">
+                    <h4 style={{fontSize:'0.8rem',marginBottom:'0.5rem',color:'var(--text-muted)'}}>TITULARES ({titulares.length})</h4>
+                    <div style={{display:'flex',flexDirection:'column',gap:'0.2rem'}}>
+                        {titulares.map(p => (
+                            <div key={p.id} style={{
+                                display:'flex', justifyContent:'space-between', alignItems:'center',
+                                padding:'0.25rem 0.4rem', borderRadius:'var(--radius-xs)',
+                                background: p.energy < 40 ? 'rgba(239,68,68,0.1)' : 'transparent',
+                                fontSize:'0.78rem'
+                            }}>
+                                <span>
+                                    <strong style={{color:'var(--text-muted)',marginRight:'0.3rem',fontSize:'0.7rem'}}>{p.position}</strong>
+                                    {p.name}
+                                    {p._isCaptain && <span title="Capitão" style={{marginLeft:'3px'}}>©️</span>}
+                                    {getFormEmoji(p.form?.trend) && <span style={{marginLeft:'3px'}}>{getFormEmoji(p.form?.trend)}</span>}
+                                    {getPlayerTraits(p).map(t => (
+                                        <span key={t.id} style={{fontSize:'0.6rem',marginLeft:'3px'}} title={t.description}>{t.name.split(' ')[0]}</span>
+                                    ))}
+                                </span>
+                                <span style={{display:'flex',gap:'0.5rem',alignItems:'center'}}>
+                                    <span style={{fontWeight:600}}>{p.ovr}</span>
+                                    <span style={{color: p.energy < 40 ? 'var(--danger)' : p.energy < 70 ? 'var(--accent)' : 'var(--primary)', fontSize:'0.72rem'}}>
+                                        ⚡{p.energy}%
+                                    </span>
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                    {lowEnergy.length > 0 && (
+                        <div className="alert-badge danger" style={{marginTop:'0.4rem'}}>
+                            ⚠️ {lowEnergy.length} jogador(es) com energia baixa
+                        </div>
+                    )}
+                </div>
+
+                <button className="btn-cta" onClick={() => {
+                    const weekResults = engine.advanceWeek();
+                    let myMatch = null;
+                    for (const tId in weekResults) {
+                        const match = weekResults[tId].find(m => (m.home === team.id || m.away === team.id) && m.score);
+                        if (match) { myMatch = match; break; }
+                    }
+
+                    if (myMatch && myMatch.score) {
+                        const isHome = myMatch.home === team.id;
+                        const opponent = engine.getTeam(isHome ? myMatch.away : myMatch.home);
+                        const allEvents = myMatch.score.events?.textLog || [];
+
+                        const htHomeGoals = myMatch.score.events?.home?.filter(e => e.minute <= 45).length || 0;
+                        const htAwayGoals = myMatch.score.events?.away?.filter(e => e.minute <= 45).length || 0;
+
+                        setResult({
+                            home: isHome ? team.name : opponent.name,
+                            away: isHome ? opponent.name : team.name,
+                            homeGoals: myMatch.score.homeGoals,
+                            awayGoals: myMatch.score.awayGoals,
+                        });
+                        setNarration(allEvents);
+                        setHalfTimeData({
+                            homeGoals: isHome ? htHomeGoals : htAwayGoals,
+                            awayGoals: isHome ? htAwayGoals : htHomeGoals,
+                        });
+
+                        const totalChances = allEvents.filter(e => e.text && (e.text.includes('⚽') || e.text.includes('Defesa') || e.text.includes('salva'))).length;
+                        const goals = allEvents.filter(e => e.text && e.text.includes('⚽')).length;
+                        setMatchStats({ totalChances, goals, injuries: engine.weekInjuries.length });
+
+                        setDisplayedEvents([]);
+                        setCurrentMinute(0);
+                        setPhase('firsthalf');
+
+                        // Start live ticker after render
+                        setTimeout(() => {
+                            const firstHalf = allEvents.filter(e => e.minute <= 45);
+                            startLiveTicker(allEvents, 0, 45, null);
+                        }, 300);
+                    } else {
+                        setResult({ home: team.name, away: 'Sem Jogo', homeGoals: '-', awayGoals: '-' });
+                        setPhase('fulltime');
+                    }
+                    forceUpdate();
+                }}>
+                    ⚽ INICIAR PARTIDA
+                </button>
+
+                <button className="btn btn-secondary" style={{width:'100%',marginTop:'0.5rem'}} onClick={() => changeView('dashboard')}>
+                    ← Voltar ao Dashboard
+                </button>
             </div>
         );
     }
+
+    const runningScore = getRunningScore();
+
+    // === SCOREBOARD (shared between phases) ===
+    const Scoreboard = ({ half }) => (
+        <div className="card" style={{ textAlign: 'center', padding: '0.75rem' }}>
+            <div className="match-teams">
+                <span className="team-name">{result.home}</span>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
+                    <div className="match-score">{runningScore.home} — {runningScore.away}</div>
+                    {/* Cronômetro */}
+                    <div style={{
+                        display:'flex',alignItems:'center',gap:'0.5rem',marginTop:'0.3rem'
+                    }}>
+                        <span style={{
+                            fontFamily:'Outfit',fontWeight:700,fontSize:'1.4rem',
+                            color: isPlaying ? 'var(--primary)' : 'var(--text-muted)',
+                            minWidth:'3rem',textAlign:'center'
+                        }}>
+                            {currentMinute}'
+                        </span>
+                        {isPlaying && <span className="pulse" style={{fontSize:'0.6rem',color:'var(--danger)'}}>● AO VIVO</span>}
+                    </div>
+                    <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>{half}</span>
+                </div>
+                <span className="team-name">{result.away}</span>
+            </div>
+        </div>
+    );
 
     // === FIRST HALF ===
     if (phase === 'firsthalf') {
         return (
             <div className="main-content fade-in">
-                <div className="card" style={{ textAlign: 'center' }}>
-                    <div className="match-teams">
-                        <span className="team-name">{result.home}</span>
-                        <div className="match-score">{halfTimeData?.homeGoals ?? 0} — {halfTimeData?.awayGoals ?? 0}</div>
-                        <span className="team-name">{result.away}</span>
-                    </div>
-                    <p style={{color:'var(--accent)',fontSize:'0.8rem'}}>1º Tempo</p>
-                </div>
+                <Scoreboard half="1º Tempo" />
 
-                <div className="narration-log">
-                    {visibleNarr.map((n, i) => (
-                        <div key={i} className={n.text?.includes('GOOOL') ? 'goal-line' : ''}>{n.minute}' — {n.text}</div>
+                <div className="narration-log" ref={logRef}>
+                    {displayedEvents.filter(e => e.minute <= 45).map((n, i) => (
+                        <div key={i} className={`${n.text?.includes('⚽') ? 'goal-line' : ''} ${n.text?.includes('🟨') ? 'card-line' : ''}`}
+                             style={{animation: 'slideUp 0.2s ease-out'}}>
+                            <strong style={{color:'var(--text-muted)',fontSize:'0.7rem',marginRight:'0.4rem'}}>{n.minute}'</strong>
+                            {n.text}
+                        </div>
                     ))}
                 </div>
 
-                <button className="btn btn-primary" style={{width:'100%',marginTop:'0.5rem'}} onClick={() => setPhase('halftime')}>
+                <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem'}}>
+                    {/* Speed controls */}
+                    <div style={{display:'flex',gap:'0.25rem',flex:1}}>
+                        <button className={`btn btn-sm ${speed === 400 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => setSpeed(400)}>1x</button>
+                        <button className={`btn btn-sm ${speed === 200 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => setSpeed(200)}>2x</button>
+                        <button className={`btn btn-sm ${speed === 80 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => setSpeed(80)}>5x</button>
+                    </div>
+                    <button className="btn btn-sm btn-secondary" onClick={() => {
+                        skipToEnd(narration.filter(e => e.minute <= 45), 45, null);
+                    }}>⏭️ Pular</button>
+                </div>
+
+                <button className="btn btn-primary" style={{width:'100%',marginTop:'0.5rem'}}
+                    disabled={isPlaying}
+                    onClick={() => setPhase('halftime')}>
                     ⏸️ Intervalo
                 </button>
             </div>
         );
     }
 
-    // === HALF TIME — DECISION POINT ===
+    // === HALF TIME ===
     if (phase === 'halftime') {
-        const subs = team.squad.filter(p => !p.isTitular && !p.injury).slice(0, 3);
+        const subs = team.squad.filter(p => !p.isTitular && !p.injury).slice(0, 5);
         const tiredPlayers = team.squad.filter(p => p.isTitular && p.energy < 50);
 
         return (
             <div className="main-content fade-in">
-                <div className="card" style={{ textAlign: 'center' }}>
-                    <h2>⏸️ Intervalo</h2>
+                <div className="card" style={{ textAlign: 'center', padding:'0.75rem' }}>
+                    <h3 style={{color:'var(--accent)',marginBottom:'0.3rem'}}>⏸️ INTERVALO</h3>
                     <div className="match-teams">
                         <span className="team-name">{result.home}</span>
                         <div className="match-score">{halfTimeData?.homeGoals ?? 0} — {halfTimeData?.awayGoals ?? 0}</div>
@@ -158,10 +291,10 @@ export function MatchView() {
                     </div>
                 </div>
 
-                {/* Tactical change */}
+                {/* Tactic change */}
                 {!tacticChanged && (
-                    <div className="card">
-                        <h3 style={{marginBottom:'0.5rem'}}>⚔️ Ajuste Tático</h3>
+                    <div className="card card-compact">
+                        <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>⚔️ AJUSTE TÁTICO</h4>
                         <div className="action-bar">
                             {Object.entries(TACTICS).map(([k, v]) => (
                                 <button key={k} className={`btn btn-sm ${engine.currentTactic === k ? 'btn-primary' : 'btn-secondary'}`}
@@ -179,34 +312,37 @@ export function MatchView() {
 
                 {/* Substitution */}
                 {!subUsed && tiredPlayers.length > 0 && subs.length > 0 && (
-                    <div className="card">
-                        <h3 style={{marginBottom:'0.5rem'}}>🔄 Substituição</h3>
-                        <p style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.5rem'}}>Jogadores cansados:</p>
-                        {tiredPlayers.slice(0, 2).map(p => (
-                            <div key={p.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem',marginBottom:'0.25rem'}}>
-                                <span style={{color:'var(--danger)',fontSize:'0.85rem'}}>{p.name} (⚡{p.energy}%)</span>
+                    <div className="card card-compact">
+                        <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>🔄 SUBSTITUIÇÃO</h4>
+                        {tiredPlayers.slice(0, 3).map(p => (
+                            <div key={p.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.25rem 0',fontSize:'0.8rem'}}>
+                                <span style={{color:'var(--danger)'}}>
+                                    {p.name} ({p.position}) ⚡{p.energy}%
+                                </span>
                                 <button className="btn btn-primary btn-sm" onClick={() => {
                                     const sub = subs[0];
                                     if (sub) {
                                         p.isTitular = false;
                                         sub.isTitular = true;
-                                        sub.energy = Math.min(100, sub.energy + 15); // fresh sub bonus
+                                        sub.energy = Math.min(100, sub.energy + 15);
                                         setSubUsed(true);
                                         forceUpdate();
                                     }
-                                }}>← {subs[0]?.name} (⚡{subs[0]?.energy}%)</button>
+                                }}>
+                                    ← {subs[0]?.name} (⚡{subs[0]?.energy}%)
+                                </button>
                             </div>
                         ))}
                     </div>
                 )}
 
-                <button className="btn btn-primary" style={{width:'100%',marginTop:'0.5rem'}} onClick={() => {
-                    // Show second half narration
-                    const secondHalf = narration.filter(e => e.minute > 45);
-                    setVisibleNarr(secondHalf);
+                <button className="btn-cta" onClick={() => {
                     setPhase('secondhalf');
+                    setTimeout(() => {
+                        startLiveTicker(narration, 46, 90, null);
+                    }, 300);
                 }}>
-                    ▶️ Continuar (2º Tempo)
+                    ▶️ INICIAR 2º TEMPO
                 </button>
             </div>
         );
@@ -216,30 +352,42 @@ export function MatchView() {
     if (phase === 'secondhalf') {
         return (
             <div className="main-content fade-in">
-                <div className="card" style={{ textAlign: 'center' }}>
-                    <div className="match-teams">
-                        <span className="team-name">{result.home}</span>
-                        <div className="match-score">{result.homeGoals} — {result.awayGoals}</div>
-                        <span className="team-name">{result.away}</span>
-                    </div>
-                    <p style={{color:'var(--accent)',fontSize:'0.8rem'}}>2º Tempo</p>
-                </div>
+                <Scoreboard half="2º Tempo" />
 
-                <div className="narration-log">
-                    {visibleNarr.map((n, i) => (
-                        <div key={i} className={n.text?.includes('GOOOL') ? 'goal-line' : ''}>{n.minute}' — {n.text}</div>
+                <div className="narration-log" ref={logRef}>
+                    {displayedEvents.filter(e => e.minute > 45).map((n, i) => (
+                        <div key={i} className={`${n.text?.includes('⚽') ? 'goal-line' : ''} ${n.text?.includes('🟨') ? 'card-line' : ''}`}
+                             style={{animation: 'slideUp 0.2s ease-out'}}>
+                            <strong style={{color:'var(--text-muted)',fontSize:'0.7rem',marginRight:'0.4rem'}}>{n.minute}'</strong>
+                            {n.text}
+                        </div>
                     ))}
                 </div>
 
-                <button className="btn btn-primary" style={{width:'100%',marginTop:'0.5rem'}} onClick={() => setPhase('fulltime')}>
+                <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem'}}>
+                    <div style={{display:'flex',gap:'0.25rem',flex:1}}>
+                        <button className={`btn btn-sm ${speed === 400 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => setSpeed(400)}>1x</button>
+                        <button className={`btn btn-sm ${speed === 200 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => setSpeed(200)}>2x</button>
+                        <button className={`btn btn-sm ${speed === 80 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => setSpeed(80)}>5x</button>
+                    </div>
+                    <button className="btn btn-sm btn-secondary" onClick={() => {
+                        skipToEnd(narration, 90, null);
+                    }}>⏭️ Pular</button>
+                </div>
+
+                <button className="btn btn-primary" style={{width:'100%',marginTop:'0.5rem'}}
+                    disabled={isPlaying}
+                    onClick={() => setPhase('fulltime')}>
                     🏁 Fim de Jogo
                 </button>
             </div>
         );
     }
 
-    // === FULL TIME — POST MATCH REPORT ===
-    // Extract scorers and stats from last match narration
+    // === FULL TIME ===
     const lastMatchScorers = narration.filter(n => n.text?.includes('⚽'));
     const lastMatchCards = narration.filter(n => n.text?.includes('🟨'));
     const motmEntry = narration.find(n => n.text?.includes('⭐ Craque'));
@@ -247,84 +395,78 @@ export function MatchView() {
     return (
         <div className="main-content fade-in">
             <div className="card" style={{ textAlign: 'center' }}>
-                <h2>🏁 Fim de Jogo</h2>
+                <h2 style={{fontSize:'1.2rem',marginBottom:'0.5rem'}}>🏁 FIM DE JOGO</h2>
                 <div className="match-teams">
                     <span className="team-name">{result?.home}</span>
                     <div className="match-score">{result?.homeGoals} — {result?.awayGoals}</div>
                     <span className="team-name">{result?.away}</span>
                 </div>
-                {motmEntry && <p style={{color:'var(--primary)',fontSize:'0.85rem',marginTop:'0.5rem'}}>{motmEntry.text}</p>}
+                {motmEntry && <p style={{color:'var(--primary)',fontSize:'0.8rem',marginTop:'0.4rem'}}>{motmEntry.text}</p>}
             </div>
 
             {/* Scorers */}
             {lastMatchScorers.length > 0 && (
-                <div className="card">
-                    <h3 style={{marginBottom:'0.5rem'}}>⚽ Gols</h3>
+                <div className="card card-compact">
+                    <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>⚽ GOLS</h4>
                     {lastMatchScorers.map((s, i) => (
-                        <p key={i} style={{fontSize:'0.8rem',color:'var(--text-main)',marginBottom:'0.2rem'}}>{s.minute}' — {s.text}</p>
+                        <div key={i} style={{fontSize:'0.78rem',color:'var(--text-main)',padding:'0.15rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
+                            <strong style={{color:'var(--primary)',marginRight:'0.3rem'}}>{s.minute}'</strong>{s.text}
+                        </div>
                     ))}
                 </div>
             )}
 
-            {/* Post-Match Report */}
-            <div className="card">
-                <h3 style={{marginBottom:'0.5rem'}}>📊 Estatísticas</h3>
+            {/* Stats + Report */}
+            <div className="card card-compact">
+                <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📊 ESTATÍSTICAS</h4>
                 <ul className="stats-list">
                     {matchStats && <>
                         <li><span>Finalizações:</span> <strong>{matchStats.totalChances}</strong></li>
                         <li><span>Gols:</span> <strong>{matchStats.goals}</strong></li>
                     </>}
                     <li><span>Tática:</span> <strong>{TACTICS[engine.currentTactic]?.name}</strong></li>
-                    {engine.weekInjuries.length > 0 && (
-                        <li><span>🏥 Lesões:</span> <strong style={{color:'var(--danger)'}}>{engine.weekInjuries.length}</strong></li>
-                    )}
-                    {lastMatchCards.length > 0 && (
-                        <li><span>🟨 Cartões:</span> <strong>{lastMatchCards.length}</strong></li>
-                    )}
+                    {lastMatchCards.length > 0 && <li><span>🟨 Cartões:</span> <strong>{lastMatchCards.length}</strong></li>}
+                    {engine.weekInjuries.length > 0 && <li><span>🏥 Lesões:</span> <strong style={{color:'var(--danger)'}}>{engine.weekInjuries.length}</strong></li>}
                 </ul>
+            </div>
 
-                {/* Injuries */}
-                {engine.weekInjuries.length > 0 && (
-                    <div style={{marginTop:'0.5rem'}}>
-                        <h4 style={{fontSize:'0.8rem',marginBottom:'0.25rem'}}>🏥 Lesões</h4>
-                        {engine.weekInjuries.map((inj, i) => (
-                            <p key={i} style={{color:'var(--danger)',fontSize:'0.8rem'}}>{inj.emoji} {inj.player} — {inj.name} ({inj.weeksLeft} semanas)</p>
-                        ))}
-                    </div>
-                )}
+            {/* Injuries */}
+            {engine.weekInjuries.length > 0 && (
+                <div className="card card-compact">
+                    <h4 style={{fontSize:'0.8rem',color:'var(--danger)',marginBottom:'0.25rem'}}>🏥 LESÕES</h4>
+                    {engine.weekInjuries.map((inj, i) => (
+                        <p key={i} style={{color:'var(--danger)',fontSize:'0.75rem',padding:'0.1rem 0'}}>{inj.emoji} {inj.player} — {inj.name} ({inj.weeksLeft} sem)</p>
+                    ))}
+                </div>
+            )}
 
-                {/* Cards */}
-                {lastMatchCards.length > 0 && (
-                    <div style={{marginTop:'0.5rem'}}>
-                        <h4 style={{fontSize:'0.8rem',marginBottom:'0.25rem'}}>🟨 Cartões</h4>
-                        {lastMatchCards.map((c, i) => (
-                            <p key={i} style={{fontSize:'0.75rem',color:'var(--accent)'}}>{c.minute}' — {c.text}</p>
-                        ))}
-                    </div>
-                )}
-
-                {/* Board reaction */}
+            {/* Board + Events */}
+            <div className="card card-compact">
                 {engine.board && (
-                    <div style={{marginTop:'0.75rem',borderTop:'1px solid var(--border-subtle)',paddingTop:'0.5rem'}}>
-                        <p style={{fontSize:'0.8rem',color: engine.board.getStatus().color}}>
+                    <div style={{marginBottom:'0.5rem'}}>
+                        <p style={{fontSize:'0.78rem',color: engine.board.getStatus().color}}>
                             {engine.board.getStatus().emoji} Diretoria: {engine.board.getStatus().label} ({engine.board.confidence}%)
                         </p>
                     </div>
                 )}
-
-                {/* Week Events */}
                 {engine.weekEvents.length > 0 && (
-                    <div style={{marginTop:'0.75rem',borderTop:'1px solid var(--border-subtle)',paddingTop:'0.5rem'}}>
-                        <h4 style={{fontSize:'0.8rem',marginBottom:'0.25rem'}}>📰 Eventos</h4>
-                        {engine.weekEvents.map((ev, i) => (
-                            <p key={i} style={{fontSize:'0.75rem',color:'var(--text-muted)',marginBottom:'0.15rem'}}>{ev}</p>
-                        ))}
+                    <div className="event-feed">
+                        {engine.weekEvents.map((ev, i) => {
+                            const isGrowth = ev.includes('📈');
+                            const isDecline = ev.includes('📉') || ev.includes('☠️') || ev.includes('👴');
+                            const isGood = ev.includes('🎉') || ev.includes('📚') || ev.includes('🎂') || ev.includes('🇧🇷');
+                            return (
+                                <div key={i} className={`event-item ${isGrowth || isGood ? 'highlight' : ''} ${isDecline ? 'danger' : ''}`}>
+                                    {ev}
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
             </div>
 
-            <button className="btn btn-primary" style={{width:'100%'}} onClick={() => { setPhase('prematch'); setResult(null); changeView('dashboard'); }}>
-                📊 Voltar ao Dashboard
+            <button className="btn-cta" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); changeView('dashboard'); }}>
+                📊 VOLTAR AO DASHBOARD
             </button>
         </div>
     );
