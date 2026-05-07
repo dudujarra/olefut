@@ -239,6 +239,11 @@ export function MatchView() {
     }
 
     // === FULL TIME — POST MATCH REPORT ===
+    // Extract scorers and stats from last match narration
+    const lastMatchScorers = narration.filter(n => n.text?.includes('⚽'));
+    const lastMatchCards = narration.filter(n => n.text?.includes('🟨'));
+    const motmEntry = narration.find(n => n.text?.includes('⭐ Craque'));
+
     return (
         <div className="main-content fade-in">
             <div className="card" style={{ textAlign: 'center' }}>
@@ -248,11 +253,22 @@ export function MatchView() {
                     <div className="match-score">{result?.homeGoals} — {result?.awayGoals}</div>
                     <span className="team-name">{result?.away}</span>
                 </div>
+                {motmEntry && <p style={{color:'var(--primary)',fontSize:'0.85rem',marginTop:'0.5rem'}}>{motmEntry.text}</p>}
             </div>
+
+            {/* Scorers */}
+            {lastMatchScorers.length > 0 && (
+                <div className="card">
+                    <h3 style={{marginBottom:'0.5rem'}}>⚽ Gols</h3>
+                    {lastMatchScorers.map((s, i) => (
+                        <p key={i} style={{fontSize:'0.8rem',color:'var(--text-main)',marginBottom:'0.2rem'}}>{s.minute}' — {s.text}</p>
+                    ))}
+                </div>
+            )}
 
             {/* Post-Match Report */}
             <div className="card">
-                <h3 style={{marginBottom:'0.5rem'}}>📊 Relatório Pós-Jogo</h3>
+                <h3 style={{marginBottom:'0.5rem'}}>📊 Estatísticas</h3>
                 <ul className="stats-list">
                     {matchStats && <>
                         <li><span>Finalizações:</span> <strong>{matchStats.totalChances}</strong></li>
@@ -262,20 +278,34 @@ export function MatchView() {
                     {engine.weekInjuries.length > 0 && (
                         <li><span>🏥 Lesões:</span> <strong style={{color:'var(--danger)'}}>{engine.weekInjuries.length}</strong></li>
                     )}
+                    {lastMatchCards.length > 0 && (
+                        <li><span>🟨 Cartões:</span> <strong>{lastMatchCards.length}</strong></li>
+                    )}
                 </ul>
 
                 {/* Injuries */}
                 {engine.weekInjuries.length > 0 && (
                     <div style={{marginTop:'0.5rem'}}>
+                        <h4 style={{fontSize:'0.8rem',marginBottom:'0.25rem'}}>🏥 Lesões</h4>
                         {engine.weekInjuries.map((inj, i) => (
                             <p key={i} style={{color:'var(--danger)',fontSize:'0.8rem'}}>{inj.emoji} {inj.player} — {inj.name} ({inj.weeksLeft} semanas)</p>
                         ))}
                     </div>
                 )}
 
+                {/* Cards */}
+                {lastMatchCards.length > 0 && (
+                    <div style={{marginTop:'0.5rem'}}>
+                        <h4 style={{fontSize:'0.8rem',marginBottom:'0.25rem'}}>🟨 Cartões</h4>
+                        {lastMatchCards.map((c, i) => (
+                            <p key={i} style={{fontSize:'0.75rem',color:'var(--accent)'}}>{c.minute}' — {c.text}</p>
+                        ))}
+                    </div>
+                )}
+
                 {/* Board reaction */}
                 {engine.board && (
-                    <div style={{marginTop:'0.5rem'}}>
+                    <div style={{marginTop:'0.75rem',borderTop:'1px solid var(--border-subtle)',paddingTop:'0.5rem'}}>
                         <p style={{fontSize:'0.8rem',color: engine.board.getStatus().color}}>
                             {engine.board.getStatus().emoji} Diretoria: {engine.board.getStatus().label} ({engine.board.confidence}%)
                         </p>
@@ -285,6 +315,7 @@ export function MatchView() {
                 {/* Week Events */}
                 {engine.weekEvents.length > 0 && (
                     <div style={{marginTop:'0.75rem',borderTop:'1px solid var(--border-subtle)',paddingTop:'0.5rem'}}>
+                        <h4 style={{fontSize:'0.8rem',marginBottom:'0.25rem'}}>📰 Eventos</h4>
                         {engine.weekEvents.map((ev, i) => (
                             <p key={i} style={{fontSize:'0.75rem',color:'var(--text-muted)',marginBottom:'0.15rem'}}>{ev}</p>
                         ))}

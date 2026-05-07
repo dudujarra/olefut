@@ -1,5 +1,6 @@
 import React from 'react';
 import { useGame } from '../context/GameContext';
+import { getFormEmoji } from '../engine/PlayerDevelopment';
 
 export function SquadView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -47,7 +48,7 @@ export function SquadView() {
                     <thead>
                         <tr>
                             <th>Status</th><th>Nome</th><th>Pos</th><th>OVR</th>
-                            <th>⚡</th><th>😊</th><th>Idade</th><th>📋</th><th>🏥</th>
+                            <th>⚡</th><th>😊</th><th>🔥</th><th>Idade</th><th>📋</th><th>🏥</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -65,6 +66,7 @@ export function SquadView() {
                                 </td>
                                 <td>
                                     {p.name}
+                                    {p._isCaptain && <span style={{marginLeft:'3px'}} title="Capitão">©️</span>}
                                     {p.isYouth && <span style={{color:'var(--accent)',fontSize:'0.7rem',marginLeft:'4px'}}>🎓</span>}
                                     {p.personality && <span style={{color:'var(--text-muted)',fontSize:'0.65rem',marginLeft:'4px'}}>({p.personality})</span>}
                                 </td>
@@ -72,6 +74,7 @@ export function SquadView() {
                                 <td><strong>{p.ovr}</strong></td>
                                 <td style={{ color: getEnergyColor(p.energy) }}>{p.energy}%</td>
                                 <td>{getMoralEmoji(p.moral || 50)} {(p.moral || 50)}%</td>
+                                <td>{getFormEmoji(p.form?.trend)}</td>
                                 <td>{p.age}</td>
                                 <td style={{color: p.contract?.weeksLeft <= 8 ? 'var(--danger)' : 'var(--text-muted)', fontSize: '0.75rem'}}>
                                     {p.contract ? `${p.contract.weeksLeft}sem` : '-'}
@@ -88,6 +91,12 @@ export function SquadView() {
                                         )}
                                         {!p.isTitular && (
                                             <button className="btn btn-sm btn-danger" onClick={() => handleSell(p)} title="Vender">💰</button>
+                                        )}
+                                        {p.contract && p.contract.weeksLeft <= 12 && (
+                                            <button className="btn btn-sm btn-primary" onClick={() => {
+                                                const result = engine.renewContract(p.id);
+                                                if (result.success) forceUpdate();
+                                            }} title="Renovar">📝</button>
                                         )}
                                     </div>
                                 </td>

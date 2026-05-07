@@ -11,6 +11,7 @@ import { generateYouthIntake, getAcademyUpgradeCost, loanPlayerOut, processLoans
 import { shouldTriggerPress, generateQuestion, applyPressEffect } from './PressConference';
 import { StaffManager, getStadiumInfo, calculateTicketRevenue, STAFF_ROLES, SCOUT_REGIONS, scoutRegion } from './StadiumSystem';
 import { evaluateSponsor, getCalendarEvent, processPromoRelegation, ManagerLegacy } from './SeasonSystem';
+import { processPlayerDevelopment, ageSquad, updateForm, processDressingRoom, generateRenewalOffer, acceptRenewal, TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from './PlayerDevelopment';
 
 export class Engine {
     constructor() {
@@ -305,6 +306,25 @@ export class Engine {
         return result;
     }
 
+    // === CONTRATOS ===
+    getRenewalOffer(playerId) {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return null;
+        const player = team.squad.find(p => p.id === playerId);
+        if (!player) return null;
+        return generateRenewalOffer(player);
+    }
+
+    renewContract(playerId) {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return { success: false, msg: 'Time não encontrado.' };
+        const player = team.squad.find(p => p.id === playerId);
+        if (!player) return { success: false, msg: 'Jogador não encontrado.' };
+        const offer = generateRenewalOffer(player);
+        if (!offer.willRenew) return { success: false, msg: offer.reason };
+        return acceptRenewal(player, offer);
+    }
+
     // === COLETIVA DE IMPRENSA ===
     checkPressConference() {
         if (this.mode !== 'manager') return null;
@@ -338,11 +358,15 @@ export class Engine {
         const homeSectors = this.getTeamSectors(homeId);
         const awaySectors = this.getTeamSectors(awayId);
 
-        // Apply tactic modifiers for manager's team
-        const tactic = TACTICS[this.currentTactic] || TACTICS.normal;
+        // Tactic setup
+        const homeTactic = homeId === this.manager.teamId ? this.currentTactic : 'normal';
+        const awayTactic = awayId === this.manager.teamId ? this.currentTactic : 'normal';
+        const tactic = TACTICS[homeTactic] || TACTICS.normal;
+        const oppTactic = TACTICS[awayTactic] || TACTICS.normal;
+
+        // Apply tactic modifiers
         const isManagerHome = homeId === this.manager.teamId;
         const isManagerAway = awayId === this.manager.teamId;
-
         if (isManagerHome) {
             homeSectors.attack = Math.floor(homeSectors.attack * tactic.ataModifier * this.teamTalkModifiers.ata);
             homeSectors.defense = Math.floor(homeSectors.defense * tactic.defModifier * this.teamTalkModifiers.def);
@@ -351,54 +375,138 @@ export class Engine {
             awaySectors.defense = Math.floor(awaySectors.defense * tactic.defModifier * this.teamTalkModifiers.def);
         }
 
-        // Match condition modifiers
+        // Tactic counter modifier
+        const homeCounterMod = TACTIC_COUNTERS[homeTactic]?.[awayTactic] || 1.0;
+        const awayCounterMod = TACTIC_COUNTERS[awayTactic]?.[homeTactic] || 1.0;
+
+        // Match condition
         const cond = this.matchCondition || { ataModifier: 1, defModifier: 1, energyModifier: 1 };
+
+        // Narration templates
+        const homeNarr = TACTIC_NARRATION[homeTactic] || TACTIC_NARRATION.normal;
+        const awayNarr = TACTIC_NARRATION[awayTactic] || TACTIC_NARRATION.normal;
 
         let homeGoals = 0;
         let awayGoals = 0;
-        const events = { home: [], away: [], textLog: [], playerChances: [] };
+        const events = { home: [], away: [], textLog: [], scorers: [], cards: [], motm: null };
+        let homeShots = 0, awayShots = 0, homeSaves = 0, awaySaves = 0;
 
-        // Log condition
-        if (this.matchCondition && this.matchCondition.id !== 'normal') {
-            events.textLog.push({ minute: 0, text: `${this.matchCondition.name}` });
-        }
+        // Get named players for scoring
+        const homeAttackers = (homeTeam.squad || []).filter(p => p.isTitular && (p.position === 'ATA' || p.position === 'MEI') && !p.injury);
+        const awayAttackers = (awayTeam.squad || []).filter(p => p.isTitular && (p.position === 'ATA' || p.position === 'MEI') && !p.injury);
+        const homeDefenders = (homeTeam.squad || []).filter(p => p.isTitular && p.position === 'DEF' && !p.injury);
+        const awayDefenders = (awayTeam.squad || []).filter(p => p.isTitular && p.position === 'DEF' && !p.injury);
+        const pickRandom = (arr) => arr.length > 0 ? arr[Math.floor(Math.random() * arr.length)] : null;
 
         // Moral factor
         const homeMoral = (homeTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (homeTeam.squad?.length || 1);
         const awayMoral = (awayTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (awayTeam.squad?.length || 1);
-        const homeMoralFactor = 0.8 + (homeMoral / 250); // 0.8 to 1.2
+        const homeMoralFactor = 0.8 + (homeMoral / 250);
         const awayMoralFactor = 0.8 + (awayMoral / 250);
+
+        // Log condition + tactic
+        if (this.matchCondition && this.matchCondition.id !== 'normal') {
+            events.textLog.push({ minute: 0, text: `${this.matchCondition.name}` });
+        }
+        if (isManagerHome || isManagerAway) {
+            events.textLog.push({ minute: 0, text: `📋 Tática: ${tactic.name}` });
+        }
+
+        // Performance tracker for MOTM
+        const performanceMap = {};
 
         for (let minute = 1; minute <= 90; minute++) {
             const isHomeAttacking = Math.random() > 0.45;
             const atkSectors = isHomeAttacking ? homeSectors : awaySectors;
             const defSectors = isHomeAttacking ? awaySectors : homeSectors;
             const atkMoral = isHomeAttacking ? homeMoralFactor : awayMoralFactor;
-            const attName = isHomeAttacking ? homeTeam.name : awayTeam.name;
-            const defName = isHomeAttacking ? awayTeam.name : homeTeam.name;
+            const counterMod = isHomeAttacking ? homeCounterMod : awayCounterMod;
+            const attTeam = isHomeAttacking ? homeTeam : awayTeam;
+            const defTeam = isHomeAttacking ? awayTeam : homeTeam;
+            const narr = isHomeAttacking ? homeNarr : awayNarr;
+            const attackers = isHomeAttacking ? homeAttackers : awayAttackers;
 
-            if (minute % 15 === 0) events.textLog.push({ minute, text: `${attName} roda a bola no meio-campo.` });
+            // Filler narration every ~12 min
+            if (minute % 12 === 0) {
+                const fillerTemplate = narr.filler[Math.floor(Math.random() * narr.filler.length)];
+                events.textLog.push({
+                    minute,
+                    text: fillerTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name)
+                });
+            }
 
-            const chanceRatio = (atkSectors.attack * cond.ataModifier * atkMoral) / (defSectors.defense * cond.defModifier || 1);
-            if (Math.random() < (0.15 * chanceRatio)) {
-                const shotPower = atkSectors.attack * cond.ataModifier * Math.random();
+            // Chance creation
+            const chanceRatio = (atkSectors.attack * cond.ataModifier * atkMoral * counterMod) / (defSectors.defense * cond.defModifier || 1);
+            if (Math.random() < (0.12 * chanceRatio)) {
+                if (isHomeAttacking) homeShots++; else awayShots++;
+
+                const scorer = pickRandom(attackers);
+                const formMod = scorer ? getFormModifier(scorer.form?.trend) : 1.0;
+                const shotPower = atkSectors.attack * cond.ataModifier * Math.random() * formMod;
                 const saveChance = defSectors.goalkeeper * Math.random() * 0.6;
 
+                // Chance narration
+                const chanceTemplate = narr.chance[Math.floor(Math.random() * narr.chance.length)];
+                events.textLog.push({
+                    minute,
+                    text: chanceTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name)
+                });
+
                 if (shotPower > saveChance) {
+                    // GOAL
                     if (isHomeAttacking) {
                         homeGoals++;
-                        events.home.push({ minute, type: 'goal' });
+                        events.home.push({ minute, type: 'goal', scorer: scorer?.name });
                     } else {
                         awayGoals++;
-                        events.away.push({ minute, type: 'goal' });
+                        events.away.push({ minute, type: 'goal', scorer: scorer?.name });
                     }
-                    events.textLog.push({ minute, text: `⚽ GOOOL do ${attName}! (${homeGoals} x ${awayGoals})` });
+
+                    const scorerName = scorer ? scorer.name : attTeam.name;
+                    const assistPlayer = pickRandom(attackers.filter(p => p !== scorer));
+                    const assistText = assistPlayer ? ` (assist: ${assistPlayer.name})` : '';
+
+                    const goalTemplate = narr.goal[Math.floor(Math.random() * narr.goal.length)];
+                    events.textLog.push({
+                        minute,
+                        text: `⚽ ${goalTemplate.replace('{atk}', scorerName).replace('{def}', defTeam.name)}${assistText} (${homeGoals} x ${awayGoals})`
+                    });
+
+                    events.scorers.push({ minute, name: scorerName, team: attTeam.name, assist: assistPlayer?.name });
+
+                    // Track performance
+                    if (scorer) {
+                        performanceMap[scorer.id] = (performanceMap[scorer.id] || 0) + 3;
+                        scorer._matchGoals = (scorer._matchGoals || 0) + 1;
+                    }
+                    if (assistPlayer) {
+                        performanceMap[assistPlayer.id] = (performanceMap[assistPlayer.id] || 0) + 2;
+                    }
                 } else {
-                    events.textLog.push({ minute, text: `Defesaça do goleiro do ${defName}!` });
+                    // SAVE
+                    if (isHomeAttacking) awaySaves++; else homeSaves++;
+                    const saveTemplate = narr.save[Math.floor(Math.random() * narr.save.length)];
+                    events.textLog.push({
+                        minute,
+                        text: saveTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name)
+                    });
+                }
+            }
+
+            // Yellow card chance (~2% per minute of a foul event)
+            if (Math.random() < 0.008) {
+                const team = isHomeAttacking ? defTeam : attTeam;
+                const defenders = isHomeAttacking ? awayDefenders : homeDefenders;
+                const offender = pickRandom(defenders);
+                if (offender) {
+                    events.cards.push({ minute, player: offender.name, team: team.name, type: 'yellow' });
+                    events.textLog.push({ minute, text: `🟨 Cartão amarelo para ${offender.name} (${team.name})!` });
+                    performanceMap[offender.id] = (performanceMap[offender.id] || 0) - 1;
                 }
             }
         }
 
+        // Penalties
         if (isCup && homeGoals === awayGoals) {
             events.textLog.push({ minute: 90, text: `⚖️ Empate! Decisão nos Pênaltis!` });
             if (Math.random() > 0.5) {
@@ -409,6 +517,27 @@ export class Engine {
                 events.textLog.push({ minute: 91, text: `🏆 ${awayTeam.name} VENCE nos pênaltis!` });
             }
         }
+
+        // MOTM — Man of the Match
+        const allPlayers = [...(homeTeam.squad || []), ...(awayTeam.squad || [])].filter(p => p.isTitular);
+        let bestPerf = -1, motm = null;
+        allPlayers.forEach(p => {
+            const perf = (performanceMap[p.id] || 0);
+            if (perf > bestPerf) { bestPerf = perf; motm = p; }
+        });
+        if (motm && bestPerf > 0) {
+            events.motm = { name: motm.name, team: homeTeam.squad?.includes(motm) ? homeTeam.name : awayTeam.name, score: bestPerf };
+            events.textLog.push({ minute: 90, text: `⭐ Craque do Jogo: ${motm.name}` });
+        }
+
+        // Match stats
+        events.stats = { homeShots, awayShots, homeSaves, awaySaves };
+
+        // Energy drain
+        const energyDrain = Math.floor(15 + Math.random() * 10) * (cond.energyModifier || 1);
+        [...(homeTeam.squad || []), ...(awayTeam.squad || [])].filter(p => p.isTitular).forEach(p => {
+            p.energy = Math.max(0, p.energy - energyDrain);
+        });
 
         // Reset team talk modifiers after match
         this.teamTalkModifiers = { ata: 1.0, def: 1.0 };
@@ -468,14 +597,21 @@ export class Engine {
                         if (myGoals > theirGoals) {
                             this.managerStats.wins++;
                             this.managerStats.streak = Math.max(0, this.managerStats.streak) + 1;
-                            team.squad.forEach(p => { p.moral = Math.min(100, (p.moral || 50) + 3); });
+                            team.squad.forEach(p => {
+                                p.moral = Math.min(100, (p.moral || 50) + 3);
+                                if (p.isTitular) updateForm(p, 1);
+                            });
                         } else if (myGoals < theirGoals) {
                             this.managerStats.losses++;
                             this.managerStats.streak = Math.min(0, this.managerStats.streak) - 1;
-                            team.squad.forEach(p => { p.moral = Math.max(0, (p.moral || 50) - 3); });
+                            team.squad.forEach(p => {
+                                p.moral = Math.max(0, (p.moral || 50) - 3);
+                                if (p.isTitular) updateForm(p, -1);
+                            });
                         } else {
                             this.managerStats.draws++;
                             this.managerStats.streak = 0;
+                            team.squad.filter(p => p.isTitular).forEach(p => updateForm(p, 0));
                         }
                         break;
                     }
@@ -517,6 +653,26 @@ export class Engine {
                     });
                     this.loanedOut = this.loanedOut.filter(l => l.weeksLeft > 0);
                 }
+
+                // Player Development (weekly growth/decline)
+                team.squad.forEach(p => {
+                    const devChanges = processPlayerDevelopment(p);
+                    devChanges.forEach(c => {
+                        if (c.type === 'growth') this.weekEvents.push(`📈 ${c.player}: ${c.attr} ${c.from}→${c.to}`);
+                        if (c.type === 'decline') this.weekEvents.push(`📉 ${c.player}: ${c.attr} ${c.from}→${c.to}`);
+                    });
+                });
+
+                // Dressing Room Dynamics
+                const dressingRoom = processDressingRoom(team.squad);
+                dressingRoom.events.forEach(e => this.weekEvents.push(e));
+
+                // Remove retired players
+                const retired = team.squad.filter(p => p._retired);
+                retired.forEach(p => {
+                    this.weekEvents.push(`👴 ${p.name} (${p.age} anos) anunciou aposentadoria.`);
+                });
+                team.squad = team.squad.filter(p => !p._retired);
 
                 // Youth intake (1x por temporada, semana 38)
                 if (this.currentWeek > 0 && this.currentWeek % 38 === 0) {
@@ -576,6 +732,10 @@ export class Engine {
                     // Reset season stats
                     this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0 };
                     this.seasonNumber++;
+
+                    // Age all players
+                    const ageEvents = ageSquad(team.squad);
+                    ageEvents.forEach(e => this.weekEvents.push(e));
 
                     // Reset board for new season
                     if (this.board && !this.board.isFired) {
