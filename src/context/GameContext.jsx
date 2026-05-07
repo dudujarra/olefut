@@ -18,8 +18,11 @@ export const GameProvider = ({ children }) => {
         mode: 'manager'
     });
 
-    const startGame = (name, teamId, scenario = 'livre', mode = 'manager', position = 'ATA') => {
+    const startGame = (name, teamId, scenario = 'livre', mode = 'manager', position = 'ATA', personality = 'maverick') => {
         engineRef.current.initGame(name, teamId, mode, scenario, position);
+        if (mode === 'player' && engineRef.current.proPlayer) {
+            engineRef.current.proPlayer.personality = personality;
+        }
         setGameState({
             started: true,
             view: mode === 'player' ? 'player_dashboard' : 'dashboard',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { RealDB } from '../engine/db/index';
+import { PERSONALITIES } from '../engine/PlayerCareer';
 
 export function StartView() {
     const { startGame } = useGame();
@@ -9,6 +10,7 @@ export function StartView() {
     const [teamId, setTeamId] = useState('');
     const [mode, setMode] = useState('manager');
     const [position, setPosition] = useState('ATA');
+    const [personality, setPersonality] = useState('maverick');
 
     // Build team list from RealDB
     const allTeams = [];
@@ -23,7 +25,7 @@ export function StartView() {
 
     const handleStart = () => {
         if (!name.trim() || !teamId) return;
-        startGame(name, parseInt(teamId), scenario, mode, position);
+        startGame(name, parseInt(teamId), scenario, mode, position, personality);
     };
 
     return (
@@ -39,12 +41,22 @@ export function StartView() {
                 <input id="input-name" type="text" placeholder={mode === 'manager' ? "Nome do Treinador" : "Nome do Jogador"} value={name} onChange={e => setName(e.target.value)} />
 
                 {mode === 'player' && (
-                    <select id="select-position" value={position} onChange={e => setPosition(e.target.value)}>
-                        <option value="GOL">Goleiro</option>
-                        <option value="DEF">Zagueiro</option>
-                        <option value="MEI">Meia</option>
-                        <option value="ATA">Atacante</option>
-                    </select>
+                    <>
+                        <select id="select-position" value={position} onChange={e => setPosition(e.target.value)}>
+                            <option value="GOL">Goleiro</option>
+                            <option value="DEF">Zagueiro</option>
+                            <option value="MEI">Meia</option>
+                            <option value="ATA">Atacante</option>
+                        </select>
+                        <div className="mode-selector">
+                            {Object.entries(PERSONALITIES).map(([key, p]) => (
+                                <button key={key} className={`mode-btn ${personality === key ? 'active' : ''}`} onClick={() => setPersonality(key)}>
+                                    {p.emoji} {p.name}
+                                </button>
+                            ))}
+                        </div>
+                        <p style={{color:'var(--text-muted)',fontSize:'0.75rem',textAlign:'center'}}>{PERSONALITIES[personality].description}</p>
+                    </>
                 )}
 
                 {mode === 'manager' && (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { OffPitchEventsDeck } from '../engine/OffPitchEventsDeck';
+import { PERSONALITIES } from '../engine/PlayerCareer';
 
 export function PlayerDashboardView() {
     const { getEngine, changeView, forceUpdate } = useGame();
@@ -10,6 +11,7 @@ export function PlayerDashboardView() {
     const [log, setLog] = useState('');
     const [offPitchEvent, setOffPitchEvent] = useState(null);
     const [offPitchResult, setOffPitchResult] = useState(null);
+    const [mentalBreakModal, setMentalBreakModal] = useState(false);
 
     if (!player || !team) return <div className="main-content">Erro: jogador não encontrado.</div>;
 
@@ -55,8 +57,21 @@ export function PlayerDashboardView() {
         if (eff.energy) player.energy = Math.max(0, Math.min(100, player.energy + eff.energy));
         if (eff.actionSlots) player.actionSlots = Math.max(0, player.actionSlots + eff.actionSlots);
         if (eff.wage_multiplier) player.wage = Math.floor(player.wage * eff.wage_multiplier);
+        if (eff.stress) player.addStress(eff.stress, 'evento');
+        // Chain Event Flags
+        if (option.flags?.set) player.setFlag(option.flags.set);
+        if (option.flags?.clear) player.clearFlag(option.flags.clear);
+        // Check mental break
+        if (player.mentalBreakActive) setMentalBreakModal(true);
         setOffPitchResult(option.resultText);
         setOffPitchEvent(null);
+        forceUpdate();
+    };
+
+    const handleMentalBreak = (choice) => {
+        player.resolveMentalBreak(choice);
+        setMentalBreakModal(false);
+        setLog(`Mental break resolvido: ${choice}`);
         forceUpdate();
     };
 
@@ -70,6 +85,8 @@ export function PlayerDashboardView() {
     );
 
     const starStr = '⭐'.repeat(player.starRating) + '☆'.repeat(5 - player.starRating);
+    const pers = PERSONALITIES[player.personality] || PERSONALITIES.maverick;
+    const stressColor = player.stress >= 75 ? 'var(--danger)' : player.stress >= 50 ? 'var(--accent)' : 'var(--text-muted)';
 
     return (
         <div className="main-content fade-in">
@@ -92,7 +109,7 @@ export function PlayerDashboardView() {
             <div className="card">
                 <div className="card-header">
                     <div>
-                        <h2>{player.name}</h2>
+                        <h2>{player.name} <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{pers.emoji} {pers.name}</span></h2>
                         <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{player.position} • {team.name} • Semana {engine.currentWeek}/38</span>
                     </div>
                     <div className="stars">{starStr}</div>
@@ -110,6 +127,7 @@ export function PlayerDashboardView() {
                             <li><span>💰 Dinheiro:</span> <strong>R$ {player.money}</strong></li>
                             <li><span>🥤 Energéticos:</span> <strong>{player.energyDrinks}</strong></li>
                             <li><span>⚽ Gols:</span> <strong>{player.seasonGoals}</strong></li>
+                            <li><span>🧠 Stress:</span> <strong style={{ color: stressColor }}>{player.stress}%</strong></li>
                         </ul>
                     </div>
                     <div>
@@ -124,13 +142,28 @@ export function PlayerDashboardView() {
                 </div>
             </div>
 
+            {/* Mental Break Modal */}
+            {mentalBreakModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>🧠 CRISE MENTAL — Stress em {player.stress}%</h3>
+                        <p>Você não aguenta mais a pressão. Precisa de uma válvula de escape.</p>
+                        <div className="modal-options">
+                            <button className="btn btn-secondary" onClick={() => handleMentalBreak('party')}>🎉 Sair pra festa (Stress -40, Boss -10)</button>
+                            <button className="btn btn-secondary" onClick={() => handleMentalBreak('isolation')}>🏠 Isolamento total (Stress -30, Team -8)</button>
+                            <button className="btn btn-secondary" onClick={() => handleMentalBreak('therapy')}>🧑‍⚕️ Terapia R$2000 (Stress -20)</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Relationships */}
             <div className="card">
                 <h3 style={{ marginBottom: '0.75rem' }}>Relacionamentos</h3>
-                <RelBar label="👔 Técnico" value={player.relationships.boss} type="boss" />
-                <RelBar label="🏟️ Torcida" value={player.relationships.fans} type="fans" />
-                <RelBar label="🤝 Companheiros" value={player.relationships.teammates} type="teammates" />
-                <RelBar label="💼 Sponsors" value={player.relationships.sponsors} type="sponsors" />
+                <RelBar label="👔 Marcos Oliveira" value={player.relationships.boss} type="boss" />
+                <RelBar label="📣 Tio Dinho" value={player.relationships.fans} type="fans" />
+                <RelBar label="🤝 Rafael Monteiro" value={player.relationships.teammates} type="teammates" />
+                <RelBar label="💼 Patrícia Lemos" value={player.relationships.sponsors} type="sponsors" />
             </div>
 
             {/* Actions */}
