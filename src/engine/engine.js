@@ -9,6 +9,7 @@ import { BoardSystem } from './BoardSystem';
 import { processMatchInjuries, processTrainingInjuries, healInjury } from './InjurySystem';
 import { generateYouthIntake, getAcademyUpgradeCost, loanPlayerOut, processLoans } from './YouthAcademy';
 import { shouldTriggerPress, generateQuestion, applyPressEffect } from './PressConference';
+import { StaffManager, getStadiumInfo, calculateTicketRevenue, STAFF_ROLES, SCOUT_REGIONS, scoutRegion } from './StadiumSystem';
 
 export class Engine {
     constructor() {
@@ -35,6 +36,9 @@ export class Engine {
         this.academyLevel = 1;
         this.loanedOut = [];
         this.pressQuestion = null;
+        this.stadiumLevel = 1;
+        this.staff = new StaffManager();
+        this.scoutedPlayers = [];
     }
 
     initGame(name, teamId, mode = 'manager', scenario = 'livre', playerPosition = 'ATA') {
@@ -257,6 +261,42 @@ export class Engine {
         return result;
     }
 
+    // === ESTÁDIO ===
+    upgradeStadium() {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team || this.stadiumLevel >= 5) return { success: false, msg: 'Nível máximo.' };
+        const next = getStadiumInfo(this.stadiumLevel + 1);
+        const cost = next.upgradeCost || 999999999;
+        if (team.balance < cost) return { success: false, msg: `Saldo insuficiente. Custo: R$ ${(cost/1000000).toFixed(0)}M` };
+        team.balance -= cost;
+        this.stadiumLevel++;
+        const info = getStadiumInfo(this.stadiumLevel);
+        return { success: true, msg: `Estádio melhorado para "${info.name}" (${info.capacity.toLocaleString()} lugares)!` };
+    }
+
+    // === STAFF ===
+    hireStaff(roleId) {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return { success: false, msg: 'Time não encontrado.' };
+        return this.staff.hire(roleId);
+    }
+
+    fireStaff(roleId) {
+        return this.staff.fire(roleId);
+    }
+
+    // === SCOUTING ===
+    doScouting(regionId) {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return { success: false, players: [] };
+        const region = SCOUT_REGIONS.find(r => r.id === regionId);
+        if (region && region.cost > team.balance) return { success: false, msg: `Saldo insuficiente. Custo: R$ ${(region.cost/1000).toFixed(0)}K` };
+        if (region) team.balance -= region.cost;
+        const result = scoutRegion(regionId, this.staff.has('scout'), Data);
+        this.scoutedPlayers = result.players;
+        return result;
+    }
+
     // === COLETIVA DE IMPRENSA ===
     checkPressConference() {
         if (this.mode !== 'manager') return null;
@@ -393,6 +433,12 @@ export class Engine {
 
                 // Finanças detalhadas
                 this.weeklyFinance = calculateWeeklyFinances(team, weekResults, team.id);
+                // Staff costs
+                const staffCost = this.staff.getWeeklyCost();
+                if (staffCost > 0) {
+                    this.weeklyFinance.expenses += staffCost;
+                    this.weeklyFinance.details.push({ label: 'Staff', amount: staffCost, type: 'expense' });
+                }
                 team.balance += this.weeklyFinance.income - this.weeklyFinance.expenses;
 
                 // Match condition para próxima partida
