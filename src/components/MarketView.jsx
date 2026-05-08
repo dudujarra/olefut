@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { SCOUT_REGIONS } from '../engine/StadiumSystem';
 import { getPlayerTraits } from '../engine/PlayerTraits';
+import { PlayerAvatar } from '../utils/avatar';
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -12,6 +13,10 @@ export function MarketView() {
     const [tab, setTab] = useState('buy');
     const [log, setLog] = useState('');
     const [negotiation, setNegotiation] = useState(null); // {playerId, round, counterAmount}
+    // P1-8/9: filter + search Mercado
+    const [marketFilter, setMarketFilter] = useState('all'); // pos
+    const [marketSort, setMarketSort] = useState('ovr'); // ovr | price | age | name
+    const [marketSearch, setMarketSearch] = useState('');
 
     const handleBuy = (player) => {
         if (team.balance < player.value) return;
@@ -81,16 +86,57 @@ export function MarketView() {
             {/* === BUY TAB === */}
             {tab === 'buy' && (
                 <div className="card card-compact">
-                    <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>JOGADORES DISPONÍVEIS ({engine.marketPlayers.length})</h4>
-                    {engine.marketPlayers.length === 0 ? (
-                        <p style={{fontSize:'0.78rem',color:'var(--text-muted)'}}>Nenhum jogador no mercado. Scout novas regiões!</p>
+                    {/* P1-8/9 controls */}
+                    <div style={{display:'flex',gap:'0.4rem',marginBottom:'0.5rem',flexWrap:'wrap'}}>
+                        <input
+                            type="text"
+                            placeholder="🔍 Buscar..."
+                            value={marketSearch}
+                            onChange={(e) => setMarketSearch(e.target.value)}
+                            style={{flex:'1 1 150px',padding:'0.35rem 0.6rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.8rem'}}
+                        />
+                        <select value={marketFilter} onChange={(e) => setMarketFilter(e.target.value)} style={{padding:'0.35rem 0.6rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.8rem'}}>
+                            <option value="all">Todas pos</option>
+                            <option value="GOL">GOL</option>
+                            <option value="DEF">DEF</option>
+                            <option value="MEI">MEI</option>
+                            <option value="ATA">ATA</option>
+                        </select>
+                        <select value={marketSort} onChange={(e) => setMarketSort(e.target.value)} style={{padding:'0.35rem 0.6rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.8rem'}}>
+                            <option value="ovr">OVR ↓</option>
+                            <option value="price">Preço ↑</option>
+                            <option value="age">Idade ↑</option>
+                            <option value="name">Nome A-Z</option>
+                        </select>
+                    </div>
+                    {(() => {
+                        let market = [...(engine.marketPlayers || [])];
+                        if (marketFilter !== 'all') market = market.filter(p => p.position === marketFilter);
+                        if (marketSearch.trim()) {
+                            const q = marketSearch.toLowerCase();
+                            market = market.filter(p => p.name.toLowerCase().includes(q));
+                        }
+                        const sorts = {
+                            ovr: (a, b) => b.ovr - a.ovr,
+                            price: (a, b) => (a.value || 0) - (b.value || 0),
+                            age: (a, b) => a.age - b.age,
+                            name: (a, b) => a.name.localeCompare(b.name)
+                        };
+                        market.sort(sorts[marketSort] || sorts.ovr);
+                        return (
+                    <>
+                    <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>JOGADORES DISPONÍVEIS ({market.length}/{engine.marketPlayers?.length ?? 0})</h4>
+                    {market.length === 0 ? (
+                        <p style={{fontSize:'0.78rem',color:'var(--text-muted)'}}>Nenhum jogador. Scout novas regiões ou ajuste filtros!</p>
                     ) : (
                         <div style={{display:'flex',flexDirection:'column',gap:'0.15rem'}}>
-                            {engine.marketPlayers.map(p => (
+                            {market.map(p => (
                                 <div key={p.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'1px solid var(--border-subtle)',fontSize:'0.78rem'}}>
-                                    <div>
+                                    <div style={{display:'flex',alignItems:'center'}}>
+                                        <PlayerAvatar name={p.name} size={24} />
                                         <strong>{p.name}</strong>
-                                        <span style={{color:'var(--text-muted)',marginLeft:'0.3rem'}}>{p.position} • OVR {p.ovr} • {p.age}a</span>
+                                        <span className={`pos-badge ${p.position}`} style={{marginLeft:'0.3rem'}}>{p.position}</span>
+                                        <span style={{color:'var(--text-muted)',marginLeft:'0.3rem'}}>OVR {p.ovr} • {p.age}a</span>
                                         {getPlayerTraits(p).map(t => (
                                             <span key={t.id} style={{fontSize:'0.6rem',marginLeft:'2px'}} title={t.description}>{t.name.split(' ')[0]}</span>
                                         ))}
@@ -105,6 +151,9 @@ export function MarketView() {
                             ))}
                         </div>
                     )}
+                    </>
+                        );
+                    })()}
                 </div>
             )}
 

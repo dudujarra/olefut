@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGame } from './context/GameContext';
 import { StartView } from './components/StartView';
 import { DashboardView } from './components/DashboardView';
@@ -8,9 +8,12 @@ import { SquadView } from './components/SquadView';
 import { MarketView } from './components/MarketView';
 import { StandingsView } from './components/StandingsView';
 import { MatchView } from './components/MatchView';
+import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 
 function App() {
-    const { gameState, getEngine } = useGame();
+    const { gameState, getEngine, saveGame, resetGame } = useGame();
+    const [soundOn, setSoundOn] = useState(isSoundEnabled());
+    const [savedToast, setSavedToast] = useState(false);
 
     const renderView = () => {
         switch (gameState.view) {
@@ -28,12 +31,32 @@ function App() {
 
     const engine = getEngine();
 
+    const handleSave = () => {
+        if (saveGame) saveGame();
+        sfx.success();
+        setSavedToast(true);
+        setTimeout(() => setSavedToast(false), 1500);
+    };
+
+    const handleSoundToggle = () => {
+        const next = !soundOn;
+        setSoundEnabled(next);
+        setSoundOn(next);
+        if (next) sfx.click();
+    };
+
+    const handleReset = () => {
+        if (window.confirm('Apagar carreira e voltar pra tela inicial? Não tem como recuperar.')) {
+            if (resetGame) resetGame();
+        }
+    };
+
     return (
         <>
             {gameState.started && (
                 <header className="top-bar glass-panel">
                     <div className="logo">ELIFOOT <span>WEB</span></div>
-                    <div className="user-info">
+                    <div className="user-info" style={{display:'flex',alignItems:'center',gap:'0.6rem'}}>
                         <span className="manager-name">{gameState.manager}</span>
                         {gameState.mode === 'player' && engine.proPlayer && (
                             <strong>R$ {engine.proPlayer.money}</strong>
@@ -41,7 +64,38 @@ function App() {
                         {gameState.mode === 'manager' && (
                             <span>Sem {engine.currentWeek}/38</span>
                         )}
+                        {/* P2-13: save manual button */}
+                        <button
+                            className="btn btn-sm btn-secondary"
+                            onClick={handleSave}
+                            title="Salvar manual (auto-save ativo)"
+                            style={{padding:'0.25rem 0.55rem'}}
+                        >
+                            💾
+                        </button>
+                        {/* P1-6: sound toggle */}
+                        <button
+                            className="btn btn-sm btn-secondary"
+                            onClick={handleSoundToggle}
+                            title={soundOn ? 'Som ON (clique pra desligar)' : 'Som OFF (clique pra ligar)'}
+                            style={{padding:'0.25rem 0.55rem'}}
+                        >
+                            {soundOn ? '🔊' : '🔇'}
+                        </button>
+                        <button
+                            className="btn btn-sm btn-secondary"
+                            onClick={handleReset}
+                            title="Resetar carreira"
+                            style={{padding:'0.25rem 0.55rem'}}
+                        >
+                            🔄
+                        </button>
                     </div>
+                    {savedToast && (
+                        <div style={{position:'fixed',top:'4rem',right:'1rem',background:'var(--primary)',color:'white',padding:'0.5rem 1rem',borderRadius:'var(--radius-sm)',fontSize:'0.85rem',fontWeight:600,zIndex:1000,animation:'slideUp 0.3s'}}>
+                            ✅ Salvo!
+                        </div>
+                    )}
                 </header>
             )}
             {renderView()}

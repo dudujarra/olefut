@@ -1,16 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { getFormEmoji } from '../engine/PlayerDevelopment';
 import { getPlayerTraits } from '../engine/PlayerTraits';
+import { PlayerAvatar } from '../utils/avatar';
 
 export function SquadView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
     const engine = getEngine();
     const team = engine.getTeam(gameState.teamId);
+
+    // P1-8: filter/sort + P1-9: search
+    const [filterPos, setFilterPos] = useState('all');
+    const [sortBy, setSortBy] = useState('position'); // position | ovr | age | energy | name
+    const [search, setSearch] = useState('');
+
     if (!team) return null;
 
     const posOrder = { GOL: 0, DEF: 1, MEI: 2, ATA: 3 };
-    const sorted = [...team.squad].sort((a, b) => posOrder[a.position] - posOrder[b.position] || b.ovr - a.ovr);
+    let filtered = [...team.squad];
+    if (filterPos !== 'all') filtered = filtered.filter(p => p.position === filterPos);
+    if (search.trim()) {
+        const q = search.toLowerCase();
+        filtered = filtered.filter(p => p.name.toLowerCase().includes(q));
+    }
+    const sorters = {
+        position: (a, b) => posOrder[a.position] - posOrder[b.position] || b.ovr - a.ovr,
+        ovr: (a, b) => b.ovr - a.ovr,
+        age: (a, b) => a.age - b.age,
+        energy: (a, b) => b.energy - a.energy,
+        name: (a, b) => a.name.localeCompare(b.name),
+    };
+    const sorted = filtered.sort(sorters[sortBy] || sorters.position);
 
     const toggleTitular = (playerId) => {
         const p = team.squad.find(x => x.id === playerId);
@@ -39,8 +59,33 @@ export function SquadView() {
     return (
         <div className="main-content fade-in">
             <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>👥 Plantel — {team.name} ({team.squad.length} jogadores)</h2>
+                <h2>👥 Plantel — {team.name} ({sorted.length}/{team.squad.length} jogadores)</h2>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView(back)}>← Voltar</button>
+            </div>
+
+            {/* P1-8/9: filter + sort + search */}
+            <div className="squad-controls" style={{display:'flex',gap:'0.5rem',marginBottom:'0.75rem',flexWrap:'wrap'}}>
+                <input
+                    type="text"
+                    placeholder="🔍 Buscar jogador..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    style={{flex:'1 1 200px',padding:'0.45rem 0.75rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.85rem'}}
+                />
+                <select value={filterPos} onChange={(e) => setFilterPos(e.target.value)} style={{padding:'0.45rem 0.75rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.85rem'}}>
+                    <option value="all">Todas posições</option>
+                    <option value="GOL">GOL</option>
+                    <option value="DEF">DEF</option>
+                    <option value="MEI">MEI</option>
+                    <option value="ATA">ATA</option>
+                </select>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{padding:'0.45rem 0.75rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.85rem'}}>
+                    <option value="position">Ordenar: Posição</option>
+                    <option value="ovr">Ordenar: OVR ↓</option>
+                    <option value="age">Ordenar: Idade ↑</option>
+                    <option value="energy">Ordenar: Energia ↓</option>
+                    <option value="name">Ordenar: Nome A-Z</option>
+                </select>
             </div>
 
             <div style={{ overflowX: 'auto' }}>
@@ -65,7 +110,10 @@ export function SquadView() {
                                     </button>
                                 </td>
                                 <td>
-                                    {p.name}
+                                    <span style={{display:'inline-flex',alignItems:'center'}}>
+                                        <PlayerAvatar name={p.name} size={26} />
+                                        {p.name}
+                                    </span>
                                     {p._isCaptain && <span style={{marginLeft:'3px'}} title="Capitão">©️</span>}
                                     {p.isYouth && <span style={{color:'var(--accent)',fontSize:'0.7rem',marginLeft:'4px'}}>🎓</span>}
                                     {getPlayerTraits(p).map(t => (
@@ -77,7 +125,7 @@ export function SquadView() {
                                         </span>
                                     )}
                                 </td>
-                                <td>{p.position}</td>
+                                <td><span className={`pos-badge ${p.position}`}>{p.position}</span></td>
                                 <td><strong>{p.ovr}</strong></td>
                                 <td className="hide-mobile" style={{ color: getEnergyColor(p.energy) }}>{p.energy}%</td>
                                 <td className="hide-mobile">{getMoralEmoji(p.moral || 50)} {(p.moral || 50)}%</td>

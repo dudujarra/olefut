@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { TACTICS, FORMATIONS, TEAM_TALKS } from '../engine/ManagerSystems';
 import { getFormEmoji } from '../engine/PlayerDevelopment';
+import { sfx } from '../utils/sound';
 
 export function MatchView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -87,7 +88,16 @@ export function MatchView() {
             setCurrentMinute(min);
 
             while (eventIdx < eventQueue.length && eventQueue[eventIdx].minute <= min) {
-                setDisplayedEvents(prev => [...prev, eventQueue[eventIdx]]);
+                // BUG-016 fix: dedupe via key (minute, text) — evita repetição em re-renders
+                const ev = eventQueue[eventIdx];
+                setDisplayedEvents(prev => {
+                    const key = `${ev.minute}-${ev.text}`;
+                    if (prev.some(e => e && `${e.minute}-${e.text}` === key)) return prev;
+                    return [...prev, ev];
+                });
+                // P1-6: sound FX para eventos importantes
+                if (ev.text?.includes('⚽')) sfx.goal();
+                else if (ev.text?.includes('🟨') || ev.text?.includes('🟥')) sfx.card();
                 eventIdx++;
                 tickerStateRef.current.eventIdx = eventIdx;
             }
@@ -119,18 +129,30 @@ export function MatchView() {
         if (onComplete) onComplete();
     };
 
-    // Compute running score from displayed events
+    // BUG-017 fix: contar gols ⚽ direto, sem depender de regex (mais robusto).
+    // displayedEvents reflete log live, score = goals shown so far.
     const getRunningScore = () => {
         if (!result) return { home: 0, away: 0 };
         let h = 0, a = 0;
         (displayedEvents || []).forEach(e => {
             if (!e || !e.text) return;
             if (e.text.includes('⚽')) {
-                const match = e.text.match(/\((\d+) x (\d+)\)/);
+                // Tenta regex first
+                const match = e.text.match(/\((\d+)\s*x\s*(\d+)\)/);
                 if (match) { h = parseInt(match[1]); a = parseInt(match[2]); }
             }
         });
         return { home: h, away: a };
+    };
+
+    // BUG-017 final score fallback: se 2º tempo done mas displayed score 0-0, usa result final.
+    const getDisplayScore = (half) => {
+        const live = getRunningScore();
+        // Se passou do 90' e live ainda 0-0 mas result tem goals, usa final
+        if (currentMinute >= 90 && live.home === 0 && live.away === 0 && result && (result.homeGoals > 0 || result.awayGoals > 0)) {
+            return { home: result.homeGoals, away: result.awayGoals };
+        }
+        return live;
     };
 
     // === PRE-MATCH (3-step wizard) ===
