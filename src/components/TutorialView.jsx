@@ -43,12 +43,12 @@ export function TutorialView() {
     const [step, setStep] = useState(0);
 
     const finish = () => {
-        try { localStorage.setItem(STORAGE_KEY, 'true'); } catch {}
+        try { localStorage.setItem(STORAGE_KEY, 'true'); } catch { /* ignore */ }
         changeView('start');
     };
 
     const skip = () => {
-        try { localStorage.setItem(STORAGE_KEY, 'skipped'); } catch {}
+        try { localStorage.setItem(STORAGE_KEY, 'skipped'); } catch { /* ignore */ }
         changeView('start');
     };
 

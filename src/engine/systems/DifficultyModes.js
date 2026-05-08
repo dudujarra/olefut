@@ -66,7 +66,7 @@ export function getDifficulty() {
 
 export function setDifficulty(modeId) {
     if (!DIFFICULTY_MODES[modeId]) return false;
-    try { localStorage.setItem(STORAGE_KEY, modeId); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, modeId); } catch { /* ignore */ }
     return true;
 }
 
