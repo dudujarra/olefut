@@ -5,21 +5,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Silkscreen:wght@400;700&display=swap');
 
 body.theme-8bit {
-    /* Palette override */
-    --primary: #4ADE80;
-    --primary-dark: #16A34A;
-    --primary-glow: rgba(74, 222, 128, 0.25);
-    --bg-dark: #0F0F1A;
-    --bg-panel: rgba(28, 28, 46, 0.95);
-    --bg-panel-solid: #1C1C2E;
-    --bg-panel-hover: #2A2A3F;
-    --text-main: #F0F0DC;
-    --text-muted: #A8A8B5;
-    --accent: #FFD700;
-    --danger: #EF4444;
-    --info: #3B82F6;
-    --glass-border: #3D3D5C;
-    --border-subtle: #2A2A3F;
+    /* Football color palette — grass green, leather brown, line white, card colors */
+    --primary: #2D6A4F;            /* grass mid */
+    --primary-dark: #1B4332;       /* grass dark */
+    --primary-light: #52B788;      /* grass light */
+    --primary-glow: rgba(82, 183, 136, 0.3);
+    --bg-dark: #0E1F14;            /* night stadium */
+    --bg-panel: rgba(20, 41, 27, 0.95);
+    --bg-panel-solid: #14291B;     /* dark grass */
+    --bg-panel-hover: #1F3D2A;
+    --text-main: #F1FAEE;          /* line white */
+    --text-muted: #A8C5A0;         /* faded grass */
+    --accent: #FFD600;             /* yellow card / trophy gold */
+    --accent-warm: #F4A261;        /* leather ball */
+    --danger: #C62828;             /* red card */
+    --info: #4A90E2;               /* sky blue */
+    --leather: #8B5A2B;            /* ball brown */
+    --crowd: #6B4226;              /* wooden stands */
+    --jersey-red: #DC2626;
+    --jersey-blue: #1E40AF;
+    --jersey-yellow: #FBBF24;
+    --glass-border: #2D5016;       /* dark grass border */
+    --border-subtle: #1A3508;
     --radius: 0;
     --radius-sm: 0;
     --radius-xs: 0;
@@ -34,12 +41,12 @@ body.theme-8bit h1, body.theme-8bit h2 {
     letter-spacing: 0.05em;
 }
 
-/* P5: Logo pixel-art real (gerado via Google Flow Nano Banana Pro) */
+/* P5: Logo pixel-art real (Flow Nano Banana Pro) */
 body.theme-8bit .logo {
-    background: url('/elifoot-web/sprites/logo-elifoot-8bit.jpeg') no-repeat center center;
+    background: url('/elifoot-web/sprites/scoreboard.jpeg') no-repeat center center;
     background-size: contain;
-    width: 200px;
-    height: 48px;
+    width: 220px;
+    height: 56px;
     text-indent: -9999px;
     color: transparent;
     font-size: 0;
@@ -47,6 +54,68 @@ body.theme-8bit .logo {
     image-rendering: pixelated;
 }
 body.theme-8bit .logo span { display: none; }
+
+/* Stadium grass background no body */
+body.theme-8bit {
+    background:
+        linear-gradient(180deg, rgba(14, 31, 20, 0.85) 0%, rgba(14, 31, 20, 0.95) 100%),
+        url('/elifoot-web/sprites/stadium-bg.jpeg') no-repeat center top fixed;
+    background-size: cover;
+}
+
+/* Match scoreboard usa stadium scoreboard */
+body.theme-8bit .match-card,
+body.theme-8bit .card-match-header {
+    background:
+        linear-gradient(180deg, rgba(20, 41, 27, 0.9) 0%, rgba(14, 31, 20, 0.95) 100%),
+        url('/elifoot-web/sprites/stadium-bg.jpeg') center / cover;
+    border: 4px solid #6B4226;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.05), 4px 4px 0 #1B4332;
+}
+
+/* Player avatar 8-bit usa sprite players.jpeg */
+body.theme-8bit .player-avatar {
+    background-image: url('/elifoot-web/sprites/players.jpeg');
+    background-size: 800% 200%;
+    image-rendering: pixelated;
+}
+body.theme-8bit .player-avatar.pos-GOL { background-position: 0% 0%; }
+body.theme-8bit .player-avatar.pos-DEF { background-position: 14.28% 0%; }
+body.theme-8bit .player-avatar.pos-MEI { background-position: 28.56% 0%; }
+body.theme-8bit .player-avatar.pos-ATA { background-position: 42.84% 0%; }
+
+/* Pos-badge usa icons-football sprite */
+body.theme-8bit .pos-badge {
+    background-color: rgba(20, 41, 27, 0.9);
+    border-width: 3px;
+}
+body.theme-8bit .pos-badge.GOL { border-color: #FFD600; color: #FFD600; }
+body.theme-8bit .pos-badge.DEF { border-color: #4A90E2; color: #4A90E2; }
+body.theme-8bit .pos-badge.MEI { border-color: #52B788; color: #52B788; }
+body.theme-8bit .pos-badge.ATA { border-color: #DC2626; color: #DC2626; }
+
+/* Weather icon background */
+body.theme-8bit .weather-badge,
+body.theme-8bit .alert-badge.info {
+    background:
+        url('/elifoot-web/sprites/weather.jpeg') center / cover,
+        rgba(74, 144, 226, 0.2);
+    border: 2px solid #4A90E2;
+}
+
+/* Trophy/awards icon */
+body.theme-8bit .award-icon::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 24px;
+    background: url('/elifoot-web/sprites/icons-football.jpeg') 25% 0% / 400% 200%;
+    image-rendering: pixelated;
+    margin-right: 4px;
+}
+
+/* Card amarelo/vermelho */
+body.theme-8bit .card-yellow { border-left-color: #FFD600 !important; }
+body.theme-8bit .card-red { border-left-color: #C62828 !important; }
 
 body.theme-8bit h3, body.theme-8bit h4 {
     font-family: 'VT323', monospace;
@@ -126,11 +195,16 @@ body.theme-8bit .match-score {
 }
 
 body.theme-8bit .narration-log {
-    background: linear-gradient(0deg, #0a1f0a 0%, #102510 100%);
-    color: #4ADE80;
-    border: 4px solid #1F4D1F;
+    /* Stadium grass field look */
+    background:
+        repeating-linear-gradient(0deg,
+            #1B4332 0px, #1B4332 24px,
+            #2D6A4F 24px, #2D6A4F 48px);
+    color: #F1FAEE;
+    border: 4px solid #2D5016;
     font-family: 'VT323', monospace;
     font-size: 1rem;
+    padding: 0.5rem;
 }
 
 body.theme-8bit .narration-log .goal-line {
