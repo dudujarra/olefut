@@ -10,7 +10,15 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:ci": "vitest run --reporter=verbose && vite build"
+    "test:ci": "vitest run --reporter=verbose && vite build",
+    "test:series": "bash scripts/debug-bug.sh series",
+    "test:regression": "vitest run tests/regression",
+    "test:specs": "vitest run tests/specs",
+    "bug:search": "bash scripts/debug-bug.sh search",
+    "bug:ticket": "bash scripts/debug-bug.sh ticket",
+    "bug:fix": "bash scripts/debug-bug.sh fix",
+    "bug:test": "bash scripts/debug-bug.sh test",
+    "bug:full": "bash scripts/debug-bug.sh full"
   },
   "dependencies": {
     "react": "^19.2.5",
