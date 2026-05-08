@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;900&amp;family=Rubik:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;family=Anton&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#52B788",
+                        "on-primary": "#0E1F14",
+                        "primary-container": "#2D6A4F",
+                        "on-primary-container": "#F1FAEE",
+                        surface: "#1B4332",
+                        "on-surface": "#F1FAEE",
+                        "surface-variant": "#2D6A4F",
+                        "on-surface-variant": "#52B788",
+                        "surface-container": "#0E1F14",
+                        leather: "#8B5A2B",
+                        cards_yellow: "#FFD600",
+                        cards_red: "#C62828"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    fontFamily: {
+                        headline: ["Anton", "sans-serif"],
+                        display: ["Anton", "sans-serif"],
+                        body: ["Rubik", "sans-serif"],
+                        label: ["Public Sans", "sans-serif"],
+                        mono: ["Space Mono", "monospace"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 0 #000,
+                0 4px 0 0 #000,
+                -4px 0 0 0 #000,
+                4px 0 0 0 #000;
+        }
+        .pixel-border-leather {
+            box-shadow: 
+                0 -4px 0 0 #8B5A2B,
+                0 4px 0 0 #8B5A2B,
+                -4px 0 0 0 #8B5A2B,
+                4px 0 0 0 #8B5A2B;
+        }
+        .nes-shadow {
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+        }
+    </style>
+</head>
+<body class="bg-surface-container text-on-surface font-body selection:bg-cards_yellow selection:text-black">
+<!-- TopAppBar from JSON -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary docked full-width top-0 border-b-4 border-on-surface shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex justify-between items-center w-full px-4 h-16 sticky z-50">
+<div class="font-headline text-2xl font-black text-primary italic">ELIFOOT</div>
+<nav class="hidden md:flex gap-6">
+<a class="text-primary font-bold border-b-2 border-primary font-headline uppercase tracking-tighter text-label-lg active:translate-y-1 transition-all duration-75" href="#">WEEK 12</a>
+<a class="text-on-surface-variant font-medium font-headline uppercase tracking-tighter text-label-lg hover:bg-primary-container hover:text-on-primary-container active:translate-y-1 transition-all duration-75" href="#">COACH: SILVA</a>
+</nav>
+<div class="flex gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:scale-110">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110">notifications</span>
+</div>
+</header>
+<div class="flex min-h-screen">
+<!-- SideNavBar from JSON -->
+<aside class="hidden lg:flex flex-col h-full py-6 px-4 space-y-4 bg-surface-container dark:bg-surface-container h-screen w-64 border-r-4 border-on-surface shadow-[4px_0px_0px_0px_rgba(0,0,0,1)] sticky top-16">
+<div class="flex flex-col items-center mb-6">
+<div class="w-20 h-20 bg-leather border-4 border-on-surface mb-2 overflow-hidden">
+<img alt="Manager Avatar" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQi9kgazSuBFuX4nUmdXWdvjhOkVxc-peoVKCXLX2Arhw7GD_cBFdRa6zEgN_tWjN_316ELtQJhF2hNxmpC9kvEOCA468YCBbpOQvoo_IoGBBTC5bUSnZ5U9yaScXIb9KiFljzdPOgWj5r_e2VHS_EtOWxQbVV5FqP_kLdSyqor9PNTI3E-5RigXLNwig5o_vAsiu5mnhFovl8nMtRDMu7_rxdkP490CC7VmbEulaBZAagaaTu6wWXZNCQn7ryR5S84zan_xXHpY6G"/>
+</div>
+<h3 class="font-headline text-xl text-on-surface">MANAGER SILVA</h3>
+<p class="font-label uppercase font-bold text-label-sm text-primary">Divisão 4</p>
+</div>
+<nav class="space-y-2 flex-grow">
+<a class="flex items-center gap-3 text-on-surface-variant p-2 hover:bg-surface-variant hover:border-4 hover:border-on-surface font-label uppercase font-bold text-label-sm active:scale-95 transition-transform duration-75" href="#">
+<span class="material-symbols-outlined">groups</span> Squad
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant p-2 hover:bg-surface-variant hover:border-4 hover:border-on-surface font-label uppercase font-bold text-label-sm active:scale-95 transition-transform duration-75" href="#">
+<span class="material-symbols-outlined">storefront</span> Market
+                </a>
+<a class="flex items-center gap-3 bg-primary text-on-primary border-4 border-on-surface p-2 font-label uppercase font-bold text-label-sm active:scale-95 transition-transform duration-75" href="#">
+<span class="material-symbols-outlined">leaderboard</span> Standings
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant p-2 hover:bg-surface-variant hover:border-4 hover:border-on-surface font-label uppercase font-bold text-label-sm active:scale-95 transition-transform duration-75" href="#">
+<span class="material-symbols-outlined">stadium</span> Stadium
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant p-2 hover:bg-surface-variant hover:border-4 hover:border-on-surface font-label uppercase font-bold text-label-sm active:scale-95 transition-transform duration-75" href="#">
+<span class="material-symbols-outlined">history</span> History
+                </a>
+</nav>
+<button class="bg-cards_yellow text-black font-black p-4 border-4 border-black nes-shadow active:translate-y-1 transition-all uppercase italic">NEXT MATCH</button>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow p-4 md:p-8 lg:p-12 mb-24 lg:mb-0 max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<div class="text-center mb-8">
+<h1 class="font-headline text-4xl md:text-6xl text-cards_yellow italic uppercase tracking-widest drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">TABELA DE CLASSIFICACAO</h1>
+</div>
+<!-- Country Tabs -->
+<div class="flex flex-wrap gap-2 mb-6 justify-center">
+<button class="px-4 py-2 border-4 border-on-surface bg-primary text-on-primary font-mono font-bold nes-shadow">BRA</button>
+<button class="px-4 py-2 border-4 border-on-surface bg-surface text-on-surface-variant font-mono font-bold hover:bg-primary-container nes-shadow">ARG</button>
+<button class="px-4 py-2 border-4 border-on-surface bg-surface text-on-surface-variant font-mono font-bold hover:bg-primary-container nes-shadow">URU</button>
+<button class="px-4 py-2 border-4 border-on-surface bg-surface text-on-surface-variant font-mono font-bold hover:bg-primary-container nes-shadow">CHI</button>
+<button class="px-4 py-2 border-4 border-on-surface bg-surface text-on-surface-variant font-mono font-bold hover:bg-primary-container nes-shadow">COL</button>
+<button class="px-4 py-2 border-4 border-on-surface bg-surface text-on-surface-variant font-mono font-bold hover:bg-primary-container nes-shadow">ENG</button>
+<button class="px-4 py-2 border-4 border-on-surface bg-surface text-on-surface-variant font-mono font-bold hover:bg-primary-container nes-shadow">ESP</button>
+<button class="px-4 py-2 border-4 border-on-surface bg-surface text-on-surface-variant font-mono font-bold hover:bg-primary-container nes-shadow">ITA</button>
+</div>
+<!-- Division Tabs -->
+<div class="flex gap-0 mb-8 justify-center border-b-4 border-leather">
+<button class="px-8 py-2 bg-leather text-on-primary font-headline border-t-4 border-x-4 border-on-surface -mb-1">DIV 1</button>
+<button class="px-8 py-2 bg-surface-container text-on-surface-variant font-headline border-t-4 border-x-4 border-on-surface opacity-60 hover:opacity-100">DIV 2</button>
+<button class="px-8 py-2 bg-surface-container text-on-surface-variant font-headline border-t-4 border-x-4 border-on-surface opacity-60 hover:opacity-100">DIV 3</button>
+<button class="px-8 py-2 bg-surface-container text-on-surface-variant font-headline border-t-4 border-x-4 border-on-surface opacity-60 hover:opacity-100">DIV 4</button>
+</div>
+<!-- Standings Table -->
+<div class="overflow-x-auto border-4 border-leather nes-shadow bg-surface-container p-1">
+<table class="w-full text-left font-mono text-sm md:text-base border-collapse">
+<thead>
+<tr class="bg-black text-primary border-b-4 border-leather">
+<th class="p-3">#</th>
+<th class="p-3">TIME</th>
+<th class="p-3">P</th>
+<th class="p-3">J</th>
+<th class="p-3">V</th>
+<th class="p-3">E</th>
+<th class="p-3">D</th>
+<th class="p-3 hidden md:table-cell">GP</th>
+<th class="p-3 hidden md:table-cell">GC</th>
+<th class="p-3">SG</th>
+</tr>
+</thead>
+<tbody>
+<!-- Row 1: Libertadores -->
+<tr class="bg-primary-container/40 border-l-8 border-primary border-b-2 border-leather/20">
+<td class="p-3 font-bold">1</td>
+<td class="p-3 font-bold">PALMEIRAS</td>
+<td class="p-3 text-cards_yellow font-bold">28</td>
+<td class="p-3">12</td><td class="p-3">9</td><td class="p-3">1</td><td class="p-3">2</td>
+<td class="p-3 hidden md:table-cell">24</td><td class="p-3 hidden md:table-cell">10</td><td class="p-3">14</td>
+</tr>
+<!-- Row 2: Libertadores -->
+<tr class="bg-surface border-l-8 border-primary border-b-2 border-leather/20">
+<td class="p-3 font-bold">2</td>
+<td class="p-3 font-bold">GREMIO</td>
+<td class="p-3 text-cards_yellow font-bold">25</td>
+<td class="p-3">12</td><td class="p-3">7</td><td class="p-3">4</td><td class="p-3">1</td>
+<td class="p-3 hidden md:table-cell">19</td><td class="p-3 hidden md:table-cell">8</td><td class="p-3">11</td>
+</tr>
+<!-- Row 3: Libertadores -->
+<tr class="bg-primary-container/40 border-l-8 border-primary border-b-2 border-leather/20">
+<td class="p-3 font-bold">3</td>
+<td class="p-3 font-bold">BOTAFOGO</td>
+<td class="p-3 text-cards_yellow font-bold">24</td>
+<td class="p-3">12</td><td class="p-3">7</td><td class="p-3">3</td><td class="p-3">2</td>
+<td class="p-3 hidden md:table-cell">18</td><td class="p-3 hidden md:table-cell">11</td><td class="p-3">7</td>
+</tr>
+<!-- Row 4: Highlighted Team FLAMENGO -->
+<tr class="bg-cards_yellow text-black border-l-8 border-primary font-black scale-105 relative z-10 nes-shadow">
+<td class="p-3">4</td>
+<td class="p-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-black" style="font-variation-settings: 'FILL' 1;">star</span>
+                                FLAMENGO
+                            </td>
+<td class="p-3">23</td>
+<td class="p-3">12</td><td class="p-3">7</td><td class="p-3">2</td><td class="p-3">3</td>
+<td class="p-3 hidden md:table-cell">21</td><td class="p-3 hidden md:table-cell">14</td><td class="p-3">7</td>
+</tr>
+<!-- Rows 5-16: Mid Table -->
+<tr class="bg-primary-container/40 border-b-2 border-leather/20">
+<td class="p-3">5</td><td class="p-3">BRAGANTINO</td><td class="p-3 text-cards_yellow">22</td><td class="p-3">12</td><td class="p-3">6</td><td class="p-3">4</td><td class="p-3">2</td><td class="p-3 hidden md:table-cell">17</td><td class="p-3 hidden md:table-cell">12</td><td class="p-3">5</td>
+</tr>
+<tr class="bg-surface border-b-2 border-leather/20">
+<td class="p-3">6</td><td class="p-3">FLUMINENSE</td><td class="p-3 text-cards_yellow">21</td><td class="p-3">12</td><td class="p-3">6</td><td class="p-3">3</td><td class="p-3">3</td><td class="p-3 hidden md:table-cell">16</td><td class="p-3 hidden md:table-cell">12</td><td class="p-3">4</td>
+</tr>
+<tr class="bg-primary-container/40 border-b-2 border-leather/20">
+<td class="p-3">7</td><td class="p-3">SAO PAULO</td><td class="p-3 text-cards_yellow">20</td><td class="p-3">12</td><td class="p-3">6</td><td class="p-3">2</td><td class="p-3">4</td><td class="p-3 hidden md:table-cell">15</td><td class="p-3 hidden md:table-cell">10</td><td class="p-3">5</td>
+</tr>
+<tr class="bg-surface border-b-2 border-leather/20">
+<td class="p-3">8</td><td class="p-3">ATHLETICO PR</td><td class="p-3 text-cards_yellow">19</td><td class="p-3">12</td><td class="p-3">6</td><td class="p-3">1</td><td class="p-3">5</td><td class="p-3 hidden md:table-cell">18</td><td class="p-3 hidden md:table-cell">16</td><td class="p-3">2</td>
+</tr>
+<tr class="bg-primary-container/40 border-b-2 border-leather/20">
+<td class="p-3">9</td><td class="p-3">CORITIBA</td><td class="p-3 text-cards_yellow">17</td><td class="p-3">12</td><td class="p-3">5</td><td class="p-3">2</td><td class="p-3">5</td><td class="p-3 hidden md:table-cell">12</td><td class="p-3 hidden md:table-cell">13</td><td class="p-3">-1</td>
+</tr>
+<tr class="bg-surface border-b-2 border-leather/20">
+<td class="p-3">10</td><td class="p-3">INTERNACIONAL</td><td class="p-3 text-cards_yellow">17</td><td class="p-3">12</td><td class="p-3">5</td><td class="p-3">2</td><td class="p-3">5</td><td class="p-3 hidden md:table-cell">11</td><td class="p-3 hidden md:table-cell">14</td><td class="p-3">-3</td>
+</tr>
+<tr class="bg-primary-container/40 border-b-2 border-leather/20">
+<td class="p-3">11</td><td class="p-3">SANTOS</td><td class="p-3 text-cards_yellow">15</td><td class="p-3">12</td><td class="p-3">4</td><td class="p-3">3</td><td class="p-3">5</td><td class="p-3 hidden md:table-cell">10</td><td class="p-3 hidden md:table-cell">12</td><td class="p-3">-2</td>
+</tr>
+<tr class="bg-surface border-b-2 border-leather/20">
+<td class="p-3">12</td><td class="p-3">CUIABA</td><td class="p-3 text-cards_yellow">14</td><td class="p-3">12</td><td class="p-3">4</td><td class="p-3">2</td><td class="p-3">6</td><td class="p-3 hidden md:table-cell">9</td><td class="p-3 hidden md:table-cell">15</td><td class="p-3">-6</td>
+</tr>
+<tr class="bg-primary-container/40 border-b-2 border-leather/20">
+<td class="p-3">13</td><td class="p-3">CRUZEIRO</td><td class="p-3 text-cards_yellow">14</td><td class="p-3">12</td><td class="p-3">3</td><td class="p-3">5</td><td class="p-3">4</td><td class="p-3 hidden md:table-cell">13</td><td class="p-3 hidden md:table-cell">13</td><td class="p-3">0</td>
+</tr>
+<tr class="bg-surface border-b-2 border-leather/20">
+<td class="p-3">14</td><td class="p-3">GOIAS</td><td class="p-3 text-cards_yellow">13</td><td class="p-3">12</td><td class="p-3">3</td><td class="p-3">4</td><td class="p-3">5</td><td class="p-3 hidden md:table-cell">10</td><td class="p-3 hidden md:table-cell">16</td><td class="p-3">-6</td>
+</tr>
+<tr class="bg-primary-container/40 border-b-2 border-leather/20">
+<td class="p-3">15</td><td class="p-3">BAHIA</td><td class="p-3 text-cards_yellow">12</td><td class="p-3">12</td><td class="p-3">3</td><td class="p-3">3</td><td class="p-3">6</td><td class="p-3 hidden md:table-cell">11</td><td class="p-3 hidden md:table-cell">18</td><td class="p-3">-7</td>
+</tr>
+<tr class="bg-surface border-b-2 border-leather/20">
+<td class="p-3">16</td><td class="p-3">CORINTHIANS</td><td class="p-3 text-cards_yellow">12</td><td class="p-3">12</td><td class="p-3">3</td><td class="p-3">3</td><td class="p-3">6</td><td class="p-3 hidden md:table-cell">9</td><td class="p-3 hidden md:table-cell">16</td><td class="p-3">-7</td>
+</tr>
+<!-- Row 17-20: Rebaixamento -->
+<tr class="bg-primary-container/40 border-l-8 border-cards_red border-b-2 border-leather/20">
+<td class="p-3">17</td><td class="p-3">VASCO</td><td class="p-3 text-cards_yellow">9</td><td class="p-3">12</td><td class="p-3">2</td><td class="p-3">3</td><td class="p-3">7</td><td class="p-3 hidden md:table-cell">11</td><td class="p-3 hidden md:table-cell">22</td><td class="p-3">-11</td>
+</tr>
+<tr class="bg-surface border-l-8 border-cards_red border-b-2 border-leather/20">
+<td class="p-3">18</td><td class="p-3">AMERICA MG</td><td class="p-3 text-cards_yellow">8</td><td class="p-3">12</td><td class="p-3">2</td><td class="p-3">2</td><td class="p-3">8</td><td class="p-3 hidden md:table-cell">13</td><td class="p-3 hidden md:table-cell">25</td><td class="p-3">-12</td>
+</tr>
+<tr class="bg-primary-container/40 border-l-8 border-cards_red border-b-2 border-leather/20">
+<td class="p-3">19</td><td class="p-3">FORTALEZA</td><td class="p-3 text-cards_yellow">7</td><td class="p-3">12</td><td class="p-3">1</td><td class="p-3">4</td><td class="p-3">7</td><td class="p-3 hidden md:table-cell">12</td><td class="p-3 hidden md:table-cell">18</td><td class="p-3">-6</td>
+</tr>
+<tr class="bg-surface border-l-8 border-cards_red border-b-0">
+<td class="p-3">20</td><td class="p-3">VITORIA</td><td class="p-3 text-cards_yellow">4</td><td class="p-3">12</td><td class="p-3">1</td><td class="p-3">1</td><td class="p-3">10</td><td class="p-3 hidden md:table-cell">8</td><td class="p-3 hidden md:table-cell">26</td><td class="p-3">-18</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Legend Section -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-center gap-4 bg-surface border-4 border-primary p-4 nes-shadow">
+<div class="w-8 h-8 bg-primary"></div>
+<span class="font-headline text-lg uppercase tracking-tighter">ZONA LIBERTADORES</span>
+</div>
+<div class="flex items-center gap-4 bg-surface border-4 border-cards_red p-4 nes-shadow">
+<div class="w-8 h-8 bg-cards_red"></div>
+<span class="font-headline text-lg uppercase tracking-tighter">ZONA REBAIXAMENTO</span>
+</div>
+</div>
+<!-- Promo/Image Section -->
+<div class="mt-12">
+<div class="relative w-full h-48 bg-leather border-4 border-on-surface overflow-hidden nes-shadow">
+<img class="w-full h-full object-cover opacity-50 grayscale" data-alt="A retro 8-bit pixel art illustration of a massive, crowded football stadium at night under bright stadium lights. The field is a vibrant grass green with crisp white boundary lines. The sky is a deep dark green night stadium atmosphere, and the scoreboard displays high-contrast pixelated stats. The overall mood is an energetic arcade NES era aesthetic with chunky shapes and a limited but intense color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDINyRMpRIN2a6-PNmQodUXvrJacKG66yrdxYngZYljyfBUO-B3hDhazlPlUczVI4n7bO_lHpQghRW05d8RTnJN4Ih0xpvktY6OwoIyEwXG1_qnNlwG1hnMxPg_eMX3FExW1E9-auDQ72963aikHWTWNXcy5rroTrfanMdvkmoLUEX3fnWGBEznurkrtUSNL1kp0VrcYkGg_VwrZ2280dTcOl_puufu9viJLPp6fTpNh6JQ930x2s4y7AMpyMFq-NVW6Isl0nihTEt7"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<p class="font-headline text-3xl md:text-5xl text-on-surface text-center px-4 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">RUMO AO TÍTULO!</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar from JSON -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full grid grid-cols-4 h-20 items-center px-1 bg-surface dark:bg-surface border-t-4 border-on-surface shadow-[0px_-4px_0px_0px_rgba(0,0,0,1)] z-50">
+<button class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-primary-container active:translate-y-1 transition-all">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label text-xs font-black uppercase">Squad</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-primary-container active:translate-y-1 transition-all">
+<span class="material-symbols-outlined">shopping_basket</span>
+<span class="font-label text-xs font-black uppercase">Market</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary text-on-primary border-2 border-on-surface py-1 active:translate-y-1 transition-all">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label text-xs font-black uppercase">Stats</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-primary-container active:translate-y-1 transition-all">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label text-xs font-black uppercase">Match</span>
+</button>
+</nav>
+</body></html>
