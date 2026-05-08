@@ -72,9 +72,12 @@ export class PrestigeSystem {
     }
 
     processYear() {
-        // Decay 5% across all teams
+        // BUG-012 fix: decay 5% mas preserva floor mínimo (Math.round vs Math.floor + cap)
+        // Math.floor(1 * 0.95) = 0 destrói prestige baixo permanentemente.
+        // Solução: round, e abaixo de 20 não decai (proteção tier Local).
         for (const [teamId, prestige] of this.teamPrestige.entries()) {
-            this.teamPrestige.set(teamId, Math.floor(prestige * 0.95));
+            if (prestige < 20) continue; // proteção tier Local
+            this.teamPrestige.set(teamId, Math.round(prestige * 0.95));
         }
     }
 
