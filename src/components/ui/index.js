@@ -15,3 +15,4 @@ export { EfInput } from './EfInput';
 export { EfPanel } from './EfPanel';
 export { EfStatLine } from './EfStatLine';
 export { EfClubBadge } from './EfClubBadge';
+export { EfBanner } from './EfBanner';

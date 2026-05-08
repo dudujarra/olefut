@@ -129,7 +129,7 @@ export function PlayerDashboardView() {
                             <li><span>💰 Dinheiro:</span> <strong>R$ {player.money}</strong></li>
                             <li><span>🥤 Energéticos:</span> <strong>{player.energyDrinks}</strong></li>
                             <li><span>⚽ Gols:</span> <strong>{player.seasonGoals}</strong></li>
-                            <li><span>🧠 Stress:</span> <strong style={{ color: stressColor }}>{player.stress}%</strong></li>
+                            <li><span>🧠 Stress:</span> <strong className={player.stress >= 75 ? 'ef-anim-pulse-glow' : ''} style={{ color: stressColor, padding: player.stress >= 75 ? '2px 6px' : 0, borderRadius: '4px' }}>{player.stress}%</strong></li>
                         </ul>
                     </div>
                     <div>

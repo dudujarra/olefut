@@ -19,7 +19,20 @@ export function PlayerMatchView() {
     const [matchFinished, setMatchFinished] = useState(false);
     const [opponent, setOpponent] = useState(null);
     const [isBenched, setIsBenched] = useState(false);
+    const [goalBurstActive, setGoalBurstActive] = useState(false);
+    const prevHomeGoalsRef = useRef(0);
     const timerRef = useRef(null);
+
+    // Trigger goal-burst quando homeGoals incrementar
+    useEffect(() => {
+        if (homeGoals > prevHomeGoalsRef.current) {
+            setGoalBurstActive(true);
+            const t = setTimeout(() => setGoalBurstActive(false), 1300);
+            prevHomeGoalsRef.current = homeGoals;
+            return () => clearTimeout(t);
+        }
+        prevHomeGoalsRef.current = homeGoals;
+    }, [homeGoals]);
 
     useEffect(() => {
         player.checkBenchStatus();
@@ -140,13 +153,16 @@ export function PlayerMatchView() {
         <div className="main-content fade-in">
             {isBenched && <div className="bench-warning">🔴 VOCÊ ESTÁ NO BANCO — Observe e interaja com os eventos</div>}
 
-            <div className="card" style={{ textAlign: 'center' }}>
+            <div className={`card ${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{ textAlign: 'center', position: 'relative' }}>
+                {goalBurstActive && (
+                    <div className="ef-anim-goal-burst" style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',zIndex:10,pointerEvents:'none'}} />
+                )}
                 <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
                     <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
                         {team?.name && <EfClubBadge name={team.name} size="md" />}
                         <span className="team-name">{team?.name || 'Meu Time'}</span>
                     </div>
-                    <div className="match-score">{homeGoals} — {awayGoals}</div>
+                    <div className={`match-score ${goalBurstActive ? 'ef-anim-counter' : ''}`}>{homeGoals} — {awayGoals}</div>
                     <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
                         {opponent?.name && <EfClubBadge name={opponent.name} size="md" />}
                         <span className="team-name">{opponent?.name || 'Adversário'}</span>

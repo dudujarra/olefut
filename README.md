@@ -404,6 +404,45 @@ EfClubBadge auto-resolve via `getClubSprite(name)`.
 `.ef-trophy-{tier-1,2,3,4,cup-domestic,cup-continental,cup-secondary,cup-world}` — trophy-set.png crops
 `.ef-led-digit-{0..9}` — score-digits.png LED display crops
 
+### Phase 3 — Banner & Atmospheric Assets
+
+8 novas categorias abstract pixel-art geradas via Stitch:
+
+| Asset | Path | Conteúdo |
+|---|---|---|
+| Champion banner | `banners/champion-celebration.png` | 1024×256 backdrop celebration scene |
+| State arrows | `banners/state-arrows.png` | 8 icons (up/down/star/right/pause/check/X/crown) |
+| Newspaper backdrop | `banners/newspaper-backdrop.png` | 1024×256 vintage paper texture |
+| Boardroom interior | `banners/boardroom-interior.png` | 1024×256 abstract office scene |
+| Manager avatars | `avatars/managers.png` | 8 abstract caricature portraits |
+| Referee/training equipment | `equipment/referee-training.png` | 8 icons (whistle/stopwatch/flag/cones/dumbbell) |
+| Weather overlays | `effects/weather-overlays.png` | 4 tiles (sunny/rain/snow/night) |
+| Finance icons | `effects/finance-icons.png` | 8 icons (coin/stack/wallet/$/scroll/bag/handshake/bank) |
+
+### EfBanner Reusable Component
+
+`src/components/ui/EfBanner.jsx` — full-screen narrative moment overlay.
+
+13 banner types pré-configurados:
+- `champion` — título conquistado (4000ms, gold gradient + trophy-unlock anim)
+- `promotion` / `relegation` — divisão sobe/desce
+- `fired` / `hired` — diretoria demite/contrata
+- `retirement` — aposentadoria carreira
+- `offer` / `sponsor` — proposta/patrocínio
+- `motm` / `hattrick` / `cleanSheet` — performance match
+- `injury` / `suspension` — eventos negativos
+
+Hooks aplicados:
+- MatchView FullTime: detecta hat-trick (3+ gols mesmo scorer) e clean-sheet automaticamente
+- Click anywhere or auto-dismiss after duration
+
+Direção arte:
+- `ef-anim-pop-in` entry
+- `ef-anim-pulse-glow` icon
+- Pacaembu palette gradients
+- Beveled metallic borders 4px
+- `'Press Start 2P'` title typeface
+
 Keyframes UI:
 - `ef-shake` (banner gol scoreboard)
 - `ef-pop-in` (modais)

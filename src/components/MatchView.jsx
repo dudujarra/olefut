@@ -5,7 +5,7 @@ import { getFormEmoji } from '../engine/PlayerDevelopment';
 import { sfx } from '../utils/sound';
 import { LiveSquadEditModal } from './LiveSquadEditModal';
 import { PreMatchScreen } from './PreMatchScreen';
-import { EfClubBadge } from './ui';
+import { EfClubBadge, EfBanner } from './ui';
 
 export function MatchView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -29,6 +29,7 @@ export function MatchView() {
     const [liveSubsCount, setLiveSubsCount] = useState(0);
     const [goalBurstActive, setGoalBurstActive] = useState(false);
     const [eventOverlay, setEventOverlay] = useState(null); // 'card'|'injury'|'sub'|'whistle'
+    const [banner, setBanner] = useState(null); // null | 'hattrick' | 'cleanSheet' | 'motm'
     const logRef = useRef(null);
     const timerRef = useRef(null);
     const speedRef = useRef(200);
@@ -36,6 +37,23 @@ export function MatchView() {
 
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
+
+    // Detect hat-trick + clean-sheet at fulltime
+    useEffect(() => {
+        if (phase !== 'fulltime' || !narration?.length) return;
+        const scorerCounts = {};
+        narration.forEach(n => {
+            const m = n.text?.match(/⚽.*?([A-ZÁÉÍÓÚÃÕÇ][a-záéíóúãõç]+(?:\s[A-Z][a-z]+)*)/);
+            if (m) scorerCounts[m[1]] = (scorerCounts[m[1]] || 0) + 1;
+        });
+        const hasHattrick = Object.values(scorerCounts).some(c => c >= 3);
+        if (hasHattrick) { setBanner('hattrick'); return; }
+
+        const isHome = result?.home === team.name;
+        const myGoals = isHome ? result?.homeGoals : result?.awayGoals;
+        const oppGoals = isHome ? result?.awayGoals : result?.homeGoals;
+        if (oppGoals === 0 && myGoals > 0) setBanner('cleanSheet');
+    }, [phase, narration, result, team.name]);
 
     // Auto-scroll narration log
     useEffect(() => {
@@ -637,6 +655,7 @@ export function MatchView() {
 
     return (
         <div className="main-content fade-in">
+            {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
             <div className="card" style={{ textAlign: 'center' }}>
                 <h2 style={{fontSize:'1.2rem',marginBottom:'0.5rem'}}>🏁 FIM DE JOGO</h2>
                 <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>

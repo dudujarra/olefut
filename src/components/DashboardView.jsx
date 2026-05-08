@@ -102,6 +102,9 @@ export function DashboardView() {
             {/* Feedback log */}
             {log && <div className="event-toast success" onClick={() => setLog('')}>{log}</div>}
 
+            {/* === TAB CONTENT WRAPPER (for animation) === */}
+            <div key={tab} className="ef-anim-fade-in">
+
             {/* === TAB: OVERVIEW === */}
             {tab === 'overview' && (
                 <>
@@ -394,6 +397,9 @@ export function DashboardView() {
                     </div>
                 </div>
             )}
+
+            </div>
+            {/* === END TAB CONTENT WRAPPER === */}
 
             {/* Bottom Nav */}
             <div className="action-bar" style={{marginTop:'0.5rem'}}>

@@ -136,7 +136,7 @@ export function MarketView() {
                     ) : (
                         <div style={{display:'flex',flexDirection:'column',gap:'0.15rem'}}>
                             {market.map(p => (
-                                <div key={p.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'1px solid var(--border-subtle)',fontSize:'0.78rem'}}>
+                                <div key={p.id} className={`ef-anim-fade-in ${p.ovr >= 80 ? 'ef-anim-pulse-glow' : ''}`} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'1px solid var(--border-subtle)',fontSize:'0.78rem'}}>
                                     <div style={{display:'flex',alignItems:'center'}}>
                                         <PlayerAvatar name={p.name} size={24} />
                                         <strong>{p.name}</strong>
