@@ -310,6 +310,44 @@ export class Engine {
         return result;
     }
 
+    // Alias for backward compat (BUG-001)
+    scoutRegionAction(regionId) {
+        return this.doScouting(regionId);
+    }
+
+    // Sign a scouted player by index (BUG-002)
+    signScoutedPlayer(index) {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return { success: false, msg: 'Time não encontrado.' };
+        if (!this.scoutedPlayers || index < 0 || index >= this.scoutedPlayers.length) {
+            return { success: false, msg: 'Jogador não encontrado.' };
+        }
+        const player = this.scoutedPlayers[index];
+        if (player.value && player.value > team.balance) {
+            return { success: false, msg: `Saldo insuficiente. Custo: R$ ${((player.value || 0)/1000000).toFixed(1)}M` };
+        }
+        if (player.value) team.balance -= player.value;
+        player.contract = { weeksLeft: 76, salary: Math.floor((player.value || 500000) * 0.001) };
+        player.moral = 60;
+        player.energy = 100;
+        player.isTitular = false;
+        team.squad.push(player);
+        this.scoutedPlayers.splice(index, 1);
+        return { success: true, msg: `✅ ${player.name} contratado!` };
+    }
+
+    // Sell a player from squad (BUG-006)
+    sellPlayer(playerId, amount) {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return { success: false, msg: 'Time não encontrado.' };
+        const player = team.squad.find(p => p.id === playerId);
+        if (!player) return { success: false, msg: 'Jogador não encontrado.' };
+        if (player.isTitular) return { success: false, msg: 'Tire da titularidade antes de vender.' };
+        team.squad = team.squad.filter(p => p.id !== playerId);
+        team.balance += amount;
+        return { success: true, msg: `💰 ${player.name} vendido por R$ ${(amount/1000000).toFixed(1)}M!` };
+    }
+
     // === CONTRATOS ===
     getRenewalOffer(playerId) {
         const team = this.getTeam(this.manager.teamId);

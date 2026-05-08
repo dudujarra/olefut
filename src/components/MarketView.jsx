@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { SCOUT_REGIONS } from '../engine/StadiumSystem';
 import { getPlayerTraits } from '../engine/PlayerTraits';
-import { generateCounterOffer } from '../engine/PlayerTraits';
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -34,9 +33,8 @@ export function MarketView() {
     const confirmSell = () => {
         if (!negotiation) return;
         const p = negotiation.player;
-        team.balance += negotiation.counterAmount;
-        team.squad = team.squad.filter(sq => sq.id !== p.id);
-        setLog(`💰 ${p.name} vendido por R$ ${(negotiation.counterAmount / 1000000).toFixed(1)}M!`);
+        const result = engine.sellPlayer(p.id, negotiation.counterAmount);
+        setLog(result.msg);
         setNegotiation(null);
         forceUpdate();
     };

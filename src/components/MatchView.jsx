@@ -23,6 +23,7 @@ export function MatchView() {
     const [speed, setSpeed] = useState(200); // ms per tick
     const logRef = useRef(null);
     const timerRef = useRef(null);
+    const speedRef = useRef(200);
 
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
@@ -39,6 +40,39 @@ export function MatchView() {
         return () => { if (timerRef.current) clearInterval(timerRef.current); };
     }, []);
 
+    // Sync speedRef when speed state changes (BUG-003 fix)
+    useEffect(() => {
+        speedRef.current = speed;
+        // Restart interval with new speed if currently playing
+        if (timerRef.current && tickerStateRef.current) {
+            clearInterval(timerRef.current);
+            const { events, endMin, onComplete } = tickerStateRef.current;
+            let min = tickerStateRef.current.currentMin;
+            let eventIdx = tickerStateRef.current.eventIdx;
+            const eventQueue = tickerStateRef.current.eventQueue;
+
+            timerRef.current = setInterval(() => {
+                min++;
+                tickerStateRef.current.currentMin = min;
+                setCurrentMinute(min);
+                while (eventIdx < eventQueue.length && eventQueue[eventIdx].minute <= min) {
+                    setDisplayedEvents(prev => [...prev, eventQueue[eventIdx]]);
+                    eventIdx++;
+                    tickerStateRef.current.eventIdx = eventIdx;
+                }
+                if (min >= endMin) {
+                    clearInterval(timerRef.current);
+                    timerRef.current = null;
+                    tickerStateRef.current = null;
+                    setIsPlaying(false);
+                    if (onComplete) onComplete();
+                }
+            }, speedRef.current);
+        }
+    }, [speed]);
+
+    const tickerStateRef = useRef(null);
+
     // === LIVE MATCH TICKER ===
     const startLiveTicker = (events, startMin, endMin, onComplete) => {
         setIsPlaying(true);
@@ -46,23 +80,27 @@ export function MatchView() {
         const eventQueue = events.filter(e => e && e.minute >= startMin && e.minute <= endMin);
         let eventIdx = 0;
 
+        tickerStateRef.current = { events, eventQueue, endMin, onComplete, currentMin: min, eventIdx };
+
         timerRef.current = setInterval(() => {
             min++;
+            tickerStateRef.current.currentMin = min;
             setCurrentMinute(min);
 
-            // Push all events at this minute
             while (eventIdx < eventQueue.length && eventQueue[eventIdx].minute <= min) {
                 setDisplayedEvents(prev => [...prev, eventQueue[eventIdx]]);
                 eventIdx++;
+                tickerStateRef.current.eventIdx = eventIdx;
             }
 
             if (min >= endMin) {
                 clearInterval(timerRef.current);
                 timerRef.current = null;
+                tickerStateRef.current = null;
                 setIsPlaying(false);
                 if (onComplete) onComplete();
             }
-        }, speed);
+        }, speedRef.current);
     };
 
     const skipToEnd = (events, endMin, onComplete) => {
@@ -528,7 +566,7 @@ export function MatchView() {
                 )}
             </div>
 
-            <button className="btn-cta" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); changeView('dashboard'); }}>
+            <button className="btn-cta" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView('dashboard'); }}>
                 📊 VOLTAR AO DASHBOARD
             </button>
         </div>
