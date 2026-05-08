@@ -10,3 +10,4 @@ export { criaDaBase } from './criaDaBase';
 export { goleirao } from './goleirao';
 export { presidencia } from './presidencia';
 export { mitoHerdado } from './mitoHerdado';
+export { pressConference } from './pressConference';

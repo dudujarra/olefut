@@ -68,6 +68,25 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo:** v1.2 — Transição Jogador→Técnico (mesmo save)
 
+### [feat] v1.2 — Transição Jogador→Técnico UI (AKITA-053) (2026-05-08)
+
+- `src/components/PresidentBar.jsx`: barra paciência presidente com 4 thresholds
+  - 80+ Carta Branca (verde)
+  - 50-79 Atento (amarelo)
+  - 25-49 Cobrança (laranja)
+  - <25 Ultimato (vermelho)
+  - Confiança bipolar (-100..+100) com ponto central
+- `src/components/OldTeammatesWidget.jsx`: lista ex-companheiros ativos pós-transição (+30% bias aceitação)
+- `src/data/headlines/pressConference.js`: 12 manchetes coletivas pré/pós jogo + crisis management
+- `src/data/headlines/index.js` re-exports pressConference
+- 453 tests passing (mantido)
+- Build: 43.28 KB CSS / 459.33 KB JS
+- SAVE_VERSION 6 → 7 (transição + manager_president)
+
+**Notas:** CareerService.retireProPlayer + CareerTransition + RelationshipService já implementados em v1.0.5. v1.2 entrega UI/manchetes que consomem esses services. Wiring completo em DashboardView fica pra v1.2.1 (integration polish).
+
+**Próximo:** v1.3 — Filhos Regens (16-18 anos após auge)
+
 
 ### [refactor] AKITA-RFCT-001 — Characterization Tests / Golden Master (2026-05-08)
 
