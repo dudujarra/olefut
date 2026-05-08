@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { RealDB } from '../engine/db/index';
 import { PERSONALITIES } from '../engine/PlayerCareer';
+import { isTutorialDone } from './TutorialView';
 
 export function StartView() {
-    const { startGame } = useGame();
+    const { startGame, changeView } = useGame();
     const [name, setName] = useState('');
     const [scenario, setScenario] = useState('livre');
     const [teamId, setTeamId] = useState('');
@@ -76,6 +77,15 @@ export function StartView() {
                 <button id="btn-start" className="btn btn-primary" onClick={handleStart} disabled={!name.trim() || !teamId}>
                     ⚡ COMEÇAR CARREIRA
                 </button>
+                {!isTutorialDone() && (
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => changeView('tutorial')}
+                        style={{ marginTop: '0.5rem', fontSize: '0.85rem' }}
+                    >
+                        🎓 Tutorial (5 passos rápidos)
+                    </button>
+                )}
             </div>
         </div>
     );

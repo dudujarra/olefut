@@ -11,6 +11,8 @@ import { MatchView } from './components/MatchView';
 import { MonitorView } from './components/MonitorView';
 import { FloatingBugButton } from './components/FloatingBugButton';
 import { StyleguideView } from './components/StyleguideView';
+import { AchievementsView } from './components/AchievementsView';
+import { TutorialView } from './components/TutorialView';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
 
@@ -57,6 +59,8 @@ function App() {
             case 'standings': return <StandingsView />;
             case 'monitor': return <MonitorView />;
             case 'styleguide': return <StyleguideView />;
+            case 'achievements': return <AchievementsView />;
+            case 'tutorial': return <TutorialView />;
             default: return <StartView />;
         }
     };
