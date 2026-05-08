@@ -16,6 +16,7 @@ import { rollTraits, getTraitMatchModifier, hasTrait, initCareerStats, recordMat
 import { MatchSimulator } from '../services/MatchSimulator';
 import { MythService } from '../services/MythService';
 import { RelationshipService } from '../services/RelationshipService';
+import { NarrativeService } from '../services/NarrativeService';
 
 export class Engine {
     constructor() {
@@ -33,6 +34,11 @@ export class Engine {
         this._mythService = new MythService();
         // RFCT-008/010: RelationshipService — Camada 3 (Relacional) (stateless)
         this._relationshipService = new RelationshipService();
+        // RFCT-011/013: NarrativeService — Camadas 1, 2, 4 + integration 3, 5 (constructor injection)
+        this._narrativeService = new NarrativeService({
+            relationshipService: this._relationshipService,
+            mythService: this._mythService
+        });
 
         // Manager Mode state
         this.currentTactic = 'normal';

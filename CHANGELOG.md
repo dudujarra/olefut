@@ -110,6 +110,28 @@ Razão: engine.js não tinha métodos getLegends/getHallOfFame/getRegenChildren 
 
 **Próximo PR:** AKITA-RFCT-011 — NarrativeService skeleton + Camadas 1-2
 
+### [refactor] AKITA-RFCT-011+012+013 COLLAPSED — NarrativeService completo (2026-05-08)
+
+3 PRs collapsed em 1.
+
+- `src/services/NarrativeService.js` upgraded skeleton → 5 Camadas funcionais
+- **Camada 1 AGENTE:** recordDecision + getDecisions
+- **Camada 2 EVENTUAL:** appendEvent (com vocab fixo eventTypes/eventTags), getDecayedEvents (half-life decay), queryEvents (filter by type/tag/actor)
+- **Camada 3 RELACIONAL integration:** getRelationalContext via RelationshipService injected
+- **Camada 4 NARRATIVA:** openArc, getOpenArcs, closeArc, addMilestone (arcos nomeados)
+- **Camada 5 MITO integration:** canonize → MythService.addLegend, promoteToHall → MythService.promoteToHallOfFame
+- Constructor injection: `new NarrativeService({ relationshipService, mythService })`
+- HALF_LIFE_DAYS table conforme SPEC-049 (TITLE_WON 1095/0.20, PLAYER_RED_CARD 90/0.0, etc.)
+- `engine.js` constructor wires `_narrativeService` com deps injected
+- `useNarrative` hook wired (12 methods)
+- `tests/specs/SPEC-NarrativeService.test.js`: 21 tests (todas 5 camadas + sem ciclos arquiteturais)
+- 397 tests passing (376 + 21 new)
+- Build: 43.28 KB CSS / 435.64 KB JS (+4.36 KB pelo NarrativeService)
+
+**Verificado:** sem ciclos arquiteturais (Narrative → Relationship → ø, Narrative → Myth → ø).
+
+**Próximo PR:** AKITA-RFCT-014+015+016 — CareerService completo
+
 ---
 
 ## [1.0.0] — 2026-05-08
