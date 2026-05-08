@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELIFOOT - PLANTEL FLAMENGO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,700;0,900;1,900&amp;family=Rubik:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        'grass-mid': '#2D6A4F',
+                        'grass-dark': '#1B4332',
+                        'grass-light': '#52B788',
+                        'line-white': '#F1FAEE',
+                        'leather': '#8B5A2B',
+                        'card-yellow': '#FFD600',
+                        'card-red': '#C62828',
+                        'bg-night': '#0E1F14',
+                        'pos-gol': '#FFD600',
+                        'pos-def': '#4A90E2',
+                        'pos-mei': '#52B788',
+                        'pos-ata': '#C62828'
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        "headline": ["Public Sans"],
+                        "display": ["Public Sans"],
+                        "body": ["Rubik"],
+                        "label": ["Public Sans"],
+                        "mono": ["Space Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .pixel-border {
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+        }
+        .pixel-border-sm {
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+        }
+        .retro-table tr:nth-child(even) {
+            background-color: rgba(45, 106, 79, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-bg-night text-line-white font-body selection:bg-card-yellow selection:text-bg-night">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 hidden md:flex flex-col sticky left-0 bg-[#2D6A4F] dark:bg-[#1B4332] text-[#F1FAEE] border-r-4 border-[#8B5A2B] shadow-[4px_0px_0px_0px_rgba(0,0,0,1)] z-50">
+<div class="p-6 flex flex-col items-center border-b-4 border-black/20">
+<div class="w-16 h-16 bg-[#C62828] border-4 border-black flex items-center justify-center mb-2 pixel-border-sm">
+<span class="font-headline text-3xl font-black text-[#FFD600]">CRF</span>
+</div>
+<h2 class="font-headline text-xl text-[#FFD600] font-black italic">BRAZIL FC</h2>
+<p class="font-label text-xs uppercase font-bold text-grass-light">League Division A</p>
+</div>
+<nav class="flex flex-col space-y-2 py-4 flex-grow">
+<a class="text-[#F1FAEE] py-3 px-4 hover:bg-[#1B4332] font-label text-sm uppercase font-bold transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-2" data-icon="dashboard">dashboard</span> Dashboard
+                </a>
+<a class="bg-[#52B788] text-[#0E1F14] border-4 border-[#0E1F14] mx-2 my-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-label text-sm uppercase font-bold flex items-center px-4 py-2" href="#">
+<span class="material-symbols-outlined mr-2" data-icon="groups">groups</span> Squad
+                </a>
+<a class="text-[#F1FAEE] py-3 px-4 hover:bg-[#1B4332] font-label text-sm uppercase font-bold transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-2" data-icon="storefront">storefront</span> Market
+                </a>
+<a class="text-[#F1FAEE] py-3 px-4 hover:bg-[#1B4332] font-label text-sm uppercase font-bold transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-2" data-icon="leaderboard">leaderboard</span> Standings
+                </a>
+<a class="text-[#F1FAEE] py-3 px-4 hover:bg-[#1B4332] font-label text-sm uppercase font-bold transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-2" data-icon="stadium">stadium</span> Stadium
+                </a>
+</nav>
+<div class="p-4 mt-auto space-y-2 border-t-4 border-black/20">
+<button class="w-full bg-card-yellow text-bg-night font-bold py-2 border-4 border-black pixel-border-sm hover:translate-y-[-2px] transition-all active:translate-y-0 active:shadow-none">
+                    UPGRADE STADIUM
+                </button>
+<div class="flex justify-between pt-2">
+<span class="material-symbols-outlined cursor-pointer hover:text-card-yellow" data-icon="settings">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-card-red" data-icon="exit_to_app">exit_to_app</span>
+</div>
+</div>
+</aside>
+<main class="flex-grow flex flex-col min-w-0">
+<!-- TopNavBar -->
+<header class="w-full top-0 sticky bg-[#1B4332] dark:bg-[#0E1F14] text-[#F1FAEE] border-b-4 border-[#8B5A2B] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-40">
+<div class="flex justify-between items-center px-4 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="font-headline text-3xl font-black text-[#FFD600] italic">ELIFOOT</span>
+<div class="hidden md:flex gap-4 ml-6">
+<span class="text-grass-light border-b-4 border-grass-light font-headline text-lg uppercase tracking-tighter cursor-pointer">SQUAD</span>
+<span class="text-[#F1FAEE] font-headline text-lg uppercase tracking-tighter cursor-pointer hover:bg-[#2D6A4F] transition-all px-2">FINANCES</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:bg-[#2D6A4F] p-2" data-icon="calendar_today">calendar_today</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-[#2D6A4F] p-2" data-icon="payments">payments</span>
+<div class="h-10 w-10 bg-leather border-2 border-line-white pixel-border-sm overflow-hidden">
+<img alt="Manager" class="w-full h-full object-cover" data-alt="A portrait of a football manager with a focused expression, wearing a professional dark suit against the backdrop of a slightly blurred stadium interior. The lighting is dramatic and high-contrast, evoking a vintage sports management game aesthetic from the 90s, with a color palette of deep greens and rich browns." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDukL_dJSzof2xH141QnVx_DklRrxby3Up3Ajg9BxR2VnB3Xqma0nAxb1rK1PDEC1294rNDe102n6l1SRlQq7XZ_Ak7DQjdqsKoY7YzVZFwomMW5sK4_xCgwsKyllIuJ4eBxduYcKMrQ1en1FJnISOfS3nSzeJH-VOGFrNRhCyMjIw2WX3fcNRHGEUWevkSkDImtkkH8WKUGst2g6QkVDyw6-H0LCLq2A4bMPPkkL3mqXrdHtCEVJE4PB6V-7nnz-4Yw2CrYEsDzXMG"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="p-4 md:p-8 space-y-6 overflow-y-auto bg-grass-dark pb-24 md:pb-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<h1 class="font-headline text-3xl md:text-5xl font-black text-line-white tracking-tighter uppercase italic drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+                        PLANTEL FLAMENGO <span class="text-card-yellow">(18 JOGADORES)</span>
+</h1>
+<div class="flex gap-2">
+<button class="bg-pos-ata text-white px-4 py-2 border-4 border-black font-mono font-bold pixel-border-sm hover:translate-y-[-2px] active:translate-y-0 transition-all">
+                            AUTO-ESCALAR
+                        </button>
+</div>
+</div>
+<!-- Filter Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-black/30 p-4 border-4 border-leather pixel-border">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-grass-light" data-icon="search">search</span>
+<input class="w-full bg-bg-night border-4 border-black p-2 pl-10 text-line-white font-mono placeholder:text-grass-mid focus:ring-0 focus:border-grass-light uppercase" placeholder="BUSCAR JOGADOR..." type="text"/>
+</div>
+<div class="flex flex-col">
+<label class="text-[10px] font-mono font-bold text-card-yellow mb-1 ml-1 uppercase">Posição</label>
+<select class="bg-bg-night border-4 border-black p-2 text-line-white font-mono focus:ring-0 focus:border-grass-light uppercase cursor-pointer">
+<option>Todas</option>
+<option>GOL</option>
+<option>DEF</option>
+<option>MEI</option>
+<option>ATA</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="text-[10px] font-mono font-bold text-card-yellow mb-1 ml-1 uppercase">Ordenar por</label>
+<select class="bg-bg-night border-4 border-black p-2 text-line-white font-mono focus:ring-0 focus:border-grass-light uppercase cursor-pointer">
+<option>Posição</option>
+<option>OVR</option>
+<option>Idade</option>
+<option>Energia</option>
+<option>Nome</option>
+</select>
+</div>
+<div class="flex items-end">
+<button class="w-full h-[48px] bg-grass-mid hover:bg-grass-light text-line-white font-bold border-4 border-black pixel-border-sm transition-colors uppercase">
+                            Limpar Filtros
+                        </button>
+</div>
+</div>
+<!-- Player Table -->
+<div class="bg-black/40 border-4 border-leather pixel-border overflow-x-auto">
+<table class="w-full text-left font-mono border-collapse retro-table">
+<thead>
+<tr class="bg-leather text-line-white uppercase text-xs">
+<th class="p-3 border-r border-black/20 text-center">TIT</th>
+<th class="p-3 border-r border-black/20">AVATAR</th>
+<th class="p-3 border-r border-black/20">NOME</th>
+<th class="p-3 border-r border-black/20 text-center">POS</th>
+<th class="p-3 border-r border-black/20 text-center">OVR</th>
+<th class="p-3 border-r border-black/20 w-32">ENERGIA</th>
+<th class="p-3 border-r border-black/20 text-center">MOR</th>
+<th class="p-3 border-r border-black/20 text-center">IDD</th>
+<th class="p-3 border-r border-black/20 text-center">CTR</th>
+<th class="p-3 text-center">AÇÕES</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<!-- Player Row 1 -->
+<tr class="border-b border-black/20 hover:bg-grass-light/20 transition-colors">
+<td class="p-2 text-center">
+<span class="material-symbols-outlined text-card-yellow" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</td>
+<td class="p-2">
+<div class="w-8 h-8 rounded-full bg-pos-gol border-2 border-black flex items-center justify-center font-bold text-bg-night text-xs">AR</div>
+</td>
+<td class="p-2 font-bold uppercase tracking-tight">ROSSI</td>
+<td class="p-2 text-center">
+<span class="bg-pos-gol text-bg-night px-2 py-0.5 font-bold text-[10px] border-2 border-black">GOL</span>
+</td>
+<td class="p-2 text-center font-bold text-grass-light text-lg">82</td>
+<td class="p-2">
+<div class="w-full h-3 bg-bg-night border-2 border-black p-[1px]">
+<div class="h-full bg-grass-light" style="width: 95%"></div>
+</div>
+</td>
+<td class="p-2 text-center text-xl">😃</td>
+<td class="p-2 text-center">28</td>
+<td class="p-2 text-center">140</td>
+<td class="p-2">
+<div class="flex gap-1 justify-center">
+<button class="bg-card-red text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">VENDER</button>
+<button class="bg-grass-mid text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">TREINAR</button>
+</div>
+</td>
+</tr>
+<!-- Player Row 2 -->
+<tr class="border-b border-black/20 hover:bg-grass-light/20 transition-colors">
+<td class="p-2 text-center">
+<span class="material-symbols-outlined text-card-yellow" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</td>
+<td class="p-2">
+<div class="w-8 h-8 rounded-full bg-pos-def border-2 border-black flex items-center justify-center font-bold text-white text-xs">LP</div>
+</td>
+<td class="p-2 font-bold uppercase tracking-tight">LEO PEREIRA</td>
+<td class="p-2 text-center">
+<span class="bg-pos-def text-white px-2 py-0.5 font-bold text-[10px] border-2 border-black">DEF</span>
+</td>
+<td class="p-2 text-center font-bold text-grass-light text-lg">84</td>
+<td class="p-2">
+<div class="w-full h-3 bg-bg-night border-2 border-black p-[1px]">
+<div class="h-full bg-grass-light" style="width: 88%"></div>
+</div>
+</td>
+<td class="p-2 text-center text-xl">😎</td>
+<td class="p-2 text-center">27</td>
+<td class="p-2 text-center">112</td>
+<td class="p-2">
+<div class="flex gap-1 justify-center">
+<button class="bg-card-red text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">VENDER</button>
+<button class="bg-grass-mid text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">TREINAR</button>
+</div>
+</td>
+</tr>
+<!-- Player Row 3 -->
+<tr class="border-b border-black/20 hover:bg-grass-light/20 transition-colors">
+<td class="p-2 text-center">
+<span class="material-symbols-outlined text-card-yellow" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</td>
+<td class="p-2">
+<div class="w-8 h-8 rounded-full bg-pos-mei border-2 border-black flex items-center justify-center font-bold text-white text-xs">NC</div>
+</td>
+<td class="p-2 font-bold uppercase tracking-tight">N. DE LA CRUZ</td>
+<td class="p-2 text-center">
+<span class="bg-pos-mei text-white px-2 py-0.5 font-bold text-[10px] border-2 border-black">MEI</span>
+</td>
+<td class="p-2 text-center font-bold text-grass-light text-lg">87</td>
+<td class="p-2">
+<div class="w-full h-3 bg-bg-night border-2 border-black p-[1px]">
+<div class="h-full bg-card-yellow" style="width: 72%"></div>
+</div>
+</td>
+<td class="p-2 text-center text-xl">🔥</td>
+<td class="p-2 text-center">26</td>
+<td class="p-2 text-center">180</td>
+<td class="p-2">
+<div class="flex gap-1 justify-center">
+<button class="bg-card-red text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">VENDER</button>
+<button class="bg-grass-mid text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">TREINAR</button>
+</div>
+</td>
+</tr>
+<!-- Player Row 4 -->
+<tr class="border-b border-black/20 hover:bg-grass-light/20 transition-colors">
+<td class="p-2 text-center">
+<span class="material-symbols-outlined text-card-yellow" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</td>
+<td class="p-2">
+<div class="w-8 h-8 rounded-full bg-pos-ata border-2 border-black flex items-center justify-center font-bold text-white text-xs">GB</div>
+</td>
+<td class="p-2 font-bold uppercase tracking-tight">GABRIEL BARBOSA</td>
+<td class="p-2 text-center">
+<span class="bg-pos-ata text-white px-2 py-0.5 font-bold text-[10px] border-2 border-black">ATA</span>
+</td>
+<td class="p-2 text-center font-bold text-grass-light text-lg">85</td>
+<td class="p-2">
+<div class="w-full h-3 bg-bg-night border-2 border-black p-[1px]">
+<div class="h-full bg-grass-light" style="width: 90%"></div>
+</div>
+</td>
+<td class="p-2 text-center text-xl">💪</td>
+<td class="p-2 text-center">27</td>
+<td class="p-2 text-center">45</td>
+<td class="p-2">
+<div class="flex gap-1 justify-center">
+<button class="bg-card-red text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">VENDER</button>
+<button class="bg-grass-mid text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">TREINAR</button>
+</div>
+</td>
+</tr>
+<!-- Player Row 5 -->
+<tr class="border-b border-black/20 hover:bg-grass-light/20 transition-colors">
+<td class="p-2 text-center">
+<span class="material-symbols-outlined text-card-yellow" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</td>
+<td class="p-2">
+<div class="w-8 h-8 rounded-full bg-pos-ata border-2 border-black flex items-center justify-center font-bold text-white text-xs">PH</div>
+</td>
+<td class="p-2 font-bold uppercase tracking-tight">PEDRO</td>
+<td class="p-2 text-center">
+<span class="bg-pos-ata text-white px-2 py-0.5 font-bold text-[10px] border-2 border-black">ATA</span>
+</td>
+<td class="p-2 text-center font-bold text-grass-light text-lg">86</td>
+<td class="p-2">
+<div class="w-full h-3 bg-bg-night border-2 border-black p-[1px]">
+<div class="h-full bg-grass-light" style="width: 98%"></div>
+</div>
+</td>
+<td class="p-2 text-center text-xl">🏹</td>
+<td class="p-2 text-center">26</td>
+<td class="p-2 text-center">210</td>
+<td class="p-2">
+<div class="flex gap-1 justify-center">
+<button class="bg-card-red text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">VENDER</button>
+<button class="bg-grass-mid text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">TREINAR</button>
+</div>
+</td>
+</tr>
+<!-- Placeholder Rows for the 18 count -->
+<tr class="border-b border-black/20 hover:bg-grass-light/20 transition-colors opacity-80">
+<td class="p-2 text-center">
+<span class="material-symbols-outlined text-line-white/20" data-icon="star">star</span>
+</td>
+<td class="p-2">
+<div class="w-8 h-8 rounded-full bg-pos-mei border-2 border-black flex items-center justify-center font-bold text-white text-xs">GA</div>
+</td>
+<td class="p-2 font-bold uppercase tracking-tight">GERSON</td>
+<td class="p-2 text-center">
+<span class="bg-pos-mei text-white px-2 py-0.5 font-bold text-[10px] border-2 border-black">MEI</span>
+</td>
+<td class="p-2 text-center font-bold text-grass-light text-lg">83</td>
+<td class="p-2">
+<div class="w-full h-3 bg-bg-night border-2 border-black p-[1px]">
+<div class="h-full bg-card-yellow" style="width: 65%"></div>
+</div>
+</td>
+<td class="p-2 text-center text-xl">🃏</td>
+<td class="p-2 text-center">26</td>
+<td class="p-2 text-center">150</td>
+<td class="p-2">
+<div class="flex gap-1 justify-center">
+<button class="bg-card-red text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">VENDER</button>
+<button class="bg-grass-mid text-white text-[10px] px-2 py-1 border-2 border-black hover:scale-105 active:scale-95 transition-transform">TREINAR</button>
+</div>
+</td>
+</tr>
+<!-- Remaining rows would follow this pattern... -->
+<tr class="border-b border-black/20 hover:bg-grass-light/20 transition-colors">
+<td class="p-4 text-center font-mono text-grass-mid italic uppercase" colspan="10">... OUTROS 12 JOGADORES OCULTOS NESTA PRÉVIA ...</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Info Panel -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-black/40 p-4 border-4 border-leather pixel-border flex items-center gap-4">
+<div class="w-12 h-12 bg-card-yellow border-4 border-black flex items-center justify-center pixel-border-sm">
+<span class="material-symbols-outlined text-bg-night text-2xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div>
+<p class="text-[10px] font-mono font-bold text-grass-light uppercase">Salário Semanal</p>
+<p class="font-mono text-xl font-bold text-line-white">€ 2.450.000</p>
+</div>
+</div>
+<div class="bg-black/40 p-4 border-4 border-leather pixel-border flex items-center gap-4">
+<div class="w-12 h-12 bg-pos-def border-4 border-black flex items-center justify-center pixel-border-sm">
+<span class="material-symbols-outlined text-white text-2xl" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<p class="text-[10px] font-mono font-bold text-grass-light uppercase">Média OVR</p>
+<p class="font-mono text-xl font-bold text-line-white">83.4</p>
+</div>
+</div>
+<div class="bg-black/40 p-4 border-4 border-leather pixel-border flex items-center gap-4">
+<div class="w-12 h-12 bg-card-red border-4 border-black flex items-center justify-center pixel-border-sm">
+<span class="material-symbols-outlined text-white text-2xl" data-icon="cake">cake</span>
+</div>
+<div>
+<p class="text-[10px] font-mono font-bold text-grass-light uppercase">Média Idade</p>
+<p class="font-mono text-xl font-bold text-line-white">26.8 anos</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 md:hidden bg-[#1B4332] dark:bg-[#0E1F14] border-t-4 border-[#8B5A2B] flex justify-around items-center h-16 px-2">
+<a class="flex flex-col items-center justify-center bg-[#C62828] text-[#F1FAEE] border-x-2 border-[#F1FAEE] p-1 w-1/4" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label text-xs uppercase">Squad</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#F1FAEE] p-1 w-1/4 hover:bg-[#2D6A4F]" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label text-xs uppercase">Market</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#F1FAEE] p-1 w-1/4 hover:bg-[#2D6A4F]" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label text-xs uppercase">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#F1FAEE] p-1 w-1/4 hover:bg-[#2D6A4F]" href="#">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label text-xs uppercase">Play</span>
+</a>
+</nav>
+</div>
+</body></html>
