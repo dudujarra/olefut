@@ -141,6 +141,9 @@ export function MatchView() {
                 } else if (ev.text?.includes('🔄') || ev.text?.includes('substitui')) {
                     setEventOverlay('ef-event-sub');
                     setTimeout(() => setEventOverlay(null), 1200);
+                } else if (ev.text?.includes('🧤') || ev.text?.match(/defes|defen|salvou|defesa/i)) {
+                    setEventOverlay('ef-event-save');
+                    setTimeout(() => setEventOverlay(null), 1200);
                 }
                 eventIdx++;
                 tickerStateRef.current.eventIdx = eventIdx;
@@ -398,6 +401,18 @@ export function MatchView() {
     // === SCOREBOARD (shared between phases) ===
     const Scoreboard = ({ half }) => (
         <div className={`card ${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{ textAlign: 'center', padding: '0.75rem', position: 'relative' }}>
+            <div
+                className="ef-anim-crowd-flag-wave"
+                aria-hidden="true"
+                style={{
+                    position: 'absolute',
+                    top: '4px',
+                    right: '4px',
+                    opacity: 0.55,
+                    pointerEvents: 'none',
+                    zIndex: 1
+                }}
+            />
             {goalBurstActive && (
                 <div
                     className="ef-anim-goal-burst"
@@ -411,8 +426,36 @@ export function MatchView() {
                     }}
                 />
             )}
+            {goalBurstActive && (
+                <div
+                    className="ef-anim-ball-kick"
+                    aria-hidden="true"
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '12%',
+                        transform: 'translateY(-50%)',
+                        zIndex: 9,
+                        pointerEvents: 'none'
+                    }}
+                />
+            )}
             {eventOverlay && (
                 <div className={`ef-event-overlay ef-event-icon ${eventOverlay}`} />
+            )}
+            {eventOverlay === 'ef-event-save' && (
+                <div
+                    className="ef-anim-gk-save"
+                    aria-hidden="true"
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        right: '12%',
+                        transform: 'translateY(-50%)',
+                        zIndex: 9,
+                        pointerEvents: 'none'
+                    }}
+                />
             )}
             <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
                 <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>

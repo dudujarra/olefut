@@ -42,6 +42,24 @@
     to   { background-position: 0 -320px; } /* 4 × 80px = 320px */
 }
 
+@keyframes ef-ball-kick {
+    /* 6 frames horizontal, ball-kick-6frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -384px 0; } /* 6 × 64px */
+}
+
+@keyframes ef-gk-save {
+    /* 5 frames horizontal, gk-save-5frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -320px 0; } /* 5 × 64px */
+}
+
+@keyframes ef-crowd-flag-wave {
+    /* 4 frames horizontal, crowd-flag-wave-4frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -512px 0; } /* 4 × 128px */
+}
+
 /* ========== KEYFRAMES UI ========== */
 
 @keyframes ef-shake {
@@ -297,6 +315,36 @@ button:not(.no-anim):not([disabled]):active {
     animation: ef-crowd-wave 1000ms steps(4) infinite;
 }
 
+.ef-anim-ball-kick {
+    width: 64px;
+    height: 64px;
+    background-image: url('/sprites/animations/ball-kick-6frames.png');
+    background-size: 384px 64px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-ball-kick 600ms steps(6) 1;
+}
+
+.ef-anim-gk-save {
+    width: 64px;
+    height: 64px;
+    background-image: url('/sprites/animations/gk-save-5frames.png');
+    background-size: 320px 64px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-gk-save 700ms steps(5) 1;
+}
+
+.ef-anim-crowd-flag-wave {
+    width: 128px;
+    height: 96px;
+    background-image: url('/sprites/animations/crowd-flag-wave-4frames.png');
+    background-size: 512px 96px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-crowd-flag-wave 1200ms steps(4) infinite;
+}
+
 /* UI animations */
 .ef-anim-shake          { animation: ef-shake       1200ms ease-in-out 1; }
 .ef-anim-pop-in         { animation: ef-pop-in      200ms ease-out 1; }
@@ -454,6 +502,9 @@ button:not(.no-anim):not([disabled]):active {
     .ef-anim-spinner,
     .ef-anim-trophy-unlock,
     .ef-anim-crowd-wave,
+    .ef-anim-ball-kick,
+    .ef-anim-gk-save,
+    .ef-anim-crowd-flag-wave,
     .ef-anim-shake,
     .ef-anim-pop-in,
     .ef-anim-slide-down,
