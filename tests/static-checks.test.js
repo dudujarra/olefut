@@ -85,3 +85,43 @@ describe('Engine methods completeness', () => {
         expect(engineSrc).toContain('doScouting(');
     });
 });
+
+describe('BUG-007: MarketView handleBuy não deve usar filter assignment', () => {
+    const marketView = readSrc('components/MarketView.jsx');
+
+    it('não deve reatribuir engine.marketPlayers via filter', () => {
+        expect(marketView).not.toContain('engine.marketPlayers = engine.marketPlayers.filter');
+    });
+
+    it('deve usar splice para remover do market', () => {
+        expect(marketView).toContain('.splice(');
+    });
+});
+
+describe('BUG-008: SquadView handleSell via engine', () => {
+    const squadView = readSrc('components/SquadView.jsx');
+
+    it('deve usar engine.sellPlayer', () => {
+        expect(squadView).toContain('engine.sellPlayer');
+    });
+
+    it('não deve mutar team.squad diretamente', () => {
+        expect(squadView).not.toContain('team.squad = team.squad.filter');
+    });
+
+    it('não deve mutar team.balance diretamente', () => {
+        expect(squadView).not.toContain('team.balance +=');
+    });
+});
+
+describe('BUG-009: skipToEnd não duplica eventos', () => {
+    const matchView = readSrc('components/MatchView.jsx');
+
+    it('skipToEnd deve fazer merge ao invés de sobrescrever', () => {
+        expect(matchView).toContain('existingMinutes');
+    });
+
+    it('skipToEnd deve filtrar por startMin', () => {
+        expect(matchView).toContain('e.minute >= startMin');
+    });
+});

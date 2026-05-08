@@ -15,12 +15,15 @@ export function MarketView() {
 
     const handleBuy = (player) => {
         if (team.balance < player.value) return;
+        // Use signScoutedPlayer-like flow via engine
+        const idx = engine.marketPlayers.findIndex(p => p.id === player.id);
+        if (idx === -1) return;
         team.balance -= player.value;
         player.contract = { weeksLeft: 76, salary: Math.floor(player.value * 0.001) };
         player.moral = 60;
         player.energy = 100;
         team.squad.push({ ...player, isTitular: false });
-        engine.marketPlayers = engine.marketPlayers.filter(p => p.id !== player.id);
+        engine.marketPlayers.splice(idx, 1);
         setLog(`✅ ${player.name} contratado por R$ ${(player.value / 1000000).toFixed(1)}M!`);
         forceUpdate();
     };

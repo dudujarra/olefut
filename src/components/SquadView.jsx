@@ -24,8 +24,7 @@ export function SquadView() {
 
     const handleSell = (player) => {
         const price = player.value || (player.ovr * 100000);
-        team.balance += price;
-        team.squad = team.squad.filter(p => p.id !== player.id);
+        const result = engine.sellPlayer(player.id, price);
         forceUpdate();
     };
 

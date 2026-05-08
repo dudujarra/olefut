@@ -1,6 +1,6 @@
 # 📊 QA Report — Elifoot RPG
 
-> Gerado: 2026-05-07 21:15:24
+> Gerado: 2026-05-07 21:34:12
 > Protocolo: AKITA Bug Sweep
 
 ## Métricas
@@ -8,12 +8,12 @@
 | Métrica | Valor |
 |---|---|
 | Arquivos de teste | 2 |
-| Total de testes | 31 |
+| Total de testes | 38 |
 | Componentes | 8 |
 | Linhas de engine | 901 |
-| Linhas totais src | 6394 |
+| Linhas totais src | 6404 |
 | Bugs encontrados | 0 |
-| Warnings | 4 |
+| Warnings | 2 |
 
 ## Checks Executados
 

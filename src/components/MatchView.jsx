@@ -104,10 +104,18 @@ export function MatchView() {
 
     const skipToEnd = (events, endMin, onComplete) => {
         if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
-        const remaining = events.filter(e => e && e.minute <= endMin);
-        setDisplayedEvents(remaining);
+        // Use start minute from tickerState to avoid duplicating events from previous halves
+        const startMin = tickerStateRef.current?.eventQueue?.[0]?.minute || 0;
+        const remaining = events.filter(e => e && e.minute >= startMin && e.minute <= endMin);
+        setDisplayedEvents(prev => {
+            // Merge: keep already-displayed events and add remaining that aren't already shown
+            const existingMinutes = new Set(prev.map(e => `${e.minute}-${e.text}`));
+            const newEvents = remaining.filter(e => !existingMinutes.has(`${e.minute}-${e.text}`));
+            return [...prev, ...newEvents];
+        });
         setCurrentMinute(endMin);
         setIsPlaying(false);
+        tickerStateRef.current = null;
         if (onComplete) onComplete();
     };
 
