@@ -5,19 +5,33 @@
  */
 
 import React from 'react';
-import { EfPanel, EfTooltip } from '../ui';
+import { EfPanel, EfTooltip, EfClubBadge } from '../ui';
+import { getClubColors } from '../../data/clubColors';
 import './dashboard.css';
 
 export function DashboardHeader({ team, stats, boardStatus, board, balance, seasonWeek, seasonNumber, legacyLevel, division }) {
+    const clubColors = getClubColors(team.name);
+    const themeStyle = {
+        '--ef-club-primary': clubColors.primary,
+        '--ef-club-secondary': clubColors.secondary,
+        '--ef-club-accent': clubColors.accent
+    };
+
     return (
-        <EfPanel padding="md" className="ef-dash-header">
+        <EfPanel padding="md" className="ef-dash-header" style={themeStyle}>
             <div className="ef-dash-header-row">
-                <div>
-                    <h2 className="ef-dash-header-title">{team.name}</h2>
-                    <span className="ef-dash-header-meta">
-                        {stats.position}º · Série {['A','B','C','D'][division - 1]} · {stats.wins}V {stats.draws}E {stats.losses}D
-                        {stats.streak > 0 ? ` 🔥${stats.streak}` : stats.streak < 0 ? ` ❄️${Math.abs(stats.streak)}` : ''}
-                    </span>
+                <div className="ef-dash-header-identity">
+                    <EfClubBadge name={team.name} size="md" />
+                    <div>
+                        <h2 className="ef-dash-header-title">{team.name}</h2>
+                        {clubColors.nickname && (
+                            <span className="ef-dash-header-nickname">{clubColors.nickname}</span>
+                        )}
+                        <span className="ef-dash-header-meta">
+                            {stats.position}º · Série {['A','B','C','D'][division - 1]} · {stats.wins}V {stats.draws}E {stats.losses}D
+                            {stats.streak > 0 ? ` 🔥${stats.streak}` : stats.streak < 0 ? ` ❄️${Math.abs(stats.streak)}` : ''}
+                        </span>
+                    </div>
                 </div>
                 <div className="ef-dash-header-right">
                     <div

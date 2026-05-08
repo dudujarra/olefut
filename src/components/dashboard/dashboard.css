@@ -6,10 +6,27 @@
  */
 
 /* ========== HEADER ========== */
+.ef-dash-header {
+    /* Tema clube-aware: gradient sutil primary→bg-card */
+    background: linear-gradient(
+        135deg,
+        var(--ef-club-primary, var(--ef-color-grass-700)) 0%,
+        var(--ef-bg-card) 35%,
+        var(--ef-bg-card) 100%
+    ) !important;
+    border-left: 4px solid var(--ef-club-accent, var(--ef-color-grass-300)) !important;
+}
+
 .ef-dash-header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.ef-dash-header-identity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .ef-dash-header-title {
@@ -19,10 +36,22 @@
     color: var(--ef-text-hi);
 }
 
+.ef-dash-header-nickname {
+    display: block;
+    font-size: 11px;
+    color: var(--ef-club-accent, var(--ef-color-grass-300));
+    font-family: var(--ef-font-family-body);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-style: italic;
+}
+
 .ef-dash-header-meta {
+    display: block;
     font-size: var(--ef-font-size-caption);
     color: var(--ef-text-md);
     font-family: var(--ef-font-family-body);
+    margin-top: 2px;
 }
 
 .ef-dash-header-right {
