@@ -123,6 +123,23 @@
     animation: ef-spinner 800ms steps(8) infinite;
 }
 
+.ef-anim-spinner-sm {
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background-image: url('/sprites/animations/spinner-8frames.png');
+    background-repeat: no-repeat;
+    background-size: 128px 16px; /* 8 frames × 16px scaled */
+    image-rendering: pixelated;
+    animation: ef-spinner-sm 800ms steps(8) infinite;
+}
+
+@keyframes ef-spinner-sm {
+    from { background-position: 0 0; }
+    to   { background-position: -128px 0; }
+}
+
 .ef-anim-trophy-unlock {
     width: 96px;
     height: 128px;

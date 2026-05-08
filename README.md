@@ -6,12 +6,14 @@
 🎮 **Live demo**: https://dudujarra.github.io/elifoot-web/
 
 [![CI](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-597%2F597-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
-[![Specs](https://img.shields.io/badge/specs-30-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
+[![Tests](https://img.shields.io/badge/tests-529%2F529-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
+[![Specs](https://img.shields.io/badge/specs-30+-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
 [![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/elifoot-web/blob/main/specs/SPEC-RULES.md)
 [![Bugs Fixed](https://img.shields.io/badge/bugs%20fixed-20-orange)](https://github.com/dudujarra/elifoot-web/blob/main/BUGS.md)
-[![Theme](https://img.shields.io/badge/theme-8bit%20toggle-yellow)](https://github.com/dudujarra/elifoot-web/blob/main/src/styles/8bit-theme.css)
-[![Stitch Designs](https://img.shields.io/badge/Stitch%20designs-10-purple)](https://github.com/dudujarra/elifoot-web/tree/main/docs/stitch-designs)
+[![Theme](https://img.shields.io/badge/theme-32bit%20SNES-yellow)](https://github.com/dudujarra/elifoot-web/blob/main/src/styles/animations.css)
+[![Stitch Designs](https://img.shields.io/badge/Stitch%20designs-13%2B-purple)](https://github.com/dudujarra/elifoot-web/tree/main/docs/stitch-designs)
+[![Club Badges](https://img.shields.io/badge/club%20badges-170-red)](https://github.com/dudujarra/elifoot-web/tree/main/public/sprites/clubs)
+[![Animations](https://img.shields.io/badge/sprite%20animations-5-cyan)](https://github.com/dudujarra/elifoot-web/tree/main/public/sprites/animations)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
@@ -95,8 +97,10 @@ Roadmap narrativo completo: [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-
 | **Casos forbidden** | 125+ |
 | **Coverage codebase** | 92% |
 | **Themes** | 2 (Modern + 8-bit retro) |
-| **Pixel-art sprites** | 14 (Google Flow) |
-| **Stitch designs** | 10 (Gemini 3 Pro) |
+| **Pixel-art sprites** | 14 legacy + 78 v2.0 + 5 anim (97 total) |
+| **Stitch designs** | 13+ (Gemini 3 Flash) |
+| **Club badges** | 170 (13 spritesheets BR/EU/SA) |
+| **Sprite animations** | 5 (frame-based pixel-art) |
 | **Build size** | 394KB JS + 18KB CSS (gzip 115KB) |
 | **Build time** | <150ms |
 | **Times reais** | 170 (10 países) |
@@ -303,6 +307,99 @@ Sky info:    #4A90E2
 - 3 variants Dashboard (Arcade / Classic FM / Minimal)
 
 Design system Stitch: `assets/9556108370450513109` (Anton + Rubik + Space Mono).
+
+---
+
+## 🕹️ v2.0 SNES Pacaembu Edition
+
+Direção arte 32-bit Super Nintendo / PS1 era. Paleta Pacaembu (verde grama 90s).
+
+### Tokens (src/styles/tokens/)
+- 24 cores Pacaembu (grass-700/800/900 + funcional success/warning/danger/info + BR Copa)
+- 17 fontes (Press Start 2P logo + Pixelify Sans UI + IBM Plex Mono tabelas)
+- 9 spaces grid 8px sagrado
+- 5 shadows beveled
+
+### Stitch UI library (`src/components/ui/`)
+8 componentes base (`Ef` prefix, PascalCase):
+- EfButton (4 variants × 3 sizes + loading + icon)
+- EfPanel (5 variants beveled containers)
+- EfCardPlayer (avatar 32×32 colorido por posição)
+- EfTooltip (4 colors + auto-position)
+- EfModal (4 sizes + esc + ARIA dialog + ef-pop-in animation)
+- EfInput (sunk bevel + focus ring)
+- EfStatLine (label + value + bar)
+- EfClubBadge (pixel-art sprite-based 170 clubes)
+
+### v3-snes Stitch screens (`docs/stitch-designs/v3-snes/`)
+- Dashboard SNES (header + tabs + alerts)
+- Match Live SNES (top-down 2D pitch + scoreboard + sidebar)
+- Squad Management SNES (tabela + formation preview)
+- Hall de Lendas SNES (6 cards lendas)
+- Crônica do Save SNES (parchment + chapters + troféus 4×3)
+- StartView SNES (logo + 4 menu buttons)
+
+### Club Identity System (SPEC-060) — 170 clubes
+13 spritesheets pixel-art em `public/sprites/clubs/`:
+
+| País/Região | Sheet | Clubes | Style |
+|---|---|---|---|
+| Brasil Série A | spritesheet-serie-a.png | 20 | 32-bit abstract |
+| Brasil Série B | spritesheet-serie-b.png | 20 | 32-bit abstract |
+| Brasil Série C | spritesheet-serie-c.png | 20 | 16-bit SNES |
+| Brasil Série D | spritesheet-serie-d.png | 20 | 16-bit SNES |
+| Inglaterra | spritesheet-eng.png | 10 | 16-bit SNES |
+| Espanha | spritesheet-esp.png | 10 | 16-bit SNES |
+| Itália | spritesheet-ita.png | 10 | 16-bit SNES |
+| Alemanha | spritesheet-ger.png | 10 | 16-bit SNES |
+| França | spritesheet-fra.png | 10 | 16-bit SNES |
+| Argentina | spritesheet-arg.png | 10 | 16-bit SNES |
+| Uruguai | spritesheet-uru.png | 10 | 16-bit SNES |
+| Chile | spritesheet-chi.png | 10 | 16-bit SNES |
+| Colômbia | spritesheet-col.png | 10 | 16-bit SNES |
+
+Cores oficiais reais por clube + sprite coords em `src/data/clubColors.js`.
+EfClubBadge auto-resolve via `getClubSprite(name)`.
+
+### Game assets v2.0 (78 sprites — 9 categorias)
+- `public/sprites/cards/referee-cards.png` — 8 cartões árbitro
+- `public/sprites/cards/match-events.png` — 12 eventos match
+- `public/sprites/trophies/trophy-set.png` — 8 troféus genéricos
+- `public/sprites/positions/position-icons.png` — 8 posições GOL/DEF/MEI/ATA/ZAG/LAT/VOL/PON
+- `public/sprites/stadium-progression-D-I.png` — 6 níveis estádio extras
+- `public/sprites/effects/celebration.png` — 8 efeitos celebração
+- `public/sprites/effects/crowd-strip.png` — 6 tiles arquibancada
+- `public/sprites/effects/score-digits.png` — 10 dígitos LED 0-9
+- `public/sprites/effects/sponsors-fictional.png` — 12 sponsors fictícios
+
+### Animation Framework (5 sprite-strips)
+`public/sprites/animations/` + `src/styles/animations.css`:
+
+| Asset | Frames | Tamanho | Duração | Aplicado |
+|---|---|---|---|---|
+| ball-roll | 8 | 64×64 | 800ms loop | — |
+| goal-burst | 6 | 96×96 | 1200ms once | ✅ MatchView ⚽ |
+| spinner | 8 | 48×48 | 800ms loop | ✅ EfButton loading |
+| trophy-unlock | 6 | 96×128 | 1500ms once | — |
+| crowd-wave | 4 | 256×80 | 1000ms loop | — |
+
+Keyframes UI:
+- `ef-shake` (banner gol scoreboard)
+- `ef-pop-in` (modais)
+- `ef-slide-down/up` (transições)
+- `ef-fade-in`
+- `ef-pulse-glow` (badges importantes)
+- `ef-counter` (score increment)
+- `ef-anim-hover-lift` (botões -1px/+2px)
+
+Direção arte preservada:
+- `image-rendering: pixelated` (nearest-neighbor)
+- `steps()` timing (não cubic-bezier smooth)
+- `prefers-reduced-motion: reduce` respected (a11y)
+- Background uniforme #2D5A3D consistent
+
+### IP-safety
+Todos assets pixel-art são **abstract generic** ou **fictional invented** (ZUPP/MEGABANK sponsors). Cores oficiais de clubes usadas como **referência** (paleta), nunca replicação literal de marcas registradas. Emblems geométricos puros (listras/bandas/halves/diagonal).
 
 ---
 

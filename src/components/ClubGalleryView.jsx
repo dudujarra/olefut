@@ -73,12 +73,14 @@ export function ClubGalleryView({ clubId }) {
                     const filled = !!player;
 
                     return (
-                        <div key={slot} className="card" style={{
+                        <div key={slot} className={`card ${filled ? 'ef-anim-pop-in' : ''}`} style={{
                             padding: '1rem',
                             opacity: filled ? 1 : 0.5,
-                            border: filled ? '2px solid var(--primary)' : '2px dashed var(--text-muted)'
+                            border: filled ? '2px solid var(--primary)' : '2px dashed var(--text-muted)',
+                            position: 'relative'
                         }}>
-                            <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem' }}>
+                            <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                {filled && <span className="ef-anim-pulse-glow" style={{display:'inline-block',width:'8px',height:'8px',background:'var(--ef-color-func-warning)',borderRadius:'50%'}} />}
                                 {SLOT_LABELS[slot]}
                             </h4>
                             {filled ? (

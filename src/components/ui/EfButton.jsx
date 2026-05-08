@@ -100,7 +100,7 @@ export function EfButton({
             }}
             {...rest}
         >
-            {loading && <span className="ef-btn-loading" style={{ display: 'inline-block', animation: 'ef-spin 0.4s steps(4) infinite' }}>⚽</span>}
+            {loading && <span className="ef-anim-spinner-sm" aria-label="Carregando" />}
             {!loading && icon && <span className="ef-btn-icon">{icon}</span>}
             {children}
         </button>
