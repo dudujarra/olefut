@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELIFOOT - Match Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Rubik:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=Public+Sans:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        grass: {
+                            mid: "#2D6A4F",
+                            dark: "#1B4332",
+                            light: "#52B788"
+                        },
+                        leather: "#8B5A2B",
+                        leather_dark: "#6B4226",
+                        line_white: "#F1FAEE",
+                        card_yellow: "#FFD600",
+                        card_red: "#C62828",
+                        stadium_bg: "#0E1F14"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Anton", "Public Sans"],
+                        display: ["Public Sans"],
+                        body: ["Rubik"],
+                        label: ["Public Sans"],
+                        mono: ["Space Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .pixel-border {
+            box-shadow: 4px 4px 0px 0px #000000;
+        }
+        .pixel-border-sm {
+            box-shadow: 2px 2px 0px 0px #000000;
+        }
+        .pixel-inset {
+            box-shadow: inset 4px 4px 0px 0px rgba(0,0,0,0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-pixel-grass {
+            background-image: radial-gradient(#1B4332 2px, transparent 2px);
+            background-size: 8px 8px;
+            background-color: #2D6A4F;
+        }
+    </style>
+</head>
+<body class="bg-stadium_bg text-line_white font-body selection:bg-card_yellow selection:text-stadium_bg overflow-hidden">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#1B4332] dark:bg-[#0E1F14] border-b-4 border-[#8B5A2B] shadow-[0_4px_0_0_#000000] flex justify-between items-center w-full px-4 h-16">
+<div class="flex items-center gap-4">
+<span class="font-headline text-2xl font-black text-[#F1FAEE] italic uppercase tracking-wider">ELIFOOT</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#F1FAEE] font-mono hover:bg-[#2D6A4F] transition-all px-3 py-1" href="#">WEEK 12</a>
+<a class="text-[#F1FAEE] font-mono hover:bg-[#2D6A4F] transition-all px-3 py-1" href="#">COACH PELÉ</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#F1FAEE] cursor-pointer hover:bg-[#2D6A4F] p-2 transition-all">settings</span>
+<span class="material-symbols-outlined text-[#F1FAEE] cursor-pointer hover:bg-[#2D6A4F] p-2 transition-all">account_circle</span>
+</div>
+</nav>
+<div class="flex h-screen pt-16">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#1B4332] dark:bg-[#0E1F14] border-r-4 border-[#8B5A2B] shadow-[4px_0_0_0_#000000] flex flex-col pt-20 z-40">
+<div class="px-4 mb-8 flex items-center gap-3">
+<div class="w-12 h-12 bg-card_yellow border-4 border-line_white flex items-center justify-center pixel-border-sm">
+<span class="material-symbols-outlined text-stadium_bg text-3xl" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+</div>
+<div>
+<h2 class="font-headline text-xl text-[#F1FAEE] uppercase leading-none">SC PIXEL</h2>
+<p class="font-mono text-[10px] text-grass-light">League Division A</p>
+</div>
+</div>
+<nav class="flex flex-col flex-grow">
+<a class="text-[#F1FAEE] flex items-center gap-3 p-3 m-2 border-4 border-transparent font-body font-bold uppercase hover:border-[#52B788] hover:bg-[#2D6A4F] transition-all" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span>Squad</span>
+</a>
+<a class="text-[#F1FAEE] flex items-center gap-3 p-3 m-2 border-4 border-transparent font-body font-bold uppercase hover:border-[#52B788] hover:bg-[#2D6A4F] transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Market</span>
+</a>
+<a class="text-[#F1FAEE] flex items-center gap-3 p-3 m-2 border-4 border-transparent font-body font-bold uppercase hover:border-[#52B788] hover:bg-[#2D6A4F] transition-all" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span>Standings</span>
+</a>
+<a class="text-[#F1FAEE] flex items-center gap-3 p-3 m-2 border-4 border-transparent font-body font-bold uppercase hover:border-[#52B788] hover:bg-[#2D6A4F] transition-all" href="#">
+<span class="material-symbols-outlined">stadium</span>
+<span>Stadium</span>
+</a>
+<a class="text-[#F1FAEE] flex items-center gap-3 p-3 m-2 border-4 border-transparent font-body font-bold uppercase hover:border-[#52B788] hover:bg-[#2D6A4F] transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>History</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full bg-card_red text-line_white font-headline py-3 border-4 border-black pixel-border active:translate-y-1 active:shadow-none transition-all uppercase italic tracking-widest">
+                    Next Match
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-grow p-8 bg-stadium_bg flex flex-col gap-6 overflow-y-auto">
+<!-- Live Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 rounded-full bg-card_red animate-pulse"></div>
+<span class="font-mono text-xl font-bold text-card_red uppercase tracking-tighter">AO VIVO</span>
+</div>
+<div class="bg-black/50 px-4 py-1 border-2 border-grass-light font-mono text-grass-light">
+                    67' 2º TEMPO
+                </div>
+</div>
+<!-- Scoreboard -->
+<div class="grid grid-cols-11 items-center bg-black border-4 border-leather p-8 pixel-border relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+<div class="col-span-4 flex flex-col items-center gap-4">
+<div class="w-24 h-24 bg-card_red border-4 border-white pixel-border-sm flex items-center justify-center">
+<img alt="Flamengo" class="w-16 h-16 object-contain" data-alt="A pixel-art style football club crest for Flamengo featuring a red and black shield with white interlaced letters in a retro 8-bit aesthetic. The design is bold, high-contrast, and reminiscent of NES console game graphics from the 1980s. The background is a solid, dark stadium green." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHWmRQgZMELRl7EaX_gL2XXe9Rng3bfto3j1aYupJ0uq12L5hVYYDiwMn5H9R8KodH0FTIYduxGI7Nl6RcIfpEtRHzQBbwN3BPZ1tYt2SKa-j5_WKvqvRvgmI8KhT0fgGxU6FSrwOAkpyaQ4nDaBM-AMwjnNLGeF7Sy66x-2WVs1odym1-Q1XHdrho21MnjLM-auzKnWTssObN57SZJfSU_0rDTl-WlDv-Ocyk1F_FfImUuQG82-xXAVFtgQPaT9goOYnaGPGYOjtq"/>
+</div>
+<h3 class="font-headline text-3xl tracking-wide text-white uppercase">FLAMENGO</h3>
+</div>
+<div class="col-span-3 flex justify-center items-center">
+<div class="flex items-center gap-4 font-headline text-7xl text-card_yellow italic">
+<span>2</span>
+<span class="text-4xl text-white not-italic">-</span>
+<span>1</span>
+</div>
+</div>
+<div class="col-span-4 flex flex-col items-center gap-4">
+<div class="w-24 h-24 bg-white border-4 border-black pixel-border-sm flex items-center justify-center">
+<img alt="Santos" class="w-16 h-16 object-contain" data-alt="A pixel-art style football club crest for Santos FC featuring a white shield with black diagonal stripes and a small football at the top in a retro 8-bit aesthetic. The graphics are blocky and high-contrast, fitting for a vintage football management simulation game. The lighting is flat and vibrant." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR5zNZNU50bvTOTrTUGZ-esa6h_5knnA4tNJhFHcX2impXxyabIb9ID892q88pxN0XRWy_uF95auXlX3szNKiayMT15DMnpoWV71DWJv9zA7Y86TjsrGN3hFB0ENbbSZLhityoqRay6Lv1OCTHfVoRM2XWAEGtr6VcRhpPerAi9YiTmtIgMFpwmEQgQpAG4MdcIYFBPkpJXKB1-ovnQQoPyjoPD-QOe9sngqRq3QTdT6ozgDUnFMKIVeSzQh_RyZcWSE9nocJ7jq5V"/>
+</div>
+<h3 class="font-headline text-3xl tracking-wide text-white uppercase">SANTOS</h3>
+</div>
+</div>
+<!-- Narration Log -->
+<div class="flex-grow flex flex-col border-4 border-black pixel-border bg-pixel-grass overflow-hidden">
+<div class="bg-grass-dark/80 p-3 border-b-4 border-black flex justify-between items-center">
+<span class="font-headline text-lg uppercase tracking-tight">Match Narration</span>
+<span class="font-mono text-xs opacity-75 uppercase">Estádio do Maracanã</span>
+</div>
+<div class="p-6 flex flex-col gap-4 font-mono text-lg overflow-y-auto pixel-inset">
+<div class="flex gap-4 items-start opacity-70">
+<span class="text-grass-light whitespace-nowrap">12'</span>
+<p class="text-white">Flamengo arma jogada pela esquerda com Bruno Henrique...</p>
+</div>
+<div class="flex gap-4 items-start bg-black/30 p-2 border-l-4 border-card_yellow">
+<span class="text-card_yellow font-bold whitespace-nowrap">23'</span>
+<p class="text-card_yellow font-bold">GOL! Vinicius abre o placar com um chute potente de fora da área!</p>
+</div>
+<div class="flex gap-4 items-start opacity-70">
+<span class="text-grass-light whitespace-nowrap">35'</span>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<div class="w-3 h-4 bg-card_yellow border border-black"></div>
+<p class="text-white">Cartão Amarelo para o volante do Santos por falta tática.</p>
+</div>
+</div>
+</div>
+<div class="flex gap-4 items-start opacity-70">
+<span class="text-grass-light whitespace-nowrap">45'</span>
+<p class="text-white">Fim do primeiro tempo. Equipes descem para o vestiário.</p>
+</div>
+<div class="flex gap-4 items-start opacity-70">
+<span class="text-grass-light whitespace-nowrap">58'</span>
+<p class="text-white">Santos pressiona em busca do empate. Pressão total!</p>
+</div>
+<div class="flex gap-4 items-start bg-black/30 p-2 border-l-4 border-card_yellow">
+<span class="text-card_yellow font-bold whitespace-nowrap">67'</span>
+<p class="text-card_yellow font-bold">GOL! Otavio empata a partida! Cabeceio certeiro após escanteio!</p>
+</div>
+<div class="flex gap-4 items-start animate-pulse">
+<span class="text-white font-bold whitespace-nowrap">68'</span>
+<p class="text-white font-bold">Flamengo reinicia a partida. Jogo frenético!</p>
+</div>
+</div>
+</div>
+<!-- Match Controls -->
+<div class="mt-auto grid grid-cols-5 gap-4">
+<button class="bg-grass-mid hover:bg-grass-light border-4 border-black py-4 font-headline text-xl pixel-border transition-all active:translate-y-1 active:shadow-none">
+                    1X
+                </button>
+<button class="bg-grass-mid hover:bg-grass-light border-4 border-black py-4 font-headline text-xl pixel-border transition-all active:translate-y-1 active:shadow-none">
+                    2X
+                </button>
+<button class="bg-grass-mid hover:bg-grass-light border-4 border-black py-4 font-headline text-xl pixel-border transition-all active:translate-y-1 active:shadow-none">
+                    5X
+                </button>
+<button class="bg-leather hover:bg-leather_dark border-4 border-black py-4 font-headline text-xl pixel-border transition-all active:translate-y-1 active:shadow-none text-white">
+                    SKIP &gt;&gt;
+                </button>
+<button class="bg-card_yellow hover:bg-[#E6C200] border-4 border-black py-4 font-headline text-xl pixel-border transition-all active:translate-y-1 active:shadow-none text-stadium_bg uppercase">
+                    INTERVALO
+                </button>
+</div>
+</main>
+</div>
+<!-- Stadium Atmosphere Overlay -->
+<div class="fixed inset-0 pointer-events-none opacity-5 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/pixel-weave.png')]"></div>
+</body></html>
