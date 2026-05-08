@@ -58,6 +58,18 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo PR:** AKITA-RFCT-005 — MythService skeleton (4h, baixo risco)
 
+### [refactor] AKITA-RFCT-005 — MythService Skeleton + Read Methods (2026-05-08)
+
+- `src/services/MythService.js` upgraded skeleton → reads funcionais
+- Vocabulários exportados: `MYTH_SLOTS` (6) + `INHERITABLE_TRAITS` (4) — Object.freeze imutáveis
+- Reads: `getLegends`, `getHallOfFame`, `getRegenChildren`, `isCanonized`, `countHallSlots`
+- Writes: ainda placeholders (RFCT-007)
+- `tests/specs/SPEC-MythService.test.js`: 20 unit tests
+- 344 tests passing (324 + 20 new)
+- Engine NÃO modificado (skeleton em paralelo)
+
+**Próximo PR:** AKITA-RFCT-006 — Move read methods to MythService
+
 ---
 
 ## [1.0.0] — 2026-05-08
