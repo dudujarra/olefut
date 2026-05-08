@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELIFOOT 8-BIT - SQUAD MANAGEMENT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Rubik:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;family=Public+Sans:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        grass: {
+                            mid: "#2D6A4F",
+                            dark: "#1B4332",
+                            light: "#52B788"
+                        },
+                        ui: {
+                            line: "#F1FAEE",
+                            leather: "#8B5A2B",
+                            yellow: "#FFD600",
+                            red: "#C62828",
+                            blue: "#4A90E2",
+                            night: "#0E1F14"
+                        }
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Anton", "sans-serif"],
+                        display: ["Anton", "sans-serif"],
+                        body: ["Rubik", "sans-serif"],
+                        label: ["Public Sans", "sans-serif"],
+                        mono: ["Space Mono", "monospace"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .pixel-border {
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+        }
+        .pixel-border-sm {
+            box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+        }
+        .pixel-bg-grid {
+            background-size: 20px 20px;
+            background-image: linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-ui-night font-body text-ui-line antialiased selection:bg-ui-yellow selection:text-black">
+<!-- TopAppBar -->
+<header class="bg-[#1B4332] dark:bg-[#0E1F14] text-[#F1FAEE] font-headline uppercase tracking-tight text-xl border-b-4 border-black shadow-[0px_4px_0px_0px_rgba(0,0,0,0.5)] flex justify-between items-center w-full px-6 h-16 z-50 fixed top-0">
+<div class="flex items-center gap-4">
+<span class="font-headline text-2xl italic text-[#FFD600] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">ELIFOOT 8-BIT</span>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-[#FFD600] font-bold hover:bg-[#2D6A4F] transition-all px-2 py-1 active:translate-y-1" href="#">Squad</a>
+<a class="text-[#F1FAEE] hover:bg-[#2D6A4F] transition-all px-2 py-1 active:translate-y-1" href="#">Market</a>
+<a class="text-[#F1FAEE] hover:bg-[#2D6A4F] transition-all px-2 py-1 active:translate-y-1" href="#">Standings</a>
+<a class="text-[#F1FAEE] hover:bg-[#2D6A4F] transition-all px-2 py-1 active:translate-y-1" href="#">Stadium</a>
+</nav>
+<div class="flex items-center gap-6 font-mono text-base">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-ui-yellow">calendar_today</span>
+<span>WEEK 12</span>
+</div>
+<div class="bg-black/40 px-3 py-1 border-2 border-black">
+<span class="text-ui-yellow">$ 1.500.000</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden md:flex flex-col h-full fixed left-0 top-0 pt-20 z-40 bg-[#2D6A4F] dark:bg-[#1B4332] text-[#F1FAEE] font-label uppercase text-sm tracking-widest w-64 border-r-4 border-black shadow-[4px_0px_0px_0px_rgba(0,0,0,0.3)]">
+<div class="p-4 border-b-2 border-black/20 mb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-ui-leather border-2 border-black overflow-hidden">
+<img alt="Manager Avatar" data-alt="A pixel-art style character avatar of a football manager wearing a green tracksuit and a cap. The aesthetic is strictly 8-bit NES style with limited colors and visible square pixels against a solid dark green background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM0i5j1fphijzJJNox8VRxa6RWG9DjiBLJbYAm-11yr0BNcd7Co89i_6NYVrmbPN9492QaYulYMKl8Mr8b_bh47_QNTnVvtB48qhnDMmzXUoLfhg1JwMjxdHw2bLSY5ESmZA31c0DePuGU3JNckz0Hw4Eb1BBcnbZ2fGErwNuSo2qKm6crxuIVHKcmrSCr1q_ao5Q6REgdajvU7jVIl5zUcGSKED6FB3QkONJCE_o0SXnDbxLsJPOBhNzdGLhVanEbSV2O194184mh"/>
+</div>
+<div>
+<h3 class="font-headline text-xl text-[#F1FAEE]">COACH PIXEL</h3>
+<p class="text-[10px] opacity-70">Divisâo 1</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="bg-[#52B788] text-black border-4 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] m-2 px-4 py-3 flex items-center gap-3 transition-transform duration-75 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span>Squad</span>
+</a>
+<a class="text-[#F1FAEE] opacity-80 hover:opacity-100 hover:bg-[#52B788] hover:text-black m-2 px-4 py-3 flex items-center gap-3 transition-transform duration-75 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span>Market</span>
+</a>
+<a class="text-[#F1FAEE] opacity-80 hover:opacity-100 hover:bg-[#52B788] hover:text-black m-2 px-4 py-3 flex items-center gap-3 transition-transform duration-75 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span>Standings</span>
+</a>
+<a class="text-[#F1FAEE] opacity-80 hover:opacity-100 hover:bg-[#52B788] hover:text-black m-2 px-4 py-3 flex items-center gap-3 transition-transform duration-75 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="stadium">stadium</span>
+<span>Stadium</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 pt-20 pb-10 px-4 md:px-8">
+<!-- Filter Bar -->
+<section class="mb-8 bg-grass-mid border-4 border-black p-4 pixel-border">
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex-1 min-w-[200px] relative">
+<input class="w-full bg-black/30 border-2 border-black text-ui-line font-mono px-10 py-2 focus:ring-0 focus:border-ui-yellow placeholder:text-ui-line/40 uppercase" placeholder="BUSCAR JOGADOR..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-ui-line/50">search</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col">
+<span class="text-[10px] font-headline text-ui-yellow mb-1">POSIÇÃO</span>
+<select class="bg-black/30 border-2 border-black text-ui-line font-mono px-4 py-1.5 focus:ring-0 focus:border-ui-yellow uppercase">
+<option>TODOS</option>
+<option>GOL</option>
+<option>DEF</option>
+<option>MEI</option>
+<option>ATA</option>
+</select>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-headline text-ui-yellow mb-1">ORDENAR POR</span>
+<select class="bg-black/30 border-2 border-black text-ui-line font-mono px-4 py-1.5 focus:ring-0 focus:border-ui-yellow uppercase">
+<option>OVR</option>
+<option>SALÁRIO</option>
+<option>NOME</option>
+</select>
+</div>
+<button class="mt-5 bg-ui-yellow text-black border-4 border-black font-headline px-6 py-1.5 hover:bg-white active:translate-y-1 transition-all pixel-border-sm">
+                        FILTRAR
+                    </button>
+</div>
+</div>
+</section>
+<!-- Squad Table Container -->
+<section class="bg-grass-dark border-4 border-black overflow-hidden pixel-border">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-black/40 border-b-4 border-black text-ui-yellow font-headline uppercase text-sm">
+<th class="p-4">INF</th>
+<th class="p-4">JOGADOR</th>
+<th class="p-4 text-center">POS</th>
+<th class="p-4 text-center">IDD</th>
+<th class="p-4 text-center">OVR</th>
+<th class="p-4 text-right">SALÁRIO (R$)</th>
+<th class="p-4">ENERGIA</th>
+</tr>
+</thead>
+<tbody class="font-mono text-sm">
+<!-- Player Row Template Loop x22 -->
+<!-- Row 1 -->
+<tr class="border-b-2 border-black/20 hover:bg-grass-mid/50 cursor-pointer transition-colors group">
+<td class="p-3 w-16">
+<div class="w-10 h-10 bg-ui-leather border-2 border-black">
+<img alt="Player" data-alt="A pixel-art portrait of a football player with short hair and a determined expression. The visual style is classic 8-bit video game art, using a limited color palette of beige, brown, and green, with stark pixelated edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGQWzY_dH5zNhWMp_8J7zV6QQCuKJdSuORiQh37rao_aFUzJtnAlEZ69zkYKhMOXKbPsP7oy2x2VOwnkorAD51Rm8aBzuJnAbg2FykYTSAfGw814ZcJN6PzRUxLxn9cxQCDXApJ2pxx34TmugQwrX5llZmYzqlW2Kco2Mw2lKqwZo0FvAQ7YckQr_gvxevNGUv8UlYFsTRFk-d5QYjuLafNVsP4r4oJqws_GRXB9eYWADYidl6AFMlyWBr1UFtIRt-2shXUMNg2_sF"/>
+</div>
+</td>
+<td class="p-3">
+<div class="flex flex-col">
+<span class="font-bold text-base group-hover:text-ui-yellow transition-colors">TITO MENDES</span>
+<span class="text-[10px] opacity-60">BRASIL</span>
+</div>
+</td>
+<td class="p-3 text-center">
+<span class="bg-ui-yellow text-black px-2 py-0.5 font-bold border border-black text-[10px]">GOL</span>
+</td>
+<td class="p-3 text-center">28</td>
+<td class="p-3 text-center font-bold text-ui-yellow">84</td>
+<td class="p-3 text-right">120.000</td>
+<td class="p-3">
+<div class="w-32 h-3 bg-black border border-black">
+<div class="h-full bg-ui-light border-r-2 border-black" style="width: 95%"></div>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b-2 border-black/20 hover:bg-grass-mid/50 cursor-pointer transition-colors group">
+<td class="p-3">
+<div class="w-10 h-10 bg-ui-leather border-2 border-black">
+<img alt="Player" data-alt="Pixelated character portrait of a defender in a retro 8-bit style. The character has a headband and intense eyes. The aesthetic features blocky pixel shapes and high contrast typical of NES-era sports games." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVmVzPRlyq-ZehTlw3lk3FKdRPG2kCkZDtc6SEa-3GbWWVa18vxVUOlh3Sl8ofeOeQdwoig4dLsPt2LvwZXDc2xLAt_oFgliJ2f39TzuheK7BhDy_IAc4XN3FRRmMOi1u9rYTNQFygfEGNhZXJctCuEIK2V1G0ImaJNhSJOALUVUL5v5owYogBY7QKSE5fq5HBG6-5B1fcYJLRluBoaO3DVJ6h-B0pSn4tUz2pOJZY0cjXdpgt3a8lquH4BLNRdT8eA4So1xxMPbaC"/>
+</div>
+</td>
+<td class="p-3">
+<div class="flex flex-col">
+<span class="font-bold text-base group-hover:text-ui-yellow transition-colors">ZEKA ROCHA</span>
+<span class="text-[10px] opacity-60">PORTUGAL</span>
+</div>
+</td>
+<td class="p-3 text-center">
+<span class="bg-ui-blue text-white px-2 py-0.5 font-bold border border-black text-[10px]">DEF</span>
+</td>
+<td class="p-3 text-center">31</td>
+<td class="p-3 text-center font-bold text-ui-yellow">79</td>
+<td class="p-3 text-right">85.000</td>
+<td class="p-3">
+<div class="w-32 h-3 bg-black border border-black">
+<div class="h-full bg-ui-light border-r-2 border-black" style="width: 82%"></div>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b-2 border-black/20 hover:bg-grass-mid/50 cursor-pointer transition-colors group">
+<td class="p-3">
+<div class="w-10 h-10 bg-ui-leather border-2 border-black">
+<img alt="Player" data-alt="Classic pixel art illustration of a midfielder with a stylized haircut. Vibrant 8-bit colors with dark green outlines and bright highlights. The image captures the nostalgic charm of early 90s handheld consoles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBGwkeeuC3i54TocvL-Bgbxx7hgsz8uMqKGpXwAV9Wu2jNhRzwdgLdZIeIKhTeDQbh6Ao1Y2EtGJPZ3_tPGboBwsnBcKD0aAcNLgUyE6UxHu2X22OL_b4nMUQUa1i3hwgqmKZ4L9N6rgMnvBN-_Z0olnAIVIQ8kazrq0EgLCUrPvUk9BSokA-bipVvLO3RAQcd45PtfECNEzXnEMsZ8wYNvwrMcGgpsyXHMr6UynBaYUkb5pz9LaplvKFoFK5lu-Ebg-6_w-Jz_OWs"/>
+</div>
+</td>
+<td class="p-3">
+<div class="flex flex-col">
+<span class="font-bold text-base group-hover:text-ui-yellow transition-colors">BRUNO P.</span>
+<span class="text-[10px] opacity-60">BRASIL</span>
+</div>
+</td>
+<td class="p-3 text-center">
+<span class="bg-grass-light text-black px-2 py-0.5 font-bold border border-black text-[10px]">MEI</span>
+</td>
+<td class="p-3 text-center">24</td>
+<td class="p-3 text-center font-bold text-ui-yellow">88</td>
+<td class="p-3 text-right">250.000</td>
+<td class="p-3">
+<div class="w-32 h-3 bg-black border border-black">
+<div class="h-full bg-ui-yellow border-r-2 border-black" style="width: 65%"></div>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b-2 border-black/20 hover:bg-grass-mid/50 cursor-pointer transition-colors group">
+<td class="p-3">
+<div class="w-10 h-10 bg-ui-leather border-2 border-black">
+<img alt="Player" data-alt="Detailed pixel-art portrait of a star striker in an 8-bit aesthetic. The character has spiky hair and a confident grin, rendered with limited palette pixels against a dark football-themed backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRfEXZjH0xNXaBXeu18R7j6_NU1oBTteOru2foRmiw_0lsHd5UtqyYaXy__JI9hShaL-Tacc5fw894r9TfMjsdPAaECqEuOa4iPdPRRFnrAMxDA_moIIlWf1b7CkmVdQgmL67nD3QocVL3g94RxSuxorKncaJ4uLj-yNOxdLcqQBI4GkmFWijwclzQOO-2OQriIP6jFywk0oKuZ_xT0aP-tUMchUrb627smSCxIgdVvcMo4gFlHopCWh2y002IhPY4SJL-n0uOBgE0"/>
+</div>
+</td>
+<td class="p-3">
+<div class="flex flex-col">
+<span class="font-bold text-base group-hover:text-ui-yellow transition-colors">HUGO GOAL</span>
+<span class="text-[10px] opacity-60">ARGENTINA</span>
+</div>
+</td>
+<td class="p-3 text-center">
+<span class="bg-ui-red text-white px-2 py-0.5 font-bold border border-black text-[10px]">ATA</span>
+</td>
+<td class="p-3 text-center">22</td>
+<td class="p-3 text-center font-bold text-ui-yellow">92</td>
+<td class="p-3 text-right">450.000</td>
+<td class="p-3">
+<div class="w-32 h-3 bg-black border border-black">
+<div class="h-full bg-ui-red border-r-2 border-black" style="width: 40%"></div>
+</div>
+</td>
+</tr>
+<!-- Repeated Rows for 22 items -->
+<script>
+                            const names = ["Silva", "Gomes", "Oliveira", "Santos", "Costa", "Pereira", "Rodrigues", "Almeida", "Nunes", "Barbosa", "Melo", "Lopes", "Ferreira", "Cardoso", "Ribeiro", "Teixeira", "Martins", "Araujo"];
+                            const pos = ["DEF", "MEI", "ATA", "DEF", "MEI", "DEF", "MEI", "ATA", "DEF", "MEI", "ATA", "DEF", "GOL", "MEI", "DEF", "ATA", "MEI", "DEF"];
+                            const posColors = {
+                                "GOL": "bg-ui-yellow text-black",
+                                "DEF": "bg-ui-blue text-white",
+                                "MEI": "bg-grass-light text-black",
+                                "ATA": "bg-ui-red text-white"
+                            };
+
+                            for (let i = 0; i < names.length; i++) {
+                                document.write(`
+                                    <tr class="border-b-2 border-black/20 hover:bg-grass-mid/50 cursor-pointer transition-colors group">
+                                        <td class="p-3">
+                                            <div class="w-10 h-10 bg-ui-leather border-2 border-black">
+                                                <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=P${i+5}" alt="Player">
+                                            </div>
+                                        </td>
+                                        <td class="p-3">
+                                            <div class="flex flex-col">
+                                                <span class="font-bold text-base group-hover:text-ui-yellow transition-colors">${names[i].toUpperCase()}</span>
+                                                <span class="text-[10px] opacity-60">DIVISÃO 1</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-3 text-center">
+                                            <span class="${posColors[pos[i]]} px-2 py-0.5 font-bold border border-black text-[10px]">${pos[i]}</span>
+                                        </td>
+                                        <td class="p-3 text-center">${20 + Math.floor(Math.random() * 15)}</td>
+                                        <td class="p-3 text-center font-bold text-ui-yellow">${65 + Math.floor(Math.random() * 30)}</td>
+                                        <td class="p-3 text-right">${(30 + Math.floor(Math.random() * 200)).toLocaleString()}.000</td>
+                                        <td class="p-3">
+                                            <div class="w-32 h-3 bg-black border border-black">
+                                                <div class="h-full bg-ui-light border-r-2 border-black" style="width: ${40 + Math.floor(Math.random() * 60)}%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `);
+                            }
+                        </script>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Stats Summary Footer -->
+<section class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-black/60 border-4 border-black p-4 flex items-center justify-between pixel-border">
+<div class="flex flex-col">
+<span class="font-headline text-ui-yellow">MÉDIA OVR</span>
+<span class="font-mono text-3xl font-bold">81.2</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-ui-yellow">analytics</span>
+</div>
+<div class="bg-black/60 border-4 border-black p-4 flex items-center justify-between pixel-border">
+<div class="flex flex-col">
+<span class="font-headline text-ui-yellow">FOLHA SALARIAL</span>
+<span class="font-mono text-3xl font-bold">R$ 1.2M</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-ui-yellow">payments</span>
+</div>
+<div class="bg-black/60 border-4 border-black p-4 flex items-center justify-between pixel-border">
+<div class="flex flex-col">
+<span class="font-headline text-ui-yellow">ESTADO FÍSICO</span>
+<span class="font-mono text-3xl font-bold">88%</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-ui-yellow">bolt</span>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full bg-[#1B4332] border-t-4 border-black h-16 flex items-center justify-around z-50">
+<a class="flex flex-col items-center text-[#FFD600]" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-[10px] font-headline uppercase">Squad</span>
+</a>
+<a class="flex flex-col items-center text-[#F1FAEE]" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="text-[10px] font-headline uppercase">Market</span>
+</a>
+<a class="flex flex-col items-center text-[#F1FAEE]" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="text-[10px] font-headline uppercase">Standings</span>
+</a>
+<a class="flex flex-col items-center text-[#F1FAEE]" href="#">
+<span class="material-symbols-outlined">stadium</span>
+<span class="text-[10px] font-headline uppercase">Stadium</span>
+</a>
+</footer>
+</body></html>

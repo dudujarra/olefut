@@ -1,5 +1,186 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap');
 @import './styles/8bit-theme.css';
+@import './styles/32bit-theme.css';
+
+/* === Standings color zones (FM-classic) === */
+.standings-table tr.zone-libertadores {
+  border-left: 4px solid #10B981;
+  background: rgba(16, 185, 129, 0.08);
+}
+.standings-table tr.zone-suda {
+  border-left: 4px solid #3B82F6;
+  background: rgba(59, 130, 246, 0.06);
+}
+.standings-table tr.zone-promotion {
+  border-left: 4px solid #FBBF24;
+  background: rgba(251, 191, 36, 0.08);
+}
+.standings-table tr.zone-rebaixamento {
+  border-left: 4px solid #EF4444;
+  background: rgba(239, 68, 68, 0.08);
+}
+.standings-table tr.zone-libertadores.highlight,
+.standings-table tr.zone-suda.highlight,
+.standings-table tr.zone-promotion.highlight,
+.standings-table tr.zone-rebaixamento.highlight {
+  background: rgba(16, 185, 129, 0.18);
+  font-weight: 700;
+}
+
+.zone-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.zone-dot.zone-libertadores { color: #10B981; }
+.zone-dot.zone-suda { color: #3B82F6; }
+.zone-dot.zone-promotion { color: #FBBF24; }
+.zone-dot.zone-rebaixamento { color: #EF4444; }
+
+/* 8-bit theme zone variants */
+body.theme-8bit .standings-table tr.zone-libertadores {
+  border-left: 4px solid #52B788;
+  background: rgba(82, 183, 136, 0.12);
+}
+body.theme-8bit .standings-table tr.zone-suda {
+  border-left: 4px solid #4A90E2;
+  background: rgba(74, 144, 226, 0.1);
+}
+body.theme-8bit .standings-table tr.zone-promotion {
+  border-left: 4px solid #FFD600;
+  background: rgba(255, 214, 0, 0.1);
+}
+body.theme-8bit .standings-table tr.zone-rebaixamento {
+  border-left: 4px solid #C62828;
+  background: rgba(198, 40, 40, 0.12);
+}
+
+/* 32-bit SNES variant */
+body.theme-32bit .standings-table tr.zone-libertadores {
+  border-left: 4px solid #52B788;
+  background: linear-gradient(90deg, rgba(82, 183, 136, 0.18) 0%, transparent 80%);
+}
+body.theme-32bit .standings-table tr.zone-suda {
+  border-left: 4px solid #6BA3C5;
+  background: linear-gradient(90deg, rgba(107, 163, 197, 0.15) 0%, transparent 80%);
+}
+body.theme-32bit .standings-table tr.zone-promotion {
+  border-left: 4px solid #FFD700;
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, transparent 80%);
+}
+body.theme-32bit .standings-table tr.zone-rebaixamento {
+  border-left: 4px solid #C62828;
+  background: linear-gradient(90deg, rgba(198, 40, 40, 0.18) 0%, transparent 80%);
+}
+
+/* === Tooltip system (universal — funciona em qualquer tema) === */
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+.tooltip-bubble {
+  position: absolute;
+  z-index: 10000;
+  min-width: 180px;
+  max-width: 320px;
+  padding: 0.55rem 0.75rem;
+  background: rgba(11, 15, 25, 0.97);
+  color: #F1F5F9;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.4;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  white-space: normal;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  animation: tooltipFadeIn 0.15s ease-out;
+}
+
+.tooltip-pos-top {
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-pos-bottom {
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-pos-left {
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip-pos-right {
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip-bubble::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(11, 15, 25, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tooltip-pos-top::before {
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  border-top: none;
+  border-left: none;
+}
+
+.tooltip-pos-bottom::before {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  border-bottom: none;
+  border-right: none;
+}
+
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Theme-specific tooltip styling */
+body.theme-8bit .tooltip-bubble {
+  background: #14291B;
+  border: 3px solid #2D5016;
+  font-family: 'VT323', monospace;
+  font-size: 0.95rem;
+  color: #F1FAEE;
+  border-radius: 0;
+}
+
+body.theme-32bit .tooltip-bubble {
+  background: linear-gradient(180deg, #14291B 0%, #08120D 100%);
+  border: 2px solid;
+  border-color: #52B788 #08120D #08120D #52B788;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.85rem;
+  color: #F1FAEE;
+  border-radius: 4px;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.1),
+    3px 3px 8px rgba(0, 0, 0, 0.6);
+}
 
 :root {
   --primary: #10B981;

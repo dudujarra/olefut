@@ -4,6 +4,8 @@ import { FORMATIONS, TACTICS, TEAM_TALKS, TRAINING_TYPES } from '../engine/Manag
 
 import { STAFF_ROLES, SCOUT_REGIONS, getStadiumInfo } from '../engine/StadiumSystem';
 import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
+import { Help } from './Help';
+import { Tooltip } from './Tooltip';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -49,7 +51,7 @@ export function DashboardView() {
                         <div style={{fontSize:'1.1rem',fontWeight:700,color: team.balance > 0 ? 'var(--primary)' : 'var(--danger)'}}>
                             R$ {(team.balance / 1000000).toFixed(1)}M
                         </div>
-                        {boardStatus && <div style={{fontSize:'0.65rem',color: boardStatus.color}} title={`Diretoria: ${boardStatus.label} (${engine.board?.confidence ?? 60}%). Demissão se < 10%.`}>{boardStatus.emoji} {boardStatus.label}</div>}
+                        {boardStatus && <Tooltip content={`Diretoria: ${boardStatus.label} (${engine.board?.confidence ?? 60}%). Demissão se < 10%.`}><div style={{fontSize:'0.7rem',color: boardStatus.color}}>{boardStatus.emoji} {boardStatus.label}</div></Tooltip>}
                     </div>
                 </div>
                 {/* Season progress */}
@@ -88,12 +90,12 @@ export function DashboardView() {
                     </div>
                 </div>
                 <div className="inline-stats" style={{marginBottom:'0.5rem'}}>
-                    <div className="inline-stat" title="Força do setor goleiro (média OVR + bônus tática)"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.goalkeeper}</span><span className="stat-label">GOL</span></div>
-                    <div className="inline-stat" title="Força da defesa (média DEF dos titulares)"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.defense}</span><span className="stat-label">DEF</span></div>
-                    <div className="inline-stat" title="Força do meio-campo (média CRI dos titulares)"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.midfield}</span><span className="stat-label">MEI</span></div>
-                    <div className="inline-stat" title="Força do ataque (média FIN dos titulares)"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.attack}</span><span className="stat-label">ATA</span></div>
-                    <div className="inline-stat" title="Moral média do plantel (>60 bom, <40 crítico)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgMoral > 60 ? 'var(--primary)' : avgMoral < 40 ? 'var(--danger)' : 'var(--accent)'}}>{avgMoral.toFixed(0)}%</span><span className="stat-label">MORAL</span></div>
-                    <div className="inline-stat" title="Energia média (<50 risco lesão)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgEnergy < 50 ? 'var(--danger)' : 'var(--primary)'}}>{avgEnergy.toFixed(0)}%</span><span className="stat-label">ENERGIA</span></div>
+                    <Help id="sector.gol"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.goalkeeper}</span><span className="stat-label">GOL</span></div></Help>
+                    <Help id="sector.def"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.defense}</span><span className="stat-label">DEF</span></div></Help>
+                    <Help id="sector.mei"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.midfield}</span><span className="stat-label">MEI</span></div></Help>
+                    <Help id="sector.ata"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.attack}</span><span className="stat-label">ATA</span></div></Help>
+                    <Help id="sector.moral_avg"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem',color: avgMoral > 60 ? 'var(--primary)' : avgMoral < 40 ? 'var(--danger)' : 'var(--accent)'}}>{avgMoral.toFixed(0)}%</span><span className="stat-label">MORAL</span></div></Help>
+                    <Help id="stat.energia"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem',color: avgEnergy < 50 ? 'var(--danger)' : 'var(--primary)'}}>{avgEnergy.toFixed(0)}%</span><span className="stat-label">ENERGIA</span></div></Help>
                 </div>
                 <button className="btn-cta" onClick={() => {
                     engine.checkPressConference();
@@ -412,6 +414,16 @@ export function DashboardView() {
                 <button className="btn btn-secondary" onClick={() => changeView('squad')}>👥 Plantel</button>
                 <button className="btn btn-secondary" onClick={() => changeView('market')}>🛒 Mercado</button>
                 <button className="btn btn-secondary" onClick={() => changeView('standings')}>📊 Tabela</button>
+            </div>
+
+            {/* Status Footer (Stitch v2 design) */}
+            <div className="status-footer">
+                <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap'}}>
+                    <span><span className="label">LIGA:</span>SÉRIE {['A','B','C','D'][team.division - 1]}</span>
+                    <span><span className="label">RODADA:</span>{seasonWeek}/38</span>
+                    <span><span className="label">TEMP:</span>{engine.seasonNumber}</span>
+                </div>
+                <div className="build">ELIFOOT MANAGER 2026 — BUILD 0.9.0</div>
             </div>
         </div>
     );

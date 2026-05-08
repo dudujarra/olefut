@@ -14,15 +14,29 @@ function App() {
     const { gameState, getEngine, saveGame, resetGame } = useGame();
     const [soundOn, setSoundOn] = useState(isSoundEnabled());
     const [savedToast, setSavedToast] = useState(false);
-    const [theme8bit, setTheme8bit] = useState(() => {
-        try { return localStorage.getItem('elifoot_theme') === '8bit'; } catch { return false; }
+    // Tri-state theme: modern → 8bit → 32bit → modern (cycle)
+    const [theme, setTheme] = useState(() => {
+        try {
+            const v = localStorage.getItem('elifoot_theme');
+            return ['modern', '8bit', '32bit'].includes(v) ? v : 'modern';
+        } catch { return 'modern'; }
     });
 
     React.useEffect(() => {
-        if (theme8bit) document.body.classList.add('theme-8bit');
-        else document.body.classList.remove('theme-8bit');
-        try { localStorage.setItem('elifoot_theme', theme8bit ? '8bit' : 'modern'); } catch { /* ignore */ }
-    }, [theme8bit]);
+        document.body.classList.remove('theme-8bit', 'theme-32bit');
+        if (theme === '8bit') document.body.classList.add('theme-8bit');
+        else if (theme === '32bit') document.body.classList.add('theme-32bit');
+        try { localStorage.setItem('elifoot_theme', theme); } catch { /* ignore */ }
+    }, [theme]);
+
+    const cycleTheme = () => {
+        const next = theme === 'modern' ? '8bit' : theme === '8bit' ? '32bit' : 'modern';
+        setTheme(next);
+        sfx.click();
+    };
+
+    const themeIcon = theme === 'modern' ? '🎨' : theme === '8bit' ? '🕹️' : '🎮';
+    const themeLabel = theme === 'modern' ? 'Tema: Modern (clique → 8-BIT)' : theme === '8bit' ? 'Tema: 8-BIT NES (clique → 32-BIT SNES)' : 'Tema: 32-BIT SNES (clique → Modern)';
 
     const renderView = () => {
         switch (gameState.view) {
@@ -93,11 +107,11 @@ function App() {
                         </button>
                         <button
                             className="btn btn-sm btn-secondary"
-                            onClick={() => setTheme8bit(t => !t)}
-                            title={theme8bit ? 'Tema: 8-BIT (clique pra modern)' : 'Tema: Modern (clique pra 8-BIT)'}
+                            onClick={cycleTheme}
+                            title={themeLabel}
                             style={{padding:'0.25rem 0.55rem'}}
                         >
-                            {theme8bit ? '🕹️' : '🎨'}
+                            {themeIcon}
                         </button>
                         <button
                             className="btn btn-sm btn-secondary"

@@ -420,3 +420,157 @@ body.theme-8bit .live-indicator {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
 }
+
+/* === STITCH v2 (Gemini 3 Flash) tokens — Dashboard redesign === */
+
+/* Universal retro border — black 4px + offset shadow (NES feel) */
+body.theme-8bit .retro-border {
+    border: 4px solid #000;
+    box-shadow: 4px 4px 0 #000;
+    border-radius: 0;
+}
+
+/* Stats grid card — pitch green panel with bar progress */
+body.theme-8bit .stat-card-v2 {
+    background: #1B4332;
+    padding: 1.5rem;
+    border: 4px solid #000;
+    box-shadow: 4px 4px 0 #000;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+body.theme-8bit .stat-card-v2 .label {
+    color: #52B788;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+}
+
+body.theme-8bit .stat-card-v2 .value {
+    color: #F1FAEE;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+body.theme-8bit .stat-card-v2 .bar {
+    background: #000;
+    height: 12px;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+body.theme-8bit .stat-card-v2 .bar-fill {
+    background: #52B788;
+    height: 100%;
+}
+
+/* Tab nav active translate-y[4px] (Stitch v2 style) */
+body.theme-8bit .nav-tab-v2 {
+    border: 4px solid #000;
+    border-bottom: none;
+    background: #2d3e36;
+    color: #a0baae;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+body.theme-8bit .nav-tab-v2:hover {
+    background: #1B4332;
+}
+
+body.theme-8bit .nav-tab-v2.active {
+    background: #52B788;
+    color: #000;
+    transform: translateY(4px);
+}
+
+/* Status footer bar — liga/rodada/build */
+body.theme-8bit .status-footer {
+    background: #1B4332;
+    border: 4px solid #000;
+    padding: 0.75rem 1rem;
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+}
+
+body.theme-8bit .status-footer .label {
+    color: #52B788;
+    margin-right: 0.5rem;
+}
+
+body.theme-8bit .status-footer .build {
+    color: #a0baae;
+}
+
+/* Event row with left accent border (lesão/treino/patrocínio) */
+body.theme-8bit .event-row-v2 {
+    background: #2d3e36;
+    border-left: 4px solid #C62828;
+    padding: 0.6rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.65rem;
+}
+
+body.theme-8bit .event-row-v2.boost { border-left-color: #52B788; }
+body.theme-8bit .event-row-v2.gold  { border-left-color: #FFD600; }
+body.theme-8bit .event-row-v2 .desc { color: #a0baae; font-size: 0.55rem; margin-top: 2px; }
+
+/* Finance row — saldo/salários/receita/bilheteria */
+body.theme-8bit .finance-row {
+    background: #1B4332;
+    border: 4px solid #000;
+    padding: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+}
+body.theme-8bit .finance-row.expense { color: #C62828; }
+body.theme-8bit .finance-row.income { color: #52B788; }
+body.theme-8bit .finance-row.balance {
+    background: #000;
+    border: 4px solid #52B788;
+    padding: 1rem;
+    font-size: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+body.theme-8bit .finance-row.balance .label { color: #52B788; font-size: 0.6rem; }
+body.theme-8bit .finance-row.balance .value { color: #F1FAEE; font-size: 2rem; }
+
+/* Mini chart bars (history graph) */
+body.theme-8bit .mini-chart {
+    background: #000;
+    border: 4px solid #000;
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 4px;
+    overflow: hidden;
+}
+body.theme-8bit .mini-chart .bar {
+    background: #52B788;
+    flex: 1;
+}

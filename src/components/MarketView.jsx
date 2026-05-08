@@ -3,6 +3,7 @@ import { useGame } from '../context/GameContext';
 import { SCOUT_REGIONS } from '../engine/StadiumSystem';
 import { getPlayerTraits } from '../engine/PlayerTraits';
 import { PlayerAvatar } from '../utils/avatar';
+import { Tooltip } from './Tooltip';
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -138,7 +139,7 @@ export function MarketView() {
                                         <span className={`pos-badge ${p.position}`} style={{marginLeft:'0.3rem'}}>{p.position}</span>
                                         <span style={{color:'var(--text-muted)',marginLeft:'0.3rem'}}>OVR {p.ovr} • {p.age}a</span>
                                         {getPlayerTraits(p).map(t => (
-                                            <span key={t.id} style={{fontSize:'0.6rem',marginLeft:'2px'}} title={t.description}>{t.name.split(' ')[0]}</span>
+                                            <Tooltip key={t.id} content={`${t.name}: ${t.description}`}><span style={{fontSize:'0.65rem',marginLeft:'2px'}}>{t.name.split(' ')[0]}</span></Tooltip>
                                         ))}
                                     </div>
                                     <div style={{display:'flex',alignItems:'center',gap:'0.4rem'}}>
