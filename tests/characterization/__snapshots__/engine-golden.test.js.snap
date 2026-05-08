@@ -13,38 +13,38 @@ exports[`Engine Golden Master (5 seasons, seed=42) > 5-season simulation snapsho
   "top5BRA1": [
     {
       "played": 38,
-      "points": 77,
+      "points": 76,
+      "teamId": 10,
+      "won": 25,
+    },
+    {
+      "played": 38,
+      "points": 67,
       "teamId": 16,
-      "won": 24,
+      "won": 20,
     },
     {
       "played": 38,
-      "points": 69,
-      "teamId": 13,
-      "won": 22,
-    },
-    {
-      "played": 38,
-      "points": 65,
-      "teamId": 18,
-      "won": 19,
-    },
-    {
-      "played": 38,
-      "points": 64,
-      "teamId": 11,
-      "won": 19,
-    },
-    {
-      "played": 38,
-      "points": 62,
+      "points": 67,
       "teamId": 20,
-      "won": 19,
+      "won": 21,
+    },
+    {
+      "played": 38,
+      "points": 66,
+      "teamId": 4,
+      "won": 20,
+    },
+    {
+      "played": 38,
+      "points": 63,
+      "teamId": 5,
+      "won": 20,
     },
   ],
   "tournamentsCount": 16,
   "userSquadSize": 18,
-  "userTeamBalance": 384046620,
+  "userTeamBalance": 384424890,
   "userTeamId": 1,
 }
 `;
