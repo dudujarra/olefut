@@ -29,10 +29,24 @@ body.theme-8bit {
     image-rendering: crisp-edges;
 }
 
-body.theme-8bit h1, body.theme-8bit h2, body.theme-8bit .logo {
+body.theme-8bit h1, body.theme-8bit h2 {
     font-family: 'Press Start 2P', monospace;
     letter-spacing: 0.05em;
 }
+
+/* P5: Logo pixel-art real (gerado via Google Flow Nano Banana Pro) */
+body.theme-8bit .logo {
+    background: url('/elifoot-web/sprites/logo-elifoot-8bit.jpeg') no-repeat center center;
+    background-size: contain;
+    width: 200px;
+    height: 48px;
+    text-indent: -9999px;
+    color: transparent;
+    font-size: 0;
+    overflow: hidden;
+    image-rendering: pixelated;
+}
+body.theme-8bit .logo span { display: none; }
 
 body.theme-8bit h3, body.theme-8bit h4 {
     font-family: 'VT323', monospace;
