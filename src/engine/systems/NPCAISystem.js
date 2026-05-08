@@ -10,11 +10,12 @@ export const NPC_GOALS = {
     youth_focus: { rankingMin: 13, rankingMax: 17, bidMul: [0.7, 0.9], aggressive: false },
 };
 
-let rngState = 12345;
-function mulberry32(seed) {
-    rngState = seed;
+// BUG-013 fix: rngState foi removido do escopo module-level (race condition entre instances).
+// Cada instância tem seu próprio state encapsulado.
+function makeRng(seed) {
+    let state = seed;
     return function () {
-        let t = (rngState += 0x6d2b79f5);
+        let t = (state += 0x6d2b79f5);
         t = Math.imul(t ^ (t >>> 15), t | 1);
         t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
         return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
@@ -22,15 +23,15 @@ function mulberry32(seed) {
 }
 
 export class NPCAISystem {
-    constructor() {
+    constructor(seed = 12345) {
         this.teamGoals = new Map(); // teamId → goal
         this.lastTacticChange = new Map(); // teamId → weekNum
         this.recentResults = new Map(); // teamId → [results]
-        this.rng = mulberry32(rngState);
+        this.rng = makeRng(seed);
     }
 
     setSeed(seed) {
-        this.rng = mulberry32(seed);
+        this.rng = makeRng(seed);
     }
 
     setNPCGoal(teamId, goal) {

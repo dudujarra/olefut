@@ -37,11 +37,13 @@ const HEADLINE_TEMPLATES = {
 };
 
 let nextNewsId = 1;
+const MAX_NEWS_RETAINED = 500; // BUG-014: cap retention para evitar memory leak
 
 export class NewsSystem {
-    constructor() {
-        this.news = []; // all news
+    constructor(maxRetained = MAX_NEWS_RETAINED) {
+        this.news = []; // all news (capped)
         this.readSet = new Map(); // playerId → set of newsIds
+        this.maxRetained = maxRetained;
     }
 
     generateNews({ type, teamId, weekOfYear, details = {} }) {
@@ -71,6 +73,13 @@ export class NewsSystem {
             archived: false,
         };
         this.news.push(item);
+        // BUG-014: cap array size — descarta archived antigas + se ainda > max, drop oldest
+        if (this.news.length > this.maxRetained) {
+            this.news = this.news.filter((n) => !n.archived);
+            if (this.news.length > this.maxRetained) {
+                this.news = this.news.slice(-this.maxRetained);
+            }
+        }
         return item;
     }
 
@@ -100,5 +109,7 @@ export class NewsSystem {
         for (const n of this.news) {
             if (currentWeek - n.week >= 4) n.archived = true;
         }
+        // BUG-014: prune archived após X weeks (não acumula indefinidamente)
+        this.news = this.news.filter((n) => !(n.archived && currentWeek - n.week > 12));
     }
 }
