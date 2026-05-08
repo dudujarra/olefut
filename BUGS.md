@@ -63,3 +63,43 @@ npm test          # roda todos os testes uma vez
 npm run test:watch # roda testes em modo watch
 npm run test:ci    # roda testes + build (pipeline)
 ```
+
+---
+
+### BUG-007 ✅ RESOLVIDO — Statistics topScorer ownerTeam sempre homeTeam (bug logic)
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/2
+- **Branch:** `bug/BUG-007`
+- **Fix:** Aplicado (ver tests/regression/)
+- **Teste:** `tests/regression/BUG-007.test.js`
+- **Status:** OPEN (2026-05-07)
+
+
+---
+
+### BUG-008 ✅ RESOLVIDO — MarketSystem makeOffer aceita oferta sem listing existir
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/3
+- **Branch:** `bug/BUG-008`
+- **Fix:** Aplicado (ver tests/regression/)
+- **Teste:** `tests/regression/BUG-008.test.js`
+- **Status:** OPEN (2026-05-07)
+
+
+---
+
+### BUG-009 ✅ RESOLVIDO — ContractSystem bonus duplicado se goalNumber distinto
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/4
+- **Branch:** `bug/BUG-009`
+- **Fix:** Aplicado (ver tests/regression/)
+- **Teste:** `tests/regression/BUG-009.test.js`
+- **Status:** OPEN (2026-05-07)
+
+
+---
+
+### BUG-010 ✅ RESOLVIDO — Script debug-bug.sh octal error em BUG-008+
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/5
+- **Branch:** `bug/BUG-010`
+- **Fix:** Aplicado (ver tests/regression/)
+- **Teste:** `tests/regression/BUG-010.test.js`
+- **Status:** OPEN (2026-05-07)
+

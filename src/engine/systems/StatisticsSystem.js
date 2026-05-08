@@ -53,7 +53,10 @@ export class StatisticsSystem {
         };
     }
 
-    recordMatch({ matchId, season, homeTeamId, awayTeamId, homeGoals, awayGoals, scorers = [], cards = [] }) {
+    recordMatch({ matchId, season, homeTeamId, awayTeamId, homeGoals, awayGoals, scorers = [], homeScorers = null, awayScorers = null, cards = [] }) {
+        // Prefer explicit home/away separation; fallback to old combined scorers (assume home)
+        const _homeScorers = homeScorers ?? scorers;
+        const _awayScorers = awayScorers ?? [];
         // Team stats
         for (const [teamId, isHome] of [
             [homeTeamId, true],
@@ -86,21 +89,21 @@ export class StatisticsSystem {
             this.teamStats.set(key, stats);
         }
 
-        // Player stats (scorers)
-        for (const playerId of scorers) {
+        // Player stats — split por home/away (BUG-007 fix)
+        const updateScorer = (playerId, ownerTeam) => {
             const key = this._playerKey(playerId, season);
             const stats = this.playerStats.get(key) || this._initPlayerStats();
             stats.goals++;
             this.playerStats.set(key, stats);
-            // Update top scorer
-            const ownerTeam = scorers.includes(playerId) ? homeTeamId : awayTeamId;
             const teamKey = this._teamKey(ownerTeam, season);
             const tStats = this.teamStats.get(teamKey);
             if (tStats && stats.goals > tStats.topScorerGoals) {
                 tStats.topScorerId = playerId;
                 tStats.topScorerGoals = stats.goals;
             }
-        }
+        };
+        for (const pid of _homeScorers) updateScorer(pid, homeTeamId);
+        for (const pid of _awayScorers) updateScorer(pid, awayTeamId);
 
         this.matchHistory.push({ matchId, season, homeTeamId, awayTeamId, homeGoals, awayGoals });
     }

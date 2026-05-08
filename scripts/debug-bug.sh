@@ -73,10 +73,10 @@ create_ticket() {
         exit 1
     fi
 
-    # Próximo BUG-XXX
+    # Próximo BUG-XXX (force base 10 para evitar octal em 008+)
     local next_num
     next_num=$(grep -oE "BUG-[0-9]+" "$BUGS_FILE" 2>/dev/null | sort -V | tail -1 | grep -oE "[0-9]+" || echo "0")
-    next_num=$((next_num + 1))
+    next_num=$((10#$next_num + 1))
     local bug_id
     bug_id=$(printf "BUG-%03d" "$next_num")
 
