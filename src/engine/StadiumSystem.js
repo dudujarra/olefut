@@ -91,12 +91,18 @@ export class StaffManager {
     has(roleId) { return this.hired.includes(roleId); }
 
     /**
-     * BUG-019 fix: retorna staff member object (role + npc) ou null
-     * DashboardView (tab Clube) chama getStaff(id) — antes não existia → crash.
+     * BUG-019 fix: retorna staff member object com .name (npc) ou null
+     * DashboardView (tab Clube) lê member.name → precisa flatten npc.name pro top-level.
      */
     getStaff(roleId) {
         if (!this.hired.includes(roleId)) return null;
-        return STAFF_ROLES.find(r => r.id === roleId) || null;
+        const role = STAFF_ROLES.find(r => r.id === roleId);
+        if (!role) return null;
+        return {
+            ...role,
+            name: role.npc?.name || role.name,
+            roleName: role.name, // preserva nome do cargo
+        };
     }
 
     /**
