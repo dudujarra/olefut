@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#52B788",
+              "background-light": "#f6f7f7",
+              "background-dark": "#151d19",
+              "pitch-green": "#1B4332",
+              "card-green": "#2d3e36",
+            },
+            fontFamily: {
+              "display": ["Public Sans"],
+              "mono": ["'JetBrains Mono'", "monospace"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .retro-border {
+            border: 4px solid #000000;
+            box-shadow: 4px 4px 0px #000000;
+        }
+        .pixel-text {
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+        }
+        body {
+            background-color: #151e1a;
+        }
+    </style>
+</head>
+<body class="text-white font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#151e1a] dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<!-- Shared Top Bar Component -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#2d3e36] px-4 md:px-10 py-3 mb-4">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 bg-primary flex items-center justify-center retro-border">
+<svg class="w-6 h-6" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="black"></path>
+</svg>
+</div>
+<h2 class="text-white text-2xl font-black leading-tight tracking-[-0.015em] pixel-text">ELIFOOT</h2>
+</div>
+<div class="flex gap-3">
+<button class="flex w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded bg-card-green text-white retro-border hover:bg-primary transition-colors">
+<div class="text-white" data-icon="FloppyDisk" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M219.31,80,176,36.69A15.86,15.86,0,0,0,164.69,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V91.31A15.86,15.86,0,0,0,219.31,80ZM168,208H88V152h80Zm40,0H184V152a16,16,0,0,0-16-16H88a16,16,0,0,0-16,16v56H48V48H164.69L208,91.31ZM160,72a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h56A8,8,0,0,1,160,72Z"></path>
+</svg>
+</div>
+</button>
+<button class="flex w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded bg-card-green text-white retro-border hover:bg-primary transition-colors">
+<div class="text-white" data-icon="SpeakerHigh" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M155.51,24.81a8,8,0,0,0-8.42.88L77.25,80H32A16,16,0,0,0,16,96v64a16,16,0,0,0,16,16H77.25l69.84,54.31A8,8,0,0,0,160,224V32A8,8,0,0,0,155.51,24.81ZM32,96H72v64H32ZM144,207.64,88,164.09V91.91l56-43.55Zm54-106.08a40,40,0,0,1,0,52.88,8,8,0,0,1-12-10.58,24,24,0,0,0,0-31.72,8,8,0,0,1,12-10.58ZM248,128a79.9,79.9,0,0,1-20.37,53.34,8,8,0,0,1-11.92-10.67,64,64,0,0,0,0-85.33,8,8,0,1,1,11.92-10.67A79.83,79.83,0,0,1,248,128Z"></path>
+</svg>
+</div>
+</button>
+<button class="flex w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded bg-card-green text-white retro-border hover:bg-primary transition-colors">
+<div class="text-white" data-icon="Palette" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M200.77,53.89A103.27,103.27,0,0,0,128,24h-1.07A104,104,0,0,0,24,128c0,43,26.58,79.06,69.36,94.17A32,32,0,0,0,136,192a16,16,0,0,1,16-16h46.21a31.81,31.81,0,0,0,31.2-24.88,104.43,104.43,0,0,0,2.59-24A103.28,103.28,0,0,0,200.77,53.89Zm13,93.71A15.89,15.89,0,0,1,198.21,160H152a32,32,0,0,0-32,32,16,16,0,0,1-21.31,15.07C62.49,194.3,40,164,40,128a88,88,0,0,1,87.09-88h.9a88.35,88.35,0,0,1,88,87.25A88.86,88.86,0,0,1,213.81,147.6ZM140,76a12,12,0,1,1-12-12A12,12,0,0,1,140,76ZM96,100A12,12,0,1,1,84,88,12,12,0,0,1,96,100Zm0,56a12,12,0,1,1-12-12A12,12,0,0,1,96,156Zm88-56a12,12,0,1,1-12-12A12,12,0,0,1,184,100Z"></path>
+</svg>
+</div>
+</button>
+</div>
+</header>
+<!-- Navigation Tabs -->
+<nav class="pb-6">
+<div class="flex border-b-4 border-black px-0 justify-between gap-2">
+<a class="flex flex-col items-center justify-center bg-primary border-4 border-b-0 border-black text-black py-3 px-4 flex-1 translate-y-[4px]" href="#">
+<p class="text-sm font-black pixel-text">PAINEL</p>
+</a>
+<a class="flex flex-col items-center justify-center bg-card-green border-4 border-b-0 border-black text-[#a0baae] py-3 px-4 flex-1 hover:bg-pitch-green transition-colors" href="#">
+<p class="text-sm font-black pixel-text">ESCALAÇÃO</p>
+</a>
+<a class="flex flex-col items-center justify-center bg-card-green border-4 border-b-0 border-black text-[#a0baae] py-3 px-4 flex-1 hover:bg-pitch-green transition-colors" href="#">
+<p class="text-sm font-black pixel-text">PARTIDA</p>
+</a>
+<a class="flex flex-col items-center justify-center bg-card-green border-4 border-b-0 border-black text-[#a0baae] py-3 px-4 flex-1 hover:bg-pitch-green transition-colors" href="#">
+<p class="text-sm font-black pixel-text">MERCADO</p>
+</a>
+</div>
+</nav>
+<!-- Stats Row -->
+<div class="flex flex-wrap gap-6 mb-8">
+<div class="flex min-w-[150px] flex-1 flex-col gap-2 bg-pitch-green p-6 retro-border">
+<p class="text-primary text-xs font-black pixel-text">GOL</p>
+<p class="text-white text-4xl font-black pixel-text">75</p>
+<div class="w-full bg-black h-3 mt-1">
+<div class="bg-primary h-full" style="width: 75%;"></div>
+</div>
+</div>
+<div class="flex min-w-[150px] flex-1 flex-col gap-2 bg-pitch-green p-6 retro-border">
+<p class="text-primary text-xs font-black pixel-text">DEF</p>
+<p class="text-white text-4xl font-black pixel-text">82</p>
+<div class="w-full bg-black h-3 mt-1">
+<div class="bg-primary h-full" style="width: 82%;"></div>
+</div>
+</div>
+<div class="flex min-w-[150px] flex-1 flex-col gap-2 bg-pitch-green p-6 retro-border">
+<p class="text-primary text-xs font-black pixel-text">MEI</p>
+<p class="text-white text-4xl font-black pixel-text">78</p>
+<div class="w-full bg-black h-3 mt-1">
+<div class="bg-primary h-full" style="width: 78%;"></div>
+</div>
+</div>
+<div class="flex min-w-[150px] flex-1 flex-col gap-2 bg-pitch-green p-6 retro-border">
+<p class="text-primary text-xs font-black pixel-text">ATA</p>
+<p class="text-white text-4xl font-black pixel-text">85</p>
+<div class="w-full bg-black h-3 mt-1">
+<div class="bg-primary h-full" style="width: 85%;"></div>
+</div>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Left Column -->
+<div class="flex flex-col gap-8">
+<!-- Scoreboard Card -->
+<div class="bg-card-green p-6 retro-border">
+<h3 class="text-primary text-sm font-black mb-4 pixel-text tracking-wider">PRÓXIMO JOGO</h3>
+<div class="flex items-center justify-between gap-4 py-6">
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-16 h-16 bg-pitch-green flex items-center justify-center retro-border">
+<img class="w-12 h-12" data-alt="A pixel art sports crest for a professional soccer team, featuring a shield shape with a stylized falcon in the center. The color palette is strictly limited to dark forest green, neon emerald, and stark white. The design is presented on a textured dark background, evoking a retro 8-bit video game aesthetic with sharp pixel edges and high contrast lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxBYBB4OyX43RNyJecGcMuOAkFnsMwMgw0SXX4IIg7bEb1jtHzOot5xFQFKzj9qLaKdIzsVmxjLnMqs0c5rOPzqUOjV5zyg3otvSuq9fgvZV0UsFSVtrHJCfrT159G_zYzuHlhHMUjkg6ojuIQCnH93cp132wmLLkP9CPQ6F8u8YpytAU3-2BZFOsVYAVG1ziI_qpjTtGgJYkAhsqIVni3e9twlppTsz3Daa6QwQKcES0CmkuldO-evvQLbnxDFblErLA7OkR5r0oo"/>
+</div>
+<span class="text-sm font-black pixel-text">MEU TIME</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="text-4xl font-black pixel-text">VS</span>
+<span class="text-xs text-primary font-black pixel-text">DOM 16:00</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-16 h-16 bg-pitch-green flex items-center justify-center retro-border">
+<img class="w-12 h-12" data-alt="A pixelated soccer club emblem with a minimalist crown and crossed swords design. The logo is rendered in a 16-bit style using shades of deep charcoal, vibrant lime green, and pure white. The lighting is flat and graphic, emphasizing the blocky pixel structure of the crest. It sits centrally on a dark, matte green digital canvas." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaYJ1ZkoWKWg_o_nc5KWiTkrQf06fqWaVp4he8ILDwNpeNf68sar-CNf20op-YQMm9cxjncgqWAPMerdGrMhhmeBZipyjrvuNxTlUN2mNJNiJaQnsgI6rJPCXjT5iy-jrehK69UFtqlWqINZbklCiPZeVPYO98tMFHvTpIXo-jt-SHm21ykgD1vgT65hIh6opC3rW__uJY-ddV78Hyd_kxMTcHPIF7m5WLGc-Exw8aELOebomyBGtItiRq_FavlrceeTGHbNzB7_S0"/>
+</div>
+<span class="text-sm font-black pixel-text">RIVAIS UTD</span>
+</div>
+</div>
+<button class="w-full bg-primary py-4 text-black font-black text-xl retro-border hover:bg-white transition-colors pixel-text mt-4">
+                                JOGAR
+                            </button>
+</div>
+<!-- Weekly Events -->
+<div class="bg-pitch-green p-6 retro-border">
+<h3 class="text-primary text-sm font-black mb-4 pixel-text tracking-wider">EVENTOS DA SEMANA</h3>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4 bg-card-green p-3 border-l-4 border-red-500">
+<span class="material-symbols-outlined text-red-500">medical_services</span>
+<div>
+<p class="text-xs font-black pixel-text">LEÃO (ATA) LESIONADO</p>
+<p class="text-[10px] text-gray-400 pixel-text">FORA POR 3 PARTIDAS</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-card-green p-3 border-l-4 border-primary">
+<span class="material-symbols-outlined text-primary">trending_up</span>
+<div>
+<p class="text-xs font-black pixel-text">TREINO INTENSIVO</p>
+<p class="text-[10px] text-gray-400 pixel-text">MEI +2 DE ENTROSAMENTO</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-card-green p-3 border-l-4 border-yellow-500">
+<span class="material-symbols-outlined text-yellow-500">payments</span>
+<div>
+<p class="text-xs font-black pixel-text">PATROCÍNIO RENOVADO</p>
+<p class="text-[10px] text-gray-400 pixel-text">+150K NO CAIXA</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column -->
+<div class="flex flex-col gap-8">
+<!-- Financial Summary -->
+<div class="bg-card-green p-6 retro-border h-full">
+<h3 class="text-primary text-sm font-black mb-6 pixel-text tracking-wider">RESUMO FINANCEIRO</h3>
+<div class="flex flex-col gap-8">
+<div class="bg-black p-6 retro-border">
+<p class="text-xs font-black text-primary pixel-text mb-2">SALDO ATUAL</p>
+<p class="text-4xl font-black pixel-text">€ 12.450.000</p>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center bg-pitch-green p-4 retro-border">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">trending_down</span>
+<span class="text-sm font-black pixel-text">SALÁRIOS</span>
+</div>
+<span class="text-sm font-black text-red-500 pixel-text">- € 850.000</span>
+</div>
+<div class="flex justify-between items-center bg-pitch-green p-4 retro-border">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">trending_up</span>
+<span class="text-sm font-black pixel-text">RECEITA</span>
+</div>
+<span class="text-sm font-black text-primary pixel-text">+ € 2.100.000</span>
+</div>
+<div class="flex justify-between items-center bg-pitch-green p-4 retro-border">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">stadium</span>
+<span class="text-sm font-black pixel-text">BILHETERIA</span>
+</div>
+<span class="text-sm font-black text-primary pixel-text">+ € 420.000</span>
+</div>
+</div>
+<div class="mt-4">
+<div class="w-full h-32 bg-black overflow-hidden retro-border relative">
+<div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(82, 183, 136, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(82, 183, 136, 0.1) 1px, transparent 1px); background-size: 10px 10px;"></div>
+<!-- Simple CSS Graph representation -->
+<div class="absolute bottom-0 left-0 w-full h-full flex items-end px-2 gap-1">
+<div class="bg-primary w-full h-[40%]"></div>
+<div class="bg-primary w-full h-[55%]"></div>
+<div class="bg-primary w-full h-[45%]"></div>
+<div class="bg-primary w-full h-[70%]"></div>
+<div class="bg-primary w-full h-[65%]"></div>
+<div class="bg-primary w-full h-[85%]"></div>
+<div class="bg-primary w-full h-[75%]"></div>
+</div>
+</div>
+<p class="text-[10px] text-center mt-2 text-primary font-black pixel-text">HISTÓRICO DE LUCRO (7 SEMANAS)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Status Bar -->
+<footer class="mt-12 mb-6 p-4 bg-pitch-green border-4 border-black flex flex-wrap justify-between items-center">
+<div class="flex gap-6">
+<span class="text-xs font-black pixel-text"><span class="text-primary">LIGA:</span> 1ª DIVISÃO</span>
+<span class="text-xs font-black pixel-text"><span class="text-primary">RODADA:</span> 14/38</span>
+</div>
+<div class="text-xs font-black pixel-text text-gray-400">
+                        ELIFOOT MANAGER 2024 - BUILD 0.8.4
+                    </div>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>

@@ -413,6 +413,16 @@ export function DashboardView() {
                 <button className="btn btn-secondary" onClick={() => changeView('market')}>🛒 Mercado</button>
                 <button className="btn btn-secondary" onClick={() => changeView('standings')}>📊 Tabela</button>
             </div>
+
+            {/* Status Footer (Stitch v2 design) */}
+            <div className="status-footer">
+                <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap'}}>
+                    <span><span className="label">LIGA:</span>SÉRIE {['A','B','C','D'][team.division - 1]}</span>
+                    <span><span className="label">RODADA:</span>{seasonWeek}/38</span>
+                    <span><span className="label">TEMP:</span>{engine.seasonNumber}</span>
+                </div>
+                <div className="build">ELIFOOT MANAGER 2026 — BUILD 0.9.0</div>
+            </div>
         </div>
     );
 }

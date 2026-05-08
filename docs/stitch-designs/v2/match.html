@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,700;0,800;0,900;1,800&amp;family=Rubik:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {},
+            borderRadius: {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+            },
+            fontFamily: {
+              "headline": ["Public Sans"],
+              "display": ["Public Sans"],
+              "body": ["Rubik"],
+              "label": ["Public Sans"],
+              "mono": ["Space Mono"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .pixel-border {
+        box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+      }
+      .pixel-border-active {
+        box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+        transform: translate(2px, 2px);
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+      }
+      body {
+        background-color: #0E1F14;
+        color: #F1FAEE;
+      }
+    </style>
+</head>
+<body class="font-body selection:bg-[#52B788] selection:text-[#0E1F14]">
+<!-- TopNavBar Shell -->
+<header class="bg-[#0E1F14] dark:bg-[#0E1F14] text-[#F1FAEE] border-b-4 border-[#1B4332] shadow-[0px_4px_0px_0px_rgba(0,0,0,1)] flex justify-between items-center w-full h-16 px-4 fixed top-0 z-50">
+<div class="flex items-center gap-6">
+<div class="font-headline text-3xl italic text-[#FFD600] border-4 border-[#F1FAEE] px-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                ELIFOOT 8-bit
+            </div>
+<nav class="hidden md:flex gap-1">
+<a class="font-headline text-2xl uppercase tracking-tighter text-[#F1FAEE] px-2 hover:bg-[#52B788] hover:text-[#0E1F14] transition-none" href="#">LEAGUE</a>
+<a class="font-headline text-2xl uppercase tracking-tighter text-[#FFD600] bg-[#2D6A4F] px-2 border-x-4 border-[#1B4332] transition-none" href="#">TEAM</a>
+<a class="font-headline text-2xl uppercase tracking-tighter text-[#F1FAEE] px-2 hover:bg-[#52B788] hover:text-[#0E1F14] transition-none" href="#">MARKET</a>
+</nav>
+</div>
+<div class="flex gap-4">
+<button class="material-symbols-outlined hover:text-[#FFD600] active:translate-y-1">notifications</button>
+<button class="material-symbols-outlined hover:text-[#FFD600] active:translate-y-1">settings</button>
+</div>
+</header>
+<!-- SideNavBar Shell (MATCH CONTROLS) -->
+<aside class="bg-[#1B4332] dark:bg-[#1B4332] text-[#F1FAEE] border-r-4 border-[#0E1F14] shadow-[4px_0px_0px_0px_rgba(0,0,0,1)] fixed left-0 top-16 bottom-0 hidden md:flex flex-col gap-2 p-4 w-64">
+<div class="mb-6">
+<h2 class="font-headline text-xl text-[#FFD600] leading-none">MATCH CONTROLS</h2>
+<p class="font-mono text-xs opacity-80 uppercase tracking-widest">LIVE MODE</p>
+</div>
+<div class="flex flex-col gap-1">
+<button class="flex items-center gap-3 p-3 font-label text-sm uppercase font-bold text-[#F1FAEE] opacity-80 hover:bg-[#52B788] hover:text-[#0E1F14] active:translate-x-1">
+<span class="material-symbols-outlined">speed</span> SPEED
+            </button>
+<button class="flex items-center gap-3 p-3 font-label text-sm uppercase font-bold bg-[#2D6A4F] text-[#FFD600] border-y-2 border-[#52B788] active:translate-x-1">
+<span class="material-symbols-outlined">strategy</span> TACTICS
+            </button>
+<button class="flex items-center gap-3 p-3 font-label text-sm uppercase font-bold text-[#F1FAEE] opacity-80 hover:bg-[#52B788] hover:text-[#0E1F14] active:translate-x-1">
+<span class="material-symbols-outlined">group_add</span> SUBS
+            </button>
+<button class="flex items-center gap-3 p-3 font-label text-sm uppercase font-bold text-[#F1FAEE] opacity-80 hover:bg-[#52B788] hover:text-[#0E1F14] active:translate-x-1">
+<span class="material-symbols-outlined">leaderboard</span> STATS
+            </button>
+<button class="flex items-center gap-3 p-3 font-label text-sm uppercase font-bold text-[#F1FAEE] opacity-80 hover:bg-[#52B788] hover:text-[#0E1F14] active:translate-x-1">
+<span class="material-symbols-outlined">replay</span> REPLAY
+            </button>
+</div>
+<div class="mt-auto border-4 border-[#0E1F14] bg-[#2D6A4F] p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+<p class="font-label text-[10px] text-[#FFD600] mb-1">STADIUM CONDITION</p>
+<img class="w-full h-20 object-cover border-2 border-[#0E1F14]" data-alt="A pixelated top-down view of a lush green soccer field under bright stadium floodlights at night. The grass has a vibrant grid pattern typical of 8-bit arcade games. Small 8-bit spectator sprites are visible in the wooden-textured stands, creating a retro gaming atmosphere with high-contrast shadows and saturated green tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxmMB4xbuPTrdWGpiSi7_BVpjW8HELHzUBh4OL5YbVtSixJ2qeW_alRrPlC3lAxjPpS2iBYvD4uYdCUiLz9qWqyZapeUf_2uKyhxCBSucUGuOIZiw1s0XybXGmbOnXK3nNZcMcKJKCF-gmCdYRImYOLNR1O1AmXYUghtILWs9EjUjABOyrHN3EhX1S6mvHrIzmuvxrdHv4r4yYLacyua2E2p3qEkr-gFquQchVvbMhA1r6GqdqMbpOMBlZOdpCwaVWPgWbdVcItzJ8"/>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 mt-16 p-4 md:p-8 mb-20 md:mb-0">
+<div class="max-w-5xl mx-auto space-y-6">
+<!-- Scoreboard Area -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center bg-[#1B4332] p-6 border-4 border-[#52B788] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#F1FAEE 1px, transparent 1px); background-size: 16px 16px;"></div>
+<!-- Team A -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 bg-[#C62828] border-4 border-[#F1FAEE] flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+<span class="material-symbols-outlined text-4xl text-[#F1FAEE]">shield</span>
+</div>
+<h3 class="font-headline text-2xl text-[#F1FAEE] uppercase tracking-tight text-center">FLAMENGO</h3>
+</div>
+<!-- Score & Clock -->
+<div class="flex flex-col items-center justify-center bg-[#0E1F14] py-4 px-8 border-4 border-[#FFD600] shadow-[inset_4px_4px_0px_0px_rgba(0,0,0,1)]">
+<div class="font-mono text-5xl font-bold text-[#FFD600] flex items-center gap-4">
+<span>2</span>
+<span class="text-2xl opacity-50">-</span>
+<span>1</span>
+</div>
+<div class="mt-2 font-mono text-xl text-[#C62828] animate-pulse">
+<span class="bg-[#C62828] text-[#F1FAEE] px-2 py-0.5">73'</span>
+</div>
+</div>
+<!-- Team B -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 bg-[#2D6A4F] border-4 border-[#F1FAEE] flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+<span class="material-symbols-outlined text-4xl text-[#F1FAEE]">shield</span>
+</div>
+<h3 class="font-headline text-2xl text-[#F1FAEE] uppercase tracking-tight text-center">PALMEIRAS</h3>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+<!-- Match Narration (Log) -->
+<div class="lg:col-span-3 space-y-4">
+<div class="bg-[#0E1F14] border-4 border-[#1B4332] h-[400px] flex flex-col shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+<div class="bg-[#1B4332] p-3 flex justify-between items-center border-b-4 border-[#0E1F14]">
+<h2 class="font-headline text-xl text-[#F1FAEE] uppercase">MATCH NARRATION</h2>
+<span class="material-symbols-outlined text-[#FFD600]">article</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-sm">
+<div class="flex gap-4 p-2 bg-[#2D6A4F]/20 border-l-4 border-[#FFD600]">
+<span class="text-[#FFD600] font-bold">73'</span>
+<p class="text-[#F1FAEE] uppercase"><span class="text-[#FFD600]">GOL!</span> Flamengo amplia o placar com um chute forte de fora da área!</p>
+</div>
+<div class="flex gap-4 p-2">
+<span class="text-[#52B788] font-bold">65'</span>
+<p class="text-[#F1FAEE] opacity-80 uppercase"><span class="bg-[#FFD600] text-[#0E1F14] px-1 mr-1">AMARELO</span> Cartão para o zagueiro do Palmeiras por falta dura.</p>
+</div>
+<div class="flex gap-4 p-2">
+<span class="text-[#52B788] font-bold">58'</span>
+<p class="text-[#F1FAEE] opacity-80 uppercase"><span class="material-symbols-outlined text-xs align-middle">sync</span> Substituição no Flamengo: Sai 10, Entra 18.</p>
+</div>
+<div class="flex gap-4 p-2">
+<span class="text-[#52B788] font-bold">52'</span>
+<p class="text-[#F1FAEE] opacity-80 uppercase">Palmeiras pressiona mas a zaga corta o cruzamento.</p>
+</div>
+<div class="flex gap-4 p-2">
+<span class="text-[#52B788] font-bold">45'</span>
+<p class="text-[#F1FAEE] opacity-80 uppercase">Início do segundo tempo!</p>
+</div>
+<div class="flex gap-4 p-2 bg-[#C62828]/10">
+<span class="text-[#C62828] font-bold">HT</span>
+<p class="text-[#F1FAEE] opacity-80 uppercase">Intervalo de jogo: FLAMENGO 1 - 1 PALMEIRAS</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side Control Panel -->
+<div class="lg:col-span-1 space-y-6">
+<!-- Match Speed -->
+<div class="bg-[#1B4332] border-4 border-[#0E1F14] p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+<label class="font-label text-xs text-[#FFD600] block mb-3 font-bold uppercase">MATCH SPEED</label>
+<div class="grid grid-cols-3 gap-2">
+<button class="bg-[#0E1F14] text-[#F1FAEE] py-2 font-mono text-sm border-2 border-[#52B788] hover:bg-[#52B788] hover:text-[#0E1F14] transition-none">1X</button>
+<button class="bg-[#FFD600] text-[#0E1F14] py-2 font-mono text-sm border-2 border-[#0E1F14] pixel-border-active">3X</button>
+<button class="bg-[#0E1F14] text-[#F1FAEE] py-2 font-mono text-sm border-2 border-[#52B788] hover:bg-[#52B788] hover:text-[#0E1F14] transition-none">5X</button>
+</div>
+</div>
+<!-- Active Tactic -->
+<div class="bg-[#1B4332] border-4 border-[#0E1F14] p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+<label class="font-label text-xs text-[#FFD600] block mb-2 font-bold uppercase">ACTIVE TACTIC</label>
+<div class="relative">
+<select class="w-full bg-[#0E1F14] text-[#F1FAEE] border-4 border-[#2D6A4F] px-3 py-2 font-headline uppercase focus:ring-0 focus:border-[#FFD600] appearance-none cursor-pointer">
+<option>4-4-2 PADRÃO</option>
+<option selected="">4-3-3 OFENSIVO</option>
+<option>5-3-2 RETRANCA</option>
+<option>3-5-2 POSSE</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-[#FFD600]">expand_more</span>
+</div>
+</div>
+<!-- Player Sprite Visual -->
+<div class="bg-[#2D6A4F] border-4 border-[#0E1F14] p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+<img class="w-full h-auto object-contain" data-alt="A collection of pixel-art soccer jerseys in the official colors of Flamengo and Palmeiras. The jerseys are displayed in a clean grid, showing classic stripes for one and solid colors for the other. Each jersey features simplified 8-bit details like collars and tiny badges, set against a dark neutral background with a high-contrast arcade aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJADtRuniv1nTRUH2k_ydfWWMKL50U6SDNhHI1yRCpOeN_myqlrmJSKZupirzK3xmArMkA17-76nnS4tKYqTk-GczEFII6YAXpOBddaLxJnRfwKvhPw6F3uJY88--3kqP-gXVfghBPzt6nVAgRgF832p6Eza2nuDGFDwgfOdqKW8qRKoKO0rIFXfNwsMeRIkuhcBf-Gtweo7ZEcDWAw6_bs2byIn7gvXD-fu2uCQei8I8yLLj4NtO1o4TvGTOgncbAsFzZ4NwrISIw"/>
+</div>
+</div>
+</div>
+<!-- Player Status & Bench Section -->
+<section class="bg-[#1B4332] border-4 border-[#0E1F14] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+<div class="bg-[#2D6A4F] p-3 border-b-4 border-[#0E1F14] flex justify-between items-center">
+<h2 class="font-headline text-xl text-[#F1FAEE] uppercase">STATUS DO ELENCO / RESERVAS</h2>
+<span class="material-symbols-outlined text-[#FFD600]">group</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 divide-y-4 md:divide-y-0 md:divide-x-4 divide-[#0E1F14]">
+<!-- Flamengo Bench -->
+<div class="p-4 space-y-4">
+<h4 class="font-label text-sm text-[#FFD600] font-bold uppercase border-b-2 border-[#2D6A4F] pb-1">BANCO - FLAMENGO</h4>
+<div class="space-y-2">
+<div class="flex items-center justify-between p-2 bg-[#0E1F14] border-l-4 border-[#C62828]">
+<div class="flex items-center gap-3">
+<span class="bg-[#C62828] text-white text-[10px] px-1 font-bold">ATA</span>
+<span class="font-mono text-sm">GABRIEL B.</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-20 h-2 bg-[#2D6A4F]"><div class="w-[85%] h-full bg-[#52B788]"></div></div>
+<span class="font-mono text-xs text-[#52B788]">85%</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 bg-[#0E1F14] border-l-4 border-[#2D6A4F]">
+<div class="flex items-center gap-3">
+<span class="bg-[#2D6A4F] text-white text-[10px] px-1 font-bold">MEI</span>
+<span class="font-mono text-sm">ARRASCAETA</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-20 h-2 bg-[#2D6A4F]"><div class="w-[45%] h-full bg-[#FFD600]"></div></div>
+<span class="font-mono text-xs text-[#FFD600]">45%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Palmeiras Bench -->
+<div class="p-4 space-y-4">
+<h4 class="font-label text-sm text-[#FFD600] font-bold uppercase border-b-2 border-[#2D6A4F] pb-1">BANCO - PALMEIRAS</h4>
+<div class="space-y-2">
+<div class="flex items-center justify-between p-2 bg-[#0E1F14] border-l-4 border-[#4A90E2]">
+<div class="flex items-center gap-3">
+<span class="bg-[#4A90E2] text-white text-[10px] px-1 font-bold">DEF</span>
+<span class="font-mono text-sm">GUSTAVO G.</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-20 h-2 bg-[#2D6A4F]"><div class="w-[92%] h-full bg-[#52B788]"></div></div>
+<span class="font-mono text-xs text-[#52B788]">92%</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 bg-[#0E1F14] border-l-4 border-[#C62828]">
+<div class="flex items-center gap-3">
+<span class="bg-[#C62828] text-white text-[10px] px-1 font-bold">ATA</span>
+<span class="font-mono text-sm">RONY</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-20 h-2 bg-[#2D6A4F]"><div class="w-[12%] h-full bg-[#C62828]"></div></div>
+<span class="font-mono text-xs text-[#C62828]">12%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar Shell (Mobile only) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full bg-[#0E1F14] border-t-4 border-[#1B4332] shadow-[0px_-4px_0px_0px_rgba(0,0,0,1)] h-16 flex justify-around items-center z-50">
+<button class="flex flex-col items-center justify-center text-[#F1FAEE] opacity-60">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label text-[10px] uppercase">DASHBOARD</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-[#C62828] text-[#F1FAEE] border-t-4 border-[#FFD600] pt-1">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label text-[10px] uppercase">ROSTER</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#F1FAEE] opacity-60">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label text-[10px] uppercase">TRANSFERS</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#F1FAEE] opacity-60">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label text-[10px] uppercase">HISTORY</span>
+</button>
+</footer>
+</body></html>
