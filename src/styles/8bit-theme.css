@@ -103,20 +103,21 @@ body.theme-8bit .alert-badge.info {
     border: 2px solid #4A90E2;
 }
 
-/* Stadium upgrade levels — sprite progression-A 5 levels horizontal strip */
+/* Stadium upgrade levels — migrated to 32-bit D-I sprite (6 tiers, use first 5 cells for levels 1-5) */
 body.theme-8bit .stadium-icon {
     display: inline-block;
     width: 64px;
     height: 64px;
-    background-image: url('/elifoot-web/sprites/stadium-progression-A.jpeg');
-    background-size: 500% 100%;
+    background-image: url('/elifoot-web/sprites/stadium-night-D-I-variants.png');
+    background-size: 600% 200%; /* 6 cols × 2 rows */
     image-rendering: pixelated;
 }
-body.theme-8bit .stadium-icon[data-level="1"] { background-position: 0% 50%; }
-body.theme-8bit .stadium-icon[data-level="2"] { background-position: 25% 50%; }
-body.theme-8bit .stadium-icon[data-level="3"] { background-position: 50% 50%; }
-body.theme-8bit .stadium-icon[data-level="4"] { background-position: 75% 50%; }
-body.theme-8bit .stadium-icon[data-level="5"] { background-position: 100% 50%; }
+body.theme-8bit .stadium-icon[data-level="1"] { background-position: 0% 0%; }
+body.theme-8bit .stadium-icon[data-level="2"] { background-position: 20% 0%; }
+body.theme-8bit .stadium-icon[data-level="3"] { background-position: 40% 0%; }
+body.theme-8bit .stadium-icon[data-level="4"] { background-position: 60% 0%; }
+body.theme-8bit .stadium-icon[data-level="5"] { background-position: 80% 0%; }
+body.theme-8bit .stadium-icon[data-level="6"] { background-position: 100% 0%; }
 
 /* Trophy/awards icon — usa icons-set-football */
 body.theme-8bit .award-icon::before {

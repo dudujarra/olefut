@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { OffPitchEventsDeck } from '../engine/OffPitchEventsDeck';
 import { PERSONALITIES } from '../engine/PlayerCareer';
+import { EfClubBadge, EfBanner } from './ui';
 
 export function PlayerDashboardView() {
     const { getEngine, changeView, forceUpdate } = useGame();
@@ -12,6 +13,10 @@ export function PlayerDashboardView() {
     const [offPitchEvent, setOffPitchEvent] = useState(null);
     const [offPitchResult, setOffPitchResult] = useState(null);
     const [mentalBreakModal, setMentalBreakModal] = useState(false);
+    const [banner, setBanner] = useState(null);
+    const prevTeamIdRef = React.useRef(player?.teamId ?? null);
+    const prevRetiredRef = React.useRef(player?._retired ?? false);
+    const prevMotmRef = React.useRef(player?.career?.seasonMotm ?? 0);
 
     if (!player || !team) return <div className="main-content">Erro: jogador não encontrado.</div>;
 
@@ -22,6 +27,25 @@ export function PlayerDashboardView() {
             setOffPitchEvent(eligible[Math.floor(Math.random() * eligible.length)]);
         }
     }, [engine.currentWeek]);
+
+    // Banner triggers: hired (team change) / retirement / motm
+    React.useEffect(() => {
+        if (player.teamId !== prevTeamIdRef.current && prevTeamIdRef.current !== null) {
+            setBanner('hired');
+        }
+        prevTeamIdRef.current = player.teamId;
+
+        if (player._retired && !prevRetiredRef.current) {
+            setBanner('retirement');
+        }
+        prevRetiredRef.current = player._retired;
+
+        const motm = player.career?.seasonMotm ?? 0;
+        if (motm > prevMotmRef.current) {
+            setBanner('motm');
+        }
+        prevMotmRef.current = motm;
+    });
 
     const handleTrain = (skill) => {
         const result = player.train(skill);
@@ -89,7 +113,8 @@ export function PlayerDashboardView() {
     const stressColor = player.stress >= 75 ? 'var(--danger)' : player.stress >= 50 ? 'var(--accent)' : 'var(--text-muted)';
 
     return (
-        <div className="main-content fade-in">
+        <div className="main-content fade-in ef-art-bg ef-art-managers">
+            {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
             {/* Off-Pitch Event Modal */}
             {offPitchEvent && (
                 <div className="modal-overlay">
@@ -107,8 +132,9 @@ export function PlayerDashboardView() {
 
             {/* Header Card */}
             <div className="card">
-                <div className="card-header">
-                    <div>
+                <div className="card-header" style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                    {team?.name && <EfClubBadge name={team.name} size="lg" />}
+                    <div style={{flex:1}}>
                         <h2>{player.name} <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{pers.emoji} {pers.name}</span></h2>
                         <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{player.position} • {team.name} • Semana {engine.currentWeek}/38</span>
                     </div>
@@ -127,7 +153,7 @@ export function PlayerDashboardView() {
                             <li><span>💰 Dinheiro:</span> <strong>R$ {player.money}</strong></li>
                             <li><span>🥤 Energéticos:</span> <strong>{player.energyDrinks}</strong></li>
                             <li><span>⚽ Gols:</span> <strong>{player.seasonGoals}</strong></li>
-                            <li><span>🧠 Stress:</span> <strong style={{ color: stressColor }}>{player.stress}%</strong></li>
+                            <li><span>🧠 Stress:</span> <strong className={player.stress >= 75 ? 'ef-anim-pulse-glow' : ''} style={{ color: stressColor, padding: player.stress >= 75 ? '2px 6px' : 0, borderRadius: '4px' }}>{player.stress}%</strong></li>
                         </ul>
                     </div>
                     <div>

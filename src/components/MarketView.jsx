@@ -4,6 +4,7 @@ import { SCOUT_REGIONS } from '../engine/StadiumSystem';
 import { getPlayerTraits } from '../engine/PlayerTraits';
 import { PlayerAvatar } from '../utils/avatar';
 import { Tooltip } from './Tooltip';
+import { EfClubBadge } from './ui';
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -57,9 +58,12 @@ export function MarketView() {
     const sellable = team.squad.filter(p => !p.isTitular && !p.injury);
 
     return (
-        <div className="main-content fade-in">
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem'}}>
-                <h2 style={{fontSize:'1.2rem'}}>🛒 Mercado</h2>
+        <div className="main-content fade-in ef-art-bg ef-art-finance-icons">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem',gap:'12px'}}>
+                <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                    <EfClubBadge name={team.name} size="md" />
+                    <h2 style={{fontSize:'1.2rem',margin:0}}>🛒 Mercado — {team.name}</h2>
+                </div>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
             </div>
 
@@ -132,7 +136,7 @@ export function MarketView() {
                     ) : (
                         <div style={{display:'flex',flexDirection:'column',gap:'0.15rem'}}>
                             {market.map(p => (
-                                <div key={p.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'1px solid var(--border-subtle)',fontSize:'0.78rem'}}>
+                                <div key={p.id} className={`ef-anim-fade-in ${p.ovr >= 80 ? 'ef-anim-pulse-glow' : ''}`} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'1px solid var(--border-subtle)',fontSize:'0.78rem'}}>
                                     <div style={{display:'flex',alignItems:'center'}}>
                                         <PlayerAvatar name={p.name} size={24} />
                                         <strong>{p.name}</strong>

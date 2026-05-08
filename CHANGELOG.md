@@ -4,7 +4,90 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
-### [feat] v1.7 — Monitor Auto-Logger (2026-05-08)
+### [feat] v2.0.0 — SNES Pacaembu Edition (2026-05-08)
+
+Massive 6-sprint cohesive design + motion overhaul. Estética 32-bit SNES ISS Deluxe / PS1-era, paleta Pacaembu (grass green #2D5A3D, gold #FFD700, leather brown #6B3D1F), narrative event banners, atmospheric backdrops, animation strips e cleanup legacy.
+
+#### Sprint 1 (AKITA-075) — atmospheric art utility classes + 6 views
+
+- `src/styles/animations.css`: 14 `.ef-art-*` utility classes (newspaper, boardroom, champion-celebration, pitch-topdown, state-arrows, sponsors, finance-icons, celebration, weather-overlay, managers, players, achievements, crowd-strip, bg-overlay)
+- StartView: `ef-art-champion-celebration` backdrop
+- ChronicleView: `ef-art-newspaper` backdrop
+- StandingsView: `ef-art-state-arrows` backdrop
+- RivalriesView: `ef-art-crowd-strip` backdrop
+- SquadView: `ef-art-players` backdrop
+- MarketView: `ef-art-finance-icons` backdrop
+- PlayerDashboardView: `ef-art-managers` backdrop
+- All atmospheric backdrops use `ef-art-bg` overlay (rgba 0F1A14 78%) for legibility
+
+#### Sprint 2 (AKITA-076) — 9 EfBanner triggers wired (13/13 total)
+
+DashboardView (Manager mode):
+- `prevSeasonRef`: champion/promotion/relegation on season transition
+- `prevSponsorRef`: sponsor banner on new contract signed
+- `prevInjuriesRef`: injury banner on new injury added
+- `prevSuspensionsRef`: suspension banner on new suspension added
+
+PlayerDashboardView (Player mode):
+- `prevTeamIdRef`: hired banner on team change
+- `prevRetiredRef`: retirement banner when `_retired` flips true
+- `prevMotmRef`: motm banner on `career.seasonMotm` increment
+
+Total banner coverage: champion / promotion / relegation / fired / hired / retirement / offer / sponsor / motm / hattrick / injury / suspension / cleanSheet.
+
+#### Sprint 3 (AKITA-077) — 3 animation strips generated + applied
+
+Stitch (GEMINI_3_FLASH):
+- `ball-kick-6frames.png` (footballer kick action, leather brown jersey)
+- `gk-save-5frames.png` (goalkeeper diving save, yellow jersey)
+- `crowd-flag-wave-4frames.png` (fan flag wave, green/yellow checkered)
+
+CSS: 3 keyframes (ef-ball-kick 600ms / ef-gk-save 700ms / ef-crowd-flag-wave 1200ms loop) + 3 utility classes + reduced-motion query.
+
+MatchView integration:
+- `ef-anim-crowd-flag-wave` permanent in scoreboard top-right (55% opacity)
+- `ef-anim-ball-kick` triggered on goal (1300ms)
+- `ef-anim-gk-save` triggered when narration mentions defesa/save events
+
+#### Sprint 4 (AKITA-078) — 7 atmospheric assets
+
+Stitch (GEMINI_3_FLASH):
+- `banners/locker-room.png` (pre-match wooden interior + chalkboard)
+- `banners/tunnel-walkout.png` (first-person stadium tunnel exit)
+- `banners/press-box.png` (press conference podium + microphones)
+- `banners/trophy-room-cabinet.png` (12 trophies hall of fame cabinet)
+- `pitch-tactical-433.png` (top-down 4-3-3 formation grid)
+- `pitch-patterns-4variants.png` (4 grass mowing patterns 2x2 grid)
+- `stadium-night-D-I-variants.png` (6 stadium tiers night progression)
+
+CSS: 7 new `.ef-art-*` utility classes.
+PreMatchScreen: `ef-art-locker-room` backdrop applied.
+
+**Deferred to v2.0.1**: `loading-splash.png` (Stitch backend timeout 3x retries 2026-05-08, no screen materialized in project `list_screens`). Fallback: existing dark-green theme + `ef-anim-spinner` sprite cover splash needs.
+
+#### Sprint 5 (AKITA-079) — legacy 8-bit cleanup + migration
+
+Deleted dead legacy assets (no remaining refs):
+- `logo-8bit.svg`
+- `icons-set-classic.jpeg`
+- `weather-classic.jpeg`
+- `stadium-progression-A/B/C.jpeg` (replaced by D-I variants)
+
+Migrated:
+- `8bit-theme.css` `.stadium-icon` → uses `stadium-night-D-I-variants.png` (6 tiers, data-level 1-6)
+- README assets section updated to reflect 40+ sprites + 32-bit baseline
+
+#### Asset count v2.0.0
+
+- 13 club spritesheets covering 170 clubs (BR + EU + SA full coverage)
+- 9 animation strips (6 prior + 3 Sprint 3)
+- 7 atmospheric backdrops (Sprint 4) + 4 prior (newspaper/boardroom/champion/state-arrows)
+- 4 pitch variants (mowing) + 1 tactical 4-3-3 grid
+- 13 EfBanner narrative event types fully wired
+- 21 `.ef-art-*` utility classes total
+- 1045/1045 tests passing
+
+
 
 Monitor agora captura tudo SEM user action.
 

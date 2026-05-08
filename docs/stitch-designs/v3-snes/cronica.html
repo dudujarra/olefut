@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Elifoot Cronica do Save SNES</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for Pixel Art Style -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=VT323&amp;display=swap" rel="family"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'snes-bg': '#0a0a14',
+            'snes-panel': '#2d452d',
+            'snes-header': '#4a6741',
+            'snes-border-light': '#ffffff',
+            'snes-border-dark': '#000000',
+            'snes-parchment': '#e5c09e',
+            'snes-yellow': '#f7e52a',
+            'snes-green-text': '#58d68d',
+            'snes-red': '#cc3333',
+            'snes-button-gray': '#a0a0a0',
+          },
+          fontFamily: {
+            'pixel-header': ['"Press Start 2P"', 'cursive'],
+            'pixel-body': ['"VT323"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="retro-effects">
+    /* Bevel effect for the main container and panels */
+    .snes-bevel {
+      border: 4px solid #000;
+      box-shadow: inset 2px 2px 0px rgba(255,255,255,0.4), inset -2px -2px 0px rgba(0,0,0,0.6);
+    }
+    
+    .snes-inset {
+      border: 3px solid #000;
+      box-shadow: inset -2px -2px 0px rgba(255,255,255,0.3), inset 2px 2px 0px rgba(0,0,0,0.5);
+    }
+
+    .snes-button-bevel {
+      border: 3px solid #000;
+      box-shadow: inset 3px 3px 0px rgba(255,255,255,0.4), inset -3px -3px 0px rgba(0,0,0,0.6);
+      transition: transform 0.1s;
+    }
+
+    .snes-button-bevel:active {
+      box-shadow: inset -3px -3px 0px rgba(255,255,255,0.4), inset 3px 3px 0px rgba(0,0,0,0.6);
+      transform: translateY(2px);
+    }
+
+    /* Pixel art icons placeholders simulated with gradients/shapes */
+    .icon-stadium { background: linear-gradient(135deg, #1a2a1a 0%, #3e5e3e 100%); position: relative; }
+    .icon-stadium::after { content: ''; position: absolute; top: 40%; left: 20%; width: 60%; height: 20%; border: 2px solid #fff; border-radius: 50%; }
+    
+    .icon-trophy { background: linear-gradient(135deg, #1a1a2a 0%, #2d2d4d 100%); color: #ffd700; }
+    
+    .icon-monitor { background: linear-gradient(135deg, #222 0%, #444 100%); border: 2px solid #fff; }
+
+    /* Scanline effect overlay */
+    .scanlines {
+      position: relative;
+      overflow: hidden;
+    }
+    .scanlines::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 10;
+      background-size: 100% 4px, 3px 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-snes-bg flex items-center justify-center min-h-screen p-4">
+<!-- BEGIN: Main Console Screen -->
+<main class="scanlines w-full max-w-5xl bg-snes-bg border-[12px] border-[#1a1a1a] rounded-sm snes-bevel p-6 md:p-10 flex flex-col gap-6" data-purpose="console-interface">
+<!-- BEGIN: Top Frame -->
+<div class="bg-snes-panel snes-bevel p-1 flex flex-col">
+<!-- BEGIN: Header Title Bar -->
+<header class="bg-snes-header p-4 flex justify-between items-center border-b-4 border-black" data-purpose="screen-header">
+<h1 class="font-pixel-header text-white text-lg md:text-2xl tracking-widest">CRONICA DO SAVE</h1>
+<span class="font-pixel-header text-snes-yellow text-sm md:text-xl">TEMP 1996/97</span>
+</header>
+<!-- END: Header Title Bar -->
+<!-- BEGIN: Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-1 p-1 bg-black">
+<!-- BEGIN: Left Column (Chronicles) -->
+<section class="lg:col-span-2 bg-snes-parchment p-6 flex flex-col gap-8 snes-inset" data-purpose="chronicle-content">
+<!-- Chapter 1 -->
+<article class="flex gap-4 items-start border-b-2 border-black/20 pb-6">
+<div class="w-20 h-20 flex-shrink-0 snes-bevel bg-[#222] flex items-center justify-center overflow-hidden">
+<div class="icon-stadium w-full h-full flex items-center justify-center">
+<svg class="w-10 h-10 text-white opacity-80" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<div>
+<h2 class="font-pixel-body font-bold text-2xl text-[#8b4513] uppercase tracking-tight">CAPITULO 1 - A ESTREIA</h2>
+<p class="font-pixel-body text-xl text-black leading-tight mt-1">
+                Assumimos o comando técnico sob forte chuva. O time estava desmotivado, mas a vitória heroica por 1-0 no último minuto mostrou que este grupo tinha alma. O estádio pulsava com a esperança de dias melhores.
+              </p>
+</div>
+</article>
+<!-- Chapter 2 -->
+<article class="flex gap-4 items-start border-b-2 border-black/20 pb-6">
+<div class="w-20 h-20 flex-shrink-0 snes-bevel bg-[#222] flex items-center justify-center overflow-hidden">
+<div class="icon-trophy w-full h-full flex items-center justify-center">
+<svg class="w-10 h-10" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1h-1V5z" fill-rule="evenodd"></path><path d="M15 8V3a1 1 0 00-1-1H6a1 1 0 00-1 1v5a1 1 0 001 1h8a1 1 0 001-1z"></path></svg>
+</div>
+</div>
+<div>
+<h2 class="font-pixel-body font-bold text-2xl text-[#8b4513] uppercase tracking-tight">CAPITULO 2 - PRIMEIRO TITULO</h2>
+<p class="font-pixel-body text-xl text-black leading-tight mt-1">
+                A consagração veio antes do esperado. Com uma campanha impecável em casa, levantamos a taça da Copa Regional. Romário foi o artilheiro isolado, marcando em todos os jogos da Fase Final.
+              </p>
+</div>
+</article>
+<!-- Chapter 3 -->
+<article class="flex gap-4 items-start">
+<div class="w-20 h-20 flex-shrink-0 snes-bevel bg-[#222] flex items-center justify-center overflow-hidden">
+<div class="icon-monitor w-full h-full flex items-center justify-center">
+<div class="w-10 h-8 border-2 border-white flex flex-col justify-between p-1">
+<div class="flex justify-between"><div class="w-1 h-1 bg-white"></div><div class="w-1 h-1 bg-white"></div></div>
+<div class="h-1 bg-white w-full"></div>
+</div>
+</div>
+</div>
+<div>
+<h2 class="font-pixel-body font-bold text-2xl text-[#8b4513] uppercase tracking-tight">CAPITULO 3 - CARRASCO DO RIVAL</h2>
+<p class="font-pixel-body text-xl text-black leading-tight mt-1">
+                O derby foi um massacre. Três gols no primeiro tempo selaram o destino do nosso maior rival. O grito da torcida ecoou pela cidade: "O campeão voltou!". Nunca esqueceremos esse placar histórico.
+              </p>
+</div>
+</article>
+</section>
+<!-- END: Left Column -->
+<!-- BEGIN: Right Column (Sidebar) -->
+<aside class="flex flex-col gap-1">
+<!-- Achievements Section -->
+<section class="bg-snes-panel flex-grow p-4 snes-inset flex flex-col items-center" data-purpose="achievements-grid">
+<h3 class="font-pixel-header text-white text-[10px] md:text-xs mb-4 border-b border-white/30 pb-2 w-full text-center uppercase">Conquistas</h3>
+<div class="grid grid-cols-4 gap-2 w-full">
+<!-- Grid Items -->
+<!-- Row 1 -->
+<div class="aspect-square bg-black/40 snes-inset flex items-center justify-center">
+<div class="w-3/4 h-3/4 bg-cyan-400/50 transform rotate-45 border border-white/20"></div>
+</div>
+<div class="aspect-square bg-black/40 snes-inset flex items-center justify-center">
+<div class="w-1/2 h-1/2 bg-teal-200/50 border border-white/20"></div>
+</div>
+<div class="aspect-square bg-black/40 snes-inset flex items-center justify-center">
+<div class="w-3/4 h-3/4 bg-emerald-400/50 transform -rotate-12 border border-white/20"></div>
+</div>
+<div class="aspect-square bg-black/40 snes-inset"></div>
+<!-- Row 2 -->
+<div class="aspect-square bg-black/40 snes-inset flex items-center justify-center">
+<div class="w-3/4 h-3/4 bg-yellow-400/50 border border-white/20"></div>
+</div>
+<div class="aspect-square bg-black/40 snes-inset"></div>
+<div class="aspect-square bg-black/40 snes-inset"></div>
+<div class="aspect-square bg-black/40 snes-inset"></div>
+<!-- Row 3 -->
+<div class="aspect-square bg-black/40 snes-inset"></div>
+<div class="aspect-square bg-black/40 snes-inset"></div>
+<div class="aspect-square bg-black/40 snes-inset"></div>
+<div class="aspect-square bg-black/40 snes-inset"></div>
+</div>
+</section>
+<!-- Summary Section -->
+<section class="bg-snes-panel p-4 snes-inset flex flex-col items-center" data-purpose="summary-panel">
+<h3 class="font-pixel-header text-white text-[10px] md:text-xs mb-4 border-b border-white/30 pb-2 w-full text-center uppercase">Resumo</h3>
+<div class="flex flex-col items-center gap-1 font-pixel-body text-2xl">
+<div class="flex gap-2">
+<span class="text-white">JOGOS:</span>
+<span class="text-snes-yellow">342</span>
+</div>
+<div class="flex gap-2">
+<span class="text-white">VITÓRIAS:</span>
+<span class="text-snes-green-text">68%</span>
+</div>
+</div>
+</section>
+</aside>
+<!-- END: Right Column -->
+</div>
+<!-- END: Content Grid -->
+</div>
+<!-- END: Top Frame -->
+<!-- BEGIN: Footer Buttons -->
+<nav class="grid grid-cols-1 md:grid-cols-3 gap-4" data-purpose="action-buttons">
+<button class="bg-snes-button-gray snes-button-bevel p-4 font-pixel-header text-black text-sm hover:brightness-110 active:brightness-90 uppercase">
+        Exportar PNG
+      </button>
+<button class="bg-snes-button-gray snes-button-bevel p-4 font-pixel-header text-black text-sm hover:brightness-110 active:brightness-90 uppercase">
+        Exportar PDF
+      </button>
+<button class="bg-snes-red snes-button-bevel p-4 font-pixel-header text-white text-sm hover:brightness-110 active:brightness-90 uppercase">
+        Compartilhar
+      </button>
+</nav>
+<!-- END: Footer Buttons -->
+</main>
+<!-- END: Main Console Screen -->
+</body></html>

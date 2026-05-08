@@ -5,6 +5,7 @@ import { getFormEmoji } from '../engine/PlayerDevelopment';
 import { sfx } from '../utils/sound';
 import { LiveSquadEditModal } from './LiveSquadEditModal';
 import { PreMatchScreen } from './PreMatchScreen';
+import { EfClubBadge, EfBanner } from './ui';
 
 export function MatchView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -26,6 +27,9 @@ export function MatchView() {
     const [paused, setPaused] = useState(false);
     const [liveModalOpen, setLiveModalOpen] = useState(false);
     const [liveSubsCount, setLiveSubsCount] = useState(0);
+    const [goalBurstActive, setGoalBurstActive] = useState(false);
+    const [eventOverlay, setEventOverlay] = useState(null); // 'card'|'injury'|'sub'|'whistle'
+    const [banner, setBanner] = useState(null); // null | 'hattrick' | 'cleanSheet' | 'motm'
     const logRef = useRef(null);
     const timerRef = useRef(null);
     const speedRef = useRef(200);
@@ -33,6 +37,23 @@ export function MatchView() {
 
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
+
+    // Detect hat-trick + clean-sheet at fulltime
+    useEffect(() => {
+        if (phase !== 'fulltime' || !narration?.length) return;
+        const scorerCounts = {};
+        narration.forEach(n => {
+            const m = n.text?.match(/⚽.*?([A-ZÁÉÍÓÚÃÕÇ][a-záéíóúãõç]+(?:\s[A-Z][a-z]+)*)/);
+            if (m) scorerCounts[m[1]] = (scorerCounts[m[1]] || 0) + 1;
+        });
+        const hasHattrick = Object.values(scorerCounts).some(c => c >= 3);
+        if (hasHattrick) { setBanner('hattrick'); return; }
+
+        const isHome = result?.home === team.name;
+        const myGoals = isHome ? result?.homeGoals : result?.awayGoals;
+        const oppGoals = isHome ? result?.awayGoals : result?.homeGoals;
+        if (oppGoals === 0 && myGoals > 0) setBanner('cleanSheet');
+    }, [phase, narration, result, team.name]);
 
     // Auto-scroll narration log
     useEffect(() => {
@@ -105,8 +126,25 @@ export function MatchView() {
                     return [...prev, ev];
                 });
                 // P1-6: sound FX para eventos importantes
-                if (ev.text?.includes('⚽')) sfx.goal();
-                else if (ev.text?.includes('🟨') || ev.text?.includes('🟥')) sfx.card();
+                if (ev.text?.includes('⚽')) {
+                    sfx.goal();
+                    setGoalBurstActive(true);
+                    setTimeout(() => setGoalBurstActive(false), 1300);
+                } else if (ev.text?.includes('🟨') || ev.text?.includes('🟥')) {
+                    sfx.card();
+                    const cls = ev.text.includes('🟥') ? 'ef-event-redcard' : 'ef-event-foul';
+                    setEventOverlay(cls);
+                    setTimeout(() => setEventOverlay(null), 1200);
+                } else if (ev.text?.includes('🤕')) {
+                    setEventOverlay('ef-event-injury');
+                    setTimeout(() => setEventOverlay(null), 1200);
+                } else if (ev.text?.includes('🔄') || ev.text?.includes('substitui')) {
+                    setEventOverlay('ef-event-sub');
+                    setTimeout(() => setEventOverlay(null), 1200);
+                } else if (ev.text?.includes('🧤') || ev.text?.match(/defes|defen|salvou|defesa/i)) {
+                    setEventOverlay('ef-event-save');
+                    setTimeout(() => setEventOverlay(null), 1200);
+                }
                 eventIdx++;
                 tickerStateRef.current.eventIdx = eventIdx;
             }
@@ -362,11 +400,70 @@ export function MatchView() {
 
     // === SCOREBOARD (shared between phases) ===
     const Scoreboard = ({ half }) => (
-        <div className="card" style={{ textAlign: 'center', padding: '0.75rem' }}>
-            <div className="match-teams">
-                <span className="team-name">{result.home}</span>
+        <div className={`card ${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{ textAlign: 'center', padding: '0.75rem', position: 'relative' }}>
+            <div
+                className="ef-anim-crowd-flag-wave"
+                aria-hidden="true"
+                style={{
+                    position: 'absolute',
+                    top: '4px',
+                    right: '4px',
+                    opacity: 0.55,
+                    pointerEvents: 'none',
+                    zIndex: 1
+                }}
+            />
+            {goalBurstActive && (
+                <div
+                    className="ef-anim-goal-burst"
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        zIndex: 10,
+                        pointerEvents: 'none'
+                    }}
+                />
+            )}
+            {goalBurstActive && (
+                <div
+                    className="ef-anim-ball-kick"
+                    aria-hidden="true"
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '12%',
+                        transform: 'translateY(-50%)',
+                        zIndex: 9,
+                        pointerEvents: 'none'
+                    }}
+                />
+            )}
+            {eventOverlay && (
+                <div className={`ef-event-overlay ef-event-icon ${eventOverlay}`} />
+            )}
+            {eventOverlay === 'ef-event-save' && (
+                <div
+                    className="ef-anim-gk-save"
+                    aria-hidden="true"
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        right: '12%',
+                        transform: 'translateY(-50%)',
+                        zIndex: 9,
+                        pointerEvents: 'none'
+                    }}
+                />
+            )}
+            <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                    <EfClubBadge name={result.home} size="lg" />
+                    <span className="team-name">{result.home}</span>
+                </div>
                 <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
-                    <div className="match-score">{runningScore.home} — {runningScore.away}</div>
+                    <div className={`match-score ${goalBurstActive ? 'ef-anim-counter' : ''}`}>{runningScore.home} — {runningScore.away}</div>
                     {/* Cronômetro */}
                     <div style={{
                         display:'flex',alignItems:'center',gap:'0.5rem',marginTop:'0.3rem'
@@ -382,7 +479,10 @@ export function MatchView() {
                     </div>
                     <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>{half}</span>
                 </div>
-                <span className="team-name">{result.away}</span>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                    <EfClubBadge name={result.away} size="lg" />
+                    <span className="team-name">{result.away}</span>
+                </div>
             </div>
         </div>
     );
@@ -459,10 +559,16 @@ export function MatchView() {
             <div className="main-content fade-in">
                 <div className="card" style={{ textAlign: 'center', padding:'0.75rem' }}>
                     <h3 style={{color:'var(--accent)',marginBottom:'0.3rem'}}>⏸️ INTERVALO</h3>
-                    <div className="match-teams">
-                        <span className="team-name">{result.home}</span>
+                    <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
+                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                            <EfClubBadge name={result.home} size="md" />
+                            <span className="team-name">{result.home}</span>
+                        </div>
                         <div className="match-score">{halfTimeData?.homeGoals ?? 0} — {halfTimeData?.awayGoals ?? 0}</div>
-                        <span className="team-name">{result.away}</span>
+                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                            <EfClubBadge name={result.away} size="md" />
+                            <span className="team-name">{result.away}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -592,12 +698,19 @@ export function MatchView() {
 
     return (
         <div className="main-content fade-in">
+            {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
             <div className="card" style={{ textAlign: 'center' }}>
                 <h2 style={{fontSize:'1.2rem',marginBottom:'0.5rem'}}>🏁 FIM DE JOGO</h2>
-                <div className="match-teams">
-                    <span className="team-name">{result?.home}</span>
+                <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
+                    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                        <EfClubBadge name={result?.home} size="lg" />
+                        <span className="team-name">{result?.home}</span>
+                    </div>
                     <div className="match-score">{result?.homeGoals} — {result?.awayGoals}</div>
-                    <span className="team-name">{result?.away}</span>
+                    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                        <EfClubBadge name={result?.away} size="lg" />
+                        <span className="team-name">{result?.away}</span>
+                    </div>
                 </div>
                 {motmEntry && <p style={{color:'var(--primary)',fontSize:'0.8rem',marginTop:'0.4rem'}}>{motmEntry.text}</p>}
             </div>

@@ -103,7 +103,7 @@ export function ChronicleView() {
     }
 
     return (
-        <div className="main-content fade-in">
+        <div className="main-content fade-in ef-art-bg ef-art-newspaper">
             <div className="card-header" style={{ marginBottom: '1rem' }}>
                 <h2>📜 Crônica do Save</h2>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
@@ -132,7 +132,7 @@ export function ChronicleView() {
                 </div>
             </div>
 
-            <div className="card" style={{ padding: '1.5rem', whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '0.85rem', lineHeight: 1.6 }}>
+            <div key={view} className="card ef-anim-slide-down" style={{ padding: '1.5rem', whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '0.85rem', lineHeight: 1.6 }}>
                 {content || '*Carregando crônica...*'}
             </div>
         </div>

@@ -11,10 +11,12 @@
 |--------|--------|------|
 | Dashboard | ✅ Generated | dashboard.html / dashboard.png (project anterior `3610899650470989220`) |
 | Match Live | ✅ Generated | match.html / match.png |
-| Squad | ⏳ Timed out 2x | retry future |
-| Hall de Lendas | ⏳ Timed out 2x | retry future |
-| Crônica | — pending | — |
-| StartView | — pending | — |
+| Squad | ✅ Generated | squad.html / squad.png |
+| Hall de Lendas | ✅ Generated | hall.html / hall.png |
+| Crônica do Save | ✅ Generated | cronica.html / cronica.png |
+| StartView | ✅ Generated | startview.html / startview.png |
+| PlayerDashboard | — pending | — |
+| PlayerMatch | — pending | — |
 
 ## Match Live Screenshot Notes
 
@@ -42,13 +44,21 @@ bodyFont: IBM_PLEX_SANS
 roundness: ROUND_TWO (2px borders)
 ```
 
+## Notes per asset
+
+- **Dashboard**: project anterior `3610899650470989220`. Reference for header/balance/tabs.
+- **Match**: top-down 2D pitch + scoreboard + sidebar speed/tactic/subs + narration log. Reference for MatchView refactor.
+- **Squad**: tabela jogadores + formação preview left panel. Reference for SquadView tabs+list.
+- **Hall de Lendas**: 6 cards lendas grid + faces ASCII + categorias (Idolo/Carrasco/Cria). Reference for SPEC-052 myth layer UI.
+- **Crônica**: parchment central com chapters + pixel icons + grid 4x3 conquistas + 3 export buttons. Reference for SPEC-057 chronicle export.
+- **StartView**: ELIFOOT Press Start 2P logo + 4 menu buttons (NOVO JOGO/CARREGAR SAVE/MODO JOGADOR/OPCOES) + version footer.
+
 ## Próximos passos
 
-1. Retry Squad + Hall + Crônica generation (Stitch API instável)
-2. Apply Match HTML como base pra refactor `MatchView.jsx` (66 inline styles → 0)
-3. Generate StartView SNES
-4. Generate PlayerDashboard + PlayerMatch SNES
-5. Apply em `src/components/<View>.jsx` mantendo Stitch UI library
+1. Apply Match HTML como base pra refactor `MatchView.jsx` (66 inline styles → 0)
+2. Apply Squad refs pra SquadView
+3. Generate PlayerDashboard + PlayerMatch SNES (v1.2 player mode)
+4. Apply em `src/components/<View>.jsx` mantendo Stitch UI library
 
 ## Comparativo v2 vs v3
 

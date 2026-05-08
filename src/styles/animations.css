@@ -1,0 +1,577 @@
+/**
+ * ELIFOOT v2.0 — Pixel-Art Animations
+ *
+ * Sprite-frame animations via background-position + steps() pra preservar pixel-art crispness.
+ * Easing curves smooth quebram aesthetic SNES — usar steps() ou linear sempre.
+ *
+ * Direção arte:
+ * - image-rendering: pixelated (nearest-neighbor)
+ * - steps() animation timing (não cubic-bezier)
+ * - duration ms múltiplos de 100ms (12 FPS feel)
+ */
+
+/* ========== KEYFRAMES sprite-frame ========== */
+
+@keyframes ef-ball-roll {
+    /* 8 frames horizontal sprite, ball-roll-8frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -512px 0; } /* 8 × 64px = 512px */
+}
+
+@keyframes ef-goal-burst {
+    /* 6 frames horizontal, goal-burst-6frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -576px 0; } /* 6 × 96px = 576px */
+}
+
+@keyframes ef-spinner {
+    /* 8 frames horizontal, spinner-8frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -384px 0; } /* 8 × 48px = 384px */
+}
+
+@keyframes ef-trophy-unlock {
+    /* 6 frames horizontal, trophy-unlock-6frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -576px 0; } /* 6 × 96px = 576px */
+}
+
+@keyframes ef-crowd-wave {
+    /* 4 frames vertical, crowd-wave-4frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: 0 -320px; } /* 4 × 80px = 320px */
+}
+
+@keyframes ef-ball-kick {
+    /* 6 frames horizontal, ball-kick-6frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -384px 0; } /* 6 × 64px */
+}
+
+@keyframes ef-gk-save {
+    /* 5 frames horizontal, gk-save-5frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -320px 0; } /* 5 × 64px */
+}
+
+@keyframes ef-crowd-flag-wave {
+    /* 4 frames horizontal, crowd-flag-wave-4frames.png */
+    from { background-position: 0 0; }
+    to   { background-position: -512px 0; } /* 4 × 128px */
+}
+
+/* ========== KEYFRAMES UI ========== */
+
+@keyframes ef-shake {
+    /* Goal banner shake — 1200ms */
+    0%, 100% { transform: translateX(0); }
+    10%      { transform: translateX(-4px); }
+    20%      { transform: translateX(4px); }
+    30%      { transform: translateX(-3px); }
+    40%      { transform: translateX(3px); }
+    50%      { transform: translateX(-2px); }
+    60%      { transform: translateX(2px); }
+    70%      { transform: translateX(-1px); }
+    80%      { transform: translateX(1px); }
+    90%      { transform: translateX(0); }
+}
+
+@keyframes ef-pop-in {
+    /* Modal/card pop-in — 200ms */
+    0%   { opacity: 0; transform: scale(0.85); }
+    60%  { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ef-slide-down {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ef-slide-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ef-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes ef-pulse-glow {
+    /* Highlight pulsing — focus rings, important badges */
+    0%, 100% { box-shadow: 0 0 0 0 rgba(247, 181, 56, 0.7); }
+    50%      { box-shadow: 0 0 0 6px rgba(247, 181, 56, 0); }
+}
+
+@keyframes ef-counter {
+    /* Score counter increment — 300ms */
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
+}
+
+/* ========== UTILITY CLASSES ========== */
+
+/* Sprite-frame containers */
+.ef-anim-ball-roll {
+    width: 64px;
+    height: 64px;
+    background-image: url('/sprites/animations/ball-roll-8frames.png');
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-ball-roll 800ms steps(8) infinite;
+}
+
+.ef-anim-goal-burst {
+    width: 96px;
+    height: 96px;
+    background-image: url('/sprites/animations/goal-burst-6frames.png');
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-goal-burst 1200ms steps(6) forwards;
+}
+
+.ef-anim-spinner {
+    width: 48px;
+    height: 48px;
+    background-image: url('/sprites/animations/spinner-8frames.png');
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-spinner 800ms steps(8) infinite;
+}
+
+.ef-anim-spinner-sm {
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background-image: url('/sprites/animations/spinner-8frames.png');
+    background-repeat: no-repeat;
+    background-size: 128px 16px; /* 8 frames × 16px scaled */
+    image-rendering: pixelated;
+    animation: ef-spinner-sm 800ms steps(8) infinite;
+}
+
+@keyframes ef-spinner-sm {
+    from { background-position: 0 0; }
+    to   { background-position: -128px 0; }
+}
+
+/* ========== EVENT SPRITES (match-events.png 4×3) ========== */
+.ef-event-icon {
+    display: inline-block;
+    width: 96px;
+    height: 96px;
+    background-image: url('/sprites/cards/match-events.png');
+    background-size: 384px 288px; /* 4×96 × 3×96 */
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+.ef-event-goal       { background-position: 0 0; }
+.ef-event-foul       { background-position: -96px 0; }
+.ef-event-injury     { background-position: -192px 0; }
+.ef-event-sub        { background-position: -288px 0; }
+.ef-event-redcard    { background-position: 0 -96px; }
+.ef-event-corner     { background-position: -96px -96px; }
+.ef-event-offside    { background-position: -192px -96px; }
+.ef-event-penalty    { background-position: -288px -96px; }
+.ef-event-save       { background-position: 0 -192px; }
+.ef-event-hattrick   { background-position: -96px -192px; }
+.ef-event-halftime   { background-position: -192px -192px; }
+.ef-event-fulltime   { background-position: -288px -192px; }
+
+/* Animated entry */
+.ef-event-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: none;
+    animation: ef-pop-in 200ms ease-out, ef-fade-out 300ms ease-out 900ms forwards;
+}
+
+@keyframes ef-fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* ========== GLOBAL MICROINTERACTIONS ========== */
+
+/* All buttons get hover-lift unless opted out */
+button:not(.no-anim):not([disabled]):hover {
+    transform: translateY(-1px);
+    transition: transform 80ms steps(1);
+}
+button:not(.no-anim):not([disabled]):active {
+    transform: translateY(2px);
+    transition: transform 50ms steps(1);
+}
+
+/* Tooltip fade-in — apply to .tooltip class */
+.tooltip {
+    animation: ef-fade-in 150ms ease-out;
+}
+
+/* Toast/event-toast slide-down + auto fade */
+.event-toast {
+    animation: ef-slide-down 200ms ease-out, ef-fade-out 400ms ease-out 2600ms forwards;
+}
+
+/* Tab content fade-in (DashboardView) */
+.nav-tabs ~ * {
+    animation: ef-fade-in 200ms ease-out;
+}
+
+/* Card hover lift (game cards, player cards) */
+.card.interactive:hover,
+.card.clickable:hover {
+    transform: translateY(-2px);
+    transition: transform 100ms steps(1);
+    box-shadow: 0 6px 0 rgba(0,0,0,0.5);
+}
+
+/* Stat counter pulse on update */
+.stat-value.updated {
+    animation: ef-counter 300ms steps(2) 1;
+}
+
+/* ========== POSITION ICONS (position-icons.png 4×2) ========== */
+.ef-pos-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url('/sprites/positions/position-icons.png');
+    background-size: 96px 48px; /* 4×24 × 2×24 scaled */
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    vertical-align: middle;
+}
+.ef-pos-icon.GOL { background-position: 0 0; }
+.ef-pos-icon.DEF { background-position: -24px 0; }
+.ef-pos-icon.MEI { background-position: -48px 0; }
+.ef-pos-icon.ATA { background-position: -72px 0; }
+.ef-pos-icon.ZAG { background-position: 0 -24px; }
+.ef-pos-icon.LAT { background-position: -24px -24px; }
+.ef-pos-icon.VOL { background-position: -48px -24px; }
+.ef-pos-icon.PON { background-position: -72px -24px; }
+
+/* ========== TROPHY ICONS (trophy-set.png 4×2) ========== */
+.ef-trophy-icon {
+    display: inline-block;
+    width: 48px;
+    height: 64px;
+    background-image: url('/sprites/trophies/trophy-set.png');
+    background-size: 192px 128px; /* 4×48 × 2×64 scaled */
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+.ef-trophy-tier-1 { background-position: 0 0; }       /* Gold cup tier 1 */
+.ef-trophy-tier-2 { background-position: -48px 0; }   /* Silver cup tier 2 */
+.ef-trophy-tier-3 { background-position: -96px 0; }   /* Bronze cup tier 3 */
+.ef-trophy-tier-4 { background-position: -144px 0; }  /* Copper cup tier 4 */
+.ef-trophy-cup-domestic    { background-position: 0 -64px; }
+.ef-trophy-cup-continental { background-position: -48px -64px; }
+.ef-trophy-cup-secondary   { background-position: -96px -64px; }
+.ef-trophy-cup-world       { background-position: -144px -64px; }
+
+/* ========== SCORE DIGITS LED (score-digits.png 5×2) ========== */
+.ef-led-digit {
+    display: inline-block;
+    width: 32px;
+    height: 48px;
+    background-image: url('/sprites/effects/score-digits.png');
+    background-size: 160px 96px; /* 5×32 × 2×48 scaled */
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+.ef-led-digit-0 { background-position: 0 0; }
+.ef-led-digit-1 { background-position: -32px 0; }
+.ef-led-digit-2 { background-position: -64px 0; }
+.ef-led-digit-3 { background-position: -96px 0; }
+.ef-led-digit-4 { background-position: -128px 0; }
+.ef-led-digit-5 { background-position: 0 -48px; }
+.ef-led-digit-6 { background-position: -32px -48px; }
+.ef-led-digit-7 { background-position: -64px -48px; }
+.ef-led-digit-8 { background-position: -96px -48px; }
+.ef-led-digit-9 { background-position: -128px -48px; }
+
+.ef-anim-trophy-unlock {
+    width: 96px;
+    height: 128px;
+    background-image: url('/sprites/animations/trophy-unlock-6frames.png');
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-trophy-unlock 1500ms steps(6) forwards;
+}
+
+.ef-anim-crowd-wave {
+    width: 256px;
+    height: 80px;
+    background-image: url('/sprites/animations/crowd-wave-4frames.png');
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-crowd-wave 1000ms steps(4) infinite;
+}
+
+.ef-anim-ball-kick {
+    width: 64px;
+    height: 64px;
+    background-image: url('/sprites/animations/ball-kick-6frames.png');
+    background-size: 384px 64px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-ball-kick 600ms steps(6) 1;
+}
+
+.ef-anim-gk-save {
+    width: 64px;
+    height: 64px;
+    background-image: url('/sprites/animations/gk-save-5frames.png');
+    background-size: 320px 64px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-gk-save 700ms steps(5) 1;
+}
+
+.ef-anim-crowd-flag-wave {
+    width: 128px;
+    height: 96px;
+    background-image: url('/sprites/animations/crowd-flag-wave-4frames.png');
+    background-size: 512px 96px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    animation: ef-crowd-flag-wave 1200ms steps(4) infinite;
+}
+
+/* UI animations */
+.ef-anim-shake          { animation: ef-shake       1200ms ease-in-out 1; }
+.ef-anim-pop-in         { animation: ef-pop-in      200ms ease-out 1; }
+.ef-anim-slide-down     { animation: ef-slide-down  200ms ease-out 1; }
+.ef-anim-slide-up       { animation: ef-slide-up    200ms ease-out 1; }
+.ef-anim-fade-in        { animation: ef-fade-in     150ms ease-out 1; }
+.ef-anim-pulse-glow     { animation: ef-pulse-glow  1500ms ease-in-out infinite; }
+.ef-anim-counter        { animation: ef-counter     300ms steps(2) 1; }
+
+/* Hover/active microinteractions (defined in tokens but apply via class) */
+.ef-anim-hover-lift {
+    transition: transform 80ms steps(1);
+}
+.ef-anim-hover-lift:hover {
+    transform: translateY(-1px);
+}
+.ef-anim-hover-lift:active {
+    transform: translateY(2px);
+    transition: transform 50ms steps(1);
+}
+
+/* ========== ATMOSPHERIC ART (full-image backgrounds) ========== */
+
+.ef-art-newspaper {
+    background-image: url('/sprites/banners/newspaper-backdrop.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-boardroom {
+    background-image: url('/sprites/banners/boardroom-interior.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-champion-celebration {
+    background-image: url('/sprites/banners/champion-celebration.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-pitch-topdown {
+    background-image: url('/sprites/pitch-topdown-32bit.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-state-arrows {
+    background-image: url('/sprites/banners/state-arrows.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-sponsors {
+    background-image: url('/sprites/effects/sponsors-fictional.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-finance-icons {
+    background-image: url('/sprites/effects/finance-icons.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-celebration {
+    background-image: url('/sprites/effects/celebration.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-weather-overlay {
+    background-image: url('/sprites/effects/weather-overlays.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+}
+
+.ef-art-managers {
+    background-image: url('/sprites/avatars/managers.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-players {
+    background-image: url('/sprites/avatars/players-32.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-achievements {
+    background-image: url('/sprites/achievements-30.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-crowd-strip {
+    background-image: url('/sprites/effects/crowd-strip.png');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: repeat-x;
+    image-rendering: pixelated;
+}
+
+.ef-art-locker-room {
+    background-image: url('/sprites/banners/locker-room.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-tunnel-walkout {
+    background-image: url('/sprites/banners/tunnel-walkout.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-press-box {
+    background-image: url('/sprites/banners/press-box.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-trophy-room {
+    background-image: url('/sprites/banners/trophy-room-cabinet.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-pitch-tactical {
+    background-image: url('/sprites/pitch-tactical-433.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-pitch-patterns {
+    background-image: url('/sprites/pitch-patterns-4variants.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-stadium-night {
+    background-image: url('/sprites/stadium-night-D-I-variants.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+/* Atmospheric art overlay helper — dimmed background panel */
+.ef-art-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+.ef-art-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 26, 20, 0.78);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.ef-art-bg > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Reduced-motion accessibility — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+    .ef-anim-ball-roll,
+    .ef-anim-goal-burst,
+    .ef-anim-spinner,
+    .ef-anim-trophy-unlock,
+    .ef-anim-crowd-wave,
+    .ef-anim-ball-kick,
+    .ef-anim-gk-save,
+    .ef-anim-crowd-flag-wave,
+    .ef-anim-shake,
+    .ef-anim-pop-in,
+    .ef-anim-slide-down,
+    .ef-anim-slide-up,
+    .ef-anim-fade-in,
+    .ef-anim-pulse-glow,
+    .ef-anim-counter {
+        animation: none !important;
+    }
+
+    .ef-anim-hover-lift {
+        transition: none !important;
+    }
+}

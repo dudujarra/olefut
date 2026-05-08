@@ -9,6 +9,7 @@ import React from 'react';
 import { useGame } from '../context/GameContext';
 import { useMyth } from '../hooks/useMyth';
 import { MYTH_SLOTS } from '../services/MythService';
+import { EfClubBadge } from './ui';
 
 const SLOT_LABELS = {
     idoloEterno: '👑 Ídolo Eterno',
@@ -51,8 +52,9 @@ export function ClubGalleryView({ clubId }) {
 
     return (
         <div className="main-content fade-in">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>🏛️ Galeria de Lendas — {team.name}</h2>
+            <div className="card-header" style={{ marginBottom: '1rem', display:'flex', alignItems:'center', gap:'12px' }}>
+                <EfClubBadge name={team.name} size="lg" />
+                <h2 style={{margin:0,flex:1}}>🏛️ Galeria de Lendas — {team.name}</h2>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
             </div>
 
@@ -71,12 +73,14 @@ export function ClubGalleryView({ clubId }) {
                     const filled = !!player;
 
                     return (
-                        <div key={slot} className="card" style={{
+                        <div key={slot} className={`card ${filled ? 'ef-anim-pop-in' : ''}`} style={{
                             padding: '1rem',
                             opacity: filled ? 1 : 0.5,
-                            border: filled ? '2px solid var(--primary)' : '2px dashed var(--text-muted)'
+                            border: filled ? '2px solid var(--primary)' : '2px dashed var(--text-muted)',
+                            position: 'relative'
                         }}>
-                            <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem' }}>
+                            <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                {filled && <span className="ef-anim-pulse-glow" style={{display:'inline-block',width:'8px',height:'8px',background:'var(--ef-color-func-warning)',borderRadius:'50%'}} />}
                                 {SLOT_LABELS[slot]}
                             </h4>
                             {filled ? (

@@ -7,6 +7,7 @@ import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
 import { Help } from './Help';
 import { Tooltip } from './Tooltip';
 import { DashboardHeader, DashboardAlerts, DashboardFooter } from './dashboard';
+import { EfBanner } from './ui';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -16,6 +17,54 @@ export function DashboardView() {
 
     const [log, setLog] = useState('');
     const [tab, setTab] = useState('overview');
+    const [banner, setBanner] = React.useState(null);
+    const prevOffersRef = React.useRef(engine.transferOffers?.length || 0);
+    const prevConfidenceRef = React.useRef(engine.board?.confidence ?? 60);
+    const prevSeasonRef = React.useRef(engine.seasonNumber);
+    const prevSponsorRef = React.useRef(engine.currentSponsor?.name || null);
+    const prevInjuriesRef = React.useRef((engine.getTeam(gameState.teamId)?.squad || []).filter(p => p.injury).length);
+    const prevSuspensionsRef = React.useRef((engine.getTeam(gameState.teamId)?.squad || []).filter(p => p.suspension > 0).length);
+
+    // Hook: detect engine events and surface as full-screen banners
+    React.useEffect(() => {
+        const offerCount = engine.transferOffers?.length || 0;
+        if (offerCount > prevOffersRef.current) setBanner('offer');
+        prevOffersRef.current = offerCount;
+
+        const conf = engine.board?.confidence ?? 60;
+        if (conf < 10 && prevConfidenceRef.current >= 10) setBanner('fired');
+        prevConfidenceRef.current = conf;
+
+        // Season transition: champion / promotion / relegation
+        if (engine.seasonNumber > prevSeasonRef.current) {
+            const lastSeasonRecord = engine.legacy?.history?.[engine.legacy.history.length - 1];
+            if (lastSeasonRecord) {
+                if (lastSeasonRecord.position === 1) setBanner('champion');
+                else if (/sub|promo/i.test(lastSeasonRecord.title || '')) setBanner('promotion');
+                else if (/cai|releg/i.test(lastSeasonRecord.title || '')) setBanner('relegation');
+            }
+            prevSeasonRef.current = engine.seasonNumber;
+        }
+
+        // Sponsor signed
+        const curSponsor = engine.currentSponsor?.name || null;
+        if (curSponsor && curSponsor !== prevSponsorRef.current) {
+            if (prevSponsorRef.current !== null) setBanner('sponsor');
+            prevSponsorRef.current = curSponsor;
+        }
+
+        // New injury / suspension
+        const team = engine.getTeam(gameState.teamId);
+        if (team) {
+            const injCount = team.squad.filter(p => p.injury).length;
+            if (injCount > prevInjuriesRef.current) setBanner('injury');
+            prevInjuriesRef.current = injCount;
+
+            const suspCount = team.squad.filter(p => p.suspension > 0).length;
+            if (suspCount > prevSuspensionsRef.current) setBanner('suspension');
+            prevSuspensionsRef.current = suspCount;
+        }
+    });
 
     const sectors = engine.getTeamSectors(team.id);
     const standings = engine.getStandings(team.zone, team.division);
@@ -38,6 +87,7 @@ export function DashboardView() {
 
     return (
         <div className="main-content fade-in">
+            {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
             {/* === HEADER (Stitch refactor) === */}
             <DashboardHeader
                 team={team}
@@ -101,6 +151,9 @@ export function DashboardView() {
 
             {/* Feedback log */}
             {log && <div className="event-toast success" onClick={() => setLog('')}>{log}</div>}
+
+            {/* === TAB CONTENT WRAPPER (for animation) === */}
+            <div key={tab} className="ef-anim-fade-in">
 
             {/* === TAB: OVERVIEW === */}
             {tab === 'overview' && (
@@ -394,6 +447,9 @@ export function DashboardView() {
                     </div>
                 </div>
             )}
+
+            </div>
+            {/* === END TAB CONTENT WRAPPER === */}
 
             {/* Bottom Nav */}
             <div className="action-bar" style={{marginTop:'0.5rem'}}>
