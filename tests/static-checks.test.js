@@ -37,10 +37,10 @@ describe('BUG-004: Reset preStep/talkDone no fulltime', () => {
         expect(matchView).toContain('setTalkDone(false)');
     });
 
-    it('reset deve estar na mesma linha do changeView(dashboard)', () => {
-        // Find the fulltime reset line
+    it('reset deve estar na mesma linha do changeView(getDashboardView())', () => {
+        // Find the fulltime reset line (BUG-022: mode-aware nav)
         const lines = matchView.split('\n');
-        const resetLine = lines.find(l => l.includes("changeView('dashboard')") && l.includes('setPreStep'));
+        const resetLine = lines.find(l => l.includes('changeView(getDashboardView())') && l.includes('setPreStep'));
         expect(resetLine).toBeDefined();
     });
 });

@@ -1,5 +1,5 @@
 // Catálogo de Traits compráveis
-const TRAITS_CATALOG = {
+export const TRAITS_CATALOG = {
     set_piece_taker: { name: "Batedor de Faltas", cost: 2000, description: "Habilidade especial em cobranças de falta", requiredBoss: 60 },
     surprise_element: { name: "Elemento Surpresa", cost: 3000, description: "Jogadas imprevisíveis que surpreendem a defesa", requiredBoss: 50 },
     sweeper_keeper: { name: "Goleiro Líbero", cost: 2500, description: "Sai da área para interceptar jogadas", requiredBoss: 70 },

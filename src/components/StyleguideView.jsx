@@ -28,7 +28,7 @@ const FONTS = [
 ];
 
 export function StyleguideView() {
-    const { changeView } = useGame();
+    const { changeView, getDashboardView } = useGame();
     const [modalOpen, setModalOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
@@ -41,7 +41,7 @@ export function StyleguideView() {
         <div className="main-content fade-in" style={{ padding: 'var(--ef-space-4)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--ef-space-5)' }}>
                 <h2 style={{ margin: 0 }}>🎨 Styleguide v1.0</h2>
-                <EfButton variant="ghost" size="sm" onClick={() => changeView('dashboard')}>← Voltar</EfButton>
+                <EfButton variant="ghost" size="sm" onClick={() => changeView(getDashboardView())}>← Voltar</EfButton>
             </div>
 
             {/* PALETTE */}

@@ -30,7 +30,7 @@ const SLOT_DESCRIPTIONS = {
 };
 
 export function ClubGalleryView({ clubId }) {
-    const { gameState, getEngine, changeView } = useGame();
+    const { gameState, getEngine, changeView, getDashboardView } = useGame();
     const { getHallOfFame, countHallSlots, legends } = useMyth();
     const engine = getEngine();
     const team = engine.getTeam(clubId || gameState.teamId);
@@ -55,7 +55,7 @@ export function ClubGalleryView({ clubId }) {
             <div className="card-header" style={{ marginBottom: '1rem', display:'flex', alignItems:'center', gap:'12px' }}>
                 <EfClubBadge name={team.name} size="lg" />
                 <h2 style={{margin:0,flex:1}}>🏛️ Galeria de Lendas — {team.name}</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
+                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
             </div>
 
             <div className="card" style={{ padding: '1rem', marginBottom: '1rem' }}>
