@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { FORMATIONS, TACTICS, TEAM_TALKS, TRAINING_TYPES } from '../engine/ManagerSystems';
-import { BOARD_MEMBERS } from '../engine/BoardSystem';
+
 import { STAFF_ROLES, SCOUT_REGIONS, getStadiumInfo } from '../engine/StadiumSystem';
-import { YOUTH_COORDINATOR, getAcademyUpgradeCost } from '../engine/YouthAcademy';
+import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
