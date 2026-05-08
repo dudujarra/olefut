@@ -17,6 +17,7 @@ import { MatchSimulator } from '../services/MatchSimulator';
 import { MythService } from '../services/MythService';
 import { RelationshipService } from '../services/RelationshipService';
 import { NarrativeService } from '../services/NarrativeService';
+import { CareerService } from '../services/CareerService';
 
 export class Engine {
     constructor() {
@@ -38,6 +39,12 @@ export class Engine {
         this._narrativeService = new NarrativeService({
             relationshipService: this._relationshipService,
             mythService: this._mythService
+        });
+        // RFCT-014/016: CareerService — Player + Manager career + Transição (constructor injection)
+        this._careerService = new CareerService({
+            mythService: this._mythService,
+            relationshipService: this._relationshipService,
+            narrativeService: this._narrativeService
         });
 
         // Manager Mode state
