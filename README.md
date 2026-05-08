@@ -24,6 +24,27 @@ ELIFOOT RPG = simulador futebol brasileiro com profundidade RPG. Gerencia 1 dos 
 
 ---
 
+## 🗺️ Roadmap
+
+Roadmap narrativo completo: [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-NARRATIVE-MASTER.md)
+
+**Estado atual:** v1.0 (Foundation + Live UX) released
+
+**Próximas releases:**
+
+- **v1.0.5** — Refactor God-Class (extrair Myth/Relationship/Narrative/Career services) — 17 PRs sequenciais documentados em [`specs/refactor/`](specs/refactor/)
+- **v1.0.7** — Camada 2 Foundation (eventos atômicos + decay)
+- **v1.1** — Camada 5 Mito (Hall de Lendas + canonização)
+- **v1.1.5** — Traits Herdáveis (regens com bias por slot do Hall)
+- **v1.2** — Transição Jogador → Técnico (ProPlayer aposenta no mesmo save)
+- **v1.3** — Filhos Regens (16-18 anos após auge)
+- **v1.4** — Rivalidades Emergentes (Camada 3 expandida)
+- **v1.5** — Crônica do Save (export prosa por temporada)
+
+**SPEC-049** ([`specs/SPEC-049-narrative-layers-mvp.md`](specs/SPEC-049-narrative-layers-mvp.md)) define operacionalmente as 5 camadas narrativas (Agente / Eventual / Relacional / Narrativa / Mito) — referência permanente.
+
+---
+
 ## 🎮 Gameplay
 
 ### Modo Treinador

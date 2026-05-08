@@ -2,6 +2,27 @@
 
 Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [SemVer](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### [refactor] AKITA-RFCT-001 — Characterization Tests / Golden Master (2026-05-08)
+
+- `tests/characterization/engine-golden.test.js` implementado
+- Mock global `Math.random` com seeded RNG (Mulberry32-like, seed=42)
+- 4 tests:
+  - 5-season simulation snapshot (toMatchSnapshot)
+  - Determinismo cross-instance (3 runs idênticos)
+  - initGame deterministic team count
+  - 40-week simulation completes without throwing
+- Snapshot file: `tests/characterization/__snapshots__/engine-golden.test.js.snap` (170 teams, top5 BRA div1)
+- 318 tests passing (314 + 4 new)
+- Duration: 536ms (target <10s ✅)
+- Engine NÃO modificado (RFCT-001 invariante preservado)
+- Build inalterado: 43.28 KB CSS / 427.34 KB JS
+
+**Próximo PR:** AKITA-RFCT-002 — Save baseline + round-trip test
+
+---
+
 ## [1.0.0] — 2026-05-08
 
 **Marco oficial v1.0** — Foundation + Live UX completo. Roadmap → v2.0 em https://github.com/dudujarra/elifoot-web.

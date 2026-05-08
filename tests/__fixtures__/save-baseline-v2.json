@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "schemaVersion": 2,
+  "_placeholder": true,
+  "_note": "Será gerado dinamicamente por AKITA-RFCT-002 (script: tests/characterization/generate-baseline.js).",
+  "timestamp": null,
+  "gameState": {
+    "started": false,
+    "view": "start",
+    "manager": "",
+    "teamId": null,
+    "mode": "manager"
+  },
+  "engine": {}
+}

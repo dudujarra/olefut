@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Engine Golden Master (5 seasons, seed=42) > 5-season simulation snapshot is deterministic 1`] = `
+{
+  "academyLevel": 1,
+  "currentWeek": 38,
+  "legacyTitlesCount": 0,
+  "managerLosses": 36,
+  "managerWins": 2,
+  "seasonNumber": 1,
+  "stadiumLevel": 1,
+  "teamsCount": 170,
+  "top5BRA1": [
+    {
+      "played": 38,
+      "points": 77,
+      "teamId": 16,
+      "won": 24,
+    },
+    {
+      "played": 38,
+      "points": 69,
+      "teamId": 13,
+      "won": 22,
+    },
+    {
+      "played": 38,
+      "points": 65,
+      "teamId": 18,
+      "won": 19,
+    },
+    {
+      "played": 38,
+      "points": 64,
+      "teamId": 11,
+      "won": 19,
+    },
+    {
+      "played": 38,
+      "points": 62,
+      "teamId": 20,
+      "won": 19,
+    },
+  ],
+  "tournamentsCount": 16,
+  "userSquadSize": 18,
+  "userTeamBalance": 384046620,
+  "userTeamId": 1,
+}
+`;
