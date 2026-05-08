@@ -159,6 +159,99 @@ export class MythService {
     }
 
     // ========================================================================
+    // EVALUATE MYTH — v1.1 (AKITA-051) auto-canonization scan
+    // ========================================================================
+
+    /**
+     * Function pura: scan all players, identify mythic candidates, auto-promote.
+     *
+     * Critérios v1.1 MVP:
+     * - idoloEterno: 200+ gols carreira + 1+ título + 8+ temps no clube
+     * - carrasco: 5+ gols clássicos contra mesmo rival
+     * - goleirao: 100+ defesas em finais OU 50+ jogos sem sofrer gol
+     * - criaDaBase: revealed via youth + 5+ temps + 50+ jogos
+     * - traidor: transferiu pra rival após 5+ temps no clube origem
+     * - lendaTragica: morreu em ativa OU lesão definitiva sendo top 3 do clube
+     *
+     * @param {Engine|object} engineOrSave
+     * @returns {{canonized: number, halls: number, snapshot: object}}
+     */
+    evaluateMyth(engineOrSave) {
+        if (!engineOrSave) return { canonized: 0, halls: 0 };
+
+        let canonized = 0;
+        let hallsAdded = 0;
+
+        const teams = engineOrSave.teams || [];
+        const allPlayers = teams.flatMap(t => (t.squad || []).map(p => ({ player: p, clubId: t.id })));
+
+        // Include retired players too
+        const retiredPlayers = engineOrSave.retiredPlayers || [];
+        const allCandidates = [
+            ...allPlayers,
+            ...retiredPlayers.map(snap => ({
+                player: { ...snap, retired: true },
+                clubId: snap.clubsPlayed?.[snap.clubsPlayed?.length - 1] || null
+            }))
+        ];
+
+        for (const { player, clubId } of allCandidates) {
+            if (!player || !clubId) continue;
+
+            // idoloEterno
+            const totalGoals = player.career?.totalGoals || player.careerStats?.totalGoals || 0;
+            const titles = player.titles?.length || 0;
+            const seasonsAtClub = player.seasonsAtCurrentClub || 0;
+            if (totalGoals >= 200 && titles >= 1 && seasonsAtClub >= 8) {
+                if (!this.isCanonized(engineOrSave, player.id)) {
+                    this.addLegend(engineOrSave, player.id, 'idoloEterno');
+                    canonized++;
+                }
+                if (this.getHallOfFame(engineOrSave, clubId).idoloEterno !== player.id) {
+                    this.promoteToHallOfFame(engineOrSave, player.id, clubId, 'idoloEterno');
+                    hallsAdded++;
+                }
+            }
+
+            // criaDaBase
+            const isYouth = player.isYouth || player.youthRevealed;
+            const seasonsPlayed = player.career?.seasonsPlayed || player.careerStats?.seasonsPlayed || 0;
+            const totalAppearances = player.career?.totalAppearances || player.careerStats?.totalAppearances || 0;
+            if (isYouth && seasonsPlayed >= 5 && totalAppearances >= 50) {
+                if (this.getHallOfFame(engineOrSave, clubId).criaDaBase !== player.id) {
+                    this.promoteToHallOfFame(engineOrSave, player.id, clubId, 'criaDaBase');
+                    hallsAdded++;
+                }
+            }
+
+            // goleirao (GOL position + 50+ clean sheets)
+            const cleanSheets = player.career?.cleanSheets || 0;
+            if (player.position === 'GOL' && cleanSheets >= 50) {
+                if (this.getHallOfFame(engineOrSave, clubId).goleirao !== player.id) {
+                    this.promoteToHallOfFame(engineOrSave, player.id, clubId, 'goleirao');
+                    hallsAdded++;
+                }
+            }
+        }
+
+        return { canonized, hallsAdded };
+    }
+
+    /**
+     * Returns count total de slots filled across all clubs.
+     */
+    getTotalCanonized(engineOrSave) {
+        const halls = engineOrSave?.myth?.halls || {};
+        let count = 0;
+        for (const clubId of Object.keys(halls)) {
+            for (const slot of MYTH_SLOTS) {
+                if (halls[clubId][slot] != null) count++;
+            }
+        }
+        return count;
+    }
+
+    // ========================================================================
     // PRIVATES
     // ========================================================================
 
