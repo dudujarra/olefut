@@ -13,9 +13,10 @@ export const useGame = () => useContext(GameContext);
 // AKITA-050 (v1.0.7): SAVE_VERSION 3 → 4 (Camada 2 events array foundation).
 // AKITA-051 (v1.1): SAVE_VERSION 4 → 5 (Camada 5 Mito halls + retiredPlayers).
 // AKITA-052 (v1.1.5): SAVE_VERSION 5 → 6 (regen inheritance traits).
-// Saves v<6 são auto-invalidados (start fresh).
+// AKITA-053 (v1.2): SAVE_VERSION 6 → 7 (transição jogador→técnico + manager_president).
+// Saves v<7 são auto-invalidados (start fresh).
 const SAVE_KEY = 'elifoot_save_v1';
-const SAVE_VERSION = 6;
+const SAVE_VERSION = 7;
 
 // Map class name → constructor para prototype restoration (BUG-021)
 const TOURNAMENT_CLASSES = { Tournament, League, KnockoutCup, ContinentalCup };
