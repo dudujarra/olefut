@@ -17,6 +17,7 @@
 
 import { isValidEventType, EVENT_TYPES } from '../data/eventTypes';
 import { validateTags } from '../data/eventTags';
+import { getEventTemplate, pickRandomTemplate } from '../data/eventTemplates';
 
 const HALF_LIFE_DAYS = Object.freeze({
     PLAYER_TRANSFER_TO_RIVAL: { days: 730, floor: 0.15 },
@@ -84,7 +85,7 @@ export class NarrativeService {
 
         engineOrSave.events = engineOrSave.events || [];
         const halfLife = HALF_LIFE_DAYS[eventType] || HALF_LIFE_DAYS.DEFAULT;
-        engineOrSave.events.push({
+        const evt = {
             id: nextEventId(),
             ts: ctx.ts ?? Date.now(),
             type: eventType,
@@ -95,7 +96,11 @@ export class NarrativeService {
             witnesses: ctx.witnesses ?? [],
             decay: { halfLifeDays: halfLife.days, floor: halfLife.floor },
             narrativeWeight: ctx.narrativeWeight ?? 1
-        });
+        };
+        // Optional fields from template-based append
+        if (ctx.headline) evt.headline = ctx.headline;
+        if (ctx.templateId) evt.templateId = ctx.templateId;
+        engineOrSave.events.push(evt);
         return { success: true };
     }
 
@@ -113,6 +118,45 @@ export class NarrativeService {
                 currentIntensity: Math.round(evt.intensity * decayed)
             };
         });
+    }
+
+    /**
+     * Append event using a handwritten template (RFCT-007 v1.0.7).
+     * Looks up template, applies defaults, fills slots in headline.
+     *
+     * @param {object} engineOrSave
+     * @param {string} templateId — id from EVENT_TEMPLATES
+     * @param {object} ctx — { actors, witnesses, ts, slots: {chave:valor} }
+     */
+    appendEventFromTemplate(engineOrSave, templateId, ctx = {}) {
+        const tpl = getEventTemplate(templateId);
+        if (!tpl) return { success: false, msg: `template inválido: ${templateId}` };
+
+        const slots = ctx.slots || {};
+        const headline = tpl.headline.replace(/\{(\w+)\}/g, (_, k) => slots[k] ?? `[${k}]`);
+
+        const fullCtx = {
+            ...tpl.defaults,
+            ...ctx,
+            templateId,
+            headline
+        };
+
+        return this.appendEvent(engineOrSave, tpl.type, fullCtx);
+    }
+
+    /**
+     * Pick random template + append (auto-headline).
+     *
+     * @param {object} engineOrSave
+     * @param {string} eventType
+     * @param {object} ctx — { actors, witnesses, slots, rng }
+     */
+    appendRandomEvent(engineOrSave, eventType, ctx = {}) {
+        const rng = ctx.rng || Math.random;
+        const tpl = pickRandomTemplate(eventType, rng);
+        if (!tpl) return { success: false, msg: `sem templates pra tipo: ${eventType}` };
+        return this.appendEventFromTemplate(engineOrSave, tpl.id, ctx);
     }
 
     /**

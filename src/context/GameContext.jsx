@@ -10,10 +10,10 @@ const GameContext = createContext();
 export const useGame = () => useContext(GameContext);
 
 // AKITA-RFCT-017: SAVE_VERSION bumped 1 → 3 (FIM v1.0.5 refactor).
-// v2 era hotfix BUG-021 (tournament prototype). v3 = post-refactor com 4 services.
-// Saves v<3 são auto-invalidados (start fresh).
+// AKITA-050 (v1.0.7): SAVE_VERSION 3 → 4 (Camada 2 events array foundation).
+// Saves v<4 são auto-invalidados (start fresh).
 const SAVE_KEY = 'elifoot_save_v1';
-const SAVE_VERSION = 3;
+const SAVE_VERSION = 4;
 
 // Map class name → constructor para prototype restoration (BUG-021)
 const TOURNAMENT_CLASSES = { Tournament, League, KnockoutCup, ContinentalCup };

@@ -4,6 +4,29 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### [feat] v1.0.7 — Camada 2 Foundation (AKITA-050) (2026-05-08)
+
+- `src/data/eventTemplates.js`: **66 templates handwritten** em 15 categorias de eventos
+  - PLAYER_GOAL_DECISIVE (8), PLAYER_RED_CARD (5), PLAYER_TRANSFER_TO_RIVAL (5)
+  - PLAYER_INJURY_LONG_TERM (4), PLAYER_RETIRED (4), PLAYER_CANONIZED (3)
+  - TITLE_WON (5), TITLE_LOST_DRAMATICALLY (4)
+  - DERBY_VICTORY (5), DERBY_DEFEAT (5)
+  - TORCIDA_PROTEST (4), PRESIDENT_CONFRONTATION (5)
+  - STAFF_HIRED (3), STAFF_FIRED (3), TACTIC_CHANGED_DRAMATICALLY (3)
+- Vocabulário fixo: cada template usa apenas `EVENT_TYPES` + `EVENT_TAGS` defined (validation in tests)
+- Schema: `{id, type, defaults: {valence, intensity, tags, narrativeWeight}, headline}`
+- `NarrativeService.appendEventFromTemplate(save, templateId, ctx)` aplica defaults + fills slots
+- `NarrativeService.appendRandomEvent(save, eventType, ctx)` picks random template
+- Lookup helpers: `getEventTemplate`, `getTemplatesByType`, `pickRandomTemplate`
+- SAVE_VERSION 3 → 4 (saves v<4 auto-invalidados)
+- 429 tests passing (414 + 15 new)
+- Build: 43.28 KB CSS / 456.41 KB JS (+16 KB pelos 66 templates)
+
+**v1.0.7.1 backlog:** expandir 66 → 80+ templates (4 templates por tipo mínimo).
+
+**Próximo PR:** v1.1 — Camada 5 Mito (Hall de Lendas + canonização)
+
+
 ### [refactor] AKITA-RFCT-001 — Characterization Tests / Golden Master (2026-05-08)
 
 - `tests/characterization/engine-golden.test.js` implementado
