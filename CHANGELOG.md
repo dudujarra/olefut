@@ -92,6 +92,24 @@ Razão: engine.js não tinha métodos getLegends/getHallOfFame/getRegenChildren 
 
 **Próximo PR:** AKITA-RFCT-008 — RelationshipService skeleton
 
+### [refactor] AKITA-RFCT-008+009+010 COLLAPSED — RelationshipService completo (2026-05-08)
+
+3 PRs originais collapsed em 1 (RFCT-009 SKIPPED — no engine reads to move).
+
+- `src/services/RelationshipService.js` upgraded skeleton → reads + writes
+- `RELATIONSHIP_RANGE` (-100..+100) + `THRESHOLDS` (LOW=30, MID=60, HIGH=80) Object.freeze
+- Reads: `getRivalry`, `getAlliance`, `getCoachReputation`, `getPresidentPatience`
+- Writes: `recordDerby` (+5 normal, +10 dramatic, max 100), `recordTransfer` (+8 se rival), `decayRivalry` (half-life 540 dias, floor 10), `adjustTrust`, `adjustPatience`
+- Symmetric pair keys (clubA-clubB === clubB-clubA)
+- `engine.js` constructor: `this._relationshipService = new RelationshipService()`
+- `useRelationships` hook wired
+- `tests/specs/SPEC-RelationshipService.test.js`: 18 tests
+- 376 tests passing (358 + 18 new)
+
+**Wrap Method em playMatch DIFERIDO:** auto-recording de derbies precisa detection logic ("este é um derby?") — implementação completa em v1.4 EmergentRivalries (SPEC-055). RelationshipService está disponível pra ser chamado quando esse logic existir.
+
+**Próximo PR:** AKITA-RFCT-011 — NarrativeService skeleton + Camadas 1-2
+
 ---
 
 ## [1.0.0] — 2026-05-08
