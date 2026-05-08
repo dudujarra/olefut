@@ -16,9 +16,10 @@ export const useGame = () => useContext(GameContext);
 // AKITA-053 (v1.2): SAVE_VERSION 6 → 7 (transição jogador→técnico + manager_president).
 // AKITA-054 (v1.3): SAVE_VERSION 7 → 8 (regenLineage filhos-regens).
 // AKITA-055 (v1.4): SAVE_VERSION 8 → 9 (arcs array completo + 6 named arcs).
-// Saves v<9 são auto-invalidados (start fresh).
+// AKITA-056 (v1.5): SAVE_VERSION 9 → 10 (chronicle export — fim roadmap v1.x).
+// Saves v<10 são auto-invalidados (start fresh).
 const SAVE_KEY = 'elifoot_save_v1';
-const SAVE_VERSION = 9;
+const SAVE_VERSION = 10;
 
 // Map class name → constructor para prototype restoration (BUG-021)
 const TOURNAMENT_CLASSES = { Tournament, League, KnockoutCup, ContinentalCup };

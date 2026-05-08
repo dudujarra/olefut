@@ -128,6 +128,48 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo:** v1.5 — Crônica do Save (export prosa por temporada)
 
+### [feat] v1.5 — Crônica do Save (AKITA-056) — **FIM ROADMAP NARRATIVO** ✅ (2026-05-08)
+
+- `src/services/ChronicleService.js`:
+  - `generateSeasonChronicle(save, season)`: prosa Markdown da temporada
+  - `generateLifetimeChronicle(save)`: histórico completo do save
+  - `exportSaveJSON(save)`: debug + share
+  - `getStatsSummary(save)`: counts pra header
+  - Composição via constructor injection (NarrativeService + MythService + RelationshipService + CareerService)
+- `src/components/ChronicleView.jsx`:
+  - Toggle Temporada / Save Inteiro
+  - Export PNG (canvas render com green border + monospace)
+  - Export JSON (debug)
+- `tests/specs/SPEC-ChronicleService.test.js`: 13 unit tests
+- 488 tests passing (475 + 13 new)
+- Build: 43.28 KB CSS / 460.52 KB JS
+- SAVE_VERSION 9 → 10 (FIM v1.x)
+
+## ROADMAP NARRATIVO COMPLETO ✅
+
+**16 PRs em 1 dia (2026-05-08):**
+
+| Versão | PR | Conteúdo |
+|--------|-----|----------|
+| v1.0.5 | #37-46 | Refactor god-class (5 services + MatchSimulator) |
+| v1.0.7 | #47 | Camada 2 Foundation (66 templates) |
+| v1.1 | #48 | Camada 5 Mito (Hall + canonização) |
+| v1.1.5 | #49 | Traits Herdáveis (4 traits + bias) |
+| v1.2 | #50 | Transição UI (PresidentBar + OldTeammates) |
+| v1.3 | #51 | Filhos Regens (lineage tracking) |
+| v1.4 | #52 | Rivalidades Emergentes (6 arcs nomeados) |
+| v1.5 | #53 | Crônica do Save (export PNG/JSON) |
+
+**Métricas finais v1.x:**
+
+- Tests: 314 → **488** (+55%)
+- engine.js: 1014 → **794 LOC** (-22%)
+- Services: 0 → **7** (MatchSimulator + Myth + Relationship + Narrative + Career + Inheritance + Chronicle)
+- SAVE_VERSION: 1 → **10**
+- 5 Camadas SPEC-049 implementadas
+- 16 manchetes mitoHerdado + 12 pressConference + 66 event templates
+- 6 narrative arcs nomeados
+
 
 ### [refactor] AKITA-RFCT-001 — Characterization Tests / Golden Master (2026-05-08)
 
