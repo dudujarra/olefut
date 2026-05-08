@@ -42,7 +42,11 @@ export class MarketSystem {
 
     makeOffer({ playerId, offeringTeamId, bidAmount, weekOfYear }) {
         const listing = this.listings.get(playerId);
-        const minBid = listing ? listing.askingPrice * 0.5 : bidAmount;
+        // BUG-008 fix: sem listing, oferta inválida
+        if (!listing) {
+            return { rejected: true, reason: 'Player not listed' };
+        }
+        const minBid = listing.askingPrice * 0.5;
         if (bidAmount < minBid) {
             return { rejected: true, reason: 'Bid < 50% asking' };
         }

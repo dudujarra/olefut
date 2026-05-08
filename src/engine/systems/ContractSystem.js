@@ -62,11 +62,13 @@ export class ContractSystem {
         return { teamId, weekOfYear, players: count, totalCost, paid: true, latePenalty };
     }
 
-    payGoalBonus(playerId, goalNumber = 1) {
+    payGoalBonus(playerId, goalEventId = null) {
+        // BUG-009 fix: usar eventId único, não goalNumber (que repetia se chamado com numbers diff)
+        // Se goalEventId não passado, gera id único timestamp+random
         const contract = this.contracts.get(playerId);
         if (!contract) return 0;
         const paid = this.bonusesPaid.get(contract.contractId) || {};
-        const goalKey = `goal_${goalNumber}`;
+        const goalKey = goalEventId !== null ? `goal_${goalEventId}` : `goal_${Object.keys(paid).filter((k) => k.startsWith('goal_')).length + 1}`;
         if (paid[goalKey]) return 0;
         paid[goalKey] = true;
         this.bonusesPaid.set(contract.contractId, paid);
