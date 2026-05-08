@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Elifoot Hall of Legends - SNES</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for Retro Aesthetic -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'snes-gray-light': '#C0C0C0',
+            'snes-gray-dark': '#808080',
+            'snes-black': '#1A1A1A',
+            'snes-gold': '#D4AF37',
+            'pacaembu-green': '#2D5A3D',
+          },
+          fontFamily: {
+            'retro': ['"Press Start 2P"', 'cursive'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="retro-effects">
+    /* Bevel effects for SNES aesthetic */
+    .snes-bevel-out {
+      border: 4px solid;
+      border-top-color: #FFFFFF;
+      border-left-color: #FFFFFF;
+      border-right-color: #404040;
+      border-bottom-color: #404040;
+    }
+    .snes-bevel-in {
+      border: 4px solid;
+      border-top-color: #404040;
+      border-left-color: #404040;
+      border-right-color: #FFFFFF;
+      border-bottom-color: #FFFFFF;
+    }
+    .snes-gold-bevel {
+      border: 4px solid;
+      border-top-color: #FFD700;
+      border-left-color: #FFD700;
+      border-right-color: #8B7500;
+      border-bottom-color: #8B7500;
+    }
+    /* Pixel art rendering */
+    .pixel-art {
+      image-rendering: pixelated;
+    }
+    body {
+      background-color: #000000;
+      font-family: 'Press Start 2P', cursive;
+      color: #FFFFFF;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+<!-- BEGIN: MainContainer -->
+<div class="relative w-full max-w-5xl aspect-[4/3] bg-snes-black p-4 snes-bevel-out" data-purpose="game-screen-wrapper">
+<!-- Outer Border -->
+<div class="w-full h-full bg-snes-gray-dark p-2 snes-bevel-in">
+<!-- Content Area -->
+<div class="w-full h-full bg-pacaembu-green p-6 relative overflow-hidden">
+<!-- BEGIN: Header -->
+<header class="flex justify-between items-center mb-8 bg-snes-gray-light p-4 snes-bevel-out text-snes-black">
+<div class="flex flex-col">
+<h1 class="text-xl font-retro uppercase tracking-tighter" data-purpose="page-title">HALL DE LENDAS</h1>
+<span class="text-[10px] mt-1 font-retro">ELIFOOT SNES v2.0</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-xs font-retro" data-purpose="slot-counter">
+<span class="text-snes-black">6/6 SLOTS PREENCHIDOS</span>
+</div>
+<button class="bg-blue-600 text-white px-4 py-2 text-[10px] snes-bevel-out active:snes-bevel-in transition-all" data-purpose="export-button">
+              EXPORTAR PNG/PDF
+            </button>
+</div>
+</header>
+<!-- END: Header -->
+<!-- BEGIN: LegendsGrid -->
+<div class="grid grid-cols-3 gap-6" data-purpose="legends-gallery">
+<!-- Card: Ídolo Eterno -->
+<div class="flex flex-col items-center">
+<div class="text-[10px] mb-2 text-snes-gold drop-shadow-md">IDOLO ETERNO</div>
+<div class="snes-gold-bevel bg-black/40 p-2 w-full aspect-square flex flex-col items-center justify-center gap-3">
+<img alt="Portrait" class="w-16 h-16 pixel-art bg-gray-800 snes-bevel-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvJAJv8Ai8XyqjuzfqiG1Pq9HJ-2m0NhMiz1RLzLuv7HQkGePEQ945wMPKM2Qr5bUzC06nzXH_tr4f11gUlBZUMdT3Axng983Htyl-KULxzHCtgmygCwEx_Fd0tPedcJOUSR-IOoTX_YCwfmne_ubCKP0P_9hGGIBDOT1o1HcV0J7_30NwBx-hqUK6jx8IhV_9WxJxcakYjSf1OfyodOK-kZ4c-B2Hb0rgqravT11okoUcpc12l0op0cQeGBGWtZNoODyt2rvA4qs"/>
+<div class="w-full bg-snes-gray-light text-snes-black p-1 text-center text-[8px] snes-bevel-out">
+                ZICO
+              </div>
+<p class="text-[7px] leading-relaxed text-center text-gray-200 px-1">
+                O MAIOR DE TODOS. 500 GOLS NO MARACANA E MAESTRO DA ERA DE OURO.
+              </p>
+</div>
+</div>
+<!-- Card: Carrasco -->
+<div class="flex flex-col items-center">
+<div class="text-[10px] mb-2 text-red-500 drop-shadow-md">CARRASCO</div>
+<div class="snes-gold-bevel bg-black/40 p-2 w-full aspect-square flex flex-col items-center justify-center gap-3">
+<img alt="Portrait" class="w-16 h-16 pixel-art bg-gray-800 snes-bevel-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcMe0J4fZY2AnF5JGhDyadJzk6RgLmhgCBqXiIybAmsnYm-cxSCuHUqwWTFQgp1qTsmUXTD4LxBQHKORG5goreDsKNUuNLDy768Pr-HZIOp3Z5iOWTwtN2pprtlopmW7GChjXdbr19dRGYsqHJRc_rdWNR8ERtifTySkhqbKCaT22Jq0nR22GUnutUWZemoOvBfE_JjPCF6DYAaNnwJIo_3TYvLAsl5KrOtmXj3RBTBbivJBQjVWc7fN4aqGS0psIPsaJYgAemR2s"/>
+<div class="w-full bg-snes-gray-light text-snes-black p-1 text-center text-[8px] snes-bevel-out">
+                ROMARIO
+              </div>
+<p class="text-[7px] leading-relaxed text-center text-gray-200 px-1">
+                SEMPRE QUE ENFRENTOU O TIME, DEIXOU PELO MENOS DOIS NA REDE.
+              </p>
+</div>
+</div>
+<!-- Card: Goleirão -->
+<div class="flex flex-col items-center">
+<div class="text-[10px] mb-2 text-blue-400 drop-shadow-md">GOLEIRÃO</div>
+<div class="snes-gold-bevel bg-black/40 p-2 w-full aspect-square flex flex-col items-center justify-center gap-3">
+<img alt="Portrait" class="w-16 h-16 pixel-art bg-gray-800 snes-bevel-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNU5J6Q36tKvA6umy7b8tZA2Q5t1ycr2z7yV5KH5bYztHLciWZAzMcLt6lZQgyBWwOdiWVV236NS8oldoyhXDwU8ndAco1G344KjbErsVXAIuJfsf7kugwGD5SVqUq01krxFmpXHeKy4YWuXfP6e0k4RnaJ1kQ7FHxgfm2yS3hf28qJMXuIMx-3cmU1TeP4MRPAD1_f16J0039y2EnlchfNV74ckWvDwxCGJGJH9imdmpHFWbDRwVt3cvJopmDOMCYKs88Q1he114"/>
+<div class="w-full bg-snes-gray-light text-snes-black p-1 text-center text-[8px] snes-bevel-out">
+                TAFFAREL
+              </div>
+<p class="text-[7px] leading-relaxed text-center text-gray-200 px-1">
+                PAREDÃO ABSOLUTO. DEFESAS QUE GARANTIRAM TITULOS IMPOSSIVEIS.
+              </p>
+</div>
+</div>
+<!-- Card: Cria da Base -->
+<div class="flex flex-col items-center">
+<div class="text-[10px] mb-2 text-green-400 drop-shadow-md">CRIA DA BASE</div>
+<div class="snes-gold-bevel bg-black/40 p-2 w-full aspect-square flex flex-col items-center justify-center gap-3">
+<img alt="Portrait" class="w-16 h-16 pixel-art bg-gray-800 snes-bevel-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJZiEzC8tMVUuOUY5WkR6JmMPzBFKGMiuThJ5UBRaAC4nmmPo36cMSQ0Govw9Hd0f0myyIitBA3G2LuZCMjAdyOeskNnkeyiJr-9zkBrKVUSrnfuWehhw8ahKvM4bQ78dcckuoC199XYB2S60uHWB_Mifkgnn-b9BbZUZzoQE4-vEsVM_gQES5YKb69iSp6kAgNaDdL6V7Nbzobs4St4RPm2f3NDQFOvADYjSt9QsT3IkXbShOMOe6d3DLwsoRBPBfKZoLQdvyhqc"/>
+<div class="w-full bg-snes-gray-light text-snes-black p-1 text-center text-[8px] snes-bevel-out">
+                KAKA
+              </div>
+<p class="text-[7px] leading-relaxed text-center text-gray-200 px-1">
+                VIU AS REDES CRESCEREM. SUBIU, BRILHOU E CONQUISTOU O MUNDO.
+              </p>
+</div>
+</div>
+<!-- Card: Traidor -->
+<div class="flex flex-col items-center">
+<div class="text-[10px] mb-2 text-orange-600 drop-shadow-md">TRAIDOR</div>
+<div class="snes-gold-bevel bg-black/40 p-2 w-full aspect-square flex flex-col items-center justify-center gap-3">
+<img alt="Portrait" class="w-16 h-16 pixel-art bg-gray-800 snes-bevel-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4tW8lSx68NkUZv0GcIccI-Mrf3CkmVWvZdr02OboMozyGgoQ7uqcIWmEkkC8KAExJqHonKaAb1pyymLl6f_JjuUz12uy-08m3rjQGpwRQ2g-5VOUfJREXWz_qc8cOlCE3SJb-x8ws4c9fi5Rlj4tgSOlZw_27LuXMxfqbP-Zkz6YoxQinJfjt9QS0VgF5tyL7UJkl5nG4hECTWVk_kwgmgwi-P9VFem2XwXHvBlzpK9ZIopHl55t6x8LSqz-XQ3ZX2Fh0g1U4Wow"/>
+<div class="w-full bg-snes-gray-light text-snes-black p-1 text-center text-[8px] snes-bevel-out">
+                FIGO
+              </div>
+<p class="text-[7px] leading-relaxed text-center text-gray-200 px-1">
+                JURAVA AMOR AO ESCUDO ANTES DE PULAR O MURO DO RIVAL.
+              </p>
+</div>
+</div>
+<!-- Card: Lenda Trágica -->
+<div class="flex flex-col items-center">
+<div class="text-[10px] mb-2 text-purple-400 drop-shadow-md">LENDA TRÁGICA</div>
+<div class="snes-gold-bevel bg-black/40 p-2 w-full aspect-square flex flex-col items-center justify-center gap-3">
+<img alt="Portrait" class="w-16 h-16 pixel-art bg-gray-800 snes-bevel-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcB0jNwb_T6G8BcHui_LuW6GxZgVSHGdo8meR-jsXID2qycNmwUWwZLsQOpz1NSJtvA7AZB9wfNFO0V0HY42jhway6cciA9UbHNunOvZ3baOQtcQxSoaBYz8mtKUEXDSCUne5NsLH3E6u_S1hwP_xDquc6Rp8xB11H3vhPzhywWvnlA7cNcn3UT_ZHm17o3kNZu_cVtl0KbhWzZ8-ez7h-SsAtMDWTPfW63P6xqpl5qSSYzJZVBrzncF6PpdsiHUJu0ZpJOtedPSw"/>
+<div class="w-full bg-snes-gray-light text-snes-black p-1 text-center text-[8px] snes-bevel-out">
+                GARRINCHA
+              </div>
+<p class="text-[7px] leading-relaxed text-center text-gray-200 px-1">
+                MAGIA NOS PES, TRISTEZA NOS OLHOS. O ANJO DAS PERNAS TORTAS.
+              </p>
+</div>
+</div>
+</div>
+<!-- END: LegendsGrid -->
+<!-- BEGIN: Footer -->
+<footer class="absolute bottom-6 left-6 right-6 flex justify-center gap-4">
+<button class="flex-1 max-w-[200px] bg-snes-gray-light text-snes-black py-3 text-[10px] snes-bevel-out active:snes-bevel-in">
+            VOLTAR AO MENU
+          </button>
+<button class="flex-1 max-w-[200px] bg-red-600 text-white py-3 text-[10px] snes-bevel-out active:snes-bevel-in">
+            SAIR
+          </button>
+</footer>
+<!-- END: Footer -->
+</div>
+</div>
+</div>
+<!-- END: MainContainer -->
+</body></html>
