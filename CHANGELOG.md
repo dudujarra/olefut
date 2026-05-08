@@ -63,6 +63,8 @@ Stitch (GEMINI_3_FLASH):
 CSS: 7 new `.ef-art-*` utility classes.
 PreMatchScreen: `ef-art-locker-room` backdrop applied.
 
+**Deferred to v2.0.1**: `loading-splash.png` (Stitch backend timeout 3x retries 2026-05-08, no screen materialized in project `list_screens`). Fallback: existing dark-green theme + `ef-anim-spinner` sprite cover splash needs.
+
 #### Sprint 5 (AKITA-079) — legacy 8-bit cleanup + migration
 
 Deleted dead legacy assets (no remaining refs):
