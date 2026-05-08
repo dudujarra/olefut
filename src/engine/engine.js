@@ -18,6 +18,7 @@ import { MythService } from '../services/MythService';
 import { RelationshipService } from '../services/RelationshipService';
 import { NarrativeService } from '../services/NarrativeService';
 import { CareerService } from '../services/CareerService';
+import { InheritanceService } from '../services/InheritanceService';
 
 export class Engine {
     constructor() {
@@ -45,6 +46,10 @@ export class Engine {
             mythService: this._mythService,
             relationshipService: this._relationshipService,
             narrativeService: this._narrativeService
+        });
+        // AKITA-052 (v1.1.5): InheritanceService — traits herdáveis pra regens
+        this._inheritanceService = new InheritanceService({
+            mythService: this._mythService
         });
 
         // Manager Mode state

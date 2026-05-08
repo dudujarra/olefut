@@ -46,6 +46,28 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo:** v1.1.5 — Traits Herdáveis
 
+### [feat] v1.1.5 — Traits Herdáveis (AKITA-052) (2026-05-08)
+
+- `src/services/InheritanceService.js` (~140 LOC):
+  - 4 traits range 0-100: garra, talento_natural, lealdade, frieza
+  - SLOT_BIAS table: cada slot do Hall contribui +/- diferentemente
+    - idoloEterno: lealdade +20, talento_natural +15
+    - traidor: lealdade -25
+    - goleirao: frieza +25
+    - criaDaBase: lealdade +30, talento_natural +15
+    - carrasco: frieza +20, garra +15
+    - lendaTragica: garra +20, lealdade +15
+  - Pipeline: `initializeBaseTraits → applyHallBias (15%) → applyParentInheritance (40%)`
+  - Helpers: getDominantTrait, findClosestHallMatch
+- `src/data/headlines/mitoHerdado.js`: 2 → **12 manchetes** (+10 novas slots {trait_principal}, {trait_valor}, {idade}, {clube})
+- `engine.js` constructor wires `_inheritanceService` com mythService injected
+- `tests/specs/SPEC-InheritanceService.test.js`: 14 unit tests
+- 453 tests passing (439 + 14 new)
+- Build: 43.28 KB CSS / 459.33 KB JS
+- SAVE_VERSION 5 → 6 (regen inheritance traits)
+
+**Próximo:** v1.2 — Transição Jogador→Técnico (mesmo save)
+
 
 ### [refactor] AKITA-RFCT-001 — Characterization Tests / Golden Master (2026-05-08)
 
