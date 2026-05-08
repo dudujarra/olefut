@@ -316,3 +316,107 @@ body.theme-8bit .progress-bar-fill {
         var(--primary-dark) 8px
     );
 }
+
+/* === STITCH REDESIGN TOKENS (Gemini 3 Pro generated) === */
+
+body.theme-8bit .pixel-border {
+    border: 4px solid #000;
+    box-shadow: 4px 4px 0 0 rgba(0,0,0,1);
+    border-radius: 0;
+}
+body.theme-8bit .pixel-border-leather {
+    border: 4px solid #8B5A2B;
+    box-shadow: 4px 4px 0 0 rgba(0,0,0,1);
+    border-radius: 0;
+}
+body.theme-8bit .pixel-border-grass {
+    border: 4px solid #1B4332;
+    box-shadow: 4px 4px 0 0 #0E1F14;
+    border-radius: 0;
+}
+
+/* Hero/scoreboard card vermelho (next match Stitch style) */
+body.theme-8bit .scoreboard-card,
+body.theme-8bit .next-match-card {
+    background: linear-gradient(180deg, #C62828 0%, #8B1B1B 100%);
+    border: 4px solid #6B4226;
+    box-shadow: 4px 4px 0 0 #1B4332;
+    color: #F1FAEE;
+    padding: 1rem;
+}
+
+body.theme-8bit .scoreboard-card .stat-value {
+    color: #FFD600;
+}
+
+/* Quote/dica yellow card */
+body.theme-8bit .quote-card {
+    background: #FFD600;
+    color: #0E1F14;
+    border: 4px solid #8B5A2B;
+    box-shadow: 4px 4px 0 0 #1B4332;
+    padding: 0.75rem;
+    font-style: italic;
+}
+
+/* Sidebar nav (Stitch sidebar) */
+body.theme-8bit .sidebar-nav {
+    background: #1B4332;
+    border-right: 4px solid #8B5A2B;
+    box-shadow: 4px 0 0 0 rgba(0,0,0,1);
+    width: 256px;
+    padding: 1rem 0;
+}
+body.theme-8bit .sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin: 0.25rem 0.5rem;
+    color: #F1FAEE;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: transform 0.15s;
+    text-decoration: none;
+}
+body.theme-8bit .sidebar-nav a:hover {
+    background: rgba(82, 183, 136, 0.1);
+    transform: translateX(4px);
+}
+body.theme-8bit .sidebar-nav a.active {
+    background: #52B788;
+    color: #0E1F14;
+    border: 4px solid #0E1F14;
+    box-shadow: 2px 2px 0 0 rgba(0,0,0,1);
+}
+
+/* Pitch lines decorative bg */
+body.theme-8bit .pitch-lines {
+    background-image: radial-gradient(
+        circle at 50% 50%,
+        transparent 120px,
+        rgba(241, 250, 238, 0.05) 121px,
+        rgba(241, 250, 238, 0.05) 123px,
+        transparent 124px
+    );
+}
+
+/* Top bar leather frame */
+body.theme-8bit .top-bar {
+    background: #1B4332;
+    border-bottom: 4px solid #8B5A2B;
+    box-shadow: 0 4px 0 0 rgba(0,0,0,1);
+}
+
+/* AO VIVO indicator pulsing red */
+body.theme-8bit .live-indicator {
+    color: #C62828;
+    font-weight: 700;
+    animation: livePulse 1.2s ease-in-out infinite;
+}
+@keyframes livePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
