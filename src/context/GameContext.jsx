@@ -12,9 +12,10 @@ export const useGame = () => useContext(GameContext);
 // AKITA-RFCT-017: SAVE_VERSION bumped 1 → 3 (FIM v1.0.5 refactor).
 // AKITA-050 (v1.0.7): SAVE_VERSION 3 → 4 (Camada 2 events array foundation).
 // AKITA-051 (v1.1): SAVE_VERSION 4 → 5 (Camada 5 Mito halls + retiredPlayers).
-// Saves v<5 são auto-invalidados (start fresh).
+// AKITA-052 (v1.1.5): SAVE_VERSION 5 → 6 (regen inheritance traits).
+// Saves v<6 são auto-invalidados (start fresh).
 const SAVE_KEY = 'elifoot_save_v1';
-const SAVE_VERSION = 5;
+const SAVE_VERSION = 6;
 
 // Map class name → constructor para prototype restoration (BUG-021)
 const TOURNAMENT_CLASSES = { Tournament, League, KnockoutCup, ContinentalCup };
@@ -67,9 +68,11 @@ function clearStorage() {
 
 // Campos engine que são instâncias de classes — skip em save (recriam em constructor).
 // AKITA-RFCT-017: includes services (Myth/Relationship/Narrative/Career + MatchSimulator).
+// AKITA-052: includes InheritanceService.
 const ENGINE_CLASS_FIELDS = [
     'staff', 'board', 'legacy',
-    '_matchSimulator', '_mythService', '_relationshipService', '_narrativeService', '_careerService'
+    '_matchSimulator', '_mythService', '_relationshipService', '_narrativeService', '_careerService',
+    '_inheritanceService'
 ];
 
 function serializeEngine(engine) {
