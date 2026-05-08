@@ -1,3 +1,6 @@
 node_modules
 dist
 .DS_Store
+
+# RFCT-002: baseline fixture gerado em test runtime (11MB, regenerável)
+tests/__fixtures__/save-baseline-v2.json

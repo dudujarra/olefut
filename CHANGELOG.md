@@ -21,6 +21,16 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo PR:** AKITA-RFCT-002 — Save baseline + round-trip test
 
+### [refactor] AKITA-RFCT-002 — Save Baseline + Round-trip Test (2026-05-08)
+
+- `tests/characterization/save-roundtrip.test.js` (6 tests)
+- BUG-021 regression embedded (tournament prototype)
+- Fixture `__fixtures__/save-baseline-v2.json` regenerado em runtime (.gitignored, 11MB)
+- 324 tests passing (318 + 6 new)
+- Engine NÃO modificado
+
+**Próximo PR:** AKITA-RFCT-003 — Stryker mutation baseline
+
 ---
 
 ## [1.0.0] — 2026-05-08
