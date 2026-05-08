@@ -212,6 +212,119 @@ export class Engine {
         if (team && FORMATIONS[formationId]) team.formation = formationId;
     }
 
+    /**
+     * A2 - Save formation layout (custom positions per slot)
+     * layout = { [slotIdx]: { playerId, x, y, role } }
+     */
+    saveFormationLayout({ formation, layout }) {
+        const team = this.getTeam(this.manager?.teamId);
+        if (!team) return { success: false };
+        if (formation) team.formation = formation;
+        team.formationLayout = layout;
+        return { success: true };
+    }
+
+    /**
+     * A3 - Get pre-match context: opponent info, location, h2h
+     * Returns null if no upcoming match found.
+     */
+    getMatchContext() {
+        const team = this.getTeam(this.manager?.teamId);
+        if (!team) return null;
+
+        // Find upcoming fixture this week
+        const upcoming = this.getUpcomingMatch ? this.getUpcomingMatch(team.id) : null;
+        let opponent = null;
+        let isHome = true;
+        let tournamentName = `Brasileirão Série ${['A','B','C','D'][team.division - 1] || 'A'}`;
+
+        if (upcoming) {
+            isHome = upcoming.home === team.id;
+            opponent = this.getTeam(isHome ? upcoming.away : upcoming.home);
+        } else {
+            // Fallback: find any team in same zone/division
+            const peers = (this.teams || []).filter(t =>
+                t.id !== team.id && t.zone === team.zone && t.division === team.division
+            );
+            opponent = peers[Math.floor(Math.random() * peers.length)] || null;
+        }
+
+        if (!opponent) return null;
+
+        // H2H from match history (if tracked)
+        let h2h = [];
+        if (this.matchHistory) {
+            h2h = this.matchHistory.filter(m =>
+                (m.home === team.id && m.away === opponent.id) ||
+                (m.home === opponent.id && m.away === team.id)
+            ).slice(-5);
+        }
+
+        // Opponent sectors + style
+        const oppSectors = this.getTeamSectors ? this.getTeamSectors(opponent.id) : null;
+        const oppTactic = opponent.preferredTactic || 'balanced';
+        const styleMap = {
+            'defensive': 'Defensivo',
+            'pressing': 'Pressão Alta',
+            'counter': 'Contra-Ataque',
+            'attacking': 'Ofensivo',
+            'balanced': 'Equilibrado',
+            'park_the_bus': 'Retranca'
+        };
+        const opponentStyle = styleMap[oppTactic] || 'Equilibrado';
+
+        return {
+            opponent,
+            isHome,
+            location: isHome ? 'CASA' : 'FORA',
+            tournament: tournamentName,
+            seasonWeek: ((this.currentWeek - 1) % 38) + 1,
+            h2h,
+            oppSectors,
+            opponentStyle,
+            oppTactic
+        };
+    }
+
+    /**
+     * A1 - Apply a live substitution during paused match
+     * Visual + state commit only (does not recalculate match result — engine sync limitation v1.0)
+     * @returns {{success, msg}}
+     */
+    applyLiveSubstitution(outId, inId, currentMinute) {
+        const team = this.getTeam(this.manager?.teamId);
+        if (!team) return { success: false, msg: 'Time não encontrado' };
+
+        const out = team.squad.find(p => p.id === outId);
+        const inPlayer = team.squad.find(p => p.id === inId);
+        if (!out || !inPlayer) return { success: false, msg: 'Jogador não encontrado' };
+        if (!out.isTitular) return { success: false, msg: 'Só titulares podem sair' };
+        if (inPlayer.isTitular) return { success: false, msg: 'Reserva já está em campo' };
+        if (inPlayer.injury) return { success: false, msg: 'Jogador lesionado' };
+
+        // Flip titular flags
+        out.isTitular = false;
+        inPlayer.isTitular = true;
+        // Boost incoming, give outgoing rest floor
+        inPlayer.energy = Math.min(100, (inPlayer.energy || 70) + 10);
+        out.energy = Math.max(out.energy || 50, 30);
+
+        // Track live subs log
+        if (!this._liveSubsLog) this._liveSubsLog = [];
+        this._liveSubsLog.push({
+            minute: currentMinute,
+            outId,
+            inId,
+            outName: out.name,
+            inName: inPlayer.name
+        });
+
+        return {
+            success: true,
+            msg: `🔄 ${currentMinute}': ${out.name} sai, ${inPlayer.name} entra.`
+        };
+    }
+
     doTeamTalk(talkId) {
         const team = this.getTeam(this.manager.teamId);
         if (!team) return null;

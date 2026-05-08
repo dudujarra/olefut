@@ -3,6 +3,8 @@ import { useGame } from '../context/GameContext';
 import { TACTICS, FORMATIONS, TEAM_TALKS } from '../engine/ManagerSystems';
 import { getFormEmoji } from '../engine/PlayerDevelopment';
 import { sfx } from '../utils/sound';
+import { LiveSquadEditModal } from './LiveSquadEditModal';
+import { PreMatchScreen } from './PreMatchScreen';
 
 export function MatchView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -21,9 +23,13 @@ export function MatchView() {
     const [preStep, setPreStep] = useState(1); // 1=squad, 2=tactics, 3=confirm
     const [talkDone, setTalkDone] = useState(false);
     const [speed, setSpeed] = useState(200); // ms per tick
+    const [paused, setPaused] = useState(false);
+    const [liveModalOpen, setLiveModalOpen] = useState(false);
+    const [liveSubsCount, setLiveSubsCount] = useState(0);
     const logRef = useRef(null);
     const timerRef = useRef(null);
     const speedRef = useRef(200);
+    const pausedRef = useRef(false);
 
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
@@ -52,6 +58,7 @@ export function MatchView() {
             const eventQueue = tickerStateRef.current.eventQueue;
 
             timerRef.current = setInterval(() => {
+                if (pausedRef.current) return;
                 min++;
                 tickerStateRef.current.currentMin = min;
                 setCurrentMinute(min);
@@ -83,6 +90,8 @@ export function MatchView() {
         tickerStateRef.current = { events, eventQueue, endMin, onComplete, currentMin: min, eventIdx };
 
         timerRef.current = setInterval(() => {
+            // A1: live pause — skip tick while paused, keep interval alive
+            if (pausedRef.current) return;
             min++;
             tickerStateRef.current.currentMin = min;
             setCurrentMinute(min);
@@ -206,9 +215,21 @@ export function MatchView() {
         };
 
         const stepLabels = ['Escalação', 'Tática', 'Confirmar'];
+        const matchContext = engine.getMatchContext ? engine.getMatchContext() : null;
 
         return (
             <div className="main-content fade-in">
+                {/* A3: Pre-match adversary info */}
+                {matchContext && (
+                    <PreMatchScreen
+                        team={team}
+                        context={matchContext}
+                        sectors={sectors}
+                        engine={engine}
+                        onSaveLayout={() => forceUpdate()}
+                    />
+                )}
+
                 {/* Step indicator */}
                 <div className="card card-compact" style={{textAlign:'center'}}>
                     <h2 style={{fontSize:'1.2rem',margin:0}}>⚽ Pré-Jogo — Semana {engine.currentWeek + 1}</h2>
@@ -383,14 +404,22 @@ export function MatchView() {
                 </div>
 
                 <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem'}}>
-                    {/* Speed controls */}
+                    {/* Speed + Pause controls */}
                     <div style={{display:'flex',gap:'0.25rem',flex:1}}>
-                        <button className={`btn btn-sm ${speed === 400 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => setSpeed(400)}>1x</button>
-                        <button className={`btn btn-sm ${speed === 200 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => setSpeed(200)}>2x</button>
-                        <button className={`btn btn-sm ${speed === 80 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => setSpeed(80)}>5x</button>
+                        <button className={`btn btn-sm ${!paused && speed === 400 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => { setSpeed(400); setPaused(false); pausedRef.current = false; }}>1x</button>
+                        <button className={`btn btn-sm ${!paused && speed === 200 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => { setSpeed(200); setPaused(false); pausedRef.current = false; }}>2x</button>
+                        <button className={`btn btn-sm ${!paused && speed === 80 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => { setSpeed(80); setPaused(false); pausedRef.current = false; }}>5x</button>
+                        <button className={`btn btn-sm ${paused ? 'btn-primary' : 'btn-secondary'}`}
+                            title="Pausar partida (substituições/táticas)"
+                            onClick={() => {
+                                const next = !paused;
+                                setPaused(next);
+                                pausedRef.current = next;
+                                if (next) setLiveModalOpen(true);
+                            }}>{paused ? '▶️' : '⏸️'}</button>
                     </div>
                     <button className="btn btn-sm btn-secondary" onClick={() => {
                         skipToEnd(narration.filter(e => e && e.minute <= 45), 45, null);
@@ -402,6 +431,21 @@ export function MatchView() {
                     onClick={() => setPhase('halftime')}>
                     ⏸️ Intervalo
                 </button>
+
+                {liveModalOpen && (
+                    <LiveSquadEditModal
+                        team={team}
+                        engine={engine}
+                        currentMinute={currentMinute}
+                        liveSubsCount={liveSubsCount}
+                        onSubMade={() => { setLiveSubsCount(c => c + 1); forceUpdate(); }}
+                        onClose={() => {
+                            setLiveModalOpen(false);
+                            setPaused(false);
+                            pausedRef.current = false;
+                        }}
+                    />
+                )}
             </div>
         );
     }
@@ -497,12 +541,20 @@ export function MatchView() {
 
                 <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem'}}>
                     <div style={{display:'flex',gap:'0.25rem',flex:1}}>
-                        <button className={`btn btn-sm ${speed === 400 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => setSpeed(400)}>1x</button>
-                        <button className={`btn btn-sm ${speed === 200 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => setSpeed(200)}>2x</button>
-                        <button className={`btn btn-sm ${speed === 80 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => setSpeed(80)}>5x</button>
+                        <button className={`btn btn-sm ${!paused && speed === 400 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => { setSpeed(400); setPaused(false); pausedRef.current = false; }}>1x</button>
+                        <button className={`btn btn-sm ${!paused && speed === 200 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => { setSpeed(200); setPaused(false); pausedRef.current = false; }}>2x</button>
+                        <button className={`btn btn-sm ${!paused && speed === 80 ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => { setSpeed(80); setPaused(false); pausedRef.current = false; }}>5x</button>
+                        <button className={`btn btn-sm ${paused ? 'btn-primary' : 'btn-secondary'}`}
+                            title="Pausar partida"
+                            onClick={() => {
+                                const next = !paused;
+                                setPaused(next);
+                                pausedRef.current = next;
+                                if (next) setLiveModalOpen(true);
+                            }}>{paused ? '▶️' : '⏸️'}</button>
                     </div>
                     <button className="btn btn-sm btn-secondary" onClick={() => {
                         skipToEnd(narration, 90, null);
@@ -514,6 +566,21 @@ export function MatchView() {
                     onClick={() => setPhase('fulltime')}>
                     🏁 Fim de Jogo
                 </button>
+
+                {liveModalOpen && (
+                    <LiveSquadEditModal
+                        team={team}
+                        engine={engine}
+                        currentMinute={currentMinute}
+                        liveSubsCount={liveSubsCount}
+                        onSubMade={() => { setLiveSubsCount(c => c + 1); forceUpdate(); }}
+                        onClose={() => {
+                            setLiveModalOpen(false);
+                            setPaused(false);
+                            pausedRef.current = false;
+                        }}
+                    />
+                )}
             </div>
         );
     }
