@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { drawCard } from '../engine/MatchEventsDeck';
 import { BenchEventsDeck } from '../engine/BenchEventsDeck';
+import { EfClubBadge } from './ui';
 
 export function PlayerMatchView() {
     const { getEngine, changeView, forceUpdate } = useGame();
@@ -140,10 +141,16 @@ export function PlayerMatchView() {
             {isBenched && <div className="bench-warning">🔴 VOCÊ ESTÁ NO BANCO — Observe e interaja com os eventos</div>}
 
             <div className="card" style={{ textAlign: 'center' }}>
-                <div className="match-teams">
-                    <span className="team-name">{team?.name || 'Meu Time'}</span>
+                <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
+                    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                        {team?.name && <EfClubBadge name={team.name} size="md" />}
+                        <span className="team-name">{team?.name || 'Meu Time'}</span>
+                    </div>
                     <div className="match-score">{homeGoals} — {awayGoals}</div>
-                    <span className="team-name">{opponent?.name || 'Adversário'}</span>
+                    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                        {opponent?.name && <EfClubBadge name={opponent.name} size="md" />}
+                        <span className="team-name">{opponent?.name || 'Adversário'}</span>
+                    </div>
                 </div>
                 <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>{matchFinished ? 'FIM DE JOGO' : `${minute}'`}</p>
                 <div style={{ background: 'var(--bg-panel-hover)', height: '4px', borderRadius: '2px', marginTop: '0.5rem' }}>

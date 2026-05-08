@@ -4,6 +4,7 @@ import { SCOUT_REGIONS } from '../engine/StadiumSystem';
 import { getPlayerTraits } from '../engine/PlayerTraits';
 import { PlayerAvatar } from '../utils/avatar';
 import { Tooltip } from './Tooltip';
+import { EfClubBadge } from './ui';
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -58,8 +59,11 @@ export function MarketView() {
 
     return (
         <div className="main-content fade-in">
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem'}}>
-                <h2 style={{fontSize:'1.2rem'}}>🛒 Mercado</h2>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem',gap:'12px'}}>
+                <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                    <EfClubBadge name={team.name} size="md" />
+                    <h2 style={{fontSize:'1.2rem',margin:0}}>🛒 Mercado — {team.name}</h2>
+                </div>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
             </div>
 

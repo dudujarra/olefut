@@ -5,6 +5,7 @@ import { getPlayerTraits } from '../engine/PlayerTraits';
 import { PlayerAvatar } from '../utils/avatar';
 import { Help } from './Help';
 import { Tooltip } from './Tooltip';
+import { EfClubBadge } from './ui';
 
 export function SquadView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -60,8 +61,9 @@ export function SquadView() {
 
     return (
         <div className="main-content fade-in">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>👥 Plantel — {team.name} ({sorted.length}/{team.squad.length} jogadores)</h2>
+            <div className="card-header" style={{ marginBottom: '1rem', display:'flex', alignItems:'center', gap:'12px' }}>
+                <EfClubBadge name={team.name} size="md" />
+                <h2 style={{margin:0,flex:1}}>👥 Plantel — {team.name} ({sorted.length}/{team.squad.length} jogadores)</h2>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView(back)}>← Voltar</button>
             </div>
 

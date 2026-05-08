@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FormationBoard } from './FormationBoard';
 import { Tooltip } from './Tooltip';
 import { Help } from './Help';
+import { EfClubBadge } from './ui';
 
 /**
  * PreMatchScreen — 3-panel layout pre-match info
@@ -37,9 +38,12 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                 }}>
                     {/* LEFT: Nosso time */}
                     <div>
-                        <Tooltip content="Sectors do seu time: GOL/DEF/MEI/ATA">
-                            <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>NOSSO TIME — {team.name}</h4>
-                        </Tooltip>
+                        <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'0.4rem'}}>
+                            <EfClubBadge name={team.name} size="md" />
+                            <Tooltip content="Sectors do seu time: GOL/DEF/MEI/ATA">
+                                <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',margin:0}}>NOSSO TIME — {team.name}</h4>
+                            </Tooltip>
+                        </div>
                         <div className="inline-stats" style={{justifyContent:'space-between'}}>
                             <Help id="sector.gol"><div className="inline-stat"><span className="stat-value">{sectors?.goalkeeper ?? '-'}</span><span className="stat-label">GOL</span></div></Help>
                             <Help id="sector.def"><div className="inline-stat"><span className="stat-value">{sectors?.defense ?? '-'}</span><span className="stat-label">DEF</span></div></Help>
@@ -81,11 +85,14 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
 
                     {/* RIGHT: Adversário */}
                     <div>
-                        <Tooltip content="Estilo derivado da tática preferida do adversário">
-                            <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>
-                                ADVERSÁRIO — {opp?.name || '—'}
-                            </h4>
-                        </Tooltip>
+                        <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'0.4rem'}}>
+                            {opp?.name && <EfClubBadge name={opp.name} size="md" />}
+                            <Tooltip content="Estilo derivado da tática preferida do adversário">
+                                <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',margin:0}}>
+                                    ADVERSÁRIO — {opp?.name || '—'}
+                                </h4>
+                            </Tooltip>
+                        </div>
                         {opp && (
                             <>
                                 <div className="inline-stats" style={{justifyContent:'space-between'}}>

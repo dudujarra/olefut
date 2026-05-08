@@ -9,6 +9,7 @@ import React from 'react';
 import { useGame } from '../context/GameContext';
 import { useMyth } from '../hooks/useMyth';
 import { MYTH_SLOTS } from '../services/MythService';
+import { EfClubBadge } from './ui';
 
 const SLOT_LABELS = {
     idoloEterno: '👑 Ídolo Eterno',
@@ -51,8 +52,9 @@ export function ClubGalleryView({ clubId }) {
 
     return (
         <div className="main-content fade-in">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>🏛️ Galeria de Lendas — {team.name}</h2>
+            <div className="card-header" style={{ marginBottom: '1rem', display:'flex', alignItems:'center', gap:'12px' }}>
+                <EfClubBadge name={team.name} size="lg" />
+                <h2 style={{margin:0,flex:1}}>🏛️ Galeria de Lendas — {team.name}</h2>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
             </div>
 

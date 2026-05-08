@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { Tooltip } from './Tooltip';
+import { EfClubBadge } from './ui';
 
 /**
  * Get zone class based on position + division
@@ -130,7 +131,10 @@ export function StandingsView() {
                             const row = (
                                 <tr key={s.teamId} className={rowClass}>
                                     <td>{pos}</td>
-                                    <td>{t?.name || `Time ${s.teamId}`}</td>
+                                    <td style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                                        {t?.name && <EfClubBadge name={t.name} size="sm" />}
+                                        <span>{t?.name || `Time ${s.teamId}`}</span>
+                                    </td>
                                     <td><strong>{s.points}</strong></td>
                                     <td>{s.played}</td>
                                     <td>{s.won}</td>

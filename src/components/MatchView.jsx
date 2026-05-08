@@ -5,6 +5,7 @@ import { getFormEmoji } from '../engine/PlayerDevelopment';
 import { sfx } from '../utils/sound';
 import { LiveSquadEditModal } from './LiveSquadEditModal';
 import { PreMatchScreen } from './PreMatchScreen';
+import { EfClubBadge } from './ui';
 
 export function MatchView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -363,8 +364,11 @@ export function MatchView() {
     // === SCOREBOARD (shared between phases) ===
     const Scoreboard = ({ half }) => (
         <div className="card" style={{ textAlign: 'center', padding: '0.75rem' }}>
-            <div className="match-teams">
-                <span className="team-name">{result.home}</span>
+            <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                    <EfClubBadge name={result.home} size="lg" />
+                    <span className="team-name">{result.home}</span>
+                </div>
                 <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                     <div className="match-score">{runningScore.home} — {runningScore.away}</div>
                     {/* Cronômetro */}
@@ -382,7 +386,10 @@ export function MatchView() {
                     </div>
                     <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>{half}</span>
                 </div>
-                <span className="team-name">{result.away}</span>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                    <EfClubBadge name={result.away} size="lg" />
+                    <span className="team-name">{result.away}</span>
+                </div>
             </div>
         </div>
     );
@@ -459,10 +466,16 @@ export function MatchView() {
             <div className="main-content fade-in">
                 <div className="card" style={{ textAlign: 'center', padding:'0.75rem' }}>
                     <h3 style={{color:'var(--accent)',marginBottom:'0.3rem'}}>⏸️ INTERVALO</h3>
-                    <div className="match-teams">
-                        <span className="team-name">{result.home}</span>
+                    <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
+                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                            <EfClubBadge name={result.home} size="md" />
+                            <span className="team-name">{result.home}</span>
+                        </div>
                         <div className="match-score">{halfTimeData?.homeGoals ?? 0} — {halfTimeData?.awayGoals ?? 0}</div>
-                        <span className="team-name">{result.away}</span>
+                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                            <EfClubBadge name={result.away} size="md" />
+                            <span className="team-name">{result.away}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -594,10 +607,16 @@ export function MatchView() {
         <div className="main-content fade-in">
             <div className="card" style={{ textAlign: 'center' }}>
                 <h2 style={{fontSize:'1.2rem',marginBottom:'0.5rem'}}>🏁 FIM DE JOGO</h2>
-                <div className="match-teams">
-                    <span className="team-name">{result?.home}</span>
+                <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
+                    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                        <EfClubBadge name={result?.home} size="lg" />
+                        <span className="team-name">{result?.home}</span>
+                    </div>
                     <div className="match-score">{result?.homeGoals} — {result?.awayGoals}</div>
-                    <span className="team-name">{result?.away}</span>
+                    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                        <EfClubBadge name={result?.away} size="lg" />
+                        <span className="team-name">{result?.away}</span>
+                    </div>
                 </div>
                 {motmEntry && <p style={{color:'var(--primary)',fontSize:'0.8rem',marginTop:'0.4rem'}}>{motmEntry.text}</p>}
             </div>

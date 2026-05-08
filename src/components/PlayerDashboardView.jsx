@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { OffPitchEventsDeck } from '../engine/OffPitchEventsDeck';
 import { PERSONALITIES } from '../engine/PlayerCareer';
+import { EfClubBadge } from './ui';
 
 export function PlayerDashboardView() {
     const { getEngine, changeView, forceUpdate } = useGame();
@@ -107,8 +108,9 @@ export function PlayerDashboardView() {
 
             {/* Header Card */}
             <div className="card">
-                <div className="card-header">
-                    <div>
+                <div className="card-header" style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                    {team?.name && <EfClubBadge name={team.name} size="lg" />}
+                    <div style={{flex:1}}>
                         <h2>{player.name} <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{pers.emoji} {pers.name}</span></h2>
                         <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{player.position} • {team.name} • Semana {engine.currentWeek}/38</span>
                     </div>
