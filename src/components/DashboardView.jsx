@@ -13,8 +13,9 @@ export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
     const engine = getEngine();
     const team = engine.getTeam(gameState.teamId);
-    if (!team) return <div className="main-content">Time não encontrado.</div>;
 
+    // BUG-021 fix: hooks BEFORE early return (Rules of Hooks)
+    // React error #310 fires when team transitions exists→null across renders.
     const [log, setLog] = useState('');
     const [tab, setTab] = useState('overview');
     const [banner, setBanner] = React.useState(null);
@@ -27,6 +28,7 @@ export function DashboardView() {
 
     // Hook: detect engine events and surface as full-screen banners
     React.useEffect(() => {
+        if (!team) return;
         const offerCount = engine.transferOffers?.length || 0;
         if (offerCount > prevOffersRef.current) setBanner('offer');
         prevOffersRef.current = offerCount;
@@ -54,17 +56,19 @@ export function DashboardView() {
         }
 
         // New injury / suspension
-        const team = engine.getTeam(gameState.teamId);
-        if (team) {
-            const injCount = team.squad.filter(p => p.injury).length;
+        const teamRef = engine.getTeam(gameState.teamId);
+        if (teamRef) {
+            const injCount = teamRef.squad.filter(p => p.injury).length;
             if (injCount > prevInjuriesRef.current) setBanner('injury');
             prevInjuriesRef.current = injCount;
 
-            const suspCount = team.squad.filter(p => p.suspension > 0).length;
+            const suspCount = teamRef.squad.filter(p => p.suspension > 0).length;
             if (suspCount > prevSuspensionsRef.current) setBanner('suspension');
             prevSuspensionsRef.current = suspCount;
         }
     });
+
+    if (!team) return <div className="main-content">Time não encontrado.</div>;
 
     const sectors = engine.getTeamSectors(team.id);
     const standings = engine.getStandings(team.zone, team.division);

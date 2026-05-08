@@ -173,3 +173,13 @@ npm run test:ci    # roda testes + build (pipeline)
 - **Teste:** `tests/regression/BUG-017.test.js`
 - **Status:** OPEN (2026-05-08)
 
+
+---
+
+### BUG-021 ⏳ ABERTO — React error #310 — early return between hooks (DashboardView + PlayerDashboardView)
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/60
+- **Branch:** `bug/BUG-021`
+- **Fix:** TODO
+- **Teste:** `tests/regression/BUG-021.test.js`
+- **Status:** OPEN (2026-05-08)
+

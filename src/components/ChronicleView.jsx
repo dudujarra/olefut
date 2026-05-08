@@ -9,7 +9,7 @@ import { useGame } from '../context/GameContext';
 import { ChronicleService } from '../services/ChronicleService';
 
 export function ChronicleView() {
-    const { gameState, getEngine, changeView } = useGame();
+    const { gameState, getEngine, changeView, getDashboardView } = useGame();
     const engine = getEngine();
     const [view, setView] = useState('season'); // 'season' | 'lifetime'
     const [content, setContent] = useState('');
@@ -106,7 +106,7 @@ export function ChronicleView() {
         <div className="main-content fade-in ef-art-bg ef-art-newspaper">
             <div className="card-header" style={{ marginBottom: '1rem' }}>
                 <h2>📜 Crônica do Save</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
+                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
             </div>
 
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>

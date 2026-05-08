@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { OffPitchEventsDeck } from '../engine/OffPitchEventsDeck';
-import { PERSONALITIES } from '../engine/PlayerCareer';
+import { PERSONALITIES, TRAITS_CATALOG } from '../engine/PlayerCareer';
 import { EfClubBadge, EfBanner } from './ui';
 
 export function PlayerDashboardView() {
@@ -18,18 +18,22 @@ export function PlayerDashboardView() {
     const prevRetiredRef = React.useRef(player?._retired ?? false);
     const prevMotmRef = React.useRef(player?.career?.seasonMotm ?? 0);
 
-    if (!player || !team) return <div className="main-content">Erro: jogador não encontrado.</div>;
+    // BUG-021 fix: useEffects MUST come before early return (Rules of Hooks)
+    // React error #310 ("Rendered more hooks than during previous render") fires
+    // when player/team transitions null→exists across renders.
 
     // Check for off-pitch event on mount
     React.useEffect(() => {
+        if (!player) return;
         const eligible = OffPitchEventsDeck.filter(e => !e.trigger || e.trigger(player));
         if (eligible.length > 0 && Math.random() < 0.4) {
             setOffPitchEvent(eligible[Math.floor(Math.random() * eligible.length)]);
         }
-    }, [engine.currentWeek]);
+    }, [engine.currentWeek, player]);
 
     // Banner triggers: hired (team change) / retirement / motm
     React.useEffect(() => {
+        if (!player) return;
         if (player.teamId !== prevTeamIdRef.current && prevTeamIdRef.current !== null) {
             setBanner('hired');
         }
@@ -46,6 +50,8 @@ export function PlayerDashboardView() {
         }
         prevMotmRef.current = motm;
     });
+
+    if (!player || !team) return <div className="main-content">Erro: jogador não encontrado.</div>;
 
     const handleTrain = (skill) => {
         const result = player.train(skill);
@@ -96,6 +102,12 @@ export function PlayerDashboardView() {
         player.resolveMentalBreak(choice);
         setMentalBreakModal(false);
         setLog(`Mental break resolvido: ${choice}`);
+        forceUpdate();
+    };
+
+    const handleBuyTrait = (traitId) => {
+        const result = player.buyTrait(traitId);
+        setLog(result.msg);
         forceUpdate();
     };
 
@@ -157,13 +169,38 @@ export function PlayerDashboardView() {
                         </ul>
                     </div>
                     <div>
-                        <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>SKILLS</div>
-                        <ul className="stats-list">
-                            <li><span>🎯 Technique:</span> <strong>{player.skills.technique}</strong></li>
-                            <li><span>💨 Pace:</span> <strong>{player.skills.pace}</strong></li>
-                            <li><span>💪 Power:</span> <strong>{player.skills.power}</strong></li>
-                            <li><span>👁️ Vision:</span> <strong>{player.skills.vision}</strong></li>
-                        </ul>
+                        <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>SKILLS (progresso pro próximo nível)</div>
+                        {[
+                            { key: 'technique', label: '🎯 TEC' },
+                            { key: 'pace',      label: '💨 PAC' },
+                            { key: 'power',     label: '💪 POW' },
+                            { key: 'vision',    label: '👁️ VIS' }
+                        ].map(s => {
+                            const lvl = player.skills[s.key] ?? 0;
+                            const prog = player.skillProgress?.[s.key] ?? 0;
+                            return (
+                                <div key={s.key} style={{ marginBottom: '6px' }}>
+                                    <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.78rem' }}>
+                                        <span>{s.label} <strong>{lvl}</strong></span>
+                                        <span style={{ color:'var(--text-muted)' }}>{prog}/100 XP</span>
+                                    </div>
+                                    <div style={{
+                                        height: '6px',
+                                        background: 'var(--bg-elevated, #1a2520)',
+                                        borderRadius: '3px',
+                                        overflow: 'hidden',
+                                        border: '1px solid var(--border-subtle, #2a3530)'
+                                    }}>
+                                        <div style={{
+                                            height: '100%',
+                                            width: `${prog}%`,
+                                            background: 'linear-gradient(90deg, #6ABC3A, #FFD700)',
+                                            transition: 'width 200ms ease-out'
+                                        }} />
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
@@ -207,6 +244,54 @@ export function PlayerDashboardView() {
                 </div>
                 {log && <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '0.5rem' }}>{log}</p>}
                 {offPitchResult && <p style={{ color: 'var(--accent)', fontSize: '0.8rem', marginTop: '0.5rem' }}>📰 {offPitchResult}</p>}
+            </div>
+
+            {/* Loja de Traits — uso de dinheiro modo carreira */}
+            <div className="card">
+                <h3 style={{ marginBottom: '0.5rem' }}>🛍️ Loja de Traits Especiais</h3>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 0.75rem 0' }}>
+                    Habilidades únicas. Custam dinheiro + aprovação do técnico. Saldo atual: <strong>R$ {player.money}</strong>
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '8px' }}>
+                    {Object.entries(TRAITS_CATALOG).map(([id, t]) => {
+                        const owned = player.traits?.includes(id);
+                        const canAfford = player.money >= t.cost;
+                        const bossOk = player.relationships.boss >= t.requiredBoss;
+                        const disabled = owned || !canAfford || !bossOk;
+                        return (
+                            <div key={id} style={{
+                                border: '1px solid var(--border-subtle, #2a3530)',
+                                borderRadius: '4px',
+                                padding: '0.5rem',
+                                background: owned ? 'rgba(106,188,58,0.1)' : 'transparent',
+                                opacity: disabled && !owned ? 0.7 : 1
+                            }}>
+                                <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '2px' }}>
+                                    {owned ? '✅ ' : ''}{t.name}
+                                </div>
+                                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
+                                    {t.description}
+                                </div>
+                                <div style={{ fontSize: '0.7rem', display: 'flex', gap: '8px', marginBottom: '6px' }}>
+                                    <span style={{ color: canAfford ? 'var(--primary)' : 'var(--danger)' }}>
+                                        💰 R$ {t.cost}
+                                    </span>
+                                    <span style={{ color: bossOk ? 'var(--primary)' : 'var(--danger)' }}>
+                                        👔 {t.requiredBoss}%
+                                    </span>
+                                </div>
+                                <button
+                                    className={`btn btn-sm ${owned ? 'btn-secondary' : 'btn-primary'}`}
+                                    onClick={() => handleBuyTrait(id)}
+                                    disabled={disabled}
+                                    style={{ width: '100%', fontSize: '0.7rem' }}
+                                >
+                                    {owned ? 'ADQUIRIDO' : !canAfford ? 'SEM DINHEIRO' : !bossOk ? 'TÉCNICO BAIXO' : 'COMPRAR'}
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
 
             <button className="btn btn-primary" onClick={handleAdvance} style={{ width: '100%' }}>

@@ -8,7 +8,7 @@ import { PreMatchScreen } from './PreMatchScreen';
 import { EfClubBadge, EfBanner } from './ui';
 
 export function MatchView() {
-    const { gameState, changeView, getEngine, forceUpdate } = useGame();
+    const { gameState, changeView, getEngine, forceUpdate, getDashboardView } = useGame();
     const engine = getEngine();
     const team = engine.getTeam(gameState.teamId);
     const [phase, setPhase] = useState('prematch');
@@ -389,7 +389,7 @@ export function MatchView() {
                     </>
                 )}
 
-                <button className="btn btn-secondary" style={{width:'100%',marginTop:'0.5rem',opacity:0.5,fontSize:'0.75rem'}} onClick={() => changeView('dashboard')}>
+                <button className="btn btn-secondary" style={{width:'100%',marginTop:'0.5rem',opacity:0.5,fontSize:'0.75rem'}} onClick={() => changeView(getDashboardView())}>
                     Cancelar
                 </button>
             </div>
@@ -776,7 +776,7 @@ export function MatchView() {
                 )}
             </div>
 
-            <button className="btn-cta" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView('dashboard'); }}>
+            <button className="btn-cta" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView(getDashboardView()); }}>
                 📊 VOLTAR AO DASHBOARD
             </button>
         </div>

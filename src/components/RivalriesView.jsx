@@ -18,7 +18,7 @@ function getRivalryLabel(value) {
 }
 
 export function RivalriesView() {
-    const { gameState, getEngine, changeView } = useGame();
+    const { gameState, getEngine, changeView, getDashboardView } = useGame();
     const { getRivalry } = useRelationships();
     const { getOpenArcs } = useNarrative();
     const engine = getEngine();
@@ -46,7 +46,7 @@ export function RivalriesView() {
         <div className="main-content fade-in ef-art-bg ef-art-crowd-strip">
             <div className="card-header" style={{ marginBottom: '1rem' }}>
                 <h2>⚔️ Rivalidades</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
+                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
             </div>
 
             <div className="card" style={{ padding: '1rem', marginBottom: '1rem' }}>

@@ -23,7 +23,7 @@ const SEVERITY_COLORS = {
 };
 
 export function MonitorView() {
-    const { changeView } = useGame();
+    const { changeView, getDashboardView } = useGame();
     const [filter, setFilter] = useState('all');
     const [entries, setEntries] = useState([]);
     const [stats, setStats] = useState(null);
@@ -67,7 +67,7 @@ export function MonitorView() {
         <div className="main-content fade-in">
             <div className="card-header" style={{ marginBottom: '1rem' }}>
                 <h2>📊 Monitor</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
+                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
             </div>
 
             {stats && (

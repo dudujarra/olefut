@@ -7,7 +7,7 @@ import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui';
 
 export function MarketView() {
-    const { gameState, changeView, getEngine, forceUpdate } = useGame();
+    const { gameState, changeView, getEngine, forceUpdate, getDashboardView } = useGame();
     const engine = getEngine();
     const team = engine.getTeam(gameState.teamId);
     if (!team) return null;
@@ -64,7 +64,7 @@ export function MarketView() {
                     <EfClubBadge name={team.name} size="md" />
                     <h2 style={{fontSize:'1.2rem',margin:0}}>🛒 Mercado — {team.name}</h2>
                 </div>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView('dashboard')}>← Voltar</button>
+                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
             </div>
 
             <div className="card card-compact" style={{marginBottom:'0.5rem'}}>

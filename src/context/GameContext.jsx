@@ -205,6 +205,9 @@ export const GameProvider = ({ children }) => {
         setGameState(prev => ({ ...prev, view }));
     };
 
+    // BUG-022 fix: mode-aware dashboard route (avoid player→manager unintended switch)
+    const getDashboardView = () => gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
+
     const saveGame = () => saveToStorage(engineRef.current, gameState);
     const resetGame = () => {
         clearStorage();
@@ -215,7 +218,7 @@ export const GameProvider = ({ children }) => {
     const getEngine = () => engineRef.current;
 
     return (
-        <GameContext.Provider value={{ gameState, startGame, changeView, getEngine, forceUpdate, saveGame, resetGame }}>
+        <GameContext.Provider value={{ gameState, startGame, changeView, getEngine, forceUpdate, saveGame, resetGame, getDashboardView }}>
             {children}
         </GameContext.Provider>
     );
