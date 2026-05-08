@@ -6,9 +6,12 @@
 🎮 **Live demo**: https://dudujarra.github.io/elifoot-web/
 
 [![CI](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-320%2F320-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
+[![Tests](https://img.shields.io/badge/tests-597%2F597-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
 [![Specs](https://img.shields.io/badge/specs-30-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
 [![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/elifoot-web/blob/main/specs/SPEC-RULES.md)
+[![Bugs Fixed](https://img.shields.io/badge/bugs%20fixed-20-orange)](https://github.com/dudujarra/elifoot-web/blob/main/BUGS.md)
+[![Theme](https://img.shields.io/badge/theme-8bit%20toggle-yellow)](https://github.com/dudujarra/elifoot-web/blob/main/src/styles/8bit-theme.css)
+[![Stitch Designs](https://img.shields.io/badge/Stitch%20designs-10-purple)](https://github.com/dudujarra/elifoot-web/tree/main/docs/stitch-designs)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
@@ -60,16 +63,22 @@ ELIFOOT RPG = simulador futebol brasileiro com profundidade RPG. Gerencia 1 dos 
 | Métrica | Valor |
 |---------|-------|
 | **Specs documentadas** | 30 (FASE 1-5) |
-| **Test files** | 38 |
-| **Tests passing** | 320 / 320 |
-| **Bugs fixados (Akita 3-artefact)** | 8 |
-| **Engine modules** | 26 (14 originais + 12 systems) |
+| **Test files** | 76 |
+| **Tests passing** | 597 / 597 |
+| **Bugs fixados (Akita 3-artefact)** | 20 |
+| **PRs mergeados** | 30+ |
+| **AKITA commits** | 48 |
+| **Engine modules** | 26 (14 originais + 12 systems FASE 3-5) |
+| **React components** | 8 |
 | **Validações spec** | 218 |
 | **Casos forbidden** | 125+ |
 | **Coverage codebase** | 92% |
-| **Build size** | 381KB JS + 11KB CSS (gzip 110KB) |
-| **Build time** | <100ms |
-| **Times BR reais** | 170 |
+| **Themes** | 2 (Modern + 8-bit retro) |
+| **Pixel-art sprites** | 14 (Google Flow) |
+| **Stitch designs** | 10 (Gemini 3 Pro) |
+| **Build size** | 394KB JS + 18KB CSS (gzip 115KB) |
+| **Build time** | <150ms |
+| **Times reais** | 170 (10 países) |
 | **Torneios simultâneos** | 16 |
 
 ---
@@ -243,19 +252,59 @@ Commits: `AKITA-XXX: Título — Descrição` (pre-commit hook valida format).
 
 ---
 
+## 🎨 8-bit Theme + Design System
+
+Projeto possui **2 temas toggle** (🎨 modern ↔ 🕹️ 8-bit retro):
+
+- **Modern**: dark mode + glassmorphism + Inter/Outfit fonts
+- **8-bit Retro**: NES era + Press Start 2P + chunky 4px borders + scanlines + paleta futebol real
+
+**Paleta futebol** (8-bit theme):
+```
+Grass green: #2D6A4F mid / #1B4332 dark / #52B788 light
+Line white:  #F1FAEE
+Leather:     #8B5A2B (ball) / #6B4226 (stands)
+Cards:       #FFD600 yellow / #C62828 red
+Sky info:    #4A90E2
+```
+
+### Assets pixel-art (Google Flow Nano Banana Pro)
+14 sprites em `public/sprites/`:
+- logo-vertical.jpeg / scoreboard-banner.jpeg
+- stadium-field.jpeg / stadium-progression-A/B/C.jpeg
+- player-jerseys.jpeg (8 cores numerados)
+- icons-set-football.jpeg (8 icons sprite sheet)
+- weather-football.jpeg / weather-classic.jpeg
+
+### Stitch designs (Gemini 3 Pro)
+10 screen designs em `docs/stitch-designs/`:
+- Dashboard, Match Live, Squad, Start, Stadium, Standings, Market
+- 3 variants Dashboard (Arcade / Classic FM / Minimal)
+
+Design system Stitch: `assets/9556108370450513109` (Anton + Rubik + Space Mono).
+
+---
+
 ## 🔄 Recent commits
 
 ```
+AKITA-048: Standings + Market designs Stitch (10 total)
+AKITA-047: 7 Stitch screens + 3 dashboard variants
+AKITA-046: Stitch tokens applied (scoreboard-card + quote-card + sidebar)
+AKITA-044/043: Match Live + Dashboard Stitch designs (Gemini 3 Pro)
+AKITA-042: 14 Flow assets renamed + sprite system
+AKITA-041: 8 Flow assets paleta futebol + theme integration
+AKITA-040: Logo 8-bit PNG real applied
+AKITA-037: 8-bit theme phase 1 + design handoff doc
+AKITA-036: UX overhaul P0+P1+P2 (13 melhorias UX/UI)
+AKITA-034: BUG-019 + BUG-020 (Clube crash + auto-save localStorage)
+AKITA-033: BUG-015 critical (MatchView crash filter null-safe)
 AKITA-031: Sweep batch 2 — 4 bugs deep audit (BUG-011 a 014)
-AKITA-030: Sweep batch 1 — 4 bugs fix + regression tests (BUG-007 a 010)
-AKITA-029: Skill elifoot-debug — trigger automático workflow bug
-AKITA-028: Bug debug workflow + tests serial automation
-AKITA-027: Build completo — 12 modules + 28 harnesses + CI/CD + Pages
-AKITA-026: Master guide para 30 specs
-AKITA-025: FASE 5 — 7 backlog & polish specs
-AKITA-024: FASE 3-4 — 15 secondary + infrastructure specs
-AKITA-023: FASE 2 — 8 specs core
-AKITA-022: FASE 1 Fundação SDD — Estrutura specs/ + governance
+AKITA-030: Sweep batch 1 — 4 bugs fix (BUG-007 a 010)
+AKITA-029: Skill elifoot-debug — auto trigger debug workflow
+AKITA-028: Bug debug workflow + tests serial
+AKITA-027: Build completo — 12 modules + 28 harnesses + CI/CD
+AKITA-022 a 026: Foundation SDD + 30 specs (FASE 1-5)
 ```
 
 ---
@@ -263,7 +312,12 @@ AKITA-022: FASE 1 Fundação SDD — Estrutura specs/ + governance
 ## 📚 Docs
 
 - [SPECS-MASTER-GUIDE.md](SPECS-MASTER-GUIDE.md) — índice navegável 30 specs
-- [BUGS.md](BUGS.md) — bug tracker permanente (8 fixados)
+- [BUGS.md](BUGS.md) — bug tracker permanente (20 fixados)
+- [docs/stitch-designs/](docs/stitch-designs/) — 10 Stitch designs HTML+PNG
+- [docs/8bit-design-handoff.md](docs/8bit-design-handoff.md) — design system spec
+- [docs/flow-assets-generated.md](docs/flow-assets-generated.md) — Flow art docs
+- [docs/sandbox-limitations.md](docs/sandbox-limitations.md) — MCP browser limits
+- [docs/playtest/AUTONOMOUS-SESSION-REPORT.md](docs/playtest/AUTONOMOUS-SESSION-REPORT.md) — autonomous test report
 - [FASE-1-2-SUMMARY.md](FASE-1-2-SUMMARY.md) — Foundation + Core
 - [FASE-3-4-SUMMARY.md](FASE-3-4-SUMMARY.md) — Secondary + Infra
 - [FASE-5-SUMMARY.md](FASE-5-SUMMARY.md) — Backlog + overall stats
