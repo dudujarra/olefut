@@ -32,11 +32,11 @@ export const REGION_BIAS = {
     Argentina: ['Vento forte', 'Ensolarado', 'Nublado'],
 };
 
-let rngState = 42;
-function mulberry32(seed) {
-    rngState = seed;
+// BUG-013 fix: rngState removed module-level (shared race). Per-instance encapsulation.
+function makeRng(seed) {
+    let state = seed;
     return function () {
-        let t = (rngState += 0x6d2b79f5);
+        let t = (state += 0x6d2b79f5);
         t = Math.imul(t ^ (t >>> 15), t | 1);
         t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
         return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
@@ -44,13 +44,13 @@ function mulberry32(seed) {
 }
 
 export class WeatherSystem {
-    constructor() {
+    constructor(seed = 42) {
         this.weeklyWeather = new Map();
-        this.rng = mulberry32(42);
+        this.rng = makeRng(seed);
     }
 
     setSeed(seed) {
-        this.rng = mulberry32(seed);
+        this.rng = makeRng(seed);
     }
 
     setWeather({ weekOfYear, type, region }) {

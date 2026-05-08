@@ -7,6 +7,11 @@ on:
     branches: [main, "bug/**"]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   regression-series:
     runs-on: ubuntu-latest
