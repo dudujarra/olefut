@@ -1,9 +1,7 @@
 /**
  * useMyth — Hook fachada pra MythService.
  *
- * Status: SKELETON (preenchido em AKITA-RFCT-007 / RFCT-017)
- *
- * Substitui chamadas diretas a engine.getLegends() etc nos components.
+ * AKITA-RFCT-007: wired up. Components usam ao invés de acessar engine.legendary direto.
  */
 
 import { useGame } from '../context/GameContext';
@@ -11,11 +9,15 @@ import { useGame } from '../context/GameContext';
 export function useMyth() {
     const { getEngine } = useGame();
     const engine = getEngine();
+    const svc = engine?._mythService;
 
-    // Placeholder — será preenchido quando MythService existir
     return {
-        legends: engine?._mythService?.getLegends?.(engine) || [],
-        getHallOfFame: (clubId) => engine?._mythService?.getHallOfFame?.(engine, clubId) || [],
-        getRegenChildren: () => engine?._mythService?.getRegenChildren?.(engine) || []
+        legends: svc?.getLegends(engine) || [],
+        getHallOfFame: (clubId) => svc?.getHallOfFame(engine, clubId) || {},
+        getRegenChildren: () => svc?.getRegenChildren(engine) || [],
+        isCanonized: (playerId) => svc?.isCanonized(engine, playerId) || false,
+        countHallSlots: (clubId) => svc?.countHallSlots(engine, clubId) || 0,
+        addLegend: (playerId, slot) => svc?.addLegend(engine, playerId, slot),
+        promoteToHallOfFame: (playerId, clubId, slot) => svc?.promoteToHallOfFame(engine, playerId, clubId, slot)
     };
 }

@@ -14,6 +14,7 @@ import { evaluateSponsor, getCalendarEvent, processPromoRelegation, ManagerLegac
 import { processPlayerDevelopment, ageSquad, updateForm, processDressingRoom, generateRenewalOffer, acceptRenewal, TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from './PlayerDevelopment';
 import { rollTraits, getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats, closeSeasonStats, calculateSeasonAwards, processMoraleEvents, processMentoring, isRivalry } from './PlayerTraits';
 import { MatchSimulator } from '../services/MatchSimulator';
+import { MythService } from '../services/MythService';
 
 export class Engine {
     constructor() {
@@ -27,6 +28,8 @@ export class Engine {
 
         // RFCT-004: MatchSimulator extracted from playMatch (ver src/services/MatchSimulator.js)
         this._matchSimulator = new MatchSimulator();
+        // RFCT-007: MythService — Camada 5 (Mito) Hall de Lendas (stateless)
+        this._mythService = new MythService();
 
         // Manager Mode state
         this.currentTactic = 'normal';

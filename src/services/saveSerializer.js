@@ -1,10 +1,15 @@
 /**
  * saveSerializer — Serialize/deserialize com prototype restoration genérica.
  *
- * Status: SKELETON (preenchido em AKITA-RFCT-007)
+ * AKITA-RFCT-007: registry-based system pra preservar prototype de class instances.
+ * Resolve BUG-021 generalizado.
  *
- * Resolve BUG-021 generalizado: registry de tipos pra preservar prototype
- * de class instances após JSON round-trip.
+ * Usage:
+ *   import { register, serialize, deserialize } from './saveSerializer';
+ *   register('Tournament', Tournament);
+ *   register('League', League);
+ *   const serialized = serialize(complexObj);
+ *   const restored = deserialize(serialized);
  */
 
 const registry = new Map();
@@ -17,27 +22,30 @@ const registry = new Map();
  */
 export function register(typeName, classRef) {
     if (registry.has(typeName)) {
-        console.warn(`[saveSerializer] re-registering "${typeName}"`);
+        // Re-register OK (idempotent for hot reload)
     }
     registry.set(typeName, classRef);
 }
 
 /**
- * @placeholder AKITA-RFCT-007
- * Serialize obj com tag __class no nível raiz e nested.
+ * Serialize object com tag __class no nível raiz e nested.
+ * Walk recursive em arrays + plain objects.
+ *
+ * @param {*} obj
+ * @returns {*} JSON-safe representation
  */
 export function serialize(obj) {
-    // To be implemented (deep walk + tag instances)
-    return JSON.parse(JSON.stringify(obj));
+    return _walkSerialize(obj, new WeakSet());
 }
 
 /**
- * @placeholder AKITA-RFCT-007
  * Deserialize com prototype restore baseado em __class.
+ *
+ * @param {*} data — output of serialize
+ * @returns {*} restored value
  */
 export function deserialize(data) {
-    // To be implemented (deep walk + Object.create + property copy)
-    return data;
+    return _walkDeserialize(data);
 }
 
 /**
@@ -45,4 +53,72 @@ export function deserialize(data) {
  */
 export function getRegisteredTypes() {
     return Array.from(registry.keys());
+}
+
+/**
+ * Clear registry (testing only).
+ */
+export function _clearRegistry() {
+    registry.clear();
+}
+
+// ============================================================================
+// PRIVATES
+// ============================================================================
+
+function _walkSerialize(value, seen) {
+    if (value === null || value === undefined) return value;
+    if (typeof value !== 'object') return value;
+
+    // Cycle protection
+    if (seen.has(value)) return null;
+    seen.add(value);
+
+    if (Array.isArray(value)) {
+        return value.map(item => _walkSerialize(item, seen));
+    }
+
+    // Map/Set não suportados — skip
+    if (value instanceof Map || value instanceof Set) return null;
+
+    // Plain object or class instance
+    const out = {};
+    const className = value.constructor?.name;
+    if (className && className !== 'Object' && registry.has(className)) {
+        out.__class = className;
+    }
+
+    for (const key of Object.keys(value)) {
+        const v = value[key];
+        if (typeof v === 'function') continue;
+        out[key] = _walkSerialize(v, seen);
+    }
+
+    return out;
+}
+
+function _walkDeserialize(value) {
+    if (value === null || value === undefined) return value;
+    if (typeof value !== 'object') return value;
+
+    if (Array.isArray(value)) {
+        return value.map(_walkDeserialize);
+    }
+
+    // Plain object
+    const className = value.__class;
+    let target;
+    if (className && registry.has(className)) {
+        const ClassConstructor = registry.get(className);
+        target = Object.create(ClassConstructor.prototype);
+    } else {
+        target = {};
+    }
+
+    for (const key of Object.keys(value)) {
+        if (key === '__class') continue;
+        target[key] = _walkDeserialize(value[key]);
+    }
+
+    return target;
 }

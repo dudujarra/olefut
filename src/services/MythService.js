@@ -99,28 +99,63 @@ export class MythService {
     }
 
     // ========================================================================
-    // WRITES — placeholders (preenchidos em AKITA-RFCT-007)
+    // WRITES — AKITA-RFCT-007 implementation
     // ========================================================================
 
     /**
-     * @placeholder AKITA-RFCT-007
+     * Adds player to legends list.
+     *
+     * @param {Engine|object} engineOrSave
+     * @param {number} playerId
+     * @param {string} slot — must be in MYTH_SLOTS
+     * @returns {{success:boolean, msg?:string}}
      */
     addLegend(engineOrSave, playerId, slot) {
-        // To be implemented in RFCT-007
+        if (!engineOrSave) return { success: false, msg: 'engineOrSave null' };
+        if (slot && !MYTH_SLOTS.includes(slot)) {
+            return { success: false, msg: `slot inválido: ${slot}` };
+        }
+        engineOrSave.myth = engineOrSave.myth || {};
+        engineOrSave.myth.legends = engineOrSave.myth.legends || [];
+
+        // Avoid duplicates by playerId+slot
+        const existing = engineOrSave.myth.legends.find(
+            l => l.playerId === playerId && l.slot === slot
+        );
+        if (existing) return { success: false, msg: 'já é lenda nesse slot' };
+
+        engineOrSave.myth.legends.push({
+            playerId,
+            slot: slot || null,
+            canonizedAt: Date.now()
+        });
+        return { success: true };
     }
 
     /**
-     * @placeholder AKITA-RFCT-007
+     * Promotes player to club hall of fame slot. Substitui ocupante anterior se houver.
      */
     promoteToHallOfFame(engineOrSave, playerId, clubId, slot) {
-        // To be implemented in RFCT-007
+        if (!engineOrSave) return { success: false, msg: 'engineOrSave null' };
+        if (!MYTH_SLOTS.includes(slot)) {
+            return { success: false, msg: `slot inválido: ${slot}` };
+        }
+        if (clubId == null) return { success: false, msg: 'clubId obrigatório' };
+
+        engineOrSave.myth = engineOrSave.myth || {};
+        engineOrSave.myth.halls = engineOrSave.myth.halls || {};
+        engineOrSave.myth.halls[clubId] = engineOrSave.myth.halls[clubId] || {};
+        engineOrSave.myth.halls[clubId][slot] = playerId;
+        return { success: true };
     }
 
     /**
      * @placeholder v1.3 (AKITA-054)
+     * Generates regen child with inherited traits.
      */
     generateRegenChild(engineOrSave, parentPlayerId) {
         // To be implemented in v1.3
+        return { success: false, msg: 'deferred to v1.3' };
     }
 
     // ========================================================================

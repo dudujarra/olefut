@@ -70,6 +70,28 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo PR:** AKITA-RFCT-006 — Move read methods to MythService
 
+### [refactor] AKITA-RFCT-006 — SKIPPED (collapsed into RFCT-005)
+
+Razão: engine.js não tinha métodos getLegends/getHallOfFame/getRegenChildren pré-refactor. RFCT-006 spec presumia existência. Sem nada pra mover, collapsed em RFCT-005 (skeleton já populado com reads).
+
+### [refactor] AKITA-RFCT-007 — MythService Writes + saveSerializer Registry + useMyth Wiring (2026-05-08)
+
+- `MythService.addLegend()` implementado: dedup por playerId+slot, valid slot check, returns {success, msg}
+- `MythService.promoteToHallOfFame()` implementado: substitui ocupante anterior em slot
+- `MythService.generateRegenChild()` permanece placeholder (v1.3)
+- `src/services/saveSerializer.js` upgraded skeleton → registry-based:
+  - `register(typeName, classRef)` + `serialize(obj)` + `deserialize(data)`
+  - Walk recursive arrays + plain objects
+  - Cycle protection via WeakSet
+  - Skip Map/Set + functions
+- `engine.js`: constructor inicializa `this._mythService = new MythService()`
+- `src/hooks/useMyth.js` wired (consume MythService via engine)
+- `tests/specs/SPEC-saveSerializer.test.js`: 14 tests (9 saveSerializer + 5 MythService writes)
+- 358 tests passing (344 + 14 new)
+- Build: 43.28 KB CSS / 429.01 KB JS (+1.61 KB pelo MythService + saveSerializer)
+
+**Próximo PR:** AKITA-RFCT-008 — RelationshipService skeleton
+
 ---
 
 ## [1.0.0] — 2026-05-08
