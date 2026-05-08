@@ -72,8 +72,8 @@ export function DashboardView() {
                 </div>
             )}
 
-            {/* === NEXT MATCH CTA === */}
-            <div className="card" style={{padding:'0.75rem 1rem',background:'linear-gradient(135deg, rgba(17,24,39,0.9), rgba(16,185,129,0.05))'}}>
+            {/* === NEXT MATCH CTA (Stitch scoreboard-card style) === */}
+            <div className="card scoreboard-card next-match-card" style={{padding:'0.75rem 1rem',background:'linear-gradient(135deg, rgba(17,24,39,0.9), rgba(16,185,129,0.05))'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
                     <div>
                         <span style={{fontSize:'0.7rem',color:'var(--text-muted)',textTransform:'uppercase',letterSpacing:'0.5px'}}>Próximo Jogo</span>
@@ -117,10 +117,10 @@ export function DashboardView() {
             {/* === TAB: OVERVIEW === */}
             {tab === 'overview' && (
                 <>
-                    {/* Onboarding hints — only show for first weeks */}
+                    {/* Onboarding hints — Stitch playbook quote style */}
                     {seasonWeek <= 2 && engine.seasonNumber === 1 && (
-                        <div className="card card-compact" style={{background:'rgba(59,130,246,0.08)',borderColor:'rgba(59,130,246,0.2)'}}>
-                            <h4 style={{fontSize:'0.8rem',color:'var(--info)',marginBottom:'0.3rem'}}>💡 DICAS DO TREINADOR</h4>
+                        <div className="card card-compact quote-card" style={{background:'rgba(59,130,246,0.08)',borderColor:'rgba(59,130,246,0.2)'}}>
+                            <h4 style={{fontSize:'0.8rem',color:'var(--info)',marginBottom:'0.3rem'}}>💡 PLAYBOOK DO TREINADOR</h4>
                             <div style={{fontSize:'0.75rem',color:'var(--text-muted)',lineHeight:1.6}}>
                                 <p>1️⃣ <strong>Táticas:</strong> escolha formação e tática antes de jogar</p>
                                 <p>2️⃣ <strong>Treino:</strong> treine o plantel toda semana para melhorar atributos</p>

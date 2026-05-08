@@ -357,7 +357,7 @@ export function MatchView() {
                         }}>
                             {currentMinute}'
                         </span>
-                        {isPlaying && <span className="pulse" style={{fontSize:'0.6rem',color:'var(--danger)'}}>● AO VIVO</span>}
+                        {isPlaying && <span className="pulse live-indicator" style={{fontSize:'0.6rem',color:'var(--danger)'}}>● AO VIVO</span>}
                     </div>
                     <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>{half}</span>
                 </div>
