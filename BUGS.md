@@ -173,3 +173,20 @@ npm run test:ci    # roda testes + build (pipeline)
 - **Teste:** `tests/regression/BUG-017.test.js`
 - **Status:** OPEN (2026-05-08)
 
+---
+
+### BUG-021 ✅ RESOLVIDO — engine.advanceWeek crash após restore (tournament prototype loss)
+- **Severidade:** P0 (bloqueava "Iniciar Partida" para usuários com save existente após v1.0 release)
+- **Sintoma:** `TypeError: t.advanceWeek is not a function` ao clicar Iniciar Partida na pré-jogo
+- **Root cause:** Tournament class instances (League/KnockoutCup/ContinentalCup) perdem prototype methods quando serializados via JSON.stringify e restaurados via JSON.parse no localStorage
+- **Fix:**
+  - `serializeEngine()` tag tournaments com `__class` field
+  - `restoreEngine()` re-attach prototype via Object.create(ClassConstructor.prototype) + property copy
+  - `tournamentClassFromShape()` heuristic fallback (level→League, groupWeeks→ContinentalCup, roundWeeks→KnockoutCup)
+  - SAVE_VERSION bumped 1→2 (invalidates broken v1 saves)
+- **Branch:** `fix/BUG-021-tournament-prototype`
+- **Files:** `src/context/GameContext.jsx`
+- **Teste:** `tests/regression/BUG-021.test.js` (8 tests)
+- **Status:** RESOLVIDO 2026-05-08
+- **Reportado por:** Dudu (screenshot console errors v1.0 release)
+

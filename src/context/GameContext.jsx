@@ -1,12 +1,35 @@
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
 import { Engine } from '../engine/engine';
+import { Tournament } from '../engine/tournaments/Tournament';
+import { League } from '../engine/tournaments/League';
+import { KnockoutCup } from '../engine/tournaments/KnockoutCup';
+import { ContinentalCup } from '../engine/tournaments/ContinentalCup';
 
 const GameContext = createContext();
 
 export const useGame = () => useContext(GameContext);
 
+// SAVE_VERSION bumped to 2 — BUG-021 fix: tournament prototypes must be restored.
+// Saves from v1 (SAVE_VERSION=1) are auto-invalidated to prevent broken state.
 const SAVE_KEY = 'elifoot_save_v1';
-const SAVE_VERSION = 1;
+const SAVE_VERSION = 2;
+
+// Map class name → constructor for prototype restoration
+const TOURNAMENT_CLASSES = { Tournament, League, KnockoutCup, ContinentalCup };
+
+/**
+ * BUG-021: Identify tournament subclass by id pattern (set when serialized).
+ * Falls back to Tournament base if pattern unknown.
+ */
+function tournamentClassFromShape(t) {
+    if (!t || typeof t !== 'object') return Tournament;
+    if (t.__class && TOURNAMENT_CLASSES[t.__class]) return TOURNAMENT_CLASSES[t.__class];
+    // Heuristic: League has level, ContinentalCup has groupWeeks, KnockoutCup has roundWeeks
+    if (typeof t.level === 'number') return League;
+    if (Array.isArray(t.groupWeeks)) return ContinentalCup;
+    if (Array.isArray(t.roundWeeks)) return KnockoutCup;
+    return Tournament;
+}
 
 // BUG-020 fix: localStorage auto-save + restore
 function saveToStorage(engine, gameState) {
@@ -61,6 +84,13 @@ function serializeEngine(engine) {
     if (engine.staff && Array.isArray(engine.staff.hired)) {
         safe._staffHired = engine.staff.hired;
     }
+    // BUG-021: tag tournaments with class name so prototype is restorable
+    if (Array.isArray(engine.tournaments)) {
+        safe.tournaments = engine.tournaments.map(t => ({
+            ...t,
+            __class: t?.constructor?.name || 'Tournament'
+        }));
+    }
     return safe;
 }
 
@@ -72,6 +102,20 @@ function restoreEngine(engine, snapshot) {
         try {
             engine[key] = val;
         } catch { /* skip */ }
+    }
+    // BUG-021 fix: re-attach tournament prototypes (lost via JSON serialize)
+    if (Array.isArray(engine.tournaments)) {
+        engine.tournaments = engine.tournaments.map(rawT => {
+            if (!rawT) return rawT;
+            const ClassConstructor = tournamentClassFromShape(rawT);
+            const restored = Object.create(ClassConstructor.prototype);
+            // Copy data fields, drop __class marker
+            for (const [k, v] of Object.entries(rawT)) {
+                if (k === '__class') continue;
+                restored[k] = v;
+            }
+            return restored;
+        });
     }
     // Restore staff hired list (preserva StaffManager class)
     if (snapshot._staffHired && engine.staff) {
