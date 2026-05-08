@@ -1,0 +1,15 @@
+/**
+ * ELIFOOT Token Aliases — atalhos pra tokens commumente usados.
+ * AUTO-GERADO por scripts/tokens-to-css.js.
+ */
+:root {
+  /* Aliases sem prefixo color-neutral */
+  --ef-bevel-light: var(--ef-color-neutral-bevel-light);
+  --ef-bevel-dark: var(--ef-color-neutral-bevel-dark);
+  --ef-bg: var(--ef-color-neutral-bg);
+  --ef-bg-elev: var(--ef-color-neutral-bg-elev);
+  --ef-bg-card: var(--ef-color-neutral-bg-card);
+  --ef-text-hi: var(--ef-color-neutral-text-hi);
+  --ef-text-md: var(--ef-color-neutral-text-md);
+  --ef-text-lo: var(--ef-color-neutral-text-lo);
+}

@@ -1,0 +1,17 @@
+/**
+ * ELIFOOT Spacing Tokens
+ * AUTO-GERADO por scripts/tokens-to-css.js — não editar manualmente.
+ * Source: src/styles/tokens/tokens.json
+ * Versão: 1.0.0
+ */
+:root {
+  --ef-space-0: 0;
+  --ef-space-1: 4px;
+  --ef-space-2: 8px;
+  --ef-space-3: 12px;
+  --ef-space-4: 16px;
+  --ef-space-5: 24px;
+  --ef-space-6: 32px;
+  --ef-space-7: 48px;
+  --ef-space-8: 64px;
+}

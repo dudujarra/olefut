@@ -1,6 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap');
 @import './styles/8bit-theme.css';
 @import './styles/32bit-theme.css';
+@import './styles/themes/snes.css';
+
+/* v2.0 Stitch UI animations */
+@keyframes ef-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes ef-modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes ef-modal-slide-down {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ef-tooltip-fade {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
 
 /* === Standings color zones (FM-classic) === */
 .standings-table tr.zone-libertadores {

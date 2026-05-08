@@ -1,0 +1,17 @@
+/**
+ * ELIFOOT Motion Tokens
+ * AUTO-GERADO por scripts/tokens-to-css.js — não editar manualmente.
+ * Source: src/styles/tokens/tokens.json
+ * Versão: 1.0.0
+ */
+:root {
+  --ef-dur-instant: 50ms;
+  --ef-dur-fast: 80ms;
+  --ef-dur-normal: 200ms;
+  --ef-dur-slow: 300ms;
+  --ef-dur-narrative: 1200ms;
+  --ef-ease-linear: linear;
+  --ef-ease-step1: steps(1);
+  --ef-ease-step4: steps(4);
+  --ef-ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}

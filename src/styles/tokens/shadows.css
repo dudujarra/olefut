@@ -1,0 +1,13 @@
+/**
+ * ELIFOOT Shadow Tokens
+ * AUTO-GERADO por scripts/tokens-to-css.js — não editar manualmente.
+ * Source: src/styles/tokens/tokens.json
+ * Versão: 1.0.0
+ */
+:root {
+  --ef-shadow-bevel1: inset 1px 1px 0 var(--ef-bevel-light), inset -1px -1px 0 var(--ef-bevel-dark);
+  --ef-shadow-bevel2: inset 2px 2px 0 var(--ef-bevel-light), inset -2px -2px 0 var(--ef-bevel-dark);
+  --ef-shadow-drop: 2px 2px 0 var(--ef-bevel-dark);
+  --ef-shadow-drop-lg: 4px 4px 0 var(--ef-bevel-dark);
+  --ef-shadow-inner-sunk: inset 1px 1px 0 var(--ef-bevel-dark), inset -1px -1px 0 var(--ef-bevel-light);
+}

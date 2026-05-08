@@ -1,0 +1,117 @@
+/**
+ * ELIFOOT SNES Soccer Brasileiro Moderno — Tema Canônico
+ *
+ * Design tokens em src/styles/tokens/tokens.json (auto-gera src/styles/tokens/*.css)
+ *
+ * DNA visual: ISS Deluxe + Celeste + FTL + Stardew + Quasimorph + Kuromon.
+ * Princípios: grid 8px sagrado / cor funcional / WCAG AA / microinteração discreta.
+ */
+
+@import '../tokens/index.css';
+@import '../tokens/aliases.css';
+
+/* ============================================================================
+   GLOBAL — body class theme-snes
+   ============================================================================ */
+
+body.theme-snes {
+    background: var(--ef-color-neutral-bg);
+    color: var(--ef-color-neutral-text-hi);
+    font-family: var(--ef-font-family-body);
+    font-size: var(--ef-font-size-body);
+    line-height: var(--ef-font-line-height-normal);
+    image-rendering: auto;
+}
+
+body.theme-snes h1, body.theme-snes h2, body.theme-snes h3 {
+    font-family: var(--ef-font-family-display);
+    font-weight: var(--ef-font-weight-bold);
+    color: var(--ef-color-neutral-text-hi);
+    letter-spacing: 0.02em;
+}
+
+body.theme-snes h1 { font-size: var(--ef-font-size-h1); }
+body.theme-snes h2 { font-size: var(--ef-font-size-h2); }
+body.theme-snes h3 { font-size: var(--ef-font-size-subtitle); }
+
+/* ============================================================================
+   BEVELED BORDERS — assinatura visual
+   ============================================================================ */
+
+body.theme-snes .ef-bevel {
+    border: 2px solid;
+    border-color: var(--ef-bevel-light) var(--ef-bevel-dark) var(--ef-bevel-dark) var(--ef-bevel-light);
+    box-shadow: var(--ef-shadow-bevel2);
+}
+
+body.theme-snes .ef-bevel-sunk {
+    border: 2px solid;
+    border-color: var(--ef-bevel-dark) var(--ef-bevel-light) var(--ef-bevel-light) var(--ef-bevel-dark);
+    box-shadow: var(--ef-shadow-inner-sunk);
+}
+
+/* ============================================================================
+   SPRITE RENDERING
+   ============================================================================ */
+
+body.theme-snes img.sprite,
+body.theme-snes .sprite {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+/* ============================================================================
+   SCROLLBARS — pixel chunky
+   ============================================================================ */
+
+body.theme-snes ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+body.theme-snes ::-webkit-scrollbar-track {
+    background: var(--ef-color-neutral-bg-elev);
+    border: 2px solid var(--ef-bevel-dark);
+}
+
+body.theme-snes ::-webkit-scrollbar-thumb {
+    background: var(--ef-color-grass-500);
+    border: 2px solid;
+    border-color: var(--ef-bevel-light) var(--ef-bevel-dark) var(--ef-bevel-dark) var(--ef-bevel-light);
+}
+
+body.theme-snes ::-webkit-scrollbar-thumb:hover {
+    background: var(--ef-color-grass-300);
+}
+
+/* ============================================================================
+   SELECTION
+   ============================================================================ */
+
+body.theme-snes ::selection {
+    background: var(--ef-color-func-warning);
+    color: var(--ef-color-neutral-bg);
+}
+
+/* ============================================================================
+   FOCUS RING — acessibilidade
+   ============================================================================ */
+
+body.theme-snes *:focus-visible {
+    outline: 2px solid var(--ef-color-func-info);
+    outline-offset: 2px;
+}
+
+/* ============================================================================
+   REDUCED MOTION — prefers-reduced-motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    body.theme-snes *,
+    body.theme-snes *::before,
+    body.theme-snes *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

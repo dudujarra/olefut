@@ -1,0 +1,25 @@
+/**
+ * ELIFOOT Typography Tokens
+ * AUTO-GERADO por scripts/tokens-to-css.js — não editar manualmente.
+ * Source: src/styles/tokens/tokens.json
+ * Versão: 1.0.0
+ */
+:root {
+  --ef-font-family-display: 'Press Start 2P', monospace;
+  --ef-font-family-body: 'Pixelify Sans', system-ui, sans-serif;
+  --ef-font-family-mono: 'IBM Plex Mono', 'Courier Prime', monospace;
+  --ef-font-size-caption: 12px;
+  --ef-font-size-body: 14px;
+  --ef-font-size-body-l: 16px;
+  --ef-font-size-subtitle: 18px;
+  --ef-font-size-h2: 24px;
+  --ef-font-size-h1: 32px;
+  --ef-font-size-display: 48px;
+  --ef-font-weight-regular: 400;
+  --ef-font-weight-medium: 500;
+  --ef-font-weight-semibold: 600;
+  --ef-font-weight-bold: 700;
+  --ef-font-line-height-tight: 1.2;
+  --ef-font-line-height-normal: 1.4;
+  --ef-font-line-height-loose: 1.6;
+}

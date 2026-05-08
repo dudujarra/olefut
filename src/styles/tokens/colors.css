@@ -1,0 +1,33 @@
+/**
+ * ELIFOOT Color Tokens
+ * AUTO-GERADO por scripts/tokens-to-css.js — não editar manualmente.
+ * Source: src/styles/tokens/tokens.json
+ * Versão: 1.0.0
+ */
+:root {
+  --ef-color-grass-100: #C4E5CD; /* Linha de campo, highlight */
+  --ef-color-grass-300: #7DBE8E; /* Verde claro, hover/elevação */
+  --ef-color-grass-500: #4A8B5C; /* Verde médio, fundo painel */
+  --ef-color-grass-700: #2D5A3D; /* Verde Pacaembu, fundo principal match */
+  --ef-color-grass-800: #1B3A2A; /* Sombra de campo, base painel escuro */
+  --ef-color-grass-900: #0F1A14; /* Infill compartilhado, preto-musgo (Celeste) */
+  --ef-color-func-success: #6ABC3A;
+  --ef-color-func-success-dark: #4A8C2A;
+  --ef-color-func-warning: #F7B538;
+  --ef-color-func-danger: #D62828;
+  --ef-color-func-danger-dark: #9D1F1F;
+  --ef-color-func-info: #3A7DCE;
+  --ef-color-func-info-dark: #2858A0;
+  --ef-color-func-mute: #7B2CBF; /* Lendário/narrativo/moral baixa */
+  --ef-color-br-yellow: #FEDE00; /* CBF amarelo — só Copa/seleção */
+  --ef-color-br-blue: #002776;
+  --ef-color-br-white: #FAFAFA; /* Branco-CBF off-white */
+  --ef-color-neutral-bg: #0F1A14;
+  --ef-color-neutral-bg-elev: #1A2E22;
+  --ef-color-neutral-bg-card: #243B2D;
+  --ef-color-neutral-text-hi: #F4F1DE; /* Off-white quente Placar */
+  --ef-color-neutral-text-md: #C9C2A6;
+  --ef-color-neutral-text-lo: #8A876E;
+  --ef-color-neutral-bevel-light: #5C8A6A;
+  --ef-color-neutral-bevel-dark: #0A130E;
+}

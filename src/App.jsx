@@ -10,6 +10,7 @@ import { StandingsView } from './components/StandingsView';
 import { MatchView } from './components/MatchView';
 import { MonitorView } from './components/MonitorView';
 import { FloatingBugButton } from './components/FloatingBugButton';
+import { StyleguideView } from './components/StyleguideView';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
 
@@ -55,6 +56,7 @@ function App() {
             case 'market': return <MarketView />;
             case 'standings': return <StandingsView />;
             case 'monitor': return <MonitorView />;
+            case 'styleguide': return <StyleguideView />;
             default: return <StartView />;
         }
     };
