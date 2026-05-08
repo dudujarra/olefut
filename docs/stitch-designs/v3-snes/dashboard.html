@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELIFOOT SNES Soccer BR v2.0</title>
+<!-- Tailwind CSS CDN with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for pixel-like feel -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=VT323&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'snes-green': '#2D5A3D',
+            'snes-dark-green': '#1B3A2A',
+            'snes-light-green': '#4A8F60',
+            'snes-bg': '#0F1A14',
+            'snes-panel': '#16281E',
+            'snes-gold': '#D4AF37',
+            'snes-border-light': '#5E8B6D',
+            'snes-border-dark': '#08110D'
+          },
+          fontFamily: {
+            'pixel': ['"Press Start 2P"', 'cursive'],
+            'vt': ['"VT323"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Retro Styles -->
+<style data-purpose="retro-effects">
+    /* Custom scanline overlay */
+    .scanlines {
+      position: relative;
+      overflow: hidden;
+    }
+    .scanlines::after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+      z-index: 2;
+      background-size: 100% 3px, 3px 100%;
+      pointer-events: none;
+    }
+
+    /* SNES Bevel Effect - 2px prominent borders */
+    .snes-panel {
+      background-color: #16281E;
+      border: 4px solid;
+      border-top-color: #5E8B6D;
+      border-left-color: #5E8B6D;
+      border-right-color: #08110D;
+      border-bottom-color: #08110D;
+      image-rendering: pixelated;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .snes-btn {
+      background-color: #2D5A3D;
+      border: 3px solid;
+      border-top-color: #4A8F60;
+      border-left-color: #4A8F60;
+      border-right-color: #08110D;
+      border-bottom-color: #08110D;
+      transition: transform 0.1s;
+      cursor: pointer;
+    }
+
+    .snes-btn:active {
+      transform: translate(1px, 1px);
+      border-top-color: #08110D;
+      border-left-color: #08110D;
+      border-right-color: #4A8F60;
+      border-bottom-color: #4A8F60;
+    }
+
+    .pixel-bar-bg {
+      height: 16px;
+      background: #08110D;
+      border: 2px solid #5E8B6D;
+      position: relative;
+    }
+
+    .pixel-bar-fill {
+      height: 100%;
+      background: #22c55e;
+      box-shadow: inset -2px 0 0 #15803d;
+    }
+
+    /* Flicker effect for "Live" status */
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    .status-blink {
+      animation: blink 1s infinite steps(2);
+    }
+  </style>
+<!-- END: Custom Retro Styles -->
+</head>
+<body class="bg-snes-bg text-white font-vt scanlines min-h-screen">
+<!-- BEGIN: MainHeader -->
+<header class="bg-snes-dark-green border-b-4 border-snes-border-dark p-4" data-purpose="navigation-header">
+<div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<!-- Logo Section -->
+<div class="flex items-center gap-3" data-purpose="logo">
+<div class="w-12 h-12 bg-snes-gold flex items-center justify-center border-2 border-white">
+<span class="font-pixel text-black text-xl">E</span>
+</div>
+<div>
+<h1 class="font-pixel text-lg text-white leading-tight">ELIFOOT v2.0</h1>
+<p class="text-snes-light-green text-sm tracking-widest font-pixel uppercase">Soccer Brasileiro</p>
+</div>
+</div>
+<!-- Nav Tabs -->
+<nav class="flex gap-2" data-purpose="top-navigation">
+<button class="snes-btn px-4 py-2 font-pixel text-[10px] bg-snes-light-green">TIME</button>
+<button class="snes-btn px-4 py-2 font-pixel text-[10px]">TABELA</button>
+<button class="snes-btn px-4 py-2 font-pixel text-[10px]">MERCADO</button>
+<button class="snes-btn px-4 py-2 font-pixel text-[10px]">STATS</button>
+</nav>
+<div class="text-right hidden lg:block">
+<p class="text-snes-gold font-pixel text-[10px]">TEMPORADA 1994</p>
+<p class="text-white text-lg">DOMINGO, 15:30</p>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<main class="container mx-auto p-6">
+<!-- Main Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-purpose="dashboard-grid">
+<!-- BEGIN: Next Match Panel -->
+<section class="snes-panel p-5 relative overflow-hidden flex flex-col justify-between min-h-[220px]" data-purpose="next-match">
+<h2 class="font-pixel text-xs text-snes-light-green mb-4">PRÓXIMO JOGO</h2>
+<div class="flex justify-around items-center flex-grow">
+<div class="text-center">
+<div class="w-16 h-16 bg-white mx-auto mb-2 flex items-center justify-center p-1 border-2 border-snes-border-dark">
+<img alt="Home Team" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA30GSqd3S_Oqhzo5EYp0WdiLDzsI1MYWDnosWXnUVVSXgJi8dGY73ZBJFjp6r3Try_k2HPuiKKezMtsf5bTl2LY_7bq-BdZozx0NAzOtewdkof0cFI2pkUIBa6ugjOWZYrqF5ZpKejteHj8s-O1FHggg68EkXzm8yqhWKElUgGq8S0jhNTZ3iMlCIcJAji0sv92dKXT2xTNewldGPhUQQAP1yy_23tJdAtDjAuiENxE1iu3f8MT8p5gX4IuMtDkvUfXtMPUw8SXlc"/>
+</div>
+<p class="text-xl font-pixel text-[12px]">PACAEMBU</p>
+</div>
+<div class="text-center">
+<span class="text-2xl font-pixel text-snes-gold block">VS</span>
+<span class="text-xs bg-red-600 px-1 status-blink font-pixel text-[8px]">AO VIVO</span>
+</div>
+<div class="text-center">
+<div class="w-16 h-16 bg-white mx-auto mb-2 flex items-center justify-center p-1 border-2 border-snes-border-dark">
+<img alt="Away Team" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByr9JiSxQz1oPtkOThg_CELlawfvBSU2XGQMisu06pcT9gUMZjDMOd9krhMLRj1DehFhqUQVgiBCsCkQJt4w_G-0O3MAY4V4NQrBA3gMYZn5k0MUeYjD4U6dHP8y2dz4JgD3QrkhlvhQSz2q5xUZaBhPHmE-KnzdNDdjouHYOt3nLQkZS8o21-XUXBHGCB88o_pgiQ_EmACi7tnbykw428CgQaOFQ-kDsiA-8OhMUh3vifCkrEHK5qcAW-YYqUhHeQcD3AwETkQEo"/>
+</div>
+<p class="text-xl font-pixel text-[12px]">VILA BEL.</p>
+</div>
+</div>
+<div class="mt-4 text-center bg-black/40 p-2 border-t border-snes-border-light/30">
+<p class="text-lg">DOMINGO - 16:00 - ESTADUAL</p>
+</div>
+</section>
+<!-- END: Next Match Panel -->
+<!-- BEGIN: Team Moral Panel -->
+<section class="snes-panel p-5" data-purpose="team-moral">
+<h2 class="font-pixel text-xs text-snes-light-green mb-4">MORAL DA EQUIPE</h2>
+<div class="flex flex-col justify-center h-full gap-4">
+<div class="flex justify-between items-end">
+<span class="text-5xl font-pixel text-green-400">8.2</span>
+<span class="text-xl text-green-500">EXCELENTE</span>
+</div>
+<div class="pixel-bar-bg w-full">
+<div class="pixel-bar-fill" style="width: 82%;"></div>
+</div>
+<p class="text-sm text-gray-400 italic">"O vestiário está em harmonia após a sequência de vitórias."</p>
+</div>
+</section>
+<!-- END: Team Moral Panel -->
+<!-- BEGIN: League Position Panel -->
+<section class="snes-panel p-5" data-purpose="league-position">
+<h2 class="font-pixel text-xs text-snes-light-green mb-4">CLASSIFICAÇÃO</h2>
+<div class="flex flex-col items-center justify-center h-full">
+<div class="text-center border-4 border-snes-gold p-4 bg-snes-dark-green mb-2">
+<span class="text-6xl font-pixel text-snes-gold">4º</span>
+</div>
+<p class="font-pixel text-[10px] text-white">SÉRIE A - BRASILEIRÃO</p>
+<div class="mt-4 grid grid-cols-3 gap-4 text-center w-full">
+<div><p class="text-xs text-gray-400">V</p><p class="text-lg">12</p></div>
+<div><p class="text-xs text-gray-400">E</p><p class="text-lg">4</p></div>
+<div><p class="text-xs text-gray-400">D</p><p class="text-lg">2</p></div>
+</div>
+</div>
+</section>
+<!-- END: League Position Panel -->
+<!-- BEGIN: Finances Panel -->
+<section class="snes-panel p-5" data-purpose="finances">
+<h2 class="font-pixel text-xs text-snes-light-green mb-4">FINANÇAS</h2>
+<div class="flex flex-col justify-between h-full py-2">
+<div>
+<p class="text-xs text-gray-400 mb-1">SALDO ATUAL</p>
+<p class="text-4xl font-pixel text-green-400">R$12.4M</p>
+</div>
+<div class="space-y-2 mt-4 border-t border-snes-border-light/20 pt-4">
+<div class="flex justify-between">
+<span>BILHETERIA</span>
+<span class="text-green-400">+R$0.8M</span>
+</div>
+<div class="flex justify-between">
+<span>SALÁRIOS</span>
+<span class="text-red-400">-R$2.1M</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Finances Panel -->
+<!-- BEGIN: News Panel -->
+<section class="snes-panel p-5" data-purpose="news-feed">
+<h2 class="font-pixel text-xs text-snes-light-green mb-4">NOTÍCIAS</h2>
+<div class="flex flex-col gap-4">
+<article class="border-l-4 border-snes-gold pl-3 py-1">
+<p class="text-xs text-snes-gold font-pixel text-[8px] mb-1">MERCADO</p>
+<p class="text-md leading-none">Artilheiro solicita renovação salarial imediata.</p>
+</article>
+<article class="border-l-4 border-blue-400 pl-3 py-1">
+<p class="text-xs text-blue-400 font-pixel text-[8px] mb-1">LESÃO</p>
+<p class="text-md leading-none">Zagueiro central fora por 2 semanas.</p>
+</article>
+<article class="border-l-4 border-green-400 pl-3 py-1">
+<p class="text-xs text-green-400 font-pixel text-[8px] mb-1">CLUBE</p>
+<p class="text-md leading-none">Sócio-torcedor bate recorde histórico.</p>
+</article>
+</div>
+</section>
+<!-- END: News Panel -->
+<!-- BEGIN: Action Shortcuts Panel -->
+<section class="snes-panel p-5" data-purpose="shortcuts">
+<h2 class="font-pixel text-xs text-snes-light-green mb-4">ATALHOS</h2>
+<div class="grid grid-cols-2 gap-2 h-full">
+<button class="snes-btn p-2 flex flex-col items-center justify-center gap-1">
+<div class="w-6 h-6 border-2 border-white"></div>
+<span class="font-pixel text-[8px]">FORMAÇÃO</span>
+</button>
+<button class="snes-btn p-2 flex flex-col items-center justify-center gap-1">
+<div class="w-6 h-6 border-2 border-white"></div>
+<span class="font-pixel text-[8px]">TREINO</span>
+</button>
+<button class="snes-btn p-2 flex flex-col items-center justify-center gap-1">
+<div class="w-6 h-6 border-2 border-white"></div>
+<span class="font-pixel text-[8px]">OLHEIRO</span>
+</button>
+<button class="snes-btn p-2 flex flex-col items-center justify-center gap-1 bg-snes-gold text-black border-white">
+<div class="w-6 h-6 border-2 border-black"></div>
+<span class="font-pixel text-[8px]">JOGAR</span>
+</button>
+<button class="snes-btn p-2 col-span-2 flex items-center justify-center gap-4">
+<span class="font-pixel text-[8px]">CONTRATOS (12)</span>
+</button>
+</div>
+</section>
+<!-- END: Action Shortcuts Panel -->
+</div>
+</main>
+<!-- BEGIN: Footer -->
+<footer class="container mx-auto px-6 py-4 flex justify-between items-center text-snes-light-green border-t-2 border-snes-border-dark mt-8">
+<div class="flex gap-4">
+<span class="font-pixel text-[8px]">SELECT: MENU</span>
+<span class="font-pixel text-[8px]">START: PAUSE</span>
+</div>
+<p class="font-pixel text-[8px]">© 1994 ELITE SOFTWARE - PIXEL ART ENGINE</p>
+</footer>
+<!-- END: Footer -->
+<!-- BEGIN: Sound Effects Mockup (Optional JS) -->
+<script data-purpose="ui-interactivity">
+    // Add simple click feedback sound logic would go here
+    document.querySelectorAll('.snes-btn').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        // console.log('UI_Blip_Hover');
+      });
+      btn.addEventListener('click', () => {
+        // console.log('UI_Select_Click');
+      });
+    });
+  </script>
+<!-- END: Sound Effects Mockup -->
+</body></html>

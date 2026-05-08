@@ -12,3 +12,5 @@ export { EfCardPlayer } from './EfCardPlayer';
 export { EfTooltip } from './EfTooltip';
 export { EfModal } from './EfModal';
 export { EfInput } from './EfInput';
+export { EfPanel } from './EfPanel';
+export { EfStatLine } from './EfStatLine';

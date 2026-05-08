@@ -6,6 +6,7 @@ import { STAFF_ROLES, SCOUT_REGIONS, getStadiumInfo } from '../engine/StadiumSys
 import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
 import { Help } from './Help';
 import { Tooltip } from './Tooltip';
+import { DashboardHeader, DashboardAlerts, DashboardFooter } from './dashboard';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -37,42 +38,27 @@ export function DashboardView() {
 
     return (
         <div className="main-content fade-in">
-            {/* === COMPACT HEADER === */}
-            <div className="card" style={{padding:'0.75rem 1rem'}}>
-                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                    <div>
-                        <h2 style={{fontSize:'1.2rem',margin:0}}>{team.name}</h2>
-                        <span style={{fontSize:'0.72rem',color:'var(--text-muted)'}}>
-                            {pos}º • Série {['A','B','C','D'][team.division - 1]} • {stats.wins}V {stats.draws}E {stats.losses}D
-                            {stats.streak > 0 ? ` 🔥${stats.streak}` : stats.streak < 0 ? ` ❄️${Math.abs(stats.streak)}` : ''}
-                        </span>
-                    </div>
-                    <div style={{textAlign:'right'}}>
-                        <div style={{fontSize:'1.1rem',fontWeight:700,color: team.balance > 0 ? 'var(--primary)' : 'var(--danger)'}}>
-                            R$ {(team.balance / 1000000).toFixed(1)}M
-                        </div>
-                        {boardStatus && <Tooltip content={`Diretoria: ${boardStatus.label} (${engine.board?.confidence ?? 60}%). Demissão se < 10%.`}><div style={{fontSize:'0.7rem',color: boardStatus.color}}>{boardStatus.emoji} {boardStatus.label}</div></Tooltip>}
-                    </div>
-                </div>
-                {/* Season progress */}
-                <div className="progress-bar" style={{marginTop:'0.4rem'}}>
-                    <div className="progress-bar-fill" style={{width: `${(seasonWeek / 38) * 100}%`}}></div>
-                </div>
-                <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.65rem',color:'var(--text-muted)'}}>
-                    <span>Temp {engine.seasonNumber} • Semana {seasonWeek}/38</span>
-                    {legacyLevel && <span>{legacyLevel.emoji} {legacyLevel.label}</span>}
-                </div>
-            </div>
+            {/* === HEADER (Stitch refactor) === */}
+            <DashboardHeader
+                team={team}
+                stats={{ ...stats, position: pos }}
+                boardStatus={boardStatus}
+                board={engine.board}
+                balance={team.balance}
+                seasonWeek={seasonWeek}
+                seasonNumber={engine.seasonNumber}
+                legacyLevel={legacyLevel}
+                division={team.division}
+            />
 
-            {/* === ALERTS === */}
-            {(injured.length > 0 || expiringContracts.length > 0 || avgEnergy < 50 || (engine.transferOffers?.length ?? 0) > 0) && (
-                <div className="alert-strip">
-                    {injured.length > 0 && <span className="alert-badge danger">🏥 {injured.length} lesionado{injured.length > 1 ? 's' : ''}</span>}
-                    {expiringContracts.length > 0 && <span className="alert-badge warning">📋 {expiringContracts.length} contrato{expiringContracts.length > 1 ? 's' : ''} vencendo</span>}
-                    {avgEnergy < 50 && <span className="alert-badge danger">⚡ Elenco cansado ({avgEnergy.toFixed(0)}%)</span>}
-                    {(engine.transferOffers?.length ?? 0) > 0 && <span className="alert-badge info" style={{cursor:'pointer'}} onClick={() => setTab('transfers')}>📬 {(engine.transferOffers?.length ?? 0)} oferta{(engine.transferOffers?.length ?? 0) > 1 ? 's' : ''}</span>}
-                </div>
-            )}
+            {/* === ALERTS (Stitch refactor) === */}
+            <DashboardAlerts
+                injured={injured}
+                expiringContracts={expiringContracts}
+                avgEnergy={avgEnergy}
+                transferOffersCount={engine.transferOffers?.length ?? 0}
+                onOpenTransfers={() => setTab('transfers')}
+            />
 
             {/* === NEXT MATCH CTA (Stitch scoreboard-card style) === */}
             <div className="card scoreboard-card next-match-card" style={{padding:'0.75rem 1rem',background:'linear-gradient(135deg, rgba(17,24,39,0.9), rgba(16,185,129,0.05))'}}>
@@ -416,15 +402,12 @@ export function DashboardView() {
                 <button className="btn btn-secondary" onClick={() => changeView('standings')}>📊 Tabela</button>
             </div>
 
-            {/* Status Footer (Stitch v2 design) */}
-            <div className="status-footer">
-                <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap'}}>
-                    <span><span className="label">LIGA:</span>SÉRIE {['A','B','C','D'][team.division - 1]}</span>
-                    <span><span className="label">RODADA:</span>{seasonWeek}/38</span>
-                    <span><span className="label">TEMP:</span>{engine.seasonNumber}</span>
-                </div>
-                <div className="build">ELIFOOT MANAGER 2026 — BUILD 0.9.0</div>
-            </div>
+            {/* Status Footer (Stitch refactor) */}
+            <DashboardFooter
+                division={team.division}
+                seasonWeek={seasonWeek}
+                seasonNumber={engine.seasonNumber}
+            />
         </div>
     );
 }
