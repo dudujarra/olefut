@@ -6,14 +6,16 @@
 🎮 **Live demo**: https://dudujarra.github.io/elifoot-web/
 
 [![CI](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-529%2F529-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
+[![Tests](https://img.shields.io/badge/tests-1045%2F1045-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
 [![Specs](https://img.shields.io/badge/specs-30+-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
 [![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/elifoot-web/blob/main/specs/SPEC-RULES.md)
 [![Bugs Fixed](https://img.shields.io/badge/bugs%20fixed-20-orange)](https://github.com/dudujarra/elifoot-web/blob/main/BUGS.md)
 [![Theme](https://img.shields.io/badge/theme-32bit%20SNES-yellow)](https://github.com/dudujarra/elifoot-web/blob/main/src/styles/animations.css)
-[![Stitch Designs](https://img.shields.io/badge/Stitch%20designs-13%2B-purple)](https://github.com/dudujarra/elifoot-web/tree/main/docs/stitch-designs)
+[![Stitch Designs](https://img.shields.io/badge/Stitch%20designs-20%2B-purple)](https://github.com/dudujarra/elifoot-web/tree/main/docs/stitch-designs)
 [![Club Badges](https://img.shields.io/badge/club%20badges-170-red)](https://github.com/dudujarra/elifoot-web/tree/main/public/sprites/clubs)
-[![Animations](https://img.shields.io/badge/sprite%20animations-5-cyan)](https://github.com/dudujarra/elifoot-web/tree/main/public/sprites/animations)
+[![Animations](https://img.shields.io/badge/sprite%20animations-9-cyan)](https://github.com/dudujarra/elifoot-web/tree/main/public/sprites/animations)
+[![Banners](https://img.shields.io/badge/EfBanner%20types-13-pink)](https://github.com/dudujarra/elifoot-web/blob/main/src/components/ui/EfBanner.jsx)
+[![Atmospheric Art](https://img.shields.io/badge/.ef--art--*-21-orange)](https://github.com/dudujarra/elifoot-web/blob/main/src/styles/animations.css)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
@@ -376,7 +378,7 @@ EfClubBadge auto-resolve via `getClubSprite(name)`.
 - `public/sprites/effects/score-digits.png` — 10 dígitos LED 0-9
 - `public/sprites/effects/sponsors-fictional.png` — 12 sponsors fictícios
 
-### Animation Framework (5 sprite-strips)
+### Animation Framework (9 sprite-strips)
 `public/sprites/animations/` + `src/styles/animations.css`:
 
 | Asset | Frames | Tamanho | Duração | Aplicado |
@@ -386,6 +388,10 @@ EfClubBadge auto-resolve via `getClubSprite(name)`.
 | spinner | 8 | 48×48 | 800ms loop | ✅ EfButton loading |
 | trophy-unlock | 6 | 96×128 | 1500ms once | — |
 | crowd-wave | 4 | 256×80 | 1000ms loop | — |
+| ball-kick | 6 | 64×64 | 600ms once | ✅ MatchView goal trigger |
+| gk-save | 5 | 64×64 | 700ms once | ✅ MatchView save event |
+| crowd-flag-wave | 4 | 128×96 | 1200ms loop | ✅ MatchView scoreboard |
+| run-cycle | 6 | 64×64 | 600ms loop | — |
 
 ### Motion Apply Coverage (Sprint A-E)
 13 views/components com motion+art aplicado:
@@ -431,6 +437,19 @@ EfClubBadge auto-resolve via `getClubSprite(name)`.
 | Match pitch top-down | `pitch-topdown-32bit.png` | 1024×640 aerial pitch view |
 | Achievements 30 | `achievements-30.png` | 30 abstract badges 6×5 grid |
 | Run cycle anim | `animations/run-cycle-6frames.png` | 6 frames athlete lateral |
+
+### v2.0.0 Pacaembu Edition Sprint (AKITA-075..079)
+
+6 sprints encadeados (~14h cohesive overhaul):
+
+| Sprint | Entregas |
+|---|---|
+| Sprint 1 (075) | 14 `.ef-art-*` utility classes + 6 views integradas (StartView, ChronicleView, StandingsView, RivalriesView, SquadView, MarketView, PlayerDashboardView) |
+| Sprint 2 (076) | 9 EfBanner triggers wired (champion/promotion/relegation/sponsor/injury/suspension/hired/retirement/motm) — total 13/13 |
+| Sprint 3 (077) | 3 animation strips Stitch (ball-kick/gk-save/crowd-flag-wave) + MatchView integration |
+| Sprint 4 (078) | 7 atmospheric assets Stitch (locker-room/tunnel-walkout/press-box/trophy-room/pitch-tactical/pitch-patterns/stadium-night-D-I) + PreMatchScreen |
+| Sprint 5 (079) | Legacy 8-bit cleanup: deleted 6 dead assets, migrated stadium-icon refs to D-I 32-bit |
+| Sprint 6 (080) | README v2.0.0 update + CHANGELOG entry + 1045 tests baseline |
 
 ### EfBanner Reusable Component
 
