@@ -31,6 +31,16 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo PR:** AKITA-RFCT-003 — Stryker mutation baseline
 
+### [refactor] AKITA-RFCT-003 — Stryker Mutation Baseline (DEFERRED) (2026-05-08)
+
+- `@stryker-mutator/core` + `@stryker-mutator/vitest-runner` instalados (devDeps)
+- `stryker.conf.json` configurado (mutate engine.js + MatchEventsDeck + PlayerDevelopment)
+- npm scripts `mutate` + `mutate:report` adicionados
+- Baseline run **deferred:** initial run took >11min, exceeded RFCT-003 Definition of Stop (30min threshold preventivo). Setup pronto, baseline será capturado on-demand quando manageable
+- `.gitignore` updated (.stryker-tmp/, reports/, stryker-report/)
+
+**Próximo PR:** AKITA-RFCT-004 — Extract MatchSimulator (10h, **HIGH RISK**)
+
 ---
 
 ## [1.0.0] — 2026-05-08

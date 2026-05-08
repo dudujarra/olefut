@@ -1,0 +1,37 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "AKITA-RFCT-003 baseline. Targets: engine.js + systems críticos. Single test runner: vitest.",
+  "packageManager": "npm",
+  "reporters": ["html", "clear-text", "progress", "json"],
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vite.config.js"
+  },
+  "coverageAnalysis": "perTest",
+  "mutate": [
+    "src/engine/engine.js",
+    "src/engine/MatchEventsDeck.js",
+    "src/engine/PlayerDevelopment.js",
+    "!src/engine/data.js"
+  ],
+  "thresholds": {
+    "high": 70,
+    "low": 40,
+    "break": null
+  },
+  "timeoutMS": 60000,
+  "concurrency": 2,
+  "logLevel": "info",
+  "ignorePatterns": [
+    "dist",
+    "node_modules",
+    "tests/regression/**",
+    "**/__snapshots__/**"
+  ],
+  "htmlReporter": {
+    "fileName": "tests/characterization/stryker-report/index.html"
+  },
+  "jsonReporter": {
+    "fileName": "tests/characterization/stryker-baseline.json"
+  }
+}

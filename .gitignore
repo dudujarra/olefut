@@ -4,3 +4,8 @@ dist
 
 # RFCT-002: baseline fixture gerado em test runtime (11MB, regenerável)
 tests/__fixtures__/save-baseline-v2.json
+
+# RFCT-003: Stryker reports
+tests/characterization/stryker-report/
+.stryker-tmp/
+reports/

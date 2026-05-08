@@ -18,7 +18,9 @@
     "bug:ticket": "bash scripts/debug-bug.sh ticket",
     "bug:fix": "bash scripts/debug-bug.sh fix",
     "bug:test": "bash scripts/debug-bug.sh test",
-    "bug:full": "bash scripts/debug-bug.sh full"
+    "bug:full": "bash scripts/debug-bug.sh full",
+    "mutate": "stryker run",
+    "mutate:report": "open tests/characterization/stryker-report/index.html"
   },
   "dependencies": {
     "react": "^19.2.5",
@@ -26,6 +28,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@stryker-mutator/core": "^9.6.1",
+    "@stryker-mutator/vitest-runner": "^9.6.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
