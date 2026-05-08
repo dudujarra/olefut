@@ -150,12 +150,73 @@ export class MythService {
     }
 
     /**
-     * @placeholder v1.3 (AKITA-054)
-     * Generates regen child with inherited traits.
+     * v1.3 (AKITA-054): Generates regen child with inherited traits.
+     *
+     * Probabilidade: 1 a cada 3-4 temporadas (rng < 0.30 sample).
+     * Idade nascimento: 16-18 anos após auge do parent (parent.peakSeason).
+     *
+     * @param {object} engineOrSave
+     * @param {number} parentPlayerId — id do ex-companheiro pai
+     * @param {object} ctx — { rng, currentSeason, inheritanceService }
+     * @returns {{success, child?: object}}
      */
-    generateRegenChild(engineOrSave, parentPlayerId) {
-        // To be implemented in v1.3
-        return { success: false, msg: 'deferred to v1.3' };
+    generateRegenChild(engineOrSave, parentPlayerId, ctx = {}) {
+        if (!engineOrSave) return { success: false, msg: 'engineOrSave null' };
+        const rng = ctx.rng || Math.random;
+
+        // Find parent: squad first, retired second
+        let parent = null;
+        for (const team of engineOrSave.teams || []) {
+            const found = (team.squad || []).find(p => p.id === parentPlayerId);
+            if (found) { parent = found; break; }
+        }
+        if (!parent) {
+            parent = (engineOrSave.retiredPlayers || []).find(r => r.playerId === parentPlayerId);
+        }
+        if (!parent) return { success: false, msg: 'parent não encontrado' };
+
+        // Probabilidade gate: 1/4 temporadas → ~25%
+        if (rng() > 0.25) return { success: false, msg: 'no birth this period' };
+
+        // Generate child
+        const childId = `regen_${Date.now()}_${Math.floor(rng() * 10000)}`;
+        const ageAtDebut = 16 + Math.floor(rng() * 3); // 16-18
+
+        // Inherited traits via injected service
+        let traits = { garra: 50, talento_natural: 50, lealdade: 50, frieza: 50 };
+        if (ctx.inheritanceService) {
+            const clubId = parent.clubsPlayed?.[parent.clubsPlayed.length - 1] || null;
+            traits = ctx.inheritanceService.generateInheritedTraits(
+                engineOrSave,
+                clubId,
+                [{ traits: parent.traits || {} }],
+                rng
+            );
+        }
+
+        const child = {
+            id: childId,
+            name: `Filho de ${parent.name}`, // placeholder name (regen pool decide depois)
+            position: parent.position || 'MEI',
+            age: ageAtDebut,
+            isRegenChild: true,
+            parentId: parentPlayerId,
+            parentName: parent.name,
+            traits,
+            ovr: 50 + Math.floor(rng() * 20) // 50-70 (jovem promessa)
+        };
+
+        // Persist em regenLineage
+        engineOrSave.regenLineage = engineOrSave.regenLineage || [];
+        engineOrSave.regenLineage.push({
+            childId,
+            parentId: parentPlayerId,
+            parentName: parent.name,
+            bornAt: ctx.currentSeason || 0,
+            traits
+        });
+
+        return { success: true, child };
     }
 
     // ========================================================================

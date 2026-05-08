@@ -87,6 +87,25 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo:** v1.3 — Filhos Regens (16-18 anos após auge)
 
+### [feat] v1.3 — Filhos Regens (AKITA-054) (2026-05-08)
+
+- `MythService.generateRegenChild(save, parentId, ctx)` implementado:
+  - Encontra parent em squad ativa OU retiredPlayers
+  - Probabilidade gate: rng < 0.25 (1 em 4 temps)
+  - Idade nascimento: 16-18 anos
+  - Herda traits via InheritanceService injected (parent ratio 40%)
+  - Persist em `save.regenLineage[]`
+  - Child marcado com `isRegenChild: true`
+- `tests/specs/SPEC-RegenLineage.test.js`: 11 unit tests
+  - Parent encontrado (active/retired), age range, probabilidade gate, herança traits, lineage persist
+- 464 tests passing (453 + 11 new)
+- Build: 43.28 KB CSS / 460.22 KB JS
+- SAVE_VERSION 7 → 8 (regenLineage)
+
+**Notas:** auto-trigger generateRegenChild em advanceWeek fica pra v1.3.1 (engine integration). Service ready, lineage tracking funcional.
+
+**Próximo:** v1.4 — Rivalidades Emergentes (Camada 3 expandida)
+
 
 ### [refactor] AKITA-RFCT-001 — Characterization Tests / Golden Master (2026-05-08)
 
