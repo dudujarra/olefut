@@ -64,7 +64,7 @@ export function EfModal({
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'hidden',
-                    animation: 'ef-modal-slide-down 200ms cubic-bezier(0.25, 1, 0.5, 1)'
+                    animation: 'ef-pop-in 200ms ease-out'
                 }}
             >
                 {/* Header */}
