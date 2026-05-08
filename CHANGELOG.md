@@ -1,0 +1,47 @@
+# Changelog ELIFOOT RPG
+
+Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [SemVer](https://semver.org/spec/v2.0.0.html).
+
+## [1.0.0] — 2026-05-08
+
+**Marco oficial v1.0** — Foundation + Live UX completo. Roadmap → v2.0 em https://github.com/dudujarra/elifoot-web.
+
+### Added
+
+**Sprint 1 — Foundation:**
+- Tema 32-bit SNES novo (`src/styles/32bit-theme.css`): paleta 24 cores, beveled borders, soft drop-shadow, fonts Pixelify Sans + Courier Prime + IBM Plex Mono. Min font-size floor 0.85rem.
+- Theme tri-state cycle: 🎨 modern → 🕹️ 8-bit → 🎮 32-bit → 🎨 (button no header).
+- Tooltip system universal (`Tooltip.jsx` + `Help.jsx`) custom CSS-only, zero deps. 78 entries em `src/data/tooltips.json` cobrindo stats/sectors/pos/btns/indicators/traits/tabs.
+- Standings color zones FM-classic: Libertadores (verde), Sul-Americana (azul), Promotion (amarelo), Rebaixamento (vermelho). Legend + column header tooltips.
+- SPEC-040 (32-bit theme) + SPEC-041 (Tooltip system).
+
+**Sprint 2 — Live UX:**
+- Live substitutions durante partida: pause button (1x/2x/5x/⏸️/▶️), `<LiveSquadEditModal>` com 5 subs/jogo (FIFA realista), tactic switch live (`engine.applyLiveSubstitution()`).
+- Formation editor visual drag/drop (`<FormationBoard>`): SVG campo 600×400, 11 jerseys posicionáveis com pointer events, 5 formações preset (4-3-3, 4-4-2, 4-2-4, 3-5-2, 5-3-2), reset to preset. `team.formationLayout = { slot: {playerId, x, y, role} }`.
+- Pre-match adversary info (`<PreMatchScreen>`): 3-painel layout estilo ELIFOOT clássico — nosso time (esquerda) / VS+CASA/FORA+rodada (centro) / adversário (direita) com sectors, formação, estilo derivado, H2H últimos 5 color-coded, torneio.
+- Engine: `applyLiveSubstitution()`, `saveFormationLayout()`, `getMatchContext()`.
+- SPEC-042 (Formation Editor) + SPEC-043 (PreMatch Screen) + SPEC-044 (Live Subs).
+
+### Changed
+- DashboardView, SquadView, MarketView, StandingsView: trocados `title=""` HTML por `<Help>`/`<Tooltip>` components.
+- Theme switch state: boolean → string tri-state ('modern'|'8bit'|'32bit').
+- `package.json` 0.0.0 → 1.0.0.
+
+### Tests
+- 628 tests passing.
+- P1-7 atualizado pra checar `<Help id=...>` ao invés de legacy `title=`.
+
+### Build
+- CSS: 25 KB → 43 KB (theme 32-bit + tooltip styles + zone classes)
+- JS: 394 KB → 427 KB (Tooltip + Help + LiveSquadEditModal + FormationBoard + PreMatchScreen + FormationLayout + engine methods)
+
+### Limitação Conhecida
+- **Live subs não recalculam resultado:** engine simulação é sync pré-computada. Refactor para generator/state-machine planejado em v1.3.
+
+---
+
+## Pre-1.0 (beta funcional)
+
+20 bugs corrigidos via AKITA 3-artefact protocol (issue + fix + regression test). 30 specs SDD + CI/CD GitHub Actions + auto-deploy GitHub Pages. 14 sprites pixel-art via Google Flow Nano Banana Pro. 10 Stitch designs (Dashboard/Match/Squad/Stadium/Market/Standings + 3 variants).
+
+Ver `BUGS.md` + git log AKITA-001 a AKITA-051 para detalhes completos.
