@@ -1,64 +1,118 @@
 /**
  * CareerService — Player Career + Manager Career + Transição
  *
- * Status: SKELETON (preenchido em AKITA-RFCT-014 a RFCT-016)
- * Stateless. Constructor injection.
+ * AKITA-RFCT-014/015/016 collapsed.
  *
- * Transição usa Replace Method with Method Object (CareerTransition class).
+ * Constructor injection. Stateless service.
+ * Transição complexa delegada a CareerTransition class (Replace Method with Method Object).
  */
 
+import { CareerTransition } from './CareerTransition';
+
 export class CareerService {
-    constructor({ mythService, relationshipService, narrativeService } = {}) {
+    constructor({ mythService = null, relationshipService = null, narrativeService = null } = {}) {
         this._mythService = mythService;
         this._relationshipService = relationshipService;
         this._narrativeService = narrativeService;
     }
 
+    // ========================================================================
+    // RFCT-014: ProPlayer career
+    // ========================================================================
+
     /**
-     * @placeholder AKITA-RFCT-014
+     * Returns ProPlayer state.
      */
-    getProPlayer(save) {
-        return save?.proPlayer || null;
+    getProPlayer(engineOrSave) {
+        return engineOrSave?.proPlayer || null;
     }
 
     /**
-     * @placeholder AKITA-RFCT-014
-     * Advance ProPlayer career N weeks.
+     * Advance ProPlayer career N weeks (Player mode).
+     * Placeholder — full impl em v1.2.
      */
-    advanceCareer(save, weeks) {
-        // To be implemented
+    advanceCareer(engineOrSave, weeks = 1) {
+        const proPlayer = this.getProPlayer(engineOrSave);
+        if (!proPlayer || proPlayer.retired) return { success: false };
+        proPlayer.weeksPlayed = (proPlayer.weeksPlayed || 0) + weeks;
+        return { success: true, weeksPlayed: proPlayer.weeksPlayed };
     }
 
     /**
-     * @placeholder AKITA-RFCT-016
      * Retire ProPlayer + transition to Manager (mesmo save).
+     * Uses Replace Method with Method Object pattern.
      */
-    retireProPlayer(save) {
-        // Will instantiate CareerTransition class internally
-        // (Replace Method with Method Object pattern)
-        // To be implemented
+    retireProPlayer(engineOrSave) {
+        const transition = new CareerTransition(engineOrSave, {
+            mythService: this._mythService,
+            relationshipService: this._relationshipService,
+            narrativeService: this._narrativeService
+        });
+        return transition.execute();
+    }
+
+    // ========================================================================
+    // RFCT-015: Manager career
+    // ========================================================================
+
+    /**
+     * Returns manager career state.
+     */
+    getManagerCareer(engineOrSave) {
+        return engineOrSave?.managerCareer || null;
     }
 
     /**
-     * @placeholder AKITA-RFCT-015
+     * Sign manager with club.
      */
-    getManagerCareer(save) {
-        return save?.managerCareer || null;
+    signWithClub(engineOrSave, clubId, contract = {}) {
+        if (!engineOrSave) return { success: false };
+        engineOrSave.managerCareer = engineOrSave.managerCareer || {
+            history: [],
+            startedAt: Date.now()
+        };
+
+        // Close current club entry if exists
+        if (engineOrSave.managerCareer.currentClubId) {
+            const last = engineOrSave.managerCareer.history.find(
+                h => h.clubId === engineOrSave.managerCareer.currentClubId && !h.endedAt
+            );
+            if (last) last.endedAt = Date.now();
+        }
+
+        engineOrSave.managerCareer.currentClubId = clubId;
+        engineOrSave.managerCareer.history.push({
+            clubId,
+            signedAt: Date.now(),
+            contractWeeks: contract.weeks || 38,
+            salary: contract.salary || 5000,
+            endedAt: null
+        });
+        return { success: true };
     }
 
     /**
-     * @placeholder AKITA-RFCT-015
-     * Sign manager with club (player career → manager career).
+     * Returns active offers (placeholder — preenchido com gameplay logic em v1.2).
      */
-    signWithClub(save, clubId) {
-        // To be implemented
+    getOffers(engineOrSave) {
+        if (!engineOrSave) return [];
+        return Array.isArray(engineOrSave.managerCareer?.offers)
+            ? [...engineOrSave.managerCareer.offers]
+            : [];
     }
 
     /**
-     * @placeholder AKITA-RFCT-015
-     * Returns offers de outros clubes pro manager.
+     * Adds offer to manager career.
      */
-    getOffers(save) {
-        return [];
+    addOffer(engineOrSave, offer) {
+        if (!engineOrSave) return { success: false };
+        engineOrSave.managerCareer = engineOrSave.managerCareer || { history: [], offers: [] };
+        engineOrSave.managerCareer.offers = engineOrSave.managerCareer.offers || [];
+        engineOrSave.managerCareer.offers.push({
+            id: `offer_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+            ...offer,
+            createdAt: Date.now()
+        });
+        return { success: true };
     }
 }

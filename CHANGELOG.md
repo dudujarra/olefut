@@ -132,6 +132,29 @@ Razão: engine.js não tinha métodos getLegends/getHallOfFame/getRegenChildren 
 
 **Próximo PR:** AKITA-RFCT-014+015+016 — CareerService completo
 
+### [refactor] AKITA-RFCT-014+015+016 COLLAPSED — CareerService + Transição (2026-05-08)
+
+3 PRs collapsed.
+
+- `src/services/CareerService.js`:
+  - **RFCT-014:** getProPlayer, advanceCareer (Player mode)
+  - **RFCT-015:** getManagerCareer, signWithClub, getOffers, addOffer
+  - retireProPlayer delega a CareerTransition
+- `src/services/CareerTransition.js` (Replace Method with Method Object pattern):
+  - **RFCT-016:** 5 private steps:
+    1. _validateRetirementEligible (35+ anos OU 12+ temps)
+    2. _snapshotPlayerCareer (persiste em retiredPlayers)
+    3. _promoteToManager (init managerCareer + flag retired)
+    4. _inheritRelationships (ex-clubes +5 trust, hall slots ≥2 +10 trust)
+    5. _calculateInitialReputation (Tier S +20 each, A +10, B +5, 200+ goals +10, 100+ assists +5, cap 100)
+- `engine.js` constructor wires `_careerService` com 3 deps injected
+- `useCareer` hook wired (7 methods)
+- `tests/specs/SPEC-CareerService.test.js`: 17 tests
+- 414 tests passing (397 + 17 new)
+- Build: 43.28 KB CSS / 439.16 KB JS
+
+**Próximo PR:** AKITA-RFCT-017 — SAVE_VERSION 2→3 + final cleanup (FIM v1.0.5)
+
 ---
 
 ## [1.0.0] — 2026-05-08
