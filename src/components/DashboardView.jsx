@@ -148,7 +148,7 @@ export function DashboardView() {
                         <div className="card card-compact">
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📰 EVENTOS DA SEMANA</h4>
                             <div className="event-feed">
-                                {engine.weekEvents.map((ev, i) => {
+                                {(engine.weekEvents || []).map((ev, i) => {
                                     const isGood = ev.includes('📈') || ev.includes('🎉') || ev.includes('📚') || ev.includes('🇧🇷') || ev.includes('🎂');
                                     const isBad = ev.includes('📉') || ev.includes('☠️') || ev.includes('👴') || ev.includes('🕺') || ev.includes('🥊');
                                     return <div key={i} className={`event-item ${isGood ? 'highlight' : ''} ${isBad ? 'danger' : ''}`}>{ev}</div>;

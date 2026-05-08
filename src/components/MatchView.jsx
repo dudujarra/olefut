@@ -192,7 +192,7 @@ export function MatchView() {
 
                 const totalChances = allEvents.filter(e => e && e.text && (e.text.includes('⚽') || e.text.includes('Defesa') || e.text.includes('salva'))).length;
                 const goals = allEvents.filter(e => e && e.text && e.text.includes('⚽')).length;
-                setMatchStats({ totalChances, goals, injuries: engine.weekInjuries.length });
+                setMatchStats({ totalChances, goals, injuries: (engine.weekInjuries?.length ?? 0) });
 
                 setDisplayedEvents([]);
                 setCurrentMinute(0);
@@ -557,15 +557,15 @@ export function MatchView() {
                     </>}
                     <li><span>Tática:</span> <strong>{TACTICS[engine.currentTactic]?.name}</strong></li>
                     {lastMatchCards.length > 0 && <li><span>🟨 Cartões:</span> <strong>{lastMatchCards.length}</strong></li>}
-                    {engine.weekInjuries.length > 0 && <li><span>🏥 Lesões:</span> <strong style={{color:'var(--danger)'}}>{engine.weekInjuries.length}</strong></li>}
+                    {(engine.weekInjuries?.length ?? 0) > 0 && <li><span>🏥 Lesões:</span> <strong style={{color:'var(--danger)'}}>{(engine.weekInjuries?.length ?? 0)}</strong></li>}
                 </ul>
             </div>
 
             {/* Injuries */}
-            {engine.weekInjuries.length > 0 && (
+            {(engine.weekInjuries?.length ?? 0) > 0 && (
                 <div className="card card-compact">
                     <h4 style={{fontSize:'0.8rem',color:'var(--danger)',marginBottom:'0.25rem'}}>🏥 LESÕES</h4>
-                    {engine.weekInjuries.map((inj, i) => (
+                    {(engine.weekInjuries || []).map((inj, i) => (
                         <p key={i} style={{color:'var(--danger)',fontSize:'0.75rem',padding:'0.1rem 0'}}>{inj.emoji} {inj.player} — {inj.name} ({inj.weeksLeft} sem)</p>
                     ))}
                 </div>
@@ -580,9 +580,9 @@ export function MatchView() {
                         </p>
                     </div>
                 )}
-                {engine.weekEvents.length > 0 && (
+                {(engine.weekEvents?.length ?? 0) > 0 && (
                     <div className="event-feed">
-                        {engine.weekEvents.map((ev, i) => {
+                        {(engine.weekEvents || []).map((ev, i) => {
                             const isGrowth = ev.includes('📈');
                             const isDecline = ev.includes('📉') || ev.includes('☠️') || ev.includes('👴');
                             const isGood = ev.includes('🎉') || ev.includes('📚') || ev.includes('🎂') || ev.includes('🇧🇷');

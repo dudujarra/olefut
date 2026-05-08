@@ -14,6 +14,15 @@ function App() {
     const { gameState, getEngine, saveGame, resetGame } = useGame();
     const [soundOn, setSoundOn] = useState(isSoundEnabled());
     const [savedToast, setSavedToast] = useState(false);
+    const [theme8bit, setTheme8bit] = useState(() => {
+        try { return localStorage.getItem('elifoot_theme') === '8bit'; } catch { return false; }
+    });
+
+    React.useEffect(() => {
+        if (theme8bit) document.body.classList.add('theme-8bit');
+        else document.body.classList.remove('theme-8bit');
+        try { localStorage.setItem('elifoot_theme', theme8bit ? '8bit' : 'modern'); } catch { /* ignore */ }
+    }, [theme8bit]);
 
     const renderView = () => {
         switch (gameState.view) {
@@ -81,6 +90,14 @@ function App() {
                             style={{padding:'0.25rem 0.55rem'}}
                         >
                             {soundOn ? '🔊' : '🔇'}
+                        </button>
+                        <button
+                            className="btn btn-sm btn-secondary"
+                            onClick={() => setTheme8bit(t => !t)}
+                            title={theme8bit ? 'Tema: 8-BIT (clique pra modern)' : 'Tema: Modern (clique pra 8-BIT)'}
+                            style={{padding:'0.25rem 0.55rem'}}
+                        >
+                            {theme8bit ? '🕹️' : '🎨'}
                         </button>
                         <button
                             className="btn btn-sm btn-secondary"
