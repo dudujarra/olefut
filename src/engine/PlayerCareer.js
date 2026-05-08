@@ -1,3 +1,33 @@
+// === SPEC-062 SUB-ATTRIBUTES (16 attrs in 4 groups) ===
+export const SUB_ATTRIBUTES = {
+    technique: ['dribbling', 'passing', 'shooting', 'firstTouch'],
+    pace:      ['acceleration', 'sprintSpeed', 'agility', 'balance'],
+    power:     ['strength', 'jumping', 'stamina', 'aggression'],
+    vision:    ['positioning', 'decisions', 'composure', 'leadership']
+};
+
+// All 16 sub-attrs flattened
+export const ALL_SUB_ATTRS = Object.values(SUB_ATTRIBUTES).flat();
+
+// === SPEC-065 LIFESTYLE CATALOG ===
+export const LIFESTYLE_CATALOG = {
+    // Casa (Tier 1-3) — boost mood + actionSlots
+    apartment_t1:  { type: 'house', name: 'Apartamento Simples',  cost: 50000,   moodBonus: 5,  slotBonus: 0, fansBonus: 0,  emoji: '🏢' },
+    house_t2:      { type: 'house', name: 'Casa Confortável',     cost: 200000,  moodBonus: 10, slotBonus: 1, fansBonus: 0,  emoji: '🏠' },
+    mansion_t3:    { type: 'house', name: 'Mansão de Luxo',       cost: 1000000, moodBonus: 15, slotBonus: 2, fansBonus: 5,  emoji: '🏰' },
+
+    // Carro
+    car_popular:   { type: 'car', name: 'Carro Popular',        cost: 30000,   moodBonus: 2,  slotBonus: 0, sponsorsBonus: 0,  emoji: '🚗' },
+    car_luxo:      { type: 'car', name: 'Carro Luxo',           cost: 200000,  moodBonus: 5,  slotBonus: 0, sponsorsBonus: 5,  emoji: '🚙' },
+    car_super:     { type: 'car', name: 'Super Esportivo',      cost: 2000000, moodBonus: 10, slotBonus: 0, sponsorsBonus: 20, emoji: '🏎️' },
+
+    // Festas / lifestyle ações
+    party_private: { type: 'event', name: 'Festa Privada',      cost: 10000,   moodBonus: 5,  energyPenalty: -10, fansBonus: 2,  emoji: '🎉', oneShot: true },
+    charity_ngo:   { type: 'event', name: 'Doação ONG',         cost: 50000,   moodBonus: 3,  fansBonus: 10, bossBonus: 5, emoji: '❤️', oneShot: true },
+    investment_stocks: { type: 'investment', name: 'Investimento Ações', cost: 100000, returnPercent: 8, moodBonus: 0, emoji: '📈', oneShot: true },
+    wedding:       { type: 'event', name: 'Casamento', cost: 500000, moodBonus: 20, stabilityBonus: 10, sponsorsCut: 0.10, emoji: '💍', oneShot: true, requiresLifetimeFlag: 'unmarried' }
+};
+
 // Catálogo de Traits compráveis
 export const TRAITS_CATALOG = {
     set_piece_taker: { name: "Batedor de Faltas", cost: 2000, description: "Habilidade especial em cobranças de falta", requiredBoss: 60 },
@@ -69,6 +99,18 @@ export class ProPlayer {
         // Skill progress (0-100, ao chegar em 100 o skill sobe 1 ponto)
         this.skillProgress = { technique: 0, pace: 0, power: 0, vision: 0 };
 
+        // SPEC-062 Sub-attributes (16 attrs derived from 4 base skills)
+        this.subAttrs = {};
+        for (const [base, subs] of Object.entries(SUB_ATTRIBUTES)) {
+            const baseVal = this.skills[base];
+            subs.forEach(sub => {
+                this.subAttrs[sub] = baseVal + Math.floor(Math.random() * 10 - 5);
+                this.subAttrs[sub] = Math.max(1, Math.min(99, this.subAttrs[sub]));
+            });
+        }
+        this.subAttrProgress = {};
+        ALL_SUB_ATTRS.forEach(a => { this.subAttrProgress[a] = 0; });
+
         // Atributos do jogador no squad do time (para a Engine usar)
         this.attributes = {
             FIS: this.skills.pace,
@@ -96,6 +138,17 @@ export class ProPlayer {
         // Slots de ação semanal (Persona 5 mechanic)
         this.actionSlots = 3;
         this.maxActionSlots = 3;
+
+        // SPEC-065 Lifestyle
+        this.lifestyle = {
+            ownedHouse: null,        // 'apartment_t1' | 'house_t2' | 'mansion_t3' | null
+            ownedCar: null,          // 'car_popular' | ... | null
+            investments: [],         // [{ id, amount, weekStart, returnPercent }]
+            isMarried: false,
+            partiesThisSeason: 0,
+            charitiesThisSeason: 0,
+            mood: 50                 // 0-100 derived from purchases
+        };
 
         // Renome e estrelas
         this.renown = 0;
@@ -164,6 +217,44 @@ export class ProPlayer {
         return { success: true, msg: `Treino de ${skill} concluído! (${this.actionSlots} ações restantes)` };
     }
 
+    // SPEC-062 train specific sub-attribute (granular)
+    trainSubAttr(subAttr) {
+        if (!this.canAct) return { success: false, msg: "Sem ações restantes esta semana." };
+        if (this.energy < 20) return { success: false, msg: "Energia insuficiente para treinar." };
+        if (!ALL_SUB_ATTRS.includes(subAttr)) return { success: false, msg: "Atributo inválido." };
+
+        const roll = Math.random();
+        const successChance = (this.energy / 100) * 0.85;
+
+        if (roll > successChance) {
+            this.energy = Math.max(0, this.energy - 8);
+            this.actionSlots--;
+            return { success: false, msg: `Falhou no treino de ${subAttr}.` };
+        }
+
+        const xpMultiplier = PERSONALITIES[this.personality]?.trainXPMultiplier || 1.0;
+        const curLvl = this.subAttrs[subAttr] || 50;
+
+        // Exponential XP cost: levels 1-50 cheap, 96-99 legendary
+        let xpGain = 25 * xpMultiplier;
+        if (curLvl >= 51 && curLvl <= 70) xpGain *= 0.5;
+        if (curLvl >= 71 && curLvl <= 85) xpGain *= 0.25;
+        if (curLvl >= 86 && curLvl <= 95) xpGain *= 0.125;
+        if (curLvl >= 96) xpGain *= 0.05;
+        xpGain = Math.floor(xpGain);
+
+        this.subAttrProgress[subAttr] += xpGain;
+        if (this.subAttrProgress[subAttr] >= 100) {
+            this.subAttrs[subAttr] = Math.min(99, this.subAttrs[subAttr] + 1);
+            this.subAttrProgress[subAttr] = 0;
+        }
+
+        this.energy = Math.max(0, this.energy - 12);
+        this.actionSlots--;
+
+        return { success: true, msg: `Treino ${subAttr} +${xpGain} XP (${this.subAttrs[subAttr]} lvl).` };
+    }
+
     rest() {
         if (!this.canAct) return { success: false, msg: "Sem ações restantes esta semana." };
 
@@ -189,6 +280,58 @@ export class ProPlayer {
         this.energyDrinks--;
         this.energy = Math.min(100, this.energy + 40);
         return { success: true, msg: "Você tomou um Energético (+40 Energia)." };
+    }
+
+    // SPEC-065 Lifestyle System
+    buyLifestyle(itemId) {
+        const item = LIFESTYLE_CATALOG[itemId];
+        if (!item) return { success: false, msg: 'Item não encontrado.' };
+        if (this.money < item.cost) return { success: false, msg: `Sem dinheiro (precisa R$ ${item.cost.toLocaleString('pt-BR')}).` };
+        if (item.requiresLifetimeFlag === 'unmarried' && this.lifestyle.isMarried) {
+            return { success: false, msg: 'Já está casado.' };
+        }
+
+        // Houses + cars: replace previous
+        if (item.type === 'house') {
+            if (this.lifestyle.ownedHouse === itemId) return { success: false, msg: 'Já possui esta casa.' };
+            this.lifestyle.ownedHouse = itemId;
+        } else if (item.type === 'car') {
+            if (this.lifestyle.ownedCar === itemId) return { success: false, msg: 'Já possui este carro.' };
+            this.lifestyle.ownedCar = itemId;
+        } else if (item.type === 'event') {
+            if (itemId === 'party_private') this.lifestyle.partiesThisSeason++;
+            if (itemId === 'charity_ngo') this.lifestyle.charitiesThisSeason++;
+            if (itemId === 'wedding') this.lifestyle.isMarried = true;
+            if (item.energyPenalty) this.energy = Math.max(0, this.energy + item.energyPenalty);
+        } else if (item.type === 'investment') {
+            this.lifestyle.investments.push({
+                id: itemId,
+                amount: item.cost,
+                weekStart: 0, // engine sets currentWeek context (caller)
+                returnPercent: item.returnPercent
+            });
+        }
+
+        // Apply effects
+        this.money -= item.cost;
+        if (item.moodBonus) this.lifestyle.mood = Math.min(100, this.lifestyle.mood + item.moodBonus);
+        if (item.slotBonus) this.maxActionSlots += item.slotBonus;
+        if (item.fansBonus) this.relationships.fans = Math.min(100, this.relationships.fans + item.fansBonus);
+        if (item.bossBonus) this.relationships.boss = Math.min(100, this.relationships.boss + item.bossBonus);
+        if (item.sponsorsBonus) this.relationships.sponsors = Math.min(100, this.relationships.sponsors + item.sponsorsBonus);
+
+        return { success: true, msg: `Comprou: ${item.name} ${item.emoji}` };
+    }
+
+    // Process weekly investment returns
+    processInvestments() {
+        let totalReturn = 0;
+        this.lifestyle.investments.forEach(inv => {
+            const ret = Math.floor(inv.amount * (inv.returnPercent / 100) / 52); // weekly
+            this.money += ret;
+            totalReturn += ret;
+        });
+        return totalReturn;
     }
 
     buyTrait(traitId) {

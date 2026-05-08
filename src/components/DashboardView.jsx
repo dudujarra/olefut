@@ -456,10 +456,13 @@ export function DashboardView() {
             {/* === END TAB CONTENT WRAPPER === */}
 
             {/* Bottom Nav */}
-            <div className="action-bar" style={{marginTop:'0.5rem'}}>
+            <div className="action-bar" style={{marginTop:'0.5rem', flexWrap:'wrap'}}>
                 <button className="btn btn-secondary" onClick={() => changeView('squad')}>👥 Plantel</button>
                 <button className="btn btn-secondary" onClick={() => changeView('market')}>🛒 Mercado</button>
                 <button className="btn btn-secondary" onClick={() => changeView('standings')}>📊 Tabela</button>
+                <button className="btn btn-secondary" onClick={() => changeView('achievements')}>🏆 Conquistas</button>
+                <button className="btn btn-secondary" onClick={() => changeView('press')}>🎙️ Coletiva</button>
+                <button className="btn btn-secondary" onClick={() => changeView('saves')}>💾 Saves</button>
             </div>
 
             {/* Status Footer (Stitch refactor) */}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { OffPitchEventsDeck } from '../engine/OffPitchEventsDeck';
-import { PERSONALITIES, TRAITS_CATALOG } from '../engine/PlayerCareer';
+import { PERSONALITIES, TRAITS_CATALOG, LIFESTYLE_CATALOG, SUB_ATTRIBUTES } from '../engine/PlayerCareer';
 import { EfClubBadge, EfBanner } from './ui';
 
 export function PlayerDashboardView() {
@@ -14,6 +14,7 @@ export function PlayerDashboardView() {
     const [offPitchResult, setOffPitchResult] = useState(null);
     const [mentalBreakModal, setMentalBreakModal] = useState(false);
     const [banner, setBanner] = useState(null);
+    const [showSubAttrs, setShowSubAttrs] = useState(false);
     const prevTeamIdRef = React.useRef(player?.teamId ?? null);
     const prevRetiredRef = React.useRef(player?._retired ?? false);
     const prevMotmRef = React.useRef(player?.career?.seasonMotm ?? 0);
@@ -107,6 +108,19 @@ export function PlayerDashboardView() {
 
     const handleBuyTrait = (traitId) => {
         const result = player.buyTrait(traitId);
+        setLog(result.msg);
+        forceUpdate();
+    };
+
+    const handleBuyLifestyle = (itemId) => {
+        const result = player.buyLifestyle(itemId);
+        setLog(result.msg);
+        forceUpdate();
+    };
+
+    const handleTrainSubAttr = (subAttr) => {
+        if (!player.trainSubAttr) return;
+        const result = player.trainSubAttr(subAttr);
         setLog(result.msg);
         forceUpdate();
     };
@@ -294,12 +308,107 @@ export function PlayerDashboardView() {
                 </div>
             </div>
 
+            {/* SPEC-062 Sub-Attributes Panel (16 granular) */}
+            <div className="card">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                    <h3 style={{ margin: 0 }}>🎯 Sub-Atributos (16 detalhados)</h3>
+                    <button
+                        className="btn btn-sm btn-secondary"
+                        onClick={() => setShowSubAttrs(!showSubAttrs)}
+                    >
+                        {showSubAttrs ? 'Ocultar' : 'Mostrar'}
+                    </button>
+                </div>
+                {showSubAttrs && player.subAttrs && (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '6px' }}>
+                        {Object.entries(SUB_ATTRIBUTES).map(([base, subs]) => (
+                            <div key={base} style={{ border: '1px solid var(--border-subtle, #2a3530)', borderRadius: '4px', padding: '6px' }}>
+                                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent)', marginBottom: '4px', textTransform: 'uppercase' }}>{base}</div>
+                                {subs.map(sub => {
+                                    const lvl = player.subAttrs[sub] ?? 0;
+                                    const prog = player.subAttrProgress?.[sub] ?? 0;
+                                    return (
+                                        <div key={sub} style={{ marginBottom: '4px' }}>
+                                            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.7rem' }}>
+                                                <span>{sub} <strong>{lvl}</strong></span>
+                                                <button
+                                                    onClick={() => handleTrainSubAttr(sub)}
+                                                    disabled={!player.canAct}
+                                                    style={{
+                                                        fontSize:'0.6rem',
+                                                        padding:'1px 6px',
+                                                        background:'var(--accent)',
+                                                        color:'#0F1A14',
+                                                        border:'none',
+                                                        borderRadius:'2px',
+                                                        cursor: player.canAct ? 'pointer' : 'not-allowed',
+                                                        opacity: player.canAct ? 1 : 0.5
+                                                    }}
+                                                >TREINAR</button>
+                                            </div>
+                                            <div style={{ height:'3px', background:'#1a2520', borderRadius:'2px', overflow:'hidden' }}>
+                                                <div style={{ height:'100%', width:`${prog}%`, background:'#6ABC3A' }} />
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {/* SPEC-065 Loja Lifestyle — casa, carro, festas, caridade, investimentos, casamento */}
+            <div className="card">
+                <h3 style={{ marginBottom: '0.5rem' }}>🏛️ Lifestyle — Use Seu Dinheiro</h3>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 0.75rem 0' }}>
+                    🏠 {player.lifestyle?.ownedHouse ? LIFESTYLE_CATALOG[player.lifestyle.ownedHouse]?.name : 'Sem casa'} •
+                    🚗 {player.lifestyle?.ownedCar ? LIFESTYLE_CATALOG[player.lifestyle.ownedCar]?.name : 'Sem carro'} •
+                    💑 {player.lifestyle?.isMarried ? 'Casado' : 'Solteiro'} •
+                    😊 Mood {player.lifestyle?.mood ?? 50}%
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '6px' }}>
+                    {Object.entries(LIFESTYLE_CATALOG).map(([id, it]) => {
+                        const owned = (it.type === 'house' && player.lifestyle?.ownedHouse === id) ||
+                                      (it.type === 'car' && player.lifestyle?.ownedCar === id) ||
+                                      (it.type === 'event' && id === 'wedding' && player.lifestyle?.isMarried);
+                        const canAfford = player.money >= it.cost;
+                        const disabled = owned || !canAfford;
+                        return (
+                            <div key={id} style={{
+                                border: '1px solid var(--border-subtle, #2a3530)',
+                                borderRadius: '4px',
+                                padding: '6px',
+                                opacity: disabled && !owned ? 0.65 : 1,
+                                background: owned ? 'rgba(106,188,58,0.1)' : 'transparent'
+                            }}>
+                                <div style={{ fontSize: '0.78rem', fontWeight: 600 }}>
+                                    {it.emoji} {owned ? '✅ ' : ''}{it.name}
+                                </div>
+                                <div style={{ fontSize: '0.68rem', color: canAfford ? 'var(--primary)' : 'var(--danger)', margin: '2px 0' }}>
+                                    R$ {it.cost.toLocaleString('pt-BR')}
+                                </div>
+                                <button
+                                    className={`btn btn-sm ${owned ? 'btn-secondary' : 'btn-primary'}`}
+                                    onClick={() => handleBuyLifestyle(id)}
+                                    disabled={disabled}
+                                    style={{ width: '100%', fontSize: '0.65rem', padding: '4px' }}
+                                >
+                                    {owned ? 'TEM' : !canAfford ? 'POBRE' : it.oneShot ? 'FAZER' : 'COMPRAR'}
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
             <button className="btn btn-primary" onClick={handleAdvance} style={{ width: '100%' }}>
                 ⚽ AVANÇAR PARA A PARTIDA (Semana {engine.currentWeek + 1})
             </button>
 
-            <div style={{ marginTop: '1rem' }}>
+            <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView('standings')}>📊 Tabela</button>
+                <button className="btn btn-secondary btn-sm" onClick={() => changeView('achievements')}>🏆 Conquistas</button>
             </div>
         </div>
     );

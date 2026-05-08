@@ -1,0 +1,139 @@
+/**
+ * Mobile responsive — SPEC-076 Sprint M
+ *
+ * Breakpoints:
+ *   <480px : phone portrait
+ *   480-768px : phone landscape / small tablet
+ *   >768px : desktop (default)
+ */
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 0.5rem;
+    }
+
+    .card {
+        padding: 0.5rem !important;
+    }
+
+    .card-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .card-header h2 {
+        font-size: 1rem !important;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr !important;
+    }
+
+    .action-bar {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+    }
+
+    .action-bar .btn {
+        flex: 1 1 calc(50% - 2px);
+        min-width: 0 !important;
+        font-size: 0.75rem !important;
+        padding: 0.4rem !important;
+    }
+
+    .btn {
+        min-height: 44px;  /* Apple HIG touch target */
+    }
+
+    .btn-sm {
+        min-height: 36px;
+    }
+
+    .stats-list li {
+        font-size: 0.8rem !important;
+    }
+
+    .nav-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-tabs button {
+        flex-shrink: 0;
+        font-size: 0.75rem !important;
+        padding: 0.4rem 0.6rem !important;
+    }
+
+    .modal-content {
+        max-width: 95vw !important;
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 0.75rem !important;
+    }
+
+    /* EfBanner mobile resize */
+    [role="dialog"][aria-label] > div {
+        padding: 16px 24px !important;
+        min-width: 280px !important;
+        max-width: 90vw !important;
+    }
+
+    [role="dialog"][aria-label] h2 {
+        font-size: 22px !important;
+    }
+
+    /* Match scoreboard */
+    .scoreboard-card {
+        font-size: 0.85rem;
+    }
+
+    .match-score {
+        font-size: 1.5rem !important;
+    }
+
+    /* Match teams */
+    .match-teams {
+        gap: 0.5rem !important;
+    }
+
+    .team-name {
+        font-size: 0.75rem !important;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Form inputs */
+    select, input[type="text"] {
+        font-size: 16px !important; /* iOS no zoom */
+    }
+
+    /* Floating bug button repositioning */
+    .floating-bug-btn {
+        bottom: 70px !important;
+        right: 10px !important;
+    }
+
+    /* Tutorial mobile */
+    .start-view h1 {
+        font-size: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-header h2 {
+        font-size: 0.9rem !important;
+    }
+
+    .action-bar .btn {
+        flex: 1 1 100%;
+        font-size: 0.8rem !important;
+    }
+
+    /* Achievements grid: single column */
+    [class*="achievements"] [style*="repeat(auto-fit"] {
+        grid-template-columns: 1fr !important;
+    }
+}

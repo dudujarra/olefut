@@ -3,6 +3,7 @@
 @import './styles/32bit-theme.css';
 @import './styles/themes/snes.css';
 @import './styles/animations.css';
+@import './styles/mobile.css';
 
 /* v2.0 Stitch UI animations */
 @keyframes ef-spin {
