@@ -293,13 +293,17 @@ Cards:       #FFD600 yellow / #C62828 red
 Sky info:    #4A90E2
 ```
 
-### Assets pixel-art (Google Flow Nano Banana Pro)
-14 sprites em `public/sprites/`:
+### Assets pixel-art (Google Flow Nano Banana Pro + Stitch v3 SNES)
+40+ sprites em `public/sprites/` (legacy 8-bit migrated to 32-bit Sprint 5):
 - logo-vertical.jpeg / scoreboard-banner.jpeg
-- stadium-field.jpeg / stadium-progression-A/B/C.jpeg
+- stadium-field.jpeg / stadium-night-D-I-variants.png (6 tiers)
 - player-jerseys.jpeg (8 cores numerados)
 - icons-set-football.jpeg (8 icons sprite sheet)
-- weather-football.jpeg / weather-classic.jpeg
+- weather-football.jpeg
+- 13 club spritesheets (170 clubs total)
+- 6 animation strips (ball-roll/goal-burst/spinner/trophy-unlock/crowd-wave + ball-kick/gk-save/crowd-flag-wave)
+- 7 atmospheric backdrops (newspaper/boardroom/champion-celebration/locker-room/tunnel-walkout/press-box/trophy-room)
+- 4 pitch variants (mowing patterns) + tactical 4-3-3 grid
 
 ### Stitch designs (Gemini 3 Pro)
 10 screen designs em `docs/stitch-designs/`:
