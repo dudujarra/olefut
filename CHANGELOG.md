@@ -26,6 +26,26 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo PR:** v1.1 — Camada 5 Mito (Hall de Lendas + canonização)
 
+### [feat] v1.1 — Camada 5 Mito (AKITA-051) (2026-05-08)
+
+- `MythService.evaluateMyth(save)` função pura: scan all players + auto-promote candidatos
+  - **idoloEterno:** 200+ gols carreira + 1+ título + 8+ temps no clube
+  - **criaDaBase:** isYouth + 5+ temps + 50+ jogos
+  - **goleirao:** GOL position + 50+ clean sheets
+  - Idempotente (re-runs não duplicam)
+  - Retired players também candidatos
+- `MythService.getTotalCanonized(save)`: count global slots filled
+- `src/components/ClubGalleryView.jsx`: UI estática Hall de Lendas
+  - 6 slots com labels + descriptions
+  - Resolve playerId via squad ou retiredPlayers
+  - Counter "X / 6 slots preenchidos"
+- `tests/specs/SPEC-evaluateMyth.test.js`: 10 unit tests
+- 439 tests passing (429 + 10 new)
+- Build: 43.28 KB CSS / 457.60 KB JS
+- SAVE_VERSION 4 → 5 (Mito halls + retiredPlayers)
+
+**Próximo:** v1.1.5 — Traits Herdáveis
+
 
 ### [refactor] AKITA-RFCT-001 — Characterization Tests / Golden Master (2026-05-08)
 
