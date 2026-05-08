@@ -109,7 +109,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ### BUG-011 ✅ RESOLVIDO — regression.yml falta pull-requests write permission (403 comment)
 - **Issue:** https://github.com/dudujarra/elifoot-web/issues/7
 - **Branch:** `bug/BUG-011`
-- **Fix:** TODO
+- **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-011.test.js`
 - **Status:** OPEN (2026-05-07)
 
@@ -119,7 +119,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ### BUG-012 ✅ RESOLVIDO — PrestigeSystem decay Math.floor zera valores < 20 permanente
 - **Issue:** https://github.com/dudujarra/elifoot-web/issues/8
 - **Branch:** `bug/BUG-012`
-- **Fix:** TODO
+- **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-012.test.js`
 - **Status:** OPEN (2026-05-07)
 
@@ -129,7 +129,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ### BUG-013 ✅ RESOLVIDO — NPCAISystem rngState global compartilhado entre instances
 - **Issue:** https://github.com/dudujarra/elifoot-web/issues/9
 - **Branch:** `bug/BUG-013`
-- **Fix:** TODO
+- **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-013.test.js`
 - **Status:** OPEN (2026-05-07)
 
@@ -139,7 +139,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ### BUG-014 ✅ RESOLVIDO — NewsSystem news array unbounded memory leak
 - **Issue:** https://github.com/dudujarra/elifoot-web/issues/10
 - **Branch:** `bug/BUG-014`
-- **Fix:** TODO
+- **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-014.test.js`
 - **Status:** OPEN (2026-05-07)
 
@@ -149,7 +149,27 @@ npm run test:ci    # roda testes + build (pipeline)
 ### BUG-015 ✅ RESOLVIDO — MatchView crash TypeError minute undefined em filter
 - **Issue:** https://github.com/dudujarra/elifoot-web/issues/12
 - **Branch:** `bug/BUG-015`
-- **Fix:** TODO
+- **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-015.test.js`
 - **Status:** OPEN (2026-05-07)
+
+
+---
+
+### BUG-019 ✅ RESOLVIDO — Tab Clube crash - StaffManager falta getStaff method
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/17
+- **Branch:** `bug/BUG-016`
+- **Fix:** Aplicado
+- **Teste:** `tests/regression/BUG-016.test.js`
+- **Status:** OPEN (2026-05-08)
+
+
+---
+
+### BUG-020 ✅ RESOLVIDO — App não persiste state (sem auto-save)
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/18
+- **Branch:** `bug/BUG-017`
+- **Fix:** Aplicado
+- **Teste:** `tests/regression/BUG-017.test.js`
+- **Status:** OPEN (2026-05-08)
 
