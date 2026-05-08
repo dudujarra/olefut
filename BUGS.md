@@ -143,3 +143,13 @@ npm run test:ci    # roda testes + build (pipeline)
 - **Teste:** `tests/regression/BUG-014.test.js`
 - **Status:** OPEN (2026-05-07)
 
+
+---
+
+### BUG-015 ✅ RESOLVIDO — MatchView crash TypeError minute undefined em filter
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/12
+- **Branch:** `bug/BUG-015`
+- **Fix:** TODO
+- **Teste:** `tests/regression/BUG-015.test.js`
+- **Status:** OPEN (2026-05-07)
+

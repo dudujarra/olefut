@@ -152,8 +152,9 @@ export function MatchView() {
                 const opponent = engine.getTeam(isHome ? myMatch.away : myMatch.home);
                 const allEvents = myMatch.score.events?.textLog || [];
 
-                const htHomeGoals = myMatch.score.events?.home?.filter(e => e.minute <= 45).length || 0;
-                const htAwayGoals = myMatch.score.events?.away?.filter(e => e.minute <= 45).length || 0;
+                // BUG-015 fix: null-safe filter (events array pode ter entries undefined)
+                const htHomeGoals = myMatch.score.events?.home?.filter(e => e && e.minute <= 45).length || 0;
+                const htAwayGoals = myMatch.score.events?.away?.filter(e => e && e.minute <= 45).length || 0;
 
                 setResult({
                     home: isHome ? team.name : opponent.name,
@@ -167,8 +168,8 @@ export function MatchView() {
                     awayGoals: isHome ? htAwayGoals : htHomeGoals,
                 });
 
-                const totalChances = allEvents.filter(e => e.text && (e.text.includes('⚽') || e.text.includes('Defesa') || e.text.includes('salva'))).length;
-                const goals = allEvents.filter(e => e.text && e.text.includes('⚽')).length;
+                const totalChances = allEvents.filter(e => e && e.text && (e.text.includes('⚽') || e.text.includes('Defesa') || e.text.includes('salva'))).length;
+                const goals = allEvents.filter(e => e && e.text && e.text.includes('⚽')).length;
                 setMatchStats({ totalChances, goals, injuries: engine.weekInjuries.length });
 
                 setDisplayedEvents([]);
@@ -350,7 +351,7 @@ export function MatchView() {
                 <Scoreboard half="1º Tempo" />
 
                 <div className="narration-log" ref={logRef}>
-                    {displayedEvents.filter(e => e.minute <= 45).map((n, i) => (
+                    {displayedEvents.filter(e => e && e.minute <= 45).map((n, i) => (
                         <div key={i} className={`${n.text?.includes('⚽') ? 'goal-line' : ''} ${n.text?.includes('🟨') ? 'card-line' : ''}`}
                              style={{animation: 'slideUp 0.2s ease-out'}}>
                             <strong style={{color:'var(--text-muted)',fontSize:'0.7rem',marginRight:'0.4rem'}}>{n.minute}'</strong>
@@ -370,7 +371,7 @@ export function MatchView() {
                             onClick={() => setSpeed(80)}>5x</button>
                     </div>
                     <button className="btn btn-sm btn-secondary" onClick={() => {
-                        skipToEnd(narration.filter(e => e.minute <= 45), 45, null);
+                        skipToEnd(narration.filter(e => e && e.minute <= 45), 45, null);
                     }}>⏭️ Pular</button>
                 </div>
 
@@ -463,7 +464,7 @@ export function MatchView() {
                 <Scoreboard half="2º Tempo" />
 
                 <div className="narration-log" ref={logRef}>
-                    {displayedEvents.filter(e => e.minute > 45).map((n, i) => (
+                    {displayedEvents.filter(e => e && e.minute > 45).map((n, i) => (
                         <div key={i} className={`${n.text?.includes('⚽') ? 'goal-line' : ''} ${n.text?.includes('🟨') ? 'card-line' : ''}`}
                              style={{animation: 'slideUp 0.2s ease-out'}}>
                             <strong style={{color:'var(--text-muted)',fontSize:'0.7rem',marginRight:'0.4rem'}}>{n.minute}'</strong>
@@ -496,8 +497,8 @@ export function MatchView() {
     }
 
     // === FULL TIME ===
-    const lastMatchScorers = narration.filter(n => n.text?.includes('⚽'));
-    const lastMatchCards = narration.filter(n => n.text?.includes('🟨'));
+    const lastMatchScorers = narration.filter(n => n && n.text?.includes('⚽'));
+    const lastMatchCards = narration.filter(n => n && n.text?.includes('🟨'));
     const motmEntry = narration.find(n => n.text?.includes('⭐ Craque'));
 
     return (
