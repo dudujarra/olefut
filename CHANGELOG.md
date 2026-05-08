@@ -41,6 +41,23 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo PR:** AKITA-RFCT-004 — Extract MatchSimulator (10h, **HIGH RISK**)
 
+### [refactor] AKITA-RFCT-004 — Extract MatchSimulator (2026-05-08)
+
+- `src/services/MatchSimulator.js` criado (extracted ~220 LOC de playMatch)
+- `engine.playMatch()` vira delegator de 1 linha: `return this._matchSimulator.simulate(this, homeId, awayId, isCup);`
+- Constructor injection: `this._matchSimulator = new MatchSimulator()`
+- Engine.js: 1.014 → 794 LOC (-220, -22%)
+- Imports MatchSimulator: TACTICS + TACTIC_COUNTERS + TACTIC_NARRATION + getFormModifier + getTraitMatchModifier + hasTrait + initCareerStats + recordMatchStats
+
+**Invariante RFCT-004 preservado:**
+- ✅ Golden master snapshot IDÊNTICO (snapshot file não modificado)
+- ✅ 324/324 tests passing
+- ✅ Build inalterado: 43.28 KB CSS / 427.40 KB JS
+- ✅ Math.random ordem preservada
+- ✅ Mutações in-place no engine state preservadas (squad energy/moral, teamTalkModifiers reset, career stats)
+
+**Próximo PR:** AKITA-RFCT-005 — MythService skeleton (4h, baixo risco)
+
 ---
 
 ## [1.0.0] — 2026-05-08
