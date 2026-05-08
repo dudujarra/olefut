@@ -20,8 +20,12 @@ export function DashboardView() {
     const [banner, setBanner] = React.useState(null);
     const prevOffersRef = React.useRef(engine.transferOffers?.length || 0);
     const prevConfidenceRef = React.useRef(engine.board?.confidence ?? 60);
+    const prevSeasonRef = React.useRef(engine.seasonNumber);
+    const prevSponsorRef = React.useRef(engine.currentSponsor?.name || null);
+    const prevInjuriesRef = React.useRef((engine.getTeam(gameState.teamId)?.squad || []).filter(p => p.injury).length);
+    const prevSuspensionsRef = React.useRef((engine.getTeam(gameState.teamId)?.squad || []).filter(p => p.suspension > 0).length);
 
-    // Hook: detect new offer + low confidence + championship moments
+    // Hook: detect engine events and surface as full-screen banners
     React.useEffect(() => {
         const offerCount = engine.transferOffers?.length || 0;
         if (offerCount > prevOffersRef.current) setBanner('offer');
@@ -30,6 +34,36 @@ export function DashboardView() {
         const conf = engine.board?.confidence ?? 60;
         if (conf < 10 && prevConfidenceRef.current >= 10) setBanner('fired');
         prevConfidenceRef.current = conf;
+
+        // Season transition: champion / promotion / relegation
+        if (engine.seasonNumber > prevSeasonRef.current) {
+            const lastSeasonRecord = engine.legacy?.history?.[engine.legacy.history.length - 1];
+            if (lastSeasonRecord) {
+                if (lastSeasonRecord.position === 1) setBanner('champion');
+                else if (/sub|promo/i.test(lastSeasonRecord.title || '')) setBanner('promotion');
+                else if (/cai|releg/i.test(lastSeasonRecord.title || '')) setBanner('relegation');
+            }
+            prevSeasonRef.current = engine.seasonNumber;
+        }
+
+        // Sponsor signed
+        const curSponsor = engine.currentSponsor?.name || null;
+        if (curSponsor && curSponsor !== prevSponsorRef.current) {
+            if (prevSponsorRef.current !== null) setBanner('sponsor');
+            prevSponsorRef.current = curSponsor;
+        }
+
+        // New injury / suspension
+        const team = engine.getTeam(gameState.teamId);
+        if (team) {
+            const injCount = team.squad.filter(p => p.injury).length;
+            if (injCount > prevInjuriesRef.current) setBanner('injury');
+            prevInjuriesRef.current = injCount;
+
+            const suspCount = team.squad.filter(p => p.suspension > 0).length;
+            if (suspCount > prevSuspensionsRef.current) setBanner('suspension');
+            prevSuspensionsRef.current = suspCount;
+        }
     });
 
     const sectors = engine.getTeamSectors(team.id);
