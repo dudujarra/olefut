@@ -18,18 +18,22 @@ export function PlayerDashboardView() {
     const prevRetiredRef = React.useRef(player?._retired ?? false);
     const prevMotmRef = React.useRef(player?.career?.seasonMotm ?? 0);
 
-    if (!player || !team) return <div className="main-content">Erro: jogador não encontrado.</div>;
+    // BUG-021 fix: useEffects MUST come before early return (Rules of Hooks)
+    // React error #310 ("Rendered more hooks than during previous render") fires
+    // when player/team transitions null→exists across renders.
 
     // Check for off-pitch event on mount
     React.useEffect(() => {
+        if (!player) return;
         const eligible = OffPitchEventsDeck.filter(e => !e.trigger || e.trigger(player));
         if (eligible.length > 0 && Math.random() < 0.4) {
             setOffPitchEvent(eligible[Math.floor(Math.random() * eligible.length)]);
         }
-    }, [engine.currentWeek]);
+    }, [engine.currentWeek, player]);
 
     // Banner triggers: hired (team change) / retirement / motm
     React.useEffect(() => {
+        if (!player) return;
         if (player.teamId !== prevTeamIdRef.current && prevTeamIdRef.current !== null) {
             setBanner('hired');
         }
@@ -46,6 +50,8 @@ export function PlayerDashboardView() {
         }
         prevMotmRef.current = motm;
     });
+
+    if (!player || !team) return <div className="main-content">Erro: jogador não encontrado.</div>;
 
     const handleTrain = (skill) => {
         const result = player.train(skill);
