@@ -29,7 +29,7 @@ export function StartView() {
     };
 
     return (
-        <div className="start-view ef-anim-fade-in">
+        <div className="start-view ef-anim-fade-in ef-art-bg ef-art-champion-celebration">
             <h1 className="ef-anim-pop-in">ELIFOOT</h1>
             <p className="ef-anim-slide-down">Soccer Manager RPG</p>
             <div className="start-form ef-anim-slide-up">

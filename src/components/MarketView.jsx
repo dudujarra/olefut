@@ -58,7 +58,7 @@ export function MarketView() {
     const sellable = team.squad.filter(p => !p.isTitular && !p.injury);
 
     return (
-        <div className="main-content fade-in">
+        <div className="main-content fade-in ef-art-bg ef-art-finance-icons">
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem',gap:'12px'}}>
                 <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
                     <EfClubBadge name={team.name} size="md" />

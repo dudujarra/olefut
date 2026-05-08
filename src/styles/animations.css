@@ -318,6 +318,135 @@ button:not(.no-anim):not([disabled]):active {
     transition: transform 50ms steps(1);
 }
 
+/* ========== ATMOSPHERIC ART (full-image backgrounds) ========== */
+
+.ef-art-newspaper {
+    background-image: url('/sprites/banners/newspaper-backdrop.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-boardroom {
+    background-image: url('/sprites/banners/boardroom-interior.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-champion-celebration {
+    background-image: url('/sprites/banners/champion-celebration.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-pitch-topdown {
+    background-image: url('/sprites/pitch-topdown-32bit.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-state-arrows {
+    background-image: url('/sprites/banners/state-arrows.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-sponsors {
+    background-image: url('/sprites/effects/sponsors-fictional.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-finance-icons {
+    background-image: url('/sprites/effects/finance-icons.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-celebration {
+    background-image: url('/sprites/effects/celebration.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-weather-overlay {
+    background-image: url('/sprites/effects/weather-overlays.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+}
+
+.ef-art-managers {
+    background-image: url('/sprites/avatars/managers.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-players {
+    background-image: url('/sprites/avatars/players-32.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-achievements {
+    background-image: url('/sprites/achievements-30.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.ef-art-crowd-strip {
+    background-image: url('/sprites/effects/crowd-strip.png');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: repeat-x;
+    image-rendering: pixelated;
+}
+
+/* Atmospheric art overlay helper — dimmed background panel */
+.ef-art-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+.ef-art-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 26, 20, 0.78);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.ef-art-bg > * {
+    position: relative;
+    z-index: 2;
+}
+
 /* Reduced-motion accessibility — respect user preference */
 @media (prefers-reduced-motion: reduce) {
     .ef-anim-ball-roll,

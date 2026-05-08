@@ -64,7 +64,7 @@ export function StandingsView() {
     const back = gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
 
     return (
-        <div className="main-content fade-in">
+        <div className="main-content fade-in ef-art-bg ef-art-state-arrows">
             <div className="card-header" style={{ marginBottom: '1rem' }}>
                 <h2>📊 Classificação</h2>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView(back)}>← Voltar</button>

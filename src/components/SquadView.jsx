@@ -60,7 +60,7 @@ export function SquadView() {
     const loanedOut = engine.loanedOut || [];
 
     return (
-        <div className="main-content fade-in">
+        <div className="main-content fade-in ef-art-bg ef-art-players">
             <div className="card-header" style={{ marginBottom: '1rem', display:'flex', alignItems:'center', gap:'12px' }}>
                 <EfClubBadge name={team.name} size="md" />
                 <h2 style={{margin:0,flex:1}}>👥 Plantel — {team.name} ({sorted.length}/{team.squad.length} jogadores)</h2>

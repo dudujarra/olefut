@@ -90,7 +90,7 @@ export function PlayerDashboardView() {
     const stressColor = player.stress >= 75 ? 'var(--danger)' : player.stress >= 50 ? 'var(--accent)' : 'var(--text-muted)';
 
     return (
-        <div className="main-content fade-in">
+        <div className="main-content fade-in ef-art-bg ef-art-managers">
             {/* Off-Pitch Event Modal */}
             {offPitchEvent && (
                 <div className="modal-overlay">
