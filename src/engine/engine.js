@@ -15,6 +15,7 @@ import { processPlayerDevelopment, ageSquad, updateForm, processDressingRoom, ge
 import { rollTraits, getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats, closeSeasonStats, calculateSeasonAwards, processMoraleEvents, processMentoring, isRivalry } from './PlayerTraits';
 import { MatchSimulator } from '../services/MatchSimulator';
 import { MythService } from '../services/MythService';
+import { RelationshipService } from '../services/RelationshipService';
 
 export class Engine {
     constructor() {
@@ -30,6 +31,8 @@ export class Engine {
         this._matchSimulator = new MatchSimulator();
         // RFCT-007: MythService — Camada 5 (Mito) Hall de Lendas (stateless)
         this._mythService = new MythService();
+        // RFCT-008/010: RelationshipService — Camada 3 (Relacional) (stateless)
+        this._relationshipService = new RelationshipService();
 
         // Manager Mode state
         this.currentTactic = 'normal';
