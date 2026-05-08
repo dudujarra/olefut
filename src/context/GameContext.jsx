@@ -4,6 +4,7 @@ import { Tournament } from '../engine/tournaments/Tournament';
 import { League } from '../engine/tournaments/League';
 import { KnockoutCup } from '../engine/tournaments/KnockoutCup';
 import { ContinentalCup } from '../engine/tournaments/ContinentalCup';
+import { MonitorService } from '../services/MonitorService';
 
 const GameContext = createContext();
 
@@ -138,6 +139,13 @@ export const GameProvider = ({ children }) => {
     const [, setTick] = useState(0);
     const forceUpdate = () => setTick(t => t + 1);
 
+    // v1.7: Auto-instrument engine for monitor (sem user action)
+    React.useEffect(() => {
+        try {
+            MonitorService.getInstance().instrumentEngine(engineRef.current);
+        } catch { /* ignore */ }
+    }, []);
+
     // BUG-020: try restore on mount
     const restored = loadFromStorage();
     const [gameState, setGameState] = useState(
@@ -171,6 +179,13 @@ export const GameProvider = ({ children }) => {
         if (mode === 'player' && engineRef.current.proPlayer) {
             engineRef.current.proPlayer.personality = personality;
         }
+        try {
+            MonitorService.getInstance().recordGameplay('GAME_START', {
+                name, teamId, scenario, mode, position, personality
+            });
+            // Re-instrument após initGame (alguns métodos podem ter sido reset)
+            MonitorService.getInstance().instrumentEngine(engineRef.current);
+        } catch { /* ignore */ }
         setGameState({
             started: true,
             view: mode === 'player' ? 'player_dashboard' : 'dashboard',
@@ -181,6 +196,12 @@ export const GameProvider = ({ children }) => {
     };
 
     const changeView = (view) => {
+        try {
+            MonitorService.getInstance().recordGameplay('NAV', {
+                from: gameState.view,
+                to: view
+            });
+        } catch { /* ignore */ }
         setGameState(prev => ({ ...prev, view }));
     };
 

@@ -75,7 +75,7 @@ export class MonitorService {
     }
 
     /**
-     * Install global handlers (window.onerror + unhandledrejection).
+     * Install global handlers (window.onerror + unhandledrejection + console patches).
      * Idempotente.
      */
     install() {
@@ -103,6 +103,129 @@ export class MonitorService {
                 reason: String(event.reason)
             });
         });
+
+        // Patch console.error + console.warn (auto-capture sem user action)
+        const origError = console.error;
+        const origWarn = console.warn;
+        console.error = function (...args) {
+            self.record(CATEGORIES.BUG, {
+                severity: SEVERITIES.ERROR,
+                message: args.map(a => typeof a === 'string' ? a : JSON.stringify(a)).join(' '),
+                source: 'console.error'
+            });
+            origError.apply(console, args);
+        };
+        console.warn = function (...args) {
+            self.record(CATEGORIES.BUG, {
+                severity: SEVERITIES.WARNING,
+                message: args.map(a => typeof a === 'string' ? a : JSON.stringify(a)).join(' '),
+                source: 'console.warn'
+            });
+            origWarn.apply(console, args);
+        };
+
+        // Performance metrics every 60s
+        if (typeof window.setInterval === 'function') {
+            this._perfInterval = window.setInterval(() => {
+                try {
+                    const mem = performance?.memory;
+                    if (mem) {
+                        self.record(CATEGORIES.GAMEPLAY, {
+                            severity: SEVERITIES.INFO,
+                            action: 'PERF_SNAPSHOT',
+                            ctx: {
+                                jsHeapMB: Math.round(mem.usedJSHeapSize / 1024 / 1024),
+                                jsHeapLimitMB: Math.round(mem.jsHeapSizeLimit / 1024 / 1024)
+                            }
+                        });
+                    }
+                } catch { /* ignore */ }
+            }, 60000);
+        }
+
+        self.recordGameplay('SESSION_START', {
+            url: window.location.href,
+            ua: navigator.userAgent.slice(0, 100),
+            screen: `${window.innerWidth}x${window.innerHeight}`
+        });
+    }
+
+    /**
+     * Auto-instrument engine methods. Wraps key methods to log calls.
+     * Call após new Engine() (idempotente).
+     */
+    instrumentEngine(engine) {
+        if (!engine || engine._monitorInstrumented) return;
+        engine._monitorInstrumented = true;
+
+        const self = this;
+        const TRACKED_METHODS = [
+            'advanceWeek',
+            'playMatch',
+            'setTactic',
+            'setFormation',
+            'doTraining',
+            'doTeamTalk',
+            'buyPlayer',
+            'sellPlayer',
+            'acceptTransferOffer',
+            'rejectTransferOffer',
+            'upgradeAcademy',
+            'upgradeStadium',
+            'hireStaff',
+            'fireStaff',
+            'doScouting',
+            'signScoutedPlayer',
+            'renewContract',
+            'applyLiveSubstitution',
+            'saveFormationLayout'
+        ];
+
+        for (const methodName of TRACKED_METHODS) {
+            const original = engine[methodName];
+            if (typeof original !== 'function') continue;
+            engine[methodName] = function (...args) {
+                const start = performance.now();
+                try {
+                    const result = original.apply(this, args);
+                    const elapsed = Math.round(performance.now() - start);
+                    self.recordGameplay(`ENGINE.${methodName}`, {
+                        args: args.map(a => self._summarizeArg(a)).slice(0, 3),
+                        elapsedMs: elapsed,
+                        currentWeek: this.currentWeek
+                    });
+                    return result;
+                } catch (e) {
+                    self.recordBug({
+                        severity: SEVERITIES.ERROR,
+                        message: `engine.${methodName} threw: ${e.message}`,
+                        stack: e.stack,
+                        method: methodName,
+                        args: args.map(a => self._summarizeArg(a))
+                    });
+                    throw e;
+                }
+            };
+        }
+
+        self.recordGameplay('ENGINE_INSTRUMENTED', {
+            methods: TRACKED_METHODS.length
+        });
+    }
+
+    /**
+     * Summarize arg pra log (avoid bloat).
+     */
+    _summarizeArg(arg) {
+        if (arg === null || arg === undefined) return null;
+        if (typeof arg === 'number' || typeof arg === 'string' || typeof arg === 'boolean') return arg;
+        if (Array.isArray(arg)) return `[Array(${arg.length})]`;
+        if (typeof arg === 'object') {
+            // Show known shape ids
+            if (arg.id != null) return `{id:${arg.id}}`;
+            return `{${Object.keys(arg).slice(0, 3).join(',')}}`;
+        }
+        return typeof arg;
     }
 
     /**

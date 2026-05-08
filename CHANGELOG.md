@@ -4,6 +4,36 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### [feat] v1.7 — Monitor Auto-Logger (2026-05-08)
+
+Monitor agora captura tudo SEM user action.
+
+- `MonitorService.install()` expandido:
+  - Patch `console.error` + `console.warn` (auto-log warnings/errors)
+  - Performance metrics snapshot a cada 60s (jsHeap MB)
+  - SESSION_START event com URL + UA + screen size
+- `MonitorService.instrumentEngine(engine)`:
+  - Wraps 19 métodos engine críticos: advanceWeek, playMatch, setTactic, setFormation, doTraining, doTeamTalk, buyPlayer, sellPlayer, accept/rejectTransferOffer, upgradeAcademy/Stadium, hire/fireStaff, doScouting, signScoutedPlayer, renewContract, applyLiveSubstitution, saveFormationLayout
+  - Auto-log args summarizados + elapsedMs + currentWeek
+  - Captura erros engine + re-throw
+  - Idempotente
+- `GameContext`:
+  - `instrumentEngine()` chamado em mount + após startGame
+  - `changeView` log NAV {from, to}
+  - `startGame` log GAME_START
+- `tests/specs/SPEC-MonitorAutoLogger.test.js`: 14 unit tests
+- 516 tests passing (502 + 14 new)
+- Build: 43.28 KB CSS / 472.02 KB JS
+
+**Diferencial v1.7 vs v1.6:** v1.6 user reporta. v1.7 sistema captura automaticamente:
+- Toda chamada engine (19 métodos)
+- Toda navegação entre telas
+- console.error/warn capturados
+- Performance memory snapshot
+- Session metadata
+
+Resultado: log completo da experiência sem effort.
+
 ### [feat] v1.6 — Monitor System (2026-05-08)
 
 - `src/services/MonitorService.js`:
