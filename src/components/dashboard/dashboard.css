@@ -1,0 +1,141 @@
+/**
+ * Dashboard sub-components stylesheet.
+ *
+ * AKITA-RFCT-Phase2: zero inline-styles em sub-components.
+ * Usa tokens var(--ef-*) e prefixo ef-dash-*.
+ */
+
+/* ========== HEADER ========== */
+.ef-dash-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ef-dash-header-title {
+    font-family: var(--ef-font-family-display);
+    font-size: var(--ef-font-size-subtitle);
+    margin: 0;
+    color: var(--ef-text-hi);
+}
+
+.ef-dash-header-meta {
+    font-size: var(--ef-font-size-caption);
+    color: var(--ef-text-md);
+    font-family: var(--ef-font-family-body);
+}
+
+.ef-dash-header-right {
+    text-align: right;
+}
+
+.ef-dash-balance {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--ef-font-family-mono);
+}
+
+.ef-dash-board-status {
+    font-size: var(--ef-font-size-caption);
+    cursor: help;
+    display: inline-block;
+    margin-top: 2px;
+}
+
+/* ========== PROGRESS BAR ========== */
+.ef-dash-progress-track {
+    height: 8px;
+    background: var(--ef-bevel-dark);
+    border: 2px solid;
+    border-color: var(--ef-bevel-dark) var(--ef-bevel-light) var(--ef-bevel-light) var(--ef-bevel-dark);
+    margin-top: 8px;
+    position: relative;
+}
+
+.ef-dash-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--ef-color-grass-300), var(--ef-color-func-success));
+    transition: width var(--ef-dur-normal) var(--ef-ease-out-quart);
+}
+
+.ef-dash-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ef-text-md);
+    font-family: var(--ef-font-family-mono);
+    margin-top: 4px;
+}
+
+/* ========== ALERTS STRIP ========== */
+.ef-dash-alerts {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+}
+
+.ef-dash-alert {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    font-size: var(--ef-font-size-caption);
+    font-family: var(--ef-font-family-body);
+    font-weight: 600;
+    border: 2px solid;
+    border-color: var(--ef-bevel-light) var(--ef-bevel-dark) var(--ef-bevel-dark) var(--ef-bevel-light);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.ef-dash-alert-danger {
+    background: rgba(214, 40, 40, 0.2);
+    color: var(--ef-color-func-danger);
+}
+
+.ef-dash-alert-warning {
+    background: rgba(247, 181, 56, 0.2);
+    color: var(--ef-color-func-warning);
+}
+
+.ef-dash-alert-info {
+    background: rgba(58, 125, 206, 0.2);
+    color: var(--ef-color-func-info);
+    cursor: pointer;
+}
+
+.ef-dash-alert-info:hover {
+    background: rgba(58, 125, 206, 0.35);
+}
+
+/* ========== STATUS FOOTER ========== */
+.ef-dash-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--ef-bg-elev);
+    border: 2px solid;
+    border-color: var(--ef-bevel-light) var(--ef-bevel-dark) var(--ef-bevel-dark) var(--ef-bevel-light);
+    font-family: var(--ef-font-family-mono);
+    font-size: var(--ef-font-size-caption);
+    margin-top: 16px;
+}
+
+.ef-dash-footer-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.ef-dash-footer-label {
+    color: var(--ef-color-grass-300);
+    margin-right: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.ef-dash-footer-build {
+    color: var(--ef-text-md);
+}
