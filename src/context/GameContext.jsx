@@ -1,12 +1,31 @@
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
 import { Engine } from '../engine/engine';
+import { Tournament } from '../engine/tournaments/Tournament';
+import { League } from '../engine/tournaments/League';
+import { KnockoutCup } from '../engine/tournaments/KnockoutCup';
+import { ContinentalCup } from '../engine/tournaments/ContinentalCup';
 
 const GameContext = createContext();
 
 export const useGame = () => useContext(GameContext);
 
+// AKITA-RFCT-017: SAVE_VERSION bumped 1 → 3 (FIM v1.0.5 refactor).
+// v2 era hotfix BUG-021 (tournament prototype). v3 = post-refactor com 4 services.
+// Saves v<3 são auto-invalidados (start fresh).
 const SAVE_KEY = 'elifoot_save_v1';
-const SAVE_VERSION = 1;
+const SAVE_VERSION = 3;
+
+// Map class name → constructor para prototype restoration (BUG-021)
+const TOURNAMENT_CLASSES = { Tournament, League, KnockoutCup, ContinentalCup };
+
+function tournamentClassFromShape(t) {
+    if (!t || typeof t !== 'object') return Tournament;
+    if (t.__class && TOURNAMENT_CLASSES[t.__class]) return TOURNAMENT_CLASSES[t.__class];
+    if (typeof t.level === 'number') return League;
+    if (Array.isArray(t.groupWeeks)) return ContinentalCup;
+    if (Array.isArray(t.roundWeeks)) return KnockoutCup;
+    return Tournament;
+}
 
 // BUG-020 fix: localStorage auto-save + restore
 function saveToStorage(engine, gameState) {
@@ -28,7 +47,10 @@ function loadFromStorage() {
         const raw = localStorage.getItem(SAVE_KEY);
         if (!raw) return null;
         const payload = JSON.parse(raw);
-        if (payload.version !== SAVE_VERSION) return null;
+        if (payload.version !== SAVE_VERSION) {
+            console.info(`[Save] Version mismatch (saved v${payload.version}, current v${SAVE_VERSION}). Save invalidated.`);
+            return null;
+        }
         return payload;
     } catch (e) {
         console.warn('[Save] Failed to load state:', e);
@@ -42,8 +64,12 @@ function clearStorage() {
     } catch { /* ignore */ }
 }
 
-// Campos engine que são instâncias de classes — skip em save (recriar na inicialização).
-const ENGINE_CLASS_FIELDS = ['staff', 'board', 'legacy'];
+// Campos engine que são instâncias de classes — skip em save (recriam em constructor).
+// AKITA-RFCT-017: includes services (Myth/Relationship/Narrative/Career + MatchSimulator).
+const ENGINE_CLASS_FIELDS = [
+    'staff', 'board', 'legacy',
+    '_matchSimulator', '_mythService', '_relationshipService', '_narrativeService', '_careerService'
+];
 
 function serializeEngine(engine) {
     const safe = {};
@@ -61,6 +87,13 @@ function serializeEngine(engine) {
     if (engine.staff && Array.isArray(engine.staff.hired)) {
         safe._staffHired = engine.staff.hired;
     }
+    // BUG-021: tag tournaments com class name pra prototype restore
+    if (Array.isArray(engine.tournaments)) {
+        safe.tournaments = engine.tournaments.map(t => ({
+            ...t,
+            __class: t?.constructor?.name || 'Tournament'
+        }));
+    }
     return safe;
 }
 
@@ -72,6 +105,19 @@ function restoreEngine(engine, snapshot) {
         try {
             engine[key] = val;
         } catch { /* skip */ }
+    }
+    // BUG-021 fix: re-attach tournament prototypes
+    if (Array.isArray(engine.tournaments)) {
+        engine.tournaments = engine.tournaments.map(rawT => {
+            if (!rawT) return rawT;
+            const ClassConstructor = tournamentClassFromShape(rawT);
+            const restored = Object.create(ClassConstructor.prototype);
+            for (const [k, v] of Object.entries(rawT)) {
+                if (k === '__class') continue;
+                restored[k] = v;
+            }
+            return restored;
+        });
     }
     // Restore staff hired list (preserva StaffManager class)
     if (snapshot._staffHired && engine.staff) {

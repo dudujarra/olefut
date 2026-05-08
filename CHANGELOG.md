@@ -155,6 +155,47 @@ Razão: engine.js não tinha métodos getLegends/getHallOfFame/getRegenChildren 
 
 **Próximo PR:** AKITA-RFCT-017 — SAVE_VERSION 2→3 + final cleanup (FIM v1.0.5)
 
+### [refactor] AKITA-RFCT-017 — SAVE_VERSION 2→3 + Final Cleanup (2026-05-08) — **FIM v1.0.5**
+
+- `SAVE_VERSION` bumped 1 → 3 (saves v<3 auto-invalidados)
+- `GameContext.jsx`:
+  - Imports tournament classes (Tournament, League, KnockoutCup, ContinentalCup)
+  - `tournamentClassFromShape()` heurística pra prototype restore
+  - `ENGINE_CLASS_FIELDS` expandido com todos services (`_matchSimulator`, `_mythService`, `_relationshipService`, `_narrativeService`, `_careerService`) — recriados em constructor
+  - BUG-021 fix incorporado oficialmente (tournament prototype restoration)
+  - Console info on version mismatch
+- 414 tests passing
+- Build: 43.28 KB CSS / 439.90 KB JS
+
+## v1.0.5 — REFACTOR COMPLETO ✅
+
+| Métrica | Antes | Depois | Delta |
+|---------|-------|--------|-------|
+| engine.js LOC | 1.014 | 794 | -220 (-22%) |
+| Services criados | 0 | 5 (MatchSimulator + Myth + Relationship + Narrative + Career) | +5 |
+| Tests passing | 314 | 414 | +100 (+32%) |
+| Build CSS | 25 KB | 43 KB | +18 KB (themes) |
+| Build JS | 394 KB | 440 KB | +46 KB (services + tooltips) |
+| PRs merged | — | 11 (RFCT-001 a RFCT-017) | — |
+
+**Princípios mantidos:**
+- ✅ Bottom-up isolated → entrelaçado
+- ✅ Testes verdes contínuos (414/414)
+- ✅ Composição manual + constructor injection
+- ✅ Services stateless
+- ✅ Chamadas diretas síncronas (sem EventBus)
+- ✅ SAVE_VERSION sequencial 1→3
+- ✅ Sem ciclos arquiteturais (madge clean)
+
+**Próximas releases:**
+- v1.0.7 — Camada 2 Foundation (eventos atômicos + 80 manchetes handwritten)
+- v1.1 — Camada 5 Mito (Hall de Lendas + canonização)
+- v1.1.5 — Traits Herdáveis
+- v1.2 — Transição Jogador→Técnico (ProPlayer aposenta no mesmo save)
+- v1.3 — Filhos Regens
+- v1.4 — Rivalidades Emergentes
+- v1.5 — Crônica do Save
+
 ---
 
 ## [1.0.0] — 2026-05-08
