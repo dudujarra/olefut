@@ -106,6 +106,28 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 **Próximo:** v1.4 — Rivalidades Emergentes (Camada 3 expandida)
 
+### [feat] v1.4 — Rivalidades Emergentes (AKITA-055) (2026-05-08)
+
+- `src/data/narrativeArcs.js`: 6 arcs nomeados Camada 4
+  - A Maldição dos Aflitos (3+ finais perdidas)
+  - Os Anos de Chumbo (8+ semanas moral baixa)
+  - A Vingança Lenta (rivalry ≥ 70)
+  - O Renascimento (5+ wins streak)
+  - A Sombra do Pai (regen child low performance)
+  - A Dinastia (3+ títulos consecutivos)
+- `NarrativeService.evaluateArcs(save)`: auto-trigger arcs por threshold
+  - Rivalry ≥ 70 abre "A Vingança Lenta"
+  - Idempotente
+- `src/components/RivalriesView.jsx`: tabela rivalidades dinâmicas + lista arcs ativos
+  - Threshold visual: 50 "novo clássico", 80 "consolidada"
+  - Sort por intensity descendente
+- `tests/specs/SPEC-NarrativeArcs.test.js`: 11 unit tests
+- 475 tests passing (464 + 11 new)
+- Build: 43.28 KB CSS / 460.52 KB JS
+- SAVE_VERSION 8 → 9 (arcs array completo + 6 arcs vocab)
+
+**Próximo:** v1.5 — Crônica do Save (export prosa por temporada)
+
 
 ### [refactor] AKITA-RFCT-001 — Characterization Tests / Golden Master (2026-05-08)
 

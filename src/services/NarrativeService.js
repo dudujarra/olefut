@@ -192,6 +192,35 @@ export class NarrativeService {
     // ========================================================================
 
     /**
+     * Auto-evaluate narrative arcs (v1.4 AKITA-055).
+     * Scans Camada 3 vetors + opens nomeados arcs quando thresholds cruzados.
+     *
+     * @param {object} engineOrSave
+     * @returns {{opened: number}}
+     */
+    evaluateArcs(engineOrSave) {
+        if (!engineOrSave) return { opened: 0 };
+        let opened = 0;
+
+        // Rivalry threshold check (>= 70 = "A Vingança Lenta")
+        if (this._relationshipService) {
+            const clubClubMap = engineOrSave.relations?.club_club || {};
+            for (const key of Object.keys(clubClubMap)) {
+                const r = clubClubMap[key];
+                if (r.rivalry >= 70) {
+                    const [a, b] = key.split('_').map(Number);
+                    const result = this.openArc(engineOrSave, 'A Vingança Lenta', [a, b], {
+                        triggerEvents: [`rivalry_${a}_${b}`]
+                    });
+                    if (result.success) opened++;
+                }
+            }
+        }
+
+        return { opened };
+    }
+
+    /**
      * Opens narrative arc (rivalidade, "Sombra do Pai", etc.)
      */
     openArc(engineOrSave, arcName, actors = [], context = {}) {
