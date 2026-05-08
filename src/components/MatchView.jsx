@@ -27,6 +27,7 @@ export function MatchView() {
     const [paused, setPaused] = useState(false);
     const [liveModalOpen, setLiveModalOpen] = useState(false);
     const [liveSubsCount, setLiveSubsCount] = useState(0);
+    const [goalBurstActive, setGoalBurstActive] = useState(false);
     const logRef = useRef(null);
     const timerRef = useRef(null);
     const speedRef = useRef(200);
@@ -106,8 +107,11 @@ export function MatchView() {
                     return [...prev, ev];
                 });
                 // P1-6: sound FX para eventos importantes
-                if (ev.text?.includes('⚽')) sfx.goal();
-                else if (ev.text?.includes('🟨') || ev.text?.includes('🟥')) sfx.card();
+                if (ev.text?.includes('⚽')) {
+                    sfx.goal();
+                    setGoalBurstActive(true);
+                    setTimeout(() => setGoalBurstActive(false), 1300);
+                } else if (ev.text?.includes('🟨') || ev.text?.includes('🟥')) sfx.card();
                 eventIdx++;
                 tickerStateRef.current.eventIdx = eventIdx;
             }
@@ -363,14 +367,27 @@ export function MatchView() {
 
     // === SCOREBOARD (shared between phases) ===
     const Scoreboard = ({ half }) => (
-        <div className="card" style={{ textAlign: 'center', padding: '0.75rem' }}>
+        <div className={`card ${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{ textAlign: 'center', padding: '0.75rem', position: 'relative' }}>
+            {goalBurstActive && (
+                <div
+                    className="ef-anim-goal-burst"
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        zIndex: 10,
+                        pointerEvents: 'none'
+                    }}
+                />
+            )}
             <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
                 <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
                     <EfClubBadge name={result.home} size="lg" />
                     <span className="team-name">{result.home}</span>
                 </div>
                 <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
-                    <div className="match-score">{runningScore.home} — {runningScore.away}</div>
+                    <div className={`match-score ${goalBurstActive ? 'ef-anim-counter' : ''}`}>{runningScore.home} — {runningScore.away}</div>
                     {/* Cronômetro */}
                     <div style={{
                         display:'flex',alignItems:'center',gap:'0.5rem',marginTop:'0.3rem'
