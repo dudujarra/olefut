@@ -49,12 +49,12 @@ describe('UX overhaul P0-P2: regressions', () => {
         expect(typeof sfx.click).toBe('function');
     });
 
-    test('P1-7: Tooltips em stats', () => {
+    test('P1-7: Tooltips em stats (Help component v1.0)', () => {
         const file = path.join(projectRoot, 'src/components/DashboardView.jsx');
         const c = fs.readFileSync(file, 'utf-8');
-        // 6 stats devem ter title=
-        const titleCount = (c.match(/title=".*goleiro|title=".*defesa|title=".*meio|title=".*ataque|title=".*Moral|title=".*Energia/g) || []).length;
-        expect(titleCount).toBeGreaterThanOrEqual(4);
+        // v1.0 Sprint 1: <Help id="sector.gol|def|mei|ata|moral_avg" /> + stat.energia
+        const helpCount = (c.match(/<Help id="sector\.\w+|<Help id="stat\.\w+/g) || []).length;
+        expect(helpCount).toBeGreaterThanOrEqual(4);
     });
 
     test('P1-8: Filter/sort em SquadView', () => {

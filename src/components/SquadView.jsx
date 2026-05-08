@@ -3,6 +3,8 @@ import { useGame } from '../context/GameContext';
 import { getFormEmoji } from '../engine/PlayerDevelopment';
 import { getPlayerTraits } from '../engine/PlayerTraits';
 import { PlayerAvatar } from '../utils/avatar';
+import { Help } from './Help';
+import { Tooltip } from './Tooltip';
 
 export function SquadView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -114,10 +116,10 @@ export function SquadView() {
                                         <PlayerAvatar name={p.name} size={26} />
                                         {p.name}
                                     </span>
-                                    {p._isCaptain && <span style={{marginLeft:'3px'}} title="Capitão">©️</span>}
-                                    {p.isYouth && <span style={{color:'var(--accent)',fontSize:'0.7rem',marginLeft:'4px'}}>🎓</span>}
+                                    {p._isCaptain && <Tooltip content="Capitão: lidera o vestiário, +5 moral coletiva."><span style={{marginLeft:'3px'}}>©️</span></Tooltip>}
+                                    {p.isYouth && <Tooltip content="Jovem da base: oriundo da academia."><span style={{color:'var(--accent)',fontSize:'0.7rem',marginLeft:'4px'}}>🎓</span></Tooltip>}
                                     {getPlayerTraits(p).map(t => (
-                                        <span key={t.id} style={{fontSize:'0.6rem',marginLeft:'2px'}} title={`${t.name}: ${t.description}`}>{t.name.split(' ')[0]}</span>
+                                        <Tooltip key={t.id} content={`${t.name}: ${t.description}`}><span style={{fontSize:'0.65rem',marginLeft:'2px'}}>{t.name.split(' ')[0]}</span></Tooltip>
                                     ))}
                                     {p.career && (p.career.seasonGoals > 0 || p.career.seasonAssists > 0) && (
                                         <span style={{fontSize:'0.6rem',color:'var(--primary)',marginLeft:'4px'}}>
@@ -142,16 +144,16 @@ export function SquadView() {
                                 <td>
                                     <div style={{display:'flex',gap:'0.25rem'}}>
                                         {!p.isTitular && !p.injury && p.age <= 23 && (
-                                            <button className="btn btn-sm btn-secondary" onClick={() => handleLoan(p.id)} title="Emprestar">📤</button>
+                                            <Help id="btn.loan"><button className="btn btn-sm btn-secondary" onClick={() => handleLoan(p.id)}>📤</button></Help>
                                         )}
                                         {!p.isTitular && (
-                                            <button className="btn btn-sm btn-danger" onClick={() => handleSell(p)} title="Vender">💰</button>
+                                            <Help id="btn.sell"><button className="btn btn-sm btn-danger" onClick={() => handleSell(p)}>💰</button></Help>
                                         )}
                                         {p.contract && p.contract.weeksLeft <= 12 && (
-                                            <button className="btn btn-sm btn-primary" onClick={() => {
+                                            <Help id="btn.renew"><button className="btn btn-sm btn-primary" onClick={() => {
                                                 const result = engine.renewContract(p.id);
                                                 if (result.success) forceUpdate();
-                                            }} title="Renovar">📝</button>
+                                            }}>📝</button></Help>
                                         )}
                                     </div>
                                 </td>
