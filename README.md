@@ -419,6 +419,15 @@ EfClubBadge auto-resolve via `getClubSprite(name)`.
 | Weather overlays | `effects/weather-overlays.png` | 4 tiles (sunny/rain/snow/night) |
 | Finance icons | `effects/finance-icons.png` | 8 icons (coin/stack/wallet/$/scroll/bag/handshake/bank) |
 
+### Sprint Final Assets (AKITA-074)
+
+| Asset | Path | Conteúdo |
+|---|---|---|
+| Player faces 32 | `avatars/players-32.png` | 32 abstract caricatures 8×4 grid |
+| Match pitch top-down | `pitch-topdown-32bit.png` | 1024×640 aerial pitch view |
+| Achievements 30 | `achievements-30.png` | 30 abstract badges 6×5 grid |
+| Run cycle anim | `animations/run-cycle-6frames.png` | 6 frames athlete lateral |
+
 ### EfBanner Reusable Component
 
 `src/components/ui/EfBanner.jsx` — full-screen narrative moment overlay.

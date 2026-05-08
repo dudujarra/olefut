@@ -7,6 +7,7 @@ import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
 import { Help } from './Help';
 import { Tooltip } from './Tooltip';
 import { DashboardHeader, DashboardAlerts, DashboardFooter } from './dashboard';
+import { EfBanner } from './ui';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -16,6 +17,20 @@ export function DashboardView() {
 
     const [log, setLog] = useState('');
     const [tab, setTab] = useState('overview');
+    const [banner, setBanner] = React.useState(null);
+    const prevOffersRef = React.useRef(engine.transferOffers?.length || 0);
+    const prevConfidenceRef = React.useRef(engine.board?.confidence ?? 60);
+
+    // Hook: detect new offer + low confidence + championship moments
+    React.useEffect(() => {
+        const offerCount = engine.transferOffers?.length || 0;
+        if (offerCount > prevOffersRef.current) setBanner('offer');
+        prevOffersRef.current = offerCount;
+
+        const conf = engine.board?.confidence ?? 60;
+        if (conf < 10 && prevConfidenceRef.current >= 10) setBanner('fired');
+        prevConfidenceRef.current = conf;
+    });
 
     const sectors = engine.getTeamSectors(team.id);
     const standings = engine.getStandings(team.zone, team.division);
@@ -38,6 +53,7 @@ export function DashboardView() {
 
     return (
         <div className="main-content fade-in">
+            {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
             {/* === HEADER (Stitch refactor) === */}
             <DashboardHeader
                 team={team}
