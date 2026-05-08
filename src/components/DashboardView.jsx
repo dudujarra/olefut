@@ -63,12 +63,12 @@ export function DashboardView() {
             </div>
 
             {/* === ALERTS === */}
-            {(injured.length > 0 || expiringContracts.length > 0 || avgEnergy < 50 || engine.transferOffers.length > 0) && (
+            {(injured.length > 0 || expiringContracts.length > 0 || avgEnergy < 50 || (engine.transferOffers?.length ?? 0) > 0) && (
                 <div className="alert-strip">
                     {injured.length > 0 && <span className="alert-badge danger">🏥 {injured.length} lesionado{injured.length > 1 ? 's' : ''}</span>}
                     {expiringContracts.length > 0 && <span className="alert-badge warning">📋 {expiringContracts.length} contrato{expiringContracts.length > 1 ? 's' : ''} vencendo</span>}
                     {avgEnergy < 50 && <span className="alert-badge danger">⚡ Elenco cansado ({avgEnergy.toFixed(0)}%)</span>}
-                    {engine.transferOffers.length > 0 && <span className="alert-badge info" style={{cursor:'pointer'}} onClick={() => setTab('transfers')}>📬 {engine.transferOffers.length} oferta{engine.transferOffers.length > 1 ? 's' : ''}</span>}
+                    {(engine.transferOffers?.length ?? 0) > 0 && <span className="alert-badge info" style={{cursor:'pointer'}} onClick={() => setTab('transfers')}>📬 {(engine.transferOffers?.length ?? 0)} oferta{(engine.transferOffers?.length ?? 0) > 1 ? 's' : ''}</span>}
                 </div>
             )}
 
@@ -108,7 +108,7 @@ export function DashboardView() {
                 <button className={`nav-tab ${tab === 'tactics' ? 'active' : ''}`} onClick={() => setTab('tactics')}>Táticas</button>
                 <button className={`nav-tab ${tab === 'training' ? 'active' : ''}`} onClick={() => setTab('training')}>Treino</button>
                 <button className={`nav-tab ${tab === 'club' ? 'active' : ''}`} onClick={() => setTab('club')}>Clube</button>
-                {engine.transferOffers.length > 0 && <button className={`nav-tab ${tab === 'transfers' ? 'active' : ''}`} onClick={() => setTab('transfers')}>Ofertas</button>}
+                {(engine.transferOffers?.length ?? 0) > 0 && <button className={`nav-tab ${tab === 'transfers' ? 'active' : ''}`} onClick={() => setTab('transfers')}>Ofertas</button>}
             </div>
 
             {/* Feedback log */}
@@ -144,7 +144,7 @@ export function DashboardView() {
                         </div>
                     )}
 
-                    {engine.weekEvents.length > 0 && (
+                    {(engine.weekEvents?.length ?? 0) > 0 && (
                         <div className="card card-compact">
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📰 EVENTOS DA SEMANA</h4>
                             <div className="event-feed">
@@ -352,7 +352,7 @@ export function DashboardView() {
                                 <li><span>Confiança:</span><strong style={{color: boardStatus?.color}}>{engine.board.confidence}%</strong></li>
                                 <li><span>Status:</span><strong style={{color: boardStatus?.color}}>{boardStatus?.label}</strong></li>
                             </ul>
-                            {engine.legacy && engine.legacy.history.length > 0 && (
+                            {engine.legacy && (engine.legacy.history?.length ?? 0) > 0 && (
                                 <div style={{marginTop:'0.4rem',borderTop:'1px solid var(--border-subtle)',paddingTop:'0.3rem'}}>
                                     <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>Histórico:</span>
                                     {engine.legacy.history.map((h, i) => (
@@ -368,7 +368,7 @@ export function DashboardView() {
             )}
 
             {/* === TAB: TRANSFERS === */}
-            {tab === 'transfers' && engine.transferOffers.length > 0 && (
+            {tab === 'transfers' && (engine.transferOffers?.length ?? 0) > 0 && (
                 <div className="card card-compact">
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📬 OFERTAS</h4>
                     {engine.transferOffers.map((offer, i) => (
