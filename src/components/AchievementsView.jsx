@@ -85,9 +85,9 @@ export function AchievementsView() {
                         flex: 1,
                         height: '12px',
                         margin: '0 1rem',
-                        background: '#1a2520',
+                        background: 'var(--ef-color-bg-input)',
                         borderRadius: '6px',
-                        border: '1px solid #2a3530',
+                        border: '1px solid var(--ef-color-border-subtle)',
                         overflow: 'hidden'
                     }}>
                         <div style={{
@@ -108,7 +108,7 @@ export function AchievementsView() {
                         <div
                             key={ach.id}
                             style={{
-                                border: `2px solid ${ach.unlocked ? colors.bg : '#2a3530'}`,
+                                border: `2px solid ${ach.unlocked ? colors.bg : 'var(--ef-color-border-subtle)'}`,
                                 borderRadius: '4px',
                                 padding: '0.6rem',
                                 background: ach.unlocked ? `linear-gradient(135deg, ${colors.bg}22, transparent)` : 'transparent',
@@ -135,7 +135,7 @@ export function AchievementsView() {
                             {!ach.unlocked && ach.progress > 0 && (
                                 <div style={{
                                     height: '4px',
-                                    background: '#1a2520',
+                                    background: 'var(--ef-color-bg-input)',
                                     borderRadius: '2px',
                                     overflow: 'hidden'
                                 }}>

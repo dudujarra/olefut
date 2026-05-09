@@ -33,7 +33,7 @@ export function ScoutDossier({ player, onClose, onSign, comparePlayers = [] }) {
 
     const renderPlayer = (p, isMain = false) => (
         <div style={{
-            border: `1px solid ${isMain ? 'var(--accent)' : 'var(--border-subtle, #2a3530)'}`,
+            border: `1px solid ${isMain ? 'var(--accent)' : 'var(--border-subtle, var(--ef-color-border-subtle))'}`,
             borderRadius: '4px',
             padding: '0.75rem',
             flex: 1,
@@ -85,7 +85,7 @@ export function ScoutDossier({ player, onClose, onSign, comparePlayers = [] }) {
                 className="ef-anim-pop-in"
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                    background: 'var(--bg-elevated, #1a2520)',
+                    background: 'var(--bg-elevated, var(--ef-color-bg-input))',
                     border: '2px solid var(--accent)',
                     borderRadius: '6px',
                     padding: '1rem',

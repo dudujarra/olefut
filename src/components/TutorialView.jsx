@@ -98,7 +98,7 @@ export function TutorialView() {
                                 width: '40px',
                                 height: '6px',
                                 borderRadius: '3px',
-                                background: i === step ? 'var(--accent)' : i < step ? 'var(--primary)' : 'var(--border-subtle, #2a3530)',
+                                background: i === step ? 'var(--accent)' : i < step ? 'var(--primary)' : 'var(--border-subtle, var(--ef-color-border-subtle))',
                                 transition: 'background 200ms ease-out'
                             }}
                         />

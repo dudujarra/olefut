@@ -30,4 +30,14 @@
   --ef-color-neutral-text-lo: #8A876E;
   --ef-color-neutral-bevel-light: #5C8A6A;
   --ef-color-neutral-bevel-dark: #0A130E;
+  --ef-color-accent-gold: #FFD700; /* Accent dourado canonical (CTAs, scoreboard, badges premium) */
+  --ef-color-accent-gold-dark: #C8941F;
+  --ef-color-border-subtle: #2D5A3D; /* Replaces non-canonical #2a3530 (was 1.4:1 contrast fail) */
+  --ef-color-bg-input: #1B3A2A; /* Replaces non-canonical #1a2520 */
+  --ef-overlay-light: rgba(255, 255, 255, 0.4);
+  --ef-overlay-light-strong: rgba(255, 255, 255, 0.5);
+  --ef-overlay-shadow: rgba(0, 0, 0, 0.3);
+  --ef-overlay-bg-78: rgba(15, 26, 20, 0.78);
+  --ef-overlay-bg-95: rgba(15, 26, 20, 0.95);
+  --ef-focus-ring: 2px dotted var(--ef-color-accent-gold);
 }
