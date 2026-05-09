@@ -25,6 +25,8 @@ export function AutoPlayView() {
     const [anomalyFilter, setAnomalyFilter] = useState('all');
     const [telemetryOpen, setTelemetryOpen] = useState(false);
     const [expandedSpec, setExpandedSpec] = useState(null);
+    // SPEC-119: LLM mode state (BUG-052: must be BEFORE early return — Rules of Hooks)
+    const [llmStatus, setLlmStatus] = useState({ mode: 'heuristic', loadStatus: 'idle' });
 
     useEffect(() => {
         if (!engine) return;
@@ -36,6 +38,16 @@ export function AutoPlayView() {
         }, 250);
         return () => clearInterval(interval);
     }, [engine]);
+
+    // SPEC-119: LLM status polling (BEFORE early return — Rules of Hooks)
+    useEffect(() => {
+        const id = setInterval(() => {
+            if (controllerRef.current?.llmBridge) {
+                setLlmStatus(controllerRef.current.llmBridge.status());
+            }
+        }, 1000);
+        return () => clearInterval(id);
+    }, []);
 
     if (!engine || !engine.manager?.teamId) {
         return (
@@ -98,17 +110,7 @@ export function AutoPlayView() {
         }
     };
 
-    // SPEC-119: LLM mode toggle (heuristic / WebLLM)
-    const [llmStatus, setLlmStatus] = React.useState({ mode: 'heuristic', loadStatus: 'idle' });
-    React.useEffect(() => {
-        const id = setInterval(() => {
-            if (controllerRef.current?.llmBridge) {
-                setLlmStatus(controllerRef.current.llmBridge.status());
-            }
-        }, 1000);
-        return () => clearInterval(id);
-    }, []);
-
+    // SPEC-119: LLM mode handlers (state hooks moved above early return)
     const handleLoadLLM = async () => {
         if (!controllerRef.current?.llmBridge) return;
         if (!window.confirm('Carregar Llama 3.2 1B (~700MB download primeiro uso, cached IndexedDB depois)? Requer WebGPU.')) return;
