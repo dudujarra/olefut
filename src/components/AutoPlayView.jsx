@@ -7,6 +7,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { getAutoPlay } from '../services/AutoPlayService';
+import LearningPanel from './learning/LearningPanel';
 
 const SPEED_PRESETS = [
     { label: '🐢 Slow', delay: 500 },
@@ -263,6 +264,9 @@ export function AutoPlayView() {
                         )}
                     </div>
                 )}
+
+                {/* SPEC-123: Real-time learning panel */}
+                <LearningPanel controllerRef={controllerRef} />
 
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
                     VELOCIDADE: {speed}ms/week

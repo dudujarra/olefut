@@ -187,6 +187,36 @@ export class AutoPlayController {
             // Save every 38 weeks (1 season)
             if (this.stats.weeksPlayed % 38 === 0) {
                 this.stats.seasonsPlayed++;
+                // SPEC-123: snapshot per-season for learning curve viz
+                if (!Array.isArray(this.stats.seasonHistory)) this.stats.seasonHistory = [];
+                const seasonRec = {
+                    season: this.stats.seasonsPlayed,
+                    wins: this.stats.wins,
+                    draws: this.stats.draws,
+                    losses: this.stats.losses,
+                    transfers: this.stats.transfers,
+                    matchesPlayed: this.stats.matchesPlayed,
+                    brainStates: this.brain ? Object.keys(this.brain.qTable).length : 0,
+                    brainUpdates: this.brain?.totalUpdates || 0
+                };
+                // Compute delta vs previous season (per-season counts)
+                const prev = this.stats.seasonHistory[this.stats.seasonHistory.length - 1];
+                if (prev) {
+                    seasonRec.seasonWins = seasonRec.wins - prev.wins;
+                    seasonRec.seasonLosses = seasonRec.losses - prev.losses;
+                    seasonRec.seasonDraws = seasonRec.draws - prev.draws;
+                    seasonRec.seasonTransfers = seasonRec.transfers - prev.transfers;
+                } else {
+                    seasonRec.seasonWins = seasonRec.wins;
+                    seasonRec.seasonLosses = seasonRec.losses;
+                    seasonRec.seasonDraws = seasonRec.draws;
+                    seasonRec.seasonTransfers = seasonRec.transfers;
+                }
+                this.stats.seasonHistory.push(seasonRec);
+                // Cap to last 100 seasons
+                if (this.stats.seasonHistory.length > 100) {
+                    this.stats.seasonHistory = this.stats.seasonHistory.slice(-100);
+                }
                 this._save();
             }
 
