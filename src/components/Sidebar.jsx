@@ -16,7 +16,8 @@ const NAV_ITEMS_MANAGER = [
     { view: 'achievements', icon: '🏆', label: 'Conquistas' },
     { view: 'press',        icon: '🎙️', label: 'Coletiva' },
     { view: 'shop',         icon: '🛍️', label: 'Loja' },
-    { view: 'saves',        icon: '💾', label: 'Saves' }
+    { view: 'saves',        icon: '💾', label: 'Saves' },
+    { view: 'autoplay',     icon: '🤖', label: 'AutoPlay' }
 ];
 
 const NAV_ITEMS_PLAYER = [
