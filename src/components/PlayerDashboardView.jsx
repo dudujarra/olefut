@@ -200,10 +200,10 @@ export function PlayerDashboardView() {
                                     </div>
                                     <div style={{
                                         height: '6px',
-                                        background: 'var(--bg-elevated, #1a2520)',
+                                        background: 'var(--bg-elevated, var(--ef-color-bg-input))',
                                         borderRadius: '3px',
                                         overflow: 'hidden',
-                                        border: '1px solid var(--border-subtle, #2a3530)'
+                                        border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))'
                                     }}>
                                         <div style={{
                                             height: '100%',
@@ -274,7 +274,7 @@ export function PlayerDashboardView() {
                         const disabled = owned || !canAfford || !bossOk;
                         return (
                             <div key={id} style={{
-                                border: '1px solid var(--border-subtle, #2a3530)',
+                                border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))',
                                 borderRadius: '4px',
                                 padding: '0.5rem',
                                 background: owned ? 'rgba(106,188,58,0.1)' : 'transparent',
@@ -322,7 +322,7 @@ export function PlayerDashboardView() {
                 {showSubAttrs && player.subAttrs && (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '6px' }}>
                         {Object.entries(SUB_ATTRIBUTES).map(([base, subs]) => (
-                            <div key={base} style={{ border: '1px solid var(--border-subtle, #2a3530)', borderRadius: '4px', padding: '6px' }}>
+                            <div key={base} style={{ border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))', borderRadius: '4px', padding: '6px' }}>
                                 <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent)', marginBottom: '4px', textTransform: 'uppercase' }}>{base}</div>
                                 {subs.map(sub => {
                                     const lvl = player.subAttrs[sub] ?? 0;
@@ -346,7 +346,7 @@ export function PlayerDashboardView() {
                                                     }}
                                                 >TREINAR</button>
                                             </div>
-                                            <div style={{ height:'3px', background:'#1a2520', borderRadius:'2px', overflow:'hidden' }}>
+                                            <div style={{ height:'3px', background:'var(--ef-color-bg-input)', borderRadius:'2px', overflow:'hidden' }}>
                                                 <div style={{ height:'100%', width:`${prog}%`, background:'#6ABC3A' }} />
                                             </div>
                                         </div>
@@ -376,7 +376,7 @@ export function PlayerDashboardView() {
                         const disabled = owned || !canAfford;
                         return (
                             <div key={id} style={{
-                                border: '1px solid var(--border-subtle, #2a3530)',
+                                border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))',
                                 borderRadius: '4px',
                                 padding: '6px',
                                 opacity: disabled && !owned ? 0.65 : 1,

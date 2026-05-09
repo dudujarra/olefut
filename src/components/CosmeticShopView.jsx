@@ -68,7 +68,7 @@ export function CosmeticShopView() {
                             const canAfford = points >= item.cost;
                             return (
                                 <div key={item.id} style={{
-                                    border: `1px solid ${equipped ? 'var(--accent)' : '#2a3530'}`,
+                                    border: `1px solid ${equipped ? 'var(--accent)' : 'var(--ef-color-border-subtle)'}`,
                                     borderRadius: '4px',
                                     padding: '0.5rem',
                                     background: equipped ? 'rgba(247,181,56,0.1)' : 'transparent'

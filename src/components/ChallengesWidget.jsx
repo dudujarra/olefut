@@ -40,7 +40,7 @@ export function ChallengesWidget() {
                         padding: '0.4rem 0.5rem',
                         background: c.completed ? 'rgba(106,188,58,0.15)' : 'rgba(58,125,206,0.08)',
                         borderRadius: '4px',
-                        border: `1px solid ${c.completed ? '#6ABC3A' : '#2a3530'}`
+                        border: `1px solid ${c.completed ? '#6ABC3A' : 'var(--ef-color-border-subtle)'}`
                     }}>
                         <div style={{ flex: 1 }}>
                             <div style={{ fontSize: '0.78rem', fontWeight: 600 }}>
