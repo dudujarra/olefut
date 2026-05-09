@@ -18,21 +18,21 @@ export const SPRITE_GRID = { cols: 5, rows: 4 };
 // Sprite atlas configs: each sheet has url + cols + rows
 export const SPRITE_SHEETS = {
     // Brasil 5x4 = 20 each (80 total)
-    a:   { url: '/sprites/clubs/spritesheet-serie-a.png',  cols: 5, rows: 4 },
-    b:   { url: '/sprites/clubs/spritesheet-serie-b.png',  cols: 5, rows: 4 },
-    c:   { url: '/sprites/clubs/spritesheet-serie-c.png',  cols: 5, rows: 4 },
-    d:   { url: '/sprites/clubs/spritesheet-serie-d.png',  cols: 5, rows: 4 },
+    a:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-a.png',  cols: 5, rows: 4 },
+    b:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-b.png',  cols: 5, rows: 4 },
+    c:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-c.png',  cols: 5, rows: 4 },
+    d:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-d.png',  cols: 5, rows: 4 },
     // Europe 5x2 = 10 each (50 total)
-    eng: { url: '/sprites/clubs/spritesheet-eng.png',      cols: 5, rows: 3 },
-    esp: { url: '/sprites/clubs/spritesheet-esp.png',      cols: 5, rows: 3 },
-    ita: { url: '/sprites/clubs/spritesheet-ita.png',      cols: 5, rows: 3 },
-    ger: { url: '/sprites/clubs/spritesheet-ger.png',      cols: 5, rows: 3 },
-    fra: { url: '/sprites/clubs/spritesheet-fra.png',      cols: 5, rows: 3 },
+    eng: { url: '/elifoot-web/sprites/clubs/spritesheet-eng.png',      cols: 5, rows: 3 },
+    esp: { url: '/elifoot-web/sprites/clubs/spritesheet-esp.png',      cols: 5, rows: 3 },
+    ita: { url: '/elifoot-web/sprites/clubs/spritesheet-ita.png',      cols: 5, rows: 3 },
+    ger: { url: '/elifoot-web/sprites/clubs/spritesheet-ger.png',      cols: 5, rows: 3 },
+    fra: { url: '/elifoot-web/sprites/clubs/spritesheet-fra.png',      cols: 5, rows: 3 },
     // South America 5x3 = 15 cells, 10 used (Stitch padded extras)
-    arg: { url: '/sprites/clubs/spritesheet-arg.png',      cols: 5, rows: 3 },
-    uru: { url: '/sprites/clubs/spritesheet-uru.png',      cols: 5, rows: 3 },
-    chi: { url: '/sprites/clubs/spritesheet-chi.png',      cols: 5, rows: 3 },
-    col: { url: '/sprites/clubs/spritesheet-col.png',      cols: 5, rows: 3 }
+    arg: { url: '/elifoot-web/sprites/clubs/spritesheet-arg.png',      cols: 5, rows: 3 },
+    uru: { url: '/elifoot-web/sprites/clubs/spritesheet-uru.png',      cols: 5, rows: 3 },
+    chi: { url: '/elifoot-web/sprites/clubs/spritesheet-chi.png',      cols: 5, rows: 3 },
+    col: { url: '/elifoot-web/sprites/clubs/spritesheet-col.png',      cols: 5, rows: 3 }
 };
 
 /**

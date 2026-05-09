@@ -26,7 +26,12 @@ export function PlayerDashboardView() {
     // Check for off-pitch event on mount
     React.useEffect(() => {
         if (!player) return;
-        const eligible = OffPitchEventsDeck.filter(e => !e.trigger || e.trigger(player));
+        // BUG-024 belt-and-suspenders: trigger may call player.hasFlag() — guard if rehydrate missed
+        const eligible = OffPitchEventsDeck.filter(e => {
+            if (!e.trigger) return true;
+            try { return !!e.trigger(player); }
+            catch { return false; }
+        });
         if (eligible.length > 0 && Math.random() < 0.4) {
             setOffPitchEvent(eligible[Math.floor(Math.random() * eligible.length)]);
         }

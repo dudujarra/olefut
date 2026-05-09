@@ -5,6 +5,7 @@ import { League } from '../engine/tournaments/League';
 import { KnockoutCup } from '../engine/tournaments/KnockoutCup';
 import { ContinentalCup } from '../engine/tournaments/ContinentalCup';
 import { MonitorService } from '../services/MonitorService';
+import { ProPlayer } from '../engine/PlayerCareer';
 
 const GameContext = createContext();
 
@@ -131,6 +132,14 @@ function restoreEngine(engine, snapshot) {
     // Restore staff hired list (preserva StaffManager class)
     if (snapshot._staffHired && engine.staff) {
         engine.staff.hired = [...snapshot._staffHired];
+    }
+    // BUG-024 fix: rehydrate ProPlayer prototype after JSON restore.
+    // Save loses class methods (hasFlag/setFlag/etc); OffPitchEventsDeck triggers crash.
+    if (engine.proPlayer && typeof engine.proPlayer.hasFlag !== 'function') {
+        try {
+            Object.setPrototypeOf(engine.proPlayer, ProPlayer.prototype);
+            if (!engine.proPlayer.flags) engine.proPlayer.flags = {};
+        } catch { /* ignore — defensive filter in deck consumers also catches */ }
     }
 }
 
