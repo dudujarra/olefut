@@ -8,6 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { getAutoPlay } from '../services/AutoPlayService';
 import LearningPanel from './learning/LearningPanel';
+import CareerInfoPanel from './learning/CareerInfoPanel';
 
 const SPEED_PRESETS = [
     { label: '🐢 Slow', delay: 500 },
@@ -307,6 +308,9 @@ export function AutoPlayView() {
                         )}
                     </div>
                 )}
+
+                {/* SPEC-124: Career info panel — team/division/titles/scorers */}
+                <CareerInfoPanel controllerRef={controllerRef} />
 
                 {/* SPEC-123: Real-time learning panel */}
                 <LearningPanel controllerRef={controllerRef} />
