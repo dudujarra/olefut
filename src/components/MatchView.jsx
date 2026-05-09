@@ -776,9 +776,15 @@ export function MatchView() {
                 )}
             </div>
 
-            <button className="btn-cta" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView(getDashboardView()); }}>
-                📊 VOLTAR AO DASHBOARD
-            </button>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <button className="btn-cta" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView(getDashboardView()); }}>
+                    📊 VOLTAR AO DASHBOARD
+                </button>
+                {/* SPEC-093 Press conf sempre pós-match */}
+                <button className="btn btn-secondary" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView('press'); }}>
+                    🎙️ Coletiva Pós-Jogo
+                </button>
+            </div>
         </div>
     );
 }

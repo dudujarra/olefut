@@ -15,6 +15,7 @@ const NAV_ITEMS_MANAGER = [
     { view: 'standings',    icon: '📊', label: 'Tabela' },
     { view: 'achievements', icon: '🏆', label: 'Conquistas' },
     { view: 'press',        icon: '🎙️', label: 'Coletiva' },
+    { view: 'shop',         icon: '🛍️', label: 'Loja' },
     { view: 'saves',        icon: '💾', label: 'Saves' }
 ];
 

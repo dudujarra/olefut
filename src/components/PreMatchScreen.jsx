@@ -25,9 +25,36 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
     if (!team) return null;
     const opp = context?.opponent;
 
+    // SPEC-104 Detect derby (clássico) — same state opponents
+    const isDerby = context?.opponent?.zone === team.zone && context?.opponent?.division === team.division &&
+        ['Flamengo', 'Fluminense', 'Vasco', 'Botafogo', 'Corinthians', 'Palmeiras', 'São Paulo', 'Santos',
+         'Grêmio', 'Internacional', 'Atlético-MG', 'Cruzeiro'].includes(context?.opponent?.name) &&
+        ['Flamengo', 'Fluminense', 'Vasco', 'Botafogo', 'Corinthians', 'Palmeiras', 'São Paulo', 'Santos',
+         'Grêmio', 'Internacional', 'Atlético-MG', 'Cruzeiro'].includes(team.name);
+
     return (
-        <div className="prematch-screen ef-art-bg ef-art-locker-room">
+        <div
+            className={`prematch-screen ef-art-bg ef-art-locker-room ${isDerby ? 'ef-anim-pulse-glow' : ''}`}
+            style={isDerby ? { border: '3px solid #D62828', borderRadius: '4px', boxShadow: '0 0 20px rgba(214,40,40,0.4)' } : {}}
+        >
             <div className="card" style={{padding:'1rem'}}>
+                {isDerby && (
+                    <div style={{
+                        marginBottom: '0.5rem',
+                        padding: '0.4rem 0.75rem',
+                        background: 'linear-gradient(90deg, #D62828, #6B0000)',
+                        color: '#FFF',
+                        textAlign: 'center',
+                        fontWeight: 700,
+                        fontSize: '0.95rem',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        borderRadius: '4px',
+                        animation: 'ef-anim-shake 800ms ease-in-out 3'
+                    }}>
+                        🔥 CLÁSSICO! 🔥
+                    </div>
+                )}
                 <h3 style={{margin:'0 0 0.6rem 0'}}>⚽ Pré-Jogo</h3>
 
                 <div style={{
