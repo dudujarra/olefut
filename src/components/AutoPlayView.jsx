@@ -9,6 +9,8 @@ import { useGame } from '../context/GameContext';
 import { getAutoPlay } from '../services/AutoPlayService';
 import LearningPanel from './learning/LearningPanel';
 import CareerInfoPanel from './learning/CareerInfoPanel';
+import { RealDB } from '../engine/db/index';
+import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
 
 const SPEED_PRESETS = [
     { label: '🐢 Slow', delay: 500 },
@@ -19,7 +21,7 @@ const SPEED_PRESETS = [
 ];
 
 export function AutoPlayView() {
-    const { changeView, getEngine, getDashboardView, forceUpdate } = useGame();
+    const { startGame, changeView, getEngine, getDashboardView, forceUpdate } = useGame();
     const engine = getEngine();
     const controllerRef = useRef(null);
     const [stats, setStats] = useState(null);
@@ -29,6 +31,26 @@ export function AutoPlayView() {
     const [expandedSpec, setExpandedSpec] = useState(null);
     // SPEC-119: LLM mode state (BUG-052: must be BEFORE early return — Rules of Hooks)
     const [llmStatus, setLlmStatus] = useState({ mode: 'heuristic', loadStatus: 'idle' });
+    // AutoPlay setup state (BUG-052: BEFORE early return)
+    const [setupTeamId, setSetupTeamId] = useState('');
+    const [setupZone, setSetupZone] = useState('BRA');
+    const [setupDiv, setSetupDiv] = useState(4);
+    const [setupScenario, setSetupScenario] = useState('fallen');
+    const [setupDifficultyId, setSetupDifficultyId] = useState(getDifficulty().id);
+
+    // Build team list (static RealDB — computed once outside render is fine)
+    const allTeams = React.useMemo(() => {
+        const result = [];
+        let id = 1;
+        for (const zone of Object.keys(RealDB)) {
+            for (const div of Object.keys(RealDB[zone])) {
+                RealDB[zone][div].forEach(club => {
+                    result.push({ id: id++, name: club.name, zone, div: parseInt(div) });
+                });
+            }
+        }
+        return result;
+    }, []);
 
     useEffect(() => {
         if (!engine) return;
@@ -52,14 +74,109 @@ export function AutoPlayView() {
     }, []);
 
     if (!engine || !engine.manager?.teamId) {
+        const zones = [...new Set(allTeams.map(t => t.zone))].sort();
+        const filteredTeams = allTeams.filter(t => t.zone === setupZone && t.div === setupDiv);
+
+        const handleSetupStart = () => {
+            if (!setupTeamId) return;
+            // Clear all existing elifoot saves to start fresh
+            try {
+                if (typeof localStorage !== 'undefined') {
+                    for (let i = localStorage.length - 1; i >= 0; i--) {
+                        const k = localStorage.key(i);
+                        if (k && k.startsWith('elifoot_')) localStorage.removeItem(k);
+                    }
+                }
+            } catch { /* ignore */ }
+            setDifficulty(setupDifficultyId);
+            startGame('AutoPlayBot', parseInt(setupTeamId), setupScenario, 'manager', 'ATA', 'maverick');
+            setTimeout(() => changeView('autoplay'), 100);
+        };
+
         return (
             <div className="main-content fade-in">
                 <div className="card-header">
-                    <h2>🤖 AutoPlay Soak Test</h2>
+                    <h2>🤖 AutoPlay — Setup</h2>
                     <button className="btn btn-secondary btn-sm" onClick={() => changeView('start')}>← Voltar</button>
                 </div>
-                <div className="card" style={{ padding: '1rem' }}>
-                    <p>Inicie um jogo primeiro pra usar o AutoPlay.</p>
+                <div className="card" style={{ padding: '1rem', maxWidth: '520px' }}>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+                        Configure o bot antes de iniciar o soak test.
+                    </p>
+
+                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>ZONA</label>
+                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+                        {zones.map(z => (
+                            <button
+                                key={z}
+                                className={`mode-btn ${setupZone === z ? 'active' : ''}`}
+                                onClick={() => { setSetupZone(z); setSetupTeamId(''); }}
+                                style={{ fontSize: '0.75rem' }}
+                            >{z}</button>
+                        ))}
+                    </div>
+
+                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>DIVISÃO</label>
+                    <div style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem' }}>
+                        {[1, 2, 3, 4].map(d => (
+                            <button
+                                key={d}
+                                className={`mode-btn ${setupDiv === d ? 'active' : ''}`}
+                                onClick={() => { setSetupDiv(d); setSetupTeamId(''); }}
+                                style={{ flex: 1, fontSize: '0.75rem' }}
+                            >Div {d}</button>
+                        ))}
+                    </div>
+
+                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
+                        TIME ({filteredTeams.length} disponíveis)
+                    </label>
+                    <select
+                        value={setupTeamId}
+                        onChange={e => setSetupTeamId(e.target.value)}
+                        style={{ width: '100%', marginBottom: '0.75rem' }}
+                    >
+                        <option value="">Selecione o time...</option>
+                        {filteredTeams.map(t => (
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                        ))}
+                    </select>
+
+                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>CENÁRIO</label>
+                    <div style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem' }}>
+                        <button
+                            className={`mode-btn ${setupScenario === 'livre' ? 'active' : ''}`}
+                            onClick={() => setSetupScenario('livre')}
+                            style={{ flex: 1, fontSize: '0.75rem' }}
+                        >🌍 Livre</button>
+                        <button
+                            className={`mode-btn ${setupScenario === 'fallen' ? 'active' : ''}`}
+                            onClick={() => setSetupScenario('fallen')}
+                            style={{ flex: 1, fontSize: '0.75rem' }}
+                        >📉 Gigante Caído</button>
+                    </div>
+
+                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>DIFICULDADE</label>
+                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                        {Object.values(DIFFICULTY_MODES).map(d => (
+                            <button
+                                key={d.id}
+                                className={`mode-btn ${setupDifficultyId === d.id ? 'active' : ''}`}
+                                onClick={() => setSetupDifficultyId(d.id)}
+                                style={{ flex: 1, fontSize: '0.7rem' }}
+                                title={d.description}
+                            >{d.emoji} {d.name}</button>
+                        ))}
+                    </div>
+
+                    <button
+                        className="btn btn-primary"
+                        onClick={handleSetupStart}
+                        disabled={!setupTeamId}
+                        style={{ width: '100%' }}
+                    >
+                        ⚡ INICIAR AUTOPLAY
+                    </button>
                 </div>
             </div>
         );

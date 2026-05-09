@@ -50,6 +50,21 @@ export const DIFFICULTY_MODES = {
             trainingXPMult: 0.7,     // -30% XP
             scoutAccuracyBonus: -10  // -10% accuracy
         }
+    },
+    sinistro: {
+        id: 'sinistro',
+        name: 'Sinistro',
+        emoji: '💀',
+        description: 'Modo inferno. Receita mínima, board implacável, lesões constantes.',
+        modifiers: {
+            economyMult: 0.4,        // -60% receita
+            transferCostMult: 2.0,   // +100% custo transferência
+            wageBudgetMult: 0.4,     // -60% wage cap
+            boardPatience: 0.3,      // 70% menos paciente
+            injuryRateMult: 2.0,     // 2× lesões
+            trainingXPMult: 0.4,     // -60% XP treino
+            scoutAccuracyBonus: -25  // -25% accuracy scout
+        }
     }
 };
 
