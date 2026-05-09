@@ -275,6 +275,7 @@ export class AutoPlayController {
 
     /**
      * SPEC-115/116/117: observe outcome of last action, update Q-table.
+     * BUG-041 fix: pipe goalsScored/goalsAllowed/scoreDiff to reward shaping.
      */
     _observeOutcome(currentCtx) {
         if (!this._lastStateKey || !this._lastAction) return;
@@ -291,7 +292,10 @@ export class AutoPlayController {
             positionDelta,
             promoted,
             relegated,
-            title: false
+            title: false,
+            goalsScored: this._lastMatchGoalsScored || 0,
+            goalsAllowed: this._lastMatchGoalsAllowed || 0,
+            scoreDiff: this._lastMatchScoreDiff || 0
         });
 
         const nextStateKey = encodeState(currentCtx);
@@ -409,23 +413,34 @@ export class AutoPlayController {
             } catch { /* ignore */ }
         }
 
-        // BUG-032 fix: auto-replenish squad when < 13 (was 725× SQUAD_SHORT anomalies).
-        // Players retire / contracts expire / no buys → cascade into 0-65 humiliations.
-        // Trigger youth intake mid-season every 6 weeks if squad short.
-        if (this.stats.weeksPlayed % 6 === 0) {
-            try {
-                const team = engine.getTeam(teamId);
-                if (team?.squad && team.squad.length < 13 && typeof engine.triggerYouthIntake === 'function') {
-                    const youths = engine.triggerYouthIntake();
-                    if (Array.isArray(youths) && youths.length > 0) {
-                        this._logDecision('SQUAD_REPLENISH', {
-                            added: youths.length,
-                            squadAfter: team.squad.length
-                        }, 0);
-                    }
+        // BUG-032 + BUG-040 fix: auto-replenish squad more aggressively.
+        // Playtest 3 mostrou squad estagnado em 6-10 players + apenas 11 SQUAD_REPLENISH
+        // em 1258 weeks. Lower threshold + higher frequency + emergency double call.
+        try {
+            const team = engine.getTeam(teamId);
+            if (team?.squad && typeof engine.triggerYouthIntake === 'function') {
+                const squadSize = team.squad.length;
+                let triggered = false;
+                // EMERGENCY: squad <11 = below match minimum. Double call every tick.
+                if (squadSize < 11) {
+                    engine.triggerYouthIntake();
+                    engine.triggerYouthIntake();
+                    triggered = true;
                 }
-            } catch { /* ignore */ }
-        }
+                // ROUTINE: squad <16 every 3 weeks
+                else if (squadSize < 16 && this.stats.weeksPlayed % 3 === 0) {
+                    engine.triggerYouthIntake();
+                    triggered = true;
+                }
+                if (triggered) {
+                    this._logDecision('SQUAD_REPLENISH', {
+                        squadBefore: squadSize,
+                        squadAfter: team.squad.length,
+                        emergency: squadSize < 11
+                    }, 0);
+                }
+            }
+        } catch { /* ignore */ }
 
         // BUG-030 fix: bot dispatches outgoing offers so SPEC-111 (Market) has data.
         // Picks a random low-tier player from squad, simulates inquiry every 8 weeks.
@@ -529,7 +544,11 @@ export class AutoPlayController {
                     } catch { /* ignore */ }
 
                     // SPEC-115: track lastMatchResult for state encoding next tick
+                    // BUG-041: also track goals for granular reward shaping
                     this._lastMatchResult = outcome;
+                    this._lastMatchGoalsScored = myGoals;
+                    this._lastMatchGoalsAllowed = oppGoals;
+                    this._lastMatchScoreDiff = diff;
 
                     if (diff > 0) {
                         this.stats.wins++;
