@@ -12,6 +12,7 @@ import { MonitorView } from './components/MonitorView';
 import { FloatingBugButton } from './components/FloatingBugButton';
 import { Sidebar } from './components/Sidebar';
 import { CosmeticShopView } from './components/CosmeticShopView';
+import { AutoPlayView } from './components/AutoPlayView';
 import { StyleguideView } from './components/StyleguideView';
 import { AchievementsView } from './components/AchievementsView';
 import { TutorialView } from './components/TutorialView';
@@ -67,6 +68,7 @@ function App() {
             case 'tutorial': return <TutorialView />;
             case 'press': return <PressView />;
             case 'shop': return <CosmeticShopView />;
+            case 'autoplay': return <AutoPlayView />;
             case 'saves': return <SaveSlotsView />;
             default: return <StartView />;
         }
