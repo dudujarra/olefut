@@ -32,9 +32,13 @@ export function StartView() {
     };
 
     const handleAutoPlay = () => {
-        // Quick-launch: auto-start default game then jump to AutoPlay
-        const firstTeam = allTeams[0];
-        startGame('AutoPlayBot', firstTeam.id, 'livre', 'manager', 'ATA', 'maverick');
+        // BUG-070: AutoPlay agora começa time fraco Série D BR + scenario fallen
+        // (orçamento -90%). User quer underdog journey real — bot precisa subir divisões.
+        const div4Teams = allTeams.filter(t => t.zone === 'BR' && t.div === 4);
+        const target = div4Teams.length > 0
+            ? div4Teams[div4Teams.length - 1]
+            : allTeams[allTeams.length - 1];
+        startGame('AutoPlayBot', target.id, 'fallen', 'manager', 'ATA', 'maverick');
         setTimeout(() => changeView('autoplay'), 100);
     };
 

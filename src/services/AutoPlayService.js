@@ -797,8 +797,9 @@ export class AutoPlayController {
         }
         if (streak < this.stats.insights.longestLossStreak) {
             this.stats.insights.longestLossStreak = streak;
+            // BUG-069 fix: LOSS_STREAK era logged como sucesso. Move pra anomaly.
             if (streak <= -5) {
-                this._logSuccess('LOSS_STREAK', `${Math.abs(streak)} derrotas seguidas`, { streak });
+                this._logAnomaly('LOSS_STREAK', `${Math.abs(streak)} derrotas seguidas`, { streak });
             }
         }
 

@@ -966,6 +966,32 @@ export class Engine {
      * Also callable manually for tests / explicit season transitions.
      */
     startNewSeason() {
+        // BUG-062 fix: process season-end logic BEFORE resetting week.
+        // Bot was hitting peak position 1 but titlesWon=0 because
+        // legacy.closeSeason() was gated by seasonWeek===38 inside advance loop
+        // which never fires post-rollover (currentWeek already reset to 0).
+        try {
+            const team = this.getTeam(this.manager?.teamId);
+            if (team && this.legacy && this.mode === 'manager') {
+                const standings = this.getStandings(team.zone, team.division);
+                const pos = (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length;
+                if (pos > 0 && this.managerStats) {
+                    this.legacy.closeSeason(
+                        team.name,
+                        team.division,
+                        pos,
+                        this.managerStats.wins || 0,
+                        this.managerStats.draws || 0,
+                        this.managerStats.losses || 0
+                    );
+                    // BUG-063 fix: process promo/relegation here too
+                    if (typeof this._processPromoRelegation === 'function') {
+                        try { this._processPromoRelegation(team, standings); } catch { /* ignore */ }
+                    }
+                }
+            }
+        } catch { /* defensive — never break rollover */ }
+
         this.currentWeek = 0;
         // BUG-043 fix: increment seasonNumber on rollover (line 776 only fires
         // inside in-line season-end logic which guard at 583 used to skip).
