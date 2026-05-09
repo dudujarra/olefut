@@ -2,14 +2,14 @@
 
 /**
  * test-render.js
- * Render 4 test stems quickly for QA
- * One per vertente: deep, tech, progressive, funky
+ * Render 4 test stems via local HTTP server + Puppeteer
  */
 
 import puppeteer from 'puppeteer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import http from 'http';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -17,8 +17,36 @@ async function renderTestStems() {
   console.log('🎵 ELIFOOT Audio Test Render (4 stems)');
 
   let browser;
+  let server;
+  const testStemsDir = path.join(path.dirname(__dirname), 'public', 'audio', 'test-stems');
 
   try {
+    // Create output directory
+    if (!fs.existsSync(testStemsDir)) {
+      fs.mkdirSync(testStemsDir, { recursive: true });
+    }
+
+    // Start local HTTP server
+    console.log('\n🌐 Starting local HTTP server...');
+    const testHtml = createTestRendererHTML();
+
+    await new Promise((resolve) => {
+      server = http.createServer((req, res) => {
+        if (req.url === '/test-render.html' || req.url === '/') {
+          res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+          res.end(testHtml);
+        } else {
+          res.writeHead(404);
+          res.end('Not found');
+        }
+      });
+
+      server.listen(9876, () => {
+        console.log('   Server ready: http://localhost:9876/test-render.html');
+        resolve();
+      });
+    });
+
     // Launch headless Chrome
     console.log('\n🚀 Launching headless Chrome...');
     browser = await puppeteer.launch({
@@ -28,27 +56,27 @@ async function renderTestStems() {
 
     const page = await browser.newPage();
 
+    // Expose save function to browser
+    await page.exposeFunction('saveWavFile', async (id, wavBase64) => {
+      const filePath = path.join(testStemsDir, `${id}.wav`);
+      const buffer = Buffer.from(wavBase64, 'base64');
+      fs.writeFileSync(filePath, buffer);
+      console.log(`   💾 Saved: ${id}.wav (${(buffer.length / 1024 / 1024).toFixed(2)} MB)`);
+    });
+
     // Intercept console logs
     page.on('console', msg => {
       console.log(`   [browser] ${msg.text()}`);
     });
 
-    page.on('error', err => {
-      console.error(`   [browser error] ${err.message}`);
-    });
-
-    // Create test renderer page
-    const testHtml = createTestRendererHTML();
-    const dataUrl = `data:text/html,${encodeURIComponent(testHtml)}`;
-
     console.log('\n📄 Loading test renderer...');
-    await page.goto(dataUrl, { waitUntil: 'networkidle0' });
+    await page.goto('http://localhost:9876/', { waitUntil: 'networkidle0', timeout: 60000 });
 
     // Wait for rendering to complete
     console.log('\n⏳ Rendering 4 test stems...');
     let renderComplete = false;
 
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 180; i++) {
       const status = await page.evaluate(() => {
         const statusDiv = document.getElementById('status');
         return statusDiv?.textContent || '';
@@ -60,7 +88,7 @@ async function renderTestStems() {
         break;
       }
 
-      if (i % 5 === 0) {
+      if (i % 10 === 0) {
         console.log(`   ${status}`);
       }
 
@@ -68,16 +96,19 @@ async function renderTestStems() {
     }
 
     if (!renderComplete) {
-      console.warn('⚠️ Rendering timeout');
+      console.warn('⚠️ Rendering timeout (took >3 min)');
     }
 
     await browser.close();
+    server.close();
+
     console.log('\n✅ Test render complete!');
-    console.log('📁 Check: public/audio/test-stems/');
+    console.log(`📁 Files saved: ${testStemsDir}`);
 
   } catch (err) {
-    console.error('❌ Puppeteer error:', err.message);
+    console.error('❌ Error:', err.message);
     if (browser) await browser.close();
+    if (server) server.close();
     process.exit(1);
   }
 }
@@ -130,23 +161,20 @@ function createTestRendererHTML() {
           }
         }
 
-        // Save via fetch
+        // Save via Puppeteer-exposed function
         statusDiv.textContent = \`💾 Saving \${results.length} stems...\`;
 
         for (const result of results) {
           const wav = audioBufferToWav(result.buffer);
-          const blob = new Blob([wav], { type: 'audio/wav' });
-          const formData = new FormData();
-          formData.append('id', result.id);
-          formData.append('file', blob, \`\${result.id}.wav\`);
-
-          await fetch('/api/audio/save-test-stem', {
-            method: 'POST',
-            body: formData
-          }).catch(() => {
-            // Fallback: just log success
-            console.log(\`Mock saved: \${result.id}.wav\`);
-          });
+          // Convert ArrayBuffer to base64
+          const bytes = new Uint8Array(wav);
+          let binary = '';
+          for (let i = 0; i < bytes.byteLength; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+          const wavBase64 = btoa(binary);
+          // Send base64 to Node via exposed function
+          await window.saveWavFile(result.id, wavBase64);
         }
 
         statusDiv.textContent = \`✅ Done! 4 test stems rendered.\`;

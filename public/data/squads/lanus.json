@@ -1,0 +1,764 @@
+{
+  "teamId": 1762,
+  "teamName": "Lanús",
+  "manager": {
+    "id": 818471,
+    "name": "Björn Hamberg",
+    "shortName": "B. Hamberg",
+    "country": "Sweden",
+    "preferredFormation": "3-4-3",
+    "stats": null
+  },
+  "players": [
+    {
+      "id": 1035693,
+      "name": "Frederik Ihler",
+      "firstName": "Frederik Ihler",
+      "lastName": "",
+      "shortName": "F. Ihler",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "24",
+      "shirtNumber": 24,
+      "height": 180,
+      "dateOfBirth": "2003-06-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DK",
+        "alpha3": "DNK",
+        "name": "Denmark",
+        "slug": "denmark"
+      },
+      "proposedMarketValue": 1400000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 981043,
+      "name": "Taylor Silverholt",
+      "shortName": "T. Silverholt",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 181,
+      "dateOfBirth": "2001-04-04T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 575000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 242174,
+      "name": "Per Frick",
+      "shortName": "P. Frick",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "height": 182,
+      "weight": 81,
+      "dateOfBirth": "1992-04-14T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 170000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 990395,
+      "name": "Ari Sigurpálsson",
+      "shortName": "A. Sigurpálsson",
+      "position": "F",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "25",
+      "shirtNumber": 25,
+      "height": 178,
+      "dateOfBirth": "2003-03-17T00:00:00+00:00",
+      "country": {
+        "alpha2": "IS",
+        "alpha3": "ISL",
+        "name": "Iceland",
+        "slug": "iceland"
+      },
+      "proposedMarketValue": 440000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1383715,
+      "name": "Dion Krasniqi",
+      "firstName": "Dion Krasniqi",
+      "lastName": "",
+      "shortName": "D. Krasniqi",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 184,
+      "dateOfBirth": "2003-08-24T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "XK",
+        "alpha3": "XKX",
+        "name": "Kosovo",
+        "slug": "kosovo"
+      },
+      "proposedMarketValue": 270000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1800434,
+      "name": "Leo Östman",
+      "shortName": "L. Östman",
+      "position": "F",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "height": 179,
+      "dateOfBirth": "2006-03-15T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 545000,
+      "pentagon": null
+    },
+    {
+      "id": 227892,
+      "name": "Arbër Zeneli",
+      "shortName": "A. Zeneli",
+      "position": "M",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "height": 176,
+      "weight": 71,
+      "dateOfBirth": "1995-02-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "XK",
+        "alpha3": "XKX",
+        "name": "Kosovo",
+        "slug": "kosovo"
+      },
+      "proposedMarketValue": 1600000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 2138619,
+      "name": "Momoh Ibrahim Kamara",
+      "firstName": "Momoh Ibrahim",
+      "lastName": "Kamara",
+      "shortName": "M. I. Kamara",
+      "position": "M",
+      "positionsDetailed": [
+        "AM"
+      ],
+      "jerseyNumber": "29",
+      "shirtNumber": 29,
+      "height": 173,
+      "dateOfBirth": "2005-05-06T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SL",
+        "alpha3": "SLE",
+        "name": "Sierra Leone",
+        "slug": "sierra-leone"
+      },
+      "proposedMarketValue": 110000,
+      "pentagon": null
+    },
+    {
+      "id": 850851,
+      "name": "Simon Olsson",
+      "shortName": "S. Olsson",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 185,
+      "weight": 81,
+      "dateOfBirth": "1997-09-14T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 2100000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1098541,
+      "name": "Julius Beck",
+      "firstName": "Julius",
+      "lastName": "Beck",
+      "shortName": "J. Beck",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "19",
+      "shirtNumber": 19,
+      "height": 178,
+      "dateOfBirth": "2005-04-27T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DK",
+        "alpha3": "DNK",
+        "name": "Denmark",
+        "slug": "denmark"
+      },
+      "proposedMarketValue": 545000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 94627,
+      "name": "Simon Hedlund",
+      "shortName": "S. Hedlund",
+      "position": "M",
+      "positionsDetailed": [
+        "MR",
+        "RW"
+      ],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "height": 175,
+      "weight": 68,
+      "dateOfBirth": "1993-03-11T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 555000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1149094,
+      "name": "Gottfrid Rapp",
+      "firstName": "Gottfrid Rapp",
+      "lastName": "",
+      "shortName": "G. Rapp",
+      "position": "M",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 182,
+      "dateOfBirth": "2005-08-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 475000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 788947,
+      "name": "Julius Magnusson",
+      "shortName": "J. Magnusson",
+      "position": "M",
+      "positionsDetailed": [
+        "DM",
+        "MC"
+      ],
+      "jerseyNumber": "18",
+      "shirtNumber": 18,
+      "height": 178,
+      "dateOfBirth": "1998-06-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "IS",
+        "alpha3": "ISL",
+        "name": "Iceland",
+        "slug": "iceland"
+      },
+      "proposedMarketValue": 680000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1200382,
+      "name": "Altti Hellemaa",
+      "firstName": "Altti Hellemaa",
+      "shortName": "A. Hellemaa",
+      "position": "M",
+      "positionsDetailed": [
+        "DM"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 178,
+      "dateOfBirth": "2004-07-25T00:00:00+00:00",
+      "country": {
+        "alpha2": "FI",
+        "alpha3": "FIN",
+        "name": "Finland",
+        "slug": "finland"
+      },
+      "proposedMarketValue": 120000,
+      "pentagon": null
+    },
+    {
+      "id": 2067013,
+      "name": "Ozor Victor Okeke",
+      "firstName": "Ozor",
+      "lastName": "Victor Okeke",
+      "shortName": "O. V. Okeke",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "27",
+      "shirtNumber": 27,
+      "dateOfBirth": "2006-06-16T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "NG",
+        "alpha3": "NGA",
+        "name": "Nigeria",
+        "slug": "nigeria"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1882599,
+      "name": "Rufai Mohammed",
+      "shortName": "R. Mohammed",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 185,
+      "dateOfBirth": "2006-03-15T00:00:00+00:00",
+      "country": {
+        "alpha2": "GH",
+        "alpha3": "GHA",
+        "name": "Ghana",
+        "slug": "ghana"
+      },
+      "proposedMarketValue": 320000,
+      "pentagon": null
+    },
+    {
+      "id": 1217910,
+      "name": "Buhari Ibrahim",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "I. Buhari",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "height": 190,
+      "dateOfBirth": "2001-10-08T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "NG",
+        "alpha3": "NGA",
+        "name": "Nigeria",
+        "slug": "nigeria"
+      },
+      "proposedMarketValue": 1600000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 918516,
+      "name": "Rasmus Wikström",
+      "shortName": "R. Wikström",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "height": 186,
+      "dateOfBirth": "2001-03-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 1100000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 49866,
+      "name": "Niklas Hult",
+      "shortName": "N. Hult",
+      "position": "D",
+      "positionsDetailed": [
+        "DL",
+        "ML"
+      ],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "height": 173,
+      "weight": 66,
+      "dateOfBirth": "1990-02-13T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 160000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 791928,
+      "name": "Thomas Isherwood",
+      "shortName": "T. Isherwood",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DL"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 195,
+      "dateOfBirth": "1998-01-28T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 580000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 228833,
+      "name": "Sebastian Holmén",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "S. Holmén",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 188,
+      "weight": 78,
+      "dateOfBirth": "1992-04-29T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 390000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1652255,
+      "name": "Ludvig Richtnér",
+      "shortName": "L. Richtner",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "26",
+      "shirtNumber": 26,
+      "height": 191,
+      "dateOfBirth": "2005-04-10T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 23000,
+      "pentagon": null
+    },
+    {
+      "id": 1882634,
+      "name": "Frode Aronsson",
+      "shortName": "F. Aronsson",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "28",
+      "shirtNumber": 28,
+      "height": 186,
+      "dateOfBirth": "2005-10-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 97000,
+      "pentagon": null
+    },
+    {
+      "id": 837153,
+      "name": "Isak Pettersson",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "I. Pettersson",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "31",
+      "shirtNumber": 31,
+      "height": 181,
+      "weight": 80,
+      "dateOfBirth": "1997-06-06T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 485000,
+      "pentagon": null
+    },
+    {
+      "id": 242201,
+      "name": "Lukas Hägg Johansson",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "L. H. Johansson",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "30",
+      "shirtNumber": 30,
+      "height": 186,
+      "weight": 72,
+      "dateOfBirth": "1994-07-11T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 205000,
+      "pentagon": null
+    },
+    {
+      "id": 358708,
+      "name": "Tim Erlandsson",
+      "shortName": "T. Erlandsson",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 192,
+      "weight": 94,
+      "dateOfBirth": "1996-12-25T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 440000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:29:26.891Z"
+}

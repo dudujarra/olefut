@@ -1,0 +1,679 @@
+{
+  "teamId": 1768,
+  "teamName": "Estudiantes",
+  "manager": {
+    "id": 53087,
+    "name": "Rikard Norling",
+    "shortName": "R. Norling",
+    "country": "Sweden",
+    "preferredFormation": "3-5-2",
+    "stats": {
+      "total": 594,
+      "wins": 296,
+      "draws": 145,
+      "losses": 153,
+      "goalsScored": 954,
+      "goalsConceded": 633,
+      "totalPoints": 1033
+    },
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 147959,
+      "name": "Ahmed Yasin",
+      "shortName": "A. Yasin",
+      "position": "F",
+      "positionsDetailed": [
+        "ST",
+        "RW"
+      ],
+      "jerseyNumber": "99",
+      "shirtNumber": 99,
+      "height": 185,
+      "weight": 77,
+      "dateOfBirth": "1991-04-22T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "IQ",
+        "alpha3": "IRQ",
+        "name": "Iraq",
+        "slug": "iraq"
+      },
+      "proposedMarketValue": 170000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 94631,
+      "name": "Karl Holmberg",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "K. Holmberg",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "height": 185,
+      "weight": 73,
+      "dateOfBirth": "1993-03-03T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 320000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 2051363,
+      "name": "Erman  Hrastovina",
+      "firstName": "Erman ",
+      "lastName": "Hrastovina",
+      "shortName": "E. Hrastovina",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "18",
+      "shirtNumber": 18,
+      "height": 189,
+      "dateOfBirth": "2006-05-10T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 23000,
+      "pentagon": null
+    },
+    {
+      "id": 1483118,
+      "name": "Kim Dickson",
+      "firstName": "Kim Dickson",
+      "lastName": "",
+      "shortName": "K. Dickson",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "height": 182,
+      "dateOfBirth": "2001-11-19T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1197151,
+      "name": "Antonio Yakoub",
+      "firstName": "Antonio Yakoub",
+      "lastName": "",
+      "shortName": "A. Yakoub",
+      "position": "M",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "height": 180,
+      "dateOfBirth": "2002-06-12T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "SY",
+        "alpha3": "SYR",
+        "name": "Syria",
+        "slug": "syria"
+      },
+      "proposedMarketValue": 210000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 918515,
+      "name": "Manasse Kusu",
+      "shortName": "M. Kusu",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 178,
+      "dateOfBirth": "2001-12-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 285000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1836753,
+      "name": "Wessam Dukhan",
+      "shortName": "W. Dukhan",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "24",
+      "shirtNumber": 24,
+      "height": 180,
+      "dateOfBirth": "2005-01-26T00:00:00+00:00",
+      "country": {
+        "alpha2": "SY",
+        "alpha3": "SYR",
+        "name": "Syria",
+        "slug": "syria"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2049974,
+      "name": "Hasan Dana",
+      "shortName": "H. Dana",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "dateOfBirth": "2007-03-13T00:00:00+00:00",
+      "country": {
+        "alpha2": "LB",
+        "alpha3": "LBN",
+        "name": "Lebanon",
+        "slug": "lebanon"
+      },
+      "proposedMarketValue": 81000,
+      "pentagon": null
+    },
+    {
+      "id": 571936,
+      "name": "Jacob Ortmark",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Ortmark",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "5",
+      "shirtNumber": 5,
+      "height": 175,
+      "weight": 71,
+      "dateOfBirth": "1997-08-29T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 420000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1089254,
+      "name": "Samuel Wikman",
+      "firstName": "Samuel Wikman",
+      "lastName": "",
+      "shortName": "S. Wikman",
+      "position": "M",
+      "positionsDetailed": [
+        "MR"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 177,
+      "dateOfBirth": "2002-01-22T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 160000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1484976,
+      "name": "Hampus Söderstrom",
+      "shortName": "H. Söderstrom",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 189,
+      "dateOfBirth": "2000-11-07T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 140000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 2475650,
+      "name": "Edwin Ibrahimbegovic",
+      "shortName": "E. Ibrahimbegovic",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "dateOfBirth": "2008-01-31T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 48000,
+      "pentagon": null
+    },
+    {
+      "id": 2489659,
+      "name": "Fabian Wahlström",
+      "shortName": "F. Wahlström",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "dateOfBirth": "2008-01-11T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2497068,
+      "name": "Neo Almkvist",
+      "shortName": "N. Almkvist",
+      "position": "M",
+      "positionsDetailed": [],
+      "dateOfBirth": "2008-03-29T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1461498,
+      "name": "Alai Ghasem",
+      "shortName": "A. Ghasem",
+      "position": "D",
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 180,
+      "dateOfBirth": "2003-02-16T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "IQ",
+        "alpha3": "IRQ",
+        "name": "Iraq",
+        "slug": "iraq"
+      },
+      "proposedMarketValue": 140000,
+      "pentagon": null
+    },
+    {
+      "id": 1170702,
+      "name": "Giuseppe Bovalina",
+      "firstName": "Giuseppe Bovalina",
+      "lastName": "",
+      "shortName": "G. Bovalina",
+      "position": "D",
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 176,
+      "dateOfBirth": "2004-11-11T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "AU",
+        "alpha3": "AUS",
+        "name": "Australia",
+        "slug": "australia"
+      },
+      "proposedMarketValue": 190000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1082752,
+      "name": "Dino Salihović",
+      "shortName": "D. Salihović",
+      "position": "D",
+      "positionsDetailed": [
+        "DR",
+        "MC"
+      ],
+      "jerseyNumber": "12",
+      "shirtNumber": 12,
+      "height": 174,
+      "dateOfBirth": "2002-12-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 265000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 973509,
+      "name": "Erik McCue",
+      "shortName": "E. McCue",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 190,
+      "weight": 84,
+      "dateOfBirth": "2001-01-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "US",
+        "alpha3": "USA",
+        "name": "USA",
+        "slug": "usa"
+      },
+      "proposedMarketValue": 385000,
+      "pentagon": null
+    },
+    {
+      "id": 1604203,
+      "name": "Victor Sandberg",
+      "shortName": "V. Sandberg",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "dateOfBirth": "2007-05-13T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 49000,
+      "pentagon": null
+    },
+    {
+      "id": 1026434,
+      "name": "John Stenberg",
+      "shortName": "J. Stenberg",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "32",
+      "shirtNumber": 32,
+      "height": 191,
+      "dateOfBirth": "1992-10-12T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 105000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1184125,
+      "name": "Christopher Redenstrand",
+      "firstName": "Christopher Redenstrand",
+      "lastName": "",
+      "shortName": "C. Redenstrand",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 177,
+      "dateOfBirth": "1998-10-05T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 380000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 2053263,
+      "name": "Lowe Astvald",
+      "shortName": "L. Astvald",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "dateOfBirth": "2005-03-27T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2475646,
+      "name": "Amer Zeljkovic",
+      "shortName": "A. Zeljkovic",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2009-05-06T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2475648,
+      "name": "Marlon Wowoah",
+      "shortName": "M. Wowoah",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2009-09-23T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 996941,
+      "name": "Jakub Ojrzyński",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Ojrzyński",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "75",
+      "shirtNumber": 75,
+      "height": 192,
+      "dateOfBirth": "2003-02-19T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "PL",
+        "alpha3": "POL",
+        "name": "Poland",
+        "slug": "poland"
+      },
+      "proposedMarketValue": 280000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    },
+    {
+      "id": 1210275,
+      "name": "Buster Runheim",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "B. Runheim",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "30",
+      "shirtNumber": 30,
+      "dateOfBirth": "2006-11-08T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 52000,
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:27:09.115Z"
+}

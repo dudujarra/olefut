@@ -1,0 +1,500 @@
+{
+  "teamId": 1830,
+  "teamName": "Peñarol",
+  "manager": {
+    "id": 810409,
+    "name": "Mladen Blagojevic",
+    "shortName": "M. Blagojevic",
+    "country": "Sweden",
+    "preferredFormation": "4-2-3-1",
+    "stats": {
+      "total": 2,
+      "wins": 0,
+      "draws": 0,
+      "losses": 2,
+      "goalsScored": 1,
+      "goalsConceded": 7,
+      "totalPoints": 0
+    },
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 22623,
+      "name": "David Löfquist",
+      "shortName": "D. Löfquist",
+      "position": "F",
+      "positionsDetailed": [
+        "MC",
+        "ST"
+      ],
+      "height": 189,
+      "weight": 88,
+      "dateOfBirth": "1986-08-06T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 145000,
+      "pentagon": null
+    },
+    {
+      "id": 1023785,
+      "name": "Omar Dampha",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "O. Dampha",
+      "position": "F",
+      "positionsDetailed": [],
+      "height": 186,
+      "dateOfBirth": "2000-05-24T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 105000,
+      "pentagon": null
+    },
+    {
+      "id": 919993,
+      "name": "Albert Ejupi",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "A. Ejupi",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "height": 191,
+      "weight": 85,
+      "dateOfBirth": "1992-08-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 110000,
+      "pentagon": null
+    },
+    {
+      "id": 953949,
+      "name": "Svante Svedin",
+      "shortName": "S. Svedin",
+      "position": "M",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "dateOfBirth": "2001-02-27T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 2456042,
+      "name": "Elias Ramin Karimi",
+      "firstName": "Elias",
+      "lastName": "Ramin Karimi",
+      "shortName": "E. R. Karimi",
+      "position": "M",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "dateOfBirth": "2002-01-23T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 945120,
+      "name": "Andre Kamp",
+      "shortName": "A. Kamp",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "height": 177,
+      "dateOfBirth": "1998-10-15T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 120000,
+      "pentagon": null
+    },
+    {
+      "id": 1799105,
+      "name": "Vilmer Lindberg",
+      "firstName": "Vilmer",
+      "lastName": "Lindberg",
+      "shortName": "V. Lindberg",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "28",
+      "shirtNumber": 28,
+      "dateOfBirth": "2006-06-15T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1047889,
+      "name": "Albin Henningsson",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "A. Henningsson",
+      "position": "M",
+      "positionsDetailed": [],
+      "dateOfBirth": "2001-08-02T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2055986,
+      "name": "Tim Ströbeck",
+      "firstName": "Tim Ströbeck",
+      "shortName": "T. Ströbeck",
+      "position": "M",
+      "positionsDetailed": [],
+      "dateOfBirth": "2001-09-07T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2539677,
+      "name": "Oscar Fisch",
+      "firstName": "Oscar Fisch",
+      "shortName": "O. Fisch",
+      "position": "M",
+      "positionsDetailed": [],
+      "dateOfBirth": "2007-03-13T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2539678,
+      "name": "Oskar Kronvall",
+      "firstName": "Oskar Kronvall",
+      "shortName": "O. Kronvall",
+      "position": "M",
+      "positionsDetailed": [],
+      "dateOfBirth": "2006-04-10T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 228698,
+      "name": "Viktor Agardius",
+      "firstName": "Viktor",
+      "lastName": "Agardius",
+      "shortName": "V. Agardius",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DL",
+        "ML"
+      ],
+      "jerseyNumber": "12",
+      "shirtNumber": 12,
+      "height": 181,
+      "weight": 79,
+      "dateOfBirth": "1989-10-23T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 48000,
+      "pentagon": null
+    },
+    {
+      "id": 319911,
+      "name": "Armin Aganovic",
+      "shortName": "A. Aganovic",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "height": 187,
+      "weight": 81,
+      "dateOfBirth": "1994-04-06T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 71000,
+      "pentagon": null
+    },
+    {
+      "id": 1047900,
+      "name": "Samuel Wikström",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "S. Wikström",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "25",
+      "shirtNumber": 25,
+      "dateOfBirth": "2002-10-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1047940,
+      "name": "Kasper Alsén",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "K. Alsén",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "24",
+      "shirtNumber": 24,
+      "dateOfBirth": "2003-01-01T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2462420,
+      "name": "William Klevendal",
+      "firstName": "William Klevendal",
+      "shortName": "W. Klevendal",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2005-05-02T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1047880,
+      "name": "Linus Svensson",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "L. Svensson",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "dateOfBirth": "1993-08-19T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2539673,
+      "name": "Anton Svensson",
+      "firstName": "Anton Svensson",
+      "shortName": "A. Svensson",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2007-07-19T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2539679,
+      "name": "Paolo Lilja",
+      "shortName": "P. Lilja",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2002-10-09T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2539681,
+      "name": "Viggo Asterman Fridman",
+      "firstName": "Viggo Asterman Fridman",
+      "shortName": "V. A. Fridman",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2007-08-18T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2539682,
+      "name": "Vilde Ramstedt",
+      "firstName": "Vilde Ramstedt",
+      "shortName": "V. Ramstedt",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2007-09-10T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2539671,
+      "name": "Otto Larsson Wågert",
+      "shortName": "O. L. Wågert",
+      "position": "G",
+      "positionsDetailed": [],
+      "dateOfBirth": "2003-08-15T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2539676,
+      "name": "Max Softberg",
+      "firstName": "Max Softberg",
+      "shortName": "M. Softberg",
+      "position": "G",
+      "positionsDetailed": [],
+      "dateOfBirth": "2000-01-21T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2565245,
+      "name": "Vilmer Leffler",
+      "shortName": "V. Leffler",
+      "positionsDetailed": [],
+      "jerseyNumber": "40",
+      "shirtNumber": 40,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 2565249,
+      "name": "Halis Dzamdzic",
+      "shortName": "H. Dzamdzic",
+      "positionsDetailed": [],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 2579525,
+      "name": "Jesper Torp",
+      "shortName": "J. Torp",
+      "positionsDetailed": [],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "country": {},
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:30:14.377Z"
+}
