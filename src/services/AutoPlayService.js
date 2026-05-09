@@ -19,10 +19,12 @@
 
 import { TACTICS, TRAINING_TYPES, TEAM_TALKS, FORMATIONS } from '../engine/ManagerSystems';
 import { MonitorService } from './MonitorService';
+import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
 
 const STORAGE_KEY = 'elifoot_autoplay_state';
 const TRAINING_ROTATION = ['cardio', 'technical', 'tactical', 'defensive', 'attacking'];
 const FORMATION_POOL = ['4-3-3', '4-4-2', '4-2-3-1', '3-5-2'];
+const TELEMETRY_INTERVAL_WEEKS = 5;
 
 export class AutoPlayController {
     constructor(engine) {
@@ -69,6 +71,10 @@ export class AutoPlayController {
         this._lastBalance = null;
         this._consecutiveSameTactic = 0;
         this._lastTactic = null;
+
+        // Telemetry — SPEC-100..114 (15 detectores)
+        this.telemetry = new TelemetryAggregator();
+        this.lastTelemetryReport = null;
     }
 
     start(weekDelayMs = 100) {
@@ -134,16 +140,21 @@ export class AutoPlayController {
     }
 
     _logDecision(action, args, elapsedMs) {
-        this.stats.decisions.push({
+        const entry = {
             action,
             args,
             elapsedMs,
             week: this.engine?.currentWeek
-        });
+        };
+        this.stats.decisions.push(entry);
         // Keep only last 200 decisions to bound memory
         if (this.stats.decisions.length > 200) {
             this.stats.decisions = this.stats.decisions.slice(-100);
         }
+        // Telemetry: feed decision
+        try {
+            this.telemetry.record({ decision: entry });
+        } catch { /* ignore */ }
     }
 
     _tick() {
@@ -163,6 +174,11 @@ export class AutoPlayController {
             // Detect anomalies
             this._detectAnomalies();
 
+            // Telemetry scan a cada N weeks (perf: não bloqueia tick loop)
+            if (this.stats.weeksPlayed % TELEMETRY_INTERVAL_WEEKS === 0) {
+                this._runTelemetryScan();
+            }
+
             // Schedule next tick
             this.intervalId = setTimeout(() => this._tick(), this.weekDelay);
         } catch (err) {
@@ -170,6 +186,43 @@ export class AutoPlayController {
             this._logAnomaly('CRASH', err.message, { stack: err.stack?.split('\n').slice(0, 5) });
             // Try to keep going despite error
             this.intervalId = setTimeout(() => this._tick(), this.weekDelay * 5);
+        }
+    }
+
+    _runTelemetryScan() {
+        try {
+            const engine = this.engine;
+            const team = engine?.getTeam?.(engine?.manager?.teamId);
+            // Snapshot fields
+            const playerCareer = (team?.squad || []).map(p => ({
+                id: p.id,
+                name: p.name,
+                goals: p.career?.goals || 0,
+                hatTricks: p.career?.hatTricks || 0,
+                redCards: p.career?.redCards || 0
+            }));
+            const seasonNum = engine?.seasonNumber || 1;
+            const squadOvr = team?.squad?.length
+                ? {
+                    [seasonNum]: {
+                        avgOvr: team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / team.squad.length,
+                        topOvr: Math.max(...team.squad.map(p => p.ovr || 0)),
+                        count: team.squad.length
+                    }
+                }
+                : null;
+
+            this.telemetry.snapshot({
+                playerCareer,
+                squadOvrBySeason: squadOvr,
+                weeksPlayed: this.stats.weeksPlayed,
+                elapsedMs: this.stats.startTime ? Date.now() - this.stats.startTime : 0
+            });
+
+            const report = this.telemetry.scan(engine);
+            this.lastTelemetryReport = report;
+        } catch (err) {
+            this._logAnomaly('TELEMETRY_FAIL', err.message);
         }
     }
 
@@ -255,6 +308,24 @@ export class AutoPlayController {
             this._logAnomaly('SLOW_TICK', `advanceWeek took ${elapsed.toFixed(0)}ms`, { elapsed });
         }
 
+        // Telemetry: per-week slice
+        try {
+            const team = this.engine.getTeam(this.engine.manager?.teamId);
+            const standings = team ? this.engine.getStandings(team.zone, team.division) : [];
+            const standingPos = team ? standings.findIndex(s => s.teamId === team.id) + 1 : 0;
+            const events = Array.isArray(this.engine.weekEvents) ? this.engine.weekEvents.slice() : [];
+            const offerCount = Array.isArray(this.engine.transferOffers) ? this.engine.transferOffers.length : 0;
+            this.telemetry.record({
+                tactic: this._lastTactic || this.engine.currentTactic,
+                balance: team?.balance,
+                offerCount,
+                standing: standingPos > 0 ? standingPos : undefined,
+                events,
+                weeklyFinance: this.engine.weeklyFinance,
+                advanceWeekMs: elapsed
+            });
+        } catch { /* ignore — telemetry must not break tick */ }
+
         // Track match outcomes
         if (result && result.matches) {
             this.stats.matchesPlayed += result.matches.length;
@@ -265,6 +336,29 @@ export class AutoPlayController {
                     const myGoals = isHome ? m.homeGoals : m.awayGoals;
                     const oppGoals = isHome ? m.awayGoals : m.homeGoals;
                     const diff = myGoals - oppGoals;
+                    let outcome = 'D';
+                    if (diff > 0) outcome = 'W';
+                    else if (diff < 0) outcome = 'L';
+
+                    // Telemetry match outcome
+                    try {
+                        const team = this.engine.getTeam(myTeamId);
+                        this.telemetry.record({
+                            matchOutcome: {
+                                week: this.engine.currentWeek,
+                                season: this.engine.seasonNumber,
+                                division: team?.division || 1,
+                                myGoals,
+                                oppGoals,
+                                oppId: isHome ? m.away : m.home,
+                                oppName: m.oppName || `team-${isHome ? m.away : m.home}`,
+                                result: outcome,
+                                isImportant: !!m.isImportant,
+                                hadComeback: !!m.hadComeback
+                            }
+                        });
+                    } catch { /* ignore */ }
+
                     if (diff > 0) {
                         this.stats.wins++;
                         // Biggest win check
@@ -434,7 +528,8 @@ export class AutoPlayController {
             weeksPerSecond: this.stats.weeksPlayed / Math.max(1, ((Date.now() - this.stats.startTime) / 1000)),
             running: this.running,
             currentWeek: this.engine?.currentWeek,
-            currentSeason: this.engine?.seasonNumber
+            currentSeason: this.engine?.seasonNumber,
+            telemetry: this.lastTelemetryReport
         };
     }
 
@@ -445,6 +540,17 @@ export class AutoPlayController {
         const a = document.createElement('a');
         a.href = url;
         a.download = `elifoot-autoplay-${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    exportTelemetryReport() {
+        const payload = this.telemetry.exportJSON();
+        const blob = new Blob([payload], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `elifoot-telemetry-${Date.now()}.json`;
         a.click();
         URL.revokeObjectURL(url);
     }
