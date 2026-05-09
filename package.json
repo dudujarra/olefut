@@ -25,6 +25,7 @@
     "render:stems": "node scripts/render-stems-cli.js",
     "render:stems:dry": "node scripts/render-stems.js --dry-run",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "render:test": "node scripts/test-synth.js",
     "render:fase1": "node scripts/render-fase1.js",
     "render:tech": "node scripts/render-tech-house.js",
@@ -32,6 +33,10 @@
 =======
     "render:test": "node scripts/test-render.js",
 >>>>>>> e5a78c7 (AKITA-102: Quick test render (4 stems) + test guide)
+=======
+    "render:test": "node scripts/test-synth.js",
+    "render:fase1": "node scripts/render-fase1.js",
+>>>>>>> c7c3347 (AKITA-100: 79 clubes scraped + 2394 jogadores reais + 75 managers SofaScore)
     "mutate": "stryker run",
     "mutate:report": "open tests/characterization/stryker-report/index.html"
   },
