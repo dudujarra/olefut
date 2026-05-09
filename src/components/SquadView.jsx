@@ -6,6 +6,9 @@ import { PlayerAvatar } from '../utils/avatar';
 import { Help } from './Help';
 import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui';
+import { PentagonChart } from './PentagonChart';
+import { POSITIONS, getMacroPosition, calculateRatingForPosition, calculateEffectiveRating } from '../engine/Positions';
+import { injectSquadIntoTeam } from '../services/SquadDataService';
 
 export function SquadView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -14,8 +17,22 @@ export function SquadView() {
 
     // P1-8: filter/sort + P1-9: search
     const [filterPos, setFilterPos] = useState('all');
-    const [sortBy, setSortBy] = useState('position'); // position | ovr | age | energy | name
+    const [sortBy, setSortBy] = useState('position');
     const [search, setSearch] = useState('');
+    const [expandedId, setExpandedId] = useState(null);
+    const [loadingReal, setLoadingReal] = useState(false);
+
+    const handleLoadRealSquad = async () => {
+        if (!team) return;
+        setLoadingReal(true);
+        const result = await injectSquadIntoTeam(engine, team.id, team.name);
+        setLoadingReal(false);
+        if (result.success) {
+            forceUpdate();
+        } else {
+            alert(`Squad real não disponível: ${result.msg || 'pre-bake pendente'}`);
+        }
+    };
 
     if (!team) return null;
 
@@ -65,6 +82,14 @@ export function SquadView() {
                 <EfClubBadge name={team.name} size="md" />
                 <h2 style={{margin:0,flex:1}}>👥 Plantel — {team.name} ({sorted.length}/{team.squad.length} jogadores)</h2>
                 <button className="btn btn-secondary btn-sm" onClick={() => changeView(back)}>← Voltar</button>
+                <button
+                    className="btn btn-primary btn-sm"
+                    onClick={handleLoadRealSquad}
+                    disabled={loadingReal}
+                    title="Carregar plantel real do SofaScore (se disponível)"
+                >
+                    {loadingReal ? '⏳ Carregando...' : '🌐 Plantel Real'}
+                </button>
             </div>
 
             {/* P1-8/9: filter + sort + search */}
@@ -103,7 +128,8 @@ export function SquadView() {
                     </thead>
                     <tbody>
                         {sorted.map(p => (
-                            <tr key={p.id} className={p.isTitular ? 'highlight' : ''} style={p.injury ? {opacity: 0.6} : {}}>
+                          <React.Fragment key={p.id}>
+                            <tr className={p.isTitular ? 'highlight' : ''} style={p.injury ? {opacity: 0.6} : {}}>
                                 <td>
                                     <button
                                         className={`btn btn-sm ${p.isTitular ? 'btn-primary' : 'btn-secondary'}`}
@@ -129,7 +155,17 @@ export function SquadView() {
                                         </span>
                                     )}
                                 </td>
-                                <td><span className={`pos-badge ${p.position}`}><span className={`ef-pos-icon ${p.position}`} aria-hidden="true" /> {p.position}</span></td>
+                                <td>
+                                    <span
+                                        className={`pos-badge ${p.position}`}
+                                        title={p.naturalPosition ? POSITIONS[p.naturalPosition]?.name : p.position}
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => setExpandedId(expandedId === p.id ? null : p.id)}
+                                    >
+                                        <span className={`ef-pos-icon ${p.position}`} aria-hidden="true" />
+                                        {p.naturalPosition || p.position}
+                                    </span>
+                                </td>
                                 <td><strong>{p.ovr}</strong></td>
                                 <td className="hide-mobile" style={{ color: getEnergyColor(p.energy) }}>{p.energy}%</td>
                                 <td className="hide-mobile">{getMoralEmoji(p.moral || 50)} {(p.moral || 50)}%</td>
@@ -160,6 +196,46 @@ export function SquadView() {
                                     </div>
                                 </td>
                             </tr>
+                            {expandedId === p.id && (
+                                <tr key={`${p.id}-pentagon`}>
+                                    <td colSpan="11" style={{ padding: 0 }}>
+                                        <div style={{
+                                            display: 'flex',
+                                            gap: '1rem',
+                                            padding: '1rem',
+                                            background: 'rgba(15,26,20,0.5)',
+                                            border: '1px solid rgba(255,215,0,0.3)',
+                                            borderRadius: '4px',
+                                            margin: '4px'
+                                        }}>
+                                            <PentagonChart player={p} size={220} />
+                                            <div style={{ flex: 1, fontSize: '0.85rem' }}>
+                                                <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.5rem' }}>{p.name}</div>
+                                                <div style={{ marginBottom: '0.5rem', color: 'var(--text-muted)' }}>
+                                                    🏷️ {p.naturalPosition ? POSITIONS[p.naturalPosition]?.name : p.position}
+                                                    {p.preferredFoot && ` • 🦶 ${p.preferredFoot}`}
+                                                    {p.height && ` • 📏 ${p.height}cm`}
+                                                    {p.nationality && ` • 🌍 ${p.nationality}`}
+                                                </div>
+                                                {p.marketValue > 0 && (
+                                                    <div style={{ marginBottom: '0.5rem' }}>
+                                                        💰 R$ {p.marketValue.toLocaleString('pt-BR')}
+                                                    </div>
+                                                )}
+                                                <div style={{ fontSize: '0.75rem', color: 'var(--accent)' }}>
+                                                    Rating natural ({p.naturalPosition || p.position}): <strong>{p.attacking ? calculateRatingForPosition(p, p.naturalPosition || 'MEC') : p.ovr}</strong>
+                                                </div>
+                                                {p.secondaryPositions?.length > 0 && (
+                                                    <div style={{ fontSize: '0.7rem', marginTop: '0.5rem', color: 'var(--text-muted)' }}>
+                                                        Secundárias: {p.secondaryPositions.map(sp => POSITIONS[sp]?.name).filter(Boolean).join(', ')}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )}
+                          </React.Fragment>
                         ))}
                     </tbody>
                 </table>
