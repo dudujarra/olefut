@@ -24,10 +24,14 @@
     "generate:audio:dry": "node scripts/generate-audio.js --dry-run",
     "render:stems": "node scripts/render-stems-cli.js",
     "render:stems:dry": "node scripts/render-stems.js --dry-run",
+<<<<<<< HEAD
     "render:test": "node scripts/test-synth.js",
     "render:fase1": "node scripts/render-fase1.js",
     "render:tech": "node scripts/render-tech-house.js",
     "render:all": "node scripts/render-all-subgenres.js",
+=======
+    "render:test": "node scripts/test-render.js",
+>>>>>>> e5a78c7 (AKITA-102: Quick test render (4 stems) + test guide)
     "mutate": "stryker run",
     "mutate:report": "open tests/characterization/stryker-report/index.html"
   },
