@@ -1,8 +1,5 @@
 #!/usr/bin/env node
-<<<<<<< HEAD
 /* eslint-disable no-useless-escape, no-prototype-builtins, no-unused-vars */
-=======
->>>>>>> c7c3347 (AKITA-100: 79 clubes scraped + 2394 jogadores reais + 75 managers SofaScore)
 
 /**
  * render-fase1.js
