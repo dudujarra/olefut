@@ -236,7 +236,7 @@ export class Engine {
         };
 
         const avgPentagon = (arr) => {
-            if (arr.length === 0) return 0;
+            if (arr.length === 0) return null;
             const ratings = arr.map(computeRating).filter(r => r !== null);
             if (ratings.length === 0) return null;
             return Math.floor(ratings.reduce((s, r) => s + r, 0) / ratings.length);
@@ -244,17 +244,33 @@ export class Engine {
 
         const avg = (arr, attr) => arr.length === 0 ? 0 : Math.floor(arr.reduce((s, p) => s + (p.attributes?.[attr] || 50), 0) / arr.length);
 
-        // Try pentagon first, fallback to legacy
-        const ataPlayers = titulares.filter(p => p.position === 'ATA');
-        const meiPlayers = titulares.filter(p => p.position === 'MEI');
-        const defPlayers = titulares.filter(p => p.position === 'DEF');
-        const golPlayers = titulares.filter(p => p.position === 'GOL');
+        // BUG-055 fix: when 0 titulares in position, fallback to ANY squad player
+        // in that position (bench backup). Was returning 0 → match sim 0 chanceRatio
+        // → eternal 0-0 draws (72% draw rate in playtest).
+        const pickPosition = (pos) => {
+            const starters = titulares.filter(p => p.position === pos);
+            if (starters.length > 0) return starters;
+            // Fallback to any squad player at position
+            return team.squad.filter(p => p.position === pos && !p.injury);
+        };
+
+        const ataPlayers = pickPosition('ATA');
+        const meiPlayers = pickPosition('MEI');
+        const defPlayers = pickPosition('DEF');
+        const golPlayers = pickPosition('GOL');
+
+        // Final fallback: if STILL empty (no players at all in position), use 35 baseline
+        const finalSector = (pentagon, fallback, baseline = 35) => {
+            if (pentagon != null && pentagon > 0) return pentagon;
+            if (fallback != null && fallback > 0) return fallback;
+            return baseline;
+        };
 
         return {
-            attack:     avgPentagon(ataPlayers) ?? avg(ataPlayers, 'FIN'),
-            midfield:   avgPentagon(meiPlayers) ?? avg(meiPlayers, 'CRI'),
-            defense:    avgPentagon(defPlayers) ?? avg(defPlayers, 'DEF'),
-            goalkeeper: avgPentagon(golPlayers) ?? avg(golPlayers, 'REF')
+            attack:     finalSector(avgPentagon(ataPlayers), avg(ataPlayers, 'FIN')),
+            midfield:   finalSector(avgPentagon(meiPlayers), avg(meiPlayers, 'CRI')),
+            defense:    finalSector(avgPentagon(defPlayers), avg(defPlayers, 'DEF')),
+            goalkeeper: finalSector(avgPentagon(golPlayers), avg(golPlayers, 'REF'))
         };
     }
 
@@ -465,9 +481,23 @@ export class Engine {
         otherTeam.balance = (otherTeam.balance || 0) + amount;
         myTeam.balance -= amount;
         // Reset acquired player state
-        player.isTitular = false;
         player.injury = null;
         player.energy = 100;
+        // BUG-055 fix: auto-promote to titular if position has <2 starters OR
+        // new player is significantly stronger than weakest current starter.
+        // Was always false → buys never played → match sim sectors=0 → 0-0 draws.
+        const positionStarters = myTeam.squad.filter(p => p.isTitular && p.position === player.position);
+        if (positionStarters.length < 2) {
+            player.isTitular = true;
+        } else {
+            const weakestStarter = positionStarters.sort((a, b) => (a.ovr || 0) - (b.ovr || 0))[0];
+            if ((player.ovr || 0) > (weakestStarter.ovr || 0) + 3) {
+                weakestStarter.isTitular = false;
+                player.isTitular = true;
+            } else {
+                player.isTitular = false;
+            }
+        }
         myTeam.squad.push(player);
 
         return {
