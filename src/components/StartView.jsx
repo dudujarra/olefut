@@ -32,9 +32,9 @@ export function StartView() {
     };
 
     const handleAutoPlay = () => {
-        // BUG-070: AutoPlay agora começa time fraco Série D BR + scenario fallen
-        // (orçamento -90%). User quer underdog journey real — bot precisa subir divisões.
-        const div4Teams = allTeams.filter(t => t.zone === 'BR' && t.div === 4);
+        // BUG-070 + BUG-073: zone key é 'BRA' (não 'BR'), filtro retornava 0 →
+        // fallback pegava último team total (Flamengo Série A). Fix zone match.
+        const div4Teams = allTeams.filter(t => t.zone === 'BRA' && t.div === 4);
         const target = div4Teams.length > 0
             ? div4Teams[div4Teams.length - 1]
             : allTeams[allTeams.length - 1];
