@@ -54,7 +54,11 @@ export function encodeState(ctx = {}) {
     const phase = w < 13 ? 'early' : (w < 26 ? 'mid' : 'late');
 
     const last = ctx.lastResult || '-';
-    return `${formTier}|${posTier}|${balTier}|${phase}|${last}`;
+    // BUG-042: add squadTier to diversify state space (was only 7 states explored
+    // in playtest 3 because squad context same all run).
+    const squadSize = ctx.squadSize || 0;
+    const squadTier = squadSize < 11 ? 'thin' : (squadSize < 18 ? 'normal' : 'deep');
+    return `${formTier}|${posTier}|${balTier}|${phase}|${last}|${squadTier}`;
 }
 
 /**
@@ -126,14 +130,33 @@ export function actionRelevance(action, goal) {
 
 /**
  * Compute reward from match + state delta.
+ * BUG-041 fix: more granular signal so brain doesn't end with all-negative Q-values
+ * when team consistently loses (1245× streak in playtest 3).
+ * Adds: own-goals-scored bonus, clean sheet bonus, soft floor for narrow losses.
  */
-export function computeReward({ matchResult, balanceDelta, positionDelta, promoted, relegated, title }) {
+export function computeReward({
+    matchResult, balanceDelta, positionDelta, promoted, relegated, title,
+    goalsScored = 0, goalsAllowed = 0, scoreDiff = 0
+}) {
     let r = 0;
+    // Match result base
     if (matchResult === 'W') r += 10;
     else if (matchResult === 'D') r += 2;
-    else if (matchResult === 'L') r -= 5;
+    else if (matchResult === 'L') {
+        // BUG-041: soften crushing losses but reward narrow ones (closer to draw)
+        if (Math.abs(scoreDiff) <= 1) r -= 1;       // narrow loss
+        else if (Math.abs(scoreDiff) <= 3) r -= 3;  // moderate loss
+        else r -= 5;                                 // big loss
+    }
+    // BUG-041: own scoring is intrinsic positive signal even in loss
+    r += Math.min(5, goalsScored * 1.5);
+    // Defensive performance
+    if (matchResult !== 'L' && goalsAllowed === 0) r += 3; // clean sheet bonus
+    // Balance trend
     if (balanceDelta) r += Math.max(-10, Math.min(10, balanceDelta / 1_000_000));
-    if (positionDelta) r += positionDelta * 2; // climb = positive delta
+    // Position movement
+    if (positionDelta) r += positionDelta * 2;
+    // Season events
     if (promoted) r += 50;
     if (relegated) r -= 100;
     if (title) r += 200;
