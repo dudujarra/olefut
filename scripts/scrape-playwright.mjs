@@ -35,17 +35,17 @@ function slugify(str) {
 }
 
 async function fetchJSONInPage(page, url) {
-    // Use page.context().request which inherits browser cookies + bypasses CORS
-    const ctx = page.context();
-    const res = await ctx.request.get(url, {
-        headers: {
-            'Accept': 'application/json',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Referer': 'https://www.sofascore.com/'
-        }
-    });
-    if (!res.ok()) throw new Error(`HTTP ${res.status()}`);
-    return res.json();
+    const data = await page.evaluate(async (u) => {
+        const r = await fetch(u, {
+            headers: {
+                'Accept': 'application/json',
+                'Accept-Language': 'en-US,en;q=0.9'
+            }
+        });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+    }, url);
+    return data;
 }
 
 // Name variants: original, no accents, "-MG"→"Mineiro", "-PR"→"Paranaense", etc
@@ -101,39 +101,6 @@ async function searchClubId(page, name) {
 async function fetchSquad(page, teamId) {
     const data = await fetchJSONInPage(page, `https://api.sofascore.com/api/v1/team/${teamId}/players`);
     return data.players || [];
-}
-
-async function fetchTeamManager(page, teamId) {
-    try {
-        const data = await fetchJSONInPage(page, `https://api.sofascore.com/api/v1/team/${teamId}`);
-        const manager = data.team?.manager || data.manager;
-        if (!manager) return null;
-        // Enrich with manager stats
-        let stats = null;
-        try {
-            const m = await fetchJSONInPage(page, `https://api.sofascore.com/api/v1/manager/${manager.id}`);
-            stats = m.manager?.performance || null;
-            const profile = m.manager || {};
-            return {
-                id: manager.id,
-                name: manager.name,
-                shortName: manager.shortName,
-                country: profile.nationality?.name || profile.country?.name,
-                preferredFormation: profile.preferredFormation,
-                stats: profile.performance || null,
-                dateOfBirth: profile.dateOfBirth,
-                deceased: profile.deceased
-            };
-        } catch {
-            return {
-                id: manager.id,
-                name: manager.name,
-                shortName: manager.shortName
-            };
-        }
-    } catch {
-        return null;
-    }
 }
 
 async function fetchPlayerAttrs(page, playerId) {
@@ -257,16 +224,7 @@ async function main() {
                 const rawSquad = await fetchSquad(page, teamId);
                 console.log(`  ${rawSquad.length} players, enriching...`);
                 const enriched = await enrichSquad(page, rawSquad);
-                const manager = await fetchTeamManager(page, teamId);
-                if (manager) console.log(`  Manager: ${manager.name}`);
-                const output = {
-                    teamId,
-                    teamName: name,
-                    manager,
-                    players: enriched,
-                    scrapedAt: new Date().toISOString()
-                };
-                fs.writeFileSync(outFile, JSON.stringify(output, null, 2));
+                fs.writeFileSync(outFile, JSON.stringify(enriched, null, 2));
                 console.log(`  Saved ${outFile}`);
             } catch (e) {
                 console.error(`  ERROR ${name}: ${e.message}`);

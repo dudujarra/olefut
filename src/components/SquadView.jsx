@@ -93,39 +93,8 @@ export function SquadView() {
                 </button>
             </div>
 
-            {/* Manager card */}
-            {team.manager && team.manager.name && (
-                <div className="card" style={{
-                    padding: '0.75rem',
-                    marginBottom: '0.75rem',
-                    background: 'linear-gradient(135deg, rgba(247,181,56,0.1), rgba(15,26,20,0.5))',
-                    border: '1px solid #F7B538'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ fontSize: '2rem' }}>👔</div>
-                        <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 700, fontSize: '1rem' }}>
-                                {team.manager.name}
-                            </div>
-                            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                                Treinador {team.manager.country ? `• ${team.manager.country}` : ''}
-                                {team.manager.preferredFormation ? ` • Formação: ${team.manager.preferredFormation}` : ''}
-                            </div>
-                        </div>
-                        {team.manager.stats && (
-                            <div style={{ fontSize: '0.75rem', textAlign: 'right' }}>
-                                <div>📊 {team.manager.stats.total || 0} jogos</div>
-                                <div style={{ color: 'var(--primary)' }}>{team.manager.stats.wins || 0}V</div>
-                                <div style={{ color: 'var(--accent)' }}>{team.manager.stats.draws || 0}E</div>
-                                <div style={{ color: 'var(--danger)' }}>{team.manager.stats.losses || 0}D</div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
-
             {/* SPEC-080 Tabs */}
-            <div className="nav-tabs" style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem', borderBottom: '2px solid var(--border-subtle, var(--ef-color-border-subtle))' }}>
+            <div className="nav-tabs" style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem', borderBottom: '2px solid var(--border-subtle, #2a3530)' }}>
                 {[
                     { id: 'plantel', label: '👥 Plantel' },
                     { id: 'stats', label: '📊 Stats' },
@@ -223,10 +192,7 @@ export function SquadView() {
                                     </span>
                                 </td>
                                 <td><strong>{p.ovr}</strong></td>
-                                <td className="hide-mobile" style={{ color: getEnergyColor(p.energy) }}>
-                                    {p.energy < 30 && <span title="Fadiga crítica" className="ef-anim-pulse-glow">⚠️</span>}
-                                    {p.energy}%
-                                </td>
+                                <td className="hide-mobile" style={{ color: getEnergyColor(p.energy) }}>{p.energy}%</td>
                                 <td className="hide-mobile">{getMoralEmoji(p.moral || 50)} {(p.moral || 50)}%</td>
                                 <td className="hide-mobile">{getFormEmoji(p.form?.trend)}</td>
                                 <td className="hide-mobile">{p.age}</td>
@@ -306,7 +272,7 @@ export function SquadView() {
                     <h3 style={{ marginBottom: '0.75rem' }}>📊 Pentagon Comparison (Top 11 Titulares)</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
                         {sorted.filter(p => p.isTitular).slice(0, 11).map(p => (
-                            <div key={p.id} style={{ border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))', borderRadius: '4px', padding: '8px', textAlign: 'center' }}>
+                            <div key={p.id} style={{ border: '1px solid var(--border-subtle, #2a3530)', borderRadius: '4px', padding: '8px', textAlign: 'center' }}>
                                 <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '4px' }}>{p.name}</div>
                                 <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
                                     {p.naturalPosition || p.position}
