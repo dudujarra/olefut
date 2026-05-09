@@ -35,17 +35,17 @@ function slugify(str) {
 }
 
 async function fetchJSONInPage(page, url) {
-    const data = await page.evaluate(async (u) => {
-        const r = await fetch(u, {
-            headers: {
-                'Accept': 'application/json',
-                'Accept-Language': 'en-US,en;q=0.9'
-            }
-        });
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-    }, url);
-    return data;
+    // Use page.context().request which inherits browser cookies + bypasses CORS
+    const ctx = page.context();
+    const res = await ctx.request.get(url, {
+        headers: {
+            'Accept': 'application/json',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Referer': 'https://www.sofascore.com/'
+        }
+    });
+    if (!res.ok()) throw new Error(`HTTP ${res.status()}`);
+    return res.json();
 }
 
 // Name variants: original, no accents, "-MG"→"Mineiro", "-PR"→"Paranaense", etc
