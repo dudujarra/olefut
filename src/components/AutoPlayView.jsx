@@ -95,6 +95,11 @@ export function AutoPlayView() {
         return acc;
     }, {}) || {};
 
+    const successTypes = stats?.successes?.reduce((acc, s) => {
+        acc[s.type] = (acc[s.type] || 0) + 1;
+        return acc;
+    }, {}) || {};
+
     return (
         <div className="main-content fade-in">
             <div className="card-header" style={{ marginBottom: '1rem' }}>
@@ -160,6 +165,59 @@ export function AutoPlayView() {
                         <Stat label="Decisions" value={stats.decisions?.length || 0} />
                         <Stat label="Errors" value={stats.errorCount} color={stats.errorCount > 0 ? 'var(--danger)' : 'var(--primary)'} />
                         <Stat label="Anomalies" value={stats.anomalies?.length || 0} color={(stats.anomalies?.length || 0) > 0 ? 'var(--accent)' : 'var(--text)'} />
+                    </div>
+                </div>
+            )}
+
+            {/* Insights summary */}
+            {stats?.insights && (
+                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                    <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>📈 Insights da Carreira</h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px', fontSize: '0.78rem' }}>
+                        <Stat label="Títulos" value={stats.insights.titlesWon} color="var(--ef-color-accent-gold, #FFD700)" />
+                        <Stat label="Promoções" value={stats.insights.promotionsWon} color="var(--primary)" />
+                        <Stat label="Rebaixamentos" value={stats.insights.relegationsTaken} color="var(--danger)" />
+                        <Stat label="Hat-tricks" value={stats.insights.hatTricks} />
+                        <Stat label="Clean sheets" value={stats.insights.cleanSheets} />
+                        <Stat label="Maior streak V" value={stats.insights.longestWinStreak} color="var(--primary)" />
+                        <Stat label="Maior streak D" value={Math.abs(stats.insights.longestLossStreak || 0)} color="var(--danger)" />
+                        <Stat label="Peak posição" value={stats.insights.peakStanding === Infinity ? '-' : stats.insights.peakStanding + 'º'} />
+                        <Stat label="Pior posição" value={stats.insights.worstStanding ? stats.insights.worstStanding + 'º' : '-'} />
+                        <Stat label="Pico R$" value={`${(stats.insights.peakBalance / 1e6).toFixed(0)}M`} color="var(--accent)" />
+                        <Stat label="Maior goleada" value={stats.insights.biggestWin?.score || '-'} />
+                        <Stat label="Pior derrota" value={stats.insights.worstLoss?.score || '-'} color="var(--danger)" />
+                    </div>
+                </div>
+            )}
+
+            {/* Successes catalog */}
+            {stats?.successes && stats.successes.length > 0 && (
+                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                    <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>✅ Successes ({stats.successes.length})</h3>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
+                        Por tipo: {Object.entries(successTypes).map(([t, n]) => `${t}(${n})`).join(' • ')}
+                    </div>
+                    <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                        {stats.successes.slice(-20).reverse().map((s, i) => (
+                            <div
+                                key={i}
+                                style={{
+                                    padding: '0.4rem 0.5rem',
+                                    borderLeft: '3px solid var(--ef-color-func-success, #6ABC3A)',
+                                    background: 'rgba(106,188,58,0.06)',
+                                    fontSize: '0.75rem',
+                                    marginBottom: '4px'
+                                }}
+                            >
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <strong style={{ color: 'var(--ef-color-func-success, #6ABC3A)' }}>{s.type}</strong>
+                                    <span style={{ color: 'var(--text-muted)', fontSize: '0.65rem' }}>
+                                        Sem {s.week} • Temp {s.season}
+                                    </span>
+                                </div>
+                                <div style={{ marginTop: '2px' }}>{s.msg}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             )}

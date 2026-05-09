@@ -40,10 +40,31 @@ export class AutoPlayController {
             transfers: 0,
             errorCount: 0,
             anomalies: [],
+            successes: [],
             decisions: [],
+            insights: {
+                longestWinStreak: 0,
+                longestLossStreak: 0,
+                biggestWin: null,
+                worstLoss: null,
+                biggestSale: null,
+                titlesWon: 0,
+                promotionsWon: 0,
+                relegationsTaken: 0,
+                hatTricks: 0,
+                cleanSheets: 0,
+                achievementsUnlocked: 0,
+                peakBalance: 0,
+                lowestBalance: Infinity,
+                peakStanding: Infinity,
+                worstStanding: 0
+            },
             startTime: null,
             elapsedMs: 0
         };
+        this._lastSeasonNumber = null;
+        this._lastTitlesCount = 0;
+        this._lastDivision = null;
         this._trainingIdx = 0;
         this._lastBalance = null;
         this._consecutiveSameTactic = 0;
@@ -76,6 +97,21 @@ export class AutoPlayController {
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(this.stats));
         } catch { /* ignore */ }
+    }
+
+    _logSuccess(type, msg, ctx = {}) {
+        const entry = {
+            type,
+            msg,
+            ctx,
+            week: this.engine?.currentWeek,
+            season: this.engine?.seasonNumber,
+            ts: Date.now()
+        };
+        this.stats.successes.push(entry);
+        if (this.stats.successes.length > 200) {
+            this.stats.successes = this.stats.successes.slice(-100);
+        }
     }
 
     _logAnomaly(type, msg, ctx = {}) {
@@ -228,9 +264,33 @@ export class AutoPlayController {
                     const isHome = m.home === myTeamId;
                     const myGoals = isHome ? m.homeGoals : m.awayGoals;
                     const oppGoals = isHome ? m.awayGoals : m.homeGoals;
-                    if (myGoals > oppGoals) this.stats.wins++;
-                    else if (myGoals === oppGoals) this.stats.draws++;
-                    else this.stats.losses++;
+                    const diff = myGoals - oppGoals;
+                    if (diff > 0) {
+                        this.stats.wins++;
+                        // Biggest win check
+                        const winSize = diff;
+                        if (!this.stats.insights.biggestWin || winSize > this.stats.insights.biggestWin.diff) {
+                            this.stats.insights.biggestWin = { diff: winSize, score: `${myGoals}-${oppGoals}`, week: this.engine.currentWeek };
+                            if (winSize >= 5) {
+                                this._logSuccess('GOLEADA', `🚀 Goleada ${myGoals}-${oppGoals}`, this.stats.insights.biggestWin);
+                            }
+                        }
+                        // Clean sheet
+                        if (oppGoals === 0) {
+                            this.stats.insights.cleanSheets++;
+                        }
+                    } else if (diff === 0) {
+                        this.stats.draws++;
+                    } else {
+                        this.stats.losses++;
+                        const lossSize = Math.abs(diff);
+                        if (!this.stats.insights.worstLoss || lossSize > this.stats.insights.worstLoss.diff) {
+                            this.stats.insights.worstLoss = { diff: lossSize, score: `${myGoals}-${oppGoals}`, week: this.engine.currentWeek };
+                            if (lossSize >= 4) {
+                                this._logAnomaly('VEXAME', `📉 Levou ${myGoals}-${oppGoals}`, this.stats.insights.worstLoss);
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -245,6 +305,7 @@ export class AutoPlayController {
             return;
         }
 
+        // === ANOMALIES ===
         // Squad too small
         if (team.squad && team.squad.length < 11) {
             this._logAnomaly('SQUAD_SHORT', `Squad has ${team.squad.length} players`, {
@@ -268,13 +329,102 @@ export class AutoPlayController {
             this._logAnomaly('TACTIC_STUCK', `Same tactic ${this._consecutiveSameTactic} weeks`, {
                 tactic: this._lastTactic
             });
-            this._consecutiveSameTactic = 0; // reset to avoid repeated logs
+            this._consecutiveSameTactic = 0;
         }
 
-        // Save corruption check (basic)
+        // Save corruption check
         if (engine.currentWeek > 38 * 100) {
             this._logAnomaly('WEEK_OVERFLOW', `currentWeek ${engine.currentWeek} suspicious`);
         }
+
+        // === SUCCESS DETECTION ===
+        // Streak insights
+        const streak = engine.managerStats?.streak || 0;
+        if (streak > this.stats.insights.longestWinStreak) {
+            this.stats.insights.longestWinStreak = streak;
+            if (streak >= 5) {
+                this._logSuccess('WIN_STREAK', `${streak} vitórias seguidas`, { streak });
+            }
+        }
+        if (streak < this.stats.insights.longestLossStreak) {
+            this.stats.insights.longestLossStreak = streak;
+            if (streak <= -5) {
+                this._logSuccess('LOSS_STREAK', `${Math.abs(streak)} derrotas seguidas`, { streak });
+            }
+        }
+
+        // Title/promotion detection (season transition)
+        const seasonNum = engine.seasonNumber || 1;
+        if (this._lastSeasonNumber !== null && seasonNum > this._lastSeasonNumber) {
+            const titlesNow = engine.legacy?.titles?.length || 0;
+            if (titlesNow > this._lastTitlesCount) {
+                const newTitle = engine.legacy.titles[titlesNow - 1];
+                this._logSuccess('TITLE_WON', `🏆 Título: ${newTitle?.title || 'Nacional'}`, {
+                    title: newTitle?.title,
+                    season: seasonNum - 1
+                });
+                this.stats.insights.titlesWon++;
+            }
+            this._lastTitlesCount = titlesNow;
+
+            // Division change
+            if (this._lastDivision !== null && team.division !== this._lastDivision) {
+                if (team.division < this._lastDivision) {
+                    this._logSuccess('PROMOTION', `⬆️ Subiu pra Série ${['A','B','C','D'][team.division - 1]}`, {
+                        from: this._lastDivision,
+                        to: team.division
+                    });
+                    this.stats.insights.promotionsWon++;
+                } else {
+                    this._logSuccess('RELEGATION', `⬇️ Caiu pra Série ${['A','B','C','D'][team.division - 1]}`, {
+                        from: this._lastDivision,
+                        to: team.division
+                    });
+                    this.stats.insights.relegationsTaken++;
+                }
+            }
+            this._lastDivision = team.division;
+        }
+        if (this._lastSeasonNumber === null) {
+            this._lastSeasonNumber = seasonNum;
+            this._lastTitlesCount = engine.legacy?.titles?.length || 0;
+            this._lastDivision = team.division;
+        } else {
+            this._lastSeasonNumber = seasonNum;
+        }
+
+        // Hat-trick detection (squad scan)
+        const hatTrickers = (team.squad || []).filter(p => p.career?.hatTricks > 0);
+        const totalHatTricks = hatTrickers.reduce((s, p) => s + (p.career?.hatTricks || 0), 0);
+        if (totalHatTricks > this.stats.insights.hatTricks) {
+            const diff = totalHatTricks - this.stats.insights.hatTricks;
+            this._logSuccess('HAT_TRICK', `🎩 ${diff} hat-trick(s) novo(s)`, { totalHatTricks });
+            this.stats.insights.hatTricks = totalHatTricks;
+        }
+
+        // Balance peaks
+        const balance = team.balance ?? 0;
+        if (balance > this.stats.insights.peakBalance) {
+            this.stats.insights.peakBalance = balance;
+            if (balance >= 50000000 && balance % 50000000 < 100000) {
+                this._logSuccess('BALANCE_PEAK', `💰 R$ ${(balance / 1e6).toFixed(0)}M`, { balance });
+            }
+        }
+        if (balance < this.stats.insights.lowestBalance) {
+            this.stats.insights.lowestBalance = balance;
+        }
+
+        // Position peaks
+        try {
+            const standings = engine.getStandings(team.zone, team.division);
+            const pos = standings.findIndex(s => s.teamId === team.id) + 1;
+            if (pos > 0 && pos < this.stats.insights.peakStanding) {
+                this.stats.insights.peakStanding = pos;
+            }
+            if (pos > this.stats.insights.worstStanding) {
+                this.stats.insights.worstStanding = pos;
+            }
+        } catch { /* ignore */ }
     }
 
     getStats() {
