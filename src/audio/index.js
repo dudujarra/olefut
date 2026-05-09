@@ -10,3 +10,6 @@ export { SunoPromptGenerator } from './SunoPromptGenerator.js';
 export { ToneOfflineRenderer } from './ToneOfflineRenderer.js';
 export { MusicDirector } from './MusicDirector.js';
 export { EventBus, eventBus, GameEvents, emitGameEvent } from './EventBus.js';
+export { SingerGenerator } from './SingerGenerator.js';
+export { DrumFillGenerator } from './DrumFillGenerator.js';
+export { BrazilianPercussion } from './BrazilianPercussion.js';

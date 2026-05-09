@@ -24,13 +24,19 @@ export class MusicDirector {
     // Master mixer
     this.masterGain = null;
     this.filterNode = null;
+    this.eqNode = null;
+
+    // Generators
+    this.stingerGen = null;
+    this.drumGen = null;
+    this.percGen = null;
 
     this.eventBus = config.eventBus || new MockEventBus();
     this.listeners = {};
   }
 
   /**
-   * Init: configura Tone.js mixer + listeners
+   * Init: configura Tone.js mixer + listeners + generators
    */
   async init(Tone) {
     this.Tone = Tone;
@@ -46,11 +52,33 @@ export class MusicDirector {
       rolloff: -12
     }).connect(this.masterGain);
 
+    // Initialize generators
+    this.initGenerators(Tone);
+
     // Listeners
     this.eventBus.on('goalScored', (data) => this.onGoalScored(data));
     this.eventBus.on('cardIssued', (data) => this.onCardIssued(data));
     this.eventBus.on('gamePhaseChange', (data) => this.onGamePhaseChange(data));
     this.eventBus.on('matchEnded', (data) => this.onMatchEnded(data));
+  }
+
+  /**
+   * Initialize sound generators
+   */
+  initGenerators(Tone) {
+    // Dynamic import to avoid circular deps
+    import('./SingerGenerator.js').then(m => {
+      this.stingerGen = new m.SingerGenerator({ sampleRate: 44100 });
+      this.stingerGen.generateAllStingers(Tone);
+    });
+
+    import('./DrumFillGenerator.js').then(m => {
+      this.drumGen = new m.DrumFillGenerator({ bpm: this.config.bpm });
+    });
+
+    import('./BrazilianPercussion.js').then(m => {
+      this.percGen = new m.BrazilianPercussion({ bpm: this.config.bpm });
+    });
   }
 
   /**
@@ -142,7 +170,7 @@ export class MusicDirector {
 
   /**
    * RTPC: atualiza parâmetros em tempo real
-   * momentum, intensity, scoreDiff → filter + volume
+   * momentum, intensity, scoreDiff → filter + volume + EQ
    */
   updateRTPC(momentum, intensity, scoreDiff) {
     this.rtpc.momentum = Math.max(0, Math.min(1, momentum));
@@ -156,8 +184,38 @@ export class MusicDirector {
     // Master volume: intensity
     this.masterGain.gain.setValueAtTime(0.5 + this.rtpc.intensity * 0.5, this.Tone.now());
 
+    // Dynamic EQ based on scoreDiff
+    this.updateDynamicEQ();
+
     // Per-stem faders: ajusta dynamics
     this.adjustStemDynamics();
+  }
+
+  /**
+   * Dynamic master EQ: scoreDiff → tone
+   * Winning: boost highs (celebratory)
+   * Losing: boost lows (heavy, somber)
+   */
+  updateDynamicEQ() {
+    if (!this.eqNode) {
+      // Lazy init EQ3
+      this.eqNode = new this.Tone.EQ3().connect(this.filterNode);
+      this.filterNode.disconnect(this.masterGain);
+      this.filterNode.connect(this.eqNode);
+      this.eqNode.connect(this.masterGain);
+    }
+
+    // scoreDiff: -100 (heavy losing) to +100 (bright winning)
+    const diff = this.rtpc.scoreDiff / 100; // -1 to +1
+
+    // Low: boost if losing
+    this.eqNode.low.setValueAtTime(Math.min(0, diff * -12), this.Tone.now()); // -12 to 0 dB
+
+    // High: boost if winning
+    this.eqNode.high.setValueAtTime(Math.max(0, diff * 12), this.Tone.now()); // 0 to +12 dB
+
+    // Mid: neutral or slightly adjusted
+    this.eqNode.mid.setValueAtTime(diff * 3, this.Tone.now()); // -3 to +3 dB
   }
 
   /**
