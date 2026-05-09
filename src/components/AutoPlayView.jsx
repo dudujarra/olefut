@@ -104,11 +104,34 @@ export function AutoPlayView() {
     };
 
     const handleResetBrain = () => {
-        if (controllerRef.current && window.confirm('Reset learned Q-table? Bot will restart from scratch.')) {
-            controllerRef.current.resetBrain();
-            // refresh UI
-            window.location.reload();
-        }
+        if (!controllerRef.current) return;
+        if (!window.confirm('Reset Q-table? Bot esquece aprendizado mas mantém stats.')) return;
+        // BUG-067 fix: pause bot first to stop tick loop saving brain back during reload
+        try { controllerRef.current.pause(); } catch { /* ignore */ }
+        // Force-clear localStorage keys synchronously
+        try {
+            if (typeof localStorage !== 'undefined') {
+                localStorage.removeItem('elifoot_autoplay_brain');
+            }
+        } catch { /* ignore */ }
+        // Reset in-memory state
+        try { controllerRef.current.resetBrain(); } catch { /* ignore */ }
+        // Hard reload
+        setTimeout(() => window.location.reload(), 100);
+    };
+
+    const handleResetAll = () => {
+        if (!controllerRef.current) return;
+        if (!window.confirm('🚨 RESET TUDO: apaga Q-table + stats + memory + telemetry. Não tem volta. Continuar?')) return;
+        try { controllerRef.current.pause(); } catch { /* ignore */ }
+        try {
+            if (typeof localStorage !== 'undefined') {
+                localStorage.removeItem('elifoot_autoplay_brain');
+                localStorage.removeItem('elifoot_autoplay_state');
+                localStorage.removeItem('elifoot_llm_mode');
+            }
+        } catch { /* ignore */ }
+        setTimeout(() => window.location.reload(), 100);
     };
 
     // SPEC-119: LLM mode handlers (state hooks moved above early return)
@@ -181,10 +204,18 @@ export function AutoPlayView() {
                     <button
                         className="btn btn-secondary"
                         onClick={handleResetBrain}
-                        title="Reset Q-learning brain — bot starts from scratch"
+                        title="Reset Q-table — bot esquece aprendizado, stats permanecem"
                         style={{ borderColor: 'var(--danger, #c44)', color: 'var(--danger, #c44)' }}
                     >
                         🧠 Reset Brain
+                    </button>
+                    <button
+                        className="btn btn-secondary"
+                        onClick={handleResetAll}
+                        title="Reset TUDO — apaga brain + stats + telemetry. Sem volta."
+                        style={{ borderColor: '#FF4444', color: '#FF4444', fontWeight: 700 }}
+                    >
+                        🚨 Reset Tudo
                     </button>
                 </div>
 
