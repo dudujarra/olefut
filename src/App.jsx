@@ -20,6 +20,7 @@ import { PressView } from './components/PressView';
 import { SaveSlotsView } from './components/SaveSlotsView';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
+import { AudioController } from './audio/AudioController.jsx';
 
 // Install global error handlers (idempotente)
 MonitorService.getInstance().install();
@@ -162,6 +163,7 @@ function App() {
             <Sidebar />
             {renderView()}
             <FloatingBugButton />
+            <AudioController />
         </>
     );
 }
