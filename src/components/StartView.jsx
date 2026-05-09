@@ -31,6 +31,13 @@ export function StartView() {
         startGame(name, parseInt(teamId), scenario, mode, position, personality);
     };
 
+    const handleAutoPlay = () => {
+        // Quick-launch: auto-start default game then jump to AutoPlay
+        const firstTeam = allTeams[0];
+        startGame('AutoPlayBot', firstTeam.id, 'livre', 'manager', 'ATA', 'maverick');
+        setTimeout(() => changeView('autoplay'), 100);
+    };
+
     return (
         <div className="start-view ef-anim-fade-in ef-art-bg ef-art-champion-celebration">
             <h1 className="ef-anim-pop-in">ELIFOOT</h1>
@@ -108,6 +115,14 @@ export function StartView() {
                         🎓 Tutorial (5 passos rápidos)
                     </button>
                 )}
+                <button
+                    className="btn btn-secondary"
+                    onClick={handleAutoPlay}
+                    style={{ marginTop: '0.5rem', fontSize: '0.85rem', borderColor: '#FFD700' }}
+                    title="Inicia bot AutoPlay com clube default — soak test de bugs"
+                >
+                    🤖 AutoPlay Soak Test (sem login)
+                </button>
             </div>
         </div>
     );
