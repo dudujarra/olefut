@@ -20,6 +20,7 @@
 import { TACTICS, TRAINING_TYPES, TEAM_TALKS, FORMATIONS } from '../engine/ManagerSystems';
 import { MonitorService } from './MonitorService';
 import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
+import { AdaptiveBrain, encodeState, computeReward } from './learning/AdaptiveBrain.js';
 
 const STORAGE_KEY = 'elifoot_autoplay_state';
 // BUG-027 fix: pull training catalog from engine source of truth (was hardcoded
@@ -80,6 +81,15 @@ export class AutoPlayController {
         // Telemetry — SPEC-100..114 (15 detectores)
         this.telemetry = new TelemetryAggregator();
         this.lastTelemetryReport = null;
+
+        // SPEC-115/116/117 — adaptive learning brain
+        this.brain = new AdaptiveBrain();
+        this._lastStateKey = null;
+        this._lastAction = null;
+        this._lastBalanceForReward = null;
+        this._lastPositionForReward = null;
+        this._lastSeasonForReward = null;
+        this._lastDivisionForReward = null;
     }
 
     start(weekDelayMs = 100) {
@@ -238,32 +248,106 @@ export class AutoPlayController {
         }
     }
 
+    /**
+     * SPEC-115/116/117: build state ctx from engine for brain.
+     */
+    _buildStateCtx() {
+        const engine = this.engine;
+        const teamId = engine?.manager?.teamId;
+        const team = engine?.getTeam?.(teamId);
+        const standings = team ? engine.getStandings(team.zone, team.division) : [];
+        const position = team ? (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length : 20;
+        const balance = team?.balance || 0;
+        const formAvg = team?.squad?.length
+            ? team.squad.reduce((s, p) => s + (p.form?.value ?? 50), 0) / team.squad.length
+            : 50;
+        const lastResult = this._lastMatchResult || '-';
+        return {
+            position,
+            totalTeams: standings.length || 20,
+            balance,
+            formAvg,
+            week: engine?.currentWeek || 0,
+            squadSize: team?.squad?.length || 0,
+            lastResult
+        };
+    }
+
+    /**
+     * SPEC-115/116/117: observe outcome of last action, update Q-table.
+     */
+    _observeOutcome(currentCtx) {
+        if (!this._lastStateKey || !this._lastAction) return;
+        const balanceDelta = (currentCtx.balance || 0) - (this._lastBalanceForReward || 0);
+        const positionDelta = (this._lastPositionForReward || 20) - (currentCtx.position || 20);
+        const promoted = this._lastDivisionForReward !== null
+            && this.engine?.getTeam?.(this.engine.manager?.teamId)?.division < this._lastDivisionForReward;
+        const relegated = this._lastDivisionForReward !== null
+            && this.engine?.getTeam?.(this.engine.manager?.teamId)?.division > this._lastDivisionForReward;
+
+        const reward = computeReward({
+            matchResult: currentCtx.lastResult,
+            balanceDelta,
+            positionDelta,
+            promoted,
+            relegated,
+            title: false
+        });
+
+        const nextStateKey = encodeState(currentCtx);
+        this.brain.observe(this._lastStateKey, this._lastAction, reward, nextStateKey, []);
+    }
+
     _makeDecisions() {
         const engine = this.engine;
         const teamId = engine?.manager?.teamId;
         if (!teamId) return;
 
+        // SPEC-115/116/117: Build state + observe last outcome
+        const ctx = this._buildStateCtx();
+        this._observeOutcome(ctx);
+
+        const stateKey = encodeState(ctx);
+
         // BUG-029 fix: TRAIN was 94% of decisions. Cap to 1-in-3 weeks.
         // Decision 1: Training rotation (now throttled)
         if (this.stats.weeksPlayed % 3 === 0) {
             const startTrain = performance.now();
-            const trainingId = TRAINING_ROTATION[this._trainingIdx % TRAINING_ROTATION.length];
+            // SPEC-115: brain picks training id (was rotation hardcoded)
+            const trainingActions = TRAINING_ROTATION.map(id => `TRAIN_${id}`);
+            const pickedActionKey = this.brain.pickAction(stateKey, trainingActions, ctx);
+            const trainingId = pickedActionKey
+                ? pickedActionKey.replace(/^TRAIN_/, '')
+                : TRAINING_ROTATION[this._trainingIdx % TRAINING_ROTATION.length];
             this._trainingIdx++;
             if (engine.doTraining && trainingId) {
                 const result = engine.doTraining(trainingId);
-                this._logDecision('TRAIN', { trainingId }, performance.now() - startTrain);
+                this._logDecision('TRAIN', { trainingId, picked: !!pickedActionKey }, performance.now() - startTrain);
                 if (!result || result.success === false) {
                     this._logAnomaly('TRAIN_FAIL', result?.msg || 'doTraining failed', { trainingId });
                 }
+                // Snapshot for next observe
+                this._lastStateKey = stateKey;
+                this._lastAction = `TRAIN_${trainingId}`;
+                this._lastBalanceForReward = ctx.balance;
+                this._lastPositionForReward = ctx.position;
+                this._lastDivisionForReward = engine.getTeam(teamId)?.division ?? null;
             }
         }
 
-        // Decision 2: Tactic based on streak
-        const streak = engine.managerStats?.streak || 0;
+        // Decision 2: Tactic — SPEC-115 brain pick (was streak hardcoded fallback)
+        const tacticActions = ['TACTIC_normal', 'TACTIC_attacking', 'TACTIC_defensive', 'TACTIC_counter'];
+        const pickedTacticKey = this.brain.pickAction(stateKey, tacticActions, ctx);
         let nextTactic = 'normal';
-        if (streak >= 3) nextTactic = 'attacking';
-        else if (streak <= -2) nextTactic = 'defensive';
-        else if (streak <= 0) nextTactic = 'counter';
+        if (pickedTacticKey) {
+            nextTactic = pickedTacticKey.replace(/^TACTIC_/, '');
+        } else {
+            // Fallback heuristic if brain returns null
+            const streak = engine.managerStats?.streak || 0;
+            if (streak >= 3) nextTactic = 'attacking';
+            else if (streak <= -2) nextTactic = 'defensive';
+            else if (streak <= 0) nextTactic = 'counter';
+        }
         if (engine.setTactic) {
             engine.setTactic(nextTactic);
             if (this._lastTactic === nextTactic) this._consecutiveSameTactic++;
@@ -444,6 +528,9 @@ export class AutoPlayController {
                         });
                     } catch { /* ignore */ }
 
+                    // SPEC-115: track lastMatchResult for state encoding next tick
+                    this._lastMatchResult = outcome;
+
                     if (diff > 0) {
                         this.stats.wins++;
                         // Biggest win check
@@ -620,8 +707,17 @@ export class AutoPlayController {
             running: this.running,
             currentWeek: this.engine?.currentWeek,
             currentSeason: this.engine?.seasonNumber,
-            telemetry: this.lastTelemetryReport
+            telemetry: this.lastTelemetryReport,
+            // SPEC-115/116/117: brain summary
+            brain: this.brain ? this.brain.summary() : null
         };
+    }
+
+    /**
+     * Reset learned Q-table (for benchmark / fresh start).
+     */
+    resetBrain() {
+        if (this.brain) this.brain.reset();
     }
 
     exportReport() {

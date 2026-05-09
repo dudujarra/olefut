@@ -90,6 +90,14 @@ export function AutoPlayView() {
         }
     };
 
+    const handleResetBrain = () => {
+        if (controllerRef.current && window.confirm('Reset learned Q-table? Bot will restart from scratch.')) {
+            controllerRef.current.resetBrain();
+            // refresh UI
+            window.location.reload();
+        }
+    };
+
     const scoreColor = (score) => {
         if (score >= 70) return 'var(--ef-color-func-success, #6ABC3A)';
         if (score >= 40) return 'var(--ef-color-accent-gold, #FFD700)';
@@ -142,7 +150,47 @@ export function AutoPlayView() {
                     <button className="btn btn-secondary" onClick={handleExportTelemetry}>
                         📊 Export Telemetry JSON
                     </button>
+                    <button
+                        className="btn btn-secondary"
+                        onClick={handleResetBrain}
+                        title="Reset Q-learning brain — bot starts from scratch"
+                        style={{ borderColor: 'var(--danger, #c44)', color: 'var(--danger, #c44)' }}
+                    >
+                        🧠 Reset Brain
+                    </button>
                 </div>
+
+                {/* SPEC-115/116/117: Brain panel — adaptive learning telemetry */}
+                {stats?.brain && (
+                    <div style={{
+                        marginTop: '0.5rem',
+                        padding: '8px 12px',
+                        background: 'rgba(255, 215, 0, 0.05)',
+                        border: '1px solid var(--ef-color-accent-gold, #FFD700)',
+                        borderRadius: '4px',
+                        fontSize: '0.78rem'
+                    }}>
+                        <div style={{ marginBottom: '6px', fontWeight: 700, color: 'var(--ef-color-accent-gold, #FFD700)' }}>
+                            🧠 BRAIN (SPEC-115/116/117)
+                        </div>
+                        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '4px' }}>
+                            <span>States: <strong>{stats.brain.states ?? 0}</strong></span>
+                            <span>Updates: <strong>{stats.brain.totalUpdates ?? 0}</strong></span>
+                        </div>
+                        {stats.brain.topActions?.length > 0 && (
+                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                                Top actions:&nbsp;
+                                {stats.brain.topActions.slice(0, 3).map((a, i) => (
+                                    <span key={i} style={{ marginRight: '8px' }}>
+                                        {a.action} <strong style={{ color: a.totalQ >= 0 ? '#6ABC3A' : '#c44' }}>
+                                            {a.totalQ >= 0 ? '+' : ''}{a.totalQ.toFixed(1)}
+                                        </strong>
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
                     VELOCIDADE: {speed}ms/week
