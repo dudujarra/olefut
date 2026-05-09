@@ -482,6 +482,65 @@ export class AutoPlayController {
                     }
                 }
 
+                // SPEC-122 BUG-053: Bot scouts league + makes outgoing buy offers every 4 weeks.
+                // Picks weakest position, finds upgrade target, offers 1.3-1.5× value.
+                if (this.stats.weeksPlayed % 4 === 0 && typeof engine.scoutLeague === 'function') {
+                    try {
+                        // Find weakest position in squad
+                        const positions = ['GOL', 'DEF', 'MEI', 'ATA'];
+                        const positionStrength = positions.map(pos => {
+                            const players = team.squad.filter(p => p.position === pos);
+                            const avgOVR = players.length > 0
+                                ? players.reduce((s, p) => s + (p.ovr || 0), 0) / players.length
+                                : 0;
+                            return { pos, avgOVR, count: players.length };
+                        });
+                        const weakest = positionStrength.sort((a, b) => a.avgOVR - b.avgOVR)[0];
+
+                        if (weakest && weakest.avgOVR < 70) {
+                            const candidates = engine.scoutLeague(weakest.pos, weakest.avgOVR + 5, 10);
+                            if (candidates.length > 0) {
+                                // Pick affordable + best OVR upgrade
+                                const target = candidates.find(c =>
+                                    c.value * 1.5 <= (team.balance || 0) * 0.3
+                                );
+                                if (target) {
+                                    const offerAmount = Math.round(target.value * (1.3 + Math.random() * 0.2));
+                                    const result = engine.makeBuyOffer(target.teamId, target.player.id, offerAmount);
+                                    this._logDecision('BUY_OFFER', {
+                                        target: target.player.name,
+                                        position: target.position,
+                                        ovr: target.ovr,
+                                        amount: offerAmount,
+                                        accepted: result?.accepted || false
+                                    }, 0);
+                                    if (result?.accepted) {
+                                        this.stats.transfers++;
+                                        // SPEC-122 BUG-054: remember decision + outcome
+                                        this.brain?.remember({
+                                            week: engine.currentWeek,
+                                            season: engine.seasonNumber,
+                                            action: `BUY_${target.position}_OVR${target.ovr}`,
+                                            result: 'success',
+                                            reward: 5,
+                                            details: `R$ ${(offerAmount / 1_000_000).toFixed(1)}M`
+                                        });
+                                    } else if (result?.success === true) {
+                                        // offer rejected (bid too low) — bot learns
+                                        this.brain?.remember({
+                                            week: engine.currentWeek,
+                                            season: engine.seasonNumber,
+                                            action: `BUY_${target.position}_OVR${target.ovr}`,
+                                            result: `rejected (ratio ${result.ratio?.toFixed(2)})`,
+                                            reward: -1
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    } catch { /* ignore */ }
+                }
+
                 // Outgoing market inquiry every 8 weeks (telemetry data + decision log)
                 if (this.stats.weeksPlayed % 8 === 0 && team.squad?.length > 0) {
                     const candidate = team.squad[Math.floor(Math.random() * team.squad.length)];

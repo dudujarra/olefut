@@ -424,6 +424,89 @@ export class Engine {
         return { success: true, msg: 'Oferta recusada.' };
     }
 
+    /**
+     * SPEC-122 BUG-053: Outgoing buy offer.
+     * Bot picks player from another team, makes offer. Opponent auto-decides.
+     * Acceptance probability = sigmoid(amount / playerValue).
+     * @param {number} otherTeamId
+     * @param {string|number} playerId
+     * @param {number} amount
+     * @returns {{success, msg, accepted}}
+     */
+    makeBuyOffer(otherTeamId, playerId, amount) {
+        const myTeam = this.getTeam(this.manager?.teamId);
+        const otherTeam = this.getTeam(otherTeamId);
+        if (!myTeam || !otherTeam) return { success: false, msg: 'Time não encontrado.', accepted: false };
+        if (myTeam.id === otherTeam.id) return { success: false, msg: 'Mesmo time.', accepted: false };
+        if ((myTeam.balance || 0) < amount) return { success: false, msg: 'Saldo insuficiente.', accepted: false };
+        if ((myTeam.squad || []).length >= 30) return { success: false, msg: 'Squad cheio.', accepted: false };
+
+        const player = otherTeam.squad?.find(p => p.id === playerId);
+        if (!player) return { success: false, msg: 'Jogador não encontrado.', accepted: false };
+
+        // Acceptance probability: amount/value ratio.
+        // ratio < 0.8 → reject. ratio > 1.5 → accept. Sigmoid in between.
+        const ratio = amount / Math.max(1, player.value || 1_000_000);
+        const acceptProb = Math.max(0, Math.min(1, (ratio - 0.8) / 0.7));
+        const accepted = Math.random() < acceptProb;
+
+        if (!accepted) {
+            return {
+                success: true,
+                accepted: false,
+                msg: `${otherTeam.name} recusou oferta R$ ${(amount / 1_000_000).toFixed(1)}M por ${player.name} (esperava ${(ratio * 100).toFixed(0)}% do valor).`,
+                ratio,
+                acceptProb
+            };
+        }
+
+        // Transfer execution
+        otherTeam.squad = otherTeam.squad.filter(p => p.id !== playerId);
+        otherTeam.balance = (otherTeam.balance || 0) + amount;
+        myTeam.balance -= amount;
+        // Reset acquired player state
+        player.isTitular = false;
+        player.injury = null;
+        player.energy = 100;
+        myTeam.squad.push(player);
+
+        return {
+            success: true,
+            accepted: true,
+            msg: `🎉 Comprou ${player.name} de ${otherTeam.name} por R$ ${(amount / 1_000_000).toFixed(1)}M!`,
+            ratio,
+            playerId
+        };
+    }
+
+    /**
+     * SPEC-122: Scout league for buy candidates.
+     * Returns array of { team, player, position, ovr, value } sorted by OVR desc.
+     * Filters out our own team + injured players + retired.
+     */
+    scoutLeague(targetPosition = null, minOVR = 60, limit = 20) {
+        const myTeamId = this.manager?.teamId;
+        const candidates = [];
+        for (const team of this.teams) {
+            if (team.id === myTeamId) continue;
+            for (const player of team.squad || []) {
+                if (player._retired || player.injury) continue;
+                if (targetPosition && player.position !== targetPosition) continue;
+                if ((player.ovr || 0) < minOVR) continue;
+                candidates.push({
+                    teamId: team.id,
+                    teamName: team.name,
+                    player,
+                    position: player.position,
+                    ovr: player.ovr,
+                    value: player.value || 1_000_000
+                });
+            }
+        }
+        candidates.sort((a, b) => b.ovr - a.ovr);
+        return candidates.slice(0, limit);
+    }
+
     // === YOUTH ACADEMY ===
     triggerYouthIntake() {
         const team = this.getTeam(this.manager.teamId);

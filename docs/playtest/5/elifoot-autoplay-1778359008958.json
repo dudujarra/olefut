@@ -1,0 +1,3120 @@
+{
+  "weeksPlayed": 3280,
+  "seasonsPlayed": 86,
+  "matchesPlayed": 201400,
+  "wins": 4,
+  "draws": 2,
+  "losses": 3274,
+  "transfers": 0,
+  "errorCount": 0,
+  "anomalies": [
+    {
+      "type": "VEXAME",
+      "msg": "📉 Levou 0-4",
+      "ctx": {
+        "diff": 4,
+        "score": "0-4",
+        "week": 11
+      },
+      "week": 11,
+      "season": 1,
+      "ts": 1778358406189
+    },
+    {
+      "type": "VEXAME",
+      "msg": "📉 Levou 0-9",
+      "ctx": {
+        "diff": 9,
+        "score": "0-9",
+        "week": 13
+      },
+      "week": 13,
+      "season": 1,
+      "ts": 1778358406345
+    },
+    {
+      "type": "VEXAME",
+      "msg": "📉 Levou 0-12",
+      "ctx": {
+        "diff": 12,
+        "score": "0-12",
+        "week": 14
+      },
+      "week": 14,
+      "season": 1,
+      "ts": 1778358406417
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Same tactic 31 weeks",
+      "ctx": {
+        "tactic": "defensive"
+      },
+      "week": 29,
+      "season": 5,
+      "ts": 1778358440151
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 9 players",
+      "ctx": {
+        "squadSize": 9
+      },
+      "week": 5,
+      "season": 29,
+      "ts": 1778358637876
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 11,
+      "season": 35,
+      "ts": 1778358690597
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 11,
+      "season": 37,
+      "ts": 1778358707689
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 8 players",
+      "ctx": {
+        "squadSize": 8
+      },
+      "week": 11,
+      "season": 39,
+      "ts": 1778358724817
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 29,
+      "season": 44,
+      "ts": 1778358771577
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 9 players",
+      "ctx": {
+        "squadSize": 9
+      },
+      "week": 29,
+      "season": 46,
+      "ts": 1778358788637
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 30,
+      "season": 48,
+      "ts": 1778358805900
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 33,
+      "season": 48,
+      "ts": 1778358806563
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 5,
+      "season": 53,
+      "ts": 1778358843183
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 6 players",
+      "ctx": {
+        "squadSize": 6
+      },
+      "week": 5,
+      "season": 55,
+      "ts": 1778358860289
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 5,
+      "season": 59,
+      "ts": 1778358894588
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 5,
+      "season": 61,
+      "ts": 1778358911776
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 8 players",
+      "ctx": {
+        "squadSize": 8
+      },
+      "week": 5,
+      "season": 63,
+      "ts": 1778358928874
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 8 players",
+      "ctx": {
+        "squadSize": 8
+      },
+      "week": 5,
+      "season": 65,
+      "ts": 1778358939063
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 11,
+      "season": 65,
+      "ts": 1778358939257
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 9 players",
+      "ctx": {
+        "squadSize": 9
+      },
+      "week": 11,
+      "season": 67,
+      "ts": 1778358950087
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 5 players",
+      "ctx": {
+        "squadSize": 5
+      },
+      "week": 11,
+      "season": 69,
+      "ts": 1778358951953
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 9 players",
+      "ctx": {
+        "squadSize": 9
+      },
+      "week": 12,
+      "season": 69,
+      "ts": 1778358951981
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 11,
+      "season": 71,
+      "ts": 1778358953899
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 11,
+      "season": 73,
+      "ts": 1778358955885
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 13,
+      "season": 73,
+      "ts": 1778358955944
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 7 players",
+      "ctx": {
+        "squadSize": 7
+      },
+      "week": 13,
+      "season": 75,
+      "ts": 1778358957891
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 2 players",
+      "ctx": {
+        "squadSize": 2
+      },
+      "week": 13,
+      "season": 77,
+      "ts": 1778358959837
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 8 players",
+      "ctx": {
+        "squadSize": 8
+      },
+      "week": 14,
+      "season": 77,
+      "ts": 1778358959868
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 13,
+      "season": 79,
+      "ts": 1778358961777
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 5 players",
+      "ctx": {
+        "squadSize": 5
+      },
+      "week": 14,
+      "season": 79,
+      "ts": 1778358961806
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 5 players",
+      "ctx": {
+        "squadSize": 5
+      },
+      "week": 14,
+      "season": 81,
+      "ts": 1778358963753
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 3 players",
+      "ctx": {
+        "squadSize": 3
+      },
+      "week": 15,
+      "season": 81,
+      "ts": 1778358963782
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 7 players",
+      "ctx": {
+        "squadSize": 7
+      },
+      "week": 16,
+      "season": 81,
+      "ts": 1778358963812
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 7 players",
+      "ctx": {
+        "squadSize": 7
+      },
+      "week": 16,
+      "season": 83,
+      "ts": 1778358976222
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 8 players",
+      "ctx": {
+        "squadSize": 8
+      },
+      "week": 17,
+      "season": 83,
+      "ts": 1778358977221
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 7 players",
+      "ctx": {
+        "squadSize": 7
+      },
+      "week": 17,
+      "season": 85,
+      "ts": 1778359004313
+    },
+    {
+      "type": "SQUAD_SHORT",
+      "msg": "Squad has 10 players",
+      "ctx": {
+        "squadSize": 10
+      },
+      "week": 22,
+      "season": 85,
+      "ts": 1778359004432
+    }
+  ],
+  "successes": [
+    {
+      "type": "GOLEADA",
+      "msg": "🚀 Goleada 7-0",
+      "ctx": {
+        "diff": 7,
+        "score": "7-0",
+        "week": 2
+      },
+      "week": 2,
+      "season": 1,
+      "ts": 1778358405562
+    },
+    {
+      "type": "GOLEADA",
+      "msg": "🚀 Goleada 9-1",
+      "ctx": {
+        "diff": 8,
+        "score": "9-1",
+        "week": 5
+      },
+      "week": 5,
+      "season": 1,
+      "ts": 1778358405767
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "5 derrotas seguidas",
+      "ctx": {
+        "streak": -5
+      },
+      "week": 14,
+      "season": 1,
+      "ts": 1778358406417
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "6 derrotas seguidas",
+      "ctx": {
+        "streak": -6
+      },
+      "week": 15,
+      "season": 1,
+      "ts": 1778358406492
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "7 derrotas seguidas",
+      "ctx": {
+        "streak": -7
+      },
+      "week": 16,
+      "season": 1,
+      "ts": 1778358406572
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "8 derrotas seguidas",
+      "ctx": {
+        "streak": -8
+      },
+      "week": 17,
+      "season": 1,
+      "ts": 1778358406655
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "9 derrotas seguidas",
+      "ctx": {
+        "streak": -9
+      },
+      "week": 18,
+      "season": 1,
+      "ts": 1778358406739
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "10 derrotas seguidas",
+      "ctx": {
+        "streak": -10
+      },
+      "week": 19,
+      "season": 1,
+      "ts": 1778358406802
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "11 derrotas seguidas",
+      "ctx": {
+        "streak": -11
+      },
+      "week": 20,
+      "season": 1,
+      "ts": 1778358406866
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "12 derrotas seguidas",
+      "ctx": {
+        "streak": -12
+      },
+      "week": 21,
+      "season": 1,
+      "ts": 1778358406932
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "13 derrotas seguidas",
+      "ctx": {
+        "streak": -13
+      },
+      "week": 22,
+      "season": 1,
+      "ts": 1778358406995
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "14 derrotas seguidas",
+      "ctx": {
+        "streak": -14
+      },
+      "week": 23,
+      "season": 1,
+      "ts": 1778358407055
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "15 derrotas seguidas",
+      "ctx": {
+        "streak": -15
+      },
+      "week": 24,
+      "season": 1,
+      "ts": 1778358407114
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "16 derrotas seguidas",
+      "ctx": {
+        "streak": -16
+      },
+      "week": 25,
+      "season": 1,
+      "ts": 1778358407173
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "17 derrotas seguidas",
+      "ctx": {
+        "streak": -17
+      },
+      "week": 26,
+      "season": 1,
+      "ts": 1778358407233
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "18 derrotas seguidas",
+      "ctx": {
+        "streak": -18
+      },
+      "week": 27,
+      "season": 1,
+      "ts": 1778358407296
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "19 derrotas seguidas",
+      "ctx": {
+        "streak": -19
+      },
+      "week": 28,
+      "season": 1,
+      "ts": 1778358407355
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "20 derrotas seguidas",
+      "ctx": {
+        "streak": -20
+      },
+      "week": 29,
+      "season": 1,
+      "ts": 1778358407416
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "21 derrotas seguidas",
+      "ctx": {
+        "streak": -21
+      },
+      "week": 30,
+      "season": 1,
+      "ts": 1778358407476
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "22 derrotas seguidas",
+      "ctx": {
+        "streak": -22
+      },
+      "week": 31,
+      "season": 1,
+      "ts": 1778358407535
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "23 derrotas seguidas",
+      "ctx": {
+        "streak": -23
+      },
+      "week": 32,
+      "season": 1,
+      "ts": 1778358407593
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "24 derrotas seguidas",
+      "ctx": {
+        "streak": -24
+      },
+      "week": 33,
+      "season": 1,
+      "ts": 1778358407652
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "25 derrotas seguidas",
+      "ctx": {
+        "streak": -25
+      },
+      "week": 34,
+      "season": 1,
+      "ts": 1778358407712
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "26 derrotas seguidas",
+      "ctx": {
+        "streak": -26
+      },
+      "week": 35,
+      "season": 1,
+      "ts": 1778358407772
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "27 derrotas seguidas",
+      "ctx": {
+        "streak": -27
+      },
+      "week": 36,
+      "season": 1,
+      "ts": 1778358407992
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "28 derrotas seguidas",
+      "ctx": {
+        "streak": -28
+      },
+      "week": 37,
+      "season": 1,
+      "ts": 1778358408211
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "29 derrotas seguidas",
+      "ctx": {
+        "streak": -29
+      },
+      "week": 38,
+      "season": 1,
+      "ts": 1778358408434
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "30 derrotas seguidas",
+      "ctx": {
+        "streak": -30
+      },
+      "week": 30,
+      "season": 2,
+      "ts": 1778358415042
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "31 derrotas seguidas",
+      "ctx": {
+        "streak": -31
+      },
+      "week": 31,
+      "season": 2,
+      "ts": 1778358415259
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "32 derrotas seguidas",
+      "ctx": {
+        "streak": -32
+      },
+      "week": 32,
+      "season": 2,
+      "ts": 1778358415471
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "33 derrotas seguidas",
+      "ctx": {
+        "streak": -33
+      },
+      "week": 33,
+      "season": 2,
+      "ts": 1778358415681
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "34 derrotas seguidas",
+      "ctx": {
+        "streak": -34
+      },
+      "week": 34,
+      "season": 2,
+      "ts": 1778358415890
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "35 derrotas seguidas",
+      "ctx": {
+        "streak": -35
+      },
+      "week": 35,
+      "season": 2,
+      "ts": 1778358416102
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "36 derrotas seguidas",
+      "ctx": {
+        "streak": -36
+      },
+      "week": 36,
+      "season": 2,
+      "ts": 1778358416314
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "37 derrotas seguidas",
+      "ctx": {
+        "streak": -37
+      },
+      "week": 37,
+      "season": 2,
+      "ts": 1778358416534
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "38 derrotas seguidas",
+      "ctx": {
+        "streak": -38
+      },
+      "week": 38,
+      "season": 2,
+      "ts": 1778358416754
+    },
+    {
+      "type": "BALANCE_PEAK",
+      "msg": "💰 R$ 1150M",
+      "ctx": {
+        "balance": 1150070710
+      },
+      "week": 25,
+      "season": 38,
+      "ts": 1778358719411
+    },
+    {
+      "type": "BALANCE_PEAK",
+      "msg": "💰 R$ 1300M",
+      "ctx": {
+        "balance": 1300025750
+      },
+      "week": 35,
+      "season": 42,
+      "ts": 1778358755926
+    },
+    {
+      "type": "BALANCE_PEAK",
+      "msg": "💰 R$ 1300M",
+      "ctx": {
+        "balance": 1300070535
+      },
+      "week": 36,
+      "season": 42,
+      "ts": 1778358756145
+    },
+    {
+      "type": "BALANCE_PEAK",
+      "msg": "💰 R$ 2050M",
+      "ctx": {
+        "balance": 2050009435
+      },
+      "week": 18,
+      "season": 64,
+      "ts": 1778358938466
+    },
+    {
+      "type": "BALANCE_PEAK",
+      "msg": "💰 R$ 2600M",
+      "ctx": {
+        "balance": 2600087425
+      },
+      "week": 33,
+      "season": 79,
+      "ts": 1778358962255
+    }
+  ],
+  "decisions": [
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.3999999761581421,
+      "week": 24
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "squad"
+      },
+      "elapsedMs": 0,
+      "week": 26
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "kqq4nujjx",
+        "askPrice": 1408916
+      },
+      "elapsedMs": 0,
+      "week": 26
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 27
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.5,
+      "week": 30
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "market"
+      },
+      "elapsedMs": 0,
+      "week": 30
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.29999998211860657,
+      "week": 33
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "standings"
+      },
+      "elapsedMs": 0,
+      "week": 34
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "845gs39mr",
+        "askPrice": 3167745
+      },
+      "elapsedMs": 0,
+      "week": 34
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.29999998211860657,
+      "week": 36
+    },
+    {
+      "action": "FORMATION",
+      "args": {
+        "form": "4-2-3-1"
+      },
+      "elapsedMs": 0,
+      "week": 38
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "press"
+      },
+      "elapsedMs": 0,
+      "week": 38
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "attack",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 1
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.5,
+      "week": 4
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "dashboard"
+      },
+      "elapsedMs": 0,
+      "week": 4
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "1ey6m1ocg",
+        "askPrice": 2607890
+      },
+      "elapsedMs": 0,
+      "week": 4
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.9000000059604645,
+      "week": 7
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "squad"
+      },
+      "elapsedMs": 0,
+      "week": 8
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "attack",
+        "picked": true
+      },
+      "elapsedMs": 0.5,
+      "week": 10
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "market"
+      },
+      "elapsedMs": 0,
+      "week": 12
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "1k7kh5s3m",
+        "askPrice": 2663168
+      },
+      "elapsedMs": 0,
+      "week": 12
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 1.100000023841858,
+      "week": 13
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 1,
+      "week": 16
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "standings"
+      },
+      "elapsedMs": 0,
+      "week": 16
+    },
+    {
+      "action": "SQUAD_REPLENISH",
+      "args": {
+        "squadBefore": 7,
+        "squadAfter": 11,
+        "emergency": true
+      },
+      "elapsedMs": 0,
+      "week": 16
+    },
+    {
+      "action": "SQUAD_REPLENISH",
+      "args": {
+        "squadBefore": 8,
+        "squadAfter": 14,
+        "emergency": true
+      },
+      "elapsedMs": 0,
+      "week": 17
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 1.5,
+      "week": 19
+    },
+    {
+      "action": "FORMATION",
+      "args": {
+        "form": "4-3-3"
+      },
+      "elapsedMs": 0,
+      "week": 19
+    },
+    {
+      "action": "SQUAD_REPLENISH",
+      "args": {
+        "squadBefore": 14,
+        "squadAfter": 17,
+        "emergency": false
+      },
+      "elapsedMs": 0,
+      "week": 19
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "press"
+      },
+      "elapsedMs": 0,
+      "week": 20
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "elpalzl0w",
+        "askPrice": 2233901
+      },
+      "elapsedMs": 0,
+      "week": 20
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 22
+    },
+    {
+      "action": "SQUAD_REPLENISH",
+      "args": {
+        "squadBefore": 13,
+        "squadAfter": 17,
+        "emergency": false
+      },
+      "elapsedMs": 0,
+      "week": 22
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "dashboard"
+      },
+      "elapsedMs": 0,
+      "week": 24
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.5999999940395355,
+      "week": 25
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 1.699999988079071,
+      "week": 28
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "squad"
+      },
+      "elapsedMs": 0,
+      "week": 28
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "zm6cbelw2",
+        "askPrice": 956612
+      },
+      "elapsedMs": 0,
+      "week": 28
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "technical",
+        "picked": true
+      },
+      "elapsedMs": 1.5,
+      "week": 31
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "market"
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 1.4000000059604645,
+      "week": 34
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "standings"
+      },
+      "elapsedMs": 0,
+      "week": 36
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "1msy1wfn1",
+        "askPrice": 2669917
+      },
+      "elapsedMs": 0,
+      "week": 36
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 1.7000000178813934,
+      "week": 37
+    },
+    {
+      "action": "FORMATION",
+      "args": {
+        "form": "3-5-2"
+      },
+      "elapsedMs": 0,
+      "week": 38
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 1.600000023841858,
+      "week": 2
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "press"
+      },
+      "elapsedMs": 0,
+      "week": 2
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.699999988079071,
+      "week": 5
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "dashboard"
+      },
+      "elapsedMs": 0,
+      "week": 6
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "elpalzl0w",
+        "askPrice": 2286837
+      },
+      "elapsedMs": 0,
+      "week": 6
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 8
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "squad"
+      },
+      "elapsedMs": 0,
+      "week": 10
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 11
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.5,
+      "week": 14
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "market"
+      },
+      "elapsedMs": 0,
+      "week": 14
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "hp539b8uh",
+        "askPrice": 2471437
+      },
+      "elapsedMs": 0,
+      "week": 14
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 17
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "standings"
+      },
+      "elapsedMs": 0,
+      "week": 18
+    },
+    {
+      "action": "FORMATION",
+      "args": {
+        "form": "3-5-2"
+      },
+      "elapsedMs": 0,
+      "week": 19
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 20
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "press"
+      },
+      "elapsedMs": 0,
+      "week": 22
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "n3rqe7pqe",
+        "askPrice": 2454748
+      },
+      "elapsedMs": 0,
+      "week": 22
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.5,
+      "week": 23
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 26
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "dashboard"
+      },
+      "elapsedMs": 0,
+      "week": 26
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 29
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "squad"
+      },
+      "elapsedMs": 0,
+      "week": 30
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "hp539b8uh",
+        "askPrice": 2959152
+      },
+      "elapsedMs": 0,
+      "week": 30
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.19999998807907104,
+      "week": 32
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "market"
+      },
+      "elapsedMs": 0,
+      "week": 34
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 35
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.19999998807907104,
+      "week": 38
+    },
+    {
+      "action": "FORMATION",
+      "args": {
+        "form": "3-5-2"
+      },
+      "elapsedMs": 0,
+      "week": 38
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "standings"
+      },
+      "elapsedMs": 0,
+      "week": 38
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "nv7jalza3",
+        "askPrice": 3368699
+      },
+      "elapsedMs": 0,
+      "week": 38
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 3
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "press"
+      },
+      "elapsedMs": 0,
+      "week": 4
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.20000001788139343,
+      "week": 6
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "dashboard"
+      },
+      "elapsedMs": 0,
+      "week": 8
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "zu1k1fkth",
+        "askPrice": 1876106
+      },
+      "elapsedMs": 0,
+      "week": 8
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.29999998211860657,
+      "week": 9
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.29999998211860657,
+      "week": 12
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "squad"
+      },
+      "elapsedMs": 0,
+      "week": 12
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "rest",
+        "picked": true
+      },
+      "elapsedMs": 0.3999999761581421,
+      "week": 15
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "market"
+      },
+      "elapsedMs": 0,
+      "week": 16
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "zu1k1fkth",
+        "askPrice": 2235447
+      },
+      "elapsedMs": 0,
+      "week": 16
+    },
+    {
+      "action": "SQUAD_REPLENISH",
+      "args": {
+        "squadBefore": 7,
+        "squadAfter": 16,
+        "emergency": true
+      },
+      "elapsedMs": 0,
+      "week": 17
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 18
+    },
+    {
+      "action": "FORMATION",
+      "args": {
+        "form": "4-2-3-1"
+      },
+      "elapsedMs": 0,
+      "week": 19
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "standings"
+      },
+      "elapsedMs": 0,
+      "week": 20
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 21
+    },
+    {
+      "action": "SQUAD_REPLENISH",
+      "args": {
+        "squadBefore": 13,
+        "squadAfter": 14,
+        "emergency": false
+      },
+      "elapsedMs": 0,
+      "week": 21
+    },
+    {
+      "action": "SQUAD_REPLENISH",
+      "args": {
+        "squadBefore": 10,
+        "squadAfter": 15,
+        "emergency": true
+      },
+      "elapsedMs": 0,
+      "week": 22
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "tactical",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 24
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "press"
+      },
+      "elapsedMs": 0,
+      "week": 24
+    },
+    {
+      "action": "SQUAD_REPLENISH",
+      "args": {
+        "squadBefore": 15,
+        "squadAfter": 19,
+        "emergency": false
+      },
+      "elapsedMs": 0,
+      "week": 24
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "xtln6fj1t",
+        "askPrice": 2485849
+      },
+      "elapsedMs": 0,
+      "week": 24
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 27
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "dashboard"
+      },
+      "elapsedMs": 0,
+      "week": 28
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 30
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "squad"
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "vpneherd5",
+        "askPrice": 2081946
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.20000001788139343,
+      "week": 33
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 36
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "market"
+      },
+      "elapsedMs": 0,
+      "week": 36
+    },
+    {
+      "action": "FORMATION",
+      "args": {
+        "form": "3-5-2"
+      },
+      "elapsedMs": 0,
+      "week": 38
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "double",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 1
+    },
+    {
+      "action": "UPGRADE_STADIUM",
+      "args": {},
+      "elapsedMs": 0,
+      "week": 1
+    },
+    {
+      "action": "UPGRADE_ACADEMY",
+      "args": {},
+      "elapsedMs": 0,
+      "week": 1
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "standings"
+      },
+      "elapsedMs": 0,
+      "week": 2
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "xtln6fj1t",
+        "askPrice": 2563321
+      },
+      "elapsedMs": 0,
+      "week": 2
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "attack",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 4
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "press"
+      },
+      "elapsedMs": 0,
+      "week": 6
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "attack",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 7
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "technical",
+        "picked": true
+      },
+      "elapsedMs": 0.29999998211860657,
+      "week": 10
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "dashboard"
+      },
+      "elapsedMs": 0,
+      "week": 10
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "nv0orux4j",
+        "askPrice": 3247131
+      },
+      "elapsedMs": 0,
+      "week": 10
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "rest",
+        "picked": true
+      },
+      "elapsedMs": 0.19999998807907104,
+      "week": 13
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "squad"
+      },
+      "elapsedMs": 0,
+      "week": 14
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 16
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "market"
+      },
+      "elapsedMs": 0,
+      "week": 18
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "hd5qve1gy",
+        "askPrice": 2494339
+      },
+      "elapsedMs": 0,
+      "week": 18
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.3999999761581421,
+      "week": 19
+    },
+    {
+      "action": "FORMATION",
+      "args": {
+        "form": "4-3-3"
+      },
+      "elapsedMs": 0,
+      "week": 19
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.5,
+      "week": 22
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "standings"
+      },
+      "elapsedMs": 0,
+      "week": 22
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 25
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "press"
+      },
+      "elapsedMs": 0,
+      "week": 26
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "ve3rahe6q",
+        "askPrice": 1079403
+      },
+      "elapsedMs": 0,
+      "week": 26
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 28
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "dashboard"
+      },
+      "elapsedMs": 0,
+      "week": 30
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "attack",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 31
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.30000001192092896,
+      "week": 34
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "squad"
+      },
+      "elapsedMs": 0,
+      "week": 34
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "q2huktnp3",
+        "askPrice": 2821706
+      },
+      "elapsedMs": 0,
+      "week": 34
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.29999998211860657,
+      "week": 37
+    },
+    {
+      "action": "FORMATION",
+      "args": {
+        "form": "4-3-3"
+      },
+      "elapsedMs": 0,
+      "week": 38
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "market"
+      },
+      "elapsedMs": 0,
+      "week": 38
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "technical",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 2
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "standings"
+      },
+      "elapsedMs": 0,
+      "week": 4
+    },
+    {
+      "action": "MARKET_INQUIRY",
+      "args": {
+        "playerId": "p0hnxs7aj",
+        "askPrice": 1234893
+      },
+      "elapsedMs": 0,
+      "week": 4
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "technical",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 5
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.3999999761581421,
+      "week": 8
+    },
+    {
+      "action": "VISIT_VIEW",
+      "args": {
+        "view": "press"
+      },
+      "elapsedMs": 0,
+      "week": 8
+    },
+    {
+      "action": "TRAIN",
+      "args": {
+        "trainingId": "fitness",
+        "picked": true
+      },
+      "elapsedMs": 0.4000000059604645,
+      "week": 11
+    }
+  ],
+  "insights": {
+    "longestWinStreak": 2,
+    "longestLossStreak": -38,
+    "biggestWin": {
+      "diff": 8,
+      "score": "9-1",
+      "week": 5
+    },
+    "worstLoss": {
+      "diff": 12,
+      "score": "0-12",
+      "week": 14
+    },
+    "biggestSale": null,
+    "titlesWon": 0,
+    "promotionsWon": 0,
+    "relegationsTaken": 0,
+    "hatTricks": 0,
+    "cleanSheets": 1,
+    "achievementsUnlocked": 0,
+    "peakBalance": 2843994810,
+    "lowestBalance": 351337770,
+    "peakStanding": 3,
+    "worstStanding": 20
+  },
+  "startTime": 1778358405472,
+  "elapsedMs": 603484,
+  "weeksPerSecond": 5.435106813105235,
+  "running": false,
+  "currentWeek": 12,
+  "currentSeason": 87,
+  "telemetry": {
+    "overallScore": 57,
+    "timestamp": 1778359006215,
+    "detectorCount": 15,
+    "results": {
+      "SPEC-100": {
+        "spec": "SPEC-100",
+        "name": "Monotony Detector",
+        "score": 17,
+        "signals": [
+          {
+            "id": "STAT_VARIANCE_LOW",
+            "severity": 0.6198634931338645,
+            "msg": "Balance praticamente estático (CV 1.9%)"
+          },
+          {
+            "id": "STANDING_FREEZE",
+            "severity": 0.6,
+            "msg": "Posição 20º há 10 semanas"
+          }
+        ],
+        "topSignal": "STAT_VARIANCE_LOW",
+        "_elapsedMs": 0
+      },
+      "SPEC-101": {
+        "spec": "SPEC-101",
+        "name": "Balance Audit",
+        "score": 82,
+        "signals": [
+          {
+            "id": "GRIND_DIVISION",
+            "severity": 0.9000000000000001,
+            "msg": "Série A: 100% derrotas"
+          }
+        ],
+        "topSignal": "GRIND_DIVISION",
+        "histogram": {
+          "1": {
+            "W": 0,
+            "D": 0,
+            "L": 200,
+            "total": 200
+          },
+          "2": {
+            "W": 0,
+            "D": 0,
+            "L": 0,
+            "total": 0
+          },
+          "3": {
+            "W": 0,
+            "D": 0,
+            "L": 0,
+            "total": 0
+          },
+          "4": {
+            "W": 0,
+            "D": 0,
+            "L": 0,
+            "total": 0
+          }
+        },
+        "_elapsedMs": 0
+      },
+      "SPEC-102": {
+        "spec": "SPEC-102",
+        "name": "Fun Score",
+        "score": 40,
+        "signals": [
+          {
+            "id": "BORING_STREAK",
+            "severity": 0.7,
+            "msg": "Variância gols baixa (0.0) em 30 matches"
+          }
+        ],
+        "topSignal": "BORING_STREAK",
+        "averagePerMatch": 40,
+        "matchCount": 30,
+        "_elapsedMs": 0
+      },
+      "SPEC-103": {
+        "spec": "SPEC-103",
+        "name": "Decision Impact",
+        "score": 100,
+        "signals": [
+          {
+            "id": "HIGH_LEVERAGE",
+            "severity": 0.5,
+            "msg": "VISIT_VIEW avg delta -8.6"
+          }
+        ],
+        "topSignal": "HIGH_LEVERAGE",
+        "byActionType": {
+          "FORMATION": {
+            "count": 13,
+            "avgDelta": -4.686547115384615
+          },
+          "VISIT_VIEW": {
+            "count": 60,
+            "avgDelta": -8.626568666666666
+          },
+          "MARKET_INQUIRY": {
+            "count": 30,
+            "avgDelta": -8.737903166666664
+          },
+          "UPGRADE_STADIUM": {
+            "count": 2,
+            "avgDelta": -11.041812499999999
+          },
+          "UPGRADE_ACADEMY": {
+            "count": 2,
+            "avgDelta": -11.041812499999999
+          },
+          "TRAIN": {
+            "count": 80,
+            "avgDelta": -8.8388315
+          },
+          "SQUAD_REPLENISH": {
+            "count": 13,
+            "avgDelta": -7.327015576923078
+          }
+        },
+        "_elapsedMs": 0.30000001192092896
+      },
+      "SPEC-104": {
+        "spec": "SPEC-104",
+        "name": "Critical Path Map",
+        "score": 25,
+        "signals": [
+          {
+            "id": "DEAD_VIEW",
+            "severity": 0.75,
+            "msg": "12 views nunca visitadas (ex: start, autoplay, matchView)"
+          },
+          {
+            "id": "COVERAGE_LOW",
+            "severity": 0.6,
+            "msg": "Apenas 4/16 views acessadas"
+          }
+        ],
+        "topSignal": "DEAD_VIEW",
+        "heatmap": {
+          "dashboard": 164,
+          "squad": 164,
+          "market": 164,
+          "standings": 164,
+          "press": 164
+        },
+        "totalViews": 16,
+        "visitedViews": 4,
+        "_elapsedMs": 0
+      },
+      "SPEC-105": {
+        "spec": "SPEC-105",
+        "name": "Narrative Coverage",
+        "score": 89,
+        "signals": [
+          {
+            "id": "REPEATED_NARRATOR",
+            "severity": 0.35,
+            "msg": "\"☠️ Vestiário em crise! 10 jogadores insa...\" usado 7×"
+          }
+        ],
+        "topSignal": "REPEATED_NARRATOR",
+        "uniqueCount": 177,
+        "totalCount": 200,
+        "topNarrators": [
+          [
+            "☠️ Vestiário em crise! 10 jogadores insatisfeitos contaminam o grupo.",
+            7
+          ],
+          [
+            "☠️ Vestiário em crise! 11 jogadores insatisfeitos contaminam o grupo.",
+            6
+          ],
+          [
+            "☠️ Vestiário em crise! 16 jogadores insatisfeitos contaminam o grupo.",
+            5
+          ],
+          [
+            "☠️ Vestiário em crise! 8 jogadores insatisfeitos contaminam o grupo.",
+            3
+          ],
+          [
+            "☠️ Vestiário em crise! 12 jogadores insatisfeitos contaminam o grupo.",
+            3
+          ]
+        ],
+        "_elapsedMs": 0.09999999403953552
+      },
+      "SPEC-106": {
+        "spec": "SPEC-106",
+        "name": "Emotional Arc",
+        "score": 100,
+        "signals": [
+          {
+            "id": "HUMILIATION_VALLEY",
+            "severity": 0.5,
+            "msg": "Vexame 0-12 (sem 3)"
+          }
+        ],
+        "topSignal": "HUMILIATION_VALLEY",
+        "peaks": [],
+        "valleys": [
+          {
+            "week": 3,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 0-12"
+          },
+          {
+            "week": 4,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 0-12"
+          },
+          {
+            "week": 5,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 0-12"
+          },
+          {
+            "week": 6,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 0-12"
+          },
+          {
+            "week": 7,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 0-12"
+          }
+        ],
+        "amplitude": 200,
+        "_elapsedMs": 0
+      },
+      "SPEC-107": {
+        "spec": "SPEC-107",
+        "name": "Player Identity",
+        "score": 0,
+        "signals": [
+          {
+            "id": "NO_TOP_SCORER",
+            "severity": 1,
+            "msg": "Sem dados de gols"
+          }
+        ],
+        "topSignal": "NO_TOP_SCORER",
+        "topScorer": null,
+        "topVillain": null,
+        "giniCoefficient": 0,
+        "_elapsedMs": 0
+      },
+      "SPEC-108": {
+        "spec": "SPEC-108",
+        "name": "Rivalry Emergence",
+        "score": 30,
+        "signals": [
+          {
+            "id": "REPEAT_OPPONENT",
+            "severity": 1,
+            "msg": "team-8 enfrentado 11× (V0/E0/D11)"
+          }
+        ],
+        "topSignal": "REPEAT_OPPONENT",
+        "topRivals": [
+          {
+            "oppName": "team-8",
+            "encounters": 11,
+            "criticalCount": 0,
+            "headToHead": {
+              "W": 0,
+              "D": 0,
+              "L": 11
+            }
+          },
+          {
+            "oppName": "team-3",
+            "encounters": 11,
+            "criticalCount": 0,
+            "headToHead": {
+              "W": 0,
+              "D": 0,
+              "L": 11
+            }
+          },
+          {
+            "oppName": "team-7",
+            "encounters": 11,
+            "criticalCount": 0,
+            "headToHead": {
+              "W": 0,
+              "D": 0,
+              "L": 11
+            }
+          }
+        ],
+        "_elapsedMs": 0.09999999403953552
+      },
+      "SPEC-109": {
+        "spec": "SPEC-109",
+        "name": "Economy Flow",
+        "score": 70,
+        "signals": [
+          {
+            "id": "MONEY_SINK",
+            "severity": 1,
+            "msg": "Salários: R$ 77.7M sem inflow"
+          },
+          {
+            "id": "SPONSOR_DOMINANT",
+            "severity": 0.5150306546245632,
+            "msg": "Sponsor cobre 52% das despesas"
+          }
+        ],
+        "topSignal": "MONEY_SINK",
+        "byCategory": {
+          "Salários": {
+            "totalIn": 0,
+            "totalOut": 77665280,
+            "netFlow": -77665280,
+            "weeks": 200
+          },
+          "Cota de TV": {
+            "totalIn": 40000000,
+            "totalOut": 0,
+            "netFlow": 40000000,
+            "weeks": 200
+          },
+          "Patrocínio (🥈 Rede Regional)": {
+            "totalIn": 40000000,
+            "totalOut": 0,
+            "netFlow": 40000000,
+            "weeks": 200
+          },
+          "Bilheteria (62443 torcedores)": {
+            "totalIn": 1873290,
+            "totalOut": 0,
+            "netFlow": 1873290,
+            "weeks": 1
+          },
+          "Bilheteria (68057 torcedores)": {
+            "totalIn": 2041710,
+            "totalOut": 0,
+            "netFlow": 2041710,
+            "weeks": 1
+          },
+          "Bilheteria (48800 torcedores)": {
+            "totalIn": 1464000,
+            "totalOut": 0,
+            "netFlow": 1464000,
+            "weeks": 1
+          },
+          "Bilheteria (58810 torcedores)": {
+            "totalIn": 1764300,
+            "totalOut": 0,
+            "netFlow": 1764300,
+            "weeks": 1
+          },
+          "Bilheteria (59114 torcedores)": {
+            "totalIn": 1773420,
+            "totalOut": 0,
+            "netFlow": 1773420,
+            "weeks": 1
+          },
+          "Bilheteria (50626 torcedores)": {
+            "totalIn": 1518780,
+            "totalOut": 0,
+            "netFlow": 1518780,
+            "weeks": 1
+          },
+          "Bilheteria (73492 torcedores)": {
+            "totalIn": 2204760,
+            "totalOut": 0,
+            "netFlow": 2204760,
+            "weeks": 1
+          },
+          "Bilheteria (52463 torcedores)": {
+            "totalIn": 1573890,
+            "totalOut": 0,
+            "netFlow": 1573890,
+            "weeks": 1
+          },
+          "Bilheteria (72469 torcedores)": {
+            "totalIn": 2174070,
+            "totalOut": 0,
+            "netFlow": 2174070,
+            "weeks": 1
+          },
+          "Bilheteria (42681 torcedores)": {
+            "totalIn": 1280430,
+            "totalOut": 0,
+            "netFlow": 1280430,
+            "weeks": 1
+          },
+          "Bilheteria (70187 torcedores)": {
+            "totalIn": 2105610,
+            "totalOut": 0,
+            "netFlow": 2105610,
+            "weeks": 1
+          },
+          "Bilheteria (51980 torcedores)": {
+            "totalIn": 1559400,
+            "totalOut": 0,
+            "netFlow": 1559400,
+            "weeks": 1
+          },
+          "Bilheteria (50933 torcedores)": {
+            "totalIn": 1527990,
+            "totalOut": 0,
+            "netFlow": 1527990,
+            "weeks": 1
+          },
+          "Bilheteria (71299 torcedores)": {
+            "totalIn": 2138970,
+            "totalOut": 0,
+            "netFlow": 2138970,
+            "weeks": 1
+          },
+          "Bilheteria (67973 torcedores)": {
+            "totalIn": 2039190,
+            "totalOut": 0,
+            "netFlow": 2039190,
+            "weeks": 1
+          },
+          "Bilheteria (75624 torcedores)": {
+            "totalIn": 2268720,
+            "totalOut": 0,
+            "netFlow": 2268720,
+            "weeks": 1
+          },
+          "Bilheteria (53814 torcedores)": {
+            "totalIn": 1614420,
+            "totalOut": 0,
+            "netFlow": 1614420,
+            "weeks": 1
+          },
+          "Bilheteria (74470 torcedores)": {
+            "totalIn": 2234100,
+            "totalOut": 0,
+            "netFlow": 2234100,
+            "weeks": 1
+          },
+          "Bilheteria (66080 torcedores)": {
+            "totalIn": 1982400,
+            "totalOut": 0,
+            "netFlow": 1982400,
+            "weeks": 1
+          },
+          "Bilheteria (41508 torcedores)": {
+            "totalIn": 1245240,
+            "totalOut": 0,
+            "netFlow": 1245240,
+            "weeks": 1
+          },
+          "Bilheteria (48466 torcedores)": {
+            "totalIn": 1453980,
+            "totalOut": 0,
+            "netFlow": 1453980,
+            "weeks": 1
+          },
+          "Bilheteria (47246 torcedores)": {
+            "totalIn": 1417380,
+            "totalOut": 0,
+            "netFlow": 1417380,
+            "weeks": 1
+          },
+          "Bilheteria (65509 torcedores)": {
+            "totalIn": 1965270,
+            "totalOut": 0,
+            "netFlow": 1965270,
+            "weeks": 1
+          },
+          "Bilheteria (41870 torcedores)": {
+            "totalIn": 1256100,
+            "totalOut": 0,
+            "netFlow": 1256100,
+            "weeks": 1
+          },
+          "Bilheteria (46709 torcedores)": {
+            "totalIn": 1401270,
+            "totalOut": 0,
+            "netFlow": 1401270,
+            "weeks": 1
+          },
+          "Bilheteria (70197 torcedores)": {
+            "totalIn": 2105910,
+            "totalOut": 0,
+            "netFlow": 2105910,
+            "weeks": 1
+          },
+          "Bilheteria (62260 torcedores)": {
+            "totalIn": 1867800,
+            "totalOut": 0,
+            "netFlow": 1867800,
+            "weeks": 1
+          },
+          "Bilheteria (74352 torcedores)": {
+            "totalIn": 2230560,
+            "totalOut": 0,
+            "netFlow": 2230560,
+            "weeks": 1
+          },
+          "Bilheteria (65282 torcedores)": {
+            "totalIn": 1958460,
+            "totalOut": 0,
+            "netFlow": 1958460,
+            "weeks": 1
+          },
+          "Bilheteria (76364 torcedores)": {
+            "totalIn": 2290920,
+            "totalOut": 0,
+            "netFlow": 2290920,
+            "weeks": 1
+          },
+          "Bilheteria (48748 torcedores)": {
+            "totalIn": 1462440,
+            "totalOut": 0,
+            "netFlow": 1462440,
+            "weeks": 1
+          },
+          "Bilheteria (58557 torcedores)": {
+            "totalIn": 1756710,
+            "totalOut": 0,
+            "netFlow": 1756710,
+            "weeks": 1
+          },
+          "Bilheteria (63694 torcedores)": {
+            "totalIn": 1910820,
+            "totalOut": 0,
+            "netFlow": 1910820,
+            "weeks": 1
+          },
+          "Bilheteria (48541 torcedores)": {
+            "totalIn": 1456230,
+            "totalOut": 0,
+            "netFlow": 1456230,
+            "weeks": 1
+          },
+          "Bilheteria (71948 torcedores)": {
+            "totalIn": 2158440,
+            "totalOut": 0,
+            "netFlow": 2158440,
+            "weeks": 1
+          },
+          "Bilheteria (56465 torcedores)": {
+            "totalIn": 1693950,
+            "totalOut": 0,
+            "netFlow": 1693950,
+            "weeks": 1
+          },
+          "Bilheteria (67394 torcedores)": {
+            "totalIn": 2021820,
+            "totalOut": 0,
+            "netFlow": 2021820,
+            "weeks": 1
+          },
+          "Bilheteria (42813 torcedores)": {
+            "totalIn": 1284390,
+            "totalOut": 0,
+            "netFlow": 1284390,
+            "weeks": 1
+          },
+          "Bilheteria (47989 torcedores)": {
+            "totalIn": 1439670,
+            "totalOut": 0,
+            "netFlow": 1439670,
+            "weeks": 1
+          },
+          "Bilheteria (43696 torcedores)": {
+            "totalIn": 1310880,
+            "totalOut": 0,
+            "netFlow": 1310880,
+            "weeks": 1
+          },
+          "Bilheteria (44045 torcedores)": {
+            "totalIn": 1321350,
+            "totalOut": 0,
+            "netFlow": 1321350,
+            "weeks": 1
+          },
+          "Bilheteria (70611 torcedores)": {
+            "totalIn": 2118330,
+            "totalOut": 0,
+            "netFlow": 2118330,
+            "weeks": 1
+          },
+          "Bilheteria (71763 torcedores)": {
+            "totalIn": 2152890,
+            "totalOut": 0,
+            "netFlow": 2152890,
+            "weeks": 1
+          },
+          "Bilheteria (50875 torcedores)": {
+            "totalIn": 1526250,
+            "totalOut": 0,
+            "netFlow": 1526250,
+            "weeks": 1
+          },
+          "Bilheteria (46057 torcedores)": {
+            "totalIn": 1381710,
+            "totalOut": 0,
+            "netFlow": 1381710,
+            "weeks": 1
+          },
+          "Bilheteria (40223 torcedores)": {
+            "totalIn": 1206690,
+            "totalOut": 0,
+            "netFlow": 1206690,
+            "weeks": 1
+          },
+          "Bilheteria (49614 torcedores)": {
+            "totalIn": 1488420,
+            "totalOut": 0,
+            "netFlow": 1488420,
+            "weeks": 1
+          },
+          "Bilheteria (52220 torcedores)": {
+            "totalIn": 1566600,
+            "totalOut": 0,
+            "netFlow": 1566600,
+            "weeks": 1
+          },
+          "Bilheteria (67617 torcedores)": {
+            "totalIn": 2028510,
+            "totalOut": 0,
+            "netFlow": 2028510,
+            "weeks": 1
+          },
+          "Bilheteria (61325 torcedores)": {
+            "totalIn": 1839750,
+            "totalOut": 0,
+            "netFlow": 1839750,
+            "weeks": 1
+          },
+          "Bilheteria (65219 torcedores)": {
+            "totalIn": 1956570,
+            "totalOut": 0,
+            "netFlow": 1956570,
+            "weeks": 1
+          },
+          "Bilheteria (61123 torcedores)": {
+            "totalIn": 1833690,
+            "totalOut": 0,
+            "netFlow": 1833690,
+            "weeks": 1
+          },
+          "Bilheteria (74926 torcedores)": {
+            "totalIn": 2247780,
+            "totalOut": 0,
+            "netFlow": 2247780,
+            "weeks": 1
+          },
+          "Bilheteria (66515 torcedores)": {
+            "totalIn": 1995450,
+            "totalOut": 0,
+            "netFlow": 1995450,
+            "weeks": 1
+          },
+          "Bilheteria (52665 torcedores)": {
+            "totalIn": 1579950,
+            "totalOut": 0,
+            "netFlow": 1579950,
+            "weeks": 1
+          },
+          "Bilheteria (77461 torcedores)": {
+            "totalIn": 2323830,
+            "totalOut": 0,
+            "netFlow": 2323830,
+            "weeks": 1
+          },
+          "Bilheteria (42487 torcedores)": {
+            "totalIn": 1274610,
+            "totalOut": 0,
+            "netFlow": 1274610,
+            "weeks": 1
+          },
+          "Bilheteria (55209 torcedores)": {
+            "totalIn": 1656270,
+            "totalOut": 0,
+            "netFlow": 1656270,
+            "weeks": 1
+          },
+          "Bilheteria (77770 torcedores)": {
+            "totalIn": 2333100,
+            "totalOut": 0,
+            "netFlow": 2333100,
+            "weeks": 1
+          },
+          "Bilheteria (67730 torcedores)": {
+            "totalIn": 2031900,
+            "totalOut": 0,
+            "netFlow": 2031900,
+            "weeks": 1
+          },
+          "Bilheteria (58509 torcedores)": {
+            "totalIn": 1755270,
+            "totalOut": 0,
+            "netFlow": 1755270,
+            "weeks": 1
+          },
+          "Bilheteria (54501 torcedores)": {
+            "totalIn": 1635030,
+            "totalOut": 0,
+            "netFlow": 1635030,
+            "weeks": 1
+          },
+          "Bilheteria (50857 torcedores)": {
+            "totalIn": 1525710,
+            "totalOut": 0,
+            "netFlow": 1525710,
+            "weeks": 1
+          },
+          "Bilheteria (44679 torcedores)": {
+            "totalIn": 1340370,
+            "totalOut": 0,
+            "netFlow": 1340370,
+            "weeks": 1
+          },
+          "Bilheteria (57844 torcedores)": {
+            "totalIn": 1735320,
+            "totalOut": 0,
+            "netFlow": 1735320,
+            "weeks": 1
+          },
+          "Bilheteria (63509 torcedores)": {
+            "totalIn": 1905270,
+            "totalOut": 0,
+            "netFlow": 1905270,
+            "weeks": 1
+          },
+          "Bilheteria (50919 torcedores)": {
+            "totalIn": 1527570,
+            "totalOut": 0,
+            "netFlow": 1527570,
+            "weeks": 1
+          },
+          "Bilheteria (70719 torcedores)": {
+            "totalIn": 2121570,
+            "totalOut": 0,
+            "netFlow": 2121570,
+            "weeks": 1
+          },
+          "Bilheteria (69768 torcedores)": {
+            "totalIn": 2093040,
+            "totalOut": 0,
+            "netFlow": 2093040,
+            "weeks": 1
+          },
+          "Bilheteria (49835 torcedores)": {
+            "totalIn": 1495050,
+            "totalOut": 0,
+            "netFlow": 1495050,
+            "weeks": 1
+          },
+          "Bilheteria (70335 torcedores)": {
+            "totalIn": 2110050,
+            "totalOut": 0,
+            "netFlow": 2110050,
+            "weeks": 1
+          },
+          "Bilheteria (55349 torcedores)": {
+            "totalIn": 1660470,
+            "totalOut": 0,
+            "netFlow": 1660470,
+            "weeks": 1
+          },
+          "Bilheteria (52620 torcedores)": {
+            "totalIn": 1578600,
+            "totalOut": 0,
+            "netFlow": 1578600,
+            "weeks": 1
+          },
+          "Bilheteria (44418 torcedores)": {
+            "totalIn": 1332540,
+            "totalOut": 0,
+            "netFlow": 1332540,
+            "weeks": 1
+          },
+          "Bilheteria (64964 torcedores)": {
+            "totalIn": 1948920,
+            "totalOut": 0,
+            "netFlow": 1948920,
+            "weeks": 1
+          },
+          "Bilheteria (50121 torcedores)": {
+            "totalIn": 1503630,
+            "totalOut": 0,
+            "netFlow": 1503630,
+            "weeks": 1
+          },
+          "Bilheteria (66207 torcedores)": {
+            "totalIn": 1986210,
+            "totalOut": 0,
+            "netFlow": 1986210,
+            "weeks": 1
+          },
+          "Bilheteria (72285 torcedores)": {
+            "totalIn": 2168550,
+            "totalOut": 0,
+            "netFlow": 2168550,
+            "weeks": 1
+          },
+          "Bilheteria (43318 torcedores)": {
+            "totalIn": 1299540,
+            "totalOut": 0,
+            "netFlow": 1299540,
+            "weeks": 1
+          },
+          "Bilheteria (57500 torcedores)": {
+            "totalIn": 1725000,
+            "totalOut": 0,
+            "netFlow": 1725000,
+            "weeks": 1
+          },
+          "Bilheteria (57402 torcedores)": {
+            "totalIn": 1722060,
+            "totalOut": 0,
+            "netFlow": 1722060,
+            "weeks": 1
+          },
+          "Bilheteria (61412 torcedores)": {
+            "totalIn": 1842360,
+            "totalOut": 0,
+            "netFlow": 1842360,
+            "weeks": 1
+          },
+          "Bilheteria (44842 torcedores)": {
+            "totalIn": 1345260,
+            "totalOut": 0,
+            "netFlow": 1345260,
+            "weeks": 1
+          },
+          "Bilheteria (41109 torcedores)": {
+            "totalIn": 1233270,
+            "totalOut": 0,
+            "netFlow": 1233270,
+            "weeks": 1
+          },
+          "Bilheteria (65356 torcedores)": {
+            "totalIn": 1960680,
+            "totalOut": 0,
+            "netFlow": 1960680,
+            "weeks": 1
+          },
+          "Bilheteria (50475 torcedores)": {
+            "totalIn": 1514250,
+            "totalOut": 0,
+            "netFlow": 1514250,
+            "weeks": 1
+          },
+          "Bilheteria (74806 torcedores)": {
+            "totalIn": 2244180,
+            "totalOut": 0,
+            "netFlow": 2244180,
+            "weeks": 1
+          },
+          "Bilheteria (70907 torcedores)": {
+            "totalIn": 2127210,
+            "totalOut": 0,
+            "netFlow": 2127210,
+            "weeks": 1
+          },
+          "Bilheteria (53596 torcedores)": {
+            "totalIn": 1607880,
+            "totalOut": 0,
+            "netFlow": 1607880,
+            "weeks": 1
+          },
+          "Bilheteria (53908 torcedores)": {
+            "totalIn": 1617240,
+            "totalOut": 0,
+            "netFlow": 1617240,
+            "weeks": 1
+          },
+          "Bilheteria (66298 torcedores)": {
+            "totalIn": 1988940,
+            "totalOut": 0,
+            "netFlow": 1988940,
+            "weeks": 1
+          },
+          "Bilheteria (70910 torcedores)": {
+            "totalIn": 2127300,
+            "totalOut": 0,
+            "netFlow": 2127300,
+            "weeks": 1
+          },
+          "Bilheteria (69756 torcedores)": {
+            "totalIn": 2092680,
+            "totalOut": 0,
+            "netFlow": 2092680,
+            "weeks": 1
+          },
+          "Bilheteria (72279 torcedores)": {
+            "totalIn": 2168370,
+            "totalOut": 0,
+            "netFlow": 2168370,
+            "weeks": 1
+          },
+          "Bilheteria (76747 torcedores)": {
+            "totalIn": 2302410,
+            "totalOut": 0,
+            "netFlow": 2302410,
+            "weeks": 1
+          },
+          "Bilheteria (57360 torcedores)": {
+            "totalIn": 1720800,
+            "totalOut": 0,
+            "netFlow": 1720800,
+            "weeks": 1
+          },
+          "Bilheteria (68743 torcedores)": {
+            "totalIn": 2062290,
+            "totalOut": 0,
+            "netFlow": 2062290,
+            "weeks": 1
+          }
+        },
+        "totalIn": 252816230,
+        "totalOut": 77665280,
+        "_elapsedMs": 0.09999999403953552
+      },
+      "SPEC-110": {
+        "spec": "SPEC-110",
+        "name": "Progression Curve",
+        "score": 30,
+        "signals": [
+          {
+            "id": "FLAT_CURVE",
+            "severity": 0.7,
+            "msg": "Squad OVR sem mudança (slope=-0.08)"
+          }
+        ],
+        "topSignal": "FLAT_CURVE",
+        "curveSlope": -0.08,
+        "growthEventCount": 0,
+        "_elapsedMs": 0.09999999403953552
+      },
+      "SPEC-111": {
+        "spec": "SPEC-111",
+        "name": "Market Liquidity",
+        "score": 50,
+        "signals": [
+          {
+            "id": "LOWBALL",
+            "severity": 1,
+            "msg": "Ofertas média 0% do valor"
+          }
+        ],
+        "topSignal": "LOWBALL",
+        "acceptanceRate": 0,
+        "avgSpread": -1,
+        "offerCount": 410,
+        "_elapsedMs": 0
+      },
+      "SPEC-112": {
+        "spec": "SPEC-112",
+        "name": "Session Length",
+        "score": 70,
+        "signals": [
+          {
+            "id": "TOO_FAST",
+            "severity": 0.3,
+            "msg": "Season em 0.1min (modo soak)"
+          }
+        ],
+        "topSignal": "TOO_FAST",
+        "weeksPerSec": 5.46,
+        "projectedSeasonMinutes": 0.1,
+        "_elapsedMs": 0
+      },
+      "SPEC-113": {
+        "spec": "SPEC-113",
+        "name": "Tutorial Funnel",
+        "score": 50,
+        "signals": [
+          {
+            "id": "NO_DATA",
+            "severity": 0.5,
+            "msg": "Tutorial não exercitado neste run"
+          }
+        ],
+        "topSignal": "NO_DATA",
+        "startedTutorial": 0,
+        "startedSkip": 0,
+        "completionRate": 0,
+        "_elapsedMs": 0
+      },
+      "SPEC-114": {
+        "spec": "SPEC-114",
+        "name": "Load Performance",
+        "score": 100,
+        "signals": [],
+        "topSignal": null,
+        "advanceWeekP95": 24.6,
+        "advanceWeekAvg": 13.6,
+        "slowestDetector": "SPEC-103",
+        "_elapsedMs": 0.10000002384185791
+      }
+    }
+  },
+  "brain": {
+    "states": 23,
+    "totalUpdates": 10679,
+    "topActions": [
+      {
+        "action": "TRAIN_fitness",
+        "totalQ": -23.418355486857703
+      },
+      {
+        "action": "TRAIN_double",
+        "totalQ": -30.282230118443604
+      },
+      {
+        "action": "TRAIN_rest",
+        "totalQ": -32.3921939770369
+      },
+      {
+        "action": "TRAIN_tactical",
+        "totalQ": -33.816127114123695
+      },
+      {
+        "action": "TRAIN_technical",
+        "totalQ": -39.745244687981
+      }
+    ]
+  }
+}

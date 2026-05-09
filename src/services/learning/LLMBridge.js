@@ -121,12 +121,12 @@ export class LLMBridge {
     }
 
     /**
-     * Decide buy.
+     * Decide buy. Optional memoryContext (RAG) for LLM mode.
      */
-    async decideBuy(team, offer) {
+    async decideBuy(team, offer, memoryContext = '') {
         if (this.mode === 'webllm' && this.modelReady) {
             try {
-                return await this._llmDecide('buy', team, offer);
+                return await this._llmDecide('buy', team, offer, memoryContext);
             } catch {
                 // fallback heuristic
             }
@@ -134,10 +134,10 @@ export class LLMBridge {
         return decideBuyHeuristic(team, offer);
     }
 
-    async decideSell(team, offer) {
+    async decideSell(team, offer, memoryContext = '') {
         if (this.mode === 'webllm' && this.modelReady) {
             try {
-                return await this._llmDecide('sell', team, offer);
+                return await this._llmDecide('sell', team, offer, memoryContext);
             } catch {
                 // fallback heuristic
             }
@@ -145,11 +145,16 @@ export class LLMBridge {
         return decideSellHeuristic(team, offer);
     }
 
-    async _llmDecide(kind, team, offer) {
+    async _llmDecide(kind, team, offer, memoryContext = '') {
         const positionPlayers = (team.squad || []).filter(p => p.position === offer.player.position);
         const avgOVR = positionPlayers.length > 0
             ? positionPlayers.reduce((s, p) => s + (p.ovr || 0), 0) / positionPlayers.length
             : 0;
+
+        // SPEC-122 BUG-054: RAG — include episodic memory in prompt
+        const memorySection = memoryContext
+            ? `\nRecent decisions history:\n${memoryContext}\n`
+            : '';
 
         const prompt = `You are a football manager bot. Decide whether to ${kind === 'buy' ? 'BUY' : 'SELL'} this player.
 
@@ -161,7 +166,7 @@ Squad context:
 Offer:
 - Player: ${offer.player.name || 'Unknown'} (${offer.player.position}, age ${offer.player.age || '?'}, OVR ${offer.player.ovr || '?'})
 - Amount: R$ ${(offer.amount / 1_000_000).toFixed(1)}M
-
+${memorySection}
 Reply ONLY with JSON: {"${kind}": true|false, "reason": "short string"}`;
 
         const response = await this.engine.chat.completions.create({
