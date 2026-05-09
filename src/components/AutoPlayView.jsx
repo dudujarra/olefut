@@ -105,18 +105,30 @@ export function AutoPlayView() {
 
     const handleResetBrain = () => {
         if (!controllerRef.current) return;
-        if (!window.confirm('Reset Q-table? Bot esquece aprendizado mas mantém stats.')) return;
-        // BUG-067 fix: pause bot first to stop tick loop saving brain back during reload
+        if (!window.confirm('Reset aprendizado? Bot esquece Q-table + memória + logs. Stats counters mantém.')) return;
+        // BUG-068: Reset Brain agora limpa logs visíveis (decisions/successes/anomalies/seasonHistory)
+        // mas preserva counters (wins/losses/transfers totais). User via histórico persistir
+        // após reset brain → achava bug. Agora visualmente fresh.
         try { controllerRef.current.pause(); } catch { /* ignore */ }
-        // Force-clear localStorage keys synchronously
         try {
             if (typeof localStorage !== 'undefined') {
+                // Clear brain entirely
                 localStorage.removeItem('elifoot_autoplay_brain');
+                // Surgically clear log arrays in stats but preserve counters
+                const raw = localStorage.getItem('elifoot_autoplay_state');
+                if (raw) {
+                    const stats = JSON.parse(raw);
+                    if (stats && typeof stats === 'object') {
+                        stats.anomalies = [];
+                        stats.successes = [];
+                        stats.decisions = [];
+                        stats.seasonHistory = [];
+                        localStorage.setItem('elifoot_autoplay_state', JSON.stringify(stats));
+                    }
+                }
             }
         } catch { /* ignore */ }
-        // Reset in-memory state
         try { controllerRef.current.resetBrain(); } catch { /* ignore */ }
-        // Hard reload
         setTimeout(() => window.location.reload(), 100);
     };
 
