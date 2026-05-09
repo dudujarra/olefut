@@ -14,17 +14,21 @@
     "test:series": "bash scripts/debug-bug.sh series",
     "test:regression": "vitest run tests/regression",
     "test:specs": "vitest run tests/specs",
+    "test:audio": "vitest run tests/audio",
     "bug:search": "bash scripts/debug-bug.sh search",
     "bug:ticket": "bash scripts/debug-bug.sh ticket",
     "bug:fix": "bash scripts/debug-bug.sh fix",
     "bug:test": "bash scripts/debug-bug.sh test",
     "bug:full": "bash scripts/debug-bug.sh full",
+    "generate:audio": "node scripts/generate-audio.js",
+    "generate:audio:dry": "node scripts/generate-audio.js --dry-run",
     "mutate": "stryker run",
     "mutate:report": "open tests/characterization/stryker-report/index.html"
   },
   "dependencies": {
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "tone": "^14.9.17"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
