@@ -23,6 +23,8 @@ export function AutoPlayView() {
     const [stats, setStats] = useState(null);
     const [speed, setSpeed] = useState(50);
     const [anomalyFilter, setAnomalyFilter] = useState('all');
+    const [telemetryOpen, setTelemetryOpen] = useState(false);
+    const [expandedSpec, setExpandedSpec] = useState(null);
 
     useEffect(() => {
         if (!engine) return;
@@ -82,6 +84,18 @@ export function AutoPlayView() {
         }
     };
 
+    const handleExportTelemetry = () => {
+        if (controllerRef.current) {
+            controllerRef.current.exportTelemetryReport();
+        }
+    };
+
+    const scoreColor = (score) => {
+        if (score >= 70) return 'var(--ef-color-func-success, #6ABC3A)';
+        if (score >= 40) return 'var(--ef-color-accent-gold, #FFD700)';
+        return 'var(--danger)';
+    };
+
     const elapsedSec = stats ? (stats.elapsedMs / 1000).toFixed(1) : 0;
     const wps = stats ? stats.weeksPerSecond?.toFixed(1) : '0';
 
@@ -124,6 +138,9 @@ export function AutoPlayView() {
                     </button>
                     <button className="btn btn-secondary" onClick={handleExport}>
                         📥 Exportar Relatório JSON
+                    </button>
+                    <button className="btn btn-secondary" onClick={handleExportTelemetry}>
+                        📊 Export Telemetry JSON
                     </button>
                 </div>
 
@@ -187,6 +204,80 @@ export function AutoPlayView() {
                         <Stat label="Maior goleada" value={stats.insights.biggestWin?.score || '-'} />
                         <Stat label="Pior derrota" value={stats.insights.worstLoss?.score || '-'} color="var(--danger)" />
                     </div>
+                </div>
+            )}
+
+            {/* Telemetria — SPEC-100..114 (15 detectores) */}
+            {stats?.telemetry?.results && (
+                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                    <div
+                        onClick={() => setTelemetryOpen(!telemetryOpen)}
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            cursor: 'pointer',
+                            userSelect: 'none'
+                        }}
+                    >
+                        <h3 style={{ fontSize: '0.9rem', margin: 0 }}>
+                            📊 Telemetria ({Object.keys(stats.telemetry.results).length} detectores)
+                            <span style={{ marginLeft: '8px', fontSize: '0.75rem', color: scoreColor(stats.telemetry.overallScore) }}>
+                                Score Geral: {stats.telemetry.overallScore}
+                            </span>
+                        </h3>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                            {telemetryOpen ? '▼ Recolher' : '▶ Expandir'}
+                        </span>
+                    </div>
+                    {telemetryOpen && (
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                            gap: '8px',
+                            marginTop: '0.75rem'
+                        }}>
+                            {Object.entries(stats.telemetry.results).map(([spec, res]) => (
+                                <div
+                                    key={spec}
+                                    onClick={() => setExpandedSpec(expandedSpec === spec ? null : spec)}
+                                    style={{
+                                        padding: '0.5rem',
+                                        background: 'rgba(45,90,61,0.2)',
+                                        border: `1px solid ${scoreColor(res.score)}`,
+                                        borderRadius: '4px',
+                                        cursor: 'pointer',
+                                        fontSize: '0.78rem'
+                                    }}
+                                >
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                                        <strong style={{ fontSize: '0.72rem' }}>{spec}</strong>
+                                        <span style={{ fontWeight: 700, color: scoreColor(res.score) }}>{res.score}</span>
+                                    </div>
+                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                                        {res.name}
+                                    </div>
+                                    {res.signals?.[0] && (
+                                        <div style={{
+                                            fontSize: '0.68rem',
+                                            color: scoreColor(100 - (res.signals[0].severity * 100))
+                                        }}>
+                                            ⚠ {res.signals[0].id}
+                                        </div>
+                                    )}
+                                    {expandedSpec === spec && res.signals?.length > 0 && (
+                                        <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed rgba(255,255,255,0.1)' }}>
+                                            {res.signals.slice(0, 5).map((s, i) => (
+                                                <div key={i} style={{ marginBottom: '3px', fontSize: '0.65rem' }}>
+                                                    <strong>{s.id}</strong> ({(s.severity * 100).toFixed(0)}%): {s.msg}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
 
