@@ -199,12 +199,19 @@ export class AutoPlayController {
             const engine = this.engine;
             const team = engine?.getTeam?.(engine?.manager?.teamId);
             // Snapshot fields
+            // BUG-034 fix: telemetry was reading p.career?.goals (doesn't exist).
+            // Real fields: totalGoals/seasonGoals/totalCards (PlayerTraits.initCareerStats).
+            // SPEC-107 score was 0 because all goals = 0 even after 48k matches.
             const playerCareer = (team?.squad || []).map(p => ({
                 id: p.id,
                 name: p.name,
-                goals: p.career?.goals || 0,
+                goals: p.career?.totalGoals || p.career?.seasonGoals || 0,
+                seasonGoals: p.career?.seasonGoals || 0,
+                assists: p.career?.totalAssists || 0,
+                apps: p.career?.totalApps || 0,
                 hatTricks: p.career?.hatTricks || 0,
-                redCards: p.career?.redCards || 0
+                redCards: p.career?.totalCards || 0,
+                motm: p.career?.totalMotm || 0
             }));
             const seasonNum = engine?.seasonNumber || 1;
             const squadOvr = team?.squad?.length
@@ -315,6 +322,24 @@ export class AutoPlayController {
                     this.telemetry.history.viewVisits[view] = (this.telemetry.history.viewVisits[view] || 0) + 1;
                 }
                 this._logDecision('VISIT_VIEW', { view }, 0);
+            } catch { /* ignore */ }
+        }
+
+        // BUG-032 fix: auto-replenish squad when < 13 (was 725× SQUAD_SHORT anomalies).
+        // Players retire / contracts expire / no buys → cascade into 0-65 humiliations.
+        // Trigger youth intake mid-season every 6 weeks if squad short.
+        if (this.stats.weeksPlayed % 6 === 0) {
+            try {
+                const team = engine.getTeam(teamId);
+                if (team?.squad && team.squad.length < 13 && typeof engine.triggerYouthIntake === 'function') {
+                    const youths = engine.triggerYouthIntake();
+                    if (Array.isArray(youths) && youths.length > 0) {
+                        this._logDecision('SQUAD_REPLENISH', {
+                            added: youths.length,
+                            squadAfter: team.squad.length
+                        }, 0);
+                    }
+                }
             } catch { /* ignore */ }
         }
 
