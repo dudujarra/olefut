@@ -211,13 +211,50 @@ export class Engine {
         const team = this.getTeam(teamId);
         if (!team) return { attack: 0, midfield: 0, defense: 0, goalkeeper: 0 };
         const titulares = team.squad.filter(p => p.isTitular);
-        const avg = (arr, attr) => arr.length === 0 ? 0 : Math.floor(arr.reduce((s, p) => s + (p.attributes[attr] || 50), 0) / arr.length);
+
+        // SPEC-080: prefer pentagon-based effective rating if available
+        const computeRating = (player) => {
+            if (player.attacking !== undefined && player.naturalPosition) {
+                // Pentagon-based: use position-specific rating
+                const weights = { ATA: 0, TEC: 0, TAC: 0, DEF: 0, CRI: 0 };
+                if (player.position === 'ATA') { weights.ATA = 3; weights.TEC = 2; }
+                else if (player.position === 'MEI') { weights.TEC = 3; weights.CRI = 3; weights.TAC = 2; }
+                else if (player.position === 'DEF') { weights.DEF = 3; weights.TAC = 3; }
+                else if (player.position === 'GOL') { weights.TAC = 3; weights.DEF = 3; }
+                const total = weights.ATA + weights.TEC + weights.TAC + weights.DEF + weights.CRI;
+                if (total === 0) return 50;
+                return Math.floor((
+                    player.attacking * weights.ATA +
+                    player.technical * weights.TEC +
+                    player.tactical * weights.TAC +
+                    player.defending * weights.DEF +
+                    player.creativity * weights.CRI
+                ) / total);
+            }
+            // Legacy: use attributes object
+            return null; // signal fallback
+        };
+
+        const avgPentagon = (arr) => {
+            if (arr.length === 0) return 0;
+            const ratings = arr.map(computeRating).filter(r => r !== null);
+            if (ratings.length === 0) return null;
+            return Math.floor(ratings.reduce((s, r) => s + r, 0) / ratings.length);
+        };
+
+        const avg = (arr, attr) => arr.length === 0 ? 0 : Math.floor(arr.reduce((s, p) => s + (p.attributes?.[attr] || 50), 0) / arr.length);
+
+        // Try pentagon first, fallback to legacy
+        const ataPlayers = titulares.filter(p => p.position === 'ATA');
+        const meiPlayers = titulares.filter(p => p.position === 'MEI');
+        const defPlayers = titulares.filter(p => p.position === 'DEF');
+        const golPlayers = titulares.filter(p => p.position === 'GOL');
 
         return {
-            attack: avg(titulares.filter(p => p.position === 'ATA'), 'FIN'),
-            midfield: avg(titulares.filter(p => p.position === 'MEI'), 'CRI'),
-            defense: avg(titulares.filter(p => p.position === 'DEF'), 'DEF'),
-            goalkeeper: avg(titulares.filter(p => p.position === 'GOL'), 'REF')
+            attack:     avgPentagon(ataPlayers) ?? avg(ataPlayers, 'FIN'),
+            midfield:   avgPentagon(meiPlayers) ?? avg(meiPlayers, 'CRI'),
+            defense:    avgPentagon(defPlayers) ?? avg(defPlayers, 'DEF'),
+            goalkeeper: avgPentagon(golPlayers) ?? avg(golPlayers, 'REF')
         };
     }
 

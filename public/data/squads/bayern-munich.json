@@ -1,0 +1,935 @@
+{
+  "teamId": 2672,
+  "teamName": "Bayern Munich",
+  "manager": {
+    "id": 792129,
+    "name": "Vincent Kompany",
+    "shortName": "V. Kompany",
+    "country": "Belgium",
+    "preferredFormation": "4-2-3-1",
+    "stats": {
+      "total": 299,
+      "wins": 165,
+      "draws": 69,
+      "losses": 65,
+      "goalsScored": 651,
+      "goalsConceded": 361,
+      "totalPoints": 564
+    },
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 108579,
+      "name": "Harry Kane",
+      "firstName": "Harry",
+      "lastName": "Kane",
+      "shortName": "H. Kane",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "height": 188,
+      "dateOfBirth": "1993-07-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "EN",
+        "alpha3": "ENG",
+        "name": "England",
+        "slug": "england"
+      },
+      "proposedMarketValue": 71000000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1085381,
+      "name": "Nicolas Jackson",
+      "firstName": "Nicolas Jackson",
+      "lastName": "",
+      "shortName": "N. Jackson",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 186,
+      "dateOfBirth": "2001-06-20T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SN",
+        "alpha3": "SEN",
+        "name": "Senegal",
+        "slug": "senegal"
+      },
+      "proposedMarketValue": 39000000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1976732,
+      "name": "Wisdom Mike",
+      "shortName": "W. Mike",
+      "position": "F",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "36",
+      "shirtNumber": 36,
+      "height": 175,
+      "dateOfBirth": "2008-09-24T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 4800000,
+      "pentagon": null
+    },
+    {
+      "id": 2361805,
+      "name": "Bastian Assomo",
+      "firstName": "Bastian Assomo",
+      "shortName": "B. Assomo",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "33",
+      "shirtNumber": 33,
+      "dateOfBirth": "2010-01-03T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 978838,
+      "name": "Michael Olise",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "M. Olise",
+      "position": "M",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "height": 184,
+      "dateOfBirth": "2001-12-12T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 135000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 883537,
+      "name": "Luis Díaz",
+      "shortName": "L. Díaz",
+      "position": "M",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "height": 178,
+      "dateOfBirth": "1997-01-13T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CO",
+        "alpha3": "COL",
+        "name": "Colombia",
+        "slug": "colombia"
+      },
+      "proposedMarketValue": 76000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1010231,
+      "name": "Jamal Musiala",
+      "shortName": "J. Musiala",
+      "position": "M",
+      "positionsDetailed": [
+        "AM"
+      ],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 184,
+      "dateOfBirth": "2003-02-26T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 116000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1861975,
+      "name": "Lennart Karl",
+      "firstName": "Lennart Karl",
+      "shortName": "L. Karl",
+      "position": "M",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "42",
+      "shirtNumber": 42,
+      "height": 168,
+      "dateOfBirth": "2008-02-22T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 63000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 259117,
+      "name": "Joshua Kimmich",
+      "firstName": "Joshua",
+      "lastName": "Kimmich",
+      "shortName": "J. Kimmich",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "height": 176,
+      "weight": 70,
+      "dateOfBirth": "1995-02-08T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 43000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 187433,
+      "name": "Serge Gnabry",
+      "firstName": "Serge",
+      "lastName": "Gnabry",
+      "shortName": "S. Gnabry",
+      "position": "M",
+      "positionsDetailed": [
+        "LW",
+        "AM"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 176,
+      "dateOfBirth": "1995-07-14T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 21000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1142251,
+      "name": "Aleksandar Pavlović",
+      "shortName": "A. Pavlović",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "45",
+      "shirtNumber": 45,
+      "height": 186,
+      "dateOfBirth": "2004-05-03T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 80000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 184661,
+      "name": "Leon Goretzka",
+      "firstName": "Leon",
+      "lastName": "Goretzka",
+      "shortName": "L. Goretzka",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 189,
+      "weight": 79,
+      "dateOfBirth": "1995-02-06T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 13700000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1129935,
+      "name": "Tom Bischof",
+      "shortName": "T. Bischof",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 176,
+      "dateOfBirth": "2005-06-28T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 39000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 2427970,
+      "name": "Bara Sapoko Ndiaye",
+      "firstName": "Bara Sapoko Ndiaye",
+      "lastName": "Ndiaye",
+      "shortName": "B. S. Ndiaye",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "39",
+      "shirtNumber": 39,
+      "height": 180,
+      "dateOfBirth": "2007-12-31T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SN",
+        "alpha3": "SEN",
+        "name": "Senegal",
+        "slug": "senegal"
+      },
+      "proposedMarketValue": 280000,
+      "pentagon": null
+    },
+    {
+      "id": 1489220,
+      "name": "David Daiber",
+      "firstName": "David Daiber",
+      "lastName": "",
+      "shortName": "D. Daiber",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "47",
+      "shirtNumber": 47,
+      "height": 179,
+      "dateOfBirth": "2007-01-10T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "PT",
+        "alpha3": "PRT",
+        "name": "Portugal",
+        "slug": "portugal"
+      },
+      "proposedMarketValue": 920000,
+      "pentagon": null
+    },
+    {
+      "id": 843665,
+      "name": "Alphonso Davies",
+      "shortName": "A. Davies",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "19",
+      "shirtNumber": 19,
+      "height": 185,
+      "weight": 69,
+      "dateOfBirth": "2000-11-02T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "CA",
+        "alpha3": "CAN",
+        "name": "Canada",
+        "slug": "canada"
+      },
+      "proposedMarketValue": 44000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 798583,
+      "name": "Dayot Upamecano",
+      "firstName": "Dayot",
+      "lastName": "Upamecano",
+      "shortName": "D. Upamecano",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 185,
+      "weight": 83,
+      "dateOfBirth": "1998-10-27T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 65000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 896569,
+      "name": "Kim Min-jae",
+      "firstName": "Kim",
+      "lastName": "Min-jae",
+      "shortName": "K. Min-jae",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "height": 190,
+      "dateOfBirth": "1996-11-15T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "KR",
+        "alpha3": "KOR",
+        "name": "South Korea",
+        "slug": "south-korea"
+      },
+      "proposedMarketValue": 26000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 927407,
+      "name": "Josip Stanišić",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Stanišić",
+      "position": "D",
+      "positionsDetailed": [
+        "DR",
+        "DC",
+        "DL"
+      ],
+      "jerseyNumber": "44",
+      "shirtNumber": 44,
+      "height": 186,
+      "dateOfBirth": "2000-04-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "HR",
+        "alpha3": "HRV",
+        "name": "Croatia",
+        "slug": "croatia"
+      },
+      "proposedMarketValue": 34000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 227672,
+      "name": "Jonathan Tah",
+      "firstName": "Jonathan",
+      "lastName": "Tah",
+      "shortName": "J. Tah",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 194,
+      "weight": 95,
+      "dateOfBirth": "1996-02-11T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 28000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 355492,
+      "name": "Konrad Laimer",
+      "firstName": "Konrad",
+      "lastName": "Laimer",
+      "shortName": "K. Laimer",
+      "position": "D",
+      "positionsDetailed": [
+        "DR",
+        "MC"
+      ],
+      "jerseyNumber": "27",
+      "shirtNumber": 27,
+      "height": 180,
+      "weight": 72,
+      "dateOfBirth": "1997-05-27T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "AT",
+        "alpha3": "AUT",
+        "name": "Austria",
+        "slug": "austria"
+      },
+      "proposedMarketValue": 31000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 246999,
+      "name": "Raphaël Guerreiro",
+      "shortName": "R. Guerreiro",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 170,
+      "weight": 71,
+      "dateOfBirth": "1993-12-22T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "PT",
+        "alpha3": "PRT",
+        "name": "Portugal",
+        "slug": "portugal"
+      },
+      "proposedMarketValue": 6300000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 873106,
+      "name": "Hiroki Itō",
+      "shortName": "H. Itō",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DL"
+      ],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "height": 188,
+      "weight": 81,
+      "dateOfBirth": "1999-05-12T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "JP",
+        "alpha3": "JPN",
+        "name": "Japan",
+        "slug": "japan"
+      },
+      "proposedMarketValue": 19800000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1994978,
+      "name": "Cassiano Kiala",
+      "firstName": "Cassiano Kiala",
+      "shortName": "C. Kiala",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "30",
+      "shirtNumber": 30,
+      "height": 186,
+      "dateOfBirth": "2009-01-11T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 1800000,
+      "pentagon": null
+    },
+    {
+      "id": 1584884,
+      "name": "Deniz Ofli",
+      "firstName": "Deniz Ofli",
+      "shortName": "D. Ofli",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "34",
+      "shirtNumber": 34,
+      "height": 181,
+      "dateOfBirth": "2007-03-29T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "TR",
+        "alpha3": "TUR",
+        "name": "Türkiye",
+        "slug": "turkiye"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2518029,
+      "name": "Filip Pavić",
+      "shortName": "F. Pavić",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "43",
+      "shirtNumber": 43,
+      "dateOfBirth": "2010-01-16T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 8959,
+      "name": "Manuel Neuer",
+      "shortName": "M. Neuer",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 193,
+      "dateOfBirth": "1986-03-27T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 4099999,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    },
+    {
+      "id": 1130647,
+      "name": "Jonas Urbig",
+      "firstName": "Jonas Urbig",
+      "lastName": "",
+      "shortName": "J. Urbig",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "40",
+      "shirtNumber": 40,
+      "height": 189,
+      "dateOfBirth": "2003-08-08T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 16399999,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    },
+    {
+      "id": 2236493,
+      "name": "Leonard Prescott",
+      "firstName": "Leonard Prescott",
+      "shortName": "L. Prescott",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "37",
+      "shirtNumber": 37,
+      "height": 196,
+      "dateOfBirth": "2009-09-23T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 26768,
+      "name": "Sven Ulreich",
+      "shortName": "S. Ulreich",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "26",
+      "shirtNumber": 26,
+      "height": 192,
+      "weight": 84,
+      "dateOfBirth": "1988-08-03T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 515000,
+      "pentagon": null
+    },
+    {
+      "id": 1534063,
+      "name": "Leon Klanac",
+      "firstName": "Leon Klanac",
+      "shortName": "L. Klanac",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "48",
+      "shirtNumber": 48,
+      "height": 185,
+      "dateOfBirth": "2007-02-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 145000,
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:09:13.048Z"
+}

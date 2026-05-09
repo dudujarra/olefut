@@ -1,0 +1,546 @@
+{
+  "teamId": 1645,
+  "teamName": "Rennes",
+  "manager": {
+    "id": 786915,
+    "name": "Bruno Irles",
+    "shortName": "B. Irles",
+    "country": "France",
+    "preferredFormation": "5-4-1",
+    "stats": {
+      "total": 285,
+      "wins": 133,
+      "draws": 65,
+      "losses": 87,
+      "goalsScored": 448,
+      "goalsConceded": 335,
+      "totalPoints": 464
+    },
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 1634359,
+      "name": "Royce Openda",
+      "firstName": "Royce Openda",
+      "shortName": "R. Openda",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "35",
+      "shirtNumber": 35,
+      "height": 164,
+      "dateOfBirth": "2002-04-21T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "GA",
+        "alpha3": "GAB",
+        "name": "Gabon",
+        "slug": "gabon"
+      },
+      "proposedMarketValue": 110000,
+      "pentagon": null
+    },
+    {
+      "id": 865269,
+      "name": "Yanis Merdji",
+      "shortName": "Y. Merdji",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 175,
+      "dateOfBirth": "1993-10-29T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 260000,
+      "pentagon": null
+    },
+    {
+      "id": 759374,
+      "name": "Steve Shamal",
+      "shortName": "S. Shamal",
+      "position": "F",
+      "positionsDetailed": [
+        "LW",
+        "ML"
+      ],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "height": 181,
+      "weight": 73,
+      "dateOfBirth": "1996-02-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 97000,
+      "pentagon": null
+    },
+    {
+      "id": 1392508,
+      "name": "Luderic Etonde",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "L. Etonde",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 190,
+      "dateOfBirth": "2000-08-30T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 54000,
+      "pentagon": null
+    },
+    {
+      "id": 1394132,
+      "name": "Mathieu Villette",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "M. Villette",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "dateOfBirth": "2000-10-20T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2019068,
+      "name": "Luigi Rizaldos",
+      "firstName": "Luigi Rizaldos",
+      "shortName": "L. Rizaldos",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "dateOfBirth": "2005-08-01T00:00:00+00:00",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1174493,
+      "name": "Faissal Mannai",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "F. Mannai",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 180,
+      "dateOfBirth": "1996-02-03T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "TN",
+        "alpha3": "TUN",
+        "name": "Tunisia",
+        "slug": "tunisia"
+      },
+      "proposedMarketValue": 360000,
+      "pentagon": null
+    },
+    {
+      "id": 970775,
+      "name": "Soufiane Bahassa",
+      "shortName": "S. Bahassa",
+      "position": "M",
+      "positionsDetailed": [
+        "ML",
+        "DM"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 170,
+      "dateOfBirth": "1994-06-08T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "MA",
+        "alpha3": "MAR",
+        "name": "Morocco",
+        "slug": "morocco"
+      },
+      "proposedMarketValue": 185000,
+      "pentagon": null
+    },
+    {
+      "id": 893798,
+      "name": "Abou Ba",
+      "shortName": "A. Ba",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "height": 182,
+      "dateOfBirth": "1998-07-29T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 205000,
+      "pentagon": null
+    },
+    {
+      "id": 363020,
+      "name": "Driss Trichard",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "D. Trichard",
+      "position": "M",
+      "positionsDetailed": [
+        "DL",
+        "ML"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "height": 176,
+      "dateOfBirth": "1995-03-27T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 235000,
+      "pentagon": null
+    },
+    {
+      "id": 1513323,
+      "name": "Tidyane Diagouraga",
+      "firstName": "Tidyane Diagouraga",
+      "shortName": "T. Diagouraga",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "dateOfBirth": "2003-02-14T00:00:00+00:00",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1103225,
+      "name": "Adama Diop",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "A. Diop",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 175,
+      "dateOfBirth": "1999-07-27T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MR",
+        "alpha3": "MRT",
+        "name": "Mauritania",
+        "slug": "mauritania"
+      },
+      "proposedMarketValue": 96000,
+      "pentagon": null
+    },
+    {
+      "id": 1381546,
+      "name": "Pierre-Bertrand Arné",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "P. Arné",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "dateOfBirth": "2000-09-30T00:00:00+00:00",
+      "country": {
+        "alpha2": "MF",
+        "alpha3": "MAF",
+        "name": "Saint Martin",
+        "slug": "saint-martin"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2418290,
+      "name": "Guillaume Odru",
+      "firstName": "Guillaume Odru",
+      "shortName": "G. Odru",
+      "position": "M",
+      "positionsDetailed": [],
+      "height": 178,
+      "dateOfBirth": "1997-05-29T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 363532,
+      "name": "Oualid El Hajjam",
+      "shortName": "O. E. Hajjam",
+      "position": "D",
+      "positionsDetailed": [
+        "DR",
+        "DC"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 180,
+      "weight": 72,
+      "dateOfBirth": "1991-02-19T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MA",
+        "alpha3": "MAR",
+        "name": "Morocco",
+        "slug": "morocco"
+      },
+      "proposedMarketValue": 290000,
+      "pentagon": null
+    },
+    {
+      "id": 580952,
+      "name": "Almamy Touré",
+      "shortName": "A. Touré",
+      "position": "D",
+      "positionsDetailed": [
+        "DR",
+        "DC",
+        "MR"
+      ],
+      "height": 182,
+      "weight": 72,
+      "dateOfBirth": "1996-04-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ML",
+        "alpha3": "MLI",
+        "name": "Mali",
+        "slug": "mali"
+      },
+      "proposedMarketValue": 515000,
+      "pentagon": null
+    },
+    {
+      "id": 1462053,
+      "name": "Léo Jousselin",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "L. Jousselin",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "13",
+      "shirtNumber": 13,
+      "height": 183,
+      "dateOfBirth": "2002-01-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1135396,
+      "name": "Nadjib Cisse",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "N. Cisse",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "height": 185,
+      "dateOfBirth": "2000-12-22T00:00:00+00:00",
+      "country": {
+        "alpha2": "ML",
+        "alpha3": "MLI",
+        "name": "Mali",
+        "slug": "mali"
+      },
+      "proposedMarketValue": 360000,
+      "pentagon": null
+    },
+    {
+      "id": 1085245,
+      "name": "Nassim Ranem",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "N. Ranem",
+      "position": "D",
+      "positionsDetailed": [],
+      "height": 191,
+      "dateOfBirth": "2002-01-01T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 55000,
+      "pentagon": null
+    },
+    {
+      "id": 1835482,
+      "name": "Jean Grillot",
+      "firstName": "Jean",
+      "lastName": "Grillot",
+      "shortName": "J. Grillot",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "5",
+      "shirtNumber": 5,
+      "height": 181,
+      "dateOfBirth": "2005-11-20T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 922520,
+      "name": "Ruben Droehnle",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "R. Droehnle",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DL"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 183,
+      "dateOfBirth": "1998-07-11T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 235000,
+      "pentagon": null
+    },
+    {
+      "id": 1127588,
+      "name": "Lassana Diabate",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "L. Diabaté",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 180,
+      "dateOfBirth": "2003-08-21T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 280000,
+      "pentagon": null
+    },
+    {
+      "id": 893584,
+      "name": "Jan Hoekstra",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Hoekstra",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 200,
+      "dateOfBirth": "1998-08-04T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "NL",
+        "alpha3": "NLD",
+        "name": "Netherlands",
+        "slug": "netherlands"
+      },
+      "proposedMarketValue": 115000,
+      "pentagon": null
+    },
+    {
+      "id": 1471043,
+      "name": "Dava David Agossa",
+      "firstName": "Dava David Agossa",
+      "lastName": "",
+      "shortName": "D. D. Agossa",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 187,
+      "dateOfBirth": "2003-05-12T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "BJ",
+        "alpha3": "BEN",
+        "name": "Benin",
+        "slug": "benin"
+      },
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:20:32.807Z"
+}

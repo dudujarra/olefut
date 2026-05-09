@@ -1,0 +1,917 @@
+{
+  "teamId": 2816,
+  "teamName": "Real Betis",
+  "manager": {
+    "id": 52986,
+    "name": "Manuel Pellegrini",
+    "shortName": "M. Pellegrini",
+    "country": "Chile",
+    "preferredFormation": "4-2-3-1",
+    "stats": {
+      "total": 1217,
+      "wins": 599,
+      "draws": 278,
+      "losses": 340,
+      "goalsScored": 2069,
+      "goalsConceded": 1478,
+      "totalPoints": 2075
+    },
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 115665,
+      "name": "Cédric Bakambu",
+      "shortName": "C. Bakambu",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 182,
+      "weight": 73,
+      "dateOfBirth": "1991-04-11T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CD",
+        "alpha3": "COD",
+        "name": "DR Congo",
+        "slug": "dr-congo"
+      },
+      "proposedMarketValue": 1400000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 887055,
+      "name": "Cucho Hernández",
+      "firstName": "Cucho",
+      "lastName": "Hernandez",
+      "shortName": "C. Hernández",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "19",
+      "shirtNumber": 19,
+      "height": 175,
+      "weight": 73,
+      "dateOfBirth": "1999-04-20T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CO",
+        "alpha3": "COL",
+        "name": "Colombia",
+        "slug": "colombia"
+      },
+      "proposedMarketValue": 16500000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 789381,
+      "name": "Chimy Ávila",
+      "firstName": "Chimy",
+      "lastName": "Avila",
+      "shortName": "C. Ávila",
+      "position": "F",
+      "positionsDetailed": [
+        "ST",
+        "RW"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "height": 171,
+      "weight": 81,
+      "dateOfBirth": "1994-02-06T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "proposedMarketValue": 1500000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1153313,
+      "name": "Juan González",
+      "firstName": "Juan González",
+      "shortName": "J. González",
+      "position": "F",
+      "positionsDetailed": [],
+      "height": 170,
+      "dateOfBirth": "2004-01-01T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 48000,
+      "pentagon": null
+    },
+    {
+      "id": 958380,
+      "name": "Antony",
+      "shortName": "Antony",
+      "position": "M",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 172,
+      "dateOfBirth": "2000-02-24T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 37000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1011375,
+      "name": "Abdessamad Ezzalzouli",
+      "shortName": "A. Ezzalzouli",
+      "position": "M",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 177,
+      "dateOfBirth": "2001-12-17T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MA",
+        "alpha3": "MAR",
+        "name": "Morocco",
+        "slug": "morocco"
+      },
+      "proposedMarketValue": 32000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 359272,
+      "name": "Sofyan Amrabat",
+      "firstName": "Sofyan",
+      "lastName": "Amrabat",
+      "shortName": "S. Amrabat",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "height": 183,
+      "weight": 70,
+      "dateOfBirth": "1996-08-21T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MA",
+        "alpha3": "MAR",
+        "name": "Morocco",
+        "slug": "morocco"
+      },
+      "proposedMarketValue": 11600000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 103417,
+      "name": "Isco",
+      "firstName": "Francisco Roman",
+      "lastName": "Isco",
+      "shortName": "Isco",
+      "position": "M",
+      "positionsDetailed": [
+        "AM"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 176,
+      "weight": 74,
+      "dateOfBirth": "1992-04-21T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 4099999,
+      "pentagon": null
+    },
+    {
+      "id": 798835,
+      "name": "Giovani Lo Celso",
+      "shortName": "G. Lo Celso",
+      "position": "M",
+      "positionsDetailed": [
+        "AM",
+        "MC"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 177,
+      "weight": 70,
+      "dateOfBirth": "1996-04-09T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "proposedMarketValue": 9700000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 838629,
+      "name": "Álvaro Fidalgo",
+      "firstName": "Alvaro",
+      "lastName": "Fidalgo",
+      "shortName": "Á. Fidalgo",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM",
+        "AM"
+      ],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "height": 174,
+      "dateOfBirth": "1997-04-09T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 10900000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1129401,
+      "name": "Nelson Deossa",
+      "firstName": "Nelson Deossa",
+      "shortName": "N. Deossa",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM",
+        "AM"
+      ],
+      "jerseyNumber": "18",
+      "shirtNumber": 18,
+      "height": 185,
+      "dateOfBirth": "2000-02-06T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "CO",
+        "alpha3": "COL",
+        "name": "Colombia",
+        "slug": "colombia"
+      },
+      "proposedMarketValue": 9800000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 989113,
+      "name": "Rodrigo Riquelme",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "R. Riquelme",
+      "position": "M",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "height": 174,
+      "dateOfBirth": "2000-04-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 6400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 816763,
+      "name": "Pablo Fornals",
+      "firstName": "Pablo",
+      "lastName": "Fornals",
+      "shortName": "P. Fornals",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM",
+        "RW"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 178,
+      "weight": 67,
+      "dateOfBirth": "1996-02-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 8400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1893910,
+      "name": "Pablo García",
+      "shortName": "P. García",
+      "position": "M",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "52",
+      "shirtNumber": 52,
+      "height": 175,
+      "weight": 67,
+      "dateOfBirth": "2006-06-13T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 8199999,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 847128,
+      "name": "Marc Roca",
+      "firstName": "Marc",
+      "lastName": "Roca",
+      "shortName": "M. Roca",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "height": 184,
+      "weight": 74,
+      "dateOfBirth": "1996-11-26T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 4200000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1137814,
+      "name": "Sergi Altimira",
+      "shortName": "S. Altimira",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "height": 188,
+      "dateOfBirth": "2001-08-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 19300000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 188365,
+      "name": "Héctor Bellerín",
+      "shortName": "H. Bellerín",
+      "position": "D",
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 178,
+      "weight": 74,
+      "dateOfBirth": "1995-03-19T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 2600000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1015287,
+      "name": "Natan",
+      "shortName": "Natan",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 188,
+      "dateOfBirth": "2001-02-06T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 26000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 914835,
+      "name": "Junior Firpo",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Firpo",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "height": 184,
+      "weight": 75,
+      "dateOfBirth": "1996-08-22T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "DO",
+        "alpha3": "DOM",
+        "name": "Dominican Republic",
+        "slug": "dominican-republic"
+      },
+      "proposedMarketValue": 4900000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1186010,
+      "name": "Valentín Gómez",
+      "firstName": "Valentín",
+      "lastName": "Gómez",
+      "shortName": "V. Gómez",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 181,
+      "dateOfBirth": "2003-06-26T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "proposedMarketValue": 11200000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 99519,
+      "name": "Marc Bartra",
+      "shortName": "M. Bartra",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "5",
+      "shirtNumber": 5,
+      "height": 183,
+      "weight": 73,
+      "dateOfBirth": "1991-01-15T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 1000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 67769,
+      "name": "Ricardo Rodríguez",
+      "shortName": "R. Rodríguez",
+      "position": "D",
+      "positionsDetailed": [
+        "DL",
+        "DC"
+      ],
+      "jerseyNumber": "12",
+      "shirtNumber": 12,
+      "height": 182,
+      "weight": 77,
+      "dateOfBirth": "1992-08-25T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "CH",
+        "alpha3": "CHE",
+        "name": "Switzerland",
+        "slug": "switzerland"
+      },
+      "proposedMarketValue": 1600000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 305278,
+      "name": "Diego Llorente",
+      "firstName": "Diego",
+      "lastName": "Llorente",
+      "shortName": "D. Llorente",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "height": 185,
+      "weight": 75,
+      "dateOfBirth": "1993-08-16T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 3100000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 893062,
+      "name": "Aitor Ruibal",
+      "firstName": "Aitor",
+      "lastName": "Ruibal",
+      "shortName": "A. Ruibal",
+      "position": "D",
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "24",
+      "shirtNumber": 24,
+      "height": 176,
+      "dateOfBirth": "1996-03-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 3900000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1152139,
+      "name": "Angel Ortiz",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "Á. Ortiz",
+      "position": "D",
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "40",
+      "shirtNumber": 40,
+      "height": 167,
+      "dateOfBirth": "2004-07-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 4400000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 50539,
+      "name": "Adrián",
+      "shortName": "Adrián",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "13",
+      "shirtNumber": 13,
+      "height": 190,
+      "weight": 80,
+      "dateOfBirth": "1987-01-03T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 415000,
+      "pentagon": null
+    },
+    {
+      "id": 548848,
+      "name": "Pau López",
+      "shortName": "P. López",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "25",
+      "shirtNumber": 25,
+      "height": 189,
+      "weight": 77,
+      "dateOfBirth": "1994-12-13T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 2700000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    },
+    {
+      "id": 964983,
+      "name": "Álvaro Valles",
+      "shortName": "Á. Valles",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 192,
+      "dateOfBirth": "1997-07-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 5600000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    }
+  ],
+  "scrapedAt": "2026-05-09T01:59:49.969Z"
+}

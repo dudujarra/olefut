@@ -1,0 +1,464 @@
+{
+  "teamId": 1855,
+  "teamName": "Colo-Colo",
+  "manager": null,
+  "players": [
+    {
+      "id": 2115804,
+      "name": "Oliver Mizzaro",
+      "firstName": "Oliver",
+      "lastName": "Mizzaro",
+      "shortName": "O. Mizzaro",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "19",
+      "shirtNumber": 19,
+      "dateOfBirth": "2000-12-20T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551454,
+      "name": "Adis Sabotic",
+      "firstName": "Adis",
+      "lastName": "Sabotic",
+      "shortName": "A. Sabotic",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "dateOfBirth": "2003-10-10T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 53824,
+      "name": "Ahmed Kanjou",
+      "firstName": "Ahmed",
+      "lastName": "Kanjou",
+      "shortName": "A. Kango",
+      "position": "M",
+      "positionsDetailed": [
+        "MR"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "dateOfBirth": "1991-11-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 0,
+      "pentagon": null
+    },
+    {
+      "id": 2115806,
+      "name": "Mohammad Rasul Khairuddin",
+      "firstName": "Mohammad",
+      "lastName": "Rasul Khairuddin",
+      "shortName": "M. R. Khairuddin",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "dateOfBirth": "2005-08-02T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 980962,
+      "name": "Julius Brekkan",
+      "firstName": "Julius",
+      "lastName": "Brekkan",
+      "shortName": "J. Brekkan",
+      "position": "M",
+      "positionsDetailed": [],
+      "dateOfBirth": "2000-07-14T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 49000,
+      "pentagon": null
+    },
+    {
+      "id": 2551452,
+      "name": "Christoffer Lahdo",
+      "firstName": "Christoffer",
+      "lastName": "Lahdo",
+      "shortName": "C. Lahdo",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "dateOfBirth": "2006-10-03T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2115732,
+      "name": "Victor San José",
+      "firstName": "Victor",
+      "lastName": "San José",
+      "shortName": "V. S. José",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "dateOfBirth": "2002-07-08T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551455,
+      "name": "Abdulhamid  Mwinyi Mohamed",
+      "firstName": "Abdulhamid",
+      "lastName": " Mwinyi Mohamed",
+      "shortName": "A. M. Mohamed",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "12",
+      "shirtNumber": 12,
+      "dateOfBirth": "2002-02-03T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551456,
+      "name": "Annes Abrar",
+      "firstName": "Annes",
+      "lastName": "Abrar",
+      "shortName": "A. Abrar",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "dateOfBirth": "2006-11-23T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2573667,
+      "name": "Abdullahi Husein Ahmed",
+      "firstName": "Abdullahi Husein",
+      "lastName": "Ahmed",
+      "shortName": "A. H. Ahmed",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "dateOfBirth": "2004-07-22T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1106669,
+      "name": "Ossian Åsell",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "O. Åsell",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2005-04-05T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2528100,
+      "name": "Ludvig Gullberg",
+      "firstName": "Ludvig Gullberg",
+      "shortName": "L. Gullberg",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2006-07-27T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551453,
+      "name": "Joel Bernhardsson",
+      "firstName": "Joel",
+      "lastName": "Bernhardsson",
+      "shortName": "J. Bernhardsson",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "dateOfBirth": "2000-07-18T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551457,
+      "name": "Gustav Bergshem",
+      "firstName": "Gustav",
+      "lastName": "Bergshem",
+      "shortName": "G. Bergshem",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "44",
+      "shirtNumber": 44,
+      "dateOfBirth": "2002-07-15T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551458,
+      "name": "Tanda Manpreet Pal",
+      "firstName": "Tanda Manpreet",
+      "lastName": "Pal",
+      "shortName": "T. M. Pal",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "dateOfBirth": "2006-11-08T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2558177,
+      "name": "Liam Andersson",
+      "firstName": "Liam",
+      "lastName": "Andersson",
+      "shortName": "L. Andersson",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "35",
+      "shirtNumber": 35,
+      "dateOfBirth": "2007-07-18T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1435056,
+      "name": "Hampus Engdahl",
+      "shortName": "H. Engdahl",
+      "positionsDetailed": [],
+      "dateOfBirth": "2005-03-11T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1391883,
+      "name": "Hussein Mehho",
+      "shortName": "H. Mehho",
+      "positionsDetailed": [],
+      "dateOfBirth": "2003-09-05T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1524531,
+      "name": "Ferhat Dündar",
+      "firstName": "Ferhat",
+      "lastName": "Dündar",
+      "shortName": "F. Dündar",
+      "positionsDetailed": [],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "dateOfBirth": "2005-08-03T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2115728,
+      "name": "Adar Aras",
+      "firstName": "Adar",
+      "lastName": "Aras",
+      "shortName": "A. Aras",
+      "positionsDetailed": [],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "dateOfBirth": "2000-03-02T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2115729,
+      "name": "William Pettersson",
+      "firstName": "William",
+      "lastName": "Pettersson",
+      "shortName": "W. Pettersson",
+      "positionsDetailed": [],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "dateOfBirth": "2001-12-09T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2115731,
+      "name": "Jesper Sanderson",
+      "firstName": "Jesper",
+      "lastName": "Sanderson",
+      "shortName": "J. Sanderson",
+      "positionsDetailed": [],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "dateOfBirth": "2005-05-25T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2115735,
+      "name": "Isak Mattsson",
+      "firstName": "Isak",
+      "lastName": "Mattsson",
+      "shortName": "I. Mattsson",
+      "positionsDetailed": [],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "dateOfBirth": "2001-12-11T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2115802,
+      "name": "Reshin Ali",
+      "firstName": "Reshin",
+      "lastName": "Ali",
+      "shortName": "R. Majid",
+      "positionsDetailed": [],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "dateOfBirth": "1999-07-13T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2115803,
+      "name": "Aleksandar Radulj",
+      "firstName": "Aleksandar",
+      "lastName": "Radulj",
+      "shortName": "A. Radulj",
+      "positionsDetailed": [],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "dateOfBirth": "2004-07-08T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:31:01.793Z"
+}

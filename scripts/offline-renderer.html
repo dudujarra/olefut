@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELIFOOT Audio Offline Renderer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.9.17/Tone.js"></script>
+</head>
+<body>
+  <h1>🎵 ELIFOOT Audio Offline Renderer</h1>
+  <div id="status">Loading...</div>
+  <div id="progress">0 / 0</div>
+
+  <script type="module">
+    import { ToneOfflineRenderer } from '../src/audio/ToneOfflineRenderer.js';
+
+    const statusDiv = document.getElementById('status');
+    const progressDiv = document.getElementById('progress');
+
+    /**
+     * Main renderer pipeline
+     */
+    async function renderAllStems() {
+      try {
+        // Carrega metadata
+        statusDiv.textContent = '📥 Loading metadata...';
+        const metaRes = await fetch('http://localhost:5173/audio/metadata.json');
+        const metadata = await metaRes.json();
+        const tracks = metadata.generated?.tracks || [];
+
+        if (!tracks.length) {
+          throw new Error('No tracks in metadata');
+        }
+
+        statusDiv.textContent = `📝 Preparing ${tracks.length} stems...`;
+
+        const renderer = new ToneOfflineRenderer({
+          sampleRate: 44100,
+          channels: 2
+        });
+
+        // Renderiza cada stem
+        const results = [];
+        for (let i = 0; i < tracks.length; i++) {
+          const track = tracks[i];
+          progressDiv.textContent = `${i + 1} / ${tracks.length}`;
+          statusDiv.textContent = `🎼 Rendering ${track.id} (${track.vertente})...`;
+
+          try {
+            const stemData = await renderer.renderStem(track, window.Tone);
+            results.push(stemData);
+            console.log(`✅ Rendered: ${track.id}`);
+          } catch (err) {
+            console.error(`❌ Failed to render ${track.id}:`, err);
+          }
+        }
+
+        // Salva WAV files via fetch POST
+        statusDiv.textContent = `💾 Saving ${results.length} stems to disk...`;
+
+        for (const result of results) {
+          const wavBuffer = audioBufferToWav(result.buffer);
+          const blob = new Blob([wavBuffer], { type: 'audio/wav' });
+
+          const formData = new FormData();
+          formData.append('id', result.id);
+          formData.append('file', blob, `${result.id}.wav`);
+
+          await fetch('/api/audio/save-stem', {
+            method: 'POST',
+            body: formData
+          });
+        }
+
+        statusDiv.textContent = `✅ Done! ${results.length} stems rendered and saved.`;
+        progressDiv.textContent = `${results.length} / ${results.length}`;
+
+      } catch (err) {
+        statusDiv.textContent = `❌ Error: ${err.message}`;
+        console.error('Renderer error:', err);
+      }
+    }
+
+    /**
+     * Convert AudioBuffer → WAV file
+     */
+    function audioBufferToWav(audioBuffer) {
+      const rawData = mergeBuffers([audioBuffer]);
+      const wavFile = encodeWAV(rawData, audioBuffer.sampleRate);
+      return wavFile;
+    }
+
+    function mergeBuffers(buffers) {
+      let offset = 0;
+      const merged = new Float32Array(buffers.reduce((a, b) => a + b.length, 0));
+
+      for (let i = 0; i < buffers.length; i++) {
+        merged.set(buffers[i], offset);
+        offset += buffers[i].length;
+      }
+
+      return merged;
+    }
+
+    function encodeWAV(samples, sampleRate) {
+      const buffer = new ArrayBuffer(44 + samples.length * 2);
+      const view = new DataView(buffer);
+
+      const writeString = (offset, string) => {
+        for (let i = 0; i < string.length; i++) {
+          view.setUint8(offset + i, string.charCodeAt(i));
+        }
+      };
+
+      const floatTo16BitPCM = (output, offset, input) => {
+        for (let i = 0; i < input.length; i++, offset += 2) {
+          const s = Math.max(-1, Math.min(1, input[i]));
+          output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+        }
+      };
+
+      writeString(0, 'RIFF');
+      view.setUint32(4, 36 + samples.length * 2, true);
+      writeString(8, 'WAVE');
+      writeString(12, 'fmt ');
+      view.setUint32(16, 16, true); // fmt chunk size
+      view.setUint16(20, 1, true);  // PCM
+      view.setUint16(22, 1, true);  // channels
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * 2, true); // byte rate
+      view.setUint16(32, 2, true); // block align
+      view.setUint16(34, 16, true); // bits per sample
+      writeString(36, 'data');
+      view.setUint32(40, samples.length * 2, true);
+      floatTo16BitPCM(view, 44, samples);
+
+      return buffer;
+    }
+
+    // Auto-start on load
+    renderAllStems();
+  </script>
+</body>
+</html>

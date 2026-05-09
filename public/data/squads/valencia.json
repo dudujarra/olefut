@@ -1,0 +1,965 @@
+{
+  "teamId": 2828,
+  "teamName": "Valencia",
+  "manager": {
+    "id": 787742,
+    "name": "Carlos Corberán",
+    "shortName": "C. Corberán",
+    "country": "Spain",
+    "preferredFormation": "4-2-3-1",
+    "stats": {
+      "total": 306,
+      "wins": 122,
+      "draws": 80,
+      "losses": 104,
+      "goalsScored": 406,
+      "goalsConceded": 381,
+      "totalPoints": 446
+    },
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 962029,
+      "name": "Lucas Beltrán",
+      "firstName": "Lucas",
+      "lastName": "Beltran",
+      "shortName": "L. Beltrán",
+      "position": "F",
+      "positionsDetailed": [
+        "ST",
+        "AM"
+      ],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "height": 177,
+      "weight": 75,
+      "dateOfBirth": "2001-03-29T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "proposedMarketValue": 8400000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 827064,
+      "name": "Arnaut Danjuma",
+      "firstName": "Arnaut",
+      "lastName": "Danjuma",
+      "shortName": "A. Danjuma",
+      "position": "F",
+      "positionsDetailed": [
+        "ST",
+        "LW"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 178,
+      "dateOfBirth": "1997-01-31T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "NL",
+        "alpha3": "NLD",
+        "name": "Netherlands",
+        "slug": "netherlands"
+      },
+      "proposedMarketValue": 3800000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 754710,
+      "name": "Umar Sadiq",
+      "firstName": "Umar",
+      "lastName": "Sadiq",
+      "shortName": "U. Sadiq",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "height": 192,
+      "weight": 75,
+      "dateOfBirth": "1997-02-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "NG",
+        "alpha3": "NGA",
+        "name": "Nigeria",
+        "slug": "nigeria"
+      },
+      "proposedMarketValue": 3900000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 909119,
+      "name": "Hugo Duro",
+      "shortName": "H. Duro",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "height": 180,
+      "dateOfBirth": "1999-11-10T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 11600000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 909966,
+      "name": "Largie Ramazani",
+      "firstName": "Largie",
+      "lastName": "Ramazani",
+      "shortName": "L. Ramazani",
+      "position": "F",
+      "positionsDetailed": [
+        "LW",
+        "RW",
+        "ST"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "height": 167,
+      "dateOfBirth": "2001-02-27T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BE",
+        "alpha3": "BEL",
+        "name": "Belgium",
+        "slug": "belgium"
+      },
+      "proposedMarketValue": 7500000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 873947,
+      "name": "Dani Raba",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "D. Raba",
+      "position": "F",
+      "positionsDetailed": [
+        "RW",
+        "MR",
+        "ST"
+      ],
+      "jerseyNumber": "19",
+      "shirtNumber": 19,
+      "height": 184,
+      "dateOfBirth": "1995-10-29T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 1500000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 609752,
+      "name": "Guido Rodríguez",
+      "firstName": "Guido",
+      "lastName": "Rodriguez",
+      "shortName": "G. Rodríguez",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 185,
+      "weight": 80,
+      "dateOfBirth": "1994-04-12T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "proposedMarketValue": 5200000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1122610,
+      "name": "Javier Guerra",
+      "shortName": "J. Guerra",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 187,
+      "dateOfBirth": "2003-05-13T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 26000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 826948,
+      "name": "Pepelu",
+      "shortName": "Pepelu",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "18",
+      "shirtNumber": 18,
+      "height": 185,
+      "weight": 73,
+      "dateOfBirth": "1998-08-11T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 8199999,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 998950,
+      "name": "Diego López",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "D. López",
+      "position": "M",
+      "positionsDetailed": [
+        "LW",
+        "ML"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 172,
+      "dateOfBirth": "2002-05-13T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 12800000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 845693,
+      "name": "André Almeida",
+      "firstName": "Andre",
+      "lastName": "Almeida",
+      "shortName": "A. Almeida",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "AM"
+      ],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 176,
+      "weight": 62,
+      "dateOfBirth": "2000-05-30T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "PT",
+        "alpha3": "PRT",
+        "name": "Portugal",
+        "slug": "portugal"
+      },
+      "proposedMarketValue": 7700000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 900433,
+      "name": "Luis Rioja",
+      "shortName": "L. Rioja",
+      "position": "M",
+      "positionsDetailed": [
+        "LW",
+        "MR"
+      ],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 173,
+      "dateOfBirth": "1993-10-16T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 2100000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 857482,
+      "name": "Filip Ugrinić",
+      "firstName": "Filip",
+      "lastName": "Ugrinic",
+      "shortName": "F. Ugrinić",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "AM"
+      ],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "height": 185,
+      "weight": 84,
+      "dateOfBirth": "1999-01-05T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CH",
+        "alpha3": "CHE",
+        "name": "Switzerland",
+        "slug": "switzerland"
+      },
+      "proposedMarketValue": 5700000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 344751,
+      "name": "Baptiste Santamaria",
+      "firstName": "Baptiste",
+      "lastName": "Santamaria",
+      "shortName": "B. Santamaria",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 183,
+      "weight": 73,
+      "dateOfBirth": "1995-03-09T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 3100000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1939361,
+      "name": "Lucas Núñez",
+      "shortName": "L. Núñez",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "29",
+      "shirtNumber": 29,
+      "height": 183,
+      "dateOfBirth": "2006-03-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 52000,
+      "pentagon": null
+    },
+    {
+      "id": 797306,
+      "name": "Mouctar Diakhaby",
+      "firstName": "Mouctar",
+      "lastName": "Diakhaby",
+      "shortName": "M. Diakhaby",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 192,
+      "weight": 74,
+      "dateOfBirth": "1996-12-19T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "GN",
+        "alpha3": "GIN",
+        "name": "Guinea",
+        "slug": "guinea"
+      },
+      "proposedMarketValue": 2100000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 227922,
+      "name": "José Luis Gayà",
+      "shortName": "J. L. Gayà",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "height": 172,
+      "weight": 64,
+      "dateOfBirth": "1995-05-25T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 5400000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 315916,
+      "name": "Renzo Saravia",
+      "firstName": "Renzo",
+      "lastName": "Saravia",
+      "shortName": "R. Saravia",
+      "position": "D",
+      "positionsDetailed": [
+        "DR",
+        "DC"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 178,
+      "dateOfBirth": "1993-06-16T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "proposedMarketValue": 1400000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 996928,
+      "name": "César Tárrega",
+      "shortName": "C. Tárrega",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "5",
+      "shirtNumber": 5,
+      "height": 193,
+      "dateOfBirth": "2002-02-26T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 12400000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 851282,
+      "name": "Thierry Correia",
+      "firstName": "Thierry",
+      "lastName": "Correia",
+      "shortName": "T. Correia",
+      "position": "D",
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "12",
+      "shirtNumber": 12,
+      "height": 176,
+      "dateOfBirth": "1999-03-09T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "PT",
+        "alpha3": "PRT",
+        "name": "Portugal",
+        "slug": "portugal"
+      },
+      "proposedMarketValue": 3100000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 892521,
+      "name": "Unai Núñez",
+      "shortName": "U. Núñez",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 186,
+      "weight": 81,
+      "dateOfBirth": "1997-01-30T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 3300000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 814023,
+      "name": "Eray Cömert",
+      "firstName": "Eray",
+      "lastName": "Comert",
+      "shortName": "E. Cömert",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "24",
+      "shirtNumber": 24,
+      "height": 183,
+      "weight": 80,
+      "dateOfBirth": "1998-02-04T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CH",
+        "alpha3": "CHE",
+        "name": "Switzerland",
+        "slug": "switzerland"
+      },
+      "proposedMarketValue": 2700000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 151138,
+      "name": "Dimitri Foulquier",
+      "firstName": "Dimitri",
+      "lastName": "Foulquier",
+      "shortName": "D. Foulquier",
+      "position": "D",
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 183,
+      "weight": 79,
+      "dateOfBirth": "1993-03-23T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "GP",
+        "alpha3": "GLP",
+        "name": "Guadeloupe",
+        "slug": "guadeloupe"
+      },
+      "proposedMarketValue": 1100000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 996929,
+      "name": "Jesús Vázquez",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Vázquez",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "height": 182,
+      "dateOfBirth": "2003-01-02T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 4200000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 913695,
+      "name": "José Copete",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Copete",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "height": 190,
+      "dateOfBirth": "1999-10-10T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 4500000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1167704,
+      "name": "Rubén Iranzo",
+      "firstName": "Rubo",
+      "lastName": "Iranzo",
+      "shortName": "R. Iranzo",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "26",
+      "shirtNumber": 26,
+      "height": 182,
+      "dateOfBirth": "2003-03-14T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 580000,
+      "pentagon": null
+    },
+    {
+      "id": 1014412,
+      "name": "Julen Agirrezabala",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Agirrezabala",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "25",
+      "shirtNumber": 25,
+      "height": 187,
+      "dateOfBirth": "2000-12-26T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 16300000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    },
+    {
+      "id": 97951,
+      "name": "Stole Dimitrievski",
+      "shortName": "S. Dimitrievski",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 188,
+      "weight": 81,
+      "dateOfBirth": "1993-12-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MK",
+        "alpha3": "MKD",
+        "name": "North Macedonia",
+        "slug": "north-macedonia"
+      },
+      "proposedMarketValue": 2100000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    },
+    {
+      "id": 914744,
+      "name": "Cristian Rivero",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "C. Rivero",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "13",
+      "shirtNumber": 13,
+      "height": 188,
+      "dateOfBirth": "1998-03-21T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 94000,
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T01:56:39.404Z"
+}

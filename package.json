@@ -14,17 +14,25 @@
     "test:series": "bash scripts/debug-bug.sh series",
     "test:regression": "vitest run tests/regression",
     "test:specs": "vitest run tests/specs",
+    "test:audio": "vitest run tests/audio",
     "bug:search": "bash scripts/debug-bug.sh search",
     "bug:ticket": "bash scripts/debug-bug.sh ticket",
     "bug:fix": "bash scripts/debug-bug.sh fix",
     "bug:test": "bash scripts/debug-bug.sh test",
     "bug:full": "bash scripts/debug-bug.sh full",
+    "generate:audio": "node scripts/generate-audio.js",
+    "generate:audio:dry": "node scripts/generate-audio.js --dry-run",
+    "render:stems": "node scripts/render-stems-cli.js",
+    "render:stems:dry": "node scripts/render-stems.js --dry-run",
+    "render:test": "node scripts/test-synth.js",
+    "render:fase1": "node scripts/render-fase1.js",
     "mutate": "stryker run",
     "mutate:report": "open tests/characterization/stryker-report/index.html"
   },
   "dependencies": {
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "tone": "^14.9.17"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -38,6 +46,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
     "playwright": "^1.59.1",
+    "puppeteer": "^23.11.1",
     "vite": "^8.0.10",
     "vitest": "^4.1.5"
   }

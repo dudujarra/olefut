@@ -38,9 +38,13 @@ export async function loadSquad(clubName) {
             return null;
         }
         const raw = await res.json();
-        const mapped = raw.map(mapPlayer);
-        cache.set(slug, mapped);
-        return mapped;
+        // Support both old format (array) and new format ({manager, players})
+        const playersRaw = Array.isArray(raw) ? raw : (raw.players || []);
+        const manager = Array.isArray(raw) ? null : raw.manager;
+        const mapped = playersRaw.map(mapPlayer);
+        const result = { players: mapped, manager };
+        cache.set(slug, result);
+        return result;
     } catch (e) {
         console.warn(`[SquadData] No squad for ${clubName}:`, e.message);
         cache.set(slug, null);
@@ -162,9 +166,12 @@ export async function injectSquadIntoTeam(engine, teamId, clubName) {
     const team = engine.getTeam(teamId);
     if (!team) return { success: false, msg: 'Time não encontrado' };
 
-    const squad = await loadSquad(clubName);
-    if (!squad || squad.length === 0) return { success: false, msg: 'Squad indisponível' };
+    const data = await loadSquad(clubName);
+    if (!data || !data.players || data.players.length === 0) return { success: false, msg: 'Squad indisponível' };
 
-    team.squad = squad;
-    return { success: true, count: squad.length };
+    team.squad = data.players;
+    if (data.manager) {
+        team.manager = data.manager;
+    }
+    return { success: true, count: data.players.length, manager: data.manager?.name };
 }

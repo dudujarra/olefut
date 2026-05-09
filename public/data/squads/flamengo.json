@@ -1,1131 +1,1143 @@
-[
-  {
-    "id": 840219,
-    "name": "Pedro",
-    "firstName": "Pedro Guilherme",
-    "lastName": "Pedro",
-    "shortName": "Pedro",
-    "position": "F",
-    "positionsDetailed": [
-      "ST"
-    ],
-    "jerseyNumber": "9",
-    "shirtNumber": 9,
-    "height": 186,
-    "dateOfBirth": "1997-06-20T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
-    },
-    "proposedMarketValue": 16500000,
-    "pentagon": {
-      "attacking": 61,
-      "technical": 54,
-      "tactical": 43,
-      "defending": 32,
-      "creativity": 46,
+{
+  "teamId": 5981,
+  "teamName": "Flamengo",
+  "manager": {
+    "id": 821768,
+    "name": "José Barros",
+    "shortName": "J. Barros",
+    "stats": null,
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 840219,
+      "name": "Pedro",
+      "firstName": "Pedro Guilherme",
+      "lastName": "Pedro",
+      "shortName": "Pedro",
       "position": "F",
-      "yearShift": 0,
-      "id": 19812
-    }
-  },
-  {
-    "id": 795291,
-    "name": "Bruno Henrique",
-    "firstName": "Bruno Henrique",
-    "lastName": "",
-    "shortName": "B. Pinto",
-    "position": "F",
-    "positionsDetailed": [
-      "ST",
-      "LW"
-    ],
-    "jerseyNumber": "27",
-    "shirtNumber": 27,
-    "height": 184,
-    "weight": 71,
-    "dateOfBirth": "1990-12-28T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "height": 186,
+      "dateOfBirth": "1997-06-20T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 16500000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
     },
-    "proposedMarketValue": 825000,
-    "pentagon": {
-      "attacking": 61,
-      "technical": 54,
-      "tactical": 43,
-      "defending": 32,
-      "creativity": 46,
+    {
+      "id": 795291,
+      "name": "Bruno Henrique",
+      "firstName": "Bruno Henrique",
+      "lastName": "",
+      "shortName": "B. Pinto",
       "position": "F",
-      "yearShift": 0,
-      "id": 19812
-    }
-  },
-  {
-    "id": 1466084,
-    "name": "Wallace Yan",
-    "firstName": "Wallace",
-    "shortName": "Wallace",
-    "position": "F",
-    "positionsDetailed": [
-      "ST"
-    ],
-    "jerseyNumber": "64",
-    "shirtNumber": 64,
-    "height": 182,
-    "dateOfBirth": "2005-02-07T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "ST",
+        "LW"
+      ],
+      "jerseyNumber": "27",
+      "shirtNumber": 27,
+      "height": 184,
+      "weight": 71,
+      "dateOfBirth": "1990-12-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 825000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
     },
-    "proposedMarketValue": 6200000,
-    "pentagon": null
-  },
-  {
-    "id": 1883297,
-    "name": "Douglas Costa Telles",
-    "firstName": "Douglas",
-    "lastName": "Costa Telles",
-    "shortName": "D. C. Telles",
-    "position": "F",
-    "positionsDetailed": [
-      "RW"
-    ],
-    "jerseyNumber": "81",
-    "shirtNumber": 81,
-    "height": 177,
-    "dateOfBirth": "2007-06-01T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+    {
+      "id": 1466084,
+      "name": "Wallace Yan",
+      "firstName": "Wallace",
+      "shortName": "Wallace",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "64",
+      "shirtNumber": 64,
+      "height": 182,
+      "dateOfBirth": "2005-02-07T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 6200000,
+      "pentagon": null
     },
-    "pentagon": null
-  },
-  {
-    "id": 2408644,
-    "name": "Joao Camargo",
-    "firstName": "Joao",
-    "lastName": "Camargo",
-    "shortName": "J. Camargo",
-    "position": "F",
-    "positionsDetailed": [],
-    "jerseyNumber": "80",
-    "shirtNumber": 80,
-    "height": 186,
-    "dateOfBirth": "2007-04-12T00:00:00+00:00",
-    "preferredFoot": "Both",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+    {
+      "id": 1883297,
+      "name": "Douglas Costa Telles",
+      "firstName": "Douglas",
+      "lastName": "Costa Telles",
+      "shortName": "D. C. Telles",
+      "position": "F",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "81",
+      "shirtNumber": 81,
+      "height": 177,
+      "dateOfBirth": "2007-06-01T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": null
     },
-    "pentagon": null
-  },
-  {
-    "id": 333587,
-    "name": "Giorgian de Arrascaeta",
-    "firstName": "Giorgian",
-    "lastName": "de Arrascaeta",
-    "shortName": "G. de Arrascaeta",
-    "position": "M",
-    "positionsDetailed": [
-      "AM"
-    ],
-    "jerseyNumber": "10",
-    "shirtNumber": 10,
-    "height": 173,
-    "weight": 70,
-    "dateOfBirth": "1994-06-01T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "UY",
-      "alpha3": "URY",
-      "name": "Uruguay",
-      "slug": "uruguay"
+    {
+      "id": 2408644,
+      "name": "Joao Camargo",
+      "firstName": "Joao",
+      "lastName": "Camargo",
+      "shortName": "J. Camargo",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "80",
+      "shirtNumber": 80,
+      "height": 186,
+      "dateOfBirth": "2007-04-12T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": null
     },
-    "proposedMarketValue": 14500000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 333587,
+      "name": "Giorgian de Arrascaeta",
+      "firstName": "Giorgian",
+      "lastName": "de Arrascaeta",
+      "shortName": "G. de Arrascaeta",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 839981,
-    "name": "Lucas Paquetá",
-    "firstName": "Lucas",
-    "lastName": "Paqueta",
-    "shortName": "L. Paquetá",
-    "position": "M",
-    "positionsDetailed": [
-      "AM",
-      "MC"
-    ],
-    "jerseyNumber": "20",
-    "shirtNumber": 20,
-    "height": 180,
-    "dateOfBirth": "1997-08-26T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "AM"
+      ],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 173,
+      "weight": 70,
+      "dateOfBirth": "1994-06-01T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "UY",
+        "alpha3": "URY",
+        "name": "Uruguay",
+        "slug": "uruguay"
+      },
+      "proposedMarketValue": 14500000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 36000000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 839981,
+      "name": "Lucas Paquetá",
+      "firstName": "Lucas",
+      "lastName": "Paqueta",
+      "shortName": "L. Paquetá",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 132874,
-    "name": "Jorginho",
-    "firstName": "Jorge Luiz",
-    "lastName": "Jorginho",
-    "shortName": "Jorginho",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "DM"
-    ],
-    "jerseyNumber": "21",
-    "shirtNumber": 21,
-    "height": 180,
-    "dateOfBirth": "1991-12-20T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "IT",
-      "alpha3": "ITA",
-      "name": "Italy",
-      "slug": "italy"
+      "positionsDetailed": [
+        "AM",
+        "MC"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 180,
+      "dateOfBirth": "1997-08-26T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 36000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 5400000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 132874,
+      "name": "Jorginho",
+      "firstName": "Jorge Luiz",
+      "lastName": "Jorginho",
+      "shortName": "Jorginho",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 874705,
-    "name": "Samuel Lino",
-    "shortName": "S. Lino",
-    "position": "M",
-    "positionsDetailed": [
-      "LW",
-      "ML"
-    ],
-    "jerseyNumber": "16",
-    "shirtNumber": 16,
-    "height": 178,
-    "dateOfBirth": "1999-12-22T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "height": 180,
+      "dateOfBirth": "1991-12-20T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 5400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 17500000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 874705,
+      "name": "Samuel Lino",
+      "shortName": "S. Lino",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 937937,
-    "name": "Gonzalo Plata",
-    "firstName": "Gonzalo",
-    "lastName": "Plata",
-    "shortName": "G. Plata",
-    "position": "M",
-    "positionsDetailed": [
-      "RW"
-    ],
-    "jerseyNumber": "19",
-    "shirtNumber": 19,
-    "height": 178,
-    "dateOfBirth": "2000-11-01T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "EC",
-      "alpha3": "ECU",
-      "name": "Ecuador",
-      "slug": "ecuador"
+      "positionsDetailed": [
+        "LW",
+        "ML"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 178,
+      "dateOfBirth": "1999-12-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 17500000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 8600000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 937937,
+      "name": "Gonzalo Plata",
+      "firstName": "Gonzalo",
+      "lastName": "Plata",
+      "shortName": "G. Plata",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 877513,
-    "name": "Nicolás de la Cruz",
-    "firstName": "Nicolas",
-    "lastName": "De la Cruz",
-    "shortName": "N. De la Cruz",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "DM",
-      "AM"
-    ],
-    "jerseyNumber": "18",
-    "shirtNumber": 18,
-    "height": 167,
-    "weight": 65,
-    "dateOfBirth": "1997-06-01T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "UY",
-      "alpha3": "URY",
-      "name": "Uruguay",
-      "slug": "uruguay"
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "19",
+      "shirtNumber": 19,
+      "height": 178,
+      "dateOfBirth": "2000-11-01T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "EC",
+        "alpha3": "ECU",
+        "name": "Ecuador",
+        "slug": "ecuador"
+      },
+      "proposedMarketValue": 8600000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 8400000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 877513,
+      "name": "Nicolás de la Cruz",
+      "firstName": "Nicolas",
+      "lastName": "De la Cruz",
+      "shortName": "N. De la Cruz",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 840451,
-    "name": "Luiz Araújo",
-    "firstName": "Luiz",
-    "lastName": "Araujo",
-    "shortName": "L. Araújo",
-    "position": "M",
-    "positionsDetailed": [
-      "RW"
-    ],
-    "jerseyNumber": "7",
-    "shirtNumber": 7,
-    "height": 175,
-    "weight": 67,
-    "dateOfBirth": "1996-06-02T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "MC",
+        "DM",
+        "AM"
+      ],
+      "jerseyNumber": "18",
+      "shirtNumber": 18,
+      "height": 167,
+      "weight": 65,
+      "dateOfBirth": "1997-06-01T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "UY",
+        "alpha3": "URY",
+        "name": "Uruguay",
+        "slug": "uruguay"
+      },
+      "proposedMarketValue": 8400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 7200000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 840451,
+      "name": "Luiz Araújo",
+      "firstName": "Luiz",
+      "lastName": "Araujo",
+      "shortName": "L. Araújo",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 590392,
-    "name": "Jorge Carrascal",
-    "firstName": "Jorge",
-    "lastName": "Carrascal",
-    "shortName": "J. Carrascal",
-    "position": "M",
-    "positionsDetailed": [
-      "AM",
-      "RW"
-    ],
-    "jerseyNumber": "15",
-    "shirtNumber": 15,
-    "height": 179,
-    "weight": 54,
-    "dateOfBirth": "1998-05-25T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "CO",
-      "alpha3": "COL",
-      "name": "Colombia",
-      "slug": "colombia"
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 175,
+      "weight": 67,
+      "dateOfBirth": "1996-06-02T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 7200000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 10200000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 590392,
+      "name": "Jorge Carrascal",
+      "firstName": "Jorge",
+      "lastName": "Carrascal",
+      "shortName": "J. Carrascal",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 116955,
-    "name": "Saúl Ñíguez",
-    "shortName": "S. Ñíguez",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "DM"
-    ],
-    "jerseyNumber": "8",
-    "shirtNumber": 8,
-    "height": 184,
-    "weight": 76,
-    "dateOfBirth": "1994-11-21T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "ES",
-      "alpha3": "ESP",
-      "name": "Spain",
-      "slug": "spain"
+      "positionsDetailed": [
+        "AM",
+        "RW"
+      ],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "height": 179,
+      "weight": 54,
+      "dateOfBirth": "1998-05-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CO",
+        "alpha3": "COL",
+        "name": "Colombia",
+        "slug": "colombia"
+      },
+      "proposedMarketValue": 10200000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 1900000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 116955,
+      "name": "Saúl Ñíguez",
+      "shortName": "S. Ñíguez",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 590262,
-    "name": "Erick Pulgar",
-    "firstName": "Erick",
-    "lastName": "Pulgar",
-    "shortName": "E. Pulgar",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "DM"
-    ],
-    "jerseyNumber": "5",
-    "shirtNumber": 5,
-    "height": 186,
-    "weight": 70,
-    "dateOfBirth": "1994-01-15T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "CL",
-      "alpha3": "CHL",
-      "name": "Chile",
-      "slug": "chile"
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 184,
+      "weight": 76,
+      "dateOfBirth": "1994-11-21T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 1900000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 5400000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 590262,
+      "name": "Erick Pulgar",
+      "firstName": "Erick",
+      "lastName": "Pulgar",
+      "shortName": "E. Pulgar",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 386198,
-    "name": "Everton",
-    "firstName": "Everton",
-    "lastName": "Everton",
-    "shortName": "Everton",
-    "position": "M",
-    "positionsDetailed": [
-      "LW"
-    ],
-    "jerseyNumber": "11",
-    "shirtNumber": 11,
-    "height": 174,
-    "weight": 72,
-    "dateOfBirth": "1996-03-21T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "5",
+      "shirtNumber": 5,
+      "height": 186,
+      "weight": 70,
+      "dateOfBirth": "1994-01-15T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CL",
+        "alpha3": "CHL",
+        "name": "Chile",
+        "slug": "chile"
+      },
+      "proposedMarketValue": 5400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 6400000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 386198,
+      "name": "Everton",
+      "firstName": "Everton",
+      "lastName": "Everton",
+      "shortName": "Everton",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 1145106,
-    "name": "Evertton Araujo",
-    "shortName": "E. Araujo",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "DM"
-    ],
-    "jerseyNumber": "52",
-    "shirtNumber": 52,
-    "height": 185,
-    "weight": 73,
-    "dateOfBirth": "2003-02-28T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 174,
+      "weight": 72,
+      "dateOfBirth": "1996-03-21T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 6400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 5400000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 1145106,
+      "name": "Evertton Araujo",
+      "shortName": "E. Araujo",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 1645868,
-    "name": "Guilherme Gomes",
-    "firstName": "Guilherme",
-    "shortName": "Guilherme",
-    "position": "M",
-    "positionsDetailed": [
-      "AM"
-    ],
-    "jerseyNumber": "47",
-    "shirtNumber": 47,
-    "height": 181,
-    "dateOfBirth": "2006-02-02T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "52",
+      "shirtNumber": 52,
+      "height": 185,
+      "weight": 73,
+      "dateOfBirth": "2003-02-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 5400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 1645868,
+      "name": "Guilherme Gomes",
+      "firstName": "Guilherme",
+      "shortName": "Guilherme",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 2031651,
-    "name": "Pablo Lucio",
-    "firstName": "Pablo Lucio",
-    "shortName": "P. Lucio",
-    "position": "M",
-    "positionsDetailed": [
-      "DM"
-    ],
-    "jerseyNumber": "56",
-    "shirtNumber": 56,
-    "height": 188,
-    "dateOfBirth": "2007-04-01T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "AM"
+      ],
+      "jerseyNumber": "47",
+      "shirtNumber": 47,
+      "height": 181,
+      "dateOfBirth": "2006-02-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "pentagon": null
-  },
-  {
-    "id": 1883287,
-    "name": "Caio Joshua",
-    "shortName": "C. Joshua",
-    "position": "M",
-    "positionsDetailed": [
-      "LW"
-    ],
-    "jerseyNumber": "79",
-    "shirtNumber": 79,
-    "height": 180,
-    "dateOfBirth": "2007-05-25T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+    {
+      "id": 2031651,
+      "name": "Pablo Lucio",
+      "firstName": "Pablo Lucio",
+      "shortName": "P. Lucio",
+      "position": "M",
+      "positionsDetailed": [
+        "DM"
+      ],
+      "jerseyNumber": "56",
+      "shirtNumber": 56,
+      "height": 188,
+      "dateOfBirth": "2007-04-01T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": null
     },
-    "pentagon": null
-  },
-  {
-    "id": 1485196,
-    "name": "Caio Garcia",
-    "shortName": "C. Garcia",
-    "position": "M",
-    "positionsDetailed": [
-      "MC"
-    ],
-    "jerseyNumber": "26",
-    "shirtNumber": 26,
-    "height": 181,
-    "weight": 77,
-    "dateOfBirth": "2004-04-03T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+    {
+      "id": 1883287,
+      "name": "Caio Joshua",
+      "shortName": "C. Joshua",
+      "position": "M",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "79",
+      "shirtNumber": 79,
+      "height": 180,
+      "dateOfBirth": "2007-05-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": null
     },
-    "pentagon": null
-  },
-  {
-    "id": 1883345,
-    "name": "Luiz Felipe",
-    "firstName": "Luiz",
-    "lastName": "Felipe Mariano",
-    "shortName": "L. Felipe",
-    "position": "M",
-    "positionsDetailed": [
-      "MC"
-    ],
-    "jerseyNumber": "75",
-    "shirtNumber": 75,
-    "height": 183,
-    "dateOfBirth": "2008-02-08T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+    {
+      "id": 1485196,
+      "name": "Caio Garcia",
+      "shortName": "C. Garcia",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "26",
+      "shirtNumber": 26,
+      "height": 181,
+      "weight": 77,
+      "dateOfBirth": "2004-04-03T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": null
     },
-    "pentagon": null
-  },
-  {
-    "id": 124992,
-    "name": "Danilo",
-    "firstName": "Danilo Luiz",
-    "lastName": "Danilo",
-    "shortName": "Danilo",
-    "position": "D",
-    "positionsDetailed": [
-      "DC",
-      "DR"
-    ],
-    "jerseyNumber": "13",
-    "shirtNumber": 13,
-    "height": 184,
-    "weight": 78,
-    "dateOfBirth": "1991-07-15T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+    {
+      "id": 1883345,
+      "name": "Luiz Felipe",
+      "firstName": "Luiz",
+      "lastName": "Felipe Mariano",
+      "shortName": "L. Felipe",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "75",
+      "shirtNumber": 75,
+      "height": 183,
+      "dateOfBirth": "2008-02-08T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": null
     },
-    "proposedMarketValue": 2600000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 124992,
+      "name": "Danilo",
+      "firstName": "Danilo Luiz",
+      "lastName": "Danilo",
+      "shortName": "Danilo",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 84854,
-    "name": "Alex Sandro",
-    "shortName": "A. Sandro",
-    "position": "D",
-    "positionsDetailed": [
-      "DL",
-      "DC"
-    ],
-    "jerseyNumber": "26",
-    "shirtNumber": 26,
-    "height": 181,
-    "weight": 81,
-    "dateOfBirth": "1991-01-26T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "13",
+      "shirtNumber": 13,
+      "height": 184,
+      "weight": 78,
+      "dateOfBirth": "1991-07-15T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 2600000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "proposedMarketValue": 1500000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 84854,
+      "name": "Alex Sandro",
+      "shortName": "A. Sandro",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 358548,
-    "name": "Léo Pereira",
-    "shortName": "L. Pereira",
-    "position": "D",
-    "positionsDetailed": [
-      "DC"
-    ],
-    "jerseyNumber": "4",
-    "shirtNumber": 4,
-    "height": 189,
-    "weight": 70,
-    "dateOfBirth": "1996-01-31T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "DL",
+        "DC"
+      ],
+      "jerseyNumber": "26",
+      "shirtNumber": 26,
+      "height": 181,
+      "weight": 81,
+      "dateOfBirth": "1991-01-26T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 1500000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "proposedMarketValue": 9400000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 358548,
+      "name": "Léo Pereira",
+      "shortName": "L. Pereira",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 869643,
-    "name": "Léo Ortiz",
-    "shortName": "L. Ortiz",
-    "position": "D",
-    "positionsDetailed": [
-      "DC"
-    ],
-    "jerseyNumber": "3",
-    "shirtNumber": 3,
-    "height": 185,
-    "weight": 82,
-    "dateOfBirth": "1996-01-03T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 189,
+      "weight": 70,
+      "dateOfBirth": "1996-01-31T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 9400000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "proposedMarketValue": 13600000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 869643,
+      "name": "Léo Ortiz",
+      "shortName": "L. Ortiz",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 856123,
-    "name": "Emerson Royal",
-    "shortName": "E. Royal",
-    "position": "D",
-    "positionsDetailed": [
-      "DR",
-      "MR"
-    ],
-    "jerseyNumber": "22",
-    "shirtNumber": 22,
-    "height": 183,
-    "weight": 70,
-    "dateOfBirth": "1999-01-14T00:00:00+00:00",
-    "preferredFoot": "Both",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "height": 185,
+      "weight": 82,
+      "dateOfBirth": "1996-01-03T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 13600000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "proposedMarketValue": 6600000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 856123,
+      "name": "Emerson Royal",
+      "shortName": "E. Royal",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 311456,
-    "name": "Guillermo Varela",
-    "firstName": "Guillermo",
-    "lastName": "Varela",
-    "shortName": "G. Varela",
-    "position": "D",
-    "positionsDetailed": [
-      "DR"
-    ],
-    "jerseyNumber": "2",
-    "shirtNumber": 2,
-    "height": 171,
-    "weight": 70,
-    "dateOfBirth": "1993-03-24T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "UY",
-      "alpha3": "URY",
-      "name": "Uruguay",
-      "slug": "uruguay"
+      "positionsDetailed": [
+        "DR",
+        "MR"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 183,
+      "weight": 70,
+      "dateOfBirth": "1999-01-14T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 6600000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "proposedMarketValue": 1300000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 311456,
+      "name": "Guillermo Varela",
+      "firstName": "Guillermo",
+      "lastName": "Varela",
+      "shortName": "G. Varela",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 818473,
-    "name": "Ayrton Lucas",
-    "shortName": "A. Lucas",
-    "position": "D",
-    "positionsDetailed": [
-      "DL"
-    ],
-    "jerseyNumber": "6",
-    "shirtNumber": 6,
-    "height": 180,
-    "dateOfBirth": "1997-06-19T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 171,
+      "weight": 70,
+      "dateOfBirth": "1993-03-24T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "UY",
+        "alpha3": "URY",
+        "name": "Uruguay",
+        "slug": "uruguay"
+      },
+      "proposedMarketValue": 1300000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "proposedMarketValue": 3700000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 818473,
+      "name": "Ayrton Lucas",
+      "shortName": "A. Lucas",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 876625,
-    "name": "Vitão",
-    "firstName": "Vitor Eduardo",
-    "lastName": "Vitao",
-    "shortName": "Vitão",
-    "position": "D",
-    "positionsDetailed": [
-      "DC"
-    ],
-    "jerseyNumber": "44",
-    "shirtNumber": 44,
-    "height": 185,
-    "weight": 65,
-    "dateOfBirth": "2000-02-02T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "height": 180,
+      "dateOfBirth": "1997-06-19T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 3700000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "proposedMarketValue": 11600000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 876625,
+      "name": "Vitão",
+      "firstName": "Vitor Eduardo",
+      "lastName": "Vitao",
+      "shortName": "Vitão",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 1602833,
-    "name": "João Victor",
-    "firstName": "João Victor",
-    "shortName": "J. Victor",
-    "position": "D",
-    "positionsDetailed": [
-      "DC"
-    ],
-    "jerseyNumber": "61",
-    "shirtNumber": 61,
-    "height": 187,
-    "weight": 68,
-    "dateOfBirth": "2007-01-02T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "44",
+      "shirtNumber": 44,
+      "height": 185,
+      "weight": 65,
+      "dateOfBirth": "2000-02-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 11600000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "proposedMarketValue": 775000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 1602833,
+      "name": "João Victor",
+      "firstName": "João Victor",
+      "shortName": "J. Victor",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 1459762,
-    "name": "Daniel Sales",
-    "shortName": "D. Sales",
-    "position": "D",
-    "positionsDetailed": [
-      "DR"
-    ],
-    "jerseyNumber": "51",
-    "shirtNumber": 51,
-    "height": 178,
-    "dateOfBirth": "2006-06-23T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "61",
+      "shirtNumber": 61,
+      "height": 187,
+      "weight": 68,
+      "dateOfBirth": "2007-01-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 775000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 1459762,
+      "name": "Daniel Sales",
+      "shortName": "D. Sales",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 2063998,
-    "name": "Johnny Goes",
-    "firstName": "Johnny Góes",
-    "shortName": "J. Góes",
-    "position": "D",
-    "positionsDetailed": [],
-    "jerseyNumber": "77",
-    "shirtNumber": 77,
-    "height": 187,
-    "dateOfBirth": "2007-03-27T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "51",
+      "shirtNumber": 51,
+      "height": 178,
+      "dateOfBirth": "2006-06-23T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "pentagon": null
-  },
-  {
-    "id": 1140986,
-    "name": "Agustín Rossi",
-    "firstName": "Agustin",
-    "lastName": "Rossi",
-    "shortName": "A. Rossi",
-    "position": "G",
-    "positionsDetailed": [
-      "GK"
-    ],
-    "jerseyNumber": "1",
-    "shirtNumber": 1,
-    "height": 195,
-    "weight": 76,
-    "dateOfBirth": "1995-08-21T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "AR",
-      "alpha3": "ARG",
-      "name": "Argentina",
-      "slug": "argentina"
+    {
+      "id": 2063998,
+      "name": "Johnny Goes",
+      "firstName": "Johnny Góes",
+      "shortName": "J. Góes",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "77",
+      "shirtNumber": 77,
+      "height": 187,
+      "dateOfBirth": "2007-03-27T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": null
     },
-    "proposedMarketValue": 10300000,
-    "pentagon": {
-      "tactical": 38,
-      "saves": 56,
-      "anticipation": 37,
-      "ballDistribution": 55,
-      "aerial": 56,
+    {
+      "id": 1140986,
+      "name": "Agustín Rossi",
+      "firstName": "Agustin",
+      "lastName": "Rossi",
+      "shortName": "A. Rossi",
       "position": "G",
-      "yearShift": 0,
-      "id": 19809
-    }
-  },
-  {
-    "id": 947893,
-    "name": "Andrew",
-    "firstName": "Andrew",
-    "lastName": "Andrew",
-    "shortName": "Andrew",
-    "position": "G",
-    "positionsDetailed": [
-      "GK"
-    ],
-    "jerseyNumber": "42",
-    "shirtNumber": 42,
-    "height": 189,
-    "dateOfBirth": "2001-07-01T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 195,
+      "weight": 76,
+      "dateOfBirth": "1995-08-21T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "proposedMarketValue": 10300000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
     },
-    "proposedMarketValue": 7200000,
-    "pentagon": {
-      "tactical": 38,
-      "saves": 56,
-      "anticipation": 37,
-      "ballDistribution": 55,
-      "aerial": 56,
+    {
+      "id": 947893,
+      "name": "Andrew",
+      "firstName": "Andrew",
+      "lastName": "Andrew",
+      "shortName": "Andrew",
       "position": "G",
-      "yearShift": 0,
-      "id": 19809
-    }
-  },
-  {
-    "id": 1514629,
-    "name": "Dyogo Alves",
-    "shortName": "D. Alves",
-    "position": "G",
-    "positionsDetailed": [
-      "GK"
-    ],
-    "jerseyNumber": "49",
-    "shirtNumber": 49,
-    "height": 188,
-    "dateOfBirth": "2004-01-09T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "42",
+      "shirtNumber": 42,
+      "height": 189,
+      "dateOfBirth": "2001-07-01T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 7200000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
     },
-    "proposedMarketValue": 410000,
-    "pentagon": null
-  },
-  {
-    "id": 1883341,
-    "name": "Leonardo Nannetti",
-    "firstName": "Leonardo",
-    "lastName": "Nannetti",
-    "shortName": "L. Nannetti",
-    "position": "G",
-    "positionsDetailed": [
-      "GK"
-    ],
-    "jerseyNumber": "58",
-    "shirtNumber": 58,
-    "height": 196,
-    "dateOfBirth": "2007-08-20T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "BR",
-      "alpha3": "BRA",
-      "name": "Brazil",
-      "slug": "brazil"
-    },
-    "pentagon": {
-      "tactical": 38,
-      "saves": 56,
-      "anticipation": 37,
-      "ballDistribution": 55,
-      "aerial": 56,
+    {
+      "id": 1514629,
+      "name": "Dyogo Alves",
+      "shortName": "D. Alves",
       "position": "G",
-      "yearShift": 0,
-      "id": 19809
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "49",
+      "shirtNumber": 49,
+      "height": 188,
+      "dateOfBirth": "2004-01-09T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 410000,
+      "pentagon": null
+    },
+    {
+      "id": 1883341,
+      "name": "Leonardo Nannetti",
+      "firstName": "Leonardo",
+      "lastName": "Nannetti",
+      "shortName": "L. Nannetti",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "58",
+      "shirtNumber": 58,
+      "height": 196,
+      "dateOfBirth": "2007-08-20T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
     }
-  }
-]
+  ],
+  "scrapedAt": "2026-05-09T01:24:59.897Z"
+}

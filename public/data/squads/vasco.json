@@ -1,1025 +1,1038 @@
-[
-  {
-    "id": 991440,
-    "name": "Illian Hernandez",
-    "shortName": "I. Hernandez",
-    "position": "F",
-    "positionsDetailed": [
-      "ST"
-    ],
-    "jerseyNumber": "11",
-    "shirtNumber": 11,
-    "height": 181,
-    "dateOfBirth": "2000-04-12T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "proposedMarketValue": 645000,
-    "pentagon": {
-      "attacking": 61,
-      "technical": 54,
-      "tactical": 43,
-      "defending": 32,
-      "creativity": 46,
+{
+  "teamId": 1943,
+  "teamName": "Vasco",
+  "manager": {
+    "id": 801522,
+    "name": "Ricardo Carbajal",
+    "shortName": "R. Carbajal",
+    "country": "Mexico",
+    "preferredFormation": "4-4-2",
+    "stats": null
+  },
+  "players": [
+    {
+      "id": 991440,
+      "name": "Illian Hernandez",
+      "shortName": "I. Hernandez",
       "position": "F",
-      "yearShift": 0,
-      "id": 19812
-    }
-  },
-  {
-    "id": 1002450,
-    "name": "Luis Puente",
-    "shortName": "L. Puente",
-    "position": "F",
-    "positionsDetailed": [
-      "ST"
-    ],
-    "jerseyNumber": "9",
-    "shirtNumber": 9,
-    "height": 183,
-    "dateOfBirth": "2003-02-13T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 181,
+      "dateOfBirth": "2000-04-12T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 645000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
     },
-    "proposedMarketValue": 265000,
-    "pentagon": null
-  },
-  {
-    "id": 1116608,
-    "name": "Jairón Charcopa",
-    "firstName": "Jairon Charcopa",
-    "shortName": "J. Charcopa",
-    "position": "F",
-    "positionsDetailed": [
-      "ST"
-    ],
-    "jerseyNumber": "15",
-    "shirtNumber": 15,
-    "height": 178,
-    "weight": 78,
-    "dateOfBirth": "2004-01-27T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "EC",
-      "alpha3": "ECU",
-      "name": "Ecuador",
-      "slug": "ecuador"
-    },
-    "proposedMarketValue": 215000,
-    "pentagon": null
-  },
-  {
-    "id": 1514210,
-    "name": "Samuel González",
-    "firstName": "Samuel González",
-    "shortName": "S. González",
-    "position": "F",
-    "positionsDetailed": [
-      "ST"
-    ],
-    "jerseyNumber": "19",
-    "shirtNumber": 19,
-    "height": 170,
-    "dateOfBirth": "2003-07-10T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "proposedMarketValue": 210000,
-    "pentagon": {
-      "attacking": 61,
-      "technical": 54,
-      "tactical": 43,
-      "defending": 32,
-      "creativity": 46,
+    {
+      "id": 1002450,
+      "name": "Luis Puente",
+      "shortName": "L. Puente",
       "position": "F",
-      "yearShift": 0,
-      "id": 19812
-    }
-  },
-  {
-    "id": 2154613,
-    "name": "Rubén Coubert",
-    "shortName": "R. Coubert",
-    "position": "F",
-    "positionsDetailed": [],
-    "jerseyNumber": "25",
-    "shirtNumber": 25,
-    "height": 180,
-    "weight": 72,
-    "dateOfBirth": "2004-02-06T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "height": 183,
+      "dateOfBirth": "2003-02-13T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 265000,
+      "pentagon": null
     },
-    "pentagon": null
-  },
-  {
-    "id": 2208786,
-    "name": "Ruben Coubert",
-    "shortName": "R. Coubert",
-    "position": "F",
-    "positionsDetailed": [],
-    "jerseyNumber": "11",
-    "shirtNumber": 11,
-    "country": {},
-    "pentagon": null
-  },
-  {
-    "id": 1002426,
-    "name": "Eugenio Pizzuto",
-    "firstName": "",
-    "lastName": "",
-    "shortName": "E. Pizzuto",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "DM"
-    ],
-    "jerseyNumber": "24",
-    "shirtNumber": 24,
-    "height": 179,
-    "dateOfBirth": "2002-05-13T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+    {
+      "id": 1116608,
+      "name": "Jairón Charcopa",
+      "firstName": "Jairon Charcopa",
+      "shortName": "J. Charcopa",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "height": 178,
+      "weight": 78,
+      "dateOfBirth": "2004-01-27T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "EC",
+        "alpha3": "ECU",
+        "name": "Ecuador",
+        "slug": "ecuador"
+      },
+      "proposedMarketValue": 215000,
+      "pentagon": null
     },
-    "proposedMarketValue": 210000,
-    "pentagon": null
-  },
-  {
-    "id": 987724,
-    "name": "Ronaldo González",
-    "shortName": "R. Gonzalez",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "MR"
-    ],
-    "jerseyNumber": "8",
-    "shirtNumber": 8,
-    "height": 163,
-    "dateOfBirth": "1999-09-22T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+    {
+      "id": 1514210,
+      "name": "Samuel González",
+      "firstName": "Samuel González",
+      "shortName": "S. González",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "19",
+      "shirtNumber": 19,
+      "height": 170,
+      "dateOfBirth": "2003-07-10T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 210000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
     },
-    "proposedMarketValue": 590000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 2154613,
+      "name": "Rubén Coubert",
+      "shortName": "R. Coubert",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "25",
+      "shirtNumber": 25,
+      "height": 180,
+      "weight": 72,
+      "dateOfBirth": "2004-02-06T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2208786,
+      "name": "Ruben Coubert",
+      "shortName": "R. Coubert",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 1002426,
+      "name": "Eugenio Pizzuto",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "E. Pizzuto",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 990731,
-    "name": "Marco García",
-    "firstName": "",
-    "lastName": "",
-    "shortName": "M. García",
-    "position": "M",
-    "positionsDetailed": [
-      "MC"
-    ],
-    "jerseyNumber": "7",
-    "shirtNumber": 7,
-    "height": 164,
-    "dateOfBirth": "2000-01-17T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "24",
+      "shirtNumber": 24,
+      "height": 179,
+      "dateOfBirth": "2002-05-13T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 210000,
+      "pentagon": null
     },
-    "proposedMarketValue": 310000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 987724,
+      "name": "Ronaldo González",
+      "shortName": "R. Gonzalez",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 51702,
-    "name": "Christian Bermúdez",
-    "shortName": "C. Bermúdez",
-    "position": "M",
-    "positionsDetailed": [
-      "MC"
-    ],
-    "jerseyNumber": "18",
-    "shirtNumber": 18,
-    "height": 163,
-    "weight": 58,
-    "dateOfBirth": "1987-04-26T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "MC",
+        "MR"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 163,
+      "dateOfBirth": "1999-09-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 590000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 52000,
-    "pentagon": null
-  },
-  {
-    "id": 1132978,
-    "name": "Maximiliano García",
-    "firstName": "Maximiliano García",
-    "lastName": "",
-    "shortName": "M. García",
-    "position": "M",
-    "positionsDetailed": [
-      "MC"
-    ],
-    "jerseyNumber": "13",
-    "shirtNumber": 13,
-    "height": 164,
-    "dateOfBirth": "2000-02-28T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "proposedMarketValue": 635000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 990731,
+      "name": "Marco García",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "M. García",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 1106917,
-    "name": "Luis Calzadilla",
-    "shortName": "L. Calzadilla",
-    "position": "M",
-    "positionsDetailed": [
-      "LW"
-    ],
-    "jerseyNumber": "22",
-    "shirtNumber": 22,
-    "height": 165,
-    "weight": 57,
-    "dateOfBirth": "2000-01-14T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 164,
+      "dateOfBirth": "2000-01-17T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 310000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 775000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 51702,
+      "name": "Christian Bermúdez",
+      "shortName": "C. Bermúdez",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 1134903,
-    "name": "José González",
-    "firstName": "José González",
-    "lastName": "",
-    "shortName": "J. González",
-    "position": "M",
-    "positionsDetailed": [
-      "ST"
-    ],
-    "jerseyNumber": "16",
-    "shirtNumber": 16,
-    "height": 172,
-    "dateOfBirth": "2004-11-12T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "18",
+      "shirtNumber": 18,
+      "height": 163,
+      "weight": 58,
+      "dateOfBirth": "1987-04-26T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 52000,
+      "pentagon": null
     },
-    "pentagon": null
-  },
-  {
-    "id": 977798,
-    "name": "Hardy Meza",
-    "firstName": "",
-    "lastName": "",
-    "shortName": "H. Meza",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "DM"
-    ],
-    "jerseyNumber": "5",
-    "shirtNumber": 5,
-    "height": 173,
-    "dateOfBirth": "2000-08-21T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "proposedMarketValue": 660000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 1132978,
+      "name": "Maximiliano García",
+      "firstName": "Maximiliano García",
+      "lastName": "",
+      "shortName": "M. García",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 822900,
-    "name": "Javier Ibarra",
-    "firstName": "",
-    "lastName": "",
-    "shortName": "J. Ibarra",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "AM"
-    ],
-    "jerseyNumber": "21",
-    "shirtNumber": 21,
-    "height": 174,
-    "weight": 62,
-    "dateOfBirth": "1998-02-06T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "13",
+      "shirtNumber": 13,
+      "height": 164,
+      "dateOfBirth": "2000-02-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 635000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 290000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 1106917,
+      "name": "Luis Calzadilla",
+      "shortName": "L. Calzadilla",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 973640,
-    "name": "Johan Alonzo",
-    "firstName": "",
-    "lastName": "",
-    "shortName": "J. Alonzo",
-    "position": "M",
-    "positionsDetailed": [
-      "MC",
-      "MR",
-      "ML"
-    ],
-    "jerseyNumber": "10",
-    "shirtNumber": 10,
-    "height": 168,
-    "dateOfBirth": "1999-05-01T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 165,
+      "weight": 57,
+      "dateOfBirth": "2000-01-14T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 775000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 425000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 1134903,
+      "name": "José González",
+      "firstName": "José González",
+      "lastName": "",
+      "shortName": "J. González",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 1386398,
-    "name": "Edgar Jiménez",
-    "firstName": "Edgar Jiménez",
-    "lastName": "",
-    "shortName": "E. Jiménez",
-    "position": "M",
-    "positionsDetailed": [
-      "ML",
-      "RW"
-    ],
-    "jerseyNumber": "34",
-    "shirtNumber": 34,
-    "height": 174,
-    "dateOfBirth": "2001-03-28T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 172,
+      "dateOfBirth": "2004-11-12T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
     },
-    "proposedMarketValue": 480000,
-    "pentagon": {
-      "attacking": 52,
-      "technical": 55,
-      "tactical": 40,
-      "defending": 42,
-      "creativity": 51,
+    {
+      "id": 977798,
+      "name": "Hardy Meza",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "H. Meza",
       "position": "M",
-      "yearShift": 0,
-      "id": 19811
-    }
-  },
-  {
-    "id": 1955900,
-    "name": "Jeferson Tenorio",
-    "shortName": "J. Tenorio",
-    "position": "M",
-    "positionsDetailed": [],
-    "jerseyNumber": "38",
-    "shirtNumber": 38,
-    "height": 174,
-    "weight": 66,
-    "dateOfBirth": "2003-04-24T00:00:00+00:00",
-    "country": {
-      "alpha2": "CO",
-      "alpha3": "COL",
-      "name": "Colombia",
-      "slug": "colombia"
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "5",
+      "shirtNumber": 5,
+      "height": 173,
+      "dateOfBirth": "2000-08-21T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 660000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 27000,
-    "pentagon": null
-  },
-  {
-    "id": 1995161,
-    "name": "Benedit Aimar Bello Ramírez",
-    "firstName": "Benedit Aimar",
-    "lastName": "Bello Ramírez",
-    "shortName": "B. A. B. Ramírez",
-    "position": "M",
-    "positionsDetailed": [],
-    "jerseyNumber": "31",
-    "shirtNumber": 31,
-    "height": 179,
-    "dateOfBirth": "2002-10-28T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+    {
+      "id": 822900,
+      "name": "Javier Ibarra",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Ibarra",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "AM"
+      ],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "height": 174,
+      "weight": 62,
+      "dateOfBirth": "1998-02-06T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 290000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "pentagon": null
-  },
-  {
-    "id": 1513761,
-    "name": "Leonardo Mejía",
-    "firstName": "Leonardo Mejía",
-    "shortName": "L. Mejía",
-    "position": "M",
-    "positionsDetailed": [
-      "MC"
-    ],
-    "jerseyNumber": "17",
-    "shirtNumber": 17,
-    "height": 170,
-    "dateOfBirth": "2001-08-17T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+    {
+      "id": 973640,
+      "name": "Johan Alonzo",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Alonzo",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "MR",
+        "ML"
+      ],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 168,
+      "dateOfBirth": "1999-05-01T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 425000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 45000,
-    "pentagon": null
-  },
-  {
-    "id": 1994821,
-    "name": "Benedit Bello",
-    "shortName": "B. Bello",
-    "position": "M",
-    "positionsDetailed": [],
-    "jerseyNumber": "37",
-    "shirtNumber": 37,
-    "height": 179,
-    "dateOfBirth": "2002-10-28T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+    {
+      "id": 1386398,
+      "name": "Edgar Jiménez",
+      "firstName": "Edgar Jiménez",
+      "lastName": "",
+      "shortName": "E. Jiménez",
+      "position": "M",
+      "positionsDetailed": [
+        "ML",
+        "RW"
+      ],
+      "jerseyNumber": "34",
+      "shirtNumber": 34,
+      "height": 174,
+      "dateOfBirth": "2001-03-28T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 480000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
     },
-    "proposedMarketValue": 54000,
-    "pentagon": null
-  },
-  {
-    "id": 2034025,
-    "name": "Edgar Saul JImenez Sanchez",
-    "shortName": "E. S. J. Sanchez",
-    "position": "M",
-    "positionsDetailed": [],
-    "dateOfBirth": "2001-03-28T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+    {
+      "id": 1955900,
+      "name": "Jeferson Tenorio",
+      "shortName": "J. Tenorio",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "38",
+      "shirtNumber": 38,
+      "height": 174,
+      "weight": 66,
+      "dateOfBirth": "2003-04-24T00:00:00+00:00",
+      "country": {
+        "alpha2": "CO",
+        "alpha3": "COL",
+        "name": "Colombia",
+        "slug": "colombia"
+      },
+      "proposedMarketValue": 27000,
+      "pentagon": null
     },
-    "pentagon": null
-  },
-  {
-    "id": 2207334,
-    "name": "Víctor Estrada",
-    "firstName": "Víctor Estrada",
-    "shortName": "V. Estrada",
-    "position": "M",
-    "positionsDetailed": [],
-    "dateOfBirth": "2006-04-07T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+    {
+      "id": 1995161,
+      "name": "Benedit Aimar Bello Ramírez",
+      "firstName": "Benedit Aimar",
+      "lastName": "Bello Ramírez",
+      "shortName": "B. A. B. Ramírez",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "31",
+      "shirtNumber": 31,
+      "height": 179,
+      "dateOfBirth": "2002-10-28T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
     },
-    "pentagon": null
-  },
-  {
-    "id": 2208779,
-    "name": "Marco Garcia",
-    "shortName": "M. Garcia",
-    "position": "M",
-    "positionsDetailed": [],
-    "jerseyNumber": "7",
-    "shirtNumber": 7,
-    "country": {},
-    "pentagon": null
-  },
-  {
-    "id": 2208784,
-    "name": "Rodrigo Ramos",
-    "shortName": "R. Ramos",
-    "position": "M",
-    "positionsDetailed": [],
-    "jerseyNumber": "16",
-    "shirtNumber": 16,
-    "country": {},
-    "pentagon": null
-  },
-  {
-    "id": 2208785,
-    "name": "Luis Calzadilla",
-    "shortName": "L. Calzadilla",
-    "position": "M",
-    "positionsDetailed": [],
-    "jerseyNumber": "22",
-    "shirtNumber": 22,
-    "country": {},
-    "pentagon": null
-  },
-  {
-    "id": 905244,
-    "name": "Luis Olivas",
-    "firstName": "",
-    "lastName": "",
-    "shortName": "L. Olivas",
-    "position": "D",
-    "positionsDetailed": [
-      "DC"
-    ],
-    "jerseyNumber": "4",
-    "shirtNumber": 4,
-    "height": 185,
-    "dateOfBirth": "2000-02-10T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+    {
+      "id": 1513761,
+      "name": "Leonardo Mejía",
+      "firstName": "Leonardo Mejía",
+      "shortName": "L. Mejía",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "height": 170,
+      "dateOfBirth": "2001-08-17T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 45000,
+      "pentagon": null
     },
-    "proposedMarketValue": 1300000,
-    "pentagon": null
-  },
-  {
-    "id": 1002554,
-    "name": "Nicolas Carrera",
-    "firstName": "",
-    "lastName": "",
-    "shortName": "N. Carrera",
-    "position": "D",
-    "positionsDetailed": [
-      "DC"
-    ],
-    "jerseyNumber": "6",
-    "shirtNumber": 6,
-    "height": 193,
-    "dateOfBirth": "2002-05-06T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "US",
-      "alpha3": "USA",
-      "name": "USA",
-      "slug": "usa"
+    {
+      "id": 1994821,
+      "name": "Benedit Bello",
+      "shortName": "B. Bello",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "37",
+      "shirtNumber": 37,
+      "height": 179,
+      "dateOfBirth": "2002-10-28T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 54000,
+      "pentagon": null
     },
-    "proposedMarketValue": 220000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 2034025,
+      "name": "Edgar Saul JImenez Sanchez",
+      "shortName": "E. S. J. Sanchez",
+      "position": "M",
+      "positionsDetailed": [],
+      "dateOfBirth": "2001-03-28T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2207334,
+      "name": "Víctor Estrada",
+      "firstName": "Víctor Estrada",
+      "shortName": "V. Estrada",
+      "position": "M",
+      "positionsDetailed": [],
+      "dateOfBirth": "2006-04-07T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2208779,
+      "name": "Marco Garcia",
+      "shortName": "M. Garcia",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 2208784,
+      "name": "Rodrigo Ramos",
+      "shortName": "R. Ramos",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 2208785,
+      "name": "Luis Calzadilla",
+      "shortName": "L. Calzadilla",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 905244,
+      "name": "Luis Olivas",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "L. Olivas",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 1633251,
-    "name": "Basulto Ayon Basulto",
-    "shortName": "B. A. Basulto",
-    "position": "D",
-    "positionsDetailed": [],
-    "jerseyNumber": "36",
-    "shirtNumber": 36,
-    "height": 182,
-    "weight": 82,
-    "dateOfBirth": "2002-09-13T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 185,
+      "dateOfBirth": "2000-02-10T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 1300000,
+      "pentagon": null
     },
-    "proposedMarketValue": 26000,
-    "pentagon": null
-  },
-  {
-    "id": 817764,
-    "name": "Diego Cruz",
-    "firstName": "",
-    "lastName": "",
-    "shortName": "D. Cruz",
-    "position": "D",
-    "positionsDetailed": [
-      "DR",
-      "DC"
-    ],
-    "jerseyNumber": "3",
-    "shirtNumber": 3,
-    "height": 170,
-    "weight": 60,
-    "dateOfBirth": "1995-01-13T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "proposedMarketValue": 375000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 1002554,
+      "name": "Nicolas Carrera",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "N. Carrera",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
-    }
-  },
-  {
-    "id": 1046706,
-    "name": "Armando Escobar",
-    "firstName": "",
-    "lastName": "",
-    "shortName": "A. Escobar",
-    "position": "D",
-    "positionsDetailed": [
-      "DC",
-      "DL",
-      "DR"
-    ],
-    "jerseyNumber": "27",
-    "shirtNumber": 27,
-    "height": 173,
-    "weight": 63,
-    "dateOfBirth": "1993-08-27T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "height": 193,
+      "dateOfBirth": "2002-05-06T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "US",
+        "alpha3": "USA",
+        "name": "USA",
+        "slug": "usa"
+      },
+      "proposedMarketValue": 220000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
     },
-    "proposedMarketValue": 285000,
-    "pentagon": {
-      "attacking": 38,
-      "technical": 47,
-      "tactical": 47,
-      "defending": 59,
-      "creativity": 42,
+    {
+      "id": 1633251,
+      "name": "Basulto Ayon Basulto",
+      "shortName": "B. A. Basulto",
       "position": "D",
-      "yearShift": 0,
-      "id": 19810
+      "positionsDetailed": [],
+      "jerseyNumber": "36",
+      "shirtNumber": 36,
+      "height": 182,
+      "weight": 82,
+      "dateOfBirth": "2002-09-13T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 26000,
+      "pentagon": null
+    },
+    {
+      "id": 817764,
+      "name": "Diego Cruz",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "D. Cruz",
+      "position": "D",
+      "positionsDetailed": [
+        "DR",
+        "DC"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "height": 170,
+      "weight": 60,
+      "dateOfBirth": "1995-01-13T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 375000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1046706,
+      "name": "Armando Escobar",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "A. Escobar",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DL",
+        "DR"
+      ],
+      "jerseyNumber": "27",
+      "shirtNumber": 27,
+      "height": 173,
+      "weight": 63,
+      "dateOfBirth": "1993-08-27T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 285000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1386399,
+      "name": "Emiliano Espinoza",
+      "firstName": "Emiliano Espinoza",
+      "lastName": "",
+      "shortName": "E. Espinoza",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "30",
+      "shirtNumber": 30,
+      "height": 175,
+      "dateOfBirth": "2004-11-04T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 24000,
+      "pentagon": null
+    },
+    {
+      "id": 1386351,
+      "name": "Jonathan Tovar",
+      "firstName": "Jonathan Tovar",
+      "lastName": "",
+      "shortName": "J. Tovar",
+      "position": "D",
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 171,
+      "dateOfBirth": "2001-08-20T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 135000,
+      "pentagon": null
+    },
+    {
+      "id": 1464976,
+      "name": "Axl Padilla",
+      "shortName": "A. Padilla",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "height": 180,
+      "weight": 68,
+      "dateOfBirth": "2000-11-23T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 405000,
+      "pentagon": null
+    },
+    {
+      "id": 2030752,
+      "name": "Tristhan Jaimes",
+      "firstName": "Tristhan Jaimes",
+      "shortName": "T. Jaimes",
+      "position": "D",
+      "positionsDetailed": [],
+      "height": 173,
+      "dateOfBirth": "2003-03-20T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2179213,
+      "name": "Agustín Wences",
+      "firstName": "Agustín Wences",
+      "shortName": "A. Wences",
+      "position": "D",
+      "positionsDetailed": [],
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2207191,
+      "name": "Mateo Rodríguez",
+      "firstName": "Mateo Rodríguez",
+      "shortName": "M. Rodríguez",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2001-12-23T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2208781,
+      "name": "Juan Carrera",
+      "shortName": "J. Carrera",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 2208782,
+      "name": "Jonathan Tovar",
+      "shortName": "J. Tovar",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 2208783,
+      "name": "Axl Padilla",
+      "shortName": "A. Padilla",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 1191402,
+      "name": "Ronaldo Dimas",
+      "firstName": "Ronaldo Dimas",
+      "lastName": "",
+      "shortName": "R. Dimas",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "26",
+      "shirtNumber": 26,
+      "height": 179,
+      "dateOfBirth": "2002-03-28T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1191401,
+      "name": "Ronaldo Beltran",
+      "firstName": "Ronaldo",
+      "lastName": "Beltran",
+      "shortName": "R. Beltran",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "26",
+      "shirtNumber": 26,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 1132929,
+      "name": "Marco Millán",
+      "firstName": "Marco Millán",
+      "lastName": "",
+      "shortName": "M. Millán",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "32",
+      "shirtNumber": 32,
+      "height": 182,
+      "dateOfBirth": "1996-09-01T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "proposedMarketValue": 220000,
+      "pentagon": null
+    },
+    {
+      "id": 1949756,
+      "name": "Marco Millan",
+      "shortName": "M. Millan",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 2208780,
+      "name": "Roberto Barragan",
+      "shortName": "R. Barragan",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 179,
+      "dateOfBirth": "2004-01-07T00:00:00+00:00",
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2207192,
+      "name": "Roberto Casillas",
+      "firstName": "Roberto Casillas",
+      "shortName": "R. Casillas",
+      "position": "G",
+      "positionsDetailed": [],
+      "country": {
+        "alpha2": "MX",
+        "alpha3": "MEX",
+        "name": "Mexico",
+        "slug": "mexico"
+      },
+      "pentagon": null
     }
-  },
-  {
-    "id": 1386399,
-    "name": "Emiliano Espinoza",
-    "firstName": "Emiliano Espinoza",
-    "lastName": "",
-    "shortName": "E. Espinoza",
-    "position": "D",
-    "positionsDetailed": [],
-    "jerseyNumber": "30",
-    "shirtNumber": 30,
-    "height": 175,
-    "dateOfBirth": "2004-11-04T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "proposedMarketValue": 24000,
-    "pentagon": null
-  },
-  {
-    "id": 1386351,
-    "name": "Jonathan Tovar",
-    "firstName": "Jonathan Tovar",
-    "lastName": "",
-    "shortName": "J. Tovar",
-    "position": "D",
-    "positionsDetailed": [
-      "DR"
-    ],
-    "jerseyNumber": "20",
-    "shirtNumber": 20,
-    "height": 171,
-    "dateOfBirth": "2001-08-20T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "proposedMarketValue": 135000,
-    "pentagon": null
-  },
-  {
-    "id": 1464976,
-    "name": "Axl Padilla",
-    "shortName": "A. Padilla",
-    "position": "D",
-    "positionsDetailed": [
-      "DL"
-    ],
-    "jerseyNumber": "23",
-    "shirtNumber": 23,
-    "height": 180,
-    "weight": 68,
-    "dateOfBirth": "2000-11-23T00:00:00+00:00",
-    "preferredFoot": "Right",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "proposedMarketValue": 405000,
-    "pentagon": null
-  },
-  {
-    "id": 2030752,
-    "name": "Tristhan Jaimes",
-    "firstName": "Tristhan Jaimes",
-    "shortName": "T. Jaimes",
-    "position": "D",
-    "positionsDetailed": [],
-    "height": 173,
-    "dateOfBirth": "2003-03-20T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "pentagon": null
-  },
-  {
-    "id": 2179213,
-    "name": "Agustín Wences",
-    "firstName": "Agustín Wences",
-    "shortName": "A. Wences",
-    "position": "D",
-    "positionsDetailed": [],
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "pentagon": null
-  },
-  {
-    "id": 2207191,
-    "name": "Mateo Rodríguez",
-    "firstName": "Mateo Rodríguez",
-    "shortName": "M. Rodríguez",
-    "position": "D",
-    "positionsDetailed": [],
-    "dateOfBirth": "2001-12-23T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "pentagon": null
-  },
-  {
-    "id": 2208781,
-    "name": "Juan Carrera",
-    "shortName": "J. Carrera",
-    "position": "D",
-    "positionsDetailed": [],
-    "jerseyNumber": "6",
-    "shirtNumber": 6,
-    "country": {},
-    "pentagon": null
-  },
-  {
-    "id": 2208782,
-    "name": "Jonathan Tovar",
-    "shortName": "J. Tovar",
-    "position": "D",
-    "positionsDetailed": [],
-    "jerseyNumber": "20",
-    "shirtNumber": 20,
-    "country": {},
-    "pentagon": null
-  },
-  {
-    "id": 2208783,
-    "name": "Axl Padilla",
-    "shortName": "A. Padilla",
-    "position": "D",
-    "positionsDetailed": [],
-    "jerseyNumber": "23",
-    "shirtNumber": 23,
-    "country": {},
-    "pentagon": null
-  },
-  {
-    "id": 1191402,
-    "name": "Ronaldo Dimas",
-    "firstName": "Ronaldo Dimas",
-    "lastName": "",
-    "shortName": "R. Dimas",
-    "position": "G",
-    "positionsDetailed": [
-      "GK"
-    ],
-    "jerseyNumber": "26",
-    "shirtNumber": 26,
-    "height": 179,
-    "dateOfBirth": "2002-03-28T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "pentagon": null
-  },
-  {
-    "id": 1191401,
-    "name": "Ronaldo Beltran",
-    "firstName": "Ronaldo",
-    "lastName": "Beltran",
-    "shortName": "R. Beltran",
-    "position": "G",
-    "positionsDetailed": [],
-    "jerseyNumber": "26",
-    "shirtNumber": 26,
-    "country": {},
-    "pentagon": null
-  },
-  {
-    "id": 1132929,
-    "name": "Marco Millán",
-    "firstName": "Marco Millán",
-    "lastName": "",
-    "shortName": "M. Millán",
-    "position": "G",
-    "positionsDetailed": [
-      "GK"
-    ],
-    "jerseyNumber": "32",
-    "shirtNumber": 32,
-    "height": 182,
-    "dateOfBirth": "1996-09-01T00:00:00+00:00",
-    "preferredFoot": "Left",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "proposedMarketValue": 220000,
-    "pentagon": null
-  },
-  {
-    "id": 1949756,
-    "name": "Marco Millan",
-    "shortName": "M. Millan",
-    "position": "G",
-    "positionsDetailed": [],
-    "jerseyNumber": "23",
-    "shirtNumber": 23,
-    "country": {},
-    "pentagon": null
-  },
-  {
-    "id": 2208780,
-    "name": "Roberto Barragan",
-    "shortName": "R. Barragan",
-    "position": "G",
-    "positionsDetailed": [
-      "GK"
-    ],
-    "jerseyNumber": "1",
-    "shirtNumber": 1,
-    "height": 179,
-    "dateOfBirth": "2004-01-07T00:00:00+00:00",
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "pentagon": null
-  },
-  {
-    "id": 2207192,
-    "name": "Roberto Casillas",
-    "firstName": "Roberto Casillas",
-    "shortName": "R. Casillas",
-    "position": "G",
-    "positionsDetailed": [],
-    "country": {
-      "alpha2": "MX",
-      "alpha3": "MEX",
-      "name": "Mexico",
-      "slug": "mexico"
-    },
-    "pentagon": null
-  }
-]
+  ],
+  "scrapedAt": "2026-05-09T01:33:07.633Z"
+}

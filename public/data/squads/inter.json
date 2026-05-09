@@ -1,0 +1,870 @@
+{
+  "teamId": 2697,
+  "teamName": "Inter",
+  "manager": {
+    "id": 796298,
+    "name": "Cristian Chivu",
+    "shortName": "C. Chivu",
+    "country": "Romania",
+    "preferredFormation": "3-5-2",
+    "stats": {
+      "total": 240,
+      "wins": 128,
+      "draws": 60,
+      "losses": 52,
+      "goalsScored": 476,
+      "goalsConceded": 288,
+      "totalPoints": 444
+    },
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 823984,
+      "name": "Lautaro Martínez",
+      "firstName": "Lautaro",
+      "lastName": "Martinez",
+      "shortName": "L. Martínez",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 175,
+      "dateOfBirth": "1997-08-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "proposedMarketValue": 80000000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 791702,
+      "name": "Marcus Thuram",
+      "firstName": "Marcus",
+      "lastName": "Thuram",
+      "shortName": "M. Thuram",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "height": 192,
+      "weight": 80,
+      "dateOfBirth": "1997-08-06T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 52000000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1086223,
+      "name": "Ange-Yoan Bonny",
+      "firstName": "Ange",
+      "lastName": "Bonny",
+      "shortName": "A. Bonny",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "height": 189,
+      "dateOfBirth": "2003-10-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CI",
+        "alpha3": "CIV",
+        "name": "Côte d'Ivoire",
+        "slug": "cote-divoire"
+      },
+      "proposedMarketValue": 34000000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1156616,
+      "name": "Francesco Pio Esposito",
+      "shortName": "F. P. Esposito",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "94",
+      "shirtNumber": 94,
+      "height": 189,
+      "dateOfBirth": "2005-06-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 47000000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1530727,
+      "name": "Mattia Mosconi",
+      "firstName": "Mattia",
+      "lastName": "Mosconi",
+      "shortName": "M. Mosconi",
+      "position": "F",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "48",
+      "shirtNumber": 48,
+      "height": 176,
+      "dateOfBirth": "2007-03-26T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 630000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 135700,
+      "name": "Hakan Çalhanoğlu",
+      "shortName": "H. Çalhanoğlu",
+      "position": "M",
+      "positionsDetailed": [
+        "DM",
+        "MC"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 178,
+      "dateOfBirth": "1994-02-08T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "TR",
+        "alpha3": "TUR",
+        "name": "Türkiye",
+        "slug": "turkiye"
+      },
+      "proposedMarketValue": 18700000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 363856,
+      "name": "Nicolò Barella",
+      "shortName": "N. Barella",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "height": 175,
+      "weight": 54,
+      "dateOfBirth": "1997-02-07T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 54000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 138605,
+      "name": "Piotr Zieliński",
+      "shortName": "P. Zieliński",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 180,
+      "weight": 75,
+      "dateOfBirth": "1994-05-20T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "PL",
+        "alpha3": "POL",
+        "name": "Poland",
+        "slug": "poland"
+      },
+      "proposedMarketValue": 10300000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 284361,
+      "name": "Federico Dimarco",
+      "firstName": "Federico",
+      "lastName": "Dimarco",
+      "shortName": "F. Dimarco",
+      "position": "M",
+      "positionsDetailed": [
+        "ML"
+      ],
+      "jerseyNumber": "32",
+      "shirtNumber": 32,
+      "height": 174,
+      "weight": 75,
+      "dateOfBirth": "1997-11-10T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 48000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 759520,
+      "name": "Denzel Dumfries",
+      "firstName": "Denzel",
+      "lastName": "Dumfries",
+      "shortName": "D. Dumfries",
+      "position": "M",
+      "positionsDetailed": [
+        "MR"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 189,
+      "weight": 80,
+      "dateOfBirth": "1996-04-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "NL",
+        "alpha3": "NLD",
+        "name": "Netherlands",
+        "slug": "netherlands"
+      },
+      "proposedMarketValue": 26000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 37151,
+      "name": "Henrikh Mkhitaryan",
+      "shortName": "H. Mkhitaryan",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 178,
+      "weight": 75,
+      "dateOfBirth": "1989-01-21T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "AM",
+        "alpha3": "ARM",
+        "name": "Armenia",
+        "slug": "armenia"
+      },
+      "proposedMarketValue": 3400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1091303,
+      "name": "Petar Sučić",
+      "shortName": "P. Sučić",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 184,
+      "dateOfBirth": "2003-10-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "HR",
+        "alpha3": "HRV",
+        "name": "Croatia",
+        "slug": "croatia"
+      },
+      "proposedMarketValue": 33000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 977679,
+      "name": "Luís Henrique",
+      "shortName": "L. Henrique",
+      "position": "M",
+      "positionsDetailed": [
+        "MR",
+        "LW"
+      ],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 181,
+      "dateOfBirth": "2001-12-14T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 25000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 835600,
+      "name": "Davide Frattesi",
+      "firstName": "Davide",
+      "lastName": "Frattesi",
+      "shortName": "D. Frattesi",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 178,
+      "weight": 74,
+      "dateOfBirth": "1999-09-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 20000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1048889,
+      "name": "Andy Diouf",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "A. Diouf",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "height": 187,
+      "dateOfBirth": "2003-05-17T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 19400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 19352,
+      "name": "Matteo Darmian",
+      "shortName": "M. Darmian",
+      "position": "M",
+      "positionsDetailed": [
+        "MR",
+        "DR",
+        "DC"
+      ],
+      "jerseyNumber": "36",
+      "shirtNumber": 36,
+      "height": 182,
+      "weight": 70,
+      "dateOfBirth": "1989-12-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 1400000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 383560,
+      "name": "Manuel Akanji",
+      "firstName": "Manuel",
+      "lastName": "Akanji",
+      "shortName": "M. Akanji",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "25",
+      "shirtNumber": 25,
+      "height": 187,
+      "weight": 85,
+      "dateOfBirth": "1995-07-19T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CH",
+        "alpha3": "CHE",
+        "name": "Switzerland",
+        "slug": "switzerland"
+      },
+      "proposedMarketValue": 16399999,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 826188,
+      "name": "Alessandro Bastoni",
+      "firstName": "Alessandro",
+      "lastName": "Bastoni",
+      "shortName": "A. Bastoni",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "95",
+      "shirtNumber": 95,
+      "height": 190,
+      "weight": 81,
+      "dateOfBirth": "1999-04-13T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 65000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 929199,
+      "name": "Carlos Augusto",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "C. Augusto",
+      "position": "D",
+      "positionsDetailed": [
+        "ML",
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "30",
+      "shirtNumber": 30,
+      "height": 184,
+      "dateOfBirth": "1999-01-07T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "BR",
+        "alpha3": "BRA",
+        "name": "Brazil",
+        "slug": "brazil"
+      },
+      "proposedMarketValue": 25000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 906275,
+      "name": "Yann Bisseck",
+      "firstName": "Yann",
+      "lastName": "Bisseck",
+      "shortName": "Y. Bisseck",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "31",
+      "shirtNumber": 31,
+      "height": 194,
+      "dateOfBirth": "2000-11-29T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 38000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 91046,
+      "name": "Stefan de Vrij",
+      "shortName": "S. de Vrij",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "height": 188,
+      "weight": 78,
+      "dateOfBirth": "1992-02-05T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "NL",
+        "alpha3": "NLD",
+        "name": "Netherlands",
+        "slug": "netherlands"
+      },
+      "proposedMarketValue": 3200000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 126816,
+      "name": "Francesco Acerbi",
+      "firstName": "Francesco",
+      "lastName": "Acerbi",
+      "shortName": "F. Acerbi",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "height": 192,
+      "weight": 89,
+      "dateOfBirth": "1988-02-10T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 2400000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1416579,
+      "name": "Matteo Cocchi",
+      "firstName": "Matteo Cocchi",
+      "shortName": "M. Cocchi",
+      "position": "D",
+      "positionsDetailed": [
+        "DL",
+        "ML"
+      ],
+      "jerseyNumber": "43",
+      "shirtNumber": 43,
+      "height": 178,
+      "dateOfBirth": "2007-02-01T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 1500000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 16206,
+      "name": "Yann Sommer",
+      "shortName": "Y. Sommer",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 183,
+      "weight": 79,
+      "dateOfBirth": "1988-12-17T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "CH",
+        "alpha3": "CHE",
+        "name": "Switzerland",
+        "slug": "switzerland"
+      },
+      "proposedMarketValue": 2300000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    },
+    {
+      "id": 845291,
+      "name": "Josep Martínez",
+      "firstName": "Josep",
+      "lastName": "Martinez",
+      "shortName": "J. Martínez",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "13",
+      "shirtNumber": 13,
+      "height": 191,
+      "dateOfBirth": "1998-05-27T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ES",
+        "alpha3": "ESP",
+        "name": "Spain",
+        "slug": "spain"
+      },
+      "proposedMarketValue": 7800000,
+      "pentagon": null
+    },
+    {
+      "id": 301162,
+      "name": "Raffaele Di Gennaro",
+      "firstName": "Raffaele",
+      "lastName": "Di Gennaro",
+      "shortName": "R. Di Gennaro",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "12",
+      "shirtNumber": 12,
+      "height": 188,
+      "weight": 80,
+      "dateOfBirth": "1993-10-03T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "IT",
+        "alpha3": "ITA",
+        "name": "Italy",
+        "slug": "italy"
+      },
+      "proposedMarketValue": 325000,
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:01:14.565Z"
+}
