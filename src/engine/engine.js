@@ -848,11 +848,28 @@ export class Engine {
 
     /**
      * BUG-026: Reset week counter + re-init tournaments for new season.
+     * BUG-043: also increment seasonNumber (was stuck at 1 forever).
      * Called automatically by advanceWeek() when currentWeek hits 38.
      * Also callable manually for tests / explicit season transitions.
      */
     startNewSeason() {
         this.currentWeek = 0;
+        // BUG-043 fix: increment seasonNumber on rollover (line 776 only fires
+        // inside in-line season-end logic which guard at 583 used to skip).
+        this.seasonNumber++;
+        // Reset season managerStats
+        if (this.managerStats) {
+            this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0 };
+        }
+        // BUG-040 cascade: emergency squad replenish if any user team became
+        // critically short (<11) between seasons. triggerYouthIntake replenishes.
+        try {
+            const team = this.getTeam(this.manager?.teamId);
+            if (team?.squad && team.squad.length < 11 && typeof this.triggerYouthIntake === 'function') {
+                this.triggerYouthIntake();
+                this.triggerYouthIntake(); // double call for emergency boost
+            }
+        } catch { /* ignore */ }
         // Re-init each tournament: regenerate fixtures, reset standings
         this.tournaments.forEach(t => {
             try {

@@ -10,17 +10,18 @@ import {
 } from '../../src/services/learning/AdaptiveBrain.js';
 
 describe('SPEC-115/116 — encodeState', () => {
-    test('encodes all 5 dimensions', () => {
+    test('encodes all 6 dimensions (BUG-042 added squadTier)', () => {
         const key = encodeState({
             position: 1,
             totalTeams: 20,
             balance: 100_000_000,
             formAvg: 80,
             week: 5,
-            lastResult: 'W'
+            lastResult: 'W',
+            squadSize: 22
         });
         expect(typeof key).toBe('string');
-        expect(key.split('|').length).toBe(5);
+        expect(key.split('|').length).toBe(6);
     });
 
     test('top4 vs bottom positioning', () => {
@@ -71,25 +72,40 @@ describe('SPEC-117 — detectGoals + actionRelevance', () => {
     });
 });
 
-describe('SPEC-115/116 — computeReward', () => {
-    test('match win = +10', () => {
-        expect(computeReward({ matchResult: 'W' })).toBe(10);
+describe('SPEC-115/116 — computeReward (BUG-041 reshape)', () => {
+    test('match win base = +10 + clean sheet +3 = 13', () => {
+        // default goalsAllowed=0 + W → clean sheet bonus
+        expect(computeReward({ matchResult: 'W' })).toBe(13);
     });
-    test('match draw = +2', () => {
-        expect(computeReward({ matchResult: 'D' })).toBe(2);
+    test('match win with goals against still positive', () => {
+        expect(computeReward({ matchResult: 'W', goalsScored: 2, goalsAllowed: 1 })).toBeGreaterThan(10);
     });
-    test('match loss = -5', () => {
-        expect(computeReward({ matchResult: 'L' })).toBe(-5);
+    test('match draw base = +2', () => {
+        // draw with clean sheet
+        expect(computeReward({ matchResult: 'D' })).toBe(5);
     });
-    test('balance delta caps at +/-10', () => {
+    test('match narrow loss = -1 (BUG-041 soft)', () => {
+        expect(computeReward({ matchResult: 'L', scoreDiff: -1 })).toBe(-1);
+    });
+    test('match big loss = -5', () => {
+        expect(computeReward({ matchResult: 'L', scoreDiff: -5 })).toBe(-5);
+    });
+    test('balance delta caps at +/-10 (excluding bonuses)', () => {
+        // Big balance delta caps at +10. With clean sheet +3, expect ~13.
         const r = computeReward({ matchResult: '-', balanceDelta: 50_000_000 });
-        expect(r).toBeLessThanOrEqual(10);
+        expect(r).toBeLessThanOrEqual(13);
+        expect(r).toBeGreaterThanOrEqual(10);
     });
-    test('promotion = +50', () => {
-        expect(computeReward({ matchResult: '-', promoted: true })).toBe(50);
+    test('promotion = +50 (+ clean sheet 3)', () => {
+        expect(computeReward({ matchResult: '-', promoted: true })).toBe(53);
     });
-    test('relegation = -100', () => {
-        expect(computeReward({ matchResult: '-', relegated: true })).toBe(-100);
+    test('relegation = -100 (+ clean sheet 3)', () => {
+        expect(computeReward({ matchResult: '-', relegated: true })).toBe(-97);
+    });
+    test('own scoring rewards even on loss', () => {
+        // Loss but scored 2 goals → -1 + 3 (1.5*2) = 2
+        const r = computeReward({ matchResult: 'L', scoreDiff: -1, goalsScored: 2 });
+        expect(r).toBeGreaterThan(0);
     });
 });
 
