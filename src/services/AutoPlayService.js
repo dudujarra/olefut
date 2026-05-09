@@ -94,6 +94,39 @@ export class AutoPlayController {
         this._lastPositionForReward = null;
         this._lastSeasonForReward = null;
         this._lastDivisionForReward = null;
+
+        // BUG-066 fix: restore stats from localStorage. Was zeroing on refresh
+        // even though _save() wrote them — only brain had its own restore path.
+        this._restoreStats();
+    }
+
+    /**
+     * Restore session stats from localStorage. Brain restores separately.
+     */
+    _restoreStats() {
+        try {
+            if (typeof localStorage === 'undefined') return;
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return;
+            const saved = JSON.parse(raw);
+            if (!saved || typeof saved !== 'object') return;
+            // Merge saved counters + insights, preserve current empty arrays for fresh logs
+            const preserveArrays = ['anomalies', 'successes', 'decisions'];
+            for (const key of Object.keys(saved)) {
+                if (preserveArrays.includes(key)) {
+                    // Restore last 100 entries to avoid unbounded growth
+                    if (Array.isArray(saved[key])) {
+                        this.stats[key] = saved[key].slice(-100);
+                    }
+                } else if (key === 'insights' && saved.insights) {
+                    this.stats.insights = { ...this.stats.insights, ...saved.insights };
+                } else if (saved[key] !== undefined) {
+                    this.stats[key] = saved[key];
+                }
+            }
+            // Don't restore startTime/running — fresh session is paused initially
+            this.stats.startTime = null;
+        } catch { /* ignore */ }
     }
 
     start(weekDelayMs = 100) {
