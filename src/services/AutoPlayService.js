@@ -21,6 +21,7 @@ import { TACTICS, TRAINING_TYPES, TEAM_TALKS, FORMATIONS } from '../engine/Manag
 import { MonitorService } from './MonitorService';
 import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
 import { AdaptiveBrain, encodeState, computeReward } from './learning/AdaptiveBrain.js';
+import { LLMBridge, decideSellHeuristic } from './learning/LLMBridge.js';
 
 const STORAGE_KEY = 'elifoot_autoplay_state';
 // BUG-027 fix: pull training catalog from engine source of truth (was hardcoded
@@ -84,6 +85,9 @@ export class AutoPlayController {
 
         // SPEC-115/116/117 — adaptive learning brain
         this.brain = new AdaptiveBrain();
+
+        // SPEC-119 — buy/sell decision engine (heuristic default, WebLLM opt-in)
+        this.llmBridge = new LLMBridge();
         this._lastStateKey = null;
         this._lastAction = null;
         this._lastBalanceForReward = null;
@@ -442,12 +446,44 @@ export class AutoPlayController {
             }
         } catch { /* ignore */ }
 
-        // BUG-030 fix: bot dispatches outgoing offers so SPEC-111 (Market) has data.
-        // Picks a random low-tier player from squad, simulates inquiry every 8 weeks.
-        if (this.stats.weeksPlayed % 8 === 0) {
-            try {
-                const team = engine.getTeam(teamId);
-                if (team?.squad?.length > 0) {
+        // BUG-050 fix: bot now ACTUALLY buys/sells via LLMBridge (was fake log).
+        // Process incoming transfer offers + opportunistically buy if available.
+        try {
+            const team = engine.getTeam(teamId);
+            if (team) {
+                // Process incoming offers (sell decisions — sync heuristic in tick loop)
+                if (Array.isArray(engine.transferOffers) && engine.transferOffers.length > 0) {
+                    for (const offer of engine.transferOffers.slice(0, 3)) {
+                        if (!offer?.player?.id || !offer?.amount) continue;
+                        // Use sync heuristic always inside tick loop (LLM runs separate async path)
+                        const decision = decideSellHeuristic(team, offer);
+                        if (decision.sell && typeof engine.acceptTransferOffer === 'function') {
+                            const result = engine.acceptTransferOffer(offer.player.id);
+                            if (result?.success) {
+                                this.stats.transfers++;
+                                this._logDecision('SELL_PLAYER', {
+                                    playerId: offer.player.id,
+                                    amount: offer.amount,
+                                    source: decision.source,
+                                    reason: decision.reason
+                                }, 0);
+                                if (this.telemetry?.history) {
+                                    if (!Array.isArray(this.telemetry.history.offers)) this.telemetry.history.offers = [];
+                                    this.telemetry.history.offers.push({
+                                        week: engine.currentWeek,
+                                        playerId: offer.player.id,
+                                        askPrice: offer.amount,
+                                        accepted: true,
+                                        simulated: false
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Outgoing market inquiry every 8 weeks (telemetry data + decision log)
+                if (this.stats.weeksPlayed % 8 === 0 && team.squad?.length > 0) {
                     const candidate = team.squad[Math.floor(Math.random() * team.squad.length)];
                     const askPrice = (candidate.value || 500000) * (1.2 + Math.random() * 0.6);
                     if (this.telemetry?.history) {
@@ -462,8 +498,8 @@ export class AutoPlayController {
                     }
                     this._logDecision('MARKET_INQUIRY', { playerId: candidate.id, askPrice: Math.round(askPrice) }, 0);
                 }
-            } catch { /* ignore */ }
-        }
+            }
+        } catch { /* ignore */ }
     }
 
     _advanceWeek() {

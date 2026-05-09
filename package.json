@@ -32,6 +32,7 @@
     "mutate:report": "open tests/characterization/stryker-report/index.html"
   },
   "dependencies": {
+    "@mlc-ai/web-llm": "^0.2.83",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "tone": "^14.9.17"

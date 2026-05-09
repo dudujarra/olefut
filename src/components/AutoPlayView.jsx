@@ -98,6 +98,31 @@ export function AutoPlayView() {
         }
     };
 
+    // SPEC-119: LLM mode toggle (heuristic / WebLLM)
+    const [llmStatus, setLlmStatus] = React.useState({ mode: 'heuristic', loadStatus: 'idle' });
+    React.useEffect(() => {
+        const id = setInterval(() => {
+            if (controllerRef.current?.llmBridge) {
+                setLlmStatus(controllerRef.current.llmBridge.status());
+            }
+        }, 1000);
+        return () => clearInterval(id);
+    }, []);
+
+    const handleLoadLLM = async () => {
+        if (!controllerRef.current?.llmBridge) return;
+        if (!window.confirm('Carregar Llama 3.2 1B (~700MB download primeiro uso, cached IndexedDB depois)? Requer WebGPU.')) return;
+        controllerRef.current.llmBridge.setMode('webllm');
+        await controllerRef.current.llmBridge.init();
+        setLlmStatus(controllerRef.current.llmBridge.status());
+    };
+
+    const handleResetLLM = () => {
+        if (!controllerRef.current?.llmBridge) return;
+        controllerRef.current.llmBridge.setMode('heuristic');
+        setLlmStatus({ mode: 'heuristic', loadStatus: 'idle' });
+    };
+
     const scoreColor = (score) => {
         if (score >= 70) return 'var(--ef-color-func-success, #6ABC3A)';
         if (score >= 40) return 'var(--ef-color-accent-gold, #FFD700)';
@@ -158,6 +183,51 @@ export function AutoPlayView() {
                     >
                         🧠 Reset Brain
                     </button>
+                </div>
+
+                {/* SPEC-119: LLM Bridge panel — buy/sell decision engine */}
+                <div style={{
+                    marginTop: '0.5rem',
+                    padding: '8px 12px',
+                    background: 'rgba(106, 188, 58, 0.05)',
+                    border: '1px solid #6ABC3A',
+                    borderRadius: '4px',
+                    fontSize: '0.78rem'
+                }}>
+                    <div style={{ marginBottom: '6px', fontWeight: 700, color: '#6ABC3A', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span>🤝 BUY/SELL ENGINE (SPEC-119)</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                            mode: <strong>{llmStatus.mode}</strong>
+                        </span>
+                    </div>
+                    {llmStatus.mode === 'webllm' && (
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                            status: {llmStatus.loadStatus}
+                            {llmStatus.loadProgress > 0 && llmStatus.loadProgress < 1 && (
+                                <span> ({(llmStatus.loadProgress * 100).toFixed(0)}%)</span>
+                            )}
+                        </div>
+                    )}
+                    <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
+                        {llmStatus.mode === 'heuristic' ? (
+                            <button
+                                className="btn btn-sm"
+                                onClick={handleLoadLLM}
+                                style={{ fontSize: '0.7rem', borderColor: '#6ABC3A', color: '#6ABC3A' }}
+                                title="Load WebLLM Llama 3.2 1B (~700MB first time, cached after)"
+                            >
+                                🧠 Carregar WebLLM
+                            </button>
+                        ) : (
+                            <button
+                                className="btn btn-sm"
+                                onClick={handleResetLLM}
+                                style={{ fontSize: '0.7rem' }}
+                            >
+                                ↩️ Voltar Heurística
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 {/* SPEC-115/116/117: Brain panel — adaptive learning telemetry */}
