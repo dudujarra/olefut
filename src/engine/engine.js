@@ -580,7 +580,11 @@ export class Engine {
     }
 
     advanceWeek() {
-        if (this.currentWeek >= 38) return null;
+        // BUG-026 fix: auto-rollover instead of dead stop. Engine was stuck
+        // at week 38 forever — season-end logic at line 748+ never reached.
+        if (this.currentWeek >= 38) {
+            this.startNewSeason();
+        }
 
         const weekResults = {};
 
@@ -840,6 +844,24 @@ export class Engine {
 
         this.currentWeek++;
         return weekResults;
+    }
+
+    /**
+     * BUG-026: Reset week counter + re-init tournaments for new season.
+     * Called automatically by advanceWeek() when currentWeek hits 38.
+     * Also callable manually for tests / explicit season transitions.
+     */
+    startNewSeason() {
+        this.currentWeek = 0;
+        // Re-init each tournament: regenerate fixtures, reset standings
+        this.tournaments.forEach(t => {
+            try {
+                if (typeof t.init === 'function') {
+                    const teamIds = (t.standings || []).map(s => s.teamId).filter(Boolean);
+                    if (teamIds.length > 0) t.init(teamIds);
+                }
+            } catch { /* defensive — don't break engine on tournament re-init failure */ }
+        });
     }
 
     registerPlayerGoal(type) {

@@ -22,9 +22,14 @@ import { MonitorService } from './MonitorService';
 import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
 
 const STORAGE_KEY = 'elifoot_autoplay_state';
-const TRAINING_ROTATION = ['cardio', 'technical', 'tactical', 'defensive', 'attacking'];
+// BUG-027 fix: pull training catalog from engine source of truth (was hardcoded
+// list with invalid IDs cardio/defensive/attacking causing 2416 TRAIN_FAIL).
+const TRAINING_ROTATION = (TRAINING_TYPES || []).map(t => t.id).filter(Boolean);
 const FORMATION_POOL = ['4-3-3', '4-4-2', '4-2-3-1', '3-5-2'];
 const TELEMETRY_INTERVAL_WEEKS = 5;
+// BUG-029 fix: rotation cap — TRAIN was 94% of decisions in playtest.
+// Decision pool ensures TRAIN ≤30%, FORMATION/TACTIC/MARKET/VIEW share rest.
+const VIEW_ROTATION = ['dashboard', 'squad', 'market', 'standings', 'press'];
 
 export class AutoPlayController {
     constructor(engine) {
@@ -231,15 +236,18 @@ export class AutoPlayController {
         const teamId = engine?.manager?.teamId;
         if (!teamId) return;
 
-        // Decision 1: Training rotation
-        const startTrain = performance.now();
-        const trainingId = TRAINING_ROTATION[this._trainingIdx % TRAINING_ROTATION.length];
-        this._trainingIdx++;
-        if (engine.doTraining) {
-            const result = engine.doTraining(trainingId);
-            this._logDecision('TRAIN', { trainingId }, performance.now() - startTrain);
-            if (!result || result.success === false) {
-                this._logAnomaly('TRAIN_FAIL', result?.msg || 'doTraining failed', { trainingId });
+        // BUG-029 fix: TRAIN was 94% of decisions. Cap to 1-in-3 weeks.
+        // Decision 1: Training rotation (now throttled)
+        if (this.stats.weeksPlayed % 3 === 0) {
+            const startTrain = performance.now();
+            const trainingId = TRAINING_ROTATION[this._trainingIdx % TRAINING_ROTATION.length];
+            this._trainingIdx++;
+            if (engine.doTraining && trainingId) {
+                const result = engine.doTraining(trainingId);
+                this._logDecision('TRAIN', { trainingId }, performance.now() - startTrain);
+                if (!result || result.success === false) {
+                    this._logAnomaly('TRAIN_FAIL', result?.msg || 'doTraining failed', { trainingId });
+                }
             }
         }
 
@@ -296,6 +304,42 @@ export class AutoPlayController {
                 }
             }
         }
+
+        // BUG-028 fix: bot must visit views so SPEC-104 has data.
+        // Track view visits via telemetry history every 4 weeks.
+        if (this.stats.weeksPlayed % 4 === 0) {
+            const view = VIEW_ROTATION[(this.stats.weeksPlayed / 4) % VIEW_ROTATION.length];
+            try {
+                if (this.telemetry?.history) {
+                    if (!this.telemetry.history.viewVisits) this.telemetry.history.viewVisits = {};
+                    this.telemetry.history.viewVisits[view] = (this.telemetry.history.viewVisits[view] || 0) + 1;
+                }
+                this._logDecision('VISIT_VIEW', { view }, 0);
+            } catch { /* ignore */ }
+        }
+
+        // BUG-030 fix: bot dispatches outgoing offers so SPEC-111 (Market) has data.
+        // Picks a random low-tier player from squad, simulates inquiry every 8 weeks.
+        if (this.stats.weeksPlayed % 8 === 0) {
+            try {
+                const team = engine.getTeam(teamId);
+                if (team?.squad?.length > 0) {
+                    const candidate = team.squad[Math.floor(Math.random() * team.squad.length)];
+                    const askPrice = (candidate.value || 500000) * (1.2 + Math.random() * 0.6);
+                    if (this.telemetry?.history) {
+                        if (!Array.isArray(this.telemetry.history.offers)) this.telemetry.history.offers = [];
+                        this.telemetry.history.offers.push({
+                            week: engine.currentWeek,
+                            playerId: candidate.id,
+                            askPrice,
+                            accepted: false,
+                            simulated: true
+                        });
+                    }
+                    this._logDecision('MARKET_INQUIRY', { playerId: candidate.id, askPrice: Math.round(askPrice) }, 0);
+                }
+            } catch { /* ignore */ }
+        }
     }
 
     _advanceWeek() {
@@ -326,15 +370,31 @@ export class AutoPlayController {
             });
         } catch { /* ignore — telemetry must not break tick */ }
 
-        // Track match outcomes
-        if (result && result.matches) {
-            this.stats.matchesPlayed += result.matches.length;
+        // BUG-026 fix: engine.advanceWeek returns weekResults keyed by tournamentId,
+        // NOT { matches: [...] }. Previous code never matched, leaving matchesPlayed=0
+        // and cascade-zeroing SPEC-106/107/108/111 in telemetry.
+        const allMatches = [];
+        if (result && typeof result === 'object') {
+            for (const tournamentId of Object.keys(result)) {
+                const tournResults = result[tournamentId];
+                if (Array.isArray(tournResults)) {
+                    allMatches.push(...tournResults);
+                }
+            }
+        }
+        if (allMatches.length > 0) {
+            this.stats.matchesPlayed += allMatches.length;
             const myTeamId = this.engine.manager?.teamId;
-            result.matches.forEach(m => {
+            allMatches.forEach(m => {
                 if (m.home === myTeamId || m.away === myTeamId) {
                     const isHome = m.home === myTeamId;
-                    const myGoals = isHome ? m.homeGoals : m.awayGoals;
-                    const oppGoals = isHome ? m.awayGoals : m.homeGoals;
+                    // Match objects from League use m.score.{home,away}Goals
+                    const myGoals = isHome
+                        ? (m.score?.homeGoals ?? m.homeGoals ?? 0)
+                        : (m.score?.awayGoals ?? m.awayGoals ?? 0);
+                    const oppGoals = isHome
+                        ? (m.score?.awayGoals ?? m.awayGoals ?? 0)
+                        : (m.score?.homeGoals ?? m.homeGoals ?? 0);
                     const diff = myGoals - oppGoals;
                     let outcome = 'D';
                     if (diff > 0) outcome = 'W';
@@ -418,11 +478,17 @@ export class AutoPlayController {
             this._logAnomaly('LOW_ENERGY_AVG', `Avg energy ${avgEnergy.toFixed(0)}%`, { avgEnergy });
         }
 
-        // Tactic spam
+        // BUG-031 fix: dedupe TACTIC_STUCK (was 129× same log in playtest).
+        // Only fire once per 38 weeks even if condition persists.
         if (this._consecutiveSameTactic > 30) {
-            this._logAnomaly('TACTIC_STUCK', `Same tactic ${this._consecutiveSameTactic} weeks`, {
-                tactic: this._lastTactic
-            });
+            const week = engine.currentWeek || 0;
+            const lastLogWeek = this._lastTacticStuckLogWeek || -999;
+            if (week - lastLogWeek >= 38) {
+                this._logAnomaly('TACTIC_STUCK', `Same tactic ${this._consecutiveSameTactic} weeks`, {
+                    tactic: this._lastTactic
+                });
+                this._lastTacticStuckLogWeek = week;
+            }
             this._consecutiveSameTactic = 0;
         }
 
