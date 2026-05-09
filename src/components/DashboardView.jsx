@@ -7,6 +7,9 @@ import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
 import { Help } from './Help';
 import { Tooltip } from './Tooltip';
 import { DashboardHeader, DashboardAlerts, DashboardFooter } from './dashboard';
+import { LongTermGoals } from './LongTermGoals';
+import { ChallengesWidget } from './ChallengesWidget';
+import { LiveOpsBanner } from './LiveOpsBanner';
 import { EfBanner } from './ui';
 
 export function DashboardView() {
@@ -92,6 +95,10 @@ export function DashboardView() {
     return (
         <div className="main-content fade-in">
             {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
+
+            {/* SPEC-098 Live Ops banner */}
+            <LiveOpsBanner />
+
             {/* === HEADER (Stitch refactor) === */}
             <DashboardHeader
                 team={team}
@@ -113,6 +120,12 @@ export function DashboardView() {
                 transferOffersCount={engine.transferOffers?.length ?? 0}
                 onOpenTransfers={() => setTab('transfers')}
             />
+
+            {/* SPEC-102 Long-Term Goals widget */}
+            <LongTermGoals engine={engine} team={team} />
+
+            {/* SPEC-103 Weekly Challenges */}
+            <ChallengesWidget />
 
             {/* === NEXT MATCH CTA (Stitch scoreboard-card style) === */}
             <div className="card scoreboard-card next-match-card" style={{padding:'0.75rem 1rem',background:'linear-gradient(135deg, rgba(17,24,39,0.9), rgba(16,185,129,0.05))'}}>

@@ -223,7 +223,10 @@ export function SquadView() {
                                     </span>
                                 </td>
                                 <td><strong>{p.ovr}</strong></td>
-                                <td className="hide-mobile" style={{ color: getEnergyColor(p.energy) }}>{p.energy}%</td>
+                                <td className="hide-mobile" style={{ color: getEnergyColor(p.energy) }}>
+                                    {p.energy < 30 && <span title="Fadiga crítica" className="ef-anim-pulse-glow">⚠️</span>}
+                                    {p.energy}%
+                                </td>
                                 <td className="hide-mobile">{getMoralEmoji(p.moral || 50)} {(p.moral || 50)}%</td>
                                 <td className="hide-mobile">{getFormEmoji(p.form?.trend)}</td>
                                 <td className="hide-mobile">{p.age}</td>
