@@ -5,6 +5,13 @@
 @import './styles/animations.css';
 @import './styles/mobile.css';
 
+/* SPEC-A11y Focus visible (WCAG 2.1 AA) */
+*:focus-visible {
+  outline: var(--ef-focus-ring, 2px dotted #FFD700);
+  outline-offset: 2px;
+}
+*:focus:not(:focus-visible) { outline: none; }
+
 /* v2.0 Stitch UI animations */
 @keyframes ef-spin {
   from { transform: rotate(0deg); }

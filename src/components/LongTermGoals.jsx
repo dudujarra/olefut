@@ -82,7 +82,7 @@ export function LongTermGoals({ engine, team }) {
                             {g.sub || `${Math.round(g.progress)}%`}
                         </span>
                     </div>
-                    <div style={{ height: '4px', background: '#1a2520', borderRadius: '2px', overflow: 'hidden' }}>
+                    <div style={{ height: '4px', background: 'var(--ef-color-bg-input)', borderRadius: '2px', overflow: 'hidden' }}>
                         <div style={{
                             height: '100%',
                             width: `${g.progress}%`,
