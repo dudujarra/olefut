@@ -259,8 +259,8 @@ export class Engine {
         const defPlayers = pickPosition('DEF');
         const golPlayers = pickPosition('GOL');
 
-        // Final fallback: if STILL empty (no players at all in position), use 35 baseline
-        const finalSector = (pentagon, fallback, baseline = 35) => {
+        // SPEC-125: baseline 35→45 (35 era absurdo low, criava matches sem sentido)
+        const finalSector = (pentagon, fallback, baseline = 45) => {
             if (pentagon != null && pentagon > 0) return pentagon;
             if (fallback != null && fallback > 0) return fallback;
             return baseline;
@@ -460,10 +460,10 @@ export class Engine {
         const player = otherTeam.squad?.find(p => p.id === playerId);
         if (!player) return { success: false, msg: 'Jogador não encontrado.', accepted: false };
 
-        // Acceptance probability: amount/value ratio.
-        // ratio < 0.8 → reject. ratio > 1.5 → accept. Sigmoid in between.
+        // SPEC-125: sigmoid mais íngreme. Bot conseguia comprar com 1.3× value (90%
+        // accept rate). Realista: <1.0 reject, >1.5 accept, sigmoid 1.0-1.5.
         const ratio = amount / Math.max(1, player.value || 1_000_000);
-        const acceptProb = Math.max(0, Math.min(1, (ratio - 0.8) / 0.7));
+        const acceptProb = Math.max(0, Math.min(1, (ratio - 1.0) / 0.5));
         const accepted = Math.random() < acceptProb;
 
         if (!accepted) {

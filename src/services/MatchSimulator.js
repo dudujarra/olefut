@@ -66,6 +66,18 @@ export class MatchSimulator {
         const homeNarr = TACTIC_NARRATION[homeTactic] || TACTIC_NARRATION.normal;
         const awayNarr = TACTIC_NARRATION[awayTactic] || TACTIC_NARRATION.normal;
 
+        // SPEC-125 BUG-072: AI counter-tactic — adversários adaptam vs streak.
+        // Bot 38 win streak imhuman. Quando bot tem streak >5, opponent fica +10% sectors.
+        const myStreak = engine.managerStats?.streak || 0;
+        const opponentBoost = myStreak >= 5 ? Math.min(1.3, 1 + (myStreak * 0.02)) : 1.0;
+        if (isManagerHome) {
+            awaySectors.attack = Math.floor(awaySectors.attack * opponentBoost);
+            awaySectors.defense = Math.floor(awaySectors.defense * opponentBoost);
+        } else if (isManagerAway) {
+            homeSectors.attack = Math.floor(homeSectors.attack * opponentBoost);
+            homeSectors.defense = Math.floor(homeSectors.defense * opponentBoost);
+        }
+
         let homeGoals = 0;
         let awayGoals = 0;
         const events = { home: [], away: [], textLog: [], scorers: [], cards: [], motm: null };
@@ -95,12 +107,10 @@ export class MatchSimulator {
         // Performance tracker for MOTM
         const performanceMap = {};
 
-        // BUG-033: hard cap on combined goals to prevent 0-65 absurdities when one
-        // squad has gutted defense (squad < 11). Previously chanceRatio could spike
-        // unbounded with defSectors.defense ≈ 0.
-        const MAX_COMBINED_GOALS = 12;
+        // BUG-033 + SPEC-125: cap reduzido 12→8, scorelines mais realistas.
+        // Frequência 12-0 / 11-1 era anormal. Football real raramente passa 6 goals total.
+        const MAX_COMBINED_GOALS = 8;
         for (let minute = 1; minute <= 90; minute++) {
-            // BUG-033: stop scoring once cap reached (clock still runs for narration)
             if (homeGoals + awayGoals >= MAX_COMBINED_GOALS) break;
             const isHomeAttacking = Math.random() > 0.45;
             const atkSectors = isHomeAttacking ? homeSectors : awaySectors;
@@ -121,8 +131,9 @@ export class MatchSimulator {
                 });
             }
 
-            // Chance creation
-            const chanceRatio = (atkSectors.attack * cond.ataModifier * atkMoral * counterMod) / (defSectors.defense * cond.defModifier || 1);
+            // Chance creation (SPEC-125: cap chanceRatio para evitar spike unbounded)
+            const rawRatio = (atkSectors.attack * cond.ataModifier * atkMoral * counterMod) / (defSectors.defense * cond.defModifier || 1);
+            const chanceRatio = Math.min(rawRatio, 2.5); // cap em 2.5× (era unbounded)
             if (Math.random() < (0.12 * chanceRatio)) {
                 if (isHomeAttacking) homeShots++; else awayShots++;
 

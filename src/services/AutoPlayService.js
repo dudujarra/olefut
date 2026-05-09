@@ -767,14 +767,17 @@ export class AutoPlayController {
             this._logAnomaly('LOW_ENERGY_AVG', `Avg energy ${avgEnergy.toFixed(0)}%`, { avgEnergy });
         }
 
-        // BUG-031 fix: dedupe TACTIC_STUCK (was 129× same log in playtest).
-        // Only fire once per 38 weeks even if condition persists.
-        if (this._consecutiveSameTactic > 30) {
+        // BUG-031 + SPEC-125: dedupe TACTIC_STUCK + ignore se ganhando.
+        // Bot achou estratégia winning (streak >0) = não é "stuck", é estratégia.
+        // Só flag se streak ≤0 (perdendo + tactic same) OU squad weak.
+        const tacticStreak = engine.managerStats?.streak || 0;
+        if (this._consecutiveSameTactic > 30 && tacticStreak <= 0) {
             const week = engine.currentWeek || 0;
             const lastLogWeek = this._lastTacticStuckLogWeek || -999;
             if (week - lastLogWeek >= 38) {
-                this._logAnomaly('TACTIC_STUCK', `Same tactic ${this._consecutiveSameTactic} weeks`, {
-                    tactic: this._lastTactic
+                this._logAnomaly('TACTIC_STUCK', `Same tactic ${this._consecutiveSameTactic} weeks (streak ${tacticStreak})`, {
+                    tactic: this._lastTactic,
+                    streak: tacticStreak
                 });
                 this._lastTacticStuckLogWeek = week;
             }
