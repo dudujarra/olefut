@@ -95,7 +95,13 @@ export class MatchSimulator {
         // Performance tracker for MOTM
         const performanceMap = {};
 
+        // BUG-033: hard cap on combined goals to prevent 0-65 absurdities when one
+        // squad has gutted defense (squad < 11). Previously chanceRatio could spike
+        // unbounded with defSectors.defense ≈ 0.
+        const MAX_COMBINED_GOALS = 12;
         for (let minute = 1; minute <= 90; minute++) {
+            // BUG-033: stop scoring once cap reached (clock still runs for narration)
+            if (homeGoals + awayGoals >= MAX_COMBINED_GOALS) break;
             const isHomeAttacking = Math.random() > 0.45;
             const atkSectors = isHomeAttacking ? homeSectors : awaySectors;
             const defSectors = isHomeAttacking ? awaySectors : homeSectors;
