@@ -169,7 +169,34 @@ export class AdaptiveBrain {
         this.visitCount = {}; // { stateKey: number }
         this.totalUpdates = 0;
         this.lastSavedAt = 0;
+        // SPEC-122 BUG-054: episodic memory — last N decisions+outcomes for RAG.
+        this.memory = []; // [{ decision, outcome, week, season, reward, ts }]
+        this.memoryMax = 30;
         this._restore();
+    }
+
+    /**
+     * Append decision+outcome to episodic memory (ring buffer).
+     */
+    remember(entry) {
+        if (!entry) return;
+        this.memory.push({
+            ts: Date.now(),
+            ...entry
+        });
+        if (this.memory.length > this.memoryMax) {
+            this.memory = this.memory.slice(-this.memoryMax);
+        }
+    }
+
+    /**
+     * Get formatted memory context for LLM RAG prompt.
+     */
+    recallContext(limit = 10) {
+        return this.memory.slice(-limit).map((m, i) => {
+            const r = (m.reward != null) ? `r=${m.reward.toFixed(1)}` : '';
+            return `${i + 1}. wk${m.week ?? '?'}: ${m.action || m.decision || '?'} → ${m.result || ''} ${r}`.trim();
+        }).join('\n');
     }
 
     _restore() {
@@ -181,6 +208,7 @@ export class AdaptiveBrain {
             if (parsed.qTable) this.qTable = parsed.qTable;
             if (parsed.visitCount) this.visitCount = parsed.visitCount;
             if (typeof parsed.totalUpdates === 'number') this.totalUpdates = parsed.totalUpdates;
+            if (Array.isArray(parsed.memory)) this.memory = parsed.memory;
         } catch { /* ignore */ }
     }
 
@@ -191,6 +219,7 @@ export class AdaptiveBrain {
                 qTable: this.qTable,
                 visitCount: this.visitCount,
                 totalUpdates: this.totalUpdates,
+                memory: this.memory,
                 savedAt: Date.now()
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -202,6 +231,7 @@ export class AdaptiveBrain {
         this.qTable = {};
         this.visitCount = {};
         this.totalUpdates = 0;
+        this.memory = [];
         try {
             if (typeof localStorage !== 'undefined') localStorage.removeItem(STORAGE_KEY);
         } catch { /* ignore */ }
