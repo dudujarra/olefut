@@ -187,7 +187,7 @@ export class MatchSimulator {
 
             // §9: Emit match phase at key intervals for procedural audio
             if (minute === 1) {
-                try { emitGameEvent(GameEvents.MATCH_STARTED, { homeTeam: homeTeam.name, awayTeam: awayTeam.name }); } catch {}
+                try { emitGameEvent(GameEvents.MATCH_STARTED, { homeTeam: homeTeam.name, awayTeam: awayTeam.name }); } catch { /* event emit - non-critical */ }
             }
 
             const isHomeChance = systemRng() < homeChancePerMin;
@@ -281,7 +281,7 @@ export class MatchSimulator {
                             byPlayer: isManagerHome === isHomeAttacking,
                             moment: minute > 75 ? 'late' : minute < 15 ? 'early' : 'normal'
                         });
-                    } catch {}
+                    } catch { /* event emit - non-critical */ }
 
                     // Track performance
                     if (scorer) {
@@ -414,7 +414,7 @@ export class MatchSimulator {
                     ? (awayGoals > homeGoals ? 'victory' : awayGoals < homeGoals ? 'defeat' : 'draw')
                     : 'neutral';
             emitGameEvent(GameEvents.MATCH_ENDED, { result: managerResult, homeGoals, awayGoals });
-        } catch {}
+        } catch { /* event emit - non-critical */ }
 
         return { homeGoals, awayGoals, events };
     }

@@ -1,3 +1,4 @@
+/* global clients */
 /**
  * §15.4: Service Worker para PWA offline-first + notificações opcionais.
  *

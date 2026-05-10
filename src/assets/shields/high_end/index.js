@@ -61,6 +61,27 @@ import caxias from './caxias.png';
 import athletic_club from './athletic_club.png';
 import ferroviaria from './ferroviaria.png';
 
+import santa_cruz from './santa_cruz.png';
+import parana_clube from './parana_clube.png';
+import america_rn from './america_rn.png';
+import campinense from './campinense.png';
+import treze from './treze.png';
+import caldense from './caldense.png';
+import sergipe from './sergipe.png';
+import brasiliense from './brasiliense.png';
+import bangu from './bangu.png';
+import moto_club from './moto_club.png';
+import nacional_am from './nacional_am.png';
+import rio_branco_es from './rio_branco_es.png';
+import anapolis from './anapolis.png';
+import nova_iguacu from './nova_iguacu.png';
+import cianorte from './cianorte.png';
+import inter_de_limeira from './inter_de_limeira.png';
+import portuguesa_rj from './portuguesa_rj.png';
+import retro from './retro.png';
+import iguatu from './iguatu.png';
+import sousa from './sousa.png';
+
 export const HIGH_END_SHIELDS = {
     "Flamengo": flamengo,
     "Palmeiras": palmeiras,
@@ -123,5 +144,26 @@ export const HIGH_END_SHIELDS = {
     "Ferroviário": ferroviario,
     "Caxias": caxias,
     "Athletic Club": athletic_club,
-    "Ferroviária": ferroviaria
+    "Ferroviária": ferroviaria,
+
+    "Santa Cruz": santa_cruz,
+    "Paraná Clube": parana_clube,
+    "América-RN": america_rn,
+    "Campinense": campinense,
+    "Treze": treze,
+    "Caldense": caldense,
+    "Sergipe": sergipe,
+    "Brasiliense": brasiliense,
+    "Bangu": bangu,
+    "Moto Club": moto_club,
+    "Nacional-AM": nacional_am,
+    "Rio Branco-ES": rio_branco_es,
+    "Anápolis": anapolis,
+    "Nova Iguaçu": nova_iguacu,
+    "Cianorte": cianorte,
+    "Inter de Limeira": inter_de_limeira,
+    "Portuguesa-RJ": portuguesa_rj,
+    "Retrô": retro,
+    "Iguatu": iguatu,
+    "Sousa": sousa
 };
