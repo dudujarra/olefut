@@ -1,0 +1,456 @@
+{
+  "teamId": 1798,
+  "teamName": "Atlético Nacional",
+  "manager": null,
+  "players": [
+    {
+      "id": 911146,
+      "name": "Alan Naib",
+      "shortName": "A. Naib",
+      "position": "F",
+      "positionsDetailed": [],
+      "dateOfBirth": "1998-01-12T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551281,
+      "name": "Peiman Pahlevan Afshari",
+      "firstName": "Peiman",
+      "lastName": "Pahlevan Afshari",
+      "shortName": "P. P. Afshari",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "dateOfBirth": "1989-12-05T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551273,
+      "name": "Vilton Lundkvist Sjögren",
+      "firstName": "Vilton",
+      "lastName": "Lundkvist Sjögren",
+      "shortName": "V. L. Sjögren",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "dateOfBirth": "2010-06-22T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551270,
+      "name": "Lewis Harrison Tibor Huggins",
+      "firstName": "Lewis Harrison Tibor",
+      "lastName": "Huggins",
+      "shortName": "L. H. T. Huggins",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "dateOfBirth": "2002-12-20T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551272,
+      "name": "Elliot Harvigsson",
+      "firstName": "Elliot",
+      "lastName": "Harvigsson",
+      "shortName": "E. Harvigsson",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "dateOfBirth": "2006-08-24T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551274,
+      "name": "Tore Dernell",
+      "firstName": "Tore",
+      "lastName": "Dernell",
+      "shortName": "T. Dernell",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "dateOfBirth": "2003-11-22T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551275,
+      "name": "Simon Sultan",
+      "firstName": "Simon",
+      "lastName": "Sultan",
+      "shortName": "S. Sultan",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "dateOfBirth": "1998-11-24T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551276,
+      "name": "Jacob Hellqvist",
+      "firstName": "Jacob",
+      "lastName": "Hellqvist",
+      "shortName": "J. Hellqvist",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "dateOfBirth": "2002-09-29T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551277,
+      "name": "Filipe Santos",
+      "firstName": "Filipe Santos",
+      "shortName": "F. Santos",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "25",
+      "shirtNumber": 25,
+      "dateOfBirth": "2005-10-16T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551279,
+      "name": "Hampus  Worming",
+      "firstName": "Hampus ",
+      "lastName": "Worming",
+      "shortName": "H. Worming",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "dateOfBirth": "2002-06-28T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551280,
+      "name": "Jonas Wallstenius",
+      "firstName": "Jonas",
+      "lastName": "Wallstenius",
+      "shortName": "J. Wallstenius",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "dateOfBirth": "2001-07-02T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2049921,
+      "name": "Hampus Slättenhäll",
+      "firstName": "Hampus",
+      "lastName": "Slättenhäll",
+      "shortName": "H. Slattenhall",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "dateOfBirth": "2006-08-13T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551269,
+      "name": "Hannes Berg",
+      "firstName": "Hannes",
+      "lastName": "Berg",
+      "shortName": "H. Berg",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "dateOfBirth": "2007-01-25T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551278,
+      "name": "Adam Gillberg",
+      "firstName": "Adam",
+      "lastName": "Gillberg",
+      "shortName": "A. Gillberg",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "dateOfBirth": "1999-03-24T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551282,
+      "name": "David Lind",
+      "firstName": "David",
+      "lastName": "Lind",
+      "shortName": "D. Lind",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "dateOfBirth": "2002-06-06T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551283,
+      "name": "Luca Franzi",
+      "firstName": "Luca",
+      "lastName": "Franzi",
+      "shortName": "L. Franzi",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "dateOfBirth": "1996-05-03T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551284,
+      "name": "Oskar Kiianlinna",
+      "firstName": "Oskar",
+      "lastName": "Kiianlinna",
+      "shortName": "O. Kiianlinna",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "dateOfBirth": "1992-03-28T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2572672,
+      "name": "Alexander Rosenberg",
+      "firstName": "Alexander",
+      "lastName": "Rosenberg",
+      "shortName": "A. Rosenberg",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "24",
+      "shirtNumber": 24,
+      "dateOfBirth": "2000-03-20T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551285,
+      "name": "Daniel Aspin",
+      "firstName": "Daniel",
+      "lastName": "Aspin",
+      "shortName": "D. Aspin",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "dateOfBirth": "2002-06-27T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2551286,
+      "name": "Albin Neideman-Arnsbjer",
+      "firstName": "Albin",
+      "lastName": "Neideman-Arnsbjer ",
+      "shortName": "A. Neideman-Arnsbjer",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "30",
+      "shirtNumber": 30,
+      "dateOfBirth": "2002-02-01T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2572671,
+      "name": "Philip Noori Perrone",
+      "firstName": "Philip",
+      "lastName": "Noori Perrone ",
+      "shortName": "P. N. Perrone",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "96",
+      "shirtNumber": 96,
+      "dateOfBirth": "2006-09-27T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2557312,
+      "name": "Milan Hatami",
+      "firstName": "Milan",
+      "lastName": "Hatami",
+      "shortName": "M. Hatami",
+      "positionsDetailed": [],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "dateOfBirth": "2001-10-11T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2557313,
+      "name": "Fredrik Westberg",
+      "firstName": "Fredrik",
+      "lastName": "Westberg",
+      "shortName": "F. Westberg",
+      "positionsDetailed": [],
+      "jerseyNumber": "5",
+      "shirtNumber": 5,
+      "dateOfBirth": "2000-07-17T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2572670,
+      "name": "Malte  Bilfeldt",
+      "firstName": "Malte ",
+      "lastName": "Bilfeldt",
+      "shortName": "M. Bilfeldt",
+      "positionsDetailed": [],
+      "jerseyNumber": "18",
+      "shirtNumber": 18,
+      "dateOfBirth": "2008-06-23T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:31:45.603Z"
+}

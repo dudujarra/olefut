@@ -1,0 +1,891 @@
+{
+  "teamId": 1648,
+  "teamName": "Lille",
+  "manager": {
+    "id": 803012,
+    "name": "Pierre Sage",
+    "shortName": "P. Sage",
+    "country": "France",
+    "preferredFormation": "3-4-2-1",
+    "stats": {
+      "total": 93,
+      "wins": 59,
+      "draws": 13,
+      "losses": 21,
+      "goalsScored": 189,
+      "goalsConceded": 121,
+      "totalPoints": 190
+    },
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 347010,
+      "name": "Allan Saint-Maximin",
+      "firstName": "Allan",
+      "lastName": "Saint-Maximin",
+      "shortName": "A. Saint-Maximin",
+      "position": "F",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "height": 173,
+      "weight": 67,
+      "dateOfBirth": "1997-03-12T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 10700000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 795228,
+      "name": "Odsonne Édouard",
+      "firstName": "Odsonne",
+      "lastName": "Edouard",
+      "shortName": "O. Édouard",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 187,
+      "dateOfBirth": "1998-01-16T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 11300000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 148824,
+      "name": "Florian Thauvin",
+      "firstName": "Florian",
+      "lastName": "Thauvin",
+      "shortName": "F. Thauvin",
+      "position": "F",
+      "positionsDetailed": [
+        "ST",
+        "AM"
+      ],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 179,
+      "weight": 70,
+      "dateOfBirth": "1993-01-26T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 5200000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1029018,
+      "name": "Abdallah Sima",
+      "shortName": "A.Sima",
+      "position": "F",
+      "positionsDetailed": [
+        "LW",
+        "ST"
+      ],
+      "jerseyNumber": "19",
+      "shirtNumber": 19,
+      "height": 188,
+      "dateOfBirth": "2001-06-17T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SN",
+        "alpha3": "SEN",
+        "name": "Senegal",
+        "slug": "senegal"
+      },
+      "proposedMarketValue": 3900000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 227862,
+      "name": "Wesley Saïd",
+      "shortName": "W. Saïd",
+      "position": "F",
+      "positionsDetailed": [
+        "ST",
+        "AM"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 171,
+      "weight": 65,
+      "dateOfBirth": "1995-04-19T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 6300000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1545376,
+      "name": "Rayan Fofana",
+      "firstName": "Rayan Fofana",
+      "shortName": "R. Fofana",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "38",
+      "shirtNumber": 38,
+      "height": 180,
+      "dateOfBirth": "2006-02-12T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 7200000,
+      "pentagon": null
+    },
+    {
+      "id": 788921,
+      "name": "Florian Sotoca",
+      "firstName": "Florian",
+      "lastName": "Sotoca",
+      "shortName": "F. Sotoca",
+      "position": "F",
+      "positionsDetailed": [
+        "AM",
+        "ST"
+      ],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 187,
+      "weight": 79,
+      "dateOfBirth": "1990-10-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 1600000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1842137,
+      "name": "Erawan Garnier",
+      "firstName": "Erawan Garnier",
+      "shortName": "E. Garnier",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "34",
+      "shirtNumber": 34,
+      "height": 180,
+      "weight": 75,
+      "dateOfBirth": "2006-01-05T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "TH",
+        "alpha3": "THA",
+        "name": "Thailand",
+        "slug": "thailand"
+      },
+      "proposedMarketValue": 210000,
+      "pentagon": null
+    },
+    {
+      "id": 966849,
+      "name": "Saud Abdulhamid",
+      "firstName": "Saud",
+      "lastName": "Abdulhamid",
+      "shortName": "S. Abdulhamid",
+      "position": "M",
+      "positionsDetailed": [
+        "DR",
+        "MR"
+      ],
+      "jerseyNumber": "23",
+      "shirtNumber": 23,
+      "height": 178,
+      "dateOfBirth": "1999-07-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SA",
+        "alpha3": "SAU",
+        "name": "Saudi Arabia",
+        "slug": "saudi-arabia"
+      },
+      "proposedMarketValue": 4600000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 822708,
+      "name": "Amadou Haidara",
+      "firstName": "Amadou",
+      "lastName": "Haidara",
+      "shortName": "A. Haidara",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "height": 174,
+      "weight": 67,
+      "dateOfBirth": "1998-01-31T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ML",
+        "alpha3": "MLI",
+        "name": "Mali",
+        "slug": "mali"
+      },
+      "proposedMarketValue": 5800000,
+      "pentagon": null
+    },
+    {
+      "id": 1064697,
+      "name": "Mamadou Sangare",
+      "firstName": "Mamadou Sangare",
+      "shortName": "M. Sangare",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "height": 181,
+      "dateOfBirth": "2002-06-26T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ML",
+        "alpha3": "MLI",
+        "name": "Mali",
+        "slug": "mali"
+      },
+      "proposedMarketValue": 29000000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1423504,
+      "name": "Andrija Bulatovic",
+      "shortName": "A. Bulatović",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM"
+      ],
+      "jerseyNumber": "5",
+      "shirtNumber": 5,
+      "height": 180,
+      "dateOfBirth": "2006-12-27T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "ME",
+        "alpha3": "MNE",
+        "name": "Montenegro",
+        "slug": "montenegro"
+      },
+      "proposedMarketValue": 4500000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 231946,
+      "name": "Adrien Thomasson",
+      "firstName": "Adrien",
+      "lastName": "Thomasson",
+      "shortName": "A. Thomasson",
+      "position": "M",
+      "positionsDetailed": [
+        "MC",
+        "DM",
+        "AM"
+      ],
+      "jerseyNumber": "28",
+      "shirtNumber": 28,
+      "height": 177,
+      "weight": 72,
+      "dateOfBirth": "1993-12-10T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 4800000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1426222,
+      "name": "Fode Sylla",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "F. Sylla",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "18",
+      "shirtNumber": 18,
+      "height": 189,
+      "dateOfBirth": "2006-04-16T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 1100000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 787827,
+      "name": "Matthieu Udol",
+      "firstName": "Matthieu",
+      "lastName": "Udol",
+      "shortName": "M. Udol",
+      "position": "M",
+      "positionsDetailed": [
+        "DL",
+        "ML"
+      ],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "height": 178,
+      "weight": 74,
+      "dateOfBirth": "1996-03-20T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 5800000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 579576,
+      "name": "Ruben Aguilar",
+      "firstName": "Ruben",
+      "lastName": "Aguilar",
+      "shortName": "R. Aguilar",
+      "position": "M",
+      "positionsDetailed": [
+        "MR",
+        "DR"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 172,
+      "weight": 70,
+      "dateOfBirth": "1993-04-26T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 3300000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1545297,
+      "name": "Anthony Bermont",
+      "firstName": "Anthony Bermont",
+      "shortName": "A. Bermont",
+      "position": "M",
+      "positionsDetailed": [
+        "AM"
+      ],
+      "jerseyNumber": "26",
+      "shirtNumber": 26,
+      "height": 187,
+      "dateOfBirth": "2005-02-10T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 1100000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 2587848,
+      "name": "Mezian Soares",
+      "shortName": "M. Soares",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "41",
+      "shirtNumber": 41,
+      "dateOfBirth": "2009-11-08T00:00:00+00:00",
+      "country": {
+        "alpha2": "PT",
+        "alpha3": "PRT",
+        "name": "Portugal",
+        "slug": "portugal"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 174975,
+      "name": "Arthur Masuaku",
+      "firstName": "Arthur",
+      "lastName": "Masuaku",
+      "shortName": "A. Masuaku",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "27",
+      "shirtNumber": 27,
+      "height": 179,
+      "weight": 70,
+      "dateOfBirth": "1993-11-07T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "CD",
+        "alpha3": "COD",
+        "name": "DR Congo",
+        "slug": "dr-congo"
+      },
+      "proposedMarketValue": 2400000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1408080,
+      "name": "Ismaelo Ganiou",
+      "firstName": "Ismaelo",
+      "lastName": "Ganiou",
+      "shortName": "I. Ganiou",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "25",
+      "shirtNumber": 25,
+      "height": 185,
+      "dateOfBirth": "2005-03-14T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 9700000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 826203,
+      "name": "Malang Sarr",
+      "firstName": "Malang",
+      "lastName": "Sarr",
+      "shortName": "M. Sarr",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DL"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 182,
+      "dateOfBirth": "1999-01-23T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 15900000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1099117,
+      "name": "Samson Baidoo",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "S. Baidoo",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "6",
+      "shirtNumber": 6,
+      "height": 190,
+      "dateOfBirth": "2004-03-31T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "AT",
+        "alpha3": "AUT",
+        "name": "Austria",
+        "slug": "austria"
+      },
+      "proposedMarketValue": 26000000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1399503,
+      "name": "Nidal Čelik",
+      "shortName": "N. Čelik",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 192,
+      "dateOfBirth": "2006-07-17T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "BA",
+        "alpha3": "BIH",
+        "name": "Bosnia & Herzegovina",
+        "slug": "bosnia-and-herzegovina"
+      },
+      "proposedMarketValue": 3700000,
+      "pentagon": null
+    },
+    {
+      "id": 369650,
+      "name": "Jonathan Gradit",
+      "firstName": "Jonathan",
+      "lastName": "Gradit",
+      "shortName": "J. Gradit",
+      "position": "D",
+      "positionsDetailed": [
+        "DC",
+        "DR"
+      ],
+      "jerseyNumber": "24",
+      "shirtNumber": 24,
+      "height": 180,
+      "weight": 77,
+      "dateOfBirth": "1992-11-24T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 2900000,
+      "pentagon": null
+    },
+    {
+      "id": 1546405,
+      "name": "Kyllian Antonio",
+      "shortName": "K. Antonio",
+      "position": "D",
+      "positionsDetailed": [
+        "DR"
+      ],
+      "jerseyNumber": "32",
+      "shirtNumber": 32,
+      "height": 183,
+      "dateOfBirth": "2008-01-04T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 1400000,
+      "pentagon": null
+    },
+    {
+      "id": 1387161,
+      "name": "Robin Risser",
+      "firstName": "Robin Risser",
+      "shortName": "R. Risser",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "40",
+      "shirtNumber": 40,
+      "height": 193,
+      "dateOfBirth": "2004-12-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 26000000,
+      "pentagon": {
+        "tactical": 38,
+        "saves": 56,
+        "anticipation": 37,
+        "ballDistribution": 55,
+        "aerial": 56,
+        "position": "G",
+        "yearShift": 0,
+        "id": 19809
+      }
+    },
+    {
+      "id": 1961639,
+      "name": "Ilan Jourdren",
+      "firstName": "Ilan Jourdren",
+      "shortName": "I. Jourdren",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "60",
+      "shirtNumber": 60,
+      "height": 185,
+      "dateOfBirth": "2008-07-17T00:00:00+00:00",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 123226,
+      "name": "Mathieu Gorgelin",
+      "firstName": "Mathieu",
+      "lastName": "Gorgelin",
+      "shortName": "M. Gorgelin",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 187,
+      "weight": 83,
+      "dateOfBirth": "1990-08-05T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 260000,
+      "pentagon": null
+    },
+    {
+      "id": 14841,
+      "name": "Régis Gurtner",
+      "shortName": "R. Gurtner",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "height": 183,
+      "weight": 80,
+      "dateOfBirth": "1986-12-08T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "FR",
+        "alpha3": "FRA",
+        "name": "France",
+        "slug": "france"
+      },
+      "proposedMarketValue": 95000,
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:19:02.374Z"
+}

@@ -1,0 +1,614 @@
+{
+  "teamId": 1771,
+  "teamName": "Talleres",
+  "manager": {
+    "id": 810165,
+    "name": "Andreas Granqvist",
+    "shortName": "A. Granqvist",
+    "country": "Sweden",
+    "preferredFormation": "4-1-4-1",
+    "stats": {
+      "total": 69,
+      "wins": 25,
+      "draws": 19,
+      "losses": 25,
+      "goalsScored": 104,
+      "goalsConceded": 108,
+      "totalPoints": 94
+    },
+    "deceased": false
+  },
+  "players": [
+    {
+      "id": 1135618,
+      "name": "Oskar Ruuska",
+      "firstName": "Oskar Ruuska",
+      "shortName": "O. Ruuska",
+      "position": "F",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "8",
+      "shirtNumber": 8,
+      "dateOfBirth": "2004-02-13T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 53000,
+      "pentagon": {
+        "attacking": 61,
+        "technical": 54,
+        "tactical": 43,
+        "defending": 32,
+        "creativity": 46,
+        "position": "F",
+        "yearShift": 0,
+        "id": 19812
+      }
+    },
+    {
+      "id": 1127503,
+      "name": "Emil Orheim Jaf",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "E. O. Jaf",
+      "position": "F",
+      "positionsDetailed": [
+        "LW"
+      ],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "dateOfBirth": "2004-10-12T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "NO",
+        "alpha3": "NOR",
+        "name": "Norway",
+        "slug": "norway"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1841378,
+      "name": "Vincent Poppler",
+      "shortName": "V. Poppler",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "height": 196,
+      "dateOfBirth": "2001-09-01T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 105000,
+      "pentagon": null
+    },
+    {
+      "id": 1652696,
+      "name": "Oskar Gabrielsson",
+      "shortName": "O. Gabrielsson",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "height": 185,
+      "dateOfBirth": "2000-06-29T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 26000,
+      "pentagon": null
+    },
+    {
+      "id": 1483296,
+      "name": "Remo Gotfredsen Grgic",
+      "firstName": "Remo Gotfredsen Grgic",
+      "lastName": "",
+      "shortName": "R. G. Grgic",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "9",
+      "shirtNumber": 9,
+      "dateOfBirth": "2003-09-02T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 45000,
+      "pentagon": null
+    },
+    {
+      "id": 1429799,
+      "name": "Johannes Kack",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Käck",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "26",
+      "shirtNumber": 26,
+      "dateOfBirth": "2006-02-21T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 77000,
+      "pentagon": null
+    },
+    {
+      "id": 1799475,
+      "name": "Elliot Löfberg",
+      "shortName": "E. Löfberg",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "25",
+      "shirtNumber": 25,
+      "dateOfBirth": "2005-04-01T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1429797,
+      "name": "Ammar Asani",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "A. Asani",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "16",
+      "shirtNumber": 16,
+      "dateOfBirth": "2006-06-11T00:00:00+00:00",
+      "country": {
+        "alpha2": "AL",
+        "alpha3": "ALB",
+        "name": "Albania",
+        "slug": "albania"
+      },
+      "proposedMarketValue": 155000,
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1548881,
+      "name": "Viggo Karlsson",
+      "firstName": "Viggo Karlsson",
+      "shortName": "V. Karlsson",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "35",
+      "shirtNumber": 35,
+      "dateOfBirth": "2007-04-10T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1100257,
+      "name": "Sebastian Tipura",
+      "shortName": "S. Tipura",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "10",
+      "shirtNumber": 10,
+      "height": 183,
+      "dateOfBirth": "2004-02-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 49000,
+      "pentagon": null
+    },
+    {
+      "id": 2275000,
+      "name": "Altin Mehmeti",
+      "shortName": "A. Mehmeti",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "35",
+      "shirtNumber": 35,
+      "dateOfBirth": "2008-09-06T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2037571,
+      "name": "Alexander Baraslievski",
+      "firstName": "Alexander",
+      "lastName": "Baraslievski",
+      "shortName": "A. Baraslievski",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "27",
+      "shirtNumber": 27,
+      "dateOfBirth": "2005-12-13T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1126428,
+      "name": "Isak Ellbring",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "I. Ellbring",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "dateOfBirth": "2004-07-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1177761,
+      "name": "Johan Gudmundsson",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "J. Gudmundsson",
+      "position": "M",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "height": 186,
+      "dateOfBirth": "2002-09-15T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": {
+        "attacking": 52,
+        "technical": 55,
+        "tactical": 40,
+        "defending": 42,
+        "creativity": 51,
+        "position": "M",
+        "yearShift": 0,
+        "id": 19811
+      }
+    },
+    {
+      "id": 1026321,
+      "name": "Jacob Christiansen",
+      "shortName": "J. Christiansen",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "7",
+      "shirtNumber": 7,
+      "height": 186,
+      "weight": 68,
+      "dateOfBirth": "2000-11-15T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 986334,
+      "name": "Prince Balde",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "P. Balde",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "12",
+      "shirtNumber": 12,
+      "height": 187,
+      "dateOfBirth": "1998-03-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "LR",
+        "alpha3": "LBR",
+        "name": "Liberia",
+        "slug": "liberia"
+      },
+      "proposedMarketValue": 71000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1217836,
+      "name": "Abel Ogwuche",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "A. Ogwuche",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "5",
+      "shirtNumber": 5,
+      "height": 180,
+      "dateOfBirth": "2003-07-06T00:00:00+00:00",
+      "country": {
+        "alpha2": "NG",
+        "alpha3": "NGA",
+        "name": "Nigeria",
+        "slug": "nigeria"
+      },
+      "proposedMarketValue": 155000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1196779,
+      "name": "Donart Lubishtani",
+      "firstName": "Donart Lubishtani",
+      "lastName": "",
+      "shortName": "D. Lubishtani",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "height": 182,
+      "dateOfBirth": "2004-04-17T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "XK",
+        "alpha3": "XKX",
+        "name": "Kosovo",
+        "slug": "kosovo"
+      },
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 289063,
+      "name": "Oskar Sverrisson",
+      "shortName": "O. Sverrisson",
+      "position": "D",
+      "positionsDetailed": [
+        "DL"
+      ],
+      "jerseyNumber": "3",
+      "shirtNumber": 3,
+      "height": 184,
+      "dateOfBirth": "1992-11-26T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "IS",
+        "alpha3": "ISL",
+        "name": "Iceland",
+        "slug": "iceland"
+      },
+      "proposedMarketValue": 140000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 846780,
+      "name": "Johan Brannefalk",
+      "shortName": "J. Brannefalk",
+      "position": "D",
+      "positionsDetailed": [
+        "DR",
+        "MR"
+      ],
+      "jerseyNumber": "2",
+      "shirtNumber": 2,
+      "height": 179,
+      "weight": 75,
+      "dateOfBirth": "1997-12-09T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 260000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 809331,
+      "name": "Jesper Modig",
+      "shortName": "J. Modig",
+      "position": "D",
+      "positionsDetailed": [
+        "DC"
+      ],
+      "jerseyNumber": "38",
+      "shirtNumber": 38,
+      "height": 180,
+      "weight": 76,
+      "dateOfBirth": "1994-09-06T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 215000,
+      "pentagon": {
+        "attacking": 38,
+        "technical": 47,
+        "tactical": 47,
+        "defending": 59,
+        "creativity": 42,
+        "position": "D",
+        "yearShift": 0,
+        "id": 19810
+      }
+    },
+    {
+      "id": 1900653,
+      "name": "Abbe Rehn",
+      "shortName": "A. Rehn",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "4",
+      "shirtNumber": 4,
+      "height": 178,
+      "dateOfBirth": "2005-01-18T00:00:00+00:00",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 825903,
+      "name": "Malte Pahlsson",
+      "shortName": "M. Pahlsson",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "1",
+      "shirtNumber": 1,
+      "height": 183,
+      "dateOfBirth": "1999-06-02T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 140000,
+      "pentagon": null
+    },
+    {
+      "id": 1066032,
+      "name": "Nils Arvidsson",
+      "firstName": "",
+      "lastName": "",
+      "shortName": "N. Arvidsson",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "jerseyNumber": "30",
+      "shirtNumber": 30,
+      "height": 187,
+      "dateOfBirth": "2003-04-28T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "SE",
+        "alpha3": "SWE",
+        "name": "Sweden",
+        "slug": "sweden"
+      },
+      "proposedMarketValue": 77000,
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:27:53.054Z"
+}

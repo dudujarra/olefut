@@ -1,0 +1,618 @@
+{
+  "teamId": 2682,
+  "teamName": "Wolfsburg",
+  "manager": null,
+  "players": [
+    {
+      "id": 1153415,
+      "name": "Samuel Unsöld",
+      "shortName": "S. Unsöld",
+      "position": "F",
+      "positionsDetailed": [],
+      "height": 189,
+      "dateOfBirth": "2005-03-11T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 170000,
+      "pentagon": null
+    },
+    {
+      "id": 1960681,
+      "name": "Lirjon Abdullahu",
+      "shortName": "L. Abdullahu",
+      "position": "F",
+      "positionsDetailed": [],
+      "height": 183,
+      "dateOfBirth": "2008-04-06T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "XK",
+        "alpha3": "XKX",
+        "name": "Kosovo",
+        "slug": "kosovo"
+      },
+      "proposedMarketValue": 52000,
+      "pentagon": null
+    },
+    {
+      "id": 1864795,
+      "name": "Marlon Faß",
+      "firstName": "Marlon Faß",
+      "shortName": "M. Faß",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "17",
+      "shirtNumber": 17,
+      "height": 188,
+      "dateOfBirth": "2006-05-16T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 52000,
+      "pentagon": null
+    },
+    {
+      "id": 822563,
+      "name": "Meris Skenderović",
+      "firstName": "Meris",
+      "lastName": "Skenderovic",
+      "shortName": "M. Skenderović",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "height": 183,
+      "weight": 73,
+      "dateOfBirth": "1998-03-28T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "ME",
+        "alpha3": "MNE",
+        "name": "Montenegro",
+        "slug": "montenegro"
+      },
+      "proposedMarketValue": 91000,
+      "pentagon": null
+    },
+    {
+      "id": 187439,
+      "name": "Christian Mauersberger",
+      "firstName": "Christian",
+      "lastName": "Mauersberger",
+      "shortName": "C. Mauersberger",
+      "position": "F",
+      "positionsDetailed": [
+        "AM",
+        "MR",
+        "ML"
+      ],
+      "height": 170,
+      "weight": 63,
+      "dateOfBirth": "1995-04-20T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 140000,
+      "pentagon": null
+    },
+    {
+      "id": 1513267,
+      "name": "David Stojak",
+      "shortName": "D. Stojak",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "29",
+      "shirtNumber": 29,
+      "height": 190,
+      "dateOfBirth": "2004-10-28T00:00:00+00:00",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 52000,
+      "pentagon": null
+    },
+    {
+      "id": 988100,
+      "name": "Flamur Berisha",
+      "shortName": "F. Berisha",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "37",
+      "shirtNumber": 37,
+      "height": 180,
+      "dateOfBirth": "1999-11-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 110000,
+      "pentagon": null
+    },
+    {
+      "id": 1391798,
+      "name": "Marian Riedinger",
+      "firstName": "Marian Riedinger",
+      "lastName": "",
+      "shortName": "M. Riedinger",
+      "position": "F",
+      "positionsDetailed": [],
+      "jerseyNumber": "11",
+      "shirtNumber": 11,
+      "height": 172,
+      "dateOfBirth": "2001-08-24T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 26000,
+      "pentagon": null
+    },
+    {
+      "id": 103469,
+      "name": "David Braig",
+      "firstName": "David",
+      "lastName": "Braig",
+      "shortName": "D. Braig",
+      "position": "F",
+      "positionsDetailed": [
+        "ST"
+      ],
+      "jerseyNumber": "22",
+      "shirtNumber": 22,
+      "height": 185,
+      "dateOfBirth": "1991-07-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 81000,
+      "pentagon": null
+    },
+    {
+      "id": 2516230,
+      "name": "Hartmut Weiss",
+      "firstName": "Hartmut",
+      "shortName": "H. Weiss",
+      "position": "F",
+      "positionsDetailed": [],
+      "height": 187,
+      "dateOfBirth": "1942-01-13T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1083389,
+      "name": "Melkamu Frauendorf",
+      "firstName": "Melkamu Frauendorf",
+      "lastName": "",
+      "shortName": "M. Frauendorf",
+      "position": "M",
+      "positionsDetailed": [
+        "RW"
+      ],
+      "jerseyNumber": "14",
+      "shirtNumber": 14,
+      "height": 180,
+      "dateOfBirth": "2004-01-12T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 130000,
+      "pentagon": null
+    },
+    {
+      "id": 901883,
+      "name": "Maximilian Zaiser",
+      "firstName": "Maximilian",
+      "lastName": "Zaiser",
+      "shortName": "M. Zaiser",
+      "position": "M",
+      "positionsDetailed": [
+        "MC"
+      ],
+      "jerseyNumber": "18",
+      "shirtNumber": 18,
+      "height": 176,
+      "dateOfBirth": "1999-03-08T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 165000,
+      "pentagon": null
+    },
+    {
+      "id": 930278,
+      "name": "Per Lockl",
+      "firstName": "Per",
+      "lastName": "Lockl",
+      "shortName": "P. Lockl",
+      "position": "M",
+      "positionsDetailed": [
+        "DM",
+        "MC",
+        "AM"
+      ],
+      "jerseyNumber": "20",
+      "shirtNumber": 20,
+      "height": 174,
+      "dateOfBirth": "2001-03-07T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 215000,
+      "pentagon": null
+    },
+    {
+      "id": 886021,
+      "name": "David Tomić",
+      "shortName": "D. Tomić",
+      "position": "M",
+      "positionsDetailed": [
+        "LW",
+        "RW",
+        "ST"
+      ],
+      "height": 174,
+      "weight": 69,
+      "dateOfBirth": "1998-02-09T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 120000,
+      "pentagon": null
+    },
+    {
+      "id": 142145,
+      "name": "Lukas Kiefer",
+      "firstName": "Lukas",
+      "lastName": "Kiefer",
+      "shortName": "L. Kiefer",
+      "position": "M",
+      "positionsDetailed": [
+        "DM",
+        "MR",
+        "MC"
+      ],
+      "jerseyNumber": "28",
+      "shirtNumber": 28,
+      "height": 178,
+      "weight": 77,
+      "dateOfBirth": "1993-04-25T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 94000,
+      "pentagon": null
+    },
+    {
+      "id": 1083983,
+      "name": "Nico Fundel",
+      "firstName": "Nico",
+      "lastName": "Fundel",
+      "shortName": "N. Fundel",
+      "position": "M",
+      "positionsDetailed": [],
+      "jerseyNumber": "19",
+      "shirtNumber": 19,
+      "country": {},
+      "pentagon": null
+    },
+    {
+      "id": 1130955,
+      "name": "Milan Petrovic",
+      "firstName": "Milan Petrovic",
+      "lastName": "",
+      "shortName": "M. Petrović",
+      "position": "D",
+      "positionsDetailed": [],
+      "height": 189,
+      "dateOfBirth": "2002-11-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 93000,
+      "pentagon": null
+    },
+    {
+      "id": 1807294,
+      "name": "Mario Borac",
+      "firstName": "Mario",
+      "lastName": "Borac",
+      "shortName": "M. Borac",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "36",
+      "shirtNumber": 36,
+      "height": 186,
+      "dateOfBirth": "2005-12-02T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "HR",
+        "alpha3": "HRV",
+        "name": "Croatia",
+        "slug": "croatia"
+      },
+      "proposedMarketValue": 140000,
+      "pentagon": null
+    },
+    {
+      "id": 1899422,
+      "name": "Jacob Danquah",
+      "firstName": "Jacob Danquah",
+      "shortName": "J. Danquah",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "21",
+      "shirtNumber": 21,
+      "height": 194,
+      "dateOfBirth": "2005-02-06T00:00:00+00:00",
+      "preferredFoot": "Both",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 48000,
+      "pentagon": null
+    },
+    {
+      "id": 838698,
+      "name": "Nico Blank",
+      "firstName": "Nico",
+      "lastName": "Blank",
+      "shortName": "N. Blank",
+      "position": "D",
+      "positionsDetailed": [
+        "DM",
+        "MR",
+        "DR"
+      ],
+      "jerseyNumber": "15",
+      "shirtNumber": 15,
+      "height": 178,
+      "dateOfBirth": "1997-04-13T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 160000,
+      "pentagon": null
+    },
+    {
+      "id": 1154552,
+      "name": "Vincent Schwab",
+      "firstName": "Vincent",
+      "lastName": "Schwab",
+      "shortName": "V. Schwab",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "24",
+      "shirtNumber": 24,
+      "height": 191,
+      "dateOfBirth": "2003-12-10T00:00:00+00:00",
+      "preferredFoot": "Left",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 96000,
+      "pentagon": null
+    },
+    {
+      "id": 2461211,
+      "name": "Oliver Dittberner",
+      "firstName": "Oliver Dittberner",
+      "shortName": "O. Dittberner",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "1968-10-18T00:00:00+00:00",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2576976,
+      "name": "David Udogu",
+      "shortName": "D. Udogu",
+      "position": "D",
+      "positionsDetailed": [],
+      "jerseyNumber": "27",
+      "shirtNumber": 27,
+      "dateOfBirth": "2003-01-30T00:00:00+00:00",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 2576979,
+      "name": "Ardi Mulaj",
+      "firstName": "Ardi Mulaj",
+      "shortName": "A. Mulaj",
+      "position": "D",
+      "positionsDetailed": [],
+      "dateOfBirth": "2007-01-11T00:00:00+00:00",
+      "country": {
+        "alpha2": "AL",
+        "alpha3": "ALB",
+        "name": "Albania",
+        "slug": "albania"
+      },
+      "pentagon": null
+    },
+    {
+      "id": 1385603,
+      "name": "Bela Dumrath",
+      "firstName": "Bela",
+      "lastName": "Dumrath",
+      "shortName": "B. Dumrath",
+      "position": "G",
+      "positionsDetailed": [],
+      "jerseyNumber": "35",
+      "shirtNumber": 35,
+      "height": 198,
+      "weight": 91,
+      "dateOfBirth": "2003-11-18T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 96000,
+      "pentagon": null
+    },
+    {
+      "id": 148952,
+      "name": "Felix Dornebusch",
+      "firstName": "Felix",
+      "lastName": "Dornebusch",
+      "shortName": "F. Dornebusch",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "height": 189,
+      "weight": 75,
+      "dateOfBirth": "1994-07-12T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 170000,
+      "pentagon": null
+    },
+    {
+      "id": 1535559,
+      "name": "David Mitrovic",
+      "firstName": "David Mitrovic",
+      "shortName": "D. Mitrovic",
+      "position": "G",
+      "positionsDetailed": [],
+      "height": 187,
+      "dateOfBirth": "2006-03-05T00:00:00+00:00",
+      "country": {
+        "alpha2": "HR",
+        "alpha3": "HRV",
+        "name": "Croatia",
+        "slug": "croatia"
+      },
+      "proposedMarketValue": 52000,
+      "pentagon": null
+    },
+    {
+      "id": 147438,
+      "name": "Thomas Bromma",
+      "firstName": "Thomas",
+      "lastName": "Bromma",
+      "shortName": "T. Bromma",
+      "position": "G",
+      "positionsDetailed": [
+        "GK"
+      ],
+      "height": 194,
+      "dateOfBirth": "1992-09-22T00:00:00+00:00",
+      "preferredFoot": "Right",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "proposedMarketValue": 49000,
+      "pentagon": null
+    },
+    {
+      "id": 2363508,
+      "name": "Leon Neaime",
+      "firstName": "Leon",
+      "lastName": "Neaime",
+      "shortName": "L. Neaime",
+      "position": "G",
+      "positionsDetailed": [],
+      "dateOfBirth": "2004-10-29T00:00:00+00:00",
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "pentagon": null
+    }
+  ],
+  "scrapedAt": "2026-05-09T02:13:16.876Z"
+}
