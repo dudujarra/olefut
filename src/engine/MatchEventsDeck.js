@@ -3,6 +3,8 @@ import { MatchCardsMEI } from './decks/MatchCardsMEI';
 import { MatchCardsDEF } from './decks/MatchCardsDEF';
 import { MatchCardsGOL } from './decks/MatchCardsGOL';
 
+import { rng as systemRng } from './rng.js';
+
 export const MatchEventsDeck = {
     ATA: MatchCardsATA,
     MEI: MatchCardsMEI,
@@ -34,7 +36,7 @@ export function drawCard(position, renown = 0, personality = null) {
 
     // Weighted random by tier
     const totalWeight = eligible.reduce((sum, card) => sum + (TIER_WEIGHTS[card.tier] || 10), 0);
-    let roll = Math.random() * totalWeight;
+    let roll = systemRng() * totalWeight;
 
     for (const card of eligible) {
         roll -= (TIER_WEIGHTS[card.tier] || 10);

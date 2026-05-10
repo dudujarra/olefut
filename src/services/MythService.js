@@ -1,3 +1,4 @@
+import { rng as systemRng } from '../engine/rng.js';
 /**
  * MythService — Camada 5 (Mito) Hall de Lendas
  *
@@ -162,7 +163,7 @@ export class MythService {
      */
     generateRegenChild(engineOrSave, parentPlayerId, ctx = {}) {
         if (!engineOrSave) return { success: false, msg: 'engineOrSave null' };
-        const rng = ctx.rng || Math.random;
+        const rng = ctx.rng || systemRng;
 
         // Find parent: squad first, retired second
         let parent = null;

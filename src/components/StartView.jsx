@@ -5,6 +5,8 @@ import { PERSONALITIES } from '../engine/PlayerCareer';
 import { isTutorialDone } from './TutorialView';
 import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
 
+import shieldVictory from '../assets/shields/shield_fc_victory_1778397684331.png';
+
 export function StartView() {
     const { startGame, changeView } = useGame();
     const [name, setName] = useState('');
@@ -36,9 +38,10 @@ export function StartView() {
     };
 
     return (
-        <div className="start-view ef-anim-fade-in ef-art-bg ef-art-champion-celebration">
-            <h1 className="ef-anim-pop-in">ELIFOOT</h1>
-            <p className="ef-anim-slide-down">Soccer Manager RPG</p>
+        <div className="start-view ef-anim-fade-in ef-art-bg ef-art-champion-celebration" style={{background: 'var(--bg-dark)'}}>
+            <img src={shieldVictory} alt="OléFUT Shield" style={{width: '120px', height: '120px', marginBottom: '1rem', borderRadius: '2rem', boxShadow: '0 0 30px var(--primary-glow)'}} className="ef-anim-slide-down" />
+            <h1 className="ef-anim-pop-in" style={{fontSize: '4rem', color: '#FDFBF7', textShadow: '0 4px 0 var(--primary-dark), 0 0 40px var(--primary-glow)'}}>OléFUT</h1>
+            <p className="ef-anim-slide-down" style={{letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--primary)'}}>Arcade Manager RPG</p>
             <div className="start-form ef-anim-slide-up">
                 <div className="mode-selector">
                     <button className={`mode-btn ${mode === 'manager' ? 'active' : ''}`} onClick={() => setMode('manager')}>🧑‍💼 Treinador</button>

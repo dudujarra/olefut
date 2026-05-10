@@ -16,6 +16,8 @@
 
 import { AdaptiveBrain } from './AdaptiveBrain.js';
 
+import { rng as systemRng } from '../../engine/rng.js';
+
 const STORAGE_KEY = 'elifoot_genetic_state';
 const DEFAULT_POPULATION = 4;
 const MUTATION_RATE = 0.05;
@@ -49,7 +51,7 @@ export class GeneticTournament {
         states.forEach(s => {
             seed[s] = {};
             actions.forEach(a => {
-                seed[s][a] = (Math.random() - 0.5) * 10; // [-5, 5]
+                seed[s][a] = (systemRng() - 0.5) * 10; // [-5, 5]
             });
         });
         return seed;
@@ -69,7 +71,7 @@ export class GeneticTournament {
             }
         }
         // Add noise so duplicate Q-tables don't tie deterministically
-        score += (Math.random() - 0.5) * seasonsPerBot;
+        score += (systemRng() - 0.5) * seasonsPerBot;
         return score;
     }
 
@@ -86,7 +88,7 @@ export class GeneticTournament {
         for (const stateKey of allStates) {
             const fromA = parentA.qTable[stateKey];
             const fromB = parentB.qTable[stateKey];
-            const source = Math.random() < 0.5 ? (fromA || fromB) : (fromB || fromA);
+            const source = systemRng() < 0.5 ? (fromA || fromB) : (fromB || fromA);
             if (source) {
                 child.qTable[stateKey] = { ...source };
             }
@@ -100,8 +102,8 @@ export class GeneticTournament {
     mutate(brain) {
         for (const stateKey of Object.keys(brain.qTable)) {
             for (const actionKey of Object.keys(brain.qTable[stateKey])) {
-                if (Math.random() < MUTATION_RATE) {
-                    const noise = (Math.random() - 0.5) * 2;
+                if (systemRng() < MUTATION_RATE) {
+                    const noise = (systemRng() - 0.5) * 2;
                     brain.qTable[stateKey][actionKey] += noise;
                 }
             }

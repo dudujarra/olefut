@@ -32,6 +32,8 @@ import { evaluate as evaluateLossStreak, recordResult as recordStreakResult } fr
 import { evaluate as evaluateCoachProposal } from '../engine/CoachProposalSystem';
 import { evaluate as evaluateOrganicChallenge } from '../engine/OrganicChallengeSystem';
 
+import { rng as systemRng } from '../engine/rng.js';
+
 export class WeekProcessor {
     /**
      * Processa semana do modo manager.
@@ -46,7 +48,7 @@ export class WeekProcessor {
         // Energy management based on training
         team.squad.forEach(p => {
             if (p.isTitular) {
-                p.energy = Math.max(0, p.energy - (Math.floor(Math.random() * 10) + 12));
+                p.energy = Math.max(0, p.energy - (Math.floor(systemRng() * 10) + 12));
             } else {
                 p.energy = Math.min(100, p.energy + 12);
             }
@@ -281,6 +283,9 @@ export class WeekProcessor {
                     engine.managerStats.wins++;
                     engine.managerStats.streak = Math.max(0, engine.managerStats.streak) + 1;
                     engine.managerStats.lossStreak = 0;
+                    if (!engine.managerStats.rollingForm) engine.managerStats.rollingForm = [];
+                    engine.managerStats.rollingForm.push('W');
+                    if (engine.managerStats.rollingForm.length > 10) engine.managerStats.rollingForm.shift();
                     recordStreakResult({ teamId: team.id, result: 'W' });
                     team.squad.forEach(p => {
                         p.moral = Math.min(100, (p.moral || 50) + 3);
@@ -298,6 +303,9 @@ export class WeekProcessor {
                     engine.managerStats.losses++;
                     engine.managerStats.streak = Math.min(0, engine.managerStats.streak) - 1;
                     engine.managerStats.lossStreak = (engine.managerStats.lossStreak || 0) + 1;
+                    if (!engine.managerStats.rollingForm) engine.managerStats.rollingForm = [];
+                    engine.managerStats.rollingForm.push('L');
+                    if (engine.managerStats.rollingForm.length > 10) engine.managerStats.rollingForm.shift();
                     recordStreakResult({ teamId: team.id, result: 'L' });
                     team.squad.forEach(p => {
                         p.moral = Math.max(0, (p.moral || 50) - 3);
@@ -363,6 +371,9 @@ export class WeekProcessor {
                 } else {
                     engine.managerStats.draws++;
                     engine.managerStats.streak = 0;
+                    if (!engine.managerStats.rollingForm) engine.managerStats.rollingForm = [];
+                    engine.managerStats.rollingForm.push('D');
+                    if (engine.managerStats.rollingForm.length > 10) engine.managerStats.rollingForm.shift();
                     recordStreakResult({ teamId: team.id, result: 'D' });
                     team.squad.filter(p => p.isTitular).forEach(p => updateForm(p, 0));
                 }

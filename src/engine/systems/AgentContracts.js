@@ -1,3 +1,4 @@
+import { rng as systemRng } from '../rng.js';
 /**
  * AgentContracts — SPEC-064
  *
@@ -13,17 +14,17 @@ export const AGENT_PERSONALITIES = {
 
 export function generateAgent() {
     const personalities = Object.keys(AGENT_PERSONALITIES);
-    const personality = personalities[Math.floor(Math.random() * personalities.length)];
+    const personality = personalities[Math.floor(systemRng() * personalities.length)];
     const firstNames = ['Patrícia', 'Fernando', 'Cláudia', 'Roberto', 'Marina', 'Eduardo'];
     const lastNames = ['Lemos', 'Andrade', 'Pereira', 'Costa', 'Silva', 'Mendes'];
-    const fname = firstNames[Math.floor(Math.random() * firstNames.length)];
-    const lname = lastNames[Math.floor(Math.random() * lastNames.length)];
+    const fname = firstNames[Math.floor(systemRng() * firstNames.length)];
+    const lname = lastNames[Math.floor(systemRng() * lastNames.length)];
     return {
-        id: `agent_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        id: `agent_${Date.now()}_${systemRng().toString(36).slice(2, 8)}`,
         name: `${fname} ${lname}`,
         personality,
         ...AGENT_PERSONALITIES[personality],
-        cut: 0.10 + Math.random() * 0.05 // 10-15% cut
+        cut: 0.10 + systemRng() * 0.05 // 10-15% cut
     };
 }
 

@@ -1,3 +1,4 @@
+import { rng as systemRng } from '../engine/rng.js';
 /**
  * BrazilianPercussion.js
  * Brazilian percussion sampler: surdo, tamborim, agogô, caixa
@@ -104,7 +105,7 @@ export class BrazilianPercussion {
       const t = i / 44100;
       const envelope = Math.exp(-t / decay);
       // Noise burst
-      const noise = Math.random() * 2 - 1;
+      const noise = systemRng() * 2 - 1;
       // Mix with sine
       const sine = Math.sin(2 * Math.PI * 200 * t);
       data[i] = (noise * 0.6 + sine * 0.4) * envelope;
@@ -150,7 +151,7 @@ export class BrazilianPercussion {
       });
 
       // Add noise
-      wave += (Math.random() * 2 - 1) * 0.2;
+      wave += (systemRng() * 2 - 1) * 0.2;
       data[i] = wave * envelope;
     }
 

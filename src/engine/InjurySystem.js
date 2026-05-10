@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * InjurySystem.js — Lesões e recuperação
  * Inspirado em FM (severity tiers) + Elifoot (simplicidade)
@@ -32,15 +33,15 @@ export function rollInjury(player, context = 'match') {
     if (player.age > 32) chance *= 1.5; // veterano
     if (player.age < 20) chance *= 0.7; // jovem
 
-    if (Math.random() > chance) return null;
+    if (systemRng() > chance) return null;
 
     // Severidade: energia baixa = lesão mais grave
     const severityPool = player.energy < 30
         ? INJURY_TYPES // todas possíveis
         : INJURY_TYPES.filter(t => t.maxWeeks <= 4); // só leves
 
-    const type = severityPool[Math.floor(Math.random() * severityPool.length)];
-    const weeks = type.minWeeks + Math.floor(Math.random() * (type.maxWeeks - type.minWeeks + 1));
+    const type = severityPool[Math.floor(systemRng() * severityPool.length)];
+    const weeks = type.minWeeks + Math.floor(systemRng() * (type.maxWeeks - type.minWeeks + 1));
 
     return {
         type: type.id,

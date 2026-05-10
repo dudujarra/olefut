@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * ChronicleSystem — SPEC-082: Crônica do Save
  *
@@ -91,7 +92,7 @@ export function generate({ season = 1, clubName = 'Clube', managerName = 'Técni
 // ─── helpers ────────────────────────────────────────────────
 
 function pick(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+    return arr[Math.floor(systemRng() * arr.length)];
 }
 
 function interpolate(template, vars) {

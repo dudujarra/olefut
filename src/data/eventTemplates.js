@@ -18,6 +18,8 @@
 import { EVENT_TYPES } from './eventTypes';
 import { EVENT_TAGS } from './eventTags';
 
+import { rng as systemRng } from '../engine/rng.js';
+
 export const EVENT_TEMPLATES = Object.freeze([
     // ========================================================================
     // PLAYER_GOAL_DECISIVE (8 templates)
@@ -760,7 +762,7 @@ export function getTemplatesByType(eventType) {
 /**
  * Pick random template by event type (with optional rng).
  */
-export function pickRandomTemplate(eventType, rng = Math.random) {
+export function pickRandomTemplate(eventType, rng = systemRng) {
     const pool = getTemplatesByType(eventType);
     if (pool.length === 0) return null;
     return pool[Math.floor(rng() * pool.length)];

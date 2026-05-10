@@ -5,6 +5,8 @@
 
 import { Data } from './data';
 
+import { rng as systemRng } from './rng.js';
+
 // NPC: Coordenador da Base
 export const YOUTH_COORDINATOR = { name: "Roberto Menezes", role: "Coord. da Base", emoji: "🎓" };
 
@@ -17,35 +19,35 @@ const YOUTH_PERSONALITIES = ["Profissional", "Ambicioso", "Casual", "Determinado
  * @returns {object[]} array de jovens
  */
 export function generateYouthIntake(academyLevel = 1, clubReputation = 50) {
-    const count = 1 + Math.floor(Math.random() * academyLevel); // 1 a academyLevel jovens
+    const count = 1 + Math.floor(systemRng() * academyLevel); // 1 a academyLevel jovens
     const youngsters = [];
 
     for (let i = 0; i < count; i++) {
         const positions = ['GOL', 'DEF', 'MEI', 'ATA'];
-        const pos = positions[Math.floor(Math.random() * positions.length)];
+        const pos = positions[Math.floor(systemRng() * positions.length)];
 
         // Tier baseado no nível da base
-        const qualityRoll = Math.random() * (academyLevel + clubReputation / 25);
+        const qualityRoll = systemRng() * (academyLevel + clubReputation / 25);
         const tier = qualityRoll > 4 ? 1 : qualityRoll > 2.5 ? 2 : 3;
 
         const player = Data.generatePlayer(pos, tier);
 
         // Sobrescrever dados para jovem
-        player.age = 15 + Math.floor(Math.random() * 3); // 15-17
-        player.ovr = Math.max(35, player.ovr - 15 - Math.floor(Math.random() * 10));
-        player.potential = player.ovr + 10 + Math.floor(Math.random() * 25); // potencial escondido
-        player.personality = YOUTH_PERSONALITIES[Math.floor(Math.random() * YOUTH_PERSONALITIES.length)];
+        player.age = 15 + Math.floor(systemRng() * 3); // 15-17
+        player.ovr = Math.max(35, player.ovr - 15 - Math.floor(systemRng() * 10));
+        player.potential = player.ovr + 10 + Math.floor(systemRng() * 25); // potencial escondido
+        player.personality = YOUTH_PERSONALITIES[Math.floor(systemRng() * YOUTH_PERSONALITIES.length)];
         player.isYouth = true;
         player.energy = 100;
         player.moral = 70;
         player.isTitular = false;
         player.injury = null;
         player.contract = { weeksLeft: 76, salary: 2000 }; // 2 temporadas
-        player.value = 500000 + Math.floor(Math.random() * 2000000);
+        player.value = 500000 + Math.floor(systemRng() * 2000000);
 
         // Ajustar atributos para jovem (mais baixos)
         Object.keys(player.attributes).forEach(attr => {
-            player.attributes[attr] = Math.max(20, player.attributes[attr] - 10 + Math.floor(Math.random() * 5));
+            player.attributes[attr] = Math.max(20, player.attributes[attr] - 10 + Math.floor(systemRng() * 5));
         });
 
         youngsters.push(player);
@@ -112,11 +114,11 @@ export function processLoans(loans, team) {
             const isYoung = player.age < 21;
             const growthChance = isYoung ? 0.7 : 0.3;
 
-            if (Math.random() < growthChance) {
+            if (systemRng() < growthChance) {
                 // Sucesso: +1 a +3 OVR
-                const boost = 1 + Math.floor(Math.random() * 3);
+                const boost = 1 + Math.floor(systemRng() * 3);
                 Object.keys(player.attributes).forEach(attr => {
-                    player.attributes[attr] = Math.min(99, player.attributes[attr] + Math.floor(Math.random() * (boost + 1)));
+                    player.attributes[attr] = Math.min(99, player.attributes[attr] + Math.floor(systemRng() * (boost + 1)));
                 });
                 player.ovr = Math.min(99, player.ovr + boost);
                 player.loanResult = `✅ ${player.name} voltou de ${loan.destination} melhorado (+${boost} OVR)!`;
@@ -143,5 +145,5 @@ function getRandomLoanDest() {
         "Vila Nova", "Tombense", "Operário", "Brusque", "Novorizontino",
         "Londrina", "ABC", "Sampaio Corrêa", "CSA", "Juventude",
     ];
-    return dests[Math.floor(Math.random() * dests.length)];
+    return dests[Math.floor(systemRng() * dests.length)];
 }

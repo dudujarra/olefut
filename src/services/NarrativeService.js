@@ -19,6 +19,8 @@ import { isValidEventType, EVENT_TYPES } from '../data/eventTypes';
 import { validateTags } from '../data/eventTags';
 import { getEventTemplate, pickRandomTemplate } from '../data/eventTemplates';
 
+import { rng as systemRng } from '../engine/rng.js';
+
 const HALF_LIFE_DAYS = Object.freeze({
     PLAYER_TRANSFER_TO_RIVAL: { days: 730, floor: 0.15 },
     PLAYER_GOAL_DECISIVE: { days: 365, floor: 0.05 },
@@ -153,7 +155,7 @@ export class NarrativeService {
      * @param {object} ctx — { actors, witnesses, slots, rng }
      */
     appendRandomEvent(engineOrSave, eventType, ctx = {}) {
-        const rng = ctx.rng || Math.random;
+        const rng = ctx.rng || systemRng;
         const tpl = pickRandomTemplate(eventType, rng);
         if (!tpl) return { success: false, msg: `sem templates pra tipo: ${eventType}` };
         return this.appendEventFromTemplate(engineOrSave, tpl.id, ctx);

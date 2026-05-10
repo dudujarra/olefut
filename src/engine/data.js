@@ -1,3 +1,6 @@
+import { rng } from './rng';
+import { calcMarketValue } from './MarketPricer';
+
 export const Data = {
     firstNames: [
         "João", "Pedro", "Lucas", "Mateus", "Marcos", "Gabriel", "Rafael", "Felipe", "Thiago",
@@ -14,8 +17,8 @@ export const Data = {
     positions: ["GOL", "DEF", "DEF", "DEF", "DEF", "MEI", "MEI", "MEI", "ATA", "ATA", "ATA"],
 
     generatePlayerName() {
-        const first = this.firstNames[Math.floor(Math.random() * this.firstNames.length)];
-        const last = this.lastNames[Math.floor(Math.random() * this.lastNames.length)];
+        const first = rng.pick(this.firstNames);
+        const last = rng.pick(this.lastNames);
         return `${first} ${last}`;
     },
 
@@ -23,16 +26,15 @@ export const Data = {
         // tier: 1 (top) to 4 (low). Affects base attribute range.
         const baseMin = Math.max(20, 80 - (tier * 15));
         const baseMax = Math.min(99, 95 - (tier * 10));
-        const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-        const age = rand(18, 35);
+        const age = rng.int(18, 35);
 
         const attributes = {
-            FIS: rand(baseMin, baseMax),
-            DEF: rand(baseMin, baseMax),
-            CRI: rand(baseMin, baseMax),
-            FIN: rand(baseMin, baseMax),
-            REF: rand(baseMin, baseMax)
+            FIS: rng.int(baseMin, baseMax),
+            DEF: rng.int(baseMin, baseMax),
+            CRI: rng.int(baseMin, baseMax),
+            FIN: rng.int(baseMin, baseMax),
+            REF: rng.int(baseMin, baseMax)
         };
 
         // Peso posicional no Overall
@@ -45,20 +47,28 @@ export const Data = {
             default: ovr = Math.floor((attributes.FIS + attributes.DEF + attributes.CRI + attributes.FIN + attributes.REF) / 5);
         }
 
-        const salary = Math.floor((ovr * ovr) * 5 + (age > 30 ? -ovr * 20 : 0));
-        const value = Math.floor(salary * (35 - age) * 2);
+        // BUG-FIX: salary was negative for old low-OVR players; enforce floor
+        const salary = Math.max(2000, Math.floor((ovr * ovr) * 5 + (age > 30 ? -ovr * 20 : 0)));
+
+        // §3.2: Potential — ceiling for development. Hidden from player.
+        // Higher tier → higher potential spread. Young players get more headroom.
+        const potentialBonus = age < 22 ? rng.int(10, 30) : age < 27 ? rng.int(5, 15) : rng.int(0, 5);
+        const potential = Math.min(99, ovr + potentialBonus);
+
+        const value = calcMarketValue({ playerOvr: ovr, playerAge: age, playerPotential: potential, playerContract: 52, playerForm: 0 });
 
         return {
-            id: Math.random().toString(36).substr(2, 9),
+            id: rng.int(100000, 999999).toString(36) + rng.int(100000, 999999).toString(36),
             name: this.generatePlayerName(),
             position,
             attributes,
             ovr,
+            potential,
             age,
             energy: 100,
-            moral: 70 + rand(-10, 10),
+            moral: 70 + rng.int(-10, 10),
             salary,
-            value: Math.max(100000, value),
+            value,
             isTitular: false
         };
     },
@@ -67,7 +77,7 @@ export const Data = {
         const squad = [];
         const formation = ["GOL", "DEF", "DEF", "DEF", "DEF", "MEI", "MEI", "MEI", "ATA", "ATA", "ATA"];
         // 11 titulares
-        formation.forEach((pos, i) => {
+        formation.forEach((pos) => {
             const p = this.generatePlayer(pos, tier);
             p.isTitular = true;
             squad.push(p);

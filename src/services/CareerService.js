@@ -9,6 +9,8 @@
 
 import { CareerTransition } from './CareerTransition';
 
+import { rng as systemRng } from '../engine/rng.js';
+
 export class CareerService {
     constructor({ mythService = null, relationshipService = null, narrativeService = null } = {}) {
         this._mythService = mythService;
@@ -109,7 +111,7 @@ export class CareerService {
         engineOrSave.managerCareer = engineOrSave.managerCareer || { history: [], offers: [] };
         engineOrSave.managerCareer.offers = engineOrSave.managerCareer.offers || [];
         engineOrSave.managerCareer.offers.push({
-            id: `offer_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+            id: `offer_${Date.now()}_${systemRng().toString(36).slice(2, 8)}`,
             ...offer,
             createdAt: Date.now()
         });

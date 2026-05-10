@@ -1,3 +1,4 @@
+import { rng as systemRng } from '../../engine/rng.js';
 /**
  * AdaptiveBrain — SPEC-115 + SPEC-116 + SPEC-117
  *
@@ -252,8 +253,8 @@ export class AdaptiveBrain {
 
         // Cold start: state unseen → uniform random
         const visits = this.visitCount[stateKey] || 0;
-        if (visits < 3 || Math.random() < EPSILON) {
-            return availableActions[Math.floor(Math.random() * availableActions.length)];
+        if (visits < 3 || systemRng() < EPSILON) {
+            return availableActions[Math.floor(systemRng() * availableActions.length)];
         }
 
         // Exploit: pick action with highest Q + goal-modulated score

@@ -1,5 +1,7 @@
 import { Tournament } from './Tournament';
 
+import { rng as systemRng } from '../rng.js';
+
 export class KnockoutCup extends Tournament {
     constructor(id, name, scheduleWeeks) {
         super(id, name);
@@ -15,7 +17,7 @@ export class KnockoutCup extends Tournament {
 
     createKnockoutRound(teams) {
         const matches = [];
-        const shuffled = [...teams].sort(() => 0.5 - Math.random());
+        const shuffled = [...teams].sort(() => 0.5 - systemRng());
         for (let i = 0; i < shuffled.length; i += 2) {
             if (shuffled[i + 1]) {
                 matches.push({ home: shuffled[i], away: shuffled[i + 1], score: null, played: false });
@@ -44,7 +46,7 @@ export class KnockoutCup extends Tournament {
                 results.push(m);
                 const winnerId = result.homeGoals > result.awayGoals ? m.home :
                     result.awayGoals > result.homeGoals ? m.away :
-                        (Math.random() > 0.5 ? m.home : m.away); // penalties
+                        (systemRng() > 0.5 ? m.home : m.away); // penalties
                 nextPhaseTeams.push(winnerId);
             }
         });

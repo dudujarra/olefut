@@ -1,3 +1,4 @@
+import { rng as systemRng } from '../../engine/rng.js';
 /**
  * Headlines Templates — SPEC-077 Sprint P
  *
@@ -135,7 +136,7 @@ export function generateHeadline(category, vars = {}) {
     if (!templates || templates.length === 0) {
         return `📰 ${category}: ${JSON.stringify(vars).slice(0, 50)}`;
     }
-    const tpl = templates[Math.floor(Math.random() * templates.length)];
+    const tpl = templates[Math.floor(systemRng() * templates.length)];
     return tpl.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? `{${k}}`);
 }
 

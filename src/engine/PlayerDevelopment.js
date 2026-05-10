@@ -1,13 +1,17 @@
 /**
  * PlayerDevelopment.js — Aging, Form, Development, Retirement
  * 
- * Ciclo de vida completo do jogador:
- * - Crescimento (16-24): atributos sobem gradualmente
- * - Pico (25-30): estável
- * - Declínio (31+): atributos começam a cair
- * - Aposentadoria (35-40): chance crescente de se aposentar
+ * §3 do Game Design Document — Player Development Science:
+ * - Crescimento: CA → PA asymptotic (últimos 5% são os mais difíceis)
+ * - Curvas de idade DIFERENTES por posição (§3.1)
+ * - Physical stats declinam rápido; mental stats podem SUBIR após 30
+ * - Individual variance (σ = 1-3 anos around peak)
+ * - Aposentadoria: 35-40 com chance crescente (goleiros até 38)
  * - Form: hot/cold streaks baseado em performance
  */
+
+import { rng } from './rng';
+import { calcMarketValue } from './MarketPricer.js';
 
 const PERSONALITY_GROWTH = {
     "Profissional": 1.3,     // treina mais, cresce mais
@@ -18,47 +22,134 @@ const PERSONALITY_GROWTH = {
 };
 
 /**
- * Processa desenvolvimento semanal de um jogador.
+ * §3.1: Position-specific age curves.
+ * peak = center of peak zone, declineOnset = when physical decline begins
+ * retireMin = earliest retirement age, peakVariance = σ individual spread
+ */
+const POSITION_AGE_CURVES = {
+    ATA: { peak: 27, declineOnset: 31, retireMin: 34, peakVariance: 2 },
+    MEI: { peak: 28, declineOnset: 31, retireMin: 34, peakVariance: 2 },
+    DEF: { peak: 29, declineOnset: 32, retireMin: 35, peakVariance: 2 },
+    GOL: { peak: 30, declineOnset: 34, retireMin: 36, peakVariance: 3 },
+};
+
+/**
+ * Attribute categories — physical decline fast, mental can improve.
+ * §3.1: "Physical stats decline sharply after peak; Mental stats can IMPROVE past 30"
+ */
+const PHYSICAL_ATTRS = ['FIS'];        // speed, stamina, acceleration
+const TECHNICAL_ATTRS = ['FIN', 'REF']; // finishing, reflexes — slow decline
+const MENTAL_ATTRS = ['CRI'];           // creativity, vision, positioning — can grow
+const DEFENSIVE_ATTR = 'DEF';           // depends on position
+
+/**
+ * §3.2: Processa desenvolvimento semanal de um jogador.
+ * CA approaches PA asymptotically — the last 5% is hardest.
+ * Not every player reaches their potential.
+ *
  * Retorna um array de mensagens de mudança.
  */
 export function processPlayerDevelopment(player) {
     const changes = [];
     const personalityMod = PERSONALITY_GROWTH[player.personality] || 1.0;
+    const curve = POSITION_AGE_CURVES[player.position] || POSITION_AGE_CURVES.MEI;
 
-    // === CRESCIMENTO NATURAL (jovens) ===
-    if (player.age <= 24) {
-        const growthChance = player.age < 20 ? 0.25 : 0.12;
-        if (Math.random() < growthChance * personalityMod) {
+    // Individual variance: cada jogador tem ±variance anos de offset
+    // Deterministic per player using id hash (não muda entre semanas)
+    const playerVariance = player._peakVariance ?? 0;
+
+    const effectivePeak = curve.peak + playerVariance;
+    const effectiveDecline = curve.declineOnset + playerVariance;
+
+    // === CRESCIMENTO NATURAL (pre-peak) ===
+    if (player.age < effectivePeak) {
+        // §3.2: Gap entre PA e CA determina growth rate (asymptotic)
+        const potential = player.potential || (player.ovr + 15);
+        const gap = Math.max(0, potential - (player.ovr || 50));
+
+        // Growth chance scales with gap: big gap = easier, small gap = very hard
+        // Asymptotic formula: chance = base × (gap / maxGap) × personalityMod
+        const ageBonus = player.age < 20 ? 1.5 : player.age < 23 ? 1.2 : 1.0;
+        const gapFactor = gap > 20 ? 0.30 : gap > 10 ? 0.18 : gap > 5 ? 0.10 : 0.04;
+        const growthChance = gapFactor * personalityMod * ageBonus;
+
+        if (rng.chance(growthChance)) {
             const attrs = Object.keys(player.attributes);
-            const attr = attrs[Math.floor(Math.random() * attrs.length)];
+            const attr = rng.pick(attrs);
             const boost = player.age < 20 ? 2 : 1;
             const oldVal = player.attributes[attr];
-            player.attributes[attr] = Math.min(99, oldVal + boost);
+            // Cap at potential-derived ceiling
+            const ceiling = Math.min(99, Math.floor(potential * 1.05));
+            player.attributes[attr] = Math.min(ceiling, oldVal + boost);
             if (player.attributes[attr] > oldVal) {
                 changes.push({ type: 'growth', player: player.name, attr, from: oldVal, to: player.attributes[attr] });
             }
         }
     }
 
-    // === DECLÍNIO (veteranos) ===
-    if (player.age >= 31) {
-        const declineChance = (player.age - 30) * 0.04; // 4% per year over 30
-        if (Math.random() < declineChance) {
-            // Physical first
-            const physAttrs = ['FIS', 'DEF'];
-            const attr = physAttrs[Math.floor(Math.random() * physAttrs.length)];
-            const oldVal = player.attributes[attr];
-            player.attributes[attr] = Math.max(20, oldVal - 1);
-            if (player.attributes[attr] < oldVal) {
-                changes.push({ type: 'decline', player: player.name, attr, from: oldVal, to: player.attributes[attr] });
+    // === DECLÍNIO (post-peak, position-specific) ===
+    if (player.age >= effectiveDecline) {
+        const yearsOverDecline = player.age - effectiveDecline;
+
+        // Physical attributes: decline sharply (§3.1)
+        const physDeclineChance = yearsOverDecline * 0.06; // 6% per year
+        PHYSICAL_ATTRS.forEach(attr => {
+            if (player.attributes[attr] !== undefined && rng.chance(physDeclineChance)) {
+                const oldVal = player.attributes[attr];
+                const drop = yearsOverDecline >= 3 ? 2 : 1;
+                player.attributes[attr] = Math.max(20, oldVal - drop);
+                if (player.attributes[attr] < oldVal) {
+                    changes.push({ type: 'decline', player: player.name, attr, from: oldVal, to: player.attributes[attr] });
+                }
+            }
+        });
+
+        // Technical attributes: decline slowly (§3.1)
+        const techDeclineChance = yearsOverDecline * 0.03; // 3% per year
+        TECHNICAL_ATTRS.forEach(attr => {
+            if (player.attributes[attr] !== undefined && rng.chance(techDeclineChance)) {
+                const oldVal = player.attributes[attr];
+                player.attributes[attr] = Math.max(25, oldVal - 1);
+                if (player.attributes[attr] < oldVal) {
+                    changes.push({ type: 'decline', player: player.name, attr, from: oldVal, to: player.attributes[attr] });
+                }
+            }
+        });
+
+        // DEF attribute: position-dependent decline
+        // Centerbacks/GKs lose defensive awareness slower (cognitive compensates)
+        if (player.attributes[DEFENSIVE_ATTR] !== undefined) {
+            const defDeclineRate = (player.position === 'DEF' || player.position === 'GOL')
+                ? yearsOverDecline * 0.02  // very slow — experience compensates
+                : yearsOverDecline * 0.04; // moderate for other positions
+            if (rng.chance(defDeclineRate)) {
+                const oldVal = player.attributes[DEFENSIVE_ATTR];
+                player.attributes[DEFENSIVE_ATTR] = Math.max(25, oldVal - 1);
+                if (player.attributes[DEFENSIVE_ATTR] < oldVal) {
+                    changes.push({ type: 'decline', player: player.name, attr: DEFENSIVE_ATTR, from: oldVal, to: player.attributes[DEFENSIVE_ATTR] });
+                }
             }
         }
+
+        // Mental attributes: can IMPROVE past peak! (§3.1)
+        // Creativity/positioning grows from experience — 5% chance per year
+        const mentalGrowthChance = 0.05 * personalityMod;
+        MENTAL_ATTRS.forEach(attr => {
+            if (player.attributes[attr] !== undefined && rng.chance(mentalGrowthChance)) {
+                const oldVal = player.attributes[attr];
+                player.attributes[attr] = Math.min(99, oldVal + 1);
+                if (player.attributes[attr] > oldVal) {
+                    changes.push({ type: 'growth', player: player.name, attr, from: oldVal, to: player.attributes[attr] });
+                }
+            }
+        });
     }
 
-    // === APOSENTADORIA ===
-    if (player.age >= 35) {
-        const retireChance = (player.age - 34) * 0.15;
-        if (Math.random() < retireChance) {
+    // === APOSENTADORIA (position-aware) ===
+    if (player.age >= curve.retireMin) {
+        const yearsOverRetireMin = player.age - curve.retireMin;
+        const retireChance = (yearsOverRetireMin + 1) * 0.12;
+        if (rng.chance(retireChance)) {
             player._retired = true;
             changes.push({ type: 'retirement', player: player.name, age: player.age });
         }
@@ -70,7 +161,14 @@ export function processPlayerDevelopment(player) {
         changes.push({ type: 'retirement', player: player.name, age: player.age });
     }
 
-    // === AGING (1x por temporada, semana 38 — chamado externamente) ===
+    // Assign individual peak variance on first run (deterministic from id)
+    if (player._peakVariance === undefined) {
+        // Hash player id to get ±variance consistently
+        const hash = typeof player.id === 'string'
+            ? player.id.split('').reduce((h, c) => ((h << 5) - h + c.charCodeAt(0)) | 0, 0)
+            : (player.id || 0);
+        player._peakVariance = (Math.abs(hash) % (curve.peakVariance * 2 + 1)) - curve.peakVariance;
+    }
 
     // Recalc OVR
     recalcOvr(player);
@@ -401,4 +499,13 @@ function recalcOvr(player) {
         case "ATA": player.ovr = Math.floor(a.FIN * 0.5 + a.FIS * 0.25 + a.CRI * 0.25); break;
         default: player.ovr = Math.floor((a.FIS + a.DEF + a.CRI + a.FIN + (a.REF || 50)) / 5);
     }
+
+    // Hedonic Pricing recalculation upon OVR change
+    player.marketValue = calcMarketValue({
+        playerOvr: player.ovr,
+        playerAge: player.age || 25,
+        playerPotential: player.potential,
+        playerContract: player.contract?.weeksLeft ?? 26,
+        playerForm: player.form?.trend || 0
+    });
 }

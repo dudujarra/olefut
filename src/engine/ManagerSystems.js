@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * ManagerSystems.js — Sistemas avançados do Modo Treinador
  * 
@@ -141,7 +142,7 @@ export const MATCH_CONDITIONS = [
 ];
 
 export function rollMatchCondition() {
-    const roll = Math.random();
+    const roll = systemRng();
     let cumulative = 0;
     for (const cond of MATCH_CONDITIONS) {
         cumulative += cond.probability;
@@ -165,7 +166,7 @@ export function calculateWeeklyFinances(team, weekResults, teamId) {
     for (const tId in weekResults) {
         const myMatch = weekResults[tId].find(m => m.home === teamId);
         if (myMatch) {
-            const attendance = Math.floor(team.stadium * (0.5 + Math.random() * 0.5));
+            const attendance = Math.floor(team.stadium * (0.5 + systemRng() * 0.5));
             const ticketIncome = attendance * 30;
             finance.income += ticketIncome;
             finance.details.push({ type: "income", label: `Bilheteria (${attendance} torcedores)`, amount: ticketIncome });
@@ -191,8 +192,8 @@ export function generateTransferOffers(team, currentWeek) {
     const offers = [];
     // Chance de receber oferta por jogadores bons
     team.squad.forEach(player => {
-        if (player.ovr >= 70 && Math.random() < 0.15) {
-            const multiplier = 1 + Math.random() * 2; // 1x a 3x do valor
+        if (player.ovr >= 70 && systemRng() < 0.15) {
+            const multiplier = 1 + systemRng() * 2; // 1x a 3x do valor
             offers.push({
                 playerId: player.id,
                 playerName: player.name,
@@ -212,7 +213,7 @@ function getRandomBuyer() {
         "Inter Milan", "Liverpool", "Chelsea", "Juventus", "Atletico Madrid",
         "Borussia Dortmund", "AC Milan", "Arsenal", "Napoli", "Tottenham"
     ];
-    return clubs[Math.floor(Math.random() * clubs.length)];
+    return clubs[Math.floor(systemRng() * clubs.length)];
 }
 
 // ============================================================

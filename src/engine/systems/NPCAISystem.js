@@ -114,6 +114,40 @@ export class NPCAISystem {
         return Math.floor(marketValue * mul);
     }
 
+    /**
+     * SPEC-019: Utility Scoring para avaliar contratações
+     * Calcula a utilidade (0-100) de um jogador para um time NPC baseado na fraqueza do setor.
+     * @param {object} player — O jogador alvo
+     * @param {object} teamSectors — Força atual dos setores do NPC
+     * @param {number} teamReputation — Reputação/OVR médio do NPC
+     * @returns {number}
+     */
+    evaluatePlayerUtility(player, teamSectors, teamReputation = 50) {
+        if (!player || !teamSectors) return 0;
+        let baseUtility = player.ovr;
+
+        // Bônus se o jogador for melhor que a reputação do time
+        if (player.ovr > teamReputation) {
+            baseUtility += (player.ovr - teamReputation) * 1.5;
+        }
+
+        // Bônus de necessidade de setor
+        let sectorStrength = 50;
+        if (player.position === 'GOL') sectorStrength = teamSectors.goalkeeper;
+        else if (player.position === 'DEF') sectorStrength = teamSectors.defense;
+        else if (player.position === 'MEI') sectorStrength = teamSectors.midfield;
+        else if (player.position === 'ATA') sectorStrength = teamSectors.attack;
+
+        const weakness = Math.max(0, 80 - sectorStrength); // Se setor < 80, NPC tem urgência
+        const positionalUtility = weakness * 0.5;
+
+        // Idade (Preferência por jovens)
+        const agePenalty = player.age > 30 ? (player.age - 30) * 2 : 0;
+        const potentialBonus = player.potential ? Math.max(0, player.potential - player.ovr) * 0.3 : 0;
+
+        return Math.max(0, Math.min(100, Math.floor(baseUtility + positionalUtility - agePenalty + potentialBonus)));
+    }
+
     seasonDecision({ teamId, finalRanking, budget }) {
         const goal = this.teamGoals.get(teamId) || this.inferGoal({ ranking: finalRanking, lastSeasonRanking: finalRanking });
         const decisions = [];

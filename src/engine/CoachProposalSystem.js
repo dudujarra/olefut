@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * CoachProposalSystem — SPEC-073: Propostas Orgânicas de Clubes
  *
@@ -53,7 +54,7 @@ export function evaluate({ managerId = 0, currentClubId = 0, currentClubTier = '
     // Filter available clubs (tier ≥ current, not current club)
     const candidates = availableClubs.filter(c => c.id !== currentClubId && TIER_ORDER[c.tier] >= TIER_ORDER[currentClubTier]);
     const fromClub = candidates.length > 0
-        ? candidates[Math.floor(Math.random() * candidates.length)]
+        ? candidates[Math.floor(systemRng() * candidates.length)]
         : { id: -1, name: 'Clube Rival', tier: targetTier };
 
     const reputationBoost = targetTier === 'big' ? 12 : targetTier === 'mid' ? 7 : 4;

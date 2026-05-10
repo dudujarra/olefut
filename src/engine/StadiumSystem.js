@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * StadiumSystem.js — Estádio, Staff e Scouting
  * Inspirado em Hattrick (stadium tiers) + FM (staff roles + scouting)
@@ -151,7 +152,7 @@ export function scoutRegion(regionId, hasScout, Data) {
 
     for (let i = 0; i < count; i++) {
         const positions = ['GOL', 'DEF', 'MEI', 'ATA'];
-        const pos = positions[Math.floor(Math.random() * positions.length)];
+        const pos = positions[Math.floor(systemRng() * positions.length)];
         const player = Data.generatePlayer(pos, region.tier);
 
         // Sem scout, esconde detalhes
@@ -162,7 +163,7 @@ export function scoutRegion(regionId, hasScout, Data) {
         }
 
         player.scoutRegion = region.name;
-        player.askingPrice = player.value || (5000000 + Math.floor(Math.random() * 20000000));
+        player.askingPrice = player.value || (5000000 + Math.floor(systemRng() * 20000000));
         players.push(player);
     }
 

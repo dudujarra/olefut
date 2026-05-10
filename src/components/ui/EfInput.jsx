@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { rng as systemRng } from '../../engine/rng.js';
+
 export function EfInput({
     type = 'text',
     value,
@@ -27,7 +29,7 @@ export function EfInput({
         lg: { padding: '12px 16px', fontSize: '16px' }
     };
     const sizing = SIZE_MAP[size] || SIZE_MAP.md;
-    const inputId = id || `ef-input-${Math.random().toString(36).slice(2, 8)}`;
+    const inputId = id || `ef-input-${systemRng().toString(36).slice(2, 8)}`;
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ef-space-1)' }}>

@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * PlayerTraits.js — Habilidades especiais, Career Stats, Mentoring, Morale Events
  * 
@@ -36,10 +37,10 @@ export function rollTraits(player) {
     player.traits = [];
     const maxTraits = player.age < 22 ? 1 : 2;
     
-    const shuffled = [...TRAITS].sort(() => Math.random() - 0.5);
+    const shuffled = [...TRAITS].sort(() => systemRng() - 0.5);
     for (const trait of shuffled) {
         if (player.traits.length >= maxTraits) break;
-        if (Math.random() < trait.rarity) {
+        if (systemRng() < trait.rarity) {
             player.traits.push(trait.id);
         }
     }
@@ -230,12 +231,12 @@ export function processMoraleEvents(squad, board) {
     const events = [];
 
     for (const ev of MORALE_EVENTS) {
-        if (Math.random() > ev.chance) continue;
+        if (systemRng() > ev.chance) continue;
 
         if (ev.dual) {
             // Fight event — pick 2 random players
             if (squad.length < 2) continue;
-            const shuffled = [...squad].sort(() => Math.random() - 0.5);
+            const shuffled = [...squad].sort(() => systemRng() - 0.5);
             const p1 = shuffled[0], p2 = shuffled[1];
             p1.moral = Math.max(0, (p1.moral || 50) + ev.effect.targetMoral);
             p2.moral = Math.max(0, (p2.moral || 50) + ev.effect.targetMoral);
@@ -248,7 +249,7 @@ export function processMoraleEvents(squad, board) {
         // Pick a random eligible player
         const eligible = squad.filter(p => !p.injury && (!ev.req || ev.req(p)));
         if (eligible.length === 0) continue;
-        const target = eligible[Math.floor(Math.random() * eligible.length)];
+        const target = eligible[Math.floor(systemRng() * eligible.length)];
 
         target.moral = Math.max(0, Math.min(100, (target.moral || 50) + ev.effect.targetMoral));
         if (ev.effect.teamMoral) squad.forEach(p => { p.moral = Math.max(0, Math.min(100, (p.moral || 50) + ev.effect.teamMoral)); });
@@ -276,12 +277,12 @@ export function processMentoring(squad) {
 
     // One mentoring session per week (10% chance per eligible pair)
     for (const mentee of mentees) {
-        if (Math.random() > 0.10) continue;
-        const mentor = mentors[Math.floor(Math.random() * mentors.length)];
+        if (systemRng() > 0.10) continue;
+        const mentor = mentors[Math.floor(systemRng() * mentors.length)];
 
         // Mentee gets a small boost to a random attr
         const attrs = Object.keys(mentee.attributes);
-        const attr = attrs[Math.floor(Math.random() * attrs.length)];
+        const attr = attrs[Math.floor(systemRng() * attrs.length)];
         const boost = 1;
         const oldVal = mentee.attributes[attr];
         mentee.attributes[attr] = Math.min(99, oldVal + boost);
@@ -322,7 +323,7 @@ export function isRivalry(team1, team2) {
  */
 export function generateCounterOffer(player, initialOffer, round) {
     const baseValue = player.value || (player.ovr * 100000);
-    const desiredPrice = baseValue * (1.3 + Math.random() * 0.7); // 130-200% of value
+    const desiredPrice = baseValue * (1.3 + systemRng() * 0.7); // 130-200% of value
 
     if (round >= 3) {
         // Final offer — take it or leave it
