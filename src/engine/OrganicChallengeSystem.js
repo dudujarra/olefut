@@ -50,6 +50,20 @@ export function evaluate({ managerId = 0, currentClubId = 0, season = 1, week = 
         return buildChallenge('style_duel', dummy, `Clássico com stakes extras: prove sua superioridade tática.`, week);
     }
 
+    // §14.2: Total Rebuild — when manager has high rep and a struggling team exists
+    const struggling = clubsInRelegationZone.find(c => c.id !== currentClubId && c.division >= 2);
+    if (struggling && managerReputation >= CHALLENGE_TYPES.total_rebuild.minRep && season >= 3) {
+        return buildChallenge('total_rebuild', struggling, `O ${struggling.name} precisa de uma reconstrução total. Será que você tem o que é preciso?`, week);
+    }
+
+    // §14.2: Cup Mission — triggered mid-season when cup competition is active
+    if (week >= 10 && week <= 30 && managerReputation >= CHALLENGE_TYPES.cup_mission.minRep) {
+        const cupTarget = { id: currentClubId, name: 'Seu clube' };
+        if (season >= 2 && week % 15 === 0) {
+            return buildChallenge('cup_mission', cupTarget, `A diretoria exige: "Precisamos de um título de Copa este ano!"`, week);
+        }
+    }
+
     return { challengeAvailable: false };
 }
 

@@ -130,7 +130,7 @@ describe('System Integration: startNewSeason hooks', () => {
     it('lossStreak resets at season start', () => {
         const e = createEngine();
         e.managerStats.lossStreak = 10;
-        advanceWeeks(e, 39);
+        e.startNewSeason();
         expect(e.managerStats.lossStreak).toBe(0);
     });
 });

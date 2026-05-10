@@ -83,7 +83,9 @@ describe('SPEC-025: Advanced Player Aging', () => {
         expect(pG).toBeGreaterThanOrEqual(lG);
     });
 
-    test('Decline first hits FIS/DEF (physical)', () => {
+    // §3.1: Physical (FIS) decline fast, technical (FIN, REF) decline slow,
+    // DEF declines position-dependent. CRI (mental) can GROW, never declines.
+    test('Decline first hits physical/technical/defensive (never mental CRI)', () => {
         const p = makePlayer({ age: 36 });
         const changes = [];
         for (let i = 0; i < 100; i++) {
@@ -92,7 +94,8 @@ describe('SPEC-025: Advanced Player Aging', () => {
         const declines = changes.filter((c) => c.type === 'decline');
         if (declines.length > 0) {
             for (const d of declines) {
-                expect(['FIS', 'DEF']).toContain(d.attr);
+                // CRI (mental) should NEVER decline — it can only grow
+                expect(['FIS', 'DEF', 'FIN', 'REF']).toContain(d.attr);
             }
         }
     });

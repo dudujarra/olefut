@@ -41,8 +41,7 @@ export class MythService {
      */
     getLegends(engineOrSave) {
         if (!engineOrSave) return [];
-        // Future v1.1: walk engine.teams[*].squad[*] + filter career.totals > thresholds
-        // Por agora retorna empty (placeholder semantics)
+        // Returns legends from myth.legends (populated by evaluateMyth scan)
         const myth = engineOrSave.myth || engineOrSave;
         if (Array.isArray(myth?.legends)) return [...myth.legends];
         return [];
@@ -70,7 +69,7 @@ export class MythService {
     }
 
     /**
-     * Returns regen-children de ex-companheiros (v1.3 placeholder).
+     * Returns regen-children of former teammates.
      *
      * @param {Engine|object} engineOrSave
      * @returns {Array} regenLineage entries
@@ -195,9 +194,31 @@ export class MythService {
             );
         }
 
+        // Brazilian name generation — inherits parent surname 60% of the time
+        const FIRST_NAMES = [
+            'João','Pedro','Lucas','Mateus','Gabriel','Rafael','Felipe','Thiago',
+            'Bruno','Carlos','Eduardo','Gustavo','Henrique','Igor','Leonardo',
+            'Vinícius','André','Diego','Caio','Murilo','Guilherme','Enzo',
+            'Miguel','Arthur','Davi','Samuel','Daniel','Luan','Kaio','Yuri',
+            'Bernardo','Heitor','Lorenzo','Theo','Nicolas','Ravi','Pietro',
+        ];
+        const LAST_NAMES = [
+            'Silva','Santos','Oliveira','Souza','Lima','Pereira','Costa','Ferreira',
+            'Almeida','Ribeiro','Araújo','Nascimento','Carvalho','Martins','Rocha',
+            'Monteiro','Barbosa','Moura','Gonçalves','Cardoso','Vieira','Correia',
+        ];
+        const firstName = FIRST_NAMES[Math.floor(rng() * FIRST_NAMES.length)];
+        // 60% chance inherit parent surname, 40% random surname
+        const parentParts = (parent.name || '').split(' ');
+        const parentSurname = parentParts.length > 1 ? parentParts[parentParts.length - 1] : null;
+        const lastName = (parentSurname && rng() < 0.6)
+            ? parentSurname
+            : LAST_NAMES[Math.floor(rng() * LAST_NAMES.length)];
+        const childName = `${firstName} ${lastName}`;
+
         const child = {
             id: childId,
-            name: `Filho de ${parent.name}`, // placeholder name (regen pool decide depois)
+            name: childName,
             position: parent.position || 'MEI',
             age: ageAtDebut,
             isRegenChild: true,

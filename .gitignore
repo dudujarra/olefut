@@ -9,3 +9,4 @@ tests/__fixtures__/save-baseline-v2.json
 tests/characterization/stryker-report/
 .stryker-tmp/
 reports/
+.claude/worktrees/

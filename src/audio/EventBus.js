@@ -37,7 +37,7 @@ export class EventBus {
    */
   emit(event, data = {}) {
     if (!this.listeners[event]) {
-      console.warn(`⚠️ No listeners for event: ${event}`);
+      // No listeners registered — expected when audio system isn't initialized
       return;
     }
 

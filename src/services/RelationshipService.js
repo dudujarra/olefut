@@ -53,13 +53,98 @@ export class RelationshipService {
     }
 
     /**
-     * Returns alliance vector (placeholder, ainda não modelado).
+     * Returns alliance vector between two clubs (-100 to +100).
+     * Computed from: shared player transfers, loan history, no rivalry.
+     * Positive = friendly terms (loan partners), Negative = hostile.
      */
     getAlliance(engineOrSave, clubA, clubB) {
         if (!engineOrSave || clubA == null || clubB == null) return 0;
         const map = engineOrSave.relations?.club_club || {};
         const key = pairKey(clubA, clubB);
-        return map[key]?.alliance ?? 0;
+        const stored = map[key]?.alliance ?? 0;
+
+        // Auto-compute: if rivalry is high, alliance is inversely proportional
+        const rivalry = map[key]?.rivalry ?? 0;
+        const rivalryPenalty = rivalry > 50 ? -(rivalry - 50) * 0.5 : 0;
+
+        return clamp(Math.floor(stored + rivalryPenalty));
+    }
+
+    /**
+     * Returns squad chemistry vector: array of { playerA, playerB, affinity } pairs.
+     * Affinity factors:
+     *   - Same position group: +10
+     *   - Age proximity (|ageA - ageB| <= 3): +15
+     *   - High morale (both > 70): +10
+     *   - Shared high form (both form.trend > 0): +20
+     *   - One mentor, one youth: +25
+     */
+    getSquadChemistry(engineOrSave, clubId) {
+        if (!engineOrSave) return [];
+        const team = (engineOrSave.teams || []).find(t => t.id === clubId);
+        if (!team || !team.squad || team.squad.length < 2) return [];
+
+        const pairs = [];
+        const squad = team.squad.filter(p => !p._retired && !p.injury);
+
+        for (let i = 0; i < squad.length; i++) {
+            for (let j = i + 1; j < squad.length; j++) {
+                const a = squad[i], b = squad[j];
+                let affinity = 0;
+
+                // Position group match
+                if (a.position === b.position) affinity += 10;
+
+                // Age proximity
+                const ageDiff = Math.abs((a.age || 25) - (b.age || 25));
+                if (ageDiff <= 3) affinity += 15;
+                if (ageDiff <= 1) affinity += 5; // Extra for near-same-age
+
+                // Both high morale
+                if ((a.moral || 50) > 70 && (b.moral || 50) > 70) affinity += 10;
+
+                // Shared form trend
+                const aForm = a.form?.trend || 0;
+                const bForm = b.form?.trend || 0;
+                if (aForm > 0 && bForm > 0) affinity += 20;
+
+                // Mentoring potential (veteran + youth)
+                const aVet = (a.age || 25) >= 30;
+                const bYouth = (b.age || 25) <= 21;
+                const bVet = (b.age || 25) >= 30;
+                const aYouth = (a.age || 25) <= 21;
+                if ((aVet && bYouth) || (bVet && aYouth)) affinity += 25;
+
+                // Only track meaningful bonds (affinity >= 20)
+                if (affinity >= 20) {
+                    pairs.push({
+                        playerA: a.id,
+                        playerAName: a.name,
+                        playerB: b.id,
+                        playerBName: b.name,
+                        affinity: Math.min(100, affinity),
+                    });
+                }
+            }
+        }
+
+        // Sort by strongest bonds first
+        pairs.sort((a, b) => b.affinity - a.affinity);
+        return pairs.slice(0, 15); // Top 15 bonds
+    }
+
+    /**
+     * Records a positive alliance event (e.g., loan deal completed).
+     */
+    recordAlliance(engineOrSave, clubA, clubB, delta = 5) {
+        if (!engineOrSave || clubA == null || clubB == null) return { success: false };
+        engineOrSave.relations = engineOrSave.relations || {};
+        engineOrSave.relations.club_club = engineOrSave.relations.club_club || {};
+        const key = pairKey(clubA, clubB);
+        const current = engineOrSave.relations.club_club[key] || { rivalry: 0, alliance: 0 };
+        current.alliance = clamp((current.alliance || 0) + delta);
+        engineOrSave.relations.club_club[key] = current;
+        return { success: true, alliance: current.alliance };
     }
 
     /**

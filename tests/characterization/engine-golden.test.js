@@ -14,40 +14,19 @@
 
 import { describe, test, expect, beforeEach, afterEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
-
-/**
- * Seeded RNG (Mulberry32-like). Determinístico, < 1KB.
- */
-function createSeededRng(seed) {
-    let state = seed >>> 0;
-    return function rng() {
-        state = (state + 0x6D2B79F5) >>> 0;
-        let t = state;
-        t = Math.imul(t ^ (t >>> 15), t | 1);
-        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-}
+import { setGlobalSeed } from '../../src/engine/rng.js';
 
 const SEED = 42;
 
-// AKITA-114: skipped — BUG-026 fix added auto-rollover via startNewSeason().
-// Engine now progresses through 5 full seasons (was stuck at week 38), exposing
-// platform-specific float drift between Mac dev and Linux CI. Golden snapshot
-// approach is fragile after this behavior change. TODO: replace toMatchSnapshot
-// with stable property-based assertions in follow-up PR.
-describe.skip('Engine Golden Master (5 seasons, seed=42)', () => {
-    let originalRandom;
-    let rng;
+// Re-enabled: engine now uses seeded PRNG natively via rng.js
+describe('Engine Golden Master (5 seasons, seed=42)', () => {
 
     beforeEach(() => {
-        originalRandom = Math.random;
-        rng = createSeededRng(SEED);
-        Math.random = rng;
+        setGlobalSeed(SEED);
     });
 
     afterEach(() => {
-        Math.random = originalRandom;
+        // No cleanup needed — global seed is reset per test
     });
 
     test('5-season simulation snapshot is deterministic', () => {
@@ -88,7 +67,7 @@ describe.skip('Engine Golden Master (5 seasons, seed=42)', () => {
 
     test('determinism: same seed produces identical key state across instances', () => {
         const runEngine = (weeks) => {
-            Math.random = createSeededRng(SEED);
+            setGlobalSeed(SEED);
             const e = new Engine();
             e.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
             for (let i = 0; i < weeks; i++) e.advanceWeek();

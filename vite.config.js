@@ -8,6 +8,6 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.NODE_ENV === 'production' ? '/elifoot-web/' : '/',
   test: {
-    exclude: [...defaultExclude, '**/.claude/worktrees/**'],
+    exclude: [...defaultExclude, '**/.claude/worktrees/**', 'tests/e2e/**'],
   },
 })

@@ -25,6 +25,27 @@ export const useGame = () => useContext(GameContext);
 const SAVE_KEY = 'elifoot_save_v1';
 const SAVE_VERSION = 11;
 
+/**
+ * §7: CRC32 integrity checksum — detects corrupted or tampered saves.
+ * Lightweight (no crypto dependency), sufficient for data-corruption detection.
+ */
+function crc32(str) {
+    let crc = -1;
+    for (let i = 0; i < str.length; i++) {
+        crc = (crc >>> 8) ^ _crc32Table[(crc ^ str.charCodeAt(i)) & 0xff];
+    }
+    return (crc ^ -1) >>> 0;
+}
+const _crc32Table = (() => {
+    const table = new Uint32Array(256);
+    for (let i = 0; i < 256; i++) {
+        let c = i;
+        for (let j = 0; j < 8; j++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+        table[i] = c;
+    }
+    return table;
+})();
+
 // Map class name → constructor para prototype restoration (BUG-021)
 const TOURNAMENT_CLASSES = { Tournament, League, KnockoutCup, ContinentalCup };
 
@@ -40,11 +61,15 @@ function tournamentClassFromShape(t) {
 // BUG-020 fix: localStorage auto-save + restore
 function saveToStorage(engine, gameState) {
     try {
+        const engineData = serializeEngine(engine);
+        const engineJson = JSON.stringify(engineData);
+        const checksum = crc32(engineJson);
         const payload = {
             version: SAVE_VERSION,
             timestamp: Date.now(),
+            checksum,
             gameState,
-            engine: serializeEngine(engine),
+            engine: engineData,
         };
         localStorage.setItem(SAVE_KEY, JSON.stringify(payload));
     } catch (e) {
@@ -60,6 +85,14 @@ function loadFromStorage() {
         if (payload.version !== SAVE_VERSION) {
             console.info(`[Save] Version mismatch (saved v${payload.version}, current v${SAVE_VERSION}). Save invalidated.`);
             return null;
+        }
+        // §7: Verify integrity checksum
+        if (payload.checksum !== undefined && payload.engine) {
+            const expected = crc32(JSON.stringify(payload.engine));
+            if (payload.checksum !== expected) {
+                console.warn(`[Save] Integrity check failed (expected ${expected}, got ${payload.checksum}). Save corrupted.`);
+                return null;
+            }
         }
         return payload;
     } catch (e) {

@@ -47,9 +47,11 @@ describe('BUG-079 — Player immortality safety cap', () => {
         expect(rate).toBeLessThan(0.35);
     });
 
-    test('player at age 34 never hits retirement check', () => {
+    // §3.1: ATA retireMin=34, MEI/DEF retireMin=34-35, GOL retireMin=36
+    // Testing age 33 is safely below ALL positions' retirement threshold
+    test('player at age 33 never hits retirement check', () => {
         for (let i = 0; i < 20; i++) {
-            const p = makePlayer(34);
+            const p = makePlayer(33);
             processPlayerDevelopment(p);
             expect(p._retired).toBeFalsy();
         }

@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import { AnimatedStat } from '../hooks/useCountUp';
 import { Help } from './Help';
 import { useGame } from '../context/GameContext';
 import { FORMATIONS, TACTICS, TEAM_TALKS, TRAINING_TYPES } from '../engine/ManagerSystems';
 
 import { STAFF_ROLES, SCOUT_REGIONS, getStadiumInfo } from '../engine/StadiumSystem';
 import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
+import { ChallengesWidget } from './ChallengesWidget';
+import { getAllAchievements } from '../engine/MetaProgression';
+import TrophyCeremony from './TrophyCeremony';
+import '../styles/trophy-ceremony.css';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -40,6 +45,13 @@ export function DashboardView() {
 
     return (
         <div className="main-content fade-in">
+            {/* §16.2: Trophy ceremony overlay */}
+            <TrophyCeremony
+                trophy={engine.trophyCeremony?.trophy}
+                season={engine.trophyCeremony?.season}
+                visible={!!engine.trophyCeremony}
+                onDismiss={() => { engine.trophyCeremony = null; forceUpdate(); }}
+            />
             {/* === COMPACT HEADER === */}
             <div className="card" style={{padding:'0.75rem 1rem'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
@@ -93,12 +105,12 @@ export function DashboardView() {
                     </div>
                 </div>
                 <div className="inline-stats" style={{marginBottom:'0.5rem'}}>
-                    <Help id="sector.gol"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.goalkeeper}</span><span className="stat-label">GOL</span></div></Help>
-                    <Help id="sector.def"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.defense}</span><span className="stat-label">DEF</span></div></Help>
-                    <Help id="sector.mei"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.midfield}</span><span className="stat-label">MEI</span></div></Help>
-                    <Help id="sector.ata"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.attack}</span><span className="stat-label">ATA</span></div></Help>
-                    <div className="inline-stat" title="Moral média do plantel (>60 bom, <40 crítico)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgMoral > 60 ? 'var(--primary)' : avgMoral < 40 ? 'var(--danger)' : 'var(--accent)'}}>{avgMoral.toFixed(0)}%</span><span className="stat-label">MORAL</span></div>
-                    <div className="inline-stat" title="Energia média (<50 risco lesão)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgEnergy < 50 ? 'var(--danger)' : 'var(--primary)'}}>{avgEnergy.toFixed(0)}%</span><span className="stat-label">ENERGIA</span></div>
+                    <Help id="sector.gol"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}><AnimatedStat value={sectors.goalkeeper} /></span><span className="stat-label">GOL</span></div></Help>
+                    <Help id="sector.def"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}><AnimatedStat value={sectors.defense} /></span><span className="stat-label">DEF</span></div></Help>
+                    <Help id="sector.mei"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}><AnimatedStat value={sectors.midfield} /></span><span className="stat-label">MEI</span></div></Help>
+                    <Help id="sector.ata"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}><AnimatedStat value={sectors.attack} /></span><span className="stat-label">ATA</span></div></Help>
+                    <div className="inline-stat" title="Moral média do plantel (>60 bom, <40 crítico)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgMoral > 60 ? 'var(--primary)' : avgMoral < 40 ? 'var(--danger)' : 'var(--accent)'}}><AnimatedStat value={Math.round(avgMoral)} suffix="%" /></span><span className="stat-label">MORAL</span></div>
+                    <div className="inline-stat" title="Energia média (<50 risco lesão)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgEnergy < 50 ? 'var(--danger)' : 'var(--primary)'}}><AnimatedStat value={Math.round(avgEnergy)} suffix="%" /></span><span className="stat-label">ENERGIA</span></div>
                 </div>
                 <button className="btn-cta" onClick={() => {
                     engine.checkPressConference();
@@ -234,6 +246,32 @@ export function DashboardView() {
                             </p>
                         </div>
                     )}
+
+                    {/* §14: Weekly Challenges Widget */}
+                    <ChallengesWidget />
+
+                    {/* §14.3: Meta-Progression Cross-Career Achievements (compact) */}
+                    {(() => {
+                        try {
+                            const metaAchs = getAllAchievements();
+                            const unlocked = metaAchs.filter(a => a.unlocked);
+                            if (unlocked.length === 0) return null;
+                            return (
+                                <div className="card card-compact" style={{background:'rgba(123,44,191,0.06)',borderColor:'rgba(123,44,191,0.15)'}}>
+                                    <h4 style={{fontSize:'0.8rem',color:'#A855F7',marginBottom:'0.3rem'}}>
+                                        🏅 CONQUISTAS DE CARREIRA ({unlocked.length}/{metaAchs.length})
+                                    </h4>
+                                    <div style={{display:'flex',flexWrap:'wrap',gap:'0.3rem'}}>
+                                        {unlocked.map(a => (
+                                            <span key={a.id} style={{fontSize:'0.72rem',padding:'0.15rem 0.4rem',borderRadius:'3px',background:'rgba(123,44,191,0.12)',color:'#A855F7'}} title={a.description}>
+                                                {a.emoji} {a.name}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            );
+                        } catch { return null; }
+                    })()}
 
                     {/* AKITA-142: Hall of Legends (compact) */}
                     {engine.hallOfLegends && engine.hallOfLegends.filledCount > 0 && (

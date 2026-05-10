@@ -63,4 +63,15 @@ describe('SPEC-019: NPC AI System', () => {
         const b2 = ai.getNPCBid({ teamId: 1, marketValue: 1000000 });
         expect(b1).toBe(b2);
     });
+
+    test('Utility Scoring evaluates player based on weakness', () => {
+        const player = { position: 'DEF', ovr: 75, age: 25, potential: 80 };
+        const strongDefSectors = { defense: 85, midfield: 50 };
+        const weakDefSectors = { defense: 50, midfield: 50 };
+        
+        const utilityStrong = ai.evaluatePlayerUtility(player, strongDefSectors, 70);
+        const utilityWeak = ai.evaluatePlayerUtility(player, weakDefSectors, 70);
+        
+        expect(utilityWeak).toBeGreaterThan(utilityStrong);
+    });
 });

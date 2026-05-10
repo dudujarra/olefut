@@ -33,6 +33,7 @@ import { compute as computeHallOfLegends } from '../engine/HallOfLegendsSystem';
 import { inherit as inheritTraits } from '../engine/HeritageTraitSystem';
 import { evaluate as evaluateRivalry } from '../engine/RivalryUpgradeSystem';
 import { evaluate as evaluateFilhosRegen } from '../engine/FilhosRegenSystem';
+import { evaluateAchievements } from '../engine/MetaProgression';
 
 export class SeasonProcessor {
     /**
@@ -65,6 +66,20 @@ export class SeasonProcessor {
         // BUG-076: ageSquad — players age + handle retirement messages
         const ageEvents = ageSquad(team.squad);
         ageEvents.forEach(e => engine.weekEvents.push(e));
+
+        // BUG-FIX: Market players also age at end of season — prevents frozen free agents
+        if (engine.marketPlayers && engine.marketPlayers.length > 0) {
+            const marketAgeEvents = ageSquad(engine.marketPlayers);
+            // Remove retired market players and replenish
+            const retiredIds = marketAgeEvents
+                .filter(e => typeof e === 'string' && e.includes('aposentou'))
+                .length;
+            engine.marketPlayers = engine.marketPlayers.filter(p => !p._retired);
+            // Replenish pool to maintain 20 players
+            if (typeof engine.generateMarket === 'function' && engine.marketPlayers.length < 15) {
+                engine.generateMarket();
+            }
+        }
 
         // Season awards
         try {
@@ -99,6 +114,9 @@ export class SeasonProcessor {
 
         // SPEC-081: Filhos Regen
         this._processFilhosRegen(engine, team);
+
+        // §14.3: Meta-Progression — evaluate cross-career achievements at season end
+        this._processMetaProgression(engine, team, pos);
     }
 
     /** @private */
@@ -111,8 +129,40 @@ export class SeasonProcessor {
                 engine.managerStats.losses || 0
             );
             engine.weekEvents.push(`🏆 Temp ${engine.seasonNumber}: ${season.record} (${pos}º lugar)`);
-            if (season.title) engine.weekEvents.push(`🎉 ${season.title}!`);
+            if (season.title) {
+                engine.weekEvents.push(`🎉 ${season.title}!`);
+                // §16.2: Trophy ceremony data for full-screen celebration
+                engine.trophyCeremony = {
+                    trophy: {
+                        type: 'league',
+                        name: season.title,
+                        tier: team.division,
+                    },
+                    season: {
+                        year: engine.seasonNumber,
+                        wins: engine.managerStats.wins || 0,
+                        draws: engine.managerStats.draws || 0,
+                        losses: engine.managerStats.losses || 0,
+                        goalsFor: engine.managerStats.goalsFor || 0,
+                        goalsAgainst: engine.managerStats.goalsAgainst || 0,
+                        topScorer: this._findTopScorer(team),
+                    },
+                };
+            }
         }
+    }
+
+    /** @private §16.2: Find top scorer for trophy ceremony */
+    _findTopScorer(team) {
+        if (!team?.squad?.length) return null;
+        let best = null;
+        for (const p of team.squad) {
+            const goals = p.career?.seasonGoals || p.seasonGoals || 0;
+            if (!best || goals > best.goals) {
+                best = { name: p.name, goals };
+            }
+        }
+        return best?.goals > 0 ? best : null;
     }
 
     /** @private */
@@ -353,5 +403,29 @@ export class SeasonProcessor {
                 }
             }
         } catch { /* defensive */ }
+    }
+
+    /** @private §14.3: Meta-Progression — evaluate achievements at season end */
+    _processMetaProgression(engine, team, pos) {
+        try {
+            const stats = {
+                titlesWon: engine.legacy?.titles?.length || 0,
+                cupsWon: engine.legacy?.titles?.filter(t => t.includes('Copa'))?.length || 0,
+                youthPromoted: team.squad.filter(p => p.isYouth).length,
+                giantKills: engine.managerStats?.giantKills || 0,
+                crisisSaves: engine.managerStats?.crisisSaves || 0,
+                consecutiveSeasons: engine.seasonNumber || 1,
+                transferProfit: engine.managerStats?.transferProfit || 0,
+                longestUnbeaten: engine.managerStats?.longestUnbeaten || 0,
+                consecutiveTitles: engine.managerStats?.consecutiveTitles || 0,
+            };
+            const result = evaluateAchievements(stats);
+            if (result.newlyUnlocked.length > 0) {
+                result.newlyUnlocked.forEach(ach => {
+                    engine.weekEvents.push(`${ach.emoji} CONQUISTA DESBLOQUEADA: ${ach.name} — ${ach.description}`);
+                });
+                engine.metaUnlocked = result.allUnlocked;
+            }
+        } catch { /* defensive — meta is bonus, never crash season */ }
     }
 }

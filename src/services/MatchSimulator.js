@@ -25,6 +25,7 @@ import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats } fr
 import { recordNpcResult, applyNpcTacticAdvice, adviseTactic } from '../engine/NpcTacticAdvisor';
 
 import { rng as systemRng } from '../engine/rng.js';
+import { emitGameEvent, GameEvents } from '../audio/EventBus.js';
 
 export class MatchSimulator {
     /**
@@ -174,10 +175,20 @@ export class MatchSimulator {
         const homeChancePerMin = expectedHomeChances / 90;
         const awayChancePerMin = expectedAwayChances / 90;
 
+        // §2: PRD (Pseudo-Random Distribution) pity counters
+        // After N consecutive missed chances, boost next chance's conversion
+        let homeMissStreak = 0;
+        let awayMissStreak = 0;
+
         // BUG-033 + SPEC-125: cap reduzido 12→8, scorelines mais realistas.
         const MAX_COMBINED_GOALS = 8;
         for (let minute = 1; minute <= 90; minute++) {
             if (homeGoals + awayGoals >= MAX_COMBINED_GOALS) break;
+
+            // §9: Emit match phase at key intervals for procedural audio
+            if (minute === 1) {
+                try { emitGameEvent(GameEvents.MATCH_STARTED, { homeTeam: homeTeam.name, awayTeam: awayTeam.name }); } catch {}
+            }
 
             const isHomeChance = systemRng() < homeChancePerMin;
             const isAwayChance = !isHomeChance && systemRng() < awayChancePerMin;
@@ -211,8 +222,11 @@ export class MatchSimulator {
                 const traitMod = scorer ? getTraitMatchModifier(scorer, minute, isManagerHome ? homeTactic : awayTactic, false) : 1.0;
                 
                 // Adjust shotPower threshold so average conversion = CONVERSION_RATE
-                // We use base sectors to determine if this specific chance is converted
-                const shotPower = atkSectors.attack * cond.ataModifier * systemRng() * formMod * traitMod;
+                // §2: PRD pity bonus — +10% per consecutive miss (caps at +50%)
+                const pityBonus = isHomeAttacking
+                    ? Math.min(0.5, homeMissStreak * 0.10)
+                    : Math.min(0.5, awayMissStreak * 0.10);
+                const shotPower = atkSectors.attack * cond.ataModifier * systemRng() * formMod * traitMod * (1 + pityBonus);
                 const saveChance = defSectors.goalkeeper * systemRng() * 0.8; 
 
                 const chanceTemplate = narr.chance[Math.floor(systemRng() * narr.chance.length)];
@@ -220,7 +234,7 @@ export class MatchSimulator {
                 const saveTemplate = narr.save[Math.floor(systemRng() * narr.save.length)];
                 const scorerName = scorer ? scorer.name : attTeam.name;
 
-                // SPEC-XXX: Card Deck integration for emergent narrative
+                // SPEC-137: Card Deck integration for emergent narrative
                 let chanceText = chanceTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name);
                 let goalText = goalTemplate.replace('{atk}', scorerName).replace('{def}', defTeam.name);
                 let saveText = saveTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name);
@@ -260,17 +274,28 @@ export class MatchSimulator {
 
                     events.scorers.push({ minute, name: scorerName, team: attTeam.name, assist: assistPlayer?.name });
 
+                    // §9: Emit goal event for procedural audio
+                    try {
+                        emitGameEvent(GameEvents.GOAL_SCORED, {
+                            minute, scorer: scorerName, team: attTeam.name,
+                            byPlayer: isManagerHome === isHomeAttacking,
+                            moment: minute > 75 ? 'late' : minute < 15 ? 'early' : 'normal'
+                        });
+                    } catch {}
+
                     // Track performance
                     if (scorer) {
                         performanceMap[scorer.id] = (performanceMap[scorer.id] || 0) + 3;
                         scorer._matchGoals = (scorer._matchGoals || 0) + 1;
                     }
+                    // §2: PRD reset on goal
+                    if (isHomeAttacking) homeMissStreak = 0; else awayMissStreak = 0;
                     if (assistPlayer) {
                         performanceMap[assistPlayer.id] = (performanceMap[assistPlayer.id] || 0) + 2;
                     }
                 } else {
                     // SAVE
-                    if (isHomeAttacking) awaySaves++; else homeSaves++;
+                    if (isHomeAttacking) { awaySaves++; homeMissStreak++; } else { homeSaves++; awayMissStreak++; }
                     events.textLog.push({
                         minute,
                         text: saveText
@@ -354,10 +379,12 @@ export class MatchSimulator {
             if (homeGoals !== awayGoals) {
                 const isWin = (homeId === engine.manager.teamId && homeGoals > awayGoals) || (awayId === engine.manager.teamId && awayGoals > homeGoals);
                 if (isWin) {
-                    managerTeam.squad.filter(p => hasTrait(p, 'leader')).forEach(leader => {
+                    const leaders = managerTeam.squad.filter(p => hasTrait(p, 'leader'));
+                    if (leaders.length > 0) {
+                        // BUG-FIX: Apply moral boost ONCE regardless of leader count (was N× before)
                         managerTeam.squad.forEach(p => { p.moral = Math.min(100, (p.moral || 50) + 2); });
-                        events.textLog.push({ minute: 90, text: `👔 ${leader.name} inspira o vestiário!` });
-                    });
+                        events.textLog.push({ minute: 90, text: `👔 ${leaders[0].name} inspira o vestiário!` });
+                    }
                 }
             }
         }
@@ -378,6 +405,16 @@ export class MatchSimulator {
         if (!engine._lastNpcOpponent) engine._lastNpcOpponent = {};
         if (homeId !== engine.manager.teamId) engine._lastNpcOpponent[homeId] = awayId;
         if (awayId !== engine.manager.teamId) engine._lastNpcOpponent[awayId] = homeId;
+
+        // §9: Emit match end for procedural audio
+        try {
+            const managerResult = isManagerHome
+                ? (homeGoals > awayGoals ? 'victory' : homeGoals < awayGoals ? 'defeat' : 'draw')
+                : isManagerAway
+                    ? (awayGoals > homeGoals ? 'victory' : awayGoals < homeGoals ? 'defeat' : 'draw')
+                    : 'neutral';
+            emitGameEvent(GameEvents.MATCH_ENDED, { result: managerResult, homeGoals, awayGoals });
+        } catch {}
 
         return { homeGoals, awayGoals, events };
     }

@@ -1,0 +1,20 @@
+{
+  "name": "OléFUT — Elifoot Web",
+  "short_name": "OléFUT",
+  "description": "Simulador de futebol brasileiro estilo SNES. 100% offline.",
+  "start_url": "/elifoot-web/",
+  "scope": "/elifoot-web/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F1A14",
+  "theme_color": "#2D5A27",
+  "icons": [
+    {
+      "src": "/elifoot-web/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "sports"]
+}

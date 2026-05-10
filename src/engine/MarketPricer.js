@@ -42,7 +42,7 @@ export function calcMarketValue({ playerOvr, playerAge, playerPotential, playerC
     // 5. Contract Multiplier (Liquidity)
     const contractMult = contractMultiplier(playerContract);
     
-    return Math.floor(base * ageMult * potPremium * formPremium * contractMult);
+    return Math.max(50000, Math.floor(base * ageMult * potPremium * formPremium * contractMult));
 }
 
 /**

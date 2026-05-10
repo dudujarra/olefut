@@ -1,0 +1,94 @@
+/**
+ * §22.7: Colorblind-safe palette — Deuteranopia / Protanopia / Tritanopia
+ *
+ * Overrides functional colors (success/danger/warning) with
+ * colorblind-friendly alternatives from the Okabe-Ito palette.
+ * Activated by body.colorblind-mode class.
+ *
+ * NEVER use color ALONE for meaning — always pair with icons/shapes.
+ */
+
+/* ============================================================================
+   DEUTERANOPIA (red-green, most common ~8% males)
+   Uses blue/orange instead of red/green
+   ============================================================================ */
+
+body.colorblind-deuteranopia {
+    --ef-color-func-success: #0072B2;     /* blue */
+    --ef-color-func-danger:  #D55E00;     /* vermillion */
+    --ef-color-func-warning: #F0E442;     /* yellow */
+    --ef-color-func-info:    #56B4E9;     /* sky blue */
+    --ef-form-good:          #0072B2;
+    --ef-form-bad:           #D55E00;
+    --ef-form-neutral:       #999999;
+}
+
+/* ============================================================================
+   PROTANOPIA (red-blind)
+   Uses blue/orange — same as deuteranopia (most effective swap)
+   ============================================================================ */
+
+body.colorblind-protanopia {
+    --ef-color-func-success: #009E73;     /* bluish green */
+    --ef-color-func-danger:  #D55E00;     /* vermillion */
+    --ef-color-func-warning: #F0E442;     /* yellow */
+    --ef-color-func-info:    #56B4E9;     /* sky blue */
+    --ef-form-good:          #009E73;
+    --ef-form-bad:           #D55E00;
+    --ef-form-neutral:       #999999;
+}
+
+/* ============================================================================
+   TRITANOPIA (blue-yellow, rare ~0.01%)
+   Uses red/cyan instead of blue/yellow
+   ============================================================================ */
+
+body.colorblind-tritanopia {
+    --ef-color-func-success: #009E73;     /* bluish green */
+    --ef-color-func-danger:  #CC79A7;     /* reddish purple */
+    --ef-color-func-warning: #D55E00;     /* vermillion (replaces yellow) */
+    --ef-color-func-info:    #0072B2;     /* blue */
+    --ef-form-good:          #009E73;
+    --ef-form-bad:           #CC79A7;
+    --ef-form-neutral:       #999999;
+}
+
+/* ============================================================================
+   HIGH CONTRAST MODE — for low vision
+   Increases color contrast and border visibility
+   ============================================================================ */
+
+body.high-contrast-mode {
+    --ef-color-neutral-text-hi: #FFFFFF;
+    --ef-color-neutral-text-lo: #CCCCCC;
+    --ef-color-neutral-bg: #000000;
+    --ef-color-neutral-bg-elev: #111111;
+    --ef-bevel-light: #FFFFFF;
+    --ef-bevel-dark: #555555;
+}
+
+body.high-contrast-mode * {
+    border-color: currentColor !important;
+}
+
+/* ============================================================================
+   FORM INDICATORS — icons alongside colors (never color-only)
+   ============================================================================ */
+
+/* Good form: ▲ prefix */
+[data-form="good"]::before {
+    content: '▲ ';
+    font-size: 0.7em;
+}
+
+/* Bad form: ▼ prefix */
+[data-form="bad"]::before {
+    content: '▼ ';
+    font-size: 0.7em;
+}
+
+/* Neutral form: ● prefix */
+[data-form="neutral"]::before {
+    content: '● ';
+    font-size: 0.6em;
+}

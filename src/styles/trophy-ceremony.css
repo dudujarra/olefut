@@ -1,0 +1,105 @@
+/**
+ * §16.2: Trophy Ceremony — full-screen overlay styles
+ */
+
+.trophy-ceremony-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.92);
+}
+
+.trophy-reveal {
+    text-align: center;
+}
+
+.trophy-title {
+    font-size: 2.5rem;
+    color: var(--ef-color-func-warning, #F7B538);
+    text-shadow: 0 0 20px rgba(247, 181, 56, 0.6);
+    margin-top: 1rem;
+}
+
+.trophy-subtitle {
+    font-size: 1.2rem;
+    color: var(--ef-color-neutral-text-lo, #8B9C8B);
+    margin-top: 0.5rem;
+}
+
+.trophy-stats {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    background: rgba(15, 26, 20, 0.85);
+    border: 2px solid;
+    border-color: var(--ef-bevel-light, #4A6B4A) var(--ef-bevel-dark, #1A2E1A) var(--ef-bevel-dark, #1A2E1A) var(--ef-bevel-light, #4A6B4A);
+    border-radius: 2px;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--ef-color-neutral-text-lo, #8B9C8B);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-item .stat-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--ef-color-neutral-text-hi, #E8F0E8);
+}
+
+.top-scorer {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: var(--ef-color-func-warning, #F7B538);
+}
+
+.trophy-hall {
+    text-align: center;
+}
+
+.hall-text {
+    font-size: 1.1rem;
+    color: var(--ef-color-func-info, #56B4E9);
+    margin-bottom: 1rem;
+}
+
+.trophy-crowd {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .trophy-title {
+        font-size: 1.8rem;
+    }
+}
