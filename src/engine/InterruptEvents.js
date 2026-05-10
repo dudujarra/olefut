@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * InterruptEvents — SPEC-068
  *
@@ -147,10 +148,10 @@ export function pickInterruptEvent(engine, team) {
     if (eligible.length === 0) return null;
 
     const totalWeight = eligible.reduce((s, e) => s + e.weight, 0);
-    let roll = Math.random() * totalWeight;
+    let roll = systemRng() * totalWeight;
 
     // Apply interrupt rate (3-5/season target = ~10% chance/week)
-    if (Math.random() > 0.10) return null;
+    if (systemRng() > 0.10) return null;
 
     for (const ev of eligible) {
         roll -= ev.weight;

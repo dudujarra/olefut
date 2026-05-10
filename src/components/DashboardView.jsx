@@ -187,6 +187,33 @@ export function DashboardView() {
                         </div>
                     )}
 
+                    {/* DDA & Rolling Form */}
+                    {stats.rollingForm && stats.rollingForm.length > 0 && (
+                        <div className="card card-compact">
+                            <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📊 FORMA RECENTE & DDA</h4>
+                            <div style={{display:'flex',gap:'0.2rem',marginBottom:'0.4rem'}}>
+                                {stats.rollingForm.map((r, i) => (
+                                    <span key={i} style={{
+                                        display:'inline-flex', alignItems:'center', justifyContent:'center',
+                                        width:'1.5rem', height:'1.5rem', borderRadius:'3px', fontSize:'0.7rem', fontWeight:600,
+                                        background: r === 'W' ? 'rgba(16,185,129,0.2)' : r === 'D' ? 'rgba(245,158,11,0.2)' : 'rgba(239,68,68,0.2)',
+                                        color: r === 'W' ? 'var(--primary)' : r === 'D' ? 'var(--accent)' : 'var(--danger)'
+                                    }}>{r}</span>
+                                ))}
+                            </div>
+                            {(() => {
+                                if (stats.rollingForm.length >= 5) {
+                                    const wins = stats.rollingForm.filter(r => r === 'W').length;
+                                    const winRate = wins / stats.rollingForm.length;
+                                    if (winRate > 0.8) return <span style={{fontSize:'0.7rem',color:'var(--danger)'}}>⚠️ DDA Ativo: Oponentes com Boost (+15%)</span>;
+                                    if (winRate <= 0.2) return <span style={{fontSize:'0.7rem',color:'var(--primary)'}}>⚖️ DDA Ativo: Oponentes com Debuff (-15%)</span>;
+                                    return <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>DDA: Flow Channel (Balanceado)</span>;
+                                }
+                                return <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>DDA: Calibrando (mín. 5 jogos)</span>;
+                            })()}
+                        </div>
+                    )}
+
                     {/* AKITA-142: Coach Proposal */}
                     {engine.pendingCoachProposal && (
                         <div className="card card-compact" style={{background:'rgba(59,130,246,0.08)',borderColor:'rgba(59,130,246,0.2)'}}>

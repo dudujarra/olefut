@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * ContractGoalSystem — SPEC-071: Contratos com Metas Explícitas
  *
@@ -70,7 +71,7 @@ export function resolve({ contractId, objectiveMet, weeksManaged = 38, minWeeks 
     if (objectiveMet) {
         // Fulfilled: reputation bonus + possible bigger club interest
         const biggerClubChance = managerReputation >= 70 ? 0.35 : 0.10;
-        const consequence = Math.random() < biggerClubChance ? 'bigger_club_interested' : 'renewal_offered';
+        const consequence = systemRng() < biggerClubChance ? 'bigger_club_interested' : 'renewal_offered';
         return {
             contractId,
             outcome: 'fulfilled',

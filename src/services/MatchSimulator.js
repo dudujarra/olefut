@@ -7,7 +7,7 @@
  *
  * Invariante RFCT-004:
  * - Mesma assinatura comportamental que engine.playMatch antes do refactor
- * - Mesma ordem de chamadas RNG (Math.random)
+ * - Mesma ordem de chamadas RNG (systemRng)
  * - Golden master snapshot deve ser idêntico
  *
  * Não muta engine além do que playMatch original mutava:
@@ -18,9 +18,13 @@
  */
 
 import { TACTICS } from '../engine/ManagerSystems';
+import { drawCard } from '../engine/MatchEventsDeck.js';
 import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
+import { getDifficulty } from '../engine/systems/DifficultyModes.js';
 import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats } from '../engine/PlayerTraits';
 import { recordNpcResult, applyNpcTacticAdvice, adviseTactic } from '../engine/NpcTacticAdvisor';
+
+import { rng as systemRng } from '../engine/rng.js';
 
 export class MatchSimulator {
     /**
@@ -72,9 +76,29 @@ export class MatchSimulator {
         const awayNarr = TACTIC_NARRATION[awayTactic] || TACTIC_NARRATION.normal;
 
         // SPEC-125 BUG-072: AI counter-tactic — adversários adaptam vs streak.
-        // Bot 38 win streak imhuman. Quando bot tem streak >5, opponent fica +10% sectors.
-        const myStreak = engine.managerStats?.streak || 0;
-        const opponentBoost = myStreak >= 5 ? Math.min(1.3, 1 + (myStreak * 0.02)) : 1.0;
+        // ==========================================
+        // DDA (Dynamic Difficulty) — Flow Channel (§1.2)
+        // ==========================================
+        let opponentBoost = 1.0;
+        
+        if ((isManagerHome || isManagerAway) && engine.managerStats?.rollingForm) {
+            const form = engine.managerStats.rollingForm;
+            if (form.length >= 5) {
+                const wins = form.filter(r => r === 'W').length;
+                const winRate = wins / form.length;
+                const difficulty = getDifficulty();
+                
+                if (winRate > 0.8) {
+                    // Fácil demais: Boost nos atributos do oponente (+15%)
+                    opponentBoost = 1.15;
+                } else if (winRate <= 0.2 && difficulty.id !== 'hard' && difficulty.id !== 'sinistro') {
+                    // Difícil demais: Debuff no oponente (-15%), modo rubber-banding, exceto Hard/Sinistro
+                    opponentBoost = 0.85;
+                }
+            }
+        }
+
+        // Apply DDA physical sector boost (if applies)
         if (isManagerHome) {
             awaySectors.attack = Math.floor(awaySectors.attack * opponentBoost);
             awaySectors.defense = Math.floor(awaySectors.defense * opponentBoost);
@@ -93,7 +117,7 @@ export class MatchSimulator {
         const awayAttackers = (awayTeam.squad || []).filter(p => p.isTitular && (p.position === 'ATA' || p.position === 'MEI') && !p.injury);
         const homeDefenders = (homeTeam.squad || []).filter(p => p.isTitular && p.position === 'DEF' && !p.injury);
         const awayDefenders = (awayTeam.squad || []).filter(p => p.isTitular && p.position === 'DEF' && !p.injury);
-        const pickRandom = (arr) => arr.length > 0 ? arr[Math.floor(Math.random() * arr.length)] : null;
+        const pickRandom = (arr) => arr.length > 0 ? arr[Math.floor(systemRng() * arr.length)] : null;
 
         // Moral factor
         const homeMoral = (homeTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (homeTeam.squad?.length || 1);
@@ -112,48 +136,109 @@ export class MatchSimulator {
         // Performance tracker for MOTM
         const performanceMap = {};
 
+        // ==========================================
+        // DIXON-COLES EXPECTED GOALS (xG) MODEL (§2)
+        // ==========================================
+        const BASE_XG_HOME = 1.45;
+        const BASE_XG_AWAY = 1.15;
+        const AVG_SECTOR = 60; // baseline for strength normalization
+
+        // Attack & Defense Strengths (Alpha & Beta)
+        const homeAttackStr = (homeSectors.attack * tactic.ataModifier * engine.teamTalkModifiers.ata) / AVG_SECTOR;
+        const awayDefenseStr = (awaySectors.defense * oppTactic.defModifier * engine.teamTalkModifiers.def) / AVG_SECTOR;
+        
+        const awayAttackStr = (awaySectors.attack * oppTactic.ataModifier * engine.teamTalkModifiers.ata) / AVG_SECTOR;
+        const homeDefenseStr = (homeSectors.defense * tactic.defModifier * engine.teamTalkModifiers.def) / AVG_SECTOR;
+
+        // Base λ (home xG) and μ (away xG)
+        let lambda = BASE_XG_HOME * homeAttackStr * awayDefenseStr * homeMoralFactor * homeCounterMod;
+        let mu = BASE_XG_AWAY * awayAttackStr * homeDefenseStr * awayMoralFactor * awayCounterMod;
+
+        // Apply DDA (Dynamic Difficulty) boost to bot if manager is on a streak
+        if (isManagerHome) {
+            mu *= opponentBoost;
+        } else if (isManagerAway) {
+            lambda *= opponentBoost;
+        }
+
+        // Cap expected goals to maintain realism (Poisson mean)
+        lambda = Math.max(0.1, Math.min(lambda, 5.0));
+        mu = Math.max(0.1, Math.min(mu, 5.0));
+
+        // Assuming a ~30% conversion rate, calculate expected chances
+        const CONVERSION_RATE = 0.30;
+        const expectedHomeChances = lambda / CONVERSION_RATE;
+        const expectedAwayChances = mu / CONVERSION_RATE;
+
+        // Poisson rate per minute
+        const homeChancePerMin = expectedHomeChances / 90;
+        const awayChancePerMin = expectedAwayChances / 90;
+
         // BUG-033 + SPEC-125: cap reduzido 12→8, scorelines mais realistas.
-        // Frequência 12-0 / 11-1 era anormal. Football real raramente passa 6 goals total.
         const MAX_COMBINED_GOALS = 8;
         for (let minute = 1; minute <= 90; minute++) {
             if (homeGoals + awayGoals >= MAX_COMBINED_GOALS) break;
-            const isHomeAttacking = Math.random() > 0.45;
-            const atkSectors = isHomeAttacking ? homeSectors : awaySectors;
-            const defSectors = isHomeAttacking ? awaySectors : homeSectors;
-            const atkMoral = isHomeAttacking ? homeMoralFactor : awayMoralFactor;
-            const counterMod = isHomeAttacking ? homeCounterMod : awayCounterMod;
-            const attTeam = isHomeAttacking ? homeTeam : awayTeam;
-            const defTeam = isHomeAttacking ? awayTeam : homeTeam;
-            const narr = isHomeAttacking ? homeNarr : awayNarr;
-            const attackers = isHomeAttacking ? homeAttackers : awayAttackers;
+
+            const isHomeChance = systemRng() < homeChancePerMin;
+            const isAwayChance = !isHomeChance && systemRng() < awayChancePerMin;
 
             // Filler narration every ~12 min
-            if (minute % 12 === 0) {
-                const fillerTemplate = narr.filler[Math.floor(Math.random() * narr.filler.length)];
+            if (minute % 12 === 0 && !isHomeChance && !isAwayChance) {
+                const isHomeAttackingFiller = systemRng() > 0.5;
+                const attTeamFiller = isHomeAttackingFiller ? homeTeam : awayTeam;
+                const defTeamFiller = isHomeAttackingFiller ? awayTeam : homeTeam;
+                const narrFiller = isHomeAttackingFiller ? homeNarr : awayNarr;
+                const fillerTemplate = narrFiller.filler[Math.floor(systemRng() * narrFiller.filler.length)];
                 events.textLog.push({
                     minute,
-                    text: fillerTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name)
+                    text: fillerTemplate.replace('{atk}', attTeamFiller.name).replace('{def}', defTeamFiller.name)
                 });
             }
 
-            // Chance creation (SPEC-125: cap chanceRatio para evitar spike unbounded)
-            const rawRatio = (atkSectors.attack * cond.ataModifier * atkMoral * counterMod) / (defSectors.defense * cond.defModifier || 1);
-            const chanceRatio = Math.min(rawRatio, 2.5); // cap em 2.5× (era unbounded)
-            if (Math.random() < (0.12 * chanceRatio)) {
+            if (isHomeChance || isAwayChance) {
+                const isHomeAttacking = isHomeChance;
+                const atkSectors = isHomeAttacking ? homeSectors : awaySectors;
+                const defSectors = isHomeAttacking ? awaySectors : homeSectors;
+                const attTeam = isHomeAttacking ? homeTeam : awayTeam;
+                const defTeam = isHomeAttacking ? awayTeam : homeTeam;
+                const narr = isHomeAttacking ? homeNarr : awayNarr;
+                const attackers = isHomeAttacking ? homeAttackers : awayAttackers;
+
                 if (isHomeAttacking) homeShots++; else awayShots++;
 
                 const scorer = pickRandom(attackers);
                 const formMod = scorer ? getFormModifier(scorer.form?.trend) : 1.0;
                 const traitMod = scorer ? getTraitMatchModifier(scorer, minute, isManagerHome ? homeTactic : awayTactic, false) : 1.0;
-                const shotPower = atkSectors.attack * cond.ataModifier * Math.random() * formMod * traitMod;
-                const saveChance = defSectors.goalkeeper * Math.random() * 0.6;
+                
+                // Adjust shotPower threshold so average conversion = CONVERSION_RATE
+                // We use base sectors to determine if this specific chance is converted
+                const shotPower = atkSectors.attack * cond.ataModifier * systemRng() * formMod * traitMod;
+                const saveChance = defSectors.goalkeeper * systemRng() * 0.8; 
 
-                // Chance narration
-                const chanceTemplate = narr.chance[Math.floor(Math.random() * narr.chance.length)];
-                events.textLog.push({
-                    minute,
-                    text: chanceTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name)
-                });
+                const chanceTemplate = narr.chance[Math.floor(systemRng() * narr.chance.length)];
+                const goalTemplate = narr.goal[Math.floor(systemRng() * narr.goal.length)];
+                const saveTemplate = narr.save[Math.floor(systemRng() * narr.save.length)];
+                const scorerName = scorer ? scorer.name : attTeam.name;
+
+                // SPEC-XXX: Card Deck integration for emergent narrative
+                let chanceText = chanceTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name);
+                let goalText = goalTemplate.replace('{atk}', scorerName).replace('{def}', defTeam.name);
+                let saveText = saveTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name);
+                
+                if (scorer && systemRng() < 0.15) { // 15% of chances trigger a special narrative card
+                    const position = scorer.position || 'ATA';
+                    const renown = Math.floor(Math.max(0, (scorer.ovr || 50) - 50) / 10);
+                    const card = drawCard(position, renown);
+                    if (card && card.options && card.options.length > 0) {
+                        const option = card.options[Math.floor(systemRng() * card.options.length)];
+                        const tierEmoji = card.tier === 'legendary' ? '🌟' : card.tier === 'rare' ? '🔥' : card.tier === 'uncommon' ? '⚡' : '🃏';
+                        chanceText = `${tierEmoji} [${card.tier.toUpperCase()}] ${scorer.name}: ${card.text} → "${option.label}"`;
+                        goalText = option.successText;
+                        saveText = option.failText;
+                    }
+                }
+
+                events.textLog.push({ minute, text: chanceText });
 
                 if (shotPower > saveChance) {
                     // GOAL
@@ -165,14 +250,12 @@ export class MatchSimulator {
                         events.away.push({ minute, type: 'goal', scorer: scorer?.name });
                     }
 
-                    const scorerName = scorer ? scorer.name : attTeam.name;
                     const assistPlayer = pickRandom(attackers.filter(p => p !== scorer));
                     const assistText = assistPlayer ? ` (assist: ${assistPlayer.name})` : '';
 
-                    const goalTemplate = narr.goal[Math.floor(Math.random() * narr.goal.length)];
                     events.textLog.push({
                         minute,
-                        text: `⚽ ${goalTemplate.replace('{atk}', scorerName).replace('{def}', defTeam.name)}${assistText} (${homeGoals} x ${awayGoals})`
+                        text: `⚽ ${goalText}${assistText} (${homeGoals} x ${awayGoals})`
                     });
 
                     events.scorers.push({ minute, name: scorerName, team: attTeam.name, assist: assistPlayer?.name });
@@ -188,18 +271,17 @@ export class MatchSimulator {
                 } else {
                     // SAVE
                     if (isHomeAttacking) awaySaves++; else homeSaves++;
-                    const saveTemplate = narr.save[Math.floor(Math.random() * narr.save.length)];
                     events.textLog.push({
                         minute,
-                        text: saveTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name)
+                        text: saveText
                     });
                 }
             }
 
-            // Yellow card chance (~2% per minute of a foul event)
-            if (Math.random() < 0.008) {
-                const team = isHomeAttacking ? defTeam : attTeam;
-                const defenders = isHomeAttacking ? awayDefenders : homeDefenders;
+            // Yellow card chance (~1.5% per minute)
+            if (systemRng() < 0.015) {
+                const team = systemRng() > 0.5 ? homeTeam : awayTeam;
+                const defenders = team === homeTeam ? homeDefenders : awayDefenders;
                 const offender = pickRandom(defenders);
                 if (offender) {
                     events.cards.push({ minute, player: offender.name, team: team.name, type: 'yellow' });
@@ -212,7 +294,7 @@ export class MatchSimulator {
         // Penalties
         if (isCup && homeGoals === awayGoals) {
             events.textLog.push({ minute: 90, text: `⚖️ Empate! Decisão nos Pênaltis!` });
-            if (Math.random() > 0.5) {
+            if (systemRng() > 0.5) {
                 homeGoals++;
                 events.textLog.push({ minute: 91, text: `🏆 ${homeTeam.name} VENCE nos pênaltis!` });
             } else {
@@ -237,7 +319,7 @@ export class MatchSimulator {
         events.stats = { homeShots, awayShots, homeSaves, awaySaves };
 
         // Energy drain (trait: workhorse saves 30%)
-        const energyDrain = Math.floor(15 + Math.random() * 10) * (cond.energyModifier || 1);
+        const energyDrain = Math.floor(15 + systemRng() * 10) * (cond.energyModifier || 1);
         [...(homeTeam.squad || []), ...(awayTeam.squad || [])].filter(p => p.isTitular).forEach(p => {
             const saveMod = hasTrait(p, 'workhorse') ? 0.7 : 1.0;
             p.energy = Math.max(0, p.energy - Math.floor(energyDrain * saveMod));

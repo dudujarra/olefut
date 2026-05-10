@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * Positions.js — SPEC-080
  *
@@ -331,14 +332,14 @@ export function migrateLegacyPosition(legacyPos, attrs = {}) {
         case 'DEF':
         case 'ZAG':
             if ((attrs.def ?? 50) >= 75) {
-                return ['ZAG', 'ZAD', 'ZAE'][Math.floor(Math.random() * 3)];
+                return ['ZAG', 'ZAD', 'ZAE'][Math.floor(systemRng() * 3)];
             }
-            return ['LAD', 'LAE'][Math.floor(Math.random() * 2)];
+            return ['LAD', 'LAE'][Math.floor(systemRng() * 2)];
         case 'LAT':
-            return Math.random() < 0.5 ? 'LAD' : 'LAE';
+            return systemRng() < 0.5 ? 'LAD' : 'LAE';
         case 'MEI':
         case 'VOL': {
-            const r = Math.random();
+            const r = systemRng();
             if (legacyPos === 'VOL' || (attrs.def ?? 50) > (attrs.atk ?? 50)) return 'VOL';
             if (r < 0.3) return 'MEC';
             if (r < 0.5) return 'MEA';
@@ -346,13 +347,13 @@ export function migrateLegacyPosition(legacyPos, attrs = {}) {
             return 'MPE';
         }
         case 'ATA': {
-            const ra = Math.random();
+            const ra = systemRng();
             if (ra < 0.4) return 'CTA';
             if (ra < 0.7) return 'POD';
             return 'POE';
         }
         case 'PON':
-            return Math.random() < 0.5 ? 'POD' : 'POE';
+            return systemRng() < 0.5 ? 'POD' : 'POE';
         default:
             return 'MEC';
     }

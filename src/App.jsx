@@ -105,7 +105,7 @@ function App() {
         <>
             {gameState.started && (
                 <header className="top-bar glass-panel">
-                    <div className="logo">ELIFOOT <span>WEB</span></div>
+                    <div className="logo">OléFUT</div>
                     <div className="user-info" style={{display:'flex',alignItems:'center',gap:'0.6rem'}}>
                         <span className="manager-name">{gameState.manager}</span>
                         {gameState.mode === 'player' && engine.proPlayer && (

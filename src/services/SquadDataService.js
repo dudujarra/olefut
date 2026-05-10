@@ -7,6 +7,8 @@
 
 import { mapSofaScorePosition, calculateRatingForPosition, getMacroPosition } from '../engine/Positions';
 
+import { rng as systemRng } from '../engine/rng.js';
+
 const cache = new Map();
 
 /**
@@ -107,11 +109,11 @@ export function mapPlayer(raw) {
         },
 
         // Hidden attrs (random for now, refined later)
-        pressure: 10 + Math.floor(Math.random() * 11),
-        bigMatch: 10 + Math.floor(Math.random() * 11),
-        loyalty: 10 + Math.floor(Math.random() * 11),
-        consistency: 10 + Math.floor(Math.random() * 11),
-        injuryProneness: 5 + Math.floor(Math.random() * 11),
+        pressure: 10 + Math.floor(systemRng() * 11),
+        bigMatch: 10 + Math.floor(systemRng() * 11),
+        loyalty: 10 + Math.floor(systemRng() * 11),
+        consistency: 10 + Math.floor(systemRng() * 11),
+        injuryProneness: 5 + Math.floor(systemRng() * 11),
 
         // Game state
         energy: 100,

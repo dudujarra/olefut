@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * PressConference.js — Coletiva de Imprensa
  * Inspirado em FM (press conferences + mind games)
@@ -22,12 +23,12 @@ export function shouldTriggerPress(streak, currentWeek, position, totalTeams) {
     if (position >= totalTeams - 1) return true; // lanterna
     if (currentWeek === 19) return true; // meio da temporada
     if (currentWeek >= 36) return true; // reta final
-    return Math.random() < 0.15; // 15% chance aleatória
+    return systemRng() < 0.15; // 15% chance aleatória
 }
 
 // Perguntas baseadas no contexto
 export function generateQuestion(streak, position, totalTeams, avgMorale) {
-    const journalist = JOURNALISTS[Math.floor(Math.random() * JOURNALISTS.length)];
+    const journalist = JOURNALISTS[Math.floor(systemRng() * JOURNALISTS.length)];
 
     let question;
     if (streak <= -3) {

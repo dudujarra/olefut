@@ -1,5 +1,7 @@
 import { Tournament } from './Tournament';
 
+import { rng as systemRng } from '../rng.js';
+
 export class ContinentalCup extends Tournament {
     constructor(id, name, groupScheduleWeeks, knockoutScheduleWeeks) {
         super(id, name);
@@ -18,7 +20,7 @@ export class ContinentalCup extends Tournament {
     }
 
     createGroups(teamIds, teamsPerGroup) {
-        const shuffled = [...teamIds].sort(() => 0.5 - Math.random());
+        const shuffled = [...teamIds].sort(() => 0.5 - systemRng());
         const groups = [];
         const numGroups = Math.ceil(shuffled.length / teamsPerGroup);
         for (let i = 0; i < numGroups; i++) {
@@ -117,7 +119,7 @@ export class ContinentalCup extends Tournament {
                     results.push(m);
                     const winnerId = result.homeGoals > result.awayGoals ? m.home :
                         result.awayGoals > result.homeGoals ? m.away :
-                            (Math.random() > 0.5 ? m.home : m.away);
+                            (systemRng() > 0.5 ? m.home : m.away);
                     nextPhaseTeams.push(winnerId);
                 }
             });
@@ -138,7 +140,7 @@ export class ContinentalCup extends Tournament {
 
     createKnockoutRound(teams) {
         const matches = [];
-        const shuffled = [...teams].sort(() => 0.5 - Math.random());
+        const shuffled = [...teams].sort(() => 0.5 - systemRng());
         for (let i = 0; i < shuffled.length; i += 2) {
             if (shuffled[i + 1]) {
                 matches.push({ home: shuffled[i], away: shuffled[i + 1], score: null, played: false });

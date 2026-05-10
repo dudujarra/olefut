@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 // === SPEC-062 SUB-ATTRIBUTES (16 attrs in 4 groups) ===
 export const SUB_ATTRIBUTES = {
     technique: ['dribbling', 'passing', 'shooting', 'firstTouch'],
@@ -104,7 +105,7 @@ export class ProPlayer {
         for (const [base, subs] of Object.entries(SUB_ATTRIBUTES)) {
             const baseVal = this.skills[base];
             subs.forEach(sub => {
-                this.subAttrs[sub] = baseVal + Math.floor(Math.random() * 10 - 5);
+                this.subAttrs[sub] = baseVal + Math.floor(systemRng() * 10 - 5);
                 this.subAttrs[sub] = Math.max(1, Math.min(99, this.subAttrs[sub]));
             });
         }
@@ -190,7 +191,7 @@ export class ProPlayer {
         if (!this.canAct) return { success: false, msg: "Sem ações restantes esta semana. Avance para o jogo." };
         if (this.energy < 20) return { success: false, msg: "Energia insuficiente para treinar." };
 
-        const roll = Math.random();
+        const roll = systemRng();
         const successChance = (this.energy / 100) * 0.8;
 
         if (roll > successChance) {
@@ -223,7 +224,7 @@ export class ProPlayer {
         if (this.energy < 20) return { success: false, msg: "Energia insuficiente para treinar." };
         if (!ALL_SUB_ATTRS.includes(subAttr)) return { success: false, msg: "Atributo inválido." };
 
-        const roll = Math.random();
+        const roll = systemRng();
         const successChance = (this.energy / 100) * 0.85;
 
         if (roll > successChance) {

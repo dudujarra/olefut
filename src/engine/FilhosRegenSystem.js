@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * FilhosRegenSystem — SPEC-081: Regens-Filhos de Ex-Companheiros
  *
@@ -23,7 +24,7 @@ const LEGACY_DELAY_YEARS = 16; // emerge 16-18 years after companion's prime
  * @returns {{ regenAvailable, regen? }}
  */
 export function evaluate({ managerId = 0, saveYear = 2030, season = 1, formerCompanions = [], seed = null } = {}) {
-    const rand = seed !== null ? seededRandom(seed) : Math.random;
+    const rand = seed !== null ? seededRandom(seed) : systemRng;
 
     // Check every 4 seasons at earliest
     if (season < 4 || season % 4 !== 0) return { regenAvailable: false };

@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * LossStreakResponseSystem — SPEC-077: Resposta a Sequência de Derrotas
  *
@@ -53,7 +54,7 @@ export function evaluate({ teamId = 0, managerId = 0, streakLength = 0, currentT
     }
 
     if (!isPlayerManager) {
-        const npcResponse = NPC_RESPONSES[Math.floor(Math.random() * NPC_RESPONSES.length)];
+        const npcResponse = NPC_RESPONSES[Math.floor(systemRng() * NPC_RESPONSES.length)];
         return { streakSeverity: severity, forcedEvent: false, npcResponse, moraleFloorApplied, newMorale, tensionApplied };
     }
 

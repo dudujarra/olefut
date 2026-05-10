@@ -23,6 +23,8 @@ import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
 import { AdaptiveBrain, encodeState, computeReward } from './learning/AdaptiveBrain.js';
 import { LLMBridge, decideSellHeuristic, detectMonotonyHeuristic, generateGameDesignInsights } from './learning/LLMBridge.js';
 
+import { rng as systemRng } from '../engine/rng.js';
+
 const STORAGE_KEY = 'elifoot_autoplay_state';
 // BUG-027 fix: pull training catalog from engine source of truth (was hardcoded
 // list with invalid IDs cardio/defensive/attacking causing 2416 TRAIN_FAIL).
@@ -430,7 +432,7 @@ export class AutoPlayController {
             if (this._consecutiveSameTactic > 12 && tacticStreak < 5) {
                 const allTactics = ['normal', 'offensive', 'defensive', 'pressing', 'counter', 'possession'];
                 const others = allTactics.filter(t => t !== nextTactic);
-                nextTactic = others[Math.floor(Math.random() * others.length)];
+                nextTactic = others[Math.floor(systemRng() * others.length)];
                 this._consecutiveSameTactic = 0;
             }
             engine.setTactic(nextTactic);
@@ -496,7 +498,7 @@ export class AutoPlayController {
 
         // Decision 3: Formation occasional rotate
         if (this.stats.weeksPlayed % 19 === 0 && engine.setFormation) {
-            const form = FORMATION_POOL[Math.floor(Math.random() * FORMATION_POOL.length)];
+            const form = FORMATION_POOL[Math.floor(systemRng() * FORMATION_POOL.length)];
             engine.setFormation(form);
             this._logDecision('FORMATION', { form }, 0);
         }
@@ -656,7 +658,7 @@ export class AutoPlayController {
                                 });
                                 if (target) {
                                     const playerVal = target.value || (target.ovr || 60) * 50_000;
-                                    const offerAmount = Math.round(playerVal * (1.3 + Math.random() * 0.2));
+                                    const offerAmount = Math.round(playerVal * (1.3 + systemRng() * 0.2));
                                     const result = engine.makeBuyOffer(target.teamId, target.player.id, offerAmount);
                                     // BUG-078: log real buy offer result to history.offers for SPEC-111
                                     if (this.telemetry?.history) {
@@ -709,9 +711,9 @@ export class AutoPlayController {
                 // causing SPEC-111 to see avgSpread=-1 (0% of value) and acceptanceRate=0%.
                 // MARKET_INQUIRY is a valuation probe, not a real buy offer.
                 if (this.stats.weeksPlayed % 8 === 0 && team.squad?.length > 0) {
-                    const candidate = team.squad[Math.floor(Math.random() * team.squad.length)];
+                    const candidate = team.squad[Math.floor(systemRng() * team.squad.length)];
                     const playerVal = candidate.value || (candidate.ovr || 60) * 50_000;
-                    const askPrice = playerVal * (1.2 + Math.random() * 0.6);
+                    const askPrice = playerVal * (1.2 + systemRng() * 0.6);
                     this._logDecision('MARKET_INQUIRY', { playerId: candidate.id, askPrice: Math.round(askPrice) }, 0);
                 }
             }

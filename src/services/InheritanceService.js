@@ -16,6 +16,8 @@
 
 import { INHERITABLE_TRAITS, MYTH_SLOTS } from './MythService';
 
+import { rng as systemRng } from '../engine/rng.js';
+
 const SLOT_BIAS = Object.freeze({
     idoloEterno: { garra: +10, talento_natural: +15, lealdade: +20, frieza: +5 },
     carrasco: { garra: +15, talento_natural: +5, lealdade: 0, frieza: +20 },
@@ -41,7 +43,7 @@ export class InheritanceService {
      * Initialize default traits para regen sem parents.
      * Random baseline 30-70.
      */
-    initializeBaseTraits(rng = Math.random) {
+    initializeBaseTraits(rng = systemRng) {
         const traits = {};
         for (const t of INHERITABLE_TRAITS) {
             traits[t] = 30 + Math.floor(rng() * 40);
@@ -96,7 +98,7 @@ export class InheritanceService {
     /**
      * Full pipeline: initialize → hall bias → parent inheritance.
      */
-    generateInheritedTraits(save, clubId, parents = [], rng = Math.random) {
+    generateInheritedTraits(save, clubId, parents = [], rng = systemRng) {
         let traits = this.initializeBaseTraits(rng);
         traits = this.applyHallBias(traits, save, clubId);
         traits = this.applyParentInheritance(traits, parents);

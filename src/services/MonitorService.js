@@ -1,3 +1,4 @@
+import { rng as systemRng } from '../engine/rng.js';
 /**
  * MonitorService — v1.6
  *
@@ -58,7 +59,7 @@ function saveEntries() {
 }
 
 function nextId() {
-    return `mon_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    return `mon_${Date.now()}_${systemRng().toString(36).slice(2, 8)}`;
 }
 
 export class MonitorService {

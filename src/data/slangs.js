@@ -1,3 +1,4 @@
+import { rng as systemRng } from '../engine/rng.js';
 /**
  * slangs.js — SPEC-077 Brazilian Slangs Regional + Contextual
  *
@@ -82,5 +83,5 @@ export function pickRegionalSlang(context, region = 'paulista') {
     const slangs = SLANGS_BY_REGION[region] || SLANGS_BY_REGION.paulista;
     const matching = slangs.filter(s => s.context === context);
     if (matching.length === 0) return null;
-    return matching[Math.floor(Math.random() * matching.length)].word;
+    return matching[Math.floor(systemRng() * matching.length)].word;
 }

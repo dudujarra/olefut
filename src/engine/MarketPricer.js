@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * MarketPricer — SPEC-133: Market Liquidity Fix
  *
@@ -8,19 +9,40 @@
  */
 
 /**
- * Calcula valor de mercado de um jogador.
+ * Calcula valor de mercado de um jogador usando Hedonic Pricing.
  *
  * @param {object} opts
  * @param {number} opts.playerOvr — 0-100
  * @param {number} opts.playerAge
+ * @param {number} [opts.playerPotential] — 0-100 (fallback ovr+10)
  * @param {number} [opts.playerContract=26] — semanas de contrato restantes
+ * @param {number} [opts.playerForm=0] — performance recente (-5 a 5)
  * @returns {number} valor em unidades do jogo
  */
-export function calcMarketValue({ playerOvr, playerAge, playerContract = 26 }) {
+export function calcMarketValue({ playerOvr, playerAge, playerPotential, playerContract = 26, playerForm = 0 }) {
+    // 1. Base Value (Current Ability)
     const base = baseValue(playerOvr);
+    
+    // 2. Age Premium/Penalty
     const ageMult = ageMultiplier(playerAge);
+    
+    // 3. Potential Premium (Hedonic)
+    const potential = playerPotential || (playerOvr + 10);
+    const gap = Math.max(0, potential - playerOvr);
+    let potPremium = 1.0;
+    if (playerAge <= 24) {
+        potPremium += (gap * 0.04); // +4% value per potential point above OVR if young
+    } else if (playerAge <= 28) {
+        potPremium += (gap * 0.015); // +1.5% value per potential point
+    }
+    
+    // 4. Performance Premium (Form/Trend)
+    const formPremium = 1.0 + (playerForm * 0.05);
+
+    // 5. Contract Multiplier (Liquidity)
     const contractMult = contractMultiplier(playerContract);
-    return Math.floor(base * ageMult * contractMult);
+    
+    return Math.floor(base * ageMult * potPremium * formPremium * contractMult);
 }
 
 /**
@@ -29,15 +51,17 @@ export function calcMarketValue({ playerOvr, playerAge, playerContract = 26 }) {
  * @param {object} opts
  * @param {number} opts.playerOvr
  * @param {number} opts.playerAge
+ * @param {number} [opts.playerPotential]
  * @param {number} [opts.playerContract=26]
+ * @param {number} [opts.playerForm=0]
  * @param {'high'|'medium'|'low'} [opts.need='medium'] — urgência do comprador
  * @param {'forced'|'open'|'reluctant'} [opts.sellingWillingness='open'] — disposição do vendedor
  * @param {number} [opts.seed] — seed para determinismo em testes
  * @returns {{ offerPrice: number, marketValue: number, spread: number, accepted: boolean, counterOffer: number|null }}
  */
-export function makeOffer({ playerOvr, playerAge, playerContract = 26, need = 'medium', sellingWillingness = 'open', seed = null }) {
-    const rand = seed !== null ? seededRandom(seed) : Math.random;
-    const marketValue = calcMarketValue({ playerOvr, playerAge, playerContract });
+export function makeOffer({ playerOvr, playerAge, playerPotential, playerContract = 26, playerForm = 0, need = 'medium', sellingWillingness = 'open', seed = null }) {
+    const rand = seed !== null ? seededRandom(seed) : systemRng;
+    const marketValue = calcMarketValue({ playerOvr, playerAge, playerPotential, playerContract, playerForm });
 
     const [minSpread, maxSpread] = spreadRange(need);
     const spread = minSpread + rand() * (maxSpread - minSpread);
@@ -71,12 +95,14 @@ export function generateRealTransferOffers(team, currentWeek) {
 
     const offers = [];
     team.squad.forEach(player => {
-        if (player.ovr >= 65 && Math.random() < 0.12) {
+        if (player.ovr >= 65 && systemRng() < 0.12) {
             const need = player.ovr >= 80 ? 'high' : 'medium';
             const result = makeOffer({
                 playerOvr: player.ovr,
                 playerAge: player.age || 25,
+                playerPotential: player.potential,
                 playerContract: player.contract?.weeksLeft ?? 26,
+                playerForm: player.form?.trend || 0,
                 need,
                 sellingWillingness: 'open',
             });
@@ -148,5 +174,5 @@ const BUYERS = [
     'Borussia Dortmund', 'AC Milan', 'Arsenal', 'Napoli', 'Tottenham',
 ];
 function getRandomBuyer() {
-    return BUYERS[Math.floor(Math.random() * BUYERS.length)];
+    return BUYERS[Math.floor(systemRng() * BUYERS.length)];
 }

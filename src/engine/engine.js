@@ -31,6 +31,8 @@ import { SeasonProcessor } from '../services/SeasonProcessor';
 import { apply as applyBoardTension } from './BoardTensionSystem';
 import { onBoardSellAttempt as checkStarProtection } from './StarProtectionSystem';
 
+import { rng as systemRng } from './rng.js';
+
 export class Engine {
     constructor() {
         this.teams = [];
@@ -74,7 +76,7 @@ export class Engine {
         this.matchCondition = null;
         this.transferOffers = [];
         this.weeklyFinance = null;
-        this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0 };
+        this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [] };
         this.board = null;
         this.weekInjuries = [];
         this.weekEvents = [];
@@ -131,9 +133,9 @@ export class Engine {
                     const squad = Data.generateSquad(tier);
                     // Add contracts to each player
                     squad.forEach(p => {
-                        p.contract = { weeksLeft: 38 + Math.floor(Math.random() * 76), salary: p.salary || 5000 };
+                        p.contract = { weeksLeft: 38 + Math.floor(systemRng() * 76), salary: p.salary || 5000 };
                         p.injury = null;
-                        p.moral = 50 + Math.floor(Math.random() * 20);
+                        p.moral = 50 + Math.floor(systemRng() * 20);
                         rollTraits(p);
                         initCareerStats(p);
                     });
@@ -373,7 +375,7 @@ export class Engine {
         this.marketPlayers = [];
         for (let i = 0; i < 20; i++) {
             const positions = ['GOL', 'DEF', 'MEI', 'ATA'];
-            const pos = positions[Math.floor(Math.random() * positions.length)];
+            const pos = positions[Math.floor(systemRng() * positions.length)];
             this.marketPlayers.push(Data.generatePlayer(pos, 2));
         }
     }
@@ -427,7 +429,7 @@ export class Engine {
             const peers = (this.teams || []).filter(t =>
                 t.id !== team.id && t.zone === team.zone && t.division === team.division
             );
-            opponent = peers[Math.floor(Math.random() * peers.length)] || null;
+            opponent = peers[Math.floor(systemRng() * peers.length)] || null;
         }
 
         if (!opponent) return null;
@@ -591,7 +593,7 @@ export class Engine {
         // accept rate). Realista: <1.0 reject, >1.5 accept, sigmoid 1.0-1.5.
         const ratio = amount / Math.max(1, player.value || 1_000_000);
         const acceptProb = Math.max(0, Math.min(1, (ratio - 1.0) / 0.5));
-        const accepted = Math.random() < acceptProb;
+        const accepted = systemRng() < acceptProb;
 
         if (!accepted) {
             return {
@@ -960,7 +962,7 @@ export class Engine {
         // SPEC-135: atualiza seasonsCompleted para view unlock
         this.viewUnlockState.seasonsCompleted = this.seasonNumber - 1;
         if (this.managerStats) {
-            this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0 };
+            this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [] };
         }
         // BUG-040: emergency squad replenish if critically short (<11).
         try {

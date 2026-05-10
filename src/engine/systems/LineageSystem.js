@@ -1,3 +1,4 @@
+import { rng as systemRng } from '../rng.js';
 /**
  * LineageSystem — SPEC-075 Sprint O
  *
@@ -59,21 +60,21 @@ export function generateDescendant(dynastyId, currentYear = 2026) {
 
     const ancestor = dynasty.ancestor;
     const descendant = {
-        id: `desc_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        id: `desc_${Date.now()}_${systemRng().toString(36).slice(2, 6)}`,
         name: ancestor.name.split(' ')[0] + ' ' + (ancestor.name.split(' ').slice(-1)[0] + ' Jr.'),
-        position: Math.random() < 0.6 ? ancestor.position : pickRandomPosition(),
-        age: 16 + Math.floor(Math.random() * 3),
+        position: systemRng() < 0.6 ? ancestor.position : pickRandomPosition(),
+        age: 16 + Math.floor(systemRng() * 3),
         bornYear: currentYear,
         ancestorName: ancestor.name,
         ancestorAchievements: ancestor.achievements,
         attrs: {
             // Inherit 30% of ancestor performance + variance
-            atk: Math.min(99, Math.max(40, 50 + Math.floor((ancestor.careerGoals / 50) * 10) + Math.random() * 20 - 10)),
-            def: 50 + Math.floor(Math.random() * 30),
-            mid: 50 + Math.floor(Math.random() * 30)
+            atk: Math.min(99, Math.max(40, 50 + Math.floor((ancestor.careerGoals / 50) * 10) + systemRng() * 20 - 10)),
+            def: 50 + Math.floor(systemRng() * 30),
+            mid: 50 + Math.floor(systemRng() * 30)
         },
-        potential: 70 + Math.floor(Math.random() * 25),
-        traits: Math.random() < 0.4 ? ['filho_de_lenda'] : [],
+        potential: 70 + Math.floor(systemRng() * 25),
+        traits: systemRng() < 0.4 ? ['filho_de_lenda'] : [],
         prestige_bonus: Math.min(50, Math.floor(ancestor.careerGoals / 5))
     };
 
@@ -84,7 +85,7 @@ export function generateDescendant(dynastyId, currentYear = 2026) {
 
 function pickRandomPosition() {
     const positions = ['GOL', 'DEF', 'MEI', 'ATA'];
-    return positions[Math.floor(Math.random() * positions.length)];
+    return positions[Math.floor(systemRng() * positions.length)];
 }
 
 /**

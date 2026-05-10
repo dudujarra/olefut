@@ -4,6 +4,8 @@ import { drawCard } from '../engine/MatchEventsDeck';
 import { BenchEventsDeck } from '../engine/BenchEventsDeck';
 import { EfClubBadge } from './ui';
 
+import { rng as systemRng } from '../engine/rng.js';
+
 export function PlayerMatchView() {
     const { getEngine, changeView, forceUpdate } = useGame();
     const engine = getEngine();
@@ -66,8 +68,8 @@ export function PlayerMatchView() {
                 }
 
                 // Random events
-                if (Math.random() < 0.04) {
-                    if (Math.random() > 0.5) {
+                if (systemRng() < 0.04) {
+                    if (systemRng() > 0.5) {
                         setHomeGoals(g => g + 1);
                         setNarration(n => [...n, { minute: next, text: `⚽ GOOOL do ${team.name}!`, isGoal: true }]);
                     } else {
@@ -77,16 +79,16 @@ export function PlayerMatchView() {
                 }
 
                 // Player events
-                if (!isBenched && !activeEvent && next % 20 === 0 && next < 90 && Math.random() < 0.6) {
+                if (!isBenched && !activeEvent && next % 20 === 0 && next < 90 && systemRng() < 0.6) {
                     clearInterval(timerRef.current);
                     const card = drawCard(player.position);
                     if (card) setActiveEvent(card);
                 }
 
                 // Bench events
-                if (isBenched && next % 25 === 0 && Math.random() < 0.5) {
+                if (isBenched && next % 25 === 0 && systemRng() < 0.5) {
                     clearInterval(timerRef.current);
-                    const card = BenchEventsDeck[Math.floor(Math.random() * BenchEventsDeck.length)];
+                    const card = BenchEventsDeck[Math.floor(systemRng() * BenchEventsDeck.length)];
                     setActiveEvent({ ...card, isBench: true });
                 }
 
@@ -109,8 +111,8 @@ export function PlayerMatchView() {
         } else {
             // Match RPG event
             const energyFactor = Math.max(0.3, player.energy / 100);
-            const finalPower = player.skills[option.skill] * energyFactor * Math.random();
-            const defPower = option.difficulty * Math.random();
+            const finalPower = player.skills[option.skill] * energyFactor * systemRng();
+            const defPower = option.difficulty * systemRng();
             const isSuccess = finalPower > defPower;
 
             player.energy = Math.max(0, player.energy - 3);

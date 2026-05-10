@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * NpcTacticAdvisor — SPEC-131: AI Tactic Pivot
  *
@@ -22,7 +23,7 @@ const TACTIC_KEYS = ['normal', 'offensive', 'defensive', 'pressing', 'counter', 
  * @returns {{ tactic: string, changed: boolean, reason: string|null }}
  */
 export function adviseTactic({ currentTactic, recentResults = [], squadOvr = 65, opponentOvr = 65, tacticAge = 0, seed = null }) {
-    const rand = seed !== null ? seededRandom(seed) : Math.random;
+    const rand = seed !== null ? seededRandom(seed) : systemRng;
 
     const losses = countTrailingLosses(recentResults);
     const ovrDiff = squadOvr - opponentOvr;

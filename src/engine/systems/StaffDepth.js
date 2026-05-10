@@ -1,3 +1,4 @@
+import { rng as systemRng } from '../rng.js';
 /**
  * StaffDepth — SPEC-063
  *
@@ -72,28 +73,28 @@ export function generateStaffMember(roleId, level = 'medium') {
 
     const attrs = {};
     role.attrs.forEach(a => {
-        attrs[a] = Math.max(30, Math.min(99, baseLevel + (Math.random() * variance * 2 - variance)));
+        attrs[a] = Math.max(30, Math.min(99, baseLevel + (systemRng() * variance * 2 - variance)));
         attrs[a] = Math.round(attrs[a]);
     });
 
     const salaryMult = { junior: 0.5, medium: 1.0, senior: 2.5, elite: 5.0 }[level] || 1.0;
 
     return {
-        id: `staff_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        id: `staff_${Date.now()}_${systemRng().toString(36).slice(2, 8)}`,
         role: roleId,
         name: generateStaffName(),
-        age: 35 + Math.floor(Math.random() * 25),
+        age: 35 + Math.floor(systemRng() * 25),
         level,
         attrs,
         salary: Math.round(role.baseSalary * salaryMult),
-        contractWeeks: 52 + Math.floor(Math.random() * 104)
+        contractWeeks: 52 + Math.floor(systemRng() * 104)
     };
 }
 
 function generateStaffName() {
     const firsts = ['João', 'Carlos', 'Roberto', 'Antonio', 'Fernando', 'Marcos', 'Paulo', 'Eduardo', 'Ricardo', 'Luiz', 'Sérgio', 'Gustavo'];
     const lasts = ['Silva', 'Santos', 'Oliveira', 'Souza', 'Lima', 'Costa', 'Pereira', 'Almeida', 'Ferreira', 'Rodrigues', 'Carvalho', 'Mendes'];
-    return `${firsts[Math.floor(Math.random() * firsts.length)]} ${lasts[Math.floor(Math.random() * lasts.length)]}`;
+    return `${firsts[Math.floor(systemRng() * firsts.length)]} ${lasts[Math.floor(systemRng() * lasts.length)]}`;
 }
 
 export function calculateAttrAvg(staffMember) {

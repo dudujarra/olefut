@@ -1,3 +1,4 @@
+import { rng as systemRng } from './rng.js';
 /**
  * HeritageTraitSystem — SPEC-079: Traits Herdáveis de Lendas
  *
@@ -22,7 +23,7 @@ const TRAIT_CAP   = 100;
  * @returns {{ traits: object, inheritedFrom: Array<string>, inheritanceNarrative: string }}
  */
 export function inherit({ clubId, hall, baseChance = 0.6, seed = null } = {}) {
-    const rand = seed !== null ? seededRandom(seed) : Math.random;
+    const rand = seed !== null ? seededRandom(seed) : systemRng;
     const slots = hall?.slots || {};
     const filledSlots = Object.keys(slots);
 

@@ -4,6 +4,8 @@ import { OffPitchEventsDeck } from '../engine/OffPitchEventsDeck';
 import { PERSONALITIES, TRAITS_CATALOG, LIFESTYLE_CATALOG, SUB_ATTRIBUTES } from '../engine/PlayerCareer';
 import { EfClubBadge, EfBanner } from './ui';
 
+import { rng as systemRng } from '../engine/rng.js';
+
 export function PlayerDashboardView() {
     const { getEngine, changeView, forceUpdate } = useGame();
     const engine = getEngine();
@@ -32,8 +34,8 @@ export function PlayerDashboardView() {
             try { return !!e.trigger(player); }
             catch { return false; }
         });
-        if (eligible.length > 0 && Math.random() < 0.4) {
-            setOffPitchEvent(eligible[Math.floor(Math.random() * eligible.length)]);
+        if (eligible.length > 0 && systemRng() < 0.4) {
+            setOffPitchEvent(eligible[Math.floor(systemRng() * eligible.length)]);
         }
     }, [engine.currentWeek, player]);
 
