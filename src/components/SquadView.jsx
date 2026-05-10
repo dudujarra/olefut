@@ -80,6 +80,19 @@ export function SquadView() {
     // Loaned out players
     const loanedOut = engine.loanedOut || [];
 
+    const renderHealthBars = (energy) => {
+        const blocks = [];
+        for (let i = 0; i < 5; i++) {
+            const threshold = (i + 1) * 20;
+            let color = '#222'; // empty
+            if (energy >= threshold || energy > threshold - 10) {
+                color = energy > 60 ? '#39FF14' : energy > 30 ? '#FFD700' : '#FF3333';
+            }
+            blocks.push(<div key={i} style={{width:'8px', height:'12px', backgroundColor: color, border:'1px solid #000', boxShadow:'inset 1px 1px 0 rgba(255,255,255,0.3)'}} />);
+        }
+        return <div style={{display:'flex', gap:'2px', alignItems: 'center'}}>{blocks}</div>;
+    };
+
     return (
         <div className="ef-anim-fade-in" style={{
             backgroundImage: `url(${bgPitch})`,
@@ -181,133 +194,143 @@ export function SquadView() {
             </EfPanel>
 
             {tab === 'plantel' && (
-            <EfPanel variant="elev" padding="sm" style={{ overflowX: 'auto' }}>
-                <table className="standings-table">
+            <div style={{
+                backgroundColor: '#1E2124',
+                border: '4px solid',
+                borderColor: '#4A5059 #111417 #111417 #4A5059',
+                boxShadow: '0 16px 0 rgba(0,0,0,0.5)',
+                padding: '12px',
+                overflowX: 'auto',
+                marginBottom: '24px'
+            }}>
+                <div style={{
+                    fontFamily: "'Press Start 2P', monospace",
+                    color: '#FFF',
+                    textAlign: 'center',
+                    marginBottom: '16px',
+                    fontSize: '1.2rem',
+                    textShadow: '2px 2px 0 #000'
+                }}>
+                    SQUAD LIST
+                </div>
+                <table style={{ width: '100%', borderCollapse: 'collapse', color: 'white', fontSize: '0.75rem', fontFamily: "'Press Start 2P', monospace" }}>
                     <thead>
-                        <tr>
-                            <th>Status</th><th>Nome</th><th>Pos</th><th>OVR</th>
-                            <th className="hide-mobile">⚡</th><th className="hide-mobile">😊</th><th className="hide-mobile">🔥</th><th className="hide-mobile">Idade</th><th className="hide-mobile">📋</th><th className="hide-mobile">🏥</th>
-                            <th>Ações</th>
+                        <tr style={{ borderBottom: '4px solid #4A5059', color: '#888' }}>
+                            <th style={{padding:'12px 8px', textAlign:'center'}}>ST</th>
+                            <th style={{padding:'12px 8px', textAlign:'center'}}>POS</th>
+                            <th style={{padding:'12px 8px', textAlign:'left'}}>PLAYER</th>
+                            <th style={{padding:'12px 8px', textAlign:'center'}}>FIT</th>
+                            <th style={{padding:'12px 8px', textAlign:'center'}}>COND</th>
+                            <th style={{padding:'12px 8px', textAlign:'center'}}>MOR</th>
+                            <th style={{padding:'12px 8px', textAlign:'center'}}>ACT</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {sorted.map(p => (
-                          <React.Fragment key={p.id}>
-                            <tr className={p.isTitular ? 'highlight' : ''} style={p.injury ? {opacity: 0.6} : {}}>
-                                <td>
-                                    <EfButton
-                                        size="sm"
-                                        variant={p.isTitular ? 'primary' : 'secondary'}
-                                        onClick={() => toggleTitular(p.id)}
-                                        disabled={!!p.injury}
-                                        style={{ padding: '4px 8px' }}
-                                    >
-                                        {p.injury ? '🏥' : p.isTitular ? '⭐' : '🔄'}
-                                    </EfButton>
-                                </td>
-                                <td>
-                                    <span style={{display:'inline-flex',alignItems:'center'}}>
-                                        <PlayerAvatar name={p.name} size={26} />
-                                        {p.name}
-                                    </span>
-                                    {p._isCaptain && <Tooltip content="Capitão: lidera o vestiário, +5 moral coletiva."><span style={{marginLeft:'3px'}}>©️</span></Tooltip>}
-                                    {p.isYouth && <Tooltip content="Jovem da base: oriundo da academia."><span style={{color:'var(--accent)',fontSize:'0.7rem',marginLeft:'4px'}}>🎓</span></Tooltip>}
-                                    {getPlayerTraits(p).map(t => (
-                                        <Tooltip key={t.id} content={`${t.name}: ${t.description}`}><span style={{fontSize:'0.65rem',marginLeft:'2px'}}>{t.name.split(' ')[0]}</span></Tooltip>
-                                    ))}
-                                    {p.career && (p.career.seasonGoals > 0 || p.career.seasonAssists > 0) && (
-                                        <span style={{fontSize:'0.6rem',color:'var(--primary)',marginLeft:'4px'}}>
-                                            {p.career.seasonGoals > 0 ? `${p.career.seasonGoals}G` : ''}{p.career.seasonAssists > 0 ? ` ${p.career.seasonAssists}A` : ''}
-                                        </span>
-                                    )}
-                                </td>
-                                <td>
-                                    <span
-                                        className={`pos-badge ${p.position}`}
-                                        title={p.naturalPosition ? POSITIONS[p.naturalPosition]?.name : p.position}
-                                        style={{ cursor: 'pointer' }}
+                        {sorted.map((p, index) => {
+                            const isSelected = p.isTitular;
+                            return (
+                                <React.Fragment key={p.id}>
+                                    <tr 
+                                        style={{
+                                            backgroundColor: index % 2 === 0 ? '#111417' : '#181A1F',
+                                            border: isSelected ? '2px solid #FFD700' : '2px solid transparent',
+                                            opacity: p.injury ? 0.6 : 1,
+                                            cursor: 'pointer'
+                                        }}
                                         onClick={() => setExpandedId(expandedId === p.id ? null : p.id)}
                                     >
-                                        <span className={`ef-pos-icon ${p.position}`} aria-hidden="true" />
-                                        {p.naturalPosition || p.position}
-                                    </span>
-                                </td>
-                                <td><strong>{p.ovr}</strong></td>
-                                <td className="hide-mobile" style={{ color: getEnergyColor(p.energy) }}>
-                                    {p.energy < 30 && <span title="Fadiga crítica" className="ef-anim-pulse-glow">⚠️</span>}
-                                    {p.energy}%
-                                </td>
-                                <td className="hide-mobile">{getMoralEmoji(p.moral || 50)} {(p.moral || 50)}%</td>
-                                <td className="hide-mobile">{getFormEmoji(p.form?.trend)}</td>
-                                <td className="hide-mobile">{p.age}</td>
-                                <td className="hide-mobile" style={{color: p.contract?.weeksLeft <= 8 ? 'var(--danger)' : 'var(--text-muted)', fontSize: '0.75rem'}}>
-                                    {p.contract ? `${p.contract.weeksLeft}sem` : '-'}
-                                </td>
-                                <td className="hide-mobile" style={{fontSize: '0.75rem'}}>
-                                    {p.injury ? (
-                                        <span style={{color:'var(--danger)'}}>{p.injury.emoji} {p.injury.weeksLeft}sem</span>
-                                    ) : '-'}
-                                </td>
-                                <td>
-                                    <div style={{display:'flex',gap:'0.25rem'}}>
-                                        {!p.isTitular && !p.injury && p.age <= 23 && (
-                                            <Help id="btn.loan"><EfButton size="sm" variant="secondary" onClick={() => handleLoan(p.id)} style={{padding:'4px 8px'}}>📤</EfButton></Help>
-                                        )}
-                                        {!p.isTitular && (
-                                            <Help id="btn.sell"><EfButton size="sm" variant="danger" onClick={() => handleSell(p)} style={{padding:'4px 8px'}}>💰</EfButton></Help>
-                                        )}
-                                        {p.contract && p.contract.weeksLeft <= 12 && (
-                                            <Help id="btn.renew"><EfButton size="sm" variant="primary" onClick={() => {
-                                                const result = engine.renewContract(p.id);
-                                                if (result.success) forceUpdate();
-                                            }} style={{padding:'4px 8px'}}>📝</EfButton></Help>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr>
-                            {expandedId === p.id && (
-                                <tr key={`${p.id}-pentagon`}>
-                                    <td colSpan="11" style={{ padding: 0 }}>
-                                        <div style={{
-                                            display: 'flex',
-                                            gap: '1rem',
-                                            padding: '1rem',
-                                            background: 'rgba(0,0,0,0.5)',
-                                            borderTop: '2px solid var(--ef-bevel-dark)',
-                                            borderBottom: '2px solid var(--ef-bevel-dark)',
-                                        }}>
-                                            <PentagonChart player={p} size={220} />
-                                            <div style={{ flex: 1, fontSize: '0.85rem' }}>
-                                                <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.5rem' }}>{p.name}</div>
-                                                <div style={{ marginBottom: '0.5rem', color: 'var(--text-muted)' }}>
-                                                    🏷️ {p.naturalPosition ? POSITIONS[p.naturalPosition]?.name : p.position}
-                                                    {p.preferredFoot && ` • 🦶 ${p.preferredFoot}`}
-                                                    {p.height && ` • 📏 ${p.height}cm`}
-                                                    {p.nationality && ` • 🌍 ${p.nationality}`}
-                                                </div>
-                                                {p.marketValue > 0 && (
-                                                    <div style={{ marginBottom: '0.5rem' }}>
-                                                        💰 R$ {p.marketValue.toLocaleString('pt-BR')}
-                                                    </div>
+                                        <td style={{padding:'8px', textAlign:'center'}}>
+                                            <div
+                                                onClick={(e) => { e.stopPropagation(); toggleTitular(p.id); }}
+                                                style={{
+                                                    display: 'inline-block',
+                                                    width: '16px',
+                                                    height: '16px',
+                                                    backgroundColor: isSelected ? '#39FF14' : '#222',
+                                                    border: '2px solid #000',
+                                                    boxShadow: 'inset 1px 1px 0 rgba(255,255,255,0.3)',
+                                                    cursor: p.injury ? 'not-allowed' : 'pointer'
+                                                }}
+                                                title={p.injury ? 'Machucado' : 'Alternar titular'}
+                                            />
+                                        </td>
+                                        <td style={{padding:'8px', textAlign:'center'}}>
+                                            <span style={{
+                                                color: p.position === 'GOL' ? '#FFD700' : 
+                                                       p.position === 'DEF' ? '#40BAF7' : 
+                                                       p.position === 'MEI' ? '#39FF14' : '#FF3333'
+                                            }}>
+                                                {p.naturalPosition || p.position}
+                                            </span>
+                                        </td>
+                                        <td style={{padding:'8px', textAlign:'left', position:'relative'}}>
+                                            {isSelected && (
+                                                <span style={{position:'absolute', left:'-12px', top:'50%', transform:'translateY(-50%)', color:'#FFD700'}}>▶</span>
+                                            )}
+                                            {p.name}
+                                            {p.injury && <span style={{marginLeft:'8px', color:'#FF3333'}}>+</span>}
+                                        </td>
+                                        <td style={{padding:'8px', textAlign:'center', color:'#FFF'}}>
+                                            {p.ovr}%
+                                        </td>
+                                        <td style={{padding:'8px', textAlign:'center'}}>
+                                            {renderHealthBars(p.energy)}
+                                        </td>
+                                        <td style={{padding:'8px', textAlign:'center', color: p.moral > 70 ? '#39FF14' : p.moral > 40 ? '#FFD700' : '#FF3333'}}>
+                                            {p.moral || 50}%
+                                        </td>
+                                        <td style={{padding:'8px', textAlign:'center'}}>
+                                            <div style={{display:'flex', gap:'4px', justifyContent:'center'}}>
+                                                {!p.isTitular && !p.injury && p.age <= 23 && (
+                                                    <Help id="btn.loan"><button onClick={(e) => { e.stopPropagation(); handleLoan(p.id); }} style={{background:'#222', border:'2px solid #000', color:'#40BAF7', padding:'4px', cursor:'pointer', fontFamily: "'Press Start 2P', monospace", fontSize:'0.5rem'}}>L</button></Help>
                                                 )}
-                                                <div style={{ fontSize: '0.75rem', color: 'var(--accent)' }}>
-                                                    Rating natural ({p.naturalPosition || p.position}): <strong>{p.attacking ? calculateRatingForPosition(p, p.naturalPosition || 'MEC') : p.ovr}</strong>
-                                                </div>
-                                                {p.secondaryPositions?.length > 0 && (
-                                                    <div style={{ fontSize: '0.7rem', marginTop: '0.5rem', color: 'var(--text-muted)' }}>
-                                                        Secundárias: {p.secondaryPositions.map(sp => POSITIONS[sp]?.name).filter(Boolean).join(', ')}
-                                                    </div>
+                                                {!p.isTitular && (
+                                                    <Help id="btn.sell"><button onClick={(e) => { e.stopPropagation(); handleSell(p); }} style={{background:'#222', border:'2px solid #000', color:'#FF3333', padding:'4px', cursor:'pointer', fontFamily: "'Press Start 2P', monospace", fontSize:'0.5rem'}}>S</button></Help>
                                                 )}
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )}
-                          </React.Fragment>
-                        ))}
+                                        </td>
+                                    </tr>
+                                    {expandedId === p.id && (
+                                        <tr key={`${p.id}-details`}>
+                                            <td colSpan="7" style={{ padding: 0 }}>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    gap: '1rem',
+                                                    padding: '1rem',
+                                                    background: '#0A0A0A',
+                                                    borderTop: '2px solid #4A5059',
+                                                    borderBottom: '2px solid #4A5059',
+                                                    color: '#CCC',
+                                                    fontFamily: 'Outfit, sans-serif'
+                                                }}>
+                                                    <PentagonChart player={p} size={220} />
+                                                    <div style={{ flex: 1, fontSize: '0.85rem' }}>
+                                                        <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.5rem', color: '#FFF' }}>{p.name}</div>
+                                                        <div style={{ marginBottom: '0.5rem' }}>
+                                                            {p.naturalPosition ? POSITIONS[p.naturalPosition]?.name : p.position}
+                                                            {p.preferredFoot && ` • PÉ: ${p.preferredFoot}`}
+                                                            {p.height && ` • ALT: ${p.height}cm`}
+                                                            {p.nationality && ` • NAC: ${p.nationality}`}
+                                                        </div>
+                                                        {p.marketValue > 0 && (
+                                                            <div style={{ marginBottom: '0.5rem', color: '#39FF14' }}>
+                                                                R$ {p.marketValue.toLocaleString('pt-BR')}
+                                                            </div>
+                                                        )}
+                                                        <div style={{ fontSize: '0.75rem', color: '#FFD700' }}>
+                                                            RATING: {p.attacking ? calculateRatingForPosition(p, p.naturalPosition || 'MEC') : p.ovr}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )}
+                                </React.Fragment>
+                            );
+                        })}
                     </tbody>
                 </table>
-            </EfPanel>
+            </div>
             )}
 
             {tab === 'stats' && (
