@@ -10,6 +10,8 @@ import { checkSquadHealth } from './SquadHealthMonitor';
 import { generateRealTransferOffers } from './MarketPricer';
 import { evaluateGrowth } from './GrowthEventSystem';
 import { canAccess, persistUnlock, evaluateNewUnlocks } from './ViewUnlockSystem';
+import { compute as computeManagerIdentity, applyEvent as applyManagerEvent, computeLeagueRankings } from './ManagerIdentitySystem';
+import { generate as generateContract, resolve as resolveContract } from './ContractGoalSystem';
 import { BoardSystem } from './BoardSystem';
 import { processMatchInjuries, processTrainingInjuries, healInjury } from './InjurySystem';
 import { generateYouthIntake, getAcademyUpgradeCost, loanPlayerOut, processLoans } from './YouthAcademy';
@@ -32,7 +34,7 @@ export class Engine {
         this.currentWeek = 0;
         this.mode = 'manager'; // 'manager' or 'player'
         this.proPlayer = null;
-        this.manager = { name: '', teamId: null, money: 0, salary: 5000 };
+        this.manager = { name: '', teamId: null, money: 0, salary: 5000, reputation: 10, tacticHistory: {}, careerHistory: [] };
         this.marketPlayers = [];
 
         // RFCT-004: MatchSimulator extracted from playMatch (ver src/services/MatchSimulator.js)
@@ -134,13 +136,23 @@ export class Engine {
             if (team) team.balance = Math.floor(team.balance * 0.1);
         }
 
-        // Init Board System + Legacy + Sponsor
+        // Init Board System + Legacy + Sponsor + Contract Goals
         if (mode === 'manager') {
             const team = this.getTeam(this.manager.teamId);
             if (team) {
                 this.board = new BoardSystem(team.division, team.balance);
                 this.legacy = new ManagerLegacy(name);
                 this.currentSponsor = evaluateSponsor(team.division, 10);
+                // SPEC-071: generate initial contract for new manager
+                const clubTier = team.division === 1 ? 'big' : team.division === 2 ? 'mid' : 'small';
+                this.managerContract = generateContract({
+                    managerId: this.manager.teamId,
+                    clubId: team.id,
+                    clubTier,
+                    managerReputation: this.manager.reputation || 10,
+                    contractType: 'new_hire',
+                    clubDivision: team.division,
+                });
             }
         }
 
@@ -240,6 +252,25 @@ export class Engine {
         if (managerReputation !== undefined) this.viewUnlockState.managerReputation = managerReputation;
     }
 
+    // SPEC-070: retorna identidade calculada do técnico (reputação, estilo, carreira)
+    getManagerIdentity() {
+        const th = this.manager.tacticHistory || {};
+        const totalGames = Object.values(th).reduce((s, n) => s + n, 0);
+        const tacticHistory = Object.entries(th).map(([tactic, gamesUsed]) => ({
+            tactic,
+            gamesUsed,
+            winRate: 0, // win rate not tracked per-tactic yet
+        }));
+        return computeManagerIdentity({
+            managerId: this.manager.teamId,
+            name: this.manager.name,
+            isPlayerManager: this.mode === 'manager',
+            tacticHistory,
+            careerHistory: this.manager.careerHistory || [],
+            currentReputation: this.manager.reputation || 10,
+        });
+    }
+
     getTournament(id) {
         return this.tournaments.find(t => t.id === id);
     }
@@ -327,7 +358,12 @@ export class Engine {
 
     // === MANAGER ACTIONS ===
     setTactic(tacticId) {
-        if (TACTICS[tacticId]) this.currentTactic = tacticId;
+        if (TACTICS[tacticId]) {
+            this.currentTactic = tacticId;
+            // SPEC-070: track tactic usage for manager identity (style computation)
+            if (!this.manager.tacticHistory) this.manager.tacticHistory = {};
+            this.manager.tacticHistory[tacticId] = (this.manager.tacticHistory[tacticId] || 0) + 1;
+        }
     }
 
     setFormation(formationId) {
@@ -1081,6 +1117,74 @@ export class Engine {
                     );
                     this.weekEvents.push(`🏆 Temp ${this.seasonNumber}: ${season.record} (${pos}º lugar)`);
                     if (season.title) this.weekEvents.push(`🎉 ${season.title}!`);
+
+                    // SPEC-070: update manager reputation + career history
+                    try {
+                        const repEvent = pos === 1 ? 'national_title' : (pos <= 2 && team.division > 1 ? 'promotion' : null);
+                        const relegated = pos >= 19;
+                        if (repEvent) {
+                            const r = applyManagerEvent({ event: repEvent, currentReputation: this.manager.reputation || 10 });
+                            this.manager.reputation = r.reputation;
+                        } else if (relegated) {
+                            const r = applyManagerEvent({ event: 'relegation', currentReputation: this.manager.reputation || 10 });
+                            this.manager.reputation = r.reputation;
+                        }
+                        if (!Array.isArray(this.manager.careerHistory)) this.manager.careerHistory = [];
+                        this.manager.careerHistory.push({
+                            clubName: team.name,
+                            seasonsManaged: 1,
+                            titlesWon: pos === 1 ? 1 : 0,
+                            promoted: !!(repEvent === 'promotion'),
+                            relegated,
+                        });
+                    } catch { /* defensive */ }
+
+                    // SPEC-071: resolve contract goals
+                    try {
+                        if (this.managerContract) {
+                            const relegated = pos >= 19;
+                            const objective = this.managerContract.objective;
+                            let objectiveMet = false;
+                            if (objective === 'title') objectiveMet = pos === 1;
+                            else if (objective === 'top_4') objectiveMet = pos <= 4;
+                            else if (objective === 'top_half') objectiveMet = pos <= Math.ceil((standings.length || 20) / 2);
+                            else if (objective === 'avoid_relegation') objectiveMet = !relegated;
+                            else if (objective === 'promotion') objectiveMet = pos <= 2 && team.division > 1;
+
+                            const resolution = resolveContract({
+                                contractId: this.managerContract.contractId,
+                                objectiveMet,
+                                weeksManaged: this.currentWeek,
+                                minWeeks: this.managerContract.minWeeks,
+                                managerReputation: this.manager.reputation || 10,
+                                bonusReputation: this.managerContract.bonusReputation,
+                                penaltyReputation: this.managerContract.penaltyReputation,
+                            });
+                            this.lastContractResolution = resolution;
+
+                            if (resolution.outcome === 'fulfilled') {
+                                this.manager.reputation = Math.min(100, (this.manager.reputation || 10) + resolution.reputationDelta);
+                                this.weekEvents.push(`✅ Meta cumprida: ${this.managerContract.objectiveDescription}!`);
+                                if (resolution.consequence === 'bigger_club_interested') {
+                                    this.weekEvents.push(`📰 Grandes clubes estão de olho em você!`);
+                                }
+                            } else if (resolution.outcome === 'failed' && resolution.consequence === 'fired') {
+                                this.manager.reputation = Math.max(0, (this.manager.reputation || 10) + resolution.reputationDelta);
+                                this.weekEvents.push(`❌ Meta não cumprida. O clube rescindiu seu contrato.`);
+                            }
+
+                            // Generate new contract for next season
+                            const clubTier = team.division === 1 ? 'big' : team.division === 2 ? 'mid' : 'small';
+                            this.managerContract = generateContract({
+                                managerId: this.manager.teamId,
+                                clubId: team.id,
+                                clubTier,
+                                managerReputation: this.manager.reputation || 10,
+                                contractType: resolution.outcome === 'fulfilled' ? 'renewal' : 'new_hire',
+                                clubDivision: team.division,
+                            });
+                        }
+                    } catch { /* defensive */ }
                 }
 
                 // BUG-077: processPromoRelegation previously only ran for bot's division.
