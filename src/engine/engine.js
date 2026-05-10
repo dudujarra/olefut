@@ -4,7 +4,12 @@ import { League } from './tournaments/League';
 import { ContinentalCup } from './tournaments/ContinentalCup';
 import { KnockoutCup } from './tournaments/KnockoutCup';
 import { ProPlayer } from './PlayerCareer';
-import { FORMATIONS, TACTICS, rollMatchCondition, calculateWeeklyFinances, generateTransferOffers, applyTraining, applyTeamTalk } from './ManagerSystems';
+import { FORMATIONS, TACTICS, rollMatchCondition, calculateWeeklyFinances, applyTraining, applyTeamTalk } from './ManagerSystems';
+import { adviseTactic, initNpcTacticState, recordNpcResult, applyNpcTacticAdvice } from './NpcTacticAdvisor';
+import { checkSquadHealth } from './SquadHealthMonitor';
+import { generateRealTransferOffers } from './MarketPricer';
+import { evaluateGrowth } from './GrowthEventSystem';
+import { canAccess, persistUnlock, evaluateNewUnlocks } from './ViewUnlockSystem';
 import { BoardSystem } from './BoardSystem';
 import { processMatchInjuries, processTrainingInjuries, healInjury } from './InjurySystem';
 import { generateYouthIntake, getAcademyUpgradeCost, loanPlayerOut, processLoans } from './YouthAcademy';
@@ -74,6 +79,17 @@ export class Engine {
         this.currentSponsor = null;
         this.seasonNumber = 1;
         this.seasonAwards = [];
+
+        // SPEC-135: view unlock state
+        this.viewUnlockState = {
+            seasonsCompleted: 0,
+            titlesWon: 0,
+            totalTransfers: 0,
+            managerReputation: 10,
+            unlockedViews: [],
+        };
+        // SPEC-132: squad monitor cooldowns
+        this._squadMonitorCooldowns = {};
     }
 
     initGame(name, teamId, mode = 'manager', scenario = 'livre', playerPosition = 'ATA') {
@@ -105,7 +121,8 @@ export class Engine {
                         squad,
                         formation: "4-3-3",
                         balance: club.budget,
-                        stadium: club.stadium
+                        stadium: club.stadium,
+                        npcTacticState: initNpcTacticState(), // SPEC-131
                     });
                 });
             }
@@ -209,6 +226,18 @@ export class Engine {
 
     getTeam(id) {
         return this.teams.find(t => t.id === parseInt(id));
+    }
+
+    // SPEC-135: consulta UI se view está acessível
+    getViewAccess(viewId) {
+        return canAccess(viewId, this.viewUnlockState);
+    }
+
+    // SPEC-135: atualiza stats para unlock (chamar após título, transferência, etc.)
+    updateViewUnlockStats({ titlesWon, totalTransfers, managerReputation } = {}) {
+        if (titlesWon !== undefined) this.viewUnlockState.titlesWon = titlesWon;
+        if (totalTransfers !== undefined) this.viewUnlockState.totalTransfers = totalTransfers;
+        if (managerReputation !== undefined) this.viewUnlockState.managerReputation = managerReputation;
     }
 
     getTournament(id) {
@@ -651,6 +680,8 @@ export class Engine {
         if (player.isTitular) return { success: false, msg: 'Tire da titularidade antes de vender.' };
         team.squad = team.squad.filter(p => p.id !== playerId);
         team.balance += amount;
+        // SPEC-135: track transfers para view unlock
+        this.viewUnlockState.totalTransfers = (this.viewUnlockState.totalTransfers || 0) + 1;
         return { success: true, msg: `💰 ${player.name} vendido por R$ ${(amount/1000000).toFixed(1)}M!` };
     }
 
@@ -747,10 +778,29 @@ export class Engine {
                 // Match condition para próxima partida
                 this.matchCondition = rollMatchCondition();
 
-                // Transfer offers (janelas)
-                const newOffers = generateTransferOffers(team, this.currentWeek);
+                // Transfer offers (janelas) — SPEC-133: precificação real
+                const newOffers = generateRealTransferOffers(team, this.currentWeek);
                 if (newOffers.length > 0) {
                     this.transferOffers.push(...newOffers);
+                }
+
+                // SPEC-132: squad emergency check (player-manager)
+                const squadAvail = team.squad.filter(p => !p.injury && !p._retired).length;
+                const healthCheck = checkSquadHealth({
+                    teamId: team.id,
+                    squadSize: squadAvail,
+                    budget: team.balance,
+                    isPlayerManager: true,
+                    week: this.currentWeek,
+                    squadAvgOvr: Math.round(team.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (team.squad.length || 1)),
+                    marketPlayers: this.marketPlayers,
+                    _cooldowns: this._squadMonitorCooldowns,
+                });
+                if (healthCheck.triggered) {
+                    this._squadMonitorCooldowns[team.id] = this.currentWeek;
+                    if (healthCheck.alertMessage) {
+                        this.weekEvents.push(healthCheck.alertMessage);
+                    }
                 }
 
                 // Win/Loss tracking
@@ -829,6 +879,34 @@ export class Engine {
                     });
                 });
 
+                // SPEC-134: growth events (breakthroughs, hot streaks, peak season)
+                const recentForm = (() => {
+                    const streak = this.managerStats.streak;
+                    if (streak > 0) return Array(Math.min(streak, 8)).fill('W');
+                    if (streak < 0) return Array(Math.min(-streak, 8)).fill('L');
+                    return [];
+                })();
+                const growthResult = evaluateGrowth({
+                    teamId: team.id,
+                    week: this.currentWeek,
+                    season: this.seasonNumber,
+                    players: team.squad,
+                    teamRecentResults: recentForm,
+                });
+                growthResult.growthEvents.forEach(evt => {
+                    if (evt.type === 'youth_breakthrough') this.weekEvents.push(`⭐ ${evt.playerName} explodiu! OVR +${evt.ovrDelta}`);
+                    if (evt.type === 'hot_streak') this.weekEvents.push(`🔥 ${evt.playerName} em grande fase! (+3 OVR temporário)`);
+                    if (evt.type === 'peak_season') this.weekEvents.push(`📈 ${evt.playerName} na melhor fase da carreira! OVR +${evt.ovrDelta}`);
+                    if (evt.type === 'training_breakthrough') this.weekEvents.push(`💪 ${evt.playerName} evoluiu no treino! OVR +${evt.ovrDelta}`);
+                });
+
+                // SPEC-135: check for newly unlocked views
+                const newlyUnlocked = evaluateNewUnlocks(this.viewUnlockState);
+                newlyUnlocked.forEach(({ viewId, reason }) => {
+                    this.viewUnlockState = persistUnlock(viewId, this.viewUnlockState);
+                    this.weekEvents.push(`🔓 Novo acesso desbloqueado: ${viewId} — ${reason}`);
+                });
+
                 // Dressing Room Dynamics
                 const dressingRoom = processDressingRoom(team.squad);
                 dressingRoom.events.forEach(e => this.weekEvents.push(e));
@@ -878,6 +956,57 @@ export class Engine {
 
             }
         }
+
+        // SPEC-131 + SPEC-132: NPC tactic pivot + squad emergency (todos os times NPC)
+        this.teams.forEach(t => {
+            if (t.id === this.manager.teamId) return; // skip player team
+
+            // Squad health check for NPCs
+            const npcSquadAvail = t.squad.filter(p => !p.injury && !p._retired).length;
+            if (npcSquadAvail < 11) {
+                const npcHealth = checkSquadHealth({
+                    teamId: t.id,
+                    squadSize: npcSquadAvail,
+                    budget: t.balance,
+                    isPlayerManager: false,
+                    week: this.currentWeek,
+                    squadAvgOvr: Math.round(t.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (t.squad.length || 1)),
+                    marketPlayers: this.marketPlayers,
+                    _cooldowns: this._squadMonitorCooldowns,
+                });
+                if (npcHealth.triggered) {
+                    this._squadMonitorCooldowns[t.id] = this.currentWeek;
+                    // Apply purchased players to NPC squad
+                    npcHealth.playersBought?.forEach(bought => {
+                        const mkt = this.marketPlayers.find(p => p.id === bought.playerId);
+                        if (mkt) {
+                            mkt.contract = { weeksLeft: 26, salary: mkt.salary || 5000 };
+                            mkt.injury = null;
+                            mkt.moral = 50;
+                            mkt.isTitular = true;
+                            t.squad.push(mkt);
+                            t.balance -= bought.cost;
+                            this.marketPlayers = this.marketPlayers.filter(p => p.id !== bought.playerId);
+                        }
+                    });
+                }
+            }
+
+            // NPC tactic pivot
+            if (!t.npcTacticState) t.npcTacticState = initNpcTacticState();
+            const oppId = this._lastNpcOpponent?.[t.id];
+            const oppTeam = oppId ? this.getTeam(oppId) : null;
+            const npcOvr = Math.round(t.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (t.squad.length || 1));
+            const oppOvr = oppTeam ? Math.round(oppTeam.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (oppTeam.squad.length || 1)) : npcOvr;
+            const advice = adviseTactic({
+                currentTactic: t.npcTacticState.currentTactic,
+                recentResults: t.npcTacticState.recentResults,
+                squadOvr: npcOvr,
+                opponentOvr: oppOvr,
+                tacticAge: t.npcTacticState.tacticAge,
+            });
+            t.npcTacticState = applyNpcTacticAdvice(t.npcTacticState, advice);
+        });
 
         // Pagar Salários
         if (this.mode === 'manager') this.manager.money += this.manager.salary;
@@ -1009,6 +1138,8 @@ export class Engine {
 
         this.currentWeek = 0;
         this.seasonNumber++;
+        // SPEC-135: atualiza seasonsCompleted para view unlock
+        this.viewUnlockState.seasonsCompleted = this.seasonNumber - 1;
         if (this.managerStats) {
             this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0 };
         }

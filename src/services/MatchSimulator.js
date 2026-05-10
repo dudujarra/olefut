@@ -20,6 +20,7 @@
 import { TACTICS } from '../engine/ManagerSystems';
 import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
 import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats } from '../engine/PlayerTraits';
+import { recordNpcResult, applyNpcTacticAdvice, adviseTactic } from '../engine/NpcTacticAdvisor';
 
 export class MatchSimulator {
     /**
@@ -38,9 +39,13 @@ export class MatchSimulator {
         const homeSectors = engine.getTeamSectors(homeId);
         const awaySectors = engine.getTeamSectors(awayId);
 
-        // Tactic setup
-        const homeTactic = homeId === engine.manager.teamId ? engine.currentTactic : 'normal';
-        const awayTactic = awayId === engine.manager.teamId ? engine.currentTactic : 'normal';
+        // Tactic setup — SPEC-131: NPCs usam tática dinâmica (não mais hardcoded 'normal')
+        const homeTactic = homeId === engine.manager.teamId
+            ? engine.currentTactic
+            : (homeTeam?.npcTacticState?.currentTactic || 'normal');
+        const awayTactic = awayId === engine.manager.teamId
+            ? engine.currentTactic
+            : (awayTeam?.npcTacticState?.currentTactic || 'normal');
         const tactic = TACTICS[homeTactic] || TACTICS.normal;
         const oppTactic = TACTICS[awayTactic] || TACTICS.normal;
 
@@ -276,6 +281,20 @@ export class MatchSimulator {
 
         // Reset team talk modifiers after match
         engine.teamTalkModifiers = { ata: 1.0, def: 1.0 };
+
+        // SPEC-131: registra resultado nos estados NPC para próximo pivot
+        const homeResult = homeGoals > awayGoals ? 'W' : homeGoals < awayGoals ? 'L' : 'D';
+        const awayResult = awayGoals > homeGoals ? 'W' : awayGoals < homeGoals ? 'L' : 'D';
+        if (homeTeam && homeId !== engine.manager.teamId && homeTeam.npcTacticState) {
+            homeTeam.npcTacticState = recordNpcResult(homeTeam.npcTacticState, homeResult);
+        }
+        if (awayTeam && awayId !== engine.manager.teamId && awayTeam.npcTacticState) {
+            awayTeam.npcTacticState = recordNpcResult(awayTeam.npcTacticState, awayResult);
+        }
+        // Track last opponent for tactic advisor context
+        if (!engine._lastNpcOpponent) engine._lastNpcOpponent = {};
+        if (homeId !== engine.manager.teamId) engine._lastNpcOpponent[homeId] = awayId;
+        if (awayId !== engine.manager.teamId) engine._lastNpcOpponent[awayId] = homeId;
 
         return { homeGoals, awayGoals, events };
     }
