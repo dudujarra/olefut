@@ -937,7 +937,8 @@ export class AutoPlayController {
                             continue;
                         }
                         const normalizedOffer = { player, amount: offer.offerAmount };
-                        const decision = decideSellHeuristic(team, normalizedOffer);
+                        // Fase 5: pass personality to enable cognitive biases in sell decisions
+                        const decision = decideSellHeuristic(team, normalizedOffer, this.brain?.personality);
                         if (decision.sell && typeof engine.acceptTransferOffer === 'function') {
                             const result = engine.acceptTransferOffer(offer.playerId);
                             if (result?.success) {
@@ -1148,7 +1149,11 @@ export class AutoPlayController {
                     // MARL Fase 2: Feed EmotionalEngine with match result
                     try {
                         const streak = this.engine.managerStats?.streak || 0;
-                        const isRelRisk = myPos > (n * 0.75);
+                        const team2 = this.engine.getTeam(myTeamId);
+                        const standings2 = team2 ? this.engine.getStandings(team2.zone, team2.division) : [];
+                        const pos2 = team2 ? (standings2.findIndex(s => s.teamId === team2.id) + 1) || standings2.length : 10;
+                        const n2 = standings2.length || 20;
+                        const isRelRisk = pos2 > (n2 * 0.75);
                         this.brain.processMatchResult(outcome, streak, isRelRisk);
                     } catch { /* defensive — emotional engine must not break tick */ }
 

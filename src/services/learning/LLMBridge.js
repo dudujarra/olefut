@@ -16,10 +16,18 @@
 
 const STORAGE_KEY = 'elifoot_llm_mode';
 
+import { applyBuyBiases, applySellBiases, applyEndowment } from './CognitiveBiases.js';
+
 /**
  * HEURISTIC: Should bot buy this player?
+ * Fase 5: Now modulated by OCEAN personality + cognitive biases.
+ *
+ * @param {Object} team
+ * @param {Object} offer — { player, amount }
+ * @param {Object|null} [personality] — OCEAN personality from AdaptiveBrain
+ * @param {Object} [biasCtx] — { recentLeagueTransfers, windowWeeksLeft, totalWindowWeeks, lastMatchStats, recentWinRate }
  */
-export function decideBuyHeuristic(team, offer) {
+export function decideBuyHeuristic(team, offer, personality = null, biasCtx = {}) {
     if (!team?.squad || !offer?.player || !offer?.amount) {
         return { buy: false, reason: 'invalid input', source: 'heuristic' };
     }
@@ -31,10 +39,38 @@ export function decideBuyHeuristic(team, offer) {
     const offerOVR = offer.player.ovr || 0;
 
     const isPositionWeak = avgPositionOVR < 60;
-    const isAffordable = (team.balance || 0) > offer.amount * 2;
     const isUpgrade = offerOVR > avgPositionOVR + 5;
     const squadHasRoom = team.squad.length < 25;
 
+    // Fase 5: Apply cognitive biases to perceived affordability
+    let effectiveAmount = offer.amount;
+    let biasLog = [];
+    if (personality) {
+        const biases = applyBuyBiases({
+            realValue: offer.amount,
+            personality,
+            context: {
+                ...biasCtx,
+                targetPosition: position
+            }
+        });
+        effectiveAmount = biases.perceivedValue;
+        biasLog = biases.biasesApplied;
+
+        // Urgency modifier: high urgency → relax affordability check
+        const budgetThreshold = biases.urgencyMod > 1.2 ? 1.5 : 2;
+        const isAffordable = (team.balance || 0) > effectiveAmount * budgetThreshold;
+
+        const buy = isPositionWeak && isAffordable && isUpgrade && squadHasRoom;
+        const reason = !buy
+            ? `skip: weak=${isPositionWeak} aff=${isAffordable} up=${isUpgrade} room=${squadHasRoom} biases=[${biasLog.join(',')}]`
+            : `${position} weak (avg ${avgPositionOVR.toFixed(0)}) → buy ${offerOVR}OVR [${biasLog.join(',')}]`;
+
+        return { buy, reason, source: 'heuristic', biases: biasLog };
+    }
+
+    // Fallback: no personality → pure rational
+    const isAffordable = (team.balance || 0) > offer.amount * 2;
     const buy = isPositionWeak && isAffordable && isUpgrade && squadHasRoom;
     const reason = !buy
         ? `skip: weak=${isPositionWeak} aff=${isAffordable} up=${isUpgrade} room=${squadHasRoom}`
@@ -45,8 +81,14 @@ export function decideBuyHeuristic(team, offer) {
 
 /**
  * HEURISTIC: Should bot sell this player given offer?
+ * Fase 5: Now modulated by OCEAN personality + cognitive biases.
+ *
+ * @param {Object} team
+ * @param {Object} offer — { player, amount }
+ * @param {Object|null} [personality] — OCEAN personality from AdaptiveBrain
+ * @param {Object} [biasCtx] — { lastMatchStats }
  */
-export function decideSellHeuristic(team, offer) {
+export function decideSellHeuristic(team, offer, personality = null, biasCtx = {}) {
     if (!team?.squad || !offer?.player || !offer?.amount) {
         return { sell: false, reason: 'invalid input', source: 'heuristic' };
     }
@@ -54,9 +96,30 @@ export function decideSellHeuristic(team, offer) {
     const positionPlayers = team.squad.filter(p => p.position === player.position);
     const isReserve = !player.isTitular;
     const isOld = (player.age || 25) > 32;
-    const isOverpay = offer.amount >= (player.value || 1_000_000) * 1.2;
     const positionDeep = positionPlayers.length > 4;
 
+    // Fase 5: Apply cognitive biases to sell threshold
+    if (personality) {
+        const biases = applySellBiases({
+            offerAmount: offer.amount,
+            playerValue: player.value || 1_000_000,
+            purchasePrice: player._purchasePrice || 0,
+            personality,
+            context: biasCtx
+        });
+
+        // Bot rejects if offer < minAcceptable (sunk cost + endowment)
+        const isOverpay = offer.amount >= biases.minAcceptable;
+        const sell = (isReserve && isOverpay) || (isOld && positionDeep) || isOverpay;
+        const reason = sell
+            ? `sell: reserve=${isReserve} old=${isOld} overpay=${isOverpay} biases=[${biases.biasesApplied.join(',')}]`
+            : `keep: offer ${offer.amount} < min ${biases.minAcceptable} [${biases.biasesApplied.join(',')}]`;
+
+        return { sell, reason, source: 'heuristic', biases: biases.biasesApplied };
+    }
+
+    // Fallback: no personality → pure rational
+    const isOverpay = offer.amount >= (player.value || 1_000_000) * 1.2;
     const sell = (isReserve && isOverpay) || (isOld && positionDeep) || isOverpay;
     const reason = sell
         ? `sell: reserve=${isReserve} old=${isOld} overpay=${isOverpay} deep=${positionDeep}`
