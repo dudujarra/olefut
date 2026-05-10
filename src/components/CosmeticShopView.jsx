@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { COSMETICS, getCosmeticState, purchaseCosmetic, equipCosmetic, getAchievementPoints } from '../services/CosmeticShopService';
 import { EfButton } from './ui/EfButton';
-import bgManagerOffice from '../assets/environments/bg_manager_office.png';
+import bgManagerOffice from '../assets/environments/bg_cosmetic_shop.png';
 
 const TYPE_LABELS = {
     kit: '👕 KITS',

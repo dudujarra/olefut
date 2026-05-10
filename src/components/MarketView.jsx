@@ -6,7 +6,7 @@ import { PlayerAvatar } from '../utils/avatar';
 import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfButton } from './ui/EfButton';
-import bgOffice from '../assets/environments/bg_manager_office.png';
+import bgOffice from '../assets/environments/bg_transfer_market.png';
 
 // 16-bit Brutalist Panel Component for Market
 const MarketPanel = ({ children, title, flex }) => (

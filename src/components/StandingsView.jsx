@@ -3,7 +3,7 @@ import { useGame } from '../context/GameContext';
 import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfButton } from './ui/EfButton';
-import bgOffice from '../assets/environments/bg_manager_office.png';
+import bgOffice from '../assets/environments/bg_league_table.png';
 
 /**
  * Get zone class based on position + division

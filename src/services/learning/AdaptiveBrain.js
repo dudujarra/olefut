@@ -354,7 +354,9 @@ export class AdaptiveBrain {
         this.traces = {};
         this.totalUpdates = 0;
         this.memory = [];
+        this._lastGoals = null;
         this.emotions.forceState('CALM');
+        this.goalRelevance.reset();
         try {
             if (typeof localStorage !== 'undefined') localStorage.removeItem(STORAGE_KEY);
         } catch { /* ignore */ }
@@ -371,6 +373,10 @@ export class AdaptiveBrain {
      */
     pickAction(stateKey, availableActions, ctx = {}) {
         if (!Array.isArray(availableActions) || availableActions.length === 0) return null;
+
+        // Always compute goals first — observe() needs fresh goals for feedback
+        const goals = detectGoals(ctx, this.personality);
+        this._lastGoals = goals;
 
         const emo = this.emotions.getModifiers();
 
@@ -398,9 +404,6 @@ export class AdaptiveBrain {
             return availableActions[Math.floor(systemRng() * availableActions.length)];
         }
 
-        // Exploit: pick action with highest Q + goal-modulated score
-        const goals = detectGoals(ctx, this.personality);
-        this._lastGoals = goals; // Store for observe() goal relevance feedback
         let bestAction = availableActions[0];
         let bestScore = -Infinity;
         for (const action of availableActions) {
@@ -499,7 +502,7 @@ export class AdaptiveBrain {
         // The reward signal tells us if this action was good for current goals
         if (this.goalRelevance && this._lastGoals) {
             for (const g of this._lastGoals) {
-                this.goalRelevance.update(g.goal, actionKey, reward > 0 ? reward : reward);
+                this.goalRelevance.update(g.goal, actionKey, reward);
             }
         }
     }

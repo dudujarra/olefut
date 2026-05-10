@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { EfButton } from './ui/EfButton';
 
-import imgWorldCup from '../assets/trophy_world_cup.png';
-import imgContinentalCup from '../assets/trophy_continental_cup.png';
-import imgSerieA from '../assets/trophy_serie_a.png';
-import imgGoldCup from '../assets/trophy_gold_cup.png';
-import imgSilverCup from '../assets/trophy_silver_cup.png';
-import imgShield from '../assets/trophy_league_shield.png';
-import imgScorer from '../assets/trophy_top_scorer.png';
-import imgAssist from '../assets/trophy_top_assist.png';
-import imgManager from '../assets/trophy_manager_year.png';
+import imgWorldCup from '../assets/trophies/continental.png'; // world cup uses continental as placeholder until dedicated asset
+import imgContinentalCup from '../assets/trophies/continental.png';
+import imgSerieA from '../assets/trophies/serie_a.png';
+import imgGoldCup from '../assets/trophies/cup.png';
+import imgSilverCup from '../assets/trophies/serie_b.png';
+import imgShield from '../assets/trophies/supercopa.png';
+import imgScorer from '../assets/trophies/golden_boot.png';
+import imgAssist from '../assets/trophies/golden_boot.png'; // shares golden_boot until dedicated assist asset
+import imgManager from '../assets/trophies/best_manager.png';
 
 /**
  * §16.2: TrophyCeremony — Full-screen overlay for season-ending celebrations.

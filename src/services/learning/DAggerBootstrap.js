@@ -23,7 +23,7 @@
  * COST: Zero runtime cost. Runs once at initialization.
  */
 
-import { encodeState, detectGoals, actionRelevance } from './AdaptiveBrain.js';
+import { encodeState } from './AdaptiveBrain.js';
 
 // ─── HEURISTIC TEACHER DATA ────────────────────────────────────
 // These encode what the hardcoded heuristics would recommend

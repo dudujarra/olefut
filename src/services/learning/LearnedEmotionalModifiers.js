@@ -103,9 +103,10 @@ export class LearnedEmotionalModifiers {
         this.visitCount = {};
         this.totalUpdates = 0;
 
-        // SARSA needs to remember the last (state, action) pair
+        // SARSA needs to remember the last (state, action, reward) tuple
         this._lastState = null;
         this._lastAction = null;
+        this._lastReward = 0;
 
         this._restore();
     }
@@ -262,6 +263,7 @@ export class LearnedEmotionalModifiers {
         this.traces = {};
         this._lastState = null;
         this._lastAction = null;
+        this._lastReward = 0;
     }
 
     // ─── PERSISTENCE ────────────────────────────────────────
@@ -297,6 +299,7 @@ export class LearnedEmotionalModifiers {
         this.totalUpdates = 0;
         this._lastState = null;
         this._lastAction = null;
+        this._lastReward = 0;
         try {
             if (typeof localStorage !== 'undefined') localStorage.removeItem(STORAGE_KEY);
         } catch { /* ignore */ }

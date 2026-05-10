@@ -76,14 +76,14 @@ function gammaSample(shape) {
         v = v * v * v;
         const u = systemRng();
         if (u < 1 - 0.0331 * (x * x) * (x * x)) return d * v;
-        if (Math.log(u) < 0.5 * x * x + d * (1 - v + Math.log(v))) return d * v;
+        if (Math.log(Math.max(1e-10, u)) < 0.5 * x * x + d * (1 - v + Math.log(Math.max(1e-10, v)))) return d * v;
     }
 }
 
 function normalSample() {
     const u1 = systemRng();
     const u2 = systemRng();
-    return Math.sqrt(-2 * Math.log(u1 || 1e-10)) * Math.cos(2 * Math.PI * u2);
+    return Math.sqrt(-2 * Math.log(Math.max(1e-10, u1))) * Math.cos(2 * Math.PI * u2);
 }
 
 function betaSample(alpha, beta) {
@@ -150,6 +150,8 @@ export class LearnedGoalRelevance {
         const { alpha, beta } = this.relevance[goal][action];
         // Sample from Beta → [0,1] → map back to [-1, 1]
         const sample = betaSample(alpha, beta);
+        // Defense-in-depth: if sampling produced NaN, return 0 (neutral)
+        if (!Number.isFinite(sample)) return 0;
         return sample * 2 - 1;
     }
 
