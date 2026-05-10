@@ -378,6 +378,44 @@ export function DashboardView() {
                         ) : <p style={{color:'var(--text-muted)',fontSize:'0.78rem'}}>Jogue a próxima partida para ver o relatório.</p>}
                     </EfPanel>
 
+                    {/* Loan System */}
+                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                        <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>🏦 EMPRÉSTIMO</h4>
+                        {engine.activeLoan ? (
+                            <div>
+                                <ul className="stats-list">
+                                    <li><span>Principal</span><strong>R$ {(engine.activeLoan.principal / 1_000_000).toFixed(1)}M</strong></li>
+                                    <li><span>Juros</span><strong>{(engine.activeLoan.interestRate * 100).toFixed(0)}%</strong></li>
+                                    <li><span>Parcela semanal</span><strong style={{color:'var(--danger)'}}>R$ {(engine.activeLoan.weeklyPayment / 1000).toFixed(0)}K</strong></li>
+                                    <li><span>Semanas restantes</span><strong>{engine.activeLoan.weeksRemaining}</strong></li>
+                                    <li><span>Total restante</span><strong style={{color:'var(--danger)'}}>R$ {(engine.activeLoan.totalOwed / 1_000_000).toFixed(1)}M</strong></li>
+                                </ul>
+                                {team.balance >= engine.activeLoan.totalOwed && (
+                                    <EfButton variant="primary" size="sm" style={{marginTop:'0.3rem',width:'100%'}}
+                                        onClick={() => { engine.payOffLoan(); forceUpdate(); }}>
+                                        Quitar Antecipadamente
+                                    </EfButton>
+                                )}
+                            </div>
+                        ) : (() => {
+                            const loanOpts = engine.getLoanOptions();
+                            if (!loanOpts.available) return <p style={{color:'var(--text-muted)',fontSize:'0.72rem'}}>{loanOpts.reason || 'Indisponível'}</p>;
+                            return (
+                                <div className="action-bar" style={{flexWrap:'wrap',gap:'0.3rem'}}>
+                                    {loanOpts.options.map((opt, i) => (
+                                        <EfButton key={i} variant="secondary" size="sm"
+                                            onClick={() => { engine.takeLoan(opt.amount); forceUpdate(); }}>
+                                            {opt.label}: R$ {(opt.amount / 1_000_000).toFixed(1)}M
+                                            <span style={{display:'block',fontSize:'0.6rem',opacity:0.7}}>
+                                                {(loanOpts.interestRate * 100).toFixed(0)}% • R${(opt.weeklyPayment / 1000).toFixed(0)}K/sem
+                                            </span>
+                                        </EfButton>
+                                    ))}
+                                </div>
+                            );
+                        })()}
+                    </EfPanel>
+
                     {injured.length > 0 && (
                         <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--danger)',marginBottom:'0.3rem'}}>🏥 D.M. ({injured.length})</h4>

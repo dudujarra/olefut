@@ -16,6 +16,12 @@ export class ContinentalCup extends Tournament {
 
     init(teamIds) {
         super.init(teamIds);
+        // BUG-FIX: reset all phase state so tournament restarts each season
+        this.phase = 'GROUPS';
+        this.currentRoundGroup = 0;
+        this.knockoutMatches = [];
+        this.knockoutPhaseIndex = 0;
+        this.winner = null;
         this.groups = this.createGroups(teamIds, 4);
     }
 

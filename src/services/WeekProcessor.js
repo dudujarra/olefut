@@ -62,6 +62,17 @@ export class WeekProcessor {
             engine.weeklyFinance.expenses += staffCost;
             engine.weeklyFinance.details.push({ label: 'Staff', amount: staffCost, type: 'expense' });
         }
+        // Loan repayment
+        if (engine.activeLoan) {
+            const loanResult = engine.processLoanPayment();
+            if (loanResult) {
+                engine.weeklyFinance.expenses += loanResult.paid;
+                engine.weeklyFinance.details.push({ label: '🏦 Parcela Empréstimo', amount: loanResult.paid, type: 'expense' });
+                if (loanResult.finished) {
+                    engine.weekEvents.push(loanResult.msg);
+                }
+            }
+        }
         team.balance += engine.weeklyFinance.income - engine.weeklyFinance.expenses;
 
         // Match condition para próxima partida
