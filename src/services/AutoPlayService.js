@@ -21,7 +21,7 @@ import { TACTICS, TRAINING_TYPES, TEAM_TALKS, FORMATIONS } from '../engine/Manag
 import { MonitorService } from './MonitorService';
 import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
 import { AdaptiveBrain, encodeState, computeReward } from './learning/AdaptiveBrain.js';
-import { LLMBridge, decideSellHeuristic } from './learning/LLMBridge.js';
+import { LLMBridge, decideSellHeuristic, detectMonotonyHeuristic, generateGameDesignInsights } from './learning/LLMBridge.js';
 
 const STORAGE_KEY = 'elifoot_autoplay_state';
 // BUG-027 fix: pull training catalog from engine source of truth (was hardcoded
@@ -426,6 +426,61 @@ export class AutoPlayController {
             this._lastTactic = nextTactic;
         }
 
+        // Decision 2b: Monotony detection — every 4 weeks apply suggestions
+        if (this.stats.weeksPlayed % 4 === 0) {
+            try {
+                const team = engine.getTeam(teamId);
+                const standings = team ? engine.getStandings(team.zone, team.division) : [];
+                const position = team ? (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length : 10;
+                const avgOVR = team?.squad?.length
+                    ? team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / team.squad.length : 60;
+                const totalMatches = this.stats.wins + this.stats.draws + this.stats.losses;
+                const winRate = totalMatches > 0 ? this.stats.wins / totalMatches : 0.33;
+
+                if (!this._positionHistory) this._positionHistory = [];
+                this._positionHistory.push(position);
+                if (this._positionHistory.length > 12) this._positionHistory.shift();
+                const positionStreak = this._positionHistory.filter(p => p === position).length;
+
+                const monotony = detectMonotonyHeuristic({
+                    currentTactic: nextTactic,
+                    tacticStreak: this._consecutiveSameTactic,
+                    position,
+                    positionStreak,
+                    streak: engine.managerStats?.streak || 0,
+                    avgOVR,
+                    balance: team?.balance || 0,
+                    squadSize: team?.squad?.length || 0,
+                    division: team?.division || 4,
+                    seasonNumber: engine.seasonNumber || 1,
+                    winRate
+                });
+
+                if (monotony.monotonous && monotony.topSuggestion) {
+                    const s = monotony.topSuggestion;
+                    if (s.action === 'CHANGE_TACTIC' && s.value && engine.setTactic) {
+                        engine.setTactic(s.value);
+                        this._consecutiveSameTactic = 0;
+                        this._lastTactic = s.value;
+                        this._logDecision('TACTIC_OVERRIDE', { tactic: s.value, reason: s.reason }, 0);
+                    } else if (s.action === 'CHANGE_FORMATION' && engine.setFormation) {
+                        const FORMATIONS = ['4-3-3', '4-4-2', '3-5-2', '5-3-2', '4-2-3-1'];
+                        const current = team?.formation || '4-3-3';
+                        const alt = FORMATIONS.find(f => f !== current) || '4-4-2';
+                        engine.setFormation(alt);
+                        this._logDecision('FORMATION', { form: alt, reason: s.reason }, 0);
+                    } else if (s.action === 'SCOUT' && engine.scoutLeague) {
+                        // Trigger scout on next buy cycle (flag only)
+                        this._urgentScout = true;
+                    }
+                    // Log monotony signals for telemetry
+                    monotony.signals.forEach(sig => {
+                        if (sig.id === 'TACTIC_STUCK') this._logAnomaly('TACTIC_STUCK', sig.msg, { tactic: nextTactic, streak: this._consecutiveSameTactic });
+                    });
+                }
+            } catch { /* ignore */ }
+        }
+
         // Decision 3: Formation occasional rotate
         if (this.stats.weeksPlayed % 19 === 0 && engine.setFormation) {
             const form = FORMATION_POOL[Math.floor(Math.random() * FORMATION_POOL.length)];
@@ -563,15 +618,22 @@ export class AutoPlayController {
                         });
                         const weakest = positionStrength.sort((a, b) => a.avgOVR - b.avgOVR)[0];
 
-                        if (weakest && weakest.avgOVR < 70) {
+                        // Urgent scout flag from monotony detector
+                        const urgentScout = this._urgentScout;
+                        if (urgentScout) this._urgentScout = false;
+
+                        if (weakest && (weakest.avgOVR < 70 || urgentScout)) {
                             const candidates = engine.scoutLeague(weakest.pos, weakest.avgOVR + 5, 10);
                             if (candidates.length > 0) {
                                 // Pick affordable + best OVR upgrade
-                                const target = candidates.find(c =>
-                                    c.value * 1.5 <= (team.balance || 0) * 0.3
-                                );
+                                // Use ovr-based value fallback if value not set (bug: player.value undefined → offer = 0)
+                                const target = candidates.find(c => {
+                                    const v = c.value || (c.ovr || 60) * 50_000;
+                                    return v * 1.5 <= (team.balance || 0) * 0.3;
+                                });
                                 if (target) {
-                                    const offerAmount = Math.round(target.value * (1.3 + Math.random() * 0.2));
+                                    const playerVal = target.value || (target.ovr || 60) * 50_000;
+                                    const offerAmount = Math.round(playerVal * (1.3 + Math.random() * 0.2));
                                     const result = engine.makeBuyOffer(target.teamId, target.player.id, offerAmount);
                                     this._logDecision('BUY_OFFER', {
                                         target: target.player.name,
@@ -608,16 +670,19 @@ export class AutoPlayController {
                 }
 
                 // Outgoing market inquiry every 8 weeks (telemetry data + decision log)
+                // Note: accepted=null means "not a real offer, just valuation probe"
+                // SPEC-111 should not count these as rejected — they're never sent to AI.
                 if (this.stats.weeksPlayed % 8 === 0 && team.squad?.length > 0) {
                     const candidate = team.squad[Math.floor(Math.random() * team.squad.length)];
-                    const askPrice = (candidate.value || 500000) * (1.2 + Math.random() * 0.6);
+                    const playerVal = candidate.value || (candidate.ovr || 60) * 50_000;
+                    const askPrice = playerVal * (1.2 + Math.random() * 0.6);
                     if (this.telemetry?.history) {
                         if (!Array.isArray(this.telemetry.history.offers)) this.telemetry.history.offers = [];
                         this.telemetry.history.offers.push({
                             week: engine.currentWeek,
                             playerId: candidate.id,
                             askPrice,
-                            accepted: false,
+                            accepted: null, // null = probe (not a real offer), do not count in acceptance rate
                             simulated: true
                         });
                     }
@@ -884,6 +949,9 @@ export class AutoPlayController {
     }
 
     getStats() {
+        const gameDesignInsights = this.lastTelemetryReport
+            ? generateGameDesignInsights(this.lastTelemetryReport)
+            : [];
         return {
             ...this.stats,
             elapsedMs: this.stats.startTime ? Date.now() - this.stats.startTime : 0,
@@ -893,7 +961,9 @@ export class AutoPlayController {
             currentSeason: this.engine?.seasonNumber,
             telemetry: this.lastTelemetryReport,
             // SPEC-115/116/117: brain summary
-            brain: this.brain ? this.brain.summary() : null
+            brain: this.brain ? this.brain.summary() : null,
+            // Game design insights from telemetry analysis
+            gameDesignInsights
         };
     }
 

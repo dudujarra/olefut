@@ -876,55 +876,6 @@ export class Engine {
                     }
                 }
 
-                // SEASON END: Promoção/Rebaixamento + Legado
-                if (seasonWeek === 38) {
-                    const standings = this.getStandings(team.zone, team.division);
-                    const pos = standings.findIndex(s => s.teamId === team.id) + 1;
-
-                    // Legacy
-                    if (this.legacy) {
-                        const season = this.legacy.closeSeason(
-                            team.name, team.division, pos,
-                            this.managerStats.wins, this.managerStats.draws, this.managerStats.losses
-                        );
-                        this.weekEvents.push(`🏆 Temporada ${this.seasonNumber} encerrada: ${season.record} (${pos}º lugar)`);
-                        if (season.title) this.weekEvents.push(`🎉 ${season.title}!`);
-                    }
-
-                    // Promo/Relegation
-                    const changes = processPromoRelegation(this.teams, standings.map(s => s), team.zone, team.division);
-                    changes.forEach(c => {
-                        const emoji = c.action === 'promoted' ? '⬆️' : '⬇️';
-                        this.weekEvents.push(`${emoji} ${c.name} ${c.action === 'promoted' ? 'subiu' : 'caiu'} para Série ${['A','B','C','D'][c.to - 1]}`);
-                    });
-
-                    // Update sponsor
-                    const newStandings = this.getStandings(team.zone, team.division);
-                    const newPos = newStandings.findIndex(s => s.teamId === team.id) + 1;
-                    this.currentSponsor = evaluateSponsor(team.division, newPos);
-
-                    // Reset season stats
-                    this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0 };
-                    this.seasonNumber++;
-
-                    // Season Awards
-                    this.seasonAwards = calculateSeasonAwards(team.squad, team.name, this.seasonNumber);
-                    this.seasonAwards.forEach(a => {
-                        this.weekEvents.push(`${a.emoji} ${a.name}: ${a.player} (${a.value})`);
-                    });
-
-                    // Close season stats for each player
-                    team.squad.forEach(p => closeSeasonStats(p, this.seasonNumber, team.name));
-
-                    // Age all players
-                    const ageEvents = ageSquad(team.squad);
-                    ageEvents.forEach(e => this.weekEvents.push(e));
-
-                    // Reset board for new season
-                    if (this.board && !this.board.isFired) {
-                        this.board = new BoardSystem(team.division, team.balance);
-                    }
-                }
             }
         }
 
