@@ -815,8 +815,8 @@ export class AutoPlayController {
             const titlesNow = engine.legacy?.titles?.length || 0;
             if (titlesNow > this._lastTitlesCount) {
                 const newTitle = engine.legacy.titles[titlesNow - 1];
-                this._logSuccess('TITLE_WON', `🏆 Título: ${newTitle?.title || 'Nacional'}`, {
-                    title: newTitle?.title,
+                this._logSuccess('TITLE_WON', `🏆 Título: ${newTitle || 'Nacional'}`, {
+                    title: newTitle,
                     season: seasonNum - 1
                 });
                 this.stats.insights.titlesWon++;

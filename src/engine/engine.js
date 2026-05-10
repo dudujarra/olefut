@@ -990,15 +990,30 @@ export class Engine {
                     if (season.title) this.weekEvents.push(`🎉 ${season.title}!`);
                 }
 
-                // BUG-076: processPromoRelegation — was checking this._processPromoRelegation
-                // (undefined method) → promo/relegation silently never ran. Use imported fn.
+                // BUG-077: processPromoRelegation previously only ran for bot's division.
+                // This caused all other divisions to be unprocessed: div 2 shrank each season
+                // (teams promoted up/relegated down, nothing refilling from div 1 or div 3),
+                // making Série B degenerate to 4-6 teams after ~5 seasons → trivially easy to win.
+                // Fix: run processPromoRelegation for EVERY zone/division league every season.
+                // Only log events for changes that involve the bot's team.
                 try {
-                    const changes = processPromoRelegation(
-                        this.teams, standings.map(s => s), team.zone, team.division
-                    );
-                    changes.forEach(c => {
-                        const emoji = c.action === 'promoted' ? '⬆️' : '⬇️';
-                        this.weekEvents.push(`${emoji} ${c.name} ${c.action === 'promoted' ? 'subiu' : 'caiu'} para Série ${['A','B','C','D'][c.to - 1]}`);
+                    this.tournaments.forEach(t => {
+                        if (!t.id || !/_\d+$/.test(t.id)) return;
+                        const lastUnder = t.id.lastIndexOf('_');
+                        const zone = t.id.substring(0, lastUnder);
+                        const div = parseInt(t.id.substring(lastUnder + 1));
+                        if (!zone || isNaN(div) || div < 1 || div > 4) return;
+                        const divStandings = this.getStandings(zone, div);
+                        if (divStandings.length < 2) return;
+                        const changes = processPromoRelegation(
+                            this.teams, divStandings.map(s => s), zone, div
+                        );
+                        // Only surface events for bot's team
+                        changes.forEach(c => {
+                            if (c.teamId !== team.id) return;
+                            const emoji = c.action === 'promoted' ? '⬆️' : '⬇️';
+                            this.weekEvents.push(`${emoji} ${c.name} ${c.action === 'promoted' ? 'subiu' : 'caiu'} para Série ${['A','B','C','D'][c.to - 1]}`);
+                        });
                     });
                 } catch { /* defensive */ }
 
