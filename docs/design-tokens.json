@@ -1,0 +1,55 @@
+{
+  "brand": "Olé FUT",
+  "version": "1.0.0",
+  "concept": "Luxury Arcade 16-Bit",
+  "colors": {
+    "primary": {
+      "neon-arcade-green": { "hex": "#39FF14", "rgb": "57, 255, 20", "usage": "CTAs, destaques de sucesso, glow effects" },
+      "gold-trophy": { "hex": "#FFD700", "rgb": "255, 215, 0", "usage": "Títulos, conquistas, headers premium" }
+    },
+    "secondary": {
+      "cartao-vermelho": { "hex": "#FF3333", "rgb": "255, 51, 51", "usage": "Alertas, lesões, derrotas, danger" },
+      "amber-warning": { "hex": "#FBBF24", "rgb": "251, 191, 36", "usage": "Warnings, notificações" },
+      "pitch-green": { "hex": "#52B788", "rgb": "82, 183, 136", "usage": "Campo, fundos de painéis" },
+      "deep-forest": { "hex": "#1B4332", "rgb": "27, 67, 50", "usage": "Bordas, painéis secundários" }
+    },
+    "neutral": {
+      "crt-black": { "hex": "#111417", "rgb": "17, 20, 23", "usage": "Background principal" },
+      "abyss": { "hex": "#040805", "rgb": "4, 8, 5", "usage": "Shadow depth, vignette" },
+      "midnight-green": { "hex": "#0E1F14", "rgb": "14, 31, 20", "usage": "Painéis recuados, inputs" },
+      "smoke": { "hex": "#a0baae", "rgb": "160, 186, 174", "usage": "Texto secundário, captions" },
+      "parchment": { "hex": "#F1FAEE", "rgb": "241, 250, 238", "usage": "Texto primário, labels" }
+    },
+    "semantic": {
+      "success": "#39FF14",
+      "warning": "#FBBF24",
+      "error": "#FF3333",
+      "info": "#4A90E2"
+    }
+  },
+  "typography": {
+    "display": { "family": "'Press Start 2P', monospace", "usage": "Títulos, headers, badges" },
+    "body": { "family": "'Pixelify Sans', system-ui, sans-serif", "usage": "Corpo, stats, menus" },
+    "mono": { "family": "'IBM Plex Mono', monospace", "usage": "Dados numéricos, tabelas" }
+  },
+  "spacing": {
+    "unit": "4px",
+    "xs": "4px",
+    "sm": "8px",
+    "md": "16px",
+    "lg": "24px",
+    "xl": "32px",
+    "xxl": "48px"
+  },
+  "borders": {
+    "width": "2px",
+    "style": "solid",
+    "default-color": "#2D6A4F",
+    "radius": "0px"
+  },
+  "prohibited": {
+    "techniques": ["border-radius", "rgba()", "linear-gradient", "radial-gradient", "blur()", "backdrop-filter", "box-shadow"],
+    "fonts": ["Inter", "Roboto", "Outfit", "Arial", "Helvetica"],
+    "colors": ["#FFFFFF as background"]
+  }
+}

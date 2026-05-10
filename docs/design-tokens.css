@@ -1,0 +1,52 @@
+/**
+ * Olé FUT — Design Tokens (CSS Custom Properties)
+ * Source of truth: docs/brand-guidelines.md
+ * Do NOT edit manually — sync via brand pipeline.
+ */
+
+:root {
+  /* ─── Primary ──────────────────────────────── */
+  --color-primary: #39FF14;
+  --color-primary-gold: #FFD700;
+
+  /* ─── Secondary ────────────────────────────── */
+  --color-danger: #FF3333;
+  --color-warning: #FBBF24;
+  --color-pitch: #52B788;
+  --color-forest: #1B4332;
+  --color-forest-light: #2D6A4F;
+
+  /* ─── Neutral ──────────────────────────────── */
+  --color-bg: #111417;
+  --color-bg-deep: #040805;
+  --color-bg-panel: #0E1F14;
+  --color-text-muted: #a0baae;
+  --color-text: #F1FAEE;
+
+  /* ─── Semantic ─────────────────────────────── */
+  --color-success: #39FF14;
+  --color-error: #FF3333;
+  --color-info: #4A90E2;
+
+  /* ─── Typography ───────────────────────────── */
+  --font-display: 'Press Start 2P', monospace;
+  --font-body: 'Pixelify Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  /* ─── Spacing (4px base unit) ──────────────── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+
+  /* ─── Borders ──────────────────────────────── */
+  --border-width: 2px;
+  --border-color: #2D6A4F;
+  --border-radius: 0px; /* ALWAYS zero — pixel-perfect corners */
+
+  /* ─── Shadows (via border trick, not box-shadow) */
+  --bevel-highlight: #2D6A4F;
+  --bevel-shadow: #0A1A10;
+}
