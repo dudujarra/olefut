@@ -8,6 +8,8 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { EfButton, EfCardPlayer, EfTooltip, EfModal, EfInput } from './ui';
+import { EfPanel } from './ui/EfPanel';
+import bgManagerOffice from '../assets/environments/bg_manager_office.png';
 
 const PALETTE = [
     { group: 'Grass', tokens: ['grass-900', 'grass-800', 'grass-700', 'grass-500', 'grass-300', 'grass-100'] },
@@ -38,163 +40,169 @@ export function StyleguideView() {
     };
 
     return (
-        <div className="main-content fade-in" style={{ padding: 'var(--ef-space-4)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--ef-space-5)' }}>
-                <h2 style={{ margin: 0 }}>🎨 Styleguide v1.0</h2>
-                <EfButton variant="ghost" size="sm" onClick={() => changeView(getDashboardView())}>← Voltar</EfButton>
-            </div>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgManagerOffice})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2 style={{ margin: 0 }}>🎨 STYLEGUIDE v1.0</h2>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
+                </EfPanel>
 
-            {/* PALETTE */}
-            <section style={{ marginBottom: 'var(--ef-space-6)' }}>
-                <h3>Paleta (24 cores)</h3>
-                {PALETTE.map(group => (
-                    <div key={group.group} style={{ marginBottom: 'var(--ef-space-3)' }}>
-                        <h4 style={{ fontSize: '14px', color: 'var(--ef-text-md)', margin: '0 0 8px' }}>{group.group}</h4>
-                        <div style={{ display: 'flex', gap: 'var(--ef-space-2)', flexWrap: 'wrap' }}>
-                            {group.tokens.map(t => (
-                                <div key={t} style={{
-                                    width: '80px',
-                                    height: '80px',
-                                    background: `var(--ef-color-${t})`,
-                                    border: '2px solid var(--ef-bevel-dark)',
-                                    display: 'flex',
-                                    alignItems: 'flex-end',
-                                    padding: '4px',
-                                    fontSize: '10px',
-                                    fontFamily: 'var(--ef-font-family-mono)',
-                                    color: t.includes('text-lo') || t.includes('grass-100') || t.includes('br-yellow') ? '#000' : '#fff'
-                                }}>
-                                    {t}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '16px' }}>
+                    {/* PALETTE */}
+                    <EfPanel variant="sunk" padding="md">
+                        <h3 style={{ marginTop: 0 }}>Paleta (24 cores)</h3>
+                        {PALETTE.map(group => (
+                            <div key={group.group} style={{ marginBottom: '12px' }}>
+                                <h4 style={{ fontSize: '14px', color: 'var(--ef-text-md)', margin: '0 0 8px' }}>{group.group}</h4>
+                                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                                    {group.tokens.map(t => (
+                                        <div key={t} style={{
+                                            width: '60px',
+                                            height: '60px',
+                                            background: `var(--ef-color-${t})`,
+                                            border: '2px solid var(--ef-bevel-dark)',
+                                            display: 'flex',
+                                            alignItems: 'flex-end',
+                                            padding: '4px',
+                                            fontSize: '9px',
+                                            fontFamily: 'var(--ef-font-family-mono)',
+                                            color: t.includes('text-lo') || t.includes('grass-100') || t.includes('br-yellow') ? '#000' : '#fff'
+                                        }}>
+                                            {t}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </EfPanel>
+
+                    {/* TYPOGRAPHY */}
+                    <EfPanel variant="sunk" padding="md">
+                        <h3 style={{ marginTop: 0 }}>Tipografia</h3>
+                        {FONTS.map(f => (
+                            <div key={f.label} style={{
+                                fontSize: f.size,
+                                fontFamily: f.family,
+                                marginBottom: '12px',
+                                color: 'var(--ef-text-hi)'
+                            }}>
+                                <span style={{ color: 'var(--ef-text-md)', fontSize: '12px', fontFamily: 'var(--ef-font-family-mono)' }}>{f.label}</span>
+                                {' — '}
+                                ELIFOOT 1234567890
+                            </div>
+                        ))}
+                    </EfPanel>
+
+                    {/* BUTTONS */}
+                    <EfPanel variant="sunk" padding="md">
+                        <h3 style={{ marginTop: 0 }}>EfButton</h3>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                            <EfButton variant="primary" size="lg">Primary LG</EfButton>
+                            <EfButton variant="primary" size="md">Primary MD</EfButton>
+                            <EfButton variant="primary" size="sm">Primary SM</EfButton>
+                        </div>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                            <EfButton variant="secondary">Secondary</EfButton>
+                            <EfButton variant="danger">Danger</EfButton>
+                            <EfButton variant="ghost">Ghost</EfButton>
+                        </div>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                            <EfButton variant="primary" disabled>Disabled</EfButton>
+                            <EfButton variant="primary" loading>Loading</EfButton>
+                            <EfButton variant="primary" icon="⚽">Com ícone</EfButton>
+                        </div>
+                    </EfPanel>
+
+                    {/* CARD PLAYER */}
+                    <EfPanel variant="sunk" padding="md">
+                        <h3 style={{ marginTop: 0 }}>EfCardPlayer</h3>
+                        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                            <EfCardPlayer player={samplePlayer} />
+                            <EfCardPlayer player={samplePlayer} layout="column" />
+                            <EfCardPlayer player={samplePlayer} badge="LEN" selected />
+                        </div>
+                    </EfPanel>
+
+                    {/* INPUT & TOOLTIP */}
+                    <EfPanel variant="sunk" padding="md">
+                        <h3 style={{ marginTop: 0 }}>EfInput & EfTooltip</h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '320px', marginBottom: '16px' }}>
+                            <EfInput
+                                label="Nome"
+                                placeholder="Digite seu nome"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                helper="Nome do manager"
+                            />
+                            <EfInput label="Email" type="email" error="Email inválido" />
+                            <EfInput label="Idade" type="number" disabled />
+                        </div>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                            <EfTooltip content="Tooltip info default">
+                                <EfButton variant="secondary">Info</EfButton>
+                            </EfTooltip>
+                            <EfTooltip content="Tooltip success" color="success">
+                                <EfButton variant="primary">Success</EfButton>
+                            </EfTooltip>
+                            <EfTooltip content="Tooltip warning" color="warning">
+                                <EfButton variant="ghost">Warning</EfButton>
+                            </EfTooltip>
+                            <EfTooltip content="Tooltip danger" color="danger">
+                                <EfButton variant="danger">Danger</EfButton>
+                            </EfTooltip>
+                        </div>
+                    </EfPanel>
+
+                    {/* MODAL & SPACING */}
+                    <EfPanel variant="sunk" padding="md">
+                        <h3 style={{ marginTop: 0 }}>EfModal & Spacing</h3>
+                        <div style={{ marginBottom: '16px' }}>
+                            <EfButton variant="primary" onClick={() => setModalOpen(true)}>Abrir Modal</EfButton>
+                            <EfModal
+                                open={modalOpen}
+                                onClose={() => setModalOpen(false)}
+                                title="Modal de exemplo"
+                                size="md"
+                                footer={
+                                    <>
+                                        <EfButton variant="ghost" onClick={() => setModalOpen(false)}>Cancelar</EfButton>
+                                        <EfButton variant="primary" onClick={() => setModalOpen(false)}>Confirmar</EfButton>
+                                    </>
+                                }
+                            >
+                                <p>Conteúdo do modal. Esc fecha. Click backdrop fecha.</p>
+                                <p>Beveled border + slide down animation 200ms.</p>
+                            </EfModal>
+                        </div>
+                        
+                        <h4 style={{ margin: '0 0 8px 0' }}>Spacing (grid 8px sagrado)</h4>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
+                                <div key={n} style={{ textAlign: 'center' }}>
+                                    <div style={{
+                                        width: `var(--ef-space-${n})`,
+                                        height: '40px',
+                                        background: 'var(--ef-color-grass-500)',
+                                        border: '1px solid var(--ef-bevel-dark)',
+                                        marginBottom: '4px'
+                                    }} />
+                                    <span style={{ fontSize: '10px', fontFamily: 'var(--ef-font-family-mono)' }}>
+                                        sp-{n}
+                                    </span>
                                 </div>
                             ))}
                         </div>
-                    </div>
-                ))}
-            </section>
-
-            {/* TYPOGRAPHY */}
-            <section style={{ marginBottom: 'var(--ef-space-6)' }}>
-                <h3>Tipografia</h3>
-                {FONTS.map(f => (
-                    <div key={f.label} style={{
-                        fontSize: f.size,
-                        fontFamily: f.family,
-                        marginBottom: 'var(--ef-space-2)',
-                        color: 'var(--ef-text-hi)'
-                    }}>
-                        <span style={{ color: 'var(--ef-text-md)', fontSize: '12px', fontFamily: 'var(--ef-font-family-mono)' }}>{f.label}</span>
-                        {' — '}
-                        ELIFOOT 1234567890
-                    </div>
-                ))}
-            </section>
-
-            {/* BUTTONS */}
-            <section style={{ marginBottom: 'var(--ef-space-6)' }}>
-                <h3>EfButton</h3>
-                <div style={{ display: 'flex', gap: 'var(--ef-space-2)', flexWrap: 'wrap', marginBottom: 'var(--ef-space-2)' }}>
-                    <EfButton variant="primary" size="lg">Primary LG</EfButton>
-                    <EfButton variant="primary" size="md">Primary MD</EfButton>
-                    <EfButton variant="primary" size="sm">Primary SM</EfButton>
+                    </EfPanel>
                 </div>
-                <div style={{ display: 'flex', gap: 'var(--ef-space-2)', flexWrap: 'wrap', marginBottom: 'var(--ef-space-2)' }}>
-                    <EfButton variant="secondary">Secondary</EfButton>
-                    <EfButton variant="danger">Danger</EfButton>
-                    <EfButton variant="ghost">Ghost</EfButton>
-                </div>
-                <div style={{ display: 'flex', gap: 'var(--ef-space-2)', flexWrap: 'wrap' }}>
-                    <EfButton variant="primary" disabled>Disabled</EfButton>
-                    <EfButton variant="primary" loading>Loading</EfButton>
-                    <EfButton variant="primary" icon="⚽">Com ícone</EfButton>
-                </div>
-            </section>
-
-            {/* CARD PLAYER */}
-            <section style={{ marginBottom: 'var(--ef-space-6)' }}>
-                <h3>EfCardPlayer</h3>
-                <div style={{ display: 'flex', gap: 'var(--ef-space-3)', flexWrap: 'wrap' }}>
-                    <EfCardPlayer player={samplePlayer} />
-                    <EfCardPlayer player={samplePlayer} layout="column" />
-                    <EfCardPlayer player={samplePlayer} badge="LEN" selected />
-                </div>
-            </section>
-
-            {/* INPUT */}
-            <section style={{ marginBottom: 'var(--ef-space-6)' }}>
-                <h3>EfInput</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ef-space-3)', maxWidth: '320px' }}>
-                    <EfInput
-                        label="Nome"
-                        placeholder="Digite seu nome"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        helper="Nome do manager"
-                    />
-                    <EfInput label="Email" type="email" error="Email inválido" />
-                    <EfInput label="Idade" type="number" disabled />
-                </div>
-            </section>
-
-            {/* TOOLTIP */}
-            <section style={{ marginBottom: 'var(--ef-space-6)' }}>
-                <h3>EfTooltip</h3>
-                <div style={{ display: 'flex', gap: 'var(--ef-space-3)', flexWrap: 'wrap' }}>
-                    <EfTooltip content="Tooltip info default">
-                        <EfButton variant="secondary">Info</EfButton>
-                    </EfTooltip>
-                    <EfTooltip content="Tooltip success" color="success">
-                        <EfButton variant="primary">Success</EfButton>
-                    </EfTooltip>
-                    <EfTooltip content="Tooltip warning" color="warning">
-                        <EfButton variant="ghost">Warning</EfButton>
-                    </EfTooltip>
-                    <EfTooltip content="Tooltip danger" color="danger">
-                        <EfButton variant="danger">Danger</EfButton>
-                    </EfTooltip>
-                </div>
-            </section>
-
-            {/* MODAL */}
-            <section style={{ marginBottom: 'var(--ef-space-6)' }}>
-                <h3>EfModal</h3>
-                <EfButton variant="primary" onClick={() => setModalOpen(true)}>Abrir Modal</EfButton>
-                <EfModal
-                    open={modalOpen}
-                    onClose={() => setModalOpen(false)}
-                    title="Modal de exemplo"
-                    size="md"
-                    footer={
-                        <>
-                            <EfButton variant="ghost" onClick={() => setModalOpen(false)}>Cancelar</EfButton>
-                            <EfButton variant="primary" onClick={() => setModalOpen(false)}>Confirmar</EfButton>
-                        </>
-                    }
-                >
-                    <p>Conteúdo do modal. Esc fecha. Click backdrop fecha.</p>
-                    <p>Beveled border + slide down animation 200ms.</p>
-                </EfModal>
-            </section>
-
-            {/* SPACING */}
-            <section style={{ marginBottom: 'var(--ef-space-6)' }}>
-                <h3>Spacing (grid 8px sagrado)</h3>
-                <div style={{ display: 'flex', gap: 'var(--ef-space-2)', alignItems: 'flex-end' }}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-                        <div key={n} style={{ textAlign: 'center' }}>
-                            <div style={{
-                                width: `var(--ef-space-${n})`,
-                                height: '40px',
-                                background: 'var(--ef-color-grass-500)',
-                                border: '1px solid var(--ef-bevel-dark)',
-                                marginBottom: '4px'
-                            }} />
-                            <span style={{ fontSize: '10px', fontFamily: 'var(--ef-font-family-mono)' }}>
-                                space-{n}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            </section>
+            </div>
         </div>
     );
 }

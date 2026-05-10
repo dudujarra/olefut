@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { EfPanel } from './ui/EfPanel';
 
 function buildGoals(engine, team) {
     if (!engine || !team) return [];
@@ -68,7 +69,7 @@ export function LongTermGoals({ engine, team }) {
     if (goals.length === 0) return null;
 
     return (
-        <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+        <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
             <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 🎯 Objetivos da Carreira
             </h3>
@@ -94,7 +95,7 @@ export function LongTermGoals({ engine, team }) {
                     </div>
                 </div>
             ))}
-        </div>
+        </EfPanel>
     );
 }
 

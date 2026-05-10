@@ -8,6 +8,8 @@
 import React, { useState } from 'react';
 import { MonitorService } from '../services/MonitorService';
 import { useGame } from '../context/GameContext';
+import { EfModal } from './ui/EfModal';
+import { EfButton } from './ui/EfButton';
 
 export function FloatingBugButton() {
     const { gameState } = useGame();
@@ -65,84 +67,66 @@ export function FloatingBugButton() {
             </button>
 
             {open && (
-                <div style={{
-                    position: 'fixed',
-                    inset: 0,
-                    background: 'rgba(0,0,0,0.7)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 10000,
-                    padding: '1rem'
-                }} onClick={() => setOpen(false)}>
-                    <div
-                        className="card"
-                        style={{ width: '100%', maxWidth: '480px', padding: '1.25rem' }}
-                        onClick={e => e.stopPropagation()}
-                    >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-                            <h3 style={{ margin: 0 }}>🐛 Reportar</h3>
-                            <button className="btn btn-sm btn-secondary" onClick={() => setOpen(false)}>✕</button>
+                <EfModal
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    title="🐛 Reportar"
+                    size="md"
+                    footer={!confirm && (
+                        <>
+                            <EfButton variant="secondary" size="sm" onClick={() => setOpen(false)}>Cancelar</EfButton>
+                            <EfButton variant="primary" size="sm" onClick={handleSubmit} disabled={!text.trim()}>Salvar</EfButton>
+                        </>
+                    )}
+                >
+                    {confirm ? (
+                        <div style={{ padding: '1rem', textAlign: 'center', color: 'var(--primary)' }}>
+                            ✅ Registrado!
                         </div>
-
-                        {confirm ? (
-                            <div style={{ padding: '1rem', textAlign: 'center', color: 'var(--primary)' }}>
-                                ✅ Registrado!
-                            </div>
-                        ) : (
-                            <>
-                                <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.75rem' }}>
-                                    {['bug', 'feedback', 'note'].map(cat => (
-                                        <button
-                                            key={cat}
-                                            className={`btn btn-sm ${category === cat ? 'btn-primary' : 'btn-secondary'}`}
-                                            onClick={() => setCategory(cat)}
-                                        >
-                                            {cat === 'bug' ? '🐛 Bug' : cat === 'feedback' ? '💬 Feedback' : '📝 Nota'}
-                                        </button>
-                                    ))}
-                                </div>
-
-                                <textarea
-                                    value={text}
-                                    onChange={e => setText(e.target.value)}
-                                    placeholder={
-                                        category === 'bug' ? 'Descreva o bug: o que aconteceu? o que esperava?' :
-                                        category === 'feedback' ? 'Sua opinião sobre essa parte do jogo...' :
-                                        'Nota livre — observação, ideia, lembrete...'
-                                    }
-                                    rows={5}
-                                    style={{
-                                        width: '100%',
-                                        padding: '0.6rem',
-                                        background: 'var(--bg-panel-solid)',
-                                        color: 'var(--text-main)',
-                                        border: '1px solid var(--glass-border)',
-                                        borderRadius: 'var(--radius-sm)',
-                                        fontSize: '0.85rem',
-                                        fontFamily: 'inherit',
-                                        resize: 'vertical'
-                                    }}
-                                />
-
-                                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', justifyContent: 'flex-end' }}>
-                                    <button className="btn btn-sm btn-secondary" onClick={() => setOpen(false)}>Cancelar</button>
-                                    <button
-                                        className="btn btn-sm btn-primary"
-                                        onClick={handleSubmit}
-                                        disabled={!text.trim()}
+                    ) : (
+                        <>
+                            <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.75rem' }}>
+                                {['bug', 'feedback', 'note'].map(cat => (
+                                    <EfButton
+                                        key={cat}
+                                        variant={category === cat ? 'primary' : 'secondary'}
+                                        size="sm"
+                                        onClick={() => setCategory(cat)}
                                     >
-                                        Salvar
-                                    </button>
-                                </div>
+                                        {cat === 'bug' ? '🐛 Bug' : cat === 'feedback' ? '💬 Feedback' : '📝 Nota'}
+                                    </EfButton>
+                                ))}
+                            </div>
 
-                                <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
-                                    Salvo localmente. Acesse Monitor (no menu) pra ver tudo + exportar JSON.
-                                </p>
-                            </>
-                        )}
-                    </div>
-                </div>
+                            <textarea
+                                value={text}
+                                onChange={e => setText(e.target.value)}
+                                placeholder={
+                                    category === 'bug' ? 'Descreva o bug: o que aconteceu? o que esperava?' :
+                                    category === 'feedback' ? 'Sua opinião sobre essa parte do jogo...' :
+                                    'Nota livre — observação, ideia, lembrete...'
+                                }
+                                rows={5}
+                                style={{
+                                    width: '100%',
+                                    padding: '8px',
+                                    background: 'var(--ef-color-neutral-bg)',
+                                    color: 'var(--ef-color-neutral-text-hi)',
+                                    border: '2px inset var(--ef-bevel-dark)',
+                                    fontFamily: 'inherit',
+                                    fontSize: '0.85rem',
+                                    resize: 'vertical',
+                                    outline: 'none',
+                                    boxSizing: 'border-box'
+                                }}
+                            />
+
+                            <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+                                Salvo localmente. Acesse Monitor (no menu) pra ver tudo + exportar JSON.
+                            </p>
+                        </>
+                    )}
+                </EfModal>
             )}
         </>
     );

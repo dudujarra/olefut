@@ -1,0 +1,30 @@
+{
+  "report": null,
+  "history": {
+    "matchNarrations": [],
+    "tactics": [],
+    "balance": [],
+    "offerCounts": [],
+    "standingsByWeek": [],
+    "weekEvents": [],
+    "decisions": [],
+    "weeklyFinances": [],
+    "matchOutcomes": [],
+    "balanceByWeek": [],
+    "viewVisits": {},
+    "eventStrings": [],
+    "playerCareer": [],
+    "squadOvrBySeason": {},
+    "growthEvents": [],
+    "offers": [],
+    "transfers": [],
+    "weeksPlayed": 0,
+    "elapsedMs": 0,
+    "tutorialSteps": [],
+    "startedFromTutorial": 0,
+    "startedFromSkip": 0,
+    "advanceWeekTimings": [],
+    "detectorTimings": {},
+    "fps": []
+  }
+}

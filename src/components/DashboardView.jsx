@@ -13,6 +13,7 @@ import { UnlockTooltip, AhaMomentCard, AchievementPopup } from './ProgressiveDis
 import { ScarcityBanner, DreadIndicator, useKeyboardNav, TutorialOverlay, IronmanMode } from './GDDSystems';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
+import { EfModal } from './ui/EfModal';
 import bgOffice from '../assets/environments/bg_manager_office.png';
 
 import '../styles/trophy-ceremony.css';
@@ -177,7 +178,7 @@ export function DashboardView() {
                 <>
                     {/* Onboarding hints — Stitch playbook quote style */}
                     {seasonWeek <= 2 && engine.seasonNumber === 1 && (
-                        <div className="card card-compact quote-card" style={{background:'rgba(59,130,246,0.08)',borderColor:'rgba(59,130,246,0.2)'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(59,130,246,0.08)',borderColor:'rgba(59,130,246,0.2)', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--info)',marginBottom:'0.3rem'}}>💡 PLAYBOOK DO TREINADOR</h4>
                             <div style={{fontSize:'0.75rem',color:'var(--text-muted)',lineHeight:1.6}}>
                                 <p>1️⃣ <strong>Táticas:</strong> escolha formação e tática antes de jogar</p>
@@ -186,7 +187,7 @@ export function DashboardView() {
                                 <p>4️⃣ <strong>Clube:</strong> upgrade estádio e base para crescer</p>
                                 <p>5️⃣ <strong>Jogo:</strong> no intervalo, ajuste tática e faça substituições</p>
                             </div>
-                        </div>
+                        </EfPanel>
                     )}
                     {/* §12.4 #6: Scarcity urgency */}
                     <ScarcityBanner engine={engine} />
@@ -199,7 +200,7 @@ export function DashboardView() {
 
                     {/* Season Awards (if any) */}
                     {engine.seasonAwards && engine.seasonAwards.length > 0 && (
-                        <div className="card card-compact" style={{background:'rgba(245,158,11,0.08)',borderColor:'rgba(245,158,11,0.2)'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(245,158,11,0.08)',borderColor:'rgba(245,158,11,0.2)', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--accent)',marginBottom:'0.3rem'}}>🏆 PRÊMIOS DA TEMPORADA</h4>
                             {engine.seasonAwards.map((a, i) => (
                                 <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:'0.78rem',padding:'0.2rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
@@ -207,14 +208,15 @@ export function DashboardView() {
                                     <strong style={{color:'var(--accent)'}}>{a.player} ({a.value})</strong>
                                 </div>
                             ))}
-                        </div>
+                        </EfPanel>
                     )}
 
                     {/* AKITA-142: Board Tension Widget */}
                     {typeof engine.boardTension === 'number' && (
-                        <div className="card card-compact" style={{
+                        <EfPanel variant="sunk" padding="sm" style={{
                             background: engine.boardTension < -20 ? 'rgba(239,68,68,0.08)' : engine.boardTension > 40 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)',
                             borderColor: engine.boardTension < -20 ? 'rgba(239,68,68,0.2)' : engine.boardTension > 40 ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)',
+                            marginBottom: '0.5rem'
                         }}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>🏛️ TENSÃO DA DIRETORIA</h4>
                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',fontSize:'0.78rem'}}>
@@ -235,22 +237,22 @@ export function DashboardView() {
                                     transition:'width 0.3s'
                                 }} />
                             </div>
-                        </div>
+                        </EfPanel>
                     )}
 
                     {/* AKITA-142: Loss Streak Warning */}
                     {stats.lossStreak >= 3 && (
-                        <div className="card card-compact" style={{background:'rgba(239,68,68,0.12)',borderColor:'rgba(239,68,68,0.3)'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(239,68,68,0.12)',borderColor:'rgba(239,68,68,0.3)', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--danger)',marginBottom:'0.3rem'}}>🔥 CRISE DE RESULTADOS</h4>
                             <p style={{fontSize:'0.78rem',color:'var(--text-muted)',margin:0}}>
                                 {stats.lossStreak} derrotas seguidas — moral do elenco abalada!
                             </p>
-                        </div>
+                        </EfPanel>
                     )}
 
                     {/* DDA & Rolling Form */}
                     {stats.rollingForm && stats.rollingForm.length > 0 && (
-                        <div className="card card-compact">
+                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📊 FORMA RECENTE & DDA</h4>
                             <div style={{display:'flex',gap:'0.2rem',marginBottom:'0.4rem'}}>
                                 {stats.rollingForm.map((r, i) => (
@@ -272,28 +274,28 @@ export function DashboardView() {
                                 }
                                 return <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>DDA: Calibrando (mín. 5 jogos)</span>;
                             })()}
-                        </div>
+                        </EfPanel>
                     )}
 
                     {/* AKITA-142: Coach Proposal */}
                     {engine.pendingCoachProposal && (
-                        <div className="card card-compact" style={{background:'rgba(59,130,246,0.08)',borderColor:'rgba(59,130,246,0.2)'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(59,130,246,0.08)',borderColor:'rgba(59,130,246,0.2)', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--info)',marginBottom:'0.3rem'}}>📨 PROPOSTA DE EMPREGO</h4>
                             <p style={{fontSize:'0.78rem',color:'var(--text-muted)',margin:'0 0 0.3rem'}}>
                                 <strong>{engine.pendingCoachProposal.fromClubName}</strong> quer contratá-lo!
                                 <br/><span style={{fontSize:'0.72rem'}}>{engine.pendingCoachProposal.reason}</span>
                             </p>
-                        </div>
+                        </EfPanel>
                     )}
 
                     {/* AKITA-142: Active Challenge */}
                     {engine.activeChallenge && (
-                        <div className="card card-compact" style={{background:'rgba(168,85,247,0.08)',borderColor:'rgba(168,85,247,0.2)'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(168,85,247,0.08)',borderColor:'rgba(168,85,247,0.2)', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'#A855F7',marginBottom:'0.3rem'}}>🎯 DESAFIO ATIVO</h4>
                             <p style={{fontSize:'0.78rem',color:'var(--text-muted)',margin:0}}>
                                 {engine.activeChallenge.description}
                             </p>
-                        </div>
+                        </EfPanel>
                     )}
 
                     {/* §14: Weekly Challenges Widget */}
@@ -306,7 +308,7 @@ export function DashboardView() {
                             const unlocked = metaAchs.filter(a => a.unlocked);
                             if (unlocked.length === 0) return null;
                             return (
-                                <div className="card card-compact" style={{background:'rgba(123,44,191,0.06)',borderColor:'rgba(123,44,191,0.15)'}}>
+                                <EfPanel variant="sunk" padding="sm" style={{background:'rgba(123,44,191,0.06)',borderColor:'rgba(123,44,191,0.15)', marginBottom: '0.5rem'}}>
                                     <h4 style={{fontSize:'0.8rem',color:'#A855F7',marginBottom:'0.3rem'}}>
                                         🏅 CONQUISTAS DE CARREIRA ({unlocked.length}/{metaAchs.length})
                                     </h4>
@@ -317,14 +319,14 @@ export function DashboardView() {
                                             </span>
                                         ))}
                                     </div>
-                                </div>
+                                </EfPanel>
                             );
                         } catch { return null; }
                     })()}
 
                     {/* AKITA-142: Hall of Legends (compact) */}
                     {engine.hallOfLegends && engine.hallOfLegends.filledCount > 0 && (
-                        <div className="card card-compact" style={{background:'rgba(245,158,11,0.05)',borderColor:'rgba(245,158,11,0.15)'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(245,158,11,0.05)',borderColor:'rgba(245,158,11,0.15)', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--accent)',marginBottom:'0.3rem'}}>⭐ HALL DE LENDAS ({engine.hallOfLegends.filledCount}/{engine.hallOfLegends.slots?.length || 6})</h4>
                             <div style={{display:'flex',flexWrap:'wrap',gap:'0.3rem'}}>
                                 {(engine.hallOfLegends.slots || []).filter(s => s.filled).map((s, i) => (
@@ -333,11 +335,11 @@ export function DashboardView() {
                                     </span>
                                 ))}
                             </div>
-                        </div>
+                        </EfPanel>
                     )}
 
                     {(engine.weekEvents?.length ?? 0) > 0 && (
-                        <div className="card card-compact">
+                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📰 EVENTOS DA SEMANA</h4>
                             <div className="event-feed">
                                 {(engine.weekEvents || []).map((ev, i) => {
@@ -347,7 +349,7 @@ export function DashboardView() {
                                     return <div key={i} className={`event-item ${isGood ? 'highlight' : ''} ${isBad ? 'danger' : ''}`}>{evText}</div>;
                                 })}
                             </div>
-                        </div>
+                        </EfPanel>
                     )}
 
                     {/* §19.1: Unlock tooltip */}
@@ -360,7 +362,7 @@ export function DashboardView() {
                         <AchievementPopup achievement={pendingAchievement} onDismiss={() => setPendingAchievement(null)} />
                     )}
 
-                    <div className="card card-compact">
+                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                         <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>💰 FINANÇAS</h4>
                         {engine.weeklyFinance ? (
                             <ul className="stats-list">
@@ -374,51 +376,51 @@ export function DashboardView() {
                                 ))}
                             </ul>
                         ) : <p style={{color:'var(--text-muted)',fontSize:'0.78rem'}}>Jogue a próxima partida para ver o relatório.</p>}
-                    </div>
+                    </EfPanel>
 
                     {injured.length > 0 && (
-                        <div className="card card-compact">
+                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--danger)',marginBottom:'0.3rem'}}>🏥 D.M. ({injured.length})</h4>
                             <ul className="stats-list">
                                 {injured.map((p, i) => (
                                     <li key={i}><span>{p.injury.emoji} {p.name} — {p.injury.name}</span><strong style={{color:'var(--danger)'}}>{p.injury.weeksLeft} sem</strong></li>
                                 ))}
                             </ul>
-                        </div>
+                        </EfPanel>
                     )}
 
                     {expiringContracts.length > 0 && (
-                        <div className="card card-compact">
+                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--accent)',marginBottom:'0.3rem'}}>📋 CONTRATOS VENCENDO</h4>
                             <ul className="stats-list">
                                 {expiringContracts.map((p, i) => (
                                     <li key={i}><span>{p.name} (OVR {p.ovr})</span><strong style={{color: p.contract.weeksLeft <= 4 ? 'var(--danger)' : 'var(--accent)'}}>{p.contract.weeksLeft} sem</strong></li>
                                 ))}
                             </ul>
-                        </div>
+                        </EfPanel>
                     )}
                 </>
             )}
 
             {/* === TAB: TACTICS === */}
             {tab === 'tactics' && (
-                <div className="card card-compact">
+                <EfPanel variant="elev" padding="sm" style={{marginBottom: '0.5rem'}}>
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>FORMAÇÃO</h4>
                     <div className="action-bar">
                         {Object.keys(FORMATIONS).map(f => (
-                            <button key={f} className={`btn btn-sm ${team.formation === f ? 'btn-primary' : 'btn-secondary'}`}
+                            <EfButton key={f} variant={team.formation === f ? 'primary' : 'secondary'} size="sm"
                                 onClick={() => { engine.setFormation(f); forceUpdate(); }}>
                                 {f}
-                            </button>
+                            </EfButton>
                         ))}
                     </div>
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',margin:'0.75rem 0 0.4rem'}}>TÁTICA</h4>
                     <div className="action-bar">
                         {Object.entries(TACTICS).map(([k, v]) => (
-                            <button key={k} className={`btn btn-sm ${engine.currentTactic === k ? 'btn-primary' : 'btn-secondary'}`}
+                            <EfButton key={k} variant={engine.currentTactic === k ? 'primary' : 'secondary'} size="sm"
                                 onClick={() => { engine.setTactic(k); forceUpdate(); }}>
                                 {v.name}
-                            </button>
+                            </EfButton>
                         ))}
                     </div>
                     <p style={{color:'var(--text-muted)',fontSize:'0.75rem',marginTop:'0.4rem'}}>{TACTICS[engine.currentTactic]?.description}</p>
@@ -426,37 +428,37 @@ export function DashboardView() {
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',margin:'0.75rem 0 0.4rem'}}>📢 PRELEÇÃO</h4>
                     <div style={{display:'flex',flexDirection:'column',gap:'0.3rem'}}>
                         {TEAM_TALKS.map(t => (
-                            <button key={t.id} className="btn btn-secondary btn-sm" style={{justifyContent:'flex-start'}}
+                            <EfButton key={t.id} variant="secondary" size="sm" style={{justifyContent:'flex-start'}}
                                 onClick={() => handleTeamTalk(t.id)}>
                                 <span>{t.name}</span>
-                            </button>
+                            </EfButton>
                         ))}
                     </div>
-                </div>
+                </EfPanel>
             )}
 
             {/* === TAB: TRAINING === */}
             {tab === 'training' && (
-                <div className="card card-compact">
+                <EfPanel variant="elev" padding="sm" style={{marginBottom: '0.5rem'}}>
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>TREINO SEMANAL</h4>
                     <div style={{display:'flex',flexDirection:'column',gap:'0.3rem'}}>
                         {TRAINING_TYPES.map(t => (
-                            <button key={t.id} className={`btn ${engine.currentTraining === t.id ? 'btn-primary' : 'btn-secondary'}`}
+                            <EfButton key={t.id} variant={engine.currentTraining === t.id ? 'primary' : 'secondary'}
                                 style={{justifyContent:'space-between',fontSize:'0.8rem'}}
                                 onClick={() => handleTrain(t.id)}>
                                 <span>{t.name}</span>
                                 <span style={{fontSize:'0.68rem',color:'var(--text-muted)'}}>{t.description}</span>
-                            </button>
+                            </EfButton>
                         ))}
                     </div>
-                </div>
+                </EfPanel>
             )}
 
             {/* === TAB: CLUB === */}
             {tab === 'club' && (
                 <>
                     {/* Stadium + Progress */}
-                    <div className="card card-compact">
+                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                             <div style={{flex:1}}>
                                 <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)'}}>🏟️ {stadiumInfo.name}</h4>
@@ -467,17 +469,17 @@ export function DashboardView() {
                                 <span style={{fontSize:'0.6rem',color:'var(--text-muted)'}}>Nível {engine.stadiumLevel}/5</span>
                             </div>
                             {engine.stadiumLevel < 5 && (
-                                <button className="btn btn-sm btn-primary" onClick={() => {
+                                <EfButton variant="primary" size="sm" onClick={() => {
                                     const result = engine.upgradeStadium();
                                     setLog(result.msg);
                                     forceUpdate();
-                                }}>Upgrade</button>
+                                }}>Upgrade</EfButton>
                             )}
                         </div>
-                    </div>
+                    </EfPanel>
 
                     {/* Staff */}
-                    <div className="card card-compact">
+                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                         <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>👥 STAFF ({STAFF_ROLES.filter(r => engine.staff?.getStaff(r.id)).length}/{STAFF_ROLES.length})</h4>
                         {STAFF_ROLES.map(role => {
                             const member = engine.staff?.getStaff(role.id);
@@ -485,19 +487,19 @@ export function DashboardView() {
                                 <div key={role.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.2rem 0',fontSize:'0.78rem',borderBottom:'1px solid var(--border-subtle)'}}>
                                     <span>{role.emoji} {role.name}: {member ? <strong style={{color:'var(--primary)'}}>{member.name}</strong> : <span style={{color:'var(--text-muted)'}}>Vago</span>}</span>
                                     {!member && (
-                                        <button className="btn btn-sm btn-secondary" onClick={() => {
+                                        <EfButton variant="secondary" size="sm" onClick={() => {
                                             const result = engine.hireStaff(role.id);
                                             setLog(result.msg || 'Staff contratado!');
                                             forceUpdate();
-                                        }}>Contratar</button>
+                                        }}>Contratar</EfButton>
                                     )}
                                 </div>
                             );
                         })}
-                    </div>
+                    </EfPanel>
 
                     {/* Youth Academy + Progress */}
-                    <div className="card card-compact">
+                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                             <div style={{flex:1}}>
                                 <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)'}}>🎓 BASE Nv.{engine.academyLevel}</h4>
@@ -508,27 +510,27 @@ export function DashboardView() {
                                 <span style={{fontSize:'0.6rem',color:'var(--text-muted)'}}>Nível {engine.academyLevel}/5</span>
                             </div>
                             {engine.academyLevel < 5 && (
-                                <button className="btn btn-sm btn-primary" onClick={() => {
+                                <EfButton variant="primary" size="sm" onClick={() => {
                                     const result = engine.upgradeAcademy();
                                     setLog(result.msg);
                                     forceUpdate();
-                                }}>Upgrade (R$ {(getAcademyUpgradeCost(engine.academyLevel)/1000000).toFixed(1)}M)</button>
+                                }}>Upgrade (R$ {(getAcademyUpgradeCost(engine.academyLevel)/1000000).toFixed(1)}M)</EfButton>
                             )}
                         </div>
-                    </div>
+                    </EfPanel>
 
                     {/* Scouting */}
-                    <div className="card card-compact">
+                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                         <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>🔎 SCOUTING</h4>
                         <div className="action-bar">
                             {SCOUT_REGIONS.map(r => (
-                                <button key={r.id} className="btn btn-sm btn-secondary" onClick={() => {
+                                <EfButton key={r.id} variant="secondary" size="sm" onClick={() => {
                                     const result = engine.scoutRegionAction(r.id);
                                     setLog(result.msg || `Scout encontrou ${result.players?.length || 0} jogadores!`);
                                     forceUpdate();
                                 }}>
                                     {r.emoji} {r.name} (R$ {(r.cost/1000).toFixed(0)}K)
-                                </button>
+                                </EfButton>
                             ))}
                         </div>
                         {engine.scoutedPlayers?.length > 0 && (
@@ -536,20 +538,20 @@ export function DashboardView() {
                                 {engine.scoutedPlayers.map((p, i) => (
                                     <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:'0.75rem',padding:'0.2rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
                                         <span>{p.name} ({p.position}, {p.age}a, OVR {p.ovr})</span>
-                                        <button className="btn btn-sm btn-primary" onClick={() => {
+                                        <EfButton variant="primary" size="sm" onClick={() => {
                                             const result = engine.signScoutedPlayer(i);
                                             setLog(result?.msg || 'Contratado!');
                                             forceUpdate();
-                                        }}>Contratar</button>
+                                        }}>Contratar</EfButton>
                                     </div>
                                 ))}
                             </div>
                         )}
-                    </div>
+                    </EfPanel>
 
                     {/* Board */}
                     {engine.board && (
-                        <div className="card card-compact">
+                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>🏛️ DIRETORIA</h4>
                             <ul className="stats-list">
                                 <li><span>Confiança:</span><strong style={{color: boardStatus?.color}}>{engine.board.confidence}%</strong></li>
@@ -565,14 +567,14 @@ export function DashboardView() {
                                     ))}
                                 </div>
                             )}
-                        </div>
+                        </EfPanel>
                     )}
                 </>
             )}
 
             {/* === TAB: TRANSFERS === */}
             {tab === 'transfers' && (engine.transferOffers?.length ?? 0) > 0 && (
-                <div className="card card-compact">
+                <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📬 OFERTAS</h4>
                     {engine.transferOffers.map((offer, i) => (
                         <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
@@ -581,40 +583,37 @@ export function DashboardView() {
                                 <div style={{fontSize:'0.68rem',color:'var(--text-muted)'}}>{offer.buyerClub} • R$ {(offer.offerAmount / 1000000).toFixed(1)}M</div>
                             </div>
                             <div style={{display:'flex',gap:'0.25rem'}}>
-                                <button className="btn btn-sm btn-primary" onClick={() => handleAcceptOffer(offer.playerId)}>✓</button>
-                                <button className="btn btn-sm btn-danger" onClick={() => handleRejectOffer(offer.playerId)}>✗</button>
+                                <EfButton variant="primary" size="sm" onClick={() => handleAcceptOffer(offer.playerId)}>✓</EfButton>
+                                <EfButton variant="danger" size="sm" onClick={() => handleRejectOffer(offer.playerId)}>✗</EfButton>
                             </div>
                         </div>
                     ))}
-                </div>
+                </EfPanel>
             )}
 
             {/* Press Conference Modal */}
             {engine.pressQuestion && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h3>🎙️ Coletiva de Imprensa</h3>
-                        <p>{engine.pressQuestion.text}</p>
-                        <div className="modal-options">
-                            {engine.pressQuestion.options.map(opt => (
-                                <button key={opt.id} className="btn btn-secondary" onClick={() => {
-                                    const result = engine.answerPress(opt.id);
-                                    if (result) setLog(`Coletiva: ${result.answer}`);
-                                    forceUpdate();
-                                }} style={{textAlign:'left',fontSize:'0.8rem'}}>
-                                    {opt.text}
-                                </button>
-                            ))}
-                        </div>
+                <EfModal title="🎙️ Coletiva de Imprensa" onClose={() => {}}>
+                    <p style={{marginBottom: '1rem'}}>{engine.pressQuestion.text}</p>
+                    <div className="modal-options">
+                        {engine.pressQuestion.options.map(opt => (
+                            <EfButton key={opt.id} variant="secondary" onClick={() => {
+                                const result = engine.answerPress(opt.id);
+                                if (result) setLog(`Coletiva: ${result.answer}`);
+                                forceUpdate();
+                            }} style={{textAlign:'left',fontSize:'0.8rem', width: '100%', marginBottom: '0.5rem', justifyContent: 'flex-start'}}>
+                                {opt.text}
+                            </EfButton>
+                        ))}
                     </div>
-                </div>
+                </EfModal>
             )}
 
             {/* Bottom Nav */}
             <div className="action-bar" style={{marginTop:'0.5rem'}}>
-                <button className="btn btn-secondary" onClick={() => changeView('squad')}>👥 Plantel</button>
-                <button className="btn btn-secondary" onClick={() => changeView('market')}>🛒 Mercado</button>
-                <button className="btn btn-secondary" onClick={() => changeView('standings')}>📊 Tabela</button>
+                <EfButton variant="secondary" onClick={() => changeView('squad')}>👥 Plantel</EfButton>
+                <EfButton variant="secondary" onClick={() => changeView('market')}>🛒 Mercado</EfButton>
+                <EfButton variant="secondary" onClick={() => changeView('standings')}>📊 Tabela</EfButton>
             </div>
 
             {/* Status Footer (Stitch v2 design) */}

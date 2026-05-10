@@ -108,9 +108,7 @@ export function SquadView() {
 
             {/* Manager card */}
             {team.manager && team.manager.name && (
-                <div className="card" style={{
-                    padding: '0.75rem',
-                    marginBottom: '0.75rem',
+                <EfPanel variant="sunk" padding="md" style={{
                     background: 'linear-gradient(135deg, rgba(247,181,56,0.1), rgba(15,26,20,0.5))',
                     border: '1px solid #F7B538'
                 }}>
@@ -134,7 +132,7 @@ export function SquadView() {
                             </div>
                         )}
                     </div>
-                </div>
+                </EfPanel>
             )}
 
             {/* SPEC-080 Tabs */}

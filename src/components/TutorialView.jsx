@@ -7,6 +7,8 @@
 
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
 
 const STEPS = [
     {
@@ -72,7 +74,7 @@ export function TutorialView() {
             minHeight: '70vh',
             gap: '1.5rem'
         }}>
-            <div className="card ef-anim-pop-in" style={{
+            <EfPanel variant="elev" className="ef-anim-pop-in" style={{
                 padding: '2rem',
                 maxWidth: '600px',
                 width: '90%',
@@ -106,11 +108,11 @@ export function TutorialView() {
                 </div>
                 <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
                     {step > 0 && (
-                        <button className="btn btn-secondary" onClick={prev}>← Anterior</button>
+                        <EfButton variant="secondary" onClick={prev}>← Anterior</EfButton>
                     )}
-                    <button className="btn btn-primary" onClick={next}>
+                    <EfButton variant="primary" onClick={next}>
                         {step < STEPS.length - 1 ? 'Próximo →' : '🎮 Começar!'}
-                    </button>
+                    </EfButton>
                 </div>
                 <div style={{ marginTop: '1rem', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                     Etapa {step + 1} de {STEPS.length} • <button
@@ -125,7 +127,7 @@ export function TutorialView() {
                         }}
                     >Pular tutorial</button>
                 </div>
-            </div>
+            </EfPanel>
         </div>
     );
 }

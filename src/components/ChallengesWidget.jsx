@@ -7,6 +7,8 @@
 import React from 'react';
 import { useGame } from '../context/GameContext';
 import { getActiveChallenges, claimChallenge } from '../services/ChallengesService';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
 
 export function ChallengesWidget() {
     const { getEngine, forceUpdate } = useGame();
@@ -24,7 +26,7 @@ export function ChallengesWidget() {
     };
 
     return (
-        <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+        <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
             <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 ⚡ Desafios da Semana
                 <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 400 }}>
@@ -51,30 +53,28 @@ export function ChallengesWidget() {
                             </div>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: '0.65rem', color: 'var(--accent)' }}>
+                            <div style={{ fontSize: '0.65rem', color: 'var(--accent)', marginBottom: '4px' }}>
                                 +{c.reward.prestige}P · R${(c.reward.money / 1000).toFixed(0)}k
                             </div>
                             {c.progress >= 100 && !c.completed && (
-                                <button
+                                <EfButton
+                                    variant="primary"
+                                    size="sm"
                                     onClick={() => handleClaim(c.id)}
                                     style={{
-                                        marginTop: '2px',
                                         fontSize: '0.65rem',
-                                        background: '#FFD700',
-                                        color: '#0F1A14',
-                                        border: 'none',
-                                        borderRadius: '3px',
                                         padding: '2px 8px',
-                                        cursor: 'pointer',
                                         fontWeight: 700
                                     }}
-                                >RESGATAR</button>
+                                >
+                                    RESGATAR
+                                </EfButton>
                             )}
                         </div>
                     </div>
                 ))}
             </div>
-        </div>
+        </EfPanel>
     );
 }
 

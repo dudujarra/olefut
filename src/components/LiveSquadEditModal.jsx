@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TACTICS } from '../engine/ManagerSystems';
 import { Help } from './Help';
 import { Tooltip } from './Tooltip';
+import { EfModal, EfButton } from './ui';
 
 const MAX_LIVE_SUBS = 5;
 
@@ -63,27 +64,15 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
     };
 
     return (
-        <div className="modal-overlay" style={{
-            position: 'fixed',
-            top: 0, left: 0, right: 0, bottom: 0,
-            background: 'rgba(0, 0, 0, 0.85)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 9000,
-            padding: '1rem'
-        }}>
-            <div className="card" style={{
-                width: '100%',
-                maxWidth: '560px',
-                maxHeight: '90vh',
-                overflowY: 'auto',
-                padding: '1.25rem'
-            }}>
-                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem'}}>
-                    <h3 style={{margin:0}}>⏸️ PAUSA — Min {currentMinute}'</h3>
-                    <button className="btn btn-sm btn-secondary" onClick={onClose}>✕ Retomar</button>
-                </div>
+        <EfModal
+            open={true}
+            onClose={onClose}
+            title={`⏸️ PAUSA — Min ${currentMinute}'`}
+            size="md"
+            footer={
+                <EfButton variant="primary" onClick={onClose}>▶️ Retomar Partida</EfButton>
+            }
+        >
 
                 {/* Subs counter */}
                 <Tooltip content="Limite FIFA: 5 substituições por jogo. Mudanças aplicam ao plantel.">
@@ -107,12 +96,13 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                     <div style={{display:'flex',flexWrap:'wrap',gap:'0.3rem'}}>
                         {Object.entries(TACTICS).map(([k, v]) => (
                             <Tooltip key={k} content={v.description || `Tática ${v.name}`}>
-                                <button
-                                    className={`btn btn-sm ${tactic === k ? 'btn-primary' : 'btn-secondary'}`}
+                                <EfButton
+                                    variant={tactic === k ? 'primary' : 'secondary'}
+                                    size="sm"
                                     onClick={() => handleTacticChange(k)}
                                 >
                                     {v.name}
-                                </button>
+                                </EfButton>
                             </Tooltip>
                         ))}
                     </div>
@@ -176,7 +166,7 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                                     marginBottom:'0.5rem'
                                 }}>
                                     Sai: <strong>{selectedOut.name}</strong> ({selectedOut.position})
-                                    <button className="btn btn-sm btn-secondary" style={{marginLeft:'0.5rem',padding:'0.15rem 0.5rem',fontSize:'0.75rem'}} onClick={() => setSelectedOut(null)}>Cancelar</button>
+                                    <EfButton variant="secondary" size="sm" style={{marginLeft:'0.5rem',padding:'0.15rem 0.5rem',fontSize:'0.75rem'}} onClick={() => setSelectedOut(null)}>Cancelar</EfButton>
                                 </div>
                                 <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>👤 ESCOLHA QUEM ENTRA</h4>
                                 <div style={{display:'flex',flexDirection:'column',gap:'0.25rem',maxHeight:'200px',overflowY:'auto'}}>
@@ -198,12 +188,13 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                                                 {p.name}
                                                 <span style={{color:'var(--text-muted)',marginLeft:'0.4rem',fontSize:'0.75rem'}}>OVR {p.ovr}</span>
                                             </span>
-                                            <button
-                                                className="btn btn-primary btn-sm"
+                                            <EfButton
+                                                variant="primary"
+                                                size="sm"
                                                 onClick={() => handleSub(selectedOut, p)}
                                             >
                                                 Entrar
-                                            </button>
+                                            </EfButton>
                                         </div>
                                     ))}
                                 </div>
@@ -212,12 +203,7 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                     </>
                 )}
 
-                {/* Bottom — close */}
-                <div style={{marginTop:'1rem',display:'flex',justifyContent:'flex-end'}}>
-                    <button className="btn btn-primary" onClick={onClose}>▶️ Retomar Partida</button>
-                </div>
-            </div>
-        </div>
+        </EfModal>
     );
 }
 

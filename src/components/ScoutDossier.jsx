@@ -5,6 +5,8 @@
  */
 
 import React, { useState } from 'react';
+import { EfModal } from './ui/EfModal';
+import { EfButton } from './ui/EfButton';
 
 function fitScore(player, teamNeed) {
     if (!player || !teamNeed) return 50;
@@ -71,73 +73,44 @@ export function ScoutDossier({ player, onClose, onSign, comparePlayers = [] }) {
     );
 
     return (
-        <div className="modal-overlay" onClick={onClose} style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0,0,0,0.7)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 9999,
-            padding: '1rem'
-        }}>
-            <div
-                className="ef-anim-pop-in"
-                onClick={(e) => e.stopPropagation()}
-                style={{
-                    background: 'var(--bg-elevated, var(--ef-color-bg-input))',
-                    border: '2px solid var(--accent)',
-                    borderRadius: '6px',
-                    padding: '1rem',
-                    maxWidth: '700px',
-                    width: '100%',
-                    maxHeight: '90vh',
-                    overflowY: 'auto'
-                }}
-            >
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                    <h3 style={{ margin: 0 }}>🔍 Dossier Scout</h3>
-                    <button className="btn btn-secondary btn-sm" onClick={onClose}>✕ Fechar</button>
+        <EfModal title="🔍 Dossier Scout" onClose={onClose}>
+            {/* AI Opinion */}
+            <div style={{
+                padding: '0.75rem',
+                background: `${opinion.color}22`,
+                border: `2px solid ${opinion.color}`,
+                borderRadius: '4px',
+                marginBottom: '1rem'
+            }}>
+                <div style={{ fontSize: '0.7rem', color: opinion.color, fontWeight: 700, letterSpacing: '0.05em' }}>
+                    OPINIÃO DO OLHEIRO
                 </div>
-
-                {/* AI Opinion */}
-                <div style={{
-                    padding: '0.75rem',
-                    background: `${opinion.color}22`,
-                    border: `2px solid ${opinion.color}`,
-                    borderRadius: '4px',
-                    marginBottom: '1rem'
-                }}>
-                    <div style={{ fontSize: '0.7rem', color: opinion.color, fontWeight: 700, letterSpacing: '0.05em' }}>
-                        OPINIÃO DO OLHEIRO
-                    </div>
-                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: opinion.color, margin: '4px 0' }}>
-                        {opinion.tag}
-                    </div>
-                    <div style={{ fontSize: '0.85rem' }}>{opinion.desc}</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: opinion.color, margin: '4px 0' }}>
+                    {opinion.tag}
                 </div>
-
-                {/* Main + comparisons */}
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                    {renderPlayer(player, true)}
-                    {comparePlayers.slice(0, 3).map((p, i) => (
-                        <React.Fragment key={i}>
-                            {renderPlayer(p, false)}
-                        </React.Fragment>
-                    ))}
-                </div>
-
-                {onSign && (
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => onSign(player)}
-                        style={{ width: '100%' }}
-                    >
-                        💼 Fazer Proposta R$ {(player.value || 0).toLocaleString('pt-BR')}
-                    </button>
-                )}
+                <div style={{ fontSize: '0.85rem' }}>{opinion.desc}</div>
             </div>
-        </div>
+
+            {/* Main + comparisons */}
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                {renderPlayer(player, true)}
+                {comparePlayers.slice(0, 3).map((p, i) => (
+                    <React.Fragment key={i}>
+                        {renderPlayer(p, false)}
+                    </React.Fragment>
+                ))}
+            </div>
+
+            {onSign && (
+                <EfButton
+                    variant="primary"
+                    onClick={() => onSign(player)}
+                    style={{ width: '100%' }}
+                >
+                    💼 Fazer Proposta R$ {(player.value || 0).toLocaleString('pt-BR')}
+                </EfButton>
+            )}
+        </EfModal>
     );
 }
 

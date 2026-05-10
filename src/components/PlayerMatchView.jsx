@@ -3,6 +3,9 @@ import { useGame } from '../context/GameContext';
 import { drawCard } from '../engine/MatchEventsDeck';
 import { BenchEventsDeck } from '../engine/BenchEventsDeck';
 import { EfClubBadge } from './ui';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgMatchStadium from '../assets/environments/bg_match_stadium.png';
 
 import { rng as systemRng } from '../engine/rng.js';
 
@@ -152,68 +155,87 @@ export function PlayerMatchView() {
     };
 
     return (
-        <div className="main-content fade-in">
-            {isBenched && <div className="bench-warning">🔴 VOCÊ ESTÁ NO BANCO — Observe e interaja com os eventos</div>}
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgMatchStadium})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {isBenched && <div style={{ background: 'rgba(239,68,68,0.1)', color: 'var(--danger)', padding: '12px', borderRadius: '4px', textAlign: 'center', fontWeight: 'bold' }}>🔴 VOCÊ ESTÁ NO BANCO — Observe e interaja com os eventos</div>}
 
-            <div className={`card ${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{ textAlign: 'center', position: 'relative' }}>
-                {goalBurstActive && (
-                    <div className="ef-anim-goal-burst" style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',zIndex:10,pointerEvents:'none'}} />
-                )}
-                <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
-                    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
-                        {team?.name && <EfClubBadge name={team.name} size="md" />}
-                        <span className="team-name">{team?.name || 'Meu Time'}</span>
-                    </div>
-                    <div className={`match-score ${goalBurstActive ? 'ef-anim-counter' : ''}`}>{homeGoals} — {awayGoals}</div>
-                    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
-                        {opponent?.name && <EfClubBadge name={opponent.name} size="md" />}
-                        <span className="team-name">{opponent?.name || 'Adversário'}</span>
-                    </div>
-                </div>
-                <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>{matchFinished ? 'FIM DE JOGO' : `${minute}'`}</p>
-                <div style={{ background: 'var(--bg-panel-hover)', height: '4px', borderRadius: '2px', marginTop: '0.5rem' }}>
-                    <div style={{ width: `${(minute / 90) * 100}%`, height: '100%', background: 'var(--primary)', borderRadius: '2px', transition: 'width 0.3s' }} />
-                </div>
-            </div>
-
-            {/* Event Modal */}
-            {activeEvent && !eventResult && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h3>{activeEvent.isBench ? '📋 Evento no Banco' : `⚡ Momento Decisivo — ${minute}'`}</h3>
-                        <p>{activeEvent.text}</p>
-                        <div className="modal-options">
-                            {activeEvent.options.map((opt, i) => (
-                                <button key={i} className="btn btn-secondary" onClick={() => handleChoice(opt)}>
-                                    {opt.label}
-                                    {opt.skill && <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem', marginLeft: '0.5rem' }}>({opt.skill})</span>}
-                                </button>
-                            ))}
+                <EfPanel variant="elev" padding="md" className={goalBurstActive ? 'ef-anim-shake' : ''} style={{ textAlign: 'center', position: 'relative' }}>
+                    {goalBurstActive && (
+                        <div className="ef-anim-goal-burst" style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',zIndex:10,pointerEvents:'none'}} />
+                    )}
+                    <div style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
+                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                            {team?.name && <EfClubBadge name={team.name} size="md" />}
+                            <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--text-main)' }}>{team?.name || 'Meu Time'}</span>
+                        </div>
+                        <div className={goalBurstActive ? 'ef-anim-counter' : ''} style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{homeGoals} — {awayGoals}</div>
+                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                            {opponent?.name && <EfClubBadge name={opponent.name} size="md" />}
+                            <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--text-main)' }}>{opponent?.name || 'Adversário'}</span>
                         </div>
                     </div>
-                </div>
-            )}
+                    <p style={{ color: 'var(--text-muted)', marginTop: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>{matchFinished ? 'FIM DE JOGO' : `${minute}'`}</p>
+                    <div style={{ background: 'var(--bg-elevated)', height: '6px', borderRadius: '3px', marginTop: '0.5rem', border: '1px solid var(--border-subtle)' }}>
+                        <div style={{ width: `${(minute / 90) * 100}%`, height: '100%', background: 'linear-gradient(90deg, #6ABC3A, #FFD700)', borderRadius: '2px', transition: 'width 0.3s' }} />
+                    </div>
+                </EfPanel>
 
-            {/* Event Result */}
-            {eventResult && (
-                <div className="card" style={{ textAlign: 'center', borderColor: 'var(--accent)' }}>
-                    <p style={{ fontSize: '1rem' }}>{eventResult}</p>
-                </div>
-            )}
+                {/* Event Modal */}
+                {activeEvent && !eventResult && (
+                    <div className="modal-overlay">
+                        <EfPanel variant="elev" padding="md" style={{ maxWidth: '400px', textAlign: 'center' }}>
+                            <h3 style={{ margin: '0 0 10px 0', color: activeEvent.isBench ? 'var(--text-main)' : 'var(--accent)' }}>{activeEvent.isBench ? '📋 Evento no Banco' : `⚡ Momento Decisivo — ${minute}'`}</h3>
+                            <p style={{ fontSize: '0.9rem', marginBottom: '16px' }}>{activeEvent.text}</p>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                {activeEvent.options.map((opt, i) => (
+                                    <EfButton key={i} variant="secondary" onClick={() => handleChoice(opt)}>
+                                        {opt.label}
+                                        {opt.skill && <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem', marginLeft: '0.5rem' }}>({opt.skill})</span>}
+                                    </EfButton>
+                                ))}
+                            </div>
+                        </EfPanel>
+                    </div>
+                )}
 
-            {/* Narration */}
-            <div className="narration-log">
-                {narration.length === 0 && <span>Aguardando início...</span>}
-                {narration.map((n, i) => (
-                    <div key={i} className={n.isGoal ? 'goal-line' : ''}>{n.minute}' — {n.text}</div>
-                ))}
+                {/* Event Result */}
+                {eventResult && (
+                    <EfPanel variant="elev" padding="md" style={{ textAlign: 'center', border: '2px solid var(--accent)' }}>
+                        <p style={{ fontSize: '1rem', margin: 0 }}>{eventResult}</p>
+                    </EfPanel>
+                )}
+
+                {/* Narration */}
+                <EfPanel variant="sunk" padding="md" style={{ maxHeight: '250px', overflowY: 'auto' }}>
+                    {narration.length === 0 && <span style={{ color: 'var(--text-muted)' }}>Aguardando início...</span>}
+                    {narration.map((n, i) => (
+                        <div key={i} style={{ 
+                            padding: '4px 8px', 
+                            borderLeft: n.isGoal ? '3px solid var(--primary)' : 'none',
+                            background: n.isGoal ? 'rgba(106, 188, 58, 0.1)' : 'transparent',
+                            color: n.isGoal ? 'var(--text-main)' : 'var(--text-muted)',
+                            fontSize: '0.85rem',
+                            marginBottom: '4px'
+                        }}>{n.minute}' — {n.text}</div>
+                    ))}
+                </EfPanel>
+
+                {matchFinished && (
+                    <EfButton variant="primary" onClick={handleEndMatch} style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '1.1rem' }}>
+                        📊 VER RESULTADOS E AVANÇAR
+                    </EfButton>
+                )}
             </div>
-
-            {matchFinished && (
-                <button className="btn btn-primary" onClick={handleEndMatch} style={{ width: '100%', marginTop: '1rem' }}>
-                    📊 Ver Resultados e Avançar Semana
-                </button>
-            )}
         </div>
     );
 }
+
+export default PlayerMatchView;

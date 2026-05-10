@@ -7,6 +7,7 @@
 
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
+import { EfButton } from './ui/EfButton';
 
 const NAV_ITEMS_MANAGER = [
     { view: 'dashboard',    icon: '🏠', label: 'Dashboard' },
@@ -84,8 +85,9 @@ export function Sidebar() {
                 </div>
 
                 {items.map(item => (
-                    <button
+                    <EfButton
                         key={item.view}
+                        variant={currentView === item.view ? 'primary' : 'secondary'}
                         onClick={() => { changeView(item.view); setCollapsed(true); }}
                         style={{
                             display: 'flex',
@@ -93,21 +95,13 @@ export function Sidebar() {
                             gap: '8px',
                             width: '100%',
                             padding: '0.6rem 0.75rem',
-                            background: currentView === item.view ? 'var(--accent)' : 'transparent',
-                            color: currentView === item.view ? '#0F1A14' : 'var(--text)',
-                            border: 'none',
-                            borderRadius: '4px',
-                            fontSize: '0.85rem',
-                            fontWeight: currentView === item.view ? 700 : 400,
                             textAlign: 'left',
-                            cursor: 'pointer',
-                            marginBottom: '4px',
-                            transition: 'background 100ms'
+                            marginBottom: '4px'
                         }}
                     >
                         <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
                         <span>{item.label}</span>
-                    </button>
+                    </EfButton>
                 ))}
             </nav>
         </>

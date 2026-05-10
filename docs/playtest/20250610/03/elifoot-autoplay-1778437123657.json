@@ -1,0 +1,8150 @@
+{
+  "weeksPlayed": 8924,
+  "seasonsPlayed": 234,
+  "matchesPlayed": 358288,
+  "wins": 2880,
+  "draws": 1748,
+  "losses": 4299,
+  "transfers": 13,
+  "errorCount": 0,
+  "anomalies": [
+    {
+      "type": "VEXAME",
+      "msg": "📉 Levou 0-4",
+      "ctx": {
+        "diff": 4,
+        "score": "0-4",
+        "week": 12
+      },
+      "week": 12,
+      "season": 1,
+      "ts": 1778436538844
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 24,
+      "season": 3,
+      "ts": 1778436558570
+    },
+    {
+      "type": "VEXAME",
+      "msg": "📉 Levou 1-6",
+      "ctx": {
+        "diff": 5,
+        "score": "1-6",
+        "week": 33
+      },
+      "week": 33,
+      "season": 3,
+      "ts": 1778436560357
+    },
+    {
+      "type": "VEXAME",
+      "msg": "📉 Levou 1-7",
+      "ctx": {
+        "diff": 6,
+        "score": "1-7",
+        "week": 9
+      },
+      "week": 9,
+      "season": 4,
+      "ts": 1778436563487
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "5 derrotas seguidas",
+      "ctx": {
+        "streak": -5
+      },
+      "week": 18,
+      "season": 5,
+      "ts": 1778436573888
+    },
+    {
+      "type": "VEXAME",
+      "msg": "📉 Levou 0-8",
+      "ctx": {
+        "diff": 8,
+        "score": "0-8",
+        "week": 23
+      },
+      "week": 23,
+      "season": 5,
+      "ts": 1778436574984
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "6 derrotas seguidas",
+      "ctx": {
+        "streak": -6
+      },
+      "week": 25,
+      "season": 5,
+      "ts": 1778436575441
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "7 derrotas seguidas",
+      "ctx": {
+        "streak": -7
+      },
+      "week": 26,
+      "season": 5,
+      "ts": 1778436575665
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "8 derrotas seguidas",
+      "ctx": {
+        "streak": -8
+      },
+      "week": 27,
+      "season": 5,
+      "ts": 1778436575888
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "9 derrotas seguidas",
+      "ctx": {
+        "streak": -9
+      },
+      "week": 28,
+      "season": 5,
+      "ts": 1778436576108
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 6,
+      "season": 6,
+      "ts": 1778436579877
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "10 derrotas seguidas",
+      "ctx": {
+        "streak": -10
+      },
+      "week": 34,
+      "season": 6,
+      "ts": 1778436585850
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "11 derrotas seguidas",
+      "ctx": {
+        "streak": -11
+      },
+      "week": 35,
+      "season": 6,
+      "ts": 1778436586063
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "12 derrotas seguidas",
+      "ctx": {
+        "streak": -12
+      },
+      "week": 36,
+      "season": 6,
+      "ts": 1778436586274
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "13 derrotas seguidas",
+      "ctx": {
+        "streak": -13
+      },
+      "week": 37,
+      "season": 6,
+      "ts": 1778436586501
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "14 derrotas seguidas",
+      "ctx": {
+        "streak": -14
+      },
+      "week": 38,
+      "season": 6,
+      "ts": 1778436586722
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "15 derrotas seguidas",
+      "ctx": {
+        "streak": -15
+      },
+      "week": 16,
+      "season": 10,
+      "ts": 1778436615445
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 34,
+      "season": 14,
+      "ts": 1778436653201
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 16,
+      "season": 15,
+      "ts": 1778436657642
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 38,
+      "season": 16,
+      "ts": 1778436670897
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 8,
+      "season": 19,
+      "ts": 1778436689534
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 6,
+      "season": 20,
+      "ts": 1778436697551
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 18,
+      "season": 20,
+      "ts": 1778436700193
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 30,
+      "season": 22,
+      "ts": 1778436719708
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 4,
+      "season": 23,
+      "ts": 1778436722365
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 24,
+      "season": 23,
+      "ts": 1778436726825
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 30,
+      "season": 24,
+      "ts": 1778436736620
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "16 derrotas seguidas",
+      "ctx": {
+        "streak": -16
+      },
+      "week": 25,
+      "season": 25,
+      "ts": 1778436743744
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "17 derrotas seguidas",
+      "ctx": {
+        "streak": -17
+      },
+      "week": 26,
+      "season": 25,
+      "ts": 1778436743966
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "18 derrotas seguidas",
+      "ctx": {
+        "streak": -18
+      },
+      "week": 27,
+      "season": 25,
+      "ts": 1778436744191
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 6,
+      "season": 26,
+      "ts": 1778436748166
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'defensive' há 8 sem",
+      "ctx": {
+        "tactic": "defensive",
+        "streak": 0
+      },
+      "week": 14,
+      "season": 30,
+      "ts": 1778436783697
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 20,
+      "season": 31,
+      "ts": 1778436793457
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 32,
+      "season": 31,
+      "ts": 1778436796104
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 10,
+      "season": 32,
+      "ts": 1778436799677
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 30,
+      "season": 38,
+      "ts": 1778436826058
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 4,
+      "season": 41,
+      "ts": 1778436834176
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 18,
+      "season": 42,
+      "ts": 1778436864285
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 6,
+      "season": 48,
+      "ts": 1778436869543
+    },
+    {
+      "type": "LOSS_STREAK",
+      "msg": "19 derrotas seguidas",
+      "ctx": {
+        "streak": -19
+      },
+      "week": 23,
+      "season": 48,
+      "ts": 1778436869960
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 6,
+      "season": 50,
+      "ts": 1778436871446
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 52,
+      "ts": 1778436873744
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 54,
+      "ts": 1778436875662
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 34,
+      "season": 54,
+      "ts": 1778436875963
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 8,
+      "season": 55,
+      "ts": 1778436876265
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 16,
+      "season": 57,
+      "ts": 1778436878410
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 36,
+      "season": 57,
+      "ts": 1778436878910
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 10,
+      "season": 58,
+      "ts": 1778436879221
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 58,
+      "ts": 1778436879530
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 62,
+      "ts": 1778436883491
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 18,
+      "season": 64,
+      "ts": 1778436885333
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 30,
+      "season": 64,
+      "ts": 1778436885638
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 16,
+      "season": 65,
+      "ts": 1778436886275
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 14,
+      "season": 66,
+      "ts": 1778436887216
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 12,
+      "season": 67,
+      "ts": 1778436888162
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 24,
+      "season": 67,
+      "ts": 1778436888479
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 2,
+      "season": 72,
+      "ts": 1778436892903
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 14,
+      "season": 76,
+      "ts": 1778436897297
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 6,
+      "season": 82,
+      "ts": 1778436903396
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 18,
+      "season": 82,
+      "ts": 1778436903731
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 2,
+      "season": 84,
+      "ts": 1778436905420
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 38,
+      "season": 90,
+      "ts": 1778436921229
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 24,
+      "season": 91,
+      "ts": 1778436921930
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 34,
+      "season": 96,
+      "ts": 1778436927764
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 98,
+      "ts": 1778436929663
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 14,
+      "season": 102,
+      "ts": 1778436933972
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'defensive' há 8 sem",
+      "ctx": {
+        "tactic": "defensive",
+        "streak": 0
+      },
+      "week": 32,
+      "season": 103,
+      "ts": 1778436935650
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 2,
+      "season": 104,
+      "ts": 1778436935894
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 104,
+      "ts": 1778436936505
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 36,
+      "season": 105,
+      "ts": 1778436938070
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 26,
+      "season": 116,
+      "ts": 1778436950659
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 20,
+      "season": 117,
+      "ts": 1778436951654
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 10,
+      "season": 120,
+      "ts": 1778436954935
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 30,
+      "season": 120,
+      "ts": 1778436955564
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 12,
+      "season": 123,
+      "ts": 1778436958624
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 28,
+      "season": 123,
+      "ts": 1778436959133
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 14,
+      "season": 124,
+      "ts": 1778436959898
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 18,
+      "season": 128,
+      "ts": 1778436964876
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 38,
+      "season": 132,
+      "ts": 1778436970424
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 16,
+      "season": 137,
+      "ts": 1778436976013
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 26,
+      "season": 140,
+      "ts": 1778436980146
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 36,
+      "season": 141,
+      "ts": 1778436981769
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 142,
+      "ts": 1778436982575
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 24,
+      "season": 143,
+      "ts": 1778436983940
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 16,
+      "season": 147,
+      "ts": 1778436988863
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 28,
+      "season": 151,
+      "ts": 1778436994506
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 24,
+      "season": 153,
+      "ts": 1778436997016
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 16,
+      "season": 159,
+      "ts": 1778437004756
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 16,
+      "season": 165,
+      "ts": 1778437012937
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 16,
+      "season": 169,
+      "ts": 1778437018452
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 12,
+      "season": 171,
+      "ts": 1778437021078
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 30,
+      "season": 172,
+      "ts": 1778437023124
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 18,
+      "season": 180,
+      "ts": 1778437033989
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 32,
+      "season": 181,
+      "ts": 1778437035941
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 184,
+      "ts": 1778437039872
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 24,
+      "season": 185,
+      "ts": 1778437041396
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 24,
+      "season": 187,
+      "ts": 1778437044335
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 4,
+      "season": 191,
+      "ts": 1778437049388
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 30,
+      "season": 192,
+      "ts": 1778437051897
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 20,
+      "season": 199,
+      "ts": 1778437063324
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 18,
+      "season": 200,
+      "ts": 1778437064731
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 30,
+      "season": 200,
+      "ts": 1778437065196
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'defensive' há 9 sem",
+      "ctx": {
+        "tactic": "defensive",
+        "streak": 0
+      },
+      "week": 18,
+      "season": 202,
+      "ts": 1778437067700
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 20,
+      "season": 203,
+      "ts": 1778437069250
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 26,
+      "season": 204,
+      "ts": 1778437070993
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 32,
+      "season": 209,
+      "ts": 1778437078713
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 216,
+      "ts": 1778437088957
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 4,
+      "season": 223,
+      "ts": 1778437098869
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 22,
+      "season": 224,
+      "ts": 1778437101103
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 11 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 30,
+      "season": 226,
+      "ts": 1778437104506
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 10 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 32,
+      "season": 227,
+      "ts": 1778437106162
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 14,
+      "season": 228,
+      "ts": 1778437106998
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'defensive' há 8 sem",
+      "ctx": {
+        "tactic": "defensive",
+        "streak": 0
+      },
+      "week": 20,
+      "season": 229,
+      "ts": 1778437108850
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 24,
+      "season": 233,
+      "ts": 1778437117314
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 8 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 18,
+      "season": 234,
+      "ts": 1778437118674
+    },
+    {
+      "type": "TACTIC_STUCK",
+      "msg": "Mesma tática 'attacking' há 9 sem",
+      "ctx": {
+        "tactic": "attacking",
+        "streak": 0
+      },
+      "week": 12,
+      "season": 235,
+      "ts": 1778437120054
+    }
+  ],
+  "successes": [
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 139,
+          "wins": 9,
+          "draws": 6,
+          "losses": 23,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 140,
+      "ts": 1778436979289
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 142,
+          "wins": 23,
+          "draws": 6,
+          "losses": 9,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 143,
+      "ts": 1778436983135
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 142
+      },
+      "week": 1,
+      "season": 143,
+      "ts": 1778436983142
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 143,
+      "ts": 1778436983142
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 143,
+          "wins": 6,
+          "draws": 5,
+          "losses": 27,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 144,
+      "ts": 1778436984435
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 144,
+      "ts": 1778436984443
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Promovido",
+          "tier": 4
+        },
+        "season": {
+          "year": 144,
+          "wins": 20,
+          "draws": 8,
+          "losses": 10,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 145,
+      "ts": 1778436985724
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 145,
+      "ts": 1778436985731
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 145,
+          "wins": 4,
+          "draws": 7,
+          "losses": 27,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 146,
+      "ts": 1778436987041
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 146,
+      "ts": 1778436987048
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 147,
+          "wins": 7,
+          "draws": 12,
+          "losses": 19,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 148,
+      "ts": 1778436989629
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 148,
+          "wins": 5,
+          "draws": 10,
+          "losses": 23,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 149,
+      "ts": 1778436990942
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 149,
+          "wins": 3,
+          "draws": 10,
+          "losses": 25,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 150,
+      "ts": 1778436992254
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 150,
+          "wins": 6,
+          "draws": 10,
+          "losses": 22,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 151,
+      "ts": 1778436993562
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 151,
+          "wins": 25,
+          "draws": 4,
+          "losses": 9,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 152,
+      "ts": 1778436994872
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 151
+      },
+      "week": 1,
+      "season": 152,
+      "ts": 1778436994880
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 152,
+      "ts": 1778436994880
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 152,
+          "wins": 10,
+          "draws": 9,
+          "losses": 19,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 153,
+      "ts": 1778436996203
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 153,
+      "ts": 1778436996211
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 153,
+          "wins": 3,
+          "draws": 9,
+          "losses": 26,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 154,
+      "ts": 1778436997523
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 154,
+          "wins": 6,
+          "draws": 5,
+          "losses": 27,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 155,
+      "ts": 1778436998852
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 155,
+          "wins": 6,
+          "draws": 4,
+          "losses": 28,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 156,
+      "ts": 1778437000181
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 156,
+          "wins": 7,
+          "draws": 9,
+          "losses": 22,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 157,
+      "ts": 1778437001512
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 157,
+          "wins": 6,
+          "draws": 10,
+          "losses": 22,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 158,
+      "ts": 1778437002853
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 158,
+          "wins": 6,
+          "draws": 7,
+          "losses": 25,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 159,
+      "ts": 1778437004208
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 159,
+          "wins": 24,
+          "draws": 3,
+          "losses": 11,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 160,
+      "ts": 1778437005560
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 159
+      },
+      "week": 1,
+      "season": 160,
+      "ts": 1778437005569
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 160,
+      "ts": 1778437005569
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 160,
+          "wins": 7,
+          "draws": 7,
+          "losses": 24,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 161,
+      "ts": 1778437006950
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 161,
+      "ts": 1778437006958
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Promovido",
+          "tier": 4
+        },
+        "season": {
+          "year": 163,
+          "wins": 19,
+          "draws": 7,
+          "losses": 12,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 164,
+      "ts": 1778437011000
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 164,
+      "ts": 1778437011009
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 164,
+          "wins": 6,
+          "draws": 5,
+          "losses": 27,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 165,
+      "ts": 1778437012377
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 165,
+      "ts": 1778437012386
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 166,
+      "ts": 1778437013756
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 167,
+      "ts": 1778437015162
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 168,
+          "wins": 10,
+          "draws": 5,
+          "losses": 23,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 169,
+      "ts": 1778437017892
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 171,
+          "wins": 9,
+          "draws": 10,
+          "losses": 19,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 172,
+      "ts": 1778437022048
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 172,
+          "wins": 8,
+          "draws": 14,
+          "losses": 16,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 173,
+      "ts": 1778437023431
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 174,
+      "ts": 1778437024831
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 174,
+          "wins": 5,
+          "draws": 6,
+          "losses": 27,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 175,
+      "ts": 1778437026245
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 175,
+      "ts": 1778437026255
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 175,
+          "wins": 7,
+          "draws": 14,
+          "losses": 17,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 176,
+      "ts": 1778437027647
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 177,
+          "wins": 20,
+          "draws": 6,
+          "losses": 12,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 178,
+      "ts": 1778437030456
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 177
+      },
+      "week": 1,
+      "season": 178,
+      "ts": 1778437030465
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 178,
+      "ts": 1778437030465
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 179,
+          "wins": 10,
+          "draws": 8,
+          "losses": 20,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 180,
+      "ts": 1778437033333
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 180,
+      "ts": 1778437033342
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 181,
+          "wins": 2,
+          "draws": 8,
+          "losses": 28,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 182,
+      "ts": 1778437036189
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 182,
+          "wins": 6,
+          "draws": 12,
+          "losses": 20,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 183,
+      "ts": 1778437037636
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 183,
+          "wins": 9,
+          "draws": 9,
+          "losses": 20,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 184,
+      "ts": 1778437039062
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 185,
+      "ts": 1778437040507
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série C",
+          "tier": 3
+        },
+        "season": {
+          "year": 185,
+          "wins": 20,
+          "draws": 8,
+          "losses": 10,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 186,
+      "ts": 1778437041960
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série C",
+      "ctx": {
+        "title": "Campeão da Série C",
+        "season": 185
+      },
+      "week": 1,
+      "season": 186,
+      "ts": 1778437041970
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série B",
+      "ctx": {
+        "from": 3,
+        "to": 2
+      },
+      "week": 1,
+      "season": 186,
+      "ts": 1778437041970
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 2
+        },
+        "season": {
+          "year": 187,
+          "wins": 2,
+          "draws": 4,
+          "losses": 32,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 188,
+      "ts": 1778437044898
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série C",
+      "ctx": {
+        "from": 2,
+        "to": 3
+      },
+      "week": 1,
+      "season": 188,
+      "ts": 1778437044908
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 188,
+          "wins": 9,
+          "draws": 7,
+          "losses": 22,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 189,
+      "ts": 1778437046359
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 189,
+      "ts": 1778437046369
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 191,
+      "ts": 1778437049264
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Promovido",
+          "tier": 3
+        },
+        "season": {
+          "year": 191,
+          "wins": 21,
+          "draws": 3,
+          "losses": 14,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 192,
+      "ts": 1778437050725
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série B",
+      "ctx": {
+        "from": 3,
+        "to": 2
+      },
+      "week": 1,
+      "season": 192,
+      "ts": 1778437050735
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 2
+        },
+        "season": {
+          "year": 192,
+          "wins": 6,
+          "draws": 5,
+          "losses": 27,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": {
+            "name": "Gabriel Pereira",
+            "goals": 6386
+          }
+        }
+      },
+      "week": 1,
+      "season": 193,
+      "ts": 1778437052236
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série C",
+      "ctx": {
+        "from": 2,
+        "to": 3
+      },
+      "week": 1,
+      "season": 193,
+      "ts": 1778437052246
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 193,
+          "wins": 9,
+          "draws": 4,
+          "losses": 25,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": {
+            "name": "Gabriel Pereira",
+            "goals": 3
+          }
+        }
+      },
+      "week": 1,
+      "season": 194,
+      "ts": 1778437055309
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 194,
+      "ts": 1778437055319
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 194,
+          "wins": 10,
+          "draws": 9,
+          "losses": 19,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 195,
+      "ts": 1778437056756
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 196,
+          "wins": 11,
+          "draws": 6,
+          "losses": 21,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 197,
+      "ts": 1778437059660
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 199,
+          "wins": 25,
+          "draws": 5,
+          "losses": 8,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 200,
+      "ts": 1778437064041
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 199
+      },
+      "week": 1,
+      "season": 200,
+      "ts": 1778437064052
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 200,
+      "ts": 1778437064052
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série B",
+      "ctx": {
+        "from": 3,
+        "to": 2
+      },
+      "week": 1,
+      "season": 201,
+      "ts": 1778437065541
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 2
+        },
+        "season": {
+          "year": 201,
+          "wins": 3,
+          "draws": 1,
+          "losses": 34,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": {
+            "name": "Vinícius Araújo",
+            "goals": 6942
+          }
+        }
+      },
+      "week": 1,
+      "season": 202,
+      "ts": 1778437067033
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série C",
+      "ctx": {
+        "from": 2,
+        "to": 3
+      },
+      "week": 1,
+      "season": 202,
+      "ts": 1778437067044
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 202,
+          "wins": 8,
+          "draws": 6,
+          "losses": 24,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": {
+            "name": "Vinícius Araújo",
+            "goals": 26
+          }
+        }
+      },
+      "week": 1,
+      "season": 203,
+      "ts": 1778437068489
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 203,
+      "ts": 1778437068500
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Promovido",
+          "tier": 4
+        },
+        "season": {
+          "year": 203,
+          "wins": 21,
+          "draws": 5,
+          "losses": 12,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 204,
+      "ts": 1778437069978
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 204,
+      "ts": 1778437069989
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 204,
+          "wins": 7,
+          "draws": 8,
+          "losses": 23,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 205,
+      "ts": 1778437071485
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 205,
+      "ts": 1778437071495
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 205,
+          "wins": 7,
+          "draws": 11,
+          "losses": 20,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 206,
+      "ts": 1778437072973
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 209,
+      "ts": 1778437077460
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 209,
+          "wins": 2,
+          "draws": 8,
+          "losses": 28,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 210,
+      "ts": 1778437078970
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 210,
+      "ts": 1778437078980
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 211,
+          "wins": 24,
+          "draws": 5,
+          "losses": 9,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 212,
+      "ts": 1778437081993
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 211
+      },
+      "week": 1,
+      "season": 212,
+      "ts": 1778437082004
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 212,
+      "ts": 1778437082004
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 212,
+          "wins": 7,
+          "draws": 4,
+          "losses": 27,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 213,
+      "ts": 1778437083531
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 213,
+      "ts": 1778437083542
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 213,
+          "wins": 10,
+          "draws": 4,
+          "losses": 24,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 214,
+      "ts": 1778437085049
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 214,
+          "wins": 6,
+          "draws": 9,
+          "losses": 23,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 215,
+      "ts": 1778437086570
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 216,
+          "wins": 6,
+          "draws": 12,
+          "losses": 20,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 217,
+      "ts": 1778437089618
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 217,
+          "wins": 7,
+          "draws": 10,
+          "losses": 21,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 218,
+      "ts": 1778437091147
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 4
+        },
+        "season": {
+          "year": 218,
+          "wins": 9,
+          "draws": 10,
+          "losses": 19,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 219,
+      "ts": 1778437092647
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 221,
+          "wins": 18,
+          "draws": 11,
+          "losses": 9,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 222,
+      "ts": 1778437097178
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 221
+      },
+      "week": 1,
+      "season": 222,
+      "ts": 1778437097189
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 222,
+      "ts": 1778437097189
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 222,
+          "wins": 8,
+          "draws": 8,
+          "losses": 22,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 223,
+      "ts": 1778437098726
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 223,
+      "ts": 1778437098737
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Promovido",
+          "tier": 4
+        },
+        "season": {
+          "year": 224,
+          "wins": 20,
+          "draws": 6,
+          "losses": 12,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 225,
+      "ts": 1778437101765
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 225,
+      "ts": 1778437101777
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 225,
+          "wins": 5,
+          "draws": 7,
+          "losses": 26,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 226,
+      "ts": 1778437103317
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 226,
+      "ts": 1778437103329
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 228,
+          "wins": 22,
+          "draws": 7,
+          "losses": 9,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 229,
+      "ts": 1778437108015
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 228
+      },
+      "week": 1,
+      "season": 229,
+      "ts": 1778437108028
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 229,
+      "ts": 1778437108028
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Rebaixado",
+          "tier": 3
+        },
+        "season": {
+          "year": 229,
+          "wins": 7,
+          "draws": 10,
+          "losses": 21,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 230,
+      "ts": 1778437109640
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 230,
+      "ts": 1778437109653
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 230,
+          "wins": 21,
+          "draws": 6,
+          "losses": 11,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 231,
+      "ts": 1778437111269
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 230
+      },
+      "week": 1,
+      "season": 231,
+      "ts": 1778437111281
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 231,
+      "ts": 1778437111281
+    },
+    {
+      "type": "RELEGATION",
+      "msg": "⬇️ Caiu pra Série D",
+      "ctx": {
+        "from": 3,
+        "to": 4
+      },
+      "week": 1,
+      "season": 232,
+      "ts": 1778437112907
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série D",
+          "tier": 4
+        },
+        "season": {
+          "year": 233,
+          "wins": 25,
+          "draws": 6,
+          "losses": 7,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 234,
+      "ts": 1778437117927
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série D",
+      "ctx": {
+        "title": "Campeão da Série D",
+        "season": 233
+      },
+      "week": 1,
+      "season": 234,
+      "ts": 1778437117940
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série C",
+      "ctx": {
+        "from": 4,
+        "to": 3
+      },
+      "week": 1,
+      "season": 234,
+      "ts": 1778437117940
+    },
+    {
+      "type": "TROPHY_CEREMONY",
+      "msg": "🏆 Cerimônia: [object Object]",
+      "ctx": {
+        "trophy": {
+          "type": "league",
+          "name": "Campeão da Série C",
+          "tier": 3
+        },
+        "season": {
+          "year": 234,
+          "wins": 25,
+          "draws": 5,
+          "losses": 8,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "topScorer": null
+        }
+      },
+      "week": 1,
+      "season": 235,
+      "ts": 1778437119548
+    },
+    {
+      "type": "TITLE_WON",
+      "msg": "🏆 Título: Campeão da Série C",
+      "ctx": {
+        "title": "Campeão da Série C",
+        "season": 234
+      },
+      "week": 1,
+      "season": 235,
+      "ts": 1778437119560
+    },
+    {
+      "type": "PROMOTION",
+      "msg": "⬆️ Subiu pra Série B",
+      "ctx": {
+        "from": 3,
+        "to": 2
+      },
+      "week": 1,
+      "season": 235,
+      "ts": 1778437119561
+    }
+  ],
+  "decisions": [
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "NARRATIVE_EVENT",
+      "args": {
+        "type": "unknown",
+        "text": ""
+      },
+      "elapsedMs": 0,
+      "week": 32
+    },
+    {
+      "action": "SUBSTITUTION",
+      "args": {
+        "out": "Leonardo Cardoso",
+        "in": "Luan Pinto",
+        "outEnergy": 30,
+        "inOvr": 78
+      },
+      "elapsedMs": 0,
+      "week": 32
+    }
+  ],
+  "insights": {
+    "longestWinStreak": 13,
+    "longestLossStreak": -19,
+    "biggestWin": {
+      "diff": 8,
+      "score": "8-0",
+      "week": 21
+    },
+    "worstLoss": {
+      "diff": 8,
+      "score": "0-8",
+      "week": 23
+    },
+    "biggestSale": null,
+    "titlesWon": 34,
+    "promotionsWon": 59,
+    "relegationsTaken": 57,
+    "hatTricks": 0,
+    "cleanSheets": 1126,
+    "achievementsUnlocked": 0,
+    "peakBalance": 33016998,
+    "lowestBalance": -6093086,
+    "peakStanding": 1,
+    "worstStanding": 20
+  },
+  "startTime": 1778436536246,
+  "elapsedMs": 587408,
+  "_eventTypes": {
+    "unknown": 267673047
+  },
+  "_boardTensionHistory": [
+    -4,
+    -4,
+    -4,
+    -4,
+    -4,
+    -4,
+    -4,
+    -4,
+    -4,
+    -4,
+    -4,
+    -19,
+    -34,
+    -49,
+    -64,
+    -64,
+    -64,
+    -56,
+    -56,
+    -56,
+    -56,
+    -56,
+    -56,
+    -71,
+    -71,
+    -71,
+    -71,
+    -71,
+    -71,
+    -51,
+    -51,
+    -51,
+    -51,
+    -51,
+    -51,
+    -51,
+    -43,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -27,
+    -19,
+    -11,
+    -11,
+    -11,
+    -11,
+    -11,
+    -11,
+    -11,
+    -11,
+    -3,
+    5,
+    13,
+    13,
+    13,
+    13,
+    13,
+    58,
+    58,
+    58,
+    66,
+    74,
+    74,
+    74,
+    74,
+    82,
+    82,
+    82,
+    82,
+    82,
+    82,
+    82,
+    90,
+    90,
+    90,
+    90,
+    90,
+    75,
+    75,
+    75,
+    83,
+    91,
+    99,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    85,
+    55,
+    55,
+    25,
+    10,
+    -5,
+    -5,
+    -20,
+    -50,
+    -65,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100,
+    -100
+  ],
+  "seasonHistory": [
+    {
+      "season": 135,
+      "wins": 1709,
+      "draws": 990,
+      "losses": 2434,
+      "transfers": 12,
+      "matchesPlayed": 206528,
+      "brainStates": 105,
+      "brainUpdates": 5129,
+      "sessionMetrics": {
+        "sessionMinutes": 7.6,
+        "actionsPerMinute": 674,
+        "matchesPerMinute": 17.7,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 19,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 136,
+      "wins": 1719,
+      "draws": 996,
+      "losses": 2456,
+      "transfers": 12,
+      "matchesPlayed": 208048,
+      "brainStates": 105,
+      "brainUpdates": 5167,
+      "sessionMetrics": {
+        "sessionMinutes": 7.6,
+        "actionsPerMinute": 677.1,
+        "matchesPerMinute": 17.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 22,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 137,
+      "wins": 1726,
+      "draws": 1008,
+      "losses": 2475,
+      "transfers": 12,
+      "matchesPlayed": 209568,
+      "brainStates": 105,
+      "brainUpdates": 5205,
+      "sessionMetrics": {
+        "sessionMinutes": 7.7,
+        "actionsPerMinute": 680.2,
+        "matchesPerMinute": 17.9,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 19,
+      "seasonDraws": 12,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 138,
+      "wins": 1736,
+      "draws": 1013,
+      "losses": 2498,
+      "transfers": 12,
+      "matchesPlayed": 211088,
+      "brainStates": 105,
+      "brainUpdates": 5243,
+      "sessionMetrics": {
+        "sessionMinutes": 7.7,
+        "actionsPerMinute": 683.3,
+        "matchesPerMinute": 18,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 23,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 139,
+      "wins": 1745,
+      "draws": 1019,
+      "losses": 2521,
+      "transfers": 12,
+      "matchesPlayed": 212608,
+      "brainStates": 105,
+      "brainUpdates": 5281,
+      "sessionMetrics": {
+        "sessionMinutes": 7.7,
+        "actionsPerMinute": 686.3,
+        "matchesPerMinute": 18.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 9,
+      "seasonLosses": 23,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 140,
+      "wins": 1763,
+      "draws": 1024,
+      "losses": 2536,
+      "transfers": 12,
+      "matchesPlayed": 214128,
+      "brainStates": 105,
+      "brainUpdates": 5319,
+      "sessionMetrics": {
+        "sessionMinutes": 7.7,
+        "actionsPerMinute": 689.4,
+        "matchesPerMinute": 18.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 18,
+      "seasonLosses": 15,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 141,
+      "wins": 1781,
+      "draws": 1032,
+      "losses": 2548,
+      "transfers": 12,
+      "matchesPlayed": 215648,
+      "brainStates": 105,
+      "brainUpdates": 5357,
+      "sessionMetrics": {
+        "sessionMinutes": 7.7,
+        "actionsPerMinute": 692.4,
+        "matchesPerMinute": 18.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 18,
+      "seasonLosses": 12,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 142,
+      "wins": 1804,
+      "draws": 1038,
+      "losses": 2557,
+      "transfers": 12,
+      "matchesPlayed": 217168,
+      "brainStates": 105,
+      "brainUpdates": 5395,
+      "sessionMetrics": {
+        "sessionMinutes": 7.8,
+        "actionsPerMinute": 695.4,
+        "matchesPerMinute": 18.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 23,
+      "seasonLosses": 9,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 143,
+      "wins": 1810,
+      "draws": 1043,
+      "losses": 2584,
+      "transfers": 12,
+      "matchesPlayed": 218688,
+      "brainStates": 105,
+      "brainUpdates": 5433,
+      "sessionMetrics": {
+        "sessionMinutes": 7.8,
+        "actionsPerMinute": 698.3,
+        "matchesPerMinute": 18.4,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 27,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 144,
+      "wins": 1830,
+      "draws": 1051,
+      "losses": 2594,
+      "transfers": 12,
+      "matchesPlayed": 220208,
+      "brainStates": 105,
+      "brainUpdates": 5471,
+      "sessionMetrics": {
+        "sessionMinutes": 7.8,
+        "actionsPerMinute": 701.3,
+        "matchesPerMinute": 18.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 20,
+      "seasonLosses": 10,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 145,
+      "wins": 1834,
+      "draws": 1058,
+      "losses": 2621,
+      "transfers": 12,
+      "matchesPlayed": 221728,
+      "brainStates": 105,
+      "brainUpdates": 5509,
+      "sessionMetrics": {
+        "sessionMinutes": 7.8,
+        "actionsPerMinute": 704.2,
+        "matchesPerMinute": 18.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 4,
+      "seasonLosses": 27,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 146,
+      "wins": 1843,
+      "draws": 1070,
+      "losses": 2638,
+      "transfers": 12,
+      "matchesPlayed": 223248,
+      "brainStates": 105,
+      "brainUpdates": 5547,
+      "sessionMetrics": {
+        "sessionMinutes": 7.8,
+        "actionsPerMinute": 707.1,
+        "matchesPerMinute": 18.6,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 9,
+      "seasonLosses": 17,
+      "seasonDraws": 12,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 147,
+      "wins": 1850,
+      "draws": 1082,
+      "losses": 2657,
+      "transfers": 12,
+      "matchesPlayed": 224768,
+      "brainStates": 105,
+      "brainUpdates": 5585,
+      "sessionMetrics": {
+        "sessionMinutes": 7.9,
+        "actionsPerMinute": 709.9,
+        "matchesPerMinute": 18.7,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 19,
+      "seasonDraws": 12,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 148,
+      "wins": 1855,
+      "draws": 1092,
+      "losses": 2680,
+      "transfers": 12,
+      "matchesPlayed": 226288,
+      "brainStates": 105,
+      "brainUpdates": 5623,
+      "sessionMetrics": {
+        "sessionMinutes": 7.9,
+        "actionsPerMinute": 712.8,
+        "matchesPerMinute": 18.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 5,
+      "seasonLosses": 23,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 149,
+      "wins": 1858,
+      "draws": 1102,
+      "losses": 2705,
+      "transfers": 12,
+      "matchesPlayed": 227808,
+      "brainStates": 105,
+      "brainUpdates": 5661,
+      "sessionMetrics": {
+        "sessionMinutes": 7.9,
+        "actionsPerMinute": 715.6,
+        "matchesPerMinute": 18.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 3,
+      "seasonLosses": 25,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 150,
+      "wins": 1864,
+      "draws": 1112,
+      "losses": 2727,
+      "transfers": 12,
+      "matchesPlayed": 229328,
+      "brainStates": 105,
+      "brainUpdates": 5699,
+      "sessionMetrics": {
+        "sessionMinutes": 7.9,
+        "actionsPerMinute": 718.5,
+        "matchesPerMinute": 18.9,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 22,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 151,
+      "wins": 1889,
+      "draws": 1116,
+      "losses": 2736,
+      "transfers": 12,
+      "matchesPlayed": 230848,
+      "brainStates": 105,
+      "brainUpdates": 5737,
+      "sessionMetrics": {
+        "sessionMinutes": 8,
+        "actionsPerMinute": 721.3,
+        "matchesPerMinute": 19,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 25,
+      "seasonLosses": 9,
+      "seasonDraws": 4,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 152,
+      "wins": 1899,
+      "draws": 1125,
+      "losses": 2755,
+      "transfers": 12,
+      "matchesPlayed": 232368,
+      "brainStates": 105,
+      "brainUpdates": 5775,
+      "sessionMetrics": {
+        "sessionMinutes": 8,
+        "actionsPerMinute": 724,
+        "matchesPerMinute": 19.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 19,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 153,
+      "wins": 1902,
+      "draws": 1134,
+      "losses": 2781,
+      "transfers": 12,
+      "matchesPlayed": 233888,
+      "brainStates": 105,
+      "brainUpdates": 5813,
+      "sessionMetrics": {
+        "sessionMinutes": 8,
+        "actionsPerMinute": 726.8,
+        "matchesPerMinute": 19.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 3,
+      "seasonLosses": 26,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 154,
+      "wins": 1908,
+      "draws": 1139,
+      "losses": 2808,
+      "transfers": 12,
+      "matchesPlayed": 235408,
+      "brainStates": 105,
+      "brainUpdates": 5851,
+      "sessionMetrics": {
+        "sessionMinutes": 8,
+        "actionsPerMinute": 729.5,
+        "matchesPerMinute": 19.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 27,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 155,
+      "wins": 1914,
+      "draws": 1143,
+      "losses": 2836,
+      "transfers": 12,
+      "matchesPlayed": 236928,
+      "brainStates": 105,
+      "brainUpdates": 5889,
+      "sessionMetrics": {
+        "sessionMinutes": 8,
+        "actionsPerMinute": 732.2,
+        "matchesPerMinute": 19.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 28,
+      "seasonDraws": 4,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 156,
+      "wins": 1921,
+      "draws": 1152,
+      "losses": 2858,
+      "transfers": 12,
+      "matchesPlayed": 238448,
+      "brainStates": 105,
+      "brainUpdates": 5927,
+      "sessionMetrics": {
+        "sessionMinutes": 8.1,
+        "actionsPerMinute": 734.9,
+        "matchesPerMinute": 19.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 22,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 157,
+      "wins": 1927,
+      "draws": 1162,
+      "losses": 2880,
+      "transfers": 12,
+      "matchesPlayed": 239968,
+      "brainStates": 105,
+      "brainUpdates": 5965,
+      "sessionMetrics": {
+        "sessionMinutes": 8.1,
+        "actionsPerMinute": 737.6,
+        "matchesPerMinute": 19.4,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 22,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 158,
+      "wins": 1933,
+      "draws": 1169,
+      "losses": 2905,
+      "transfers": 12,
+      "matchesPlayed": 241488,
+      "brainStates": 105,
+      "brainUpdates": 6003,
+      "sessionMetrics": {
+        "sessionMinutes": 8.1,
+        "actionsPerMinute": 740.2,
+        "matchesPerMinute": 19.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 25,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 159,
+      "wins": 1957,
+      "draws": 1172,
+      "losses": 2916,
+      "transfers": 12,
+      "matchesPlayed": 243008,
+      "brainStates": 105,
+      "brainUpdates": 6041,
+      "sessionMetrics": {
+        "sessionMinutes": 8.1,
+        "actionsPerMinute": 742.8,
+        "matchesPerMinute": 19.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 24,
+      "seasonLosses": 11,
+      "seasonDraws": 3,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 160,
+      "wins": 1964,
+      "draws": 1179,
+      "losses": 2940,
+      "transfers": 12,
+      "matchesPlayed": 244528,
+      "brainStates": 105,
+      "brainUpdates": 6079,
+      "sessionMetrics": {
+        "sessionMinutes": 8.2,
+        "actionsPerMinute": 745.4,
+        "matchesPerMinute": 19.6,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 24,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 161,
+      "wins": 1973,
+      "draws": 1190,
+      "losses": 2958,
+      "transfers": 12,
+      "matchesPlayed": 246048,
+      "brainStates": 105,
+      "brainUpdates": 6117,
+      "sessionMetrics": {
+        "sessionMinutes": 8.2,
+        "actionsPerMinute": 748,
+        "matchesPerMinute": 19.7,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 9,
+      "seasonLosses": 18,
+      "seasonDraws": 11,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 162,
+      "wins": 1985,
+      "draws": 1196,
+      "losses": 2978,
+      "transfers": 12,
+      "matchesPlayed": 247568,
+      "brainStates": 105,
+      "brainUpdates": 6155,
+      "sessionMetrics": {
+        "sessionMinutes": 8.2,
+        "actionsPerMinute": 750.6,
+        "matchesPerMinute": 19.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 12,
+      "seasonLosses": 20,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 163,
+      "wins": 2004,
+      "draws": 1203,
+      "losses": 2990,
+      "transfers": 12,
+      "matchesPlayed": 249088,
+      "brainStates": 105,
+      "brainUpdates": 6193,
+      "sessionMetrics": {
+        "sessionMinutes": 8.2,
+        "actionsPerMinute": 753.1,
+        "matchesPerMinute": 19.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 19,
+      "seasonLosses": 12,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 164,
+      "wins": 2010,
+      "draws": 1208,
+      "losses": 3017,
+      "transfers": 12,
+      "matchesPlayed": 250608,
+      "brainStates": 105,
+      "brainUpdates": 6231,
+      "sessionMetrics": {
+        "sessionMinutes": 8.2,
+        "actionsPerMinute": 755.6,
+        "matchesPerMinute": 19.9,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 27,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 165,
+      "wins": 2030,
+      "draws": 1215,
+      "losses": 3028,
+      "transfers": 12,
+      "matchesPlayed": 252128,
+      "brainStates": 105,
+      "brainUpdates": 6269,
+      "sessionMetrics": {
+        "sessionMinutes": 8.3,
+        "actionsPerMinute": 758.2,
+        "matchesPerMinute": 20,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 20,
+      "seasonLosses": 11,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 166,
+      "wins": 2041,
+      "draws": 1224,
+      "losses": 3046,
+      "transfers": 12,
+      "matchesPlayed": 253648,
+      "brainStates": 105,
+      "brainUpdates": 6307,
+      "sessionMetrics": {
+        "sessionMinutes": 8.3,
+        "actionsPerMinute": 760.6,
+        "matchesPerMinute": 20,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 11,
+      "seasonLosses": 18,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 167,
+      "wins": 2054,
+      "draws": 1233,
+      "losses": 3062,
+      "transfers": 12,
+      "matchesPlayed": 255168,
+      "brainStates": 105,
+      "brainUpdates": 6345,
+      "sessionMetrics": {
+        "sessionMinutes": 8.3,
+        "actionsPerMinute": 763.1,
+        "matchesPerMinute": 20.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 13,
+      "seasonLosses": 16,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 168,
+      "wins": 2064,
+      "draws": 1238,
+      "losses": 3085,
+      "transfers": 12,
+      "matchesPlayed": 256688,
+      "brainStates": 105,
+      "brainUpdates": 6383,
+      "sessionMetrics": {
+        "sessionMinutes": 8.3,
+        "actionsPerMinute": 765.5,
+        "matchesPerMinute": 20.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 23,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 169,
+      "wins": 2074,
+      "draws": 1250,
+      "losses": 3101,
+      "transfers": 12,
+      "matchesPlayed": 258208,
+      "brainStates": 105,
+      "brainUpdates": 6421,
+      "sessionMetrics": {
+        "sessionMinutes": 8.4,
+        "actionsPerMinute": 768,
+        "matchesPerMinute": 20.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 16,
+      "seasonDraws": 12,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 170,
+      "wins": 2084,
+      "draws": 1258,
+      "losses": 3121,
+      "transfers": 12,
+      "matchesPlayed": 259728,
+      "brainStates": 105,
+      "brainUpdates": 6459,
+      "sessionMetrics": {
+        "sessionMinutes": 8.4,
+        "actionsPerMinute": 770.4,
+        "matchesPerMinute": 20.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 20,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 171,
+      "wins": 2093,
+      "draws": 1268,
+      "losses": 3140,
+      "transfers": 12,
+      "matchesPlayed": 261248,
+      "brainStates": 105,
+      "brainUpdates": 6497,
+      "sessionMetrics": {
+        "sessionMinutes": 8.4,
+        "actionsPerMinute": 772.8,
+        "matchesPerMinute": 20.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 9,
+      "seasonLosses": 19,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 172,
+      "wins": 2101,
+      "draws": 1282,
+      "losses": 3156,
+      "transfers": 12,
+      "matchesPlayed": 262768,
+      "brainStates": 105,
+      "brainUpdates": 6535,
+      "sessionMetrics": {
+        "sessionMinutes": 8.4,
+        "actionsPerMinute": 775.2,
+        "matchesPerMinute": 20.4,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 8,
+      "seasonLosses": 16,
+      "seasonDraws": 14,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 173,
+      "wins": 2120,
+      "draws": 1287,
+      "losses": 3170,
+      "transfers": 12,
+      "matchesPlayed": 264288,
+      "brainStates": 105,
+      "brainUpdates": 6573,
+      "sessionMetrics": {
+        "sessionMinutes": 8.5,
+        "actionsPerMinute": 777.6,
+        "matchesPerMinute": 20.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 19,
+      "seasonLosses": 14,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 174,
+      "wins": 2125,
+      "draws": 1293,
+      "losses": 3197,
+      "transfers": 12,
+      "matchesPlayed": 265808,
+      "brainStates": 105,
+      "brainUpdates": 6611,
+      "sessionMetrics": {
+        "sessionMinutes": 8.5,
+        "actionsPerMinute": 779.9,
+        "matchesPerMinute": 20.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 5,
+      "seasonLosses": 27,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 175,
+      "wins": 2132,
+      "draws": 1307,
+      "losses": 3214,
+      "transfers": 12,
+      "matchesPlayed": 267328,
+      "brainStates": 105,
+      "brainUpdates": 6649,
+      "sessionMetrics": {
+        "sessionMinutes": 8.5,
+        "actionsPerMinute": 782.2,
+        "matchesPerMinute": 20.6,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 17,
+      "seasonDraws": 14,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 176,
+      "wins": 2148,
+      "draws": 1313,
+      "losses": 3230,
+      "transfers": 12,
+      "matchesPlayed": 268848,
+      "brainStates": 105,
+      "brainUpdates": 6687,
+      "sessionMetrics": {
+        "sessionMinutes": 8.5,
+        "actionsPerMinute": 784.5,
+        "matchesPerMinute": 20.6,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 16,
+      "seasonLosses": 16,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 177,
+      "wins": 2168,
+      "draws": 1319,
+      "losses": 3242,
+      "transfers": 12,
+      "matchesPlayed": 270368,
+      "brainStates": 105,
+      "brainUpdates": 6725,
+      "sessionMetrics": {
+        "sessionMinutes": 8.5,
+        "actionsPerMinute": 786.8,
+        "matchesPerMinute": 20.7,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 20,
+      "seasonLosses": 12,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 178,
+      "wins": 2183,
+      "draws": 1325,
+      "losses": 3259,
+      "transfers": 12,
+      "matchesPlayed": 271888,
+      "brainStates": 105,
+      "brainUpdates": 6763,
+      "sessionMetrics": {
+        "sessionMinutes": 8.6,
+        "actionsPerMinute": 789,
+        "matchesPerMinute": 20.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 15,
+      "seasonLosses": 17,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 179,
+      "wins": 2193,
+      "draws": 1333,
+      "losses": 3279,
+      "transfers": 12,
+      "matchesPlayed": 273408,
+      "brainStates": 105,
+      "brainUpdates": 6801,
+      "sessionMetrics": {
+        "sessionMinutes": 8.6,
+        "actionsPerMinute": 791.3,
+        "matchesPerMinute": 20.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 20,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 180,
+      "wins": 2209,
+      "draws": 1343,
+      "losses": 3291,
+      "transfers": 12,
+      "matchesPlayed": 274928,
+      "brainStates": 105,
+      "brainUpdates": 6839,
+      "sessionMetrics": {
+        "sessionMinutes": 8.6,
+        "actionsPerMinute": 793.5,
+        "matchesPerMinute": 20.9,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 16,
+      "seasonLosses": 12,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 181,
+      "wins": 2211,
+      "draws": 1351,
+      "losses": 3319,
+      "transfers": 12,
+      "matchesPlayed": 276448,
+      "brainStates": 105,
+      "brainUpdates": 6877,
+      "sessionMetrics": {
+        "sessionMinutes": 8.6,
+        "actionsPerMinute": 795.7,
+        "matchesPerMinute": 20.9,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 2,
+      "seasonLosses": 28,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 182,
+      "wins": 2217,
+      "draws": 1363,
+      "losses": 3339,
+      "transfers": 12,
+      "matchesPlayed": 277968,
+      "brainStates": 105,
+      "brainUpdates": 6915,
+      "sessionMetrics": {
+        "sessionMinutes": 8.7,
+        "actionsPerMinute": 797.9,
+        "matchesPerMinute": 21,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 20,
+      "seasonDraws": 12,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 183,
+      "wins": 2226,
+      "draws": 1372,
+      "losses": 3359,
+      "transfers": 12,
+      "matchesPlayed": 279488,
+      "brainStates": 105,
+      "brainUpdates": 6953,
+      "sessionMetrics": {
+        "sessionMinutes": 8.7,
+        "actionsPerMinute": 800,
+        "matchesPerMinute": 21.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 9,
+      "seasonLosses": 20,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 184,
+      "wins": 2244,
+      "draws": 1383,
+      "losses": 3368,
+      "transfers": 12,
+      "matchesPlayed": 281008,
+      "brainStates": 105,
+      "brainUpdates": 6991,
+      "sessionMetrics": {
+        "sessionMinutes": 8.7,
+        "actionsPerMinute": 802.2,
+        "matchesPerMinute": 21.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 18,
+      "seasonLosses": 9,
+      "seasonDraws": 11,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 185,
+      "wins": 2264,
+      "draws": 1391,
+      "losses": 3378,
+      "transfers": 12,
+      "matchesPlayed": 282528,
+      "brainStates": 105,
+      "brainUpdates": 7029,
+      "sessionMetrics": {
+        "sessionMinutes": 8.7,
+        "actionsPerMinute": 804.3,
+        "matchesPerMinute": 21.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 20,
+      "seasonLosses": 10,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 186,
+      "wins": 2280,
+      "draws": 1395,
+      "losses": 3396,
+      "transfers": 12,
+      "matchesPlayed": 284048,
+      "brainStates": 107,
+      "brainUpdates": 7067,
+      "sessionMetrics": {
+        "sessionMinutes": 8.8,
+        "actionsPerMinute": 806.4,
+        "matchesPerMinute": 21.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 16,
+      "seasonLosses": 18,
+      "seasonDraws": 4,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 187,
+      "wins": 2282,
+      "draws": 1399,
+      "losses": 3428,
+      "transfers": 12,
+      "matchesPlayed": 285568,
+      "brainStates": 107,
+      "brainUpdates": 7105,
+      "sessionMetrics": {
+        "sessionMinutes": 8.8,
+        "actionsPerMinute": 808.5,
+        "matchesPerMinute": 21.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 2,
+      "seasonLosses": 32,
+      "seasonDraws": 4,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 188,
+      "wins": 2291,
+      "draws": 1406,
+      "losses": 3450,
+      "transfers": 12,
+      "matchesPlayed": 287088,
+      "brainStates": 107,
+      "brainUpdates": 7143,
+      "sessionMetrics": {
+        "sessionMinutes": 8.8,
+        "actionsPerMinute": 810.6,
+        "matchesPerMinute": 21.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 9,
+      "seasonLosses": 22,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 189,
+      "wins": 2299,
+      "draws": 1415,
+      "losses": 3471,
+      "transfers": 12,
+      "matchesPlayed": 288608,
+      "brainStates": 107,
+      "brainUpdates": 7181,
+      "sessionMetrics": {
+        "sessionMinutes": 8.8,
+        "actionsPerMinute": 812.7,
+        "matchesPerMinute": 21.4,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 8,
+      "seasonLosses": 21,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 190,
+      "wins": 2318,
+      "draws": 1423,
+      "losses": 3482,
+      "transfers": 12,
+      "matchesPlayed": 290128,
+      "brainStates": 107,
+      "brainUpdates": 7219,
+      "sessionMetrics": {
+        "sessionMinutes": 8.9,
+        "actionsPerMinute": 814.7,
+        "matchesPerMinute": 21.4,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 19,
+      "seasonLosses": 11,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 191,
+      "wins": 2339,
+      "draws": 1426,
+      "losses": 3496,
+      "transfers": 12,
+      "matchesPlayed": 291648,
+      "brainStates": 107,
+      "brainUpdates": 7257,
+      "sessionMetrics": {
+        "sessionMinutes": 8.9,
+        "actionsPerMinute": 816.8,
+        "matchesPerMinute": 21.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 21,
+      "seasonLosses": 14,
+      "seasonDraws": 3,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 192,
+      "wins": 2345,
+      "draws": 1431,
+      "losses": 3523,
+      "transfers": 12,
+      "matchesPlayed": 293168,
+      "brainStates": 107,
+      "brainUpdates": 7295,
+      "sessionMetrics": {
+        "sessionMinutes": 8.9,
+        "actionsPerMinute": 818.7,
+        "matchesPerMinute": 21.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 27,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 193,
+      "wins": 2354,
+      "draws": 1435,
+      "losses": 3548,
+      "transfers": 12,
+      "matchesPlayed": 294688,
+      "brainStates": 107,
+      "brainUpdates": 7333,
+      "sessionMetrics": {
+        "sessionMinutes": 9,
+        "actionsPerMinute": 818.3,
+        "matchesPerMinute": 21.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 9,
+      "seasonLosses": 25,
+      "seasonDraws": 4,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 194,
+      "wins": 2364,
+      "draws": 1444,
+      "losses": 3567,
+      "transfers": 12,
+      "matchesPlayed": 296208,
+      "brainStates": 107,
+      "brainUpdates": 7371,
+      "sessionMetrics": {
+        "sessionMinutes": 9,
+        "actionsPerMinute": 820.3,
+        "matchesPerMinute": 21.6,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 19,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 195,
+      "wins": 2372,
+      "draws": 1452,
+      "losses": 3589,
+      "transfers": 12,
+      "matchesPlayed": 297728,
+      "brainStates": 107,
+      "brainUpdates": 7409,
+      "sessionMetrics": {
+        "sessionMinutes": 9,
+        "actionsPerMinute": 822.3,
+        "matchesPerMinute": 21.6,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 8,
+      "seasonLosses": 22,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 196,
+      "wins": 2383,
+      "draws": 1458,
+      "losses": 3610,
+      "transfers": 12,
+      "matchesPlayed": 299248,
+      "brainStates": 107,
+      "brainUpdates": 7447,
+      "sessionMetrics": {
+        "sessionMinutes": 9,
+        "actionsPerMinute": 824.3,
+        "matchesPerMinute": 21.7,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 11,
+      "seasonLosses": 21,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 197,
+      "wins": 2395,
+      "draws": 1469,
+      "losses": 3625,
+      "transfers": 12,
+      "matchesPlayed": 300768,
+      "brainStates": 107,
+      "brainUpdates": 7485,
+      "sessionMetrics": {
+        "sessionMinutes": 9.1,
+        "actionsPerMinute": 826.3,
+        "matchesPerMinute": 21.7,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 12,
+      "seasonLosses": 15,
+      "seasonDraws": 11,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 198,
+      "wins": 2406,
+      "draws": 1475,
+      "losses": 3646,
+      "transfers": 12,
+      "matchesPlayed": 302288,
+      "brainStates": 107,
+      "brainUpdates": 7523,
+      "sessionMetrics": {
+        "sessionMinutes": 9.1,
+        "actionsPerMinute": 828.3,
+        "matchesPerMinute": 21.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 11,
+      "seasonLosses": 21,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 199,
+      "wins": 2431,
+      "draws": 1480,
+      "losses": 3654,
+      "transfers": 12,
+      "matchesPlayed": 303808,
+      "brainStates": 107,
+      "brainUpdates": 7561,
+      "sessionMetrics": {
+        "sessionMinutes": 9.1,
+        "actionsPerMinute": 830.2,
+        "matchesPerMinute": 21.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 25,
+      "seasonLosses": 8,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 200,
+      "wins": 2450,
+      "draws": 1488,
+      "losses": 3665,
+      "transfers": 12,
+      "matchesPlayed": 305328,
+      "brainStates": 107,
+      "brainUpdates": 7599,
+      "sessionMetrics": {
+        "sessionMinutes": 9.1,
+        "actionsPerMinute": 832.1,
+        "matchesPerMinute": 21.9,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 19,
+      "seasonLosses": 11,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 201,
+      "wins": 2453,
+      "draws": 1489,
+      "losses": 3699,
+      "transfers": 12,
+      "matchesPlayed": 306848,
+      "brainStates": 107,
+      "brainUpdates": 7637,
+      "sessionMetrics": {
+        "sessionMinutes": 9.2,
+        "actionsPerMinute": 834,
+        "matchesPerMinute": 21.9,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 3,
+      "seasonLosses": 34,
+      "seasonDraws": 1,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 202,
+      "wins": 2461,
+      "draws": 1495,
+      "losses": 3723,
+      "transfers": 12,
+      "matchesPlayed": 308368,
+      "brainStates": 107,
+      "brainUpdates": 7675,
+      "sessionMetrics": {
+        "sessionMinutes": 9.2,
+        "actionsPerMinute": 835.9,
+        "matchesPerMinute": 22,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 8,
+      "seasonLosses": 24,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 203,
+      "wins": 2482,
+      "draws": 1500,
+      "losses": 3735,
+      "transfers": 12,
+      "matchesPlayed": 309888,
+      "brainStates": 107,
+      "brainUpdates": 7713,
+      "sessionMetrics": {
+        "sessionMinutes": 9.2,
+        "actionsPerMinute": 837.8,
+        "matchesPerMinute": 22,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 21,
+      "seasonLosses": 12,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 204,
+      "wins": 2489,
+      "draws": 1508,
+      "losses": 3758,
+      "transfers": 12,
+      "matchesPlayed": 311408,
+      "brainStates": 107,
+      "brainUpdates": 7751,
+      "sessionMetrics": {
+        "sessionMinutes": 9.2,
+        "actionsPerMinute": 839.7,
+        "matchesPerMinute": 22.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 23,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 205,
+      "wins": 2496,
+      "draws": 1519,
+      "losses": 3778,
+      "transfers": 12,
+      "matchesPlayed": 312928,
+      "brainStates": 107,
+      "brainUpdates": 7789,
+      "sessionMetrics": {
+        "sessionMinutes": 9.3,
+        "actionsPerMinute": 841.5,
+        "matchesPerMinute": 22.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 20,
+      "seasonDraws": 11,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 206,
+      "wins": 2505,
+      "draws": 1528,
+      "losses": 3798,
+      "transfers": 12,
+      "matchesPlayed": 314448,
+      "brainStates": 107,
+      "brainUpdates": 7827,
+      "sessionMetrics": {
+        "sessionMinutes": 9.3,
+        "actionsPerMinute": 843.4,
+        "matchesPerMinute": 22.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 9,
+      "seasonLosses": 20,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 207,
+      "wins": 2515,
+      "draws": 1539,
+      "losses": 3815,
+      "transfers": 12,
+      "matchesPlayed": 315968,
+      "brainStates": 107,
+      "brainUpdates": 7865,
+      "sessionMetrics": {
+        "sessionMinutes": 9.3,
+        "actionsPerMinute": 845.2,
+        "matchesPerMinute": 22.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 17,
+      "seasonDraws": 11,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 208,
+      "wins": 2533,
+      "draws": 1546,
+      "losses": 3828,
+      "transfers": 12,
+      "matchesPlayed": 317488,
+      "brainStates": 107,
+      "brainUpdates": 7903,
+      "sessionMetrics": {
+        "sessionMinutes": 9.3,
+        "actionsPerMinute": 847,
+        "matchesPerMinute": 22.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 18,
+      "seasonLosses": 13,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 209,
+      "wins": 2535,
+      "draws": 1554,
+      "losses": 3856,
+      "transfers": 12,
+      "matchesPlayed": 319008,
+      "brainStates": 107,
+      "brainUpdates": 7941,
+      "sessionMetrics": {
+        "sessionMinutes": 9.4,
+        "actionsPerMinute": 848.8,
+        "matchesPerMinute": 22.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 2,
+      "seasonLosses": 28,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 210,
+      "wins": 2548,
+      "draws": 1560,
+      "losses": 3875,
+      "transfers": 12,
+      "matchesPlayed": 320528,
+      "brainStates": 107,
+      "brainUpdates": 7979,
+      "sessionMetrics": {
+        "sessionMinutes": 9.4,
+        "actionsPerMinute": 850.5,
+        "matchesPerMinute": 22.4,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 13,
+      "seasonLosses": 19,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 211,
+      "wins": 2572,
+      "draws": 1565,
+      "losses": 3884,
+      "transfers": 12,
+      "matchesPlayed": 322048,
+      "brainStates": 107,
+      "brainUpdates": 8017,
+      "sessionMetrics": {
+        "sessionMinutes": 9.4,
+        "actionsPerMinute": 852.3,
+        "matchesPerMinute": 22.4,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 24,
+      "seasonLosses": 9,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 212,
+      "wins": 2579,
+      "draws": 1569,
+      "losses": 3911,
+      "transfers": 12,
+      "matchesPlayed": 323568,
+      "brainStates": 107,
+      "brainUpdates": 8055,
+      "sessionMetrics": {
+        "sessionMinutes": 9.4,
+        "actionsPerMinute": 854,
+        "matchesPerMinute": 22.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 27,
+      "seasonDraws": 4,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 213,
+      "wins": 2589,
+      "draws": 1573,
+      "losses": 3935,
+      "transfers": 12,
+      "matchesPlayed": 325088,
+      "brainStates": 107,
+      "brainUpdates": 8093,
+      "sessionMetrics": {
+        "sessionMinutes": 9.5,
+        "actionsPerMinute": 855.7,
+        "matchesPerMinute": 22.5,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 24,
+      "seasonDraws": 4,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 214,
+      "wins": 2595,
+      "draws": 1582,
+      "losses": 3958,
+      "transfers": 12,
+      "matchesPlayed": 326608,
+      "brainStates": 107,
+      "brainUpdates": 8131,
+      "sessionMetrics": {
+        "sessionMinutes": 9.5,
+        "actionsPerMinute": 857.5,
+        "matchesPerMinute": 22.6,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 23,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 215,
+      "wins": 2607,
+      "draws": 1590,
+      "losses": 3976,
+      "transfers": 12,
+      "matchesPlayed": 328128,
+      "brainStates": 107,
+      "brainUpdates": 8169,
+      "sessionMetrics": {
+        "sessionMinutes": 9.5,
+        "actionsPerMinute": 859.2,
+        "matchesPerMinute": 22.6,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 12,
+      "seasonLosses": 18,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 216,
+      "wins": 2613,
+      "draws": 1602,
+      "losses": 3996,
+      "transfers": 12,
+      "matchesPlayed": 329648,
+      "brainStates": 107,
+      "brainUpdates": 8207,
+      "sessionMetrics": {
+        "sessionMinutes": 9.5,
+        "actionsPerMinute": 860.9,
+        "matchesPerMinute": 22.7,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 6,
+      "seasonLosses": 20,
+      "seasonDraws": 12,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 217,
+      "wins": 2620,
+      "draws": 1612,
+      "losses": 4017,
+      "transfers": 12,
+      "matchesPlayed": 331168,
+      "brainStates": 107,
+      "brainUpdates": 8245,
+      "sessionMetrics": {
+        "sessionMinutes": 9.6,
+        "actionsPerMinute": 862.5,
+        "matchesPerMinute": 22.7,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 21,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 218,
+      "wins": 2629,
+      "draws": 1622,
+      "losses": 4036,
+      "transfers": 12,
+      "matchesPlayed": 332688,
+      "brainStates": 107,
+      "brainUpdates": 8283,
+      "sessionMetrics": {
+        "sessionMinutes": 9.6,
+        "actionsPerMinute": 864.3,
+        "matchesPerMinute": 22.7,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 9,
+      "seasonLosses": 19,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 219,
+      "wins": 2642,
+      "draws": 1629,
+      "losses": 4054,
+      "transfers": 12,
+      "matchesPlayed": 334208,
+      "brainStates": 107,
+      "brainUpdates": 8321,
+      "sessionMetrics": {
+        "sessionMinutes": 9.6,
+        "actionsPerMinute": 866,
+        "matchesPerMinute": 22.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 13,
+      "seasonLosses": 18,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 220,
+      "wins": 2652,
+      "draws": 1638,
+      "losses": 4073,
+      "transfers": 12,
+      "matchesPlayed": 335728,
+      "brainStates": 107,
+      "brainUpdates": 8359,
+      "sessionMetrics": {
+        "sessionMinutes": 9.6,
+        "actionsPerMinute": 867.7,
+        "matchesPerMinute": 22.8,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 19,
+      "seasonDraws": 9,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 221,
+      "wins": 2670,
+      "draws": 1649,
+      "losses": 4082,
+      "transfers": 12,
+      "matchesPlayed": 337248,
+      "brainStates": 107,
+      "brainUpdates": 8397,
+      "sessionMetrics": {
+        "sessionMinutes": 9.7,
+        "actionsPerMinute": 869.3,
+        "matchesPerMinute": 22.9,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 18,
+      "seasonLosses": 9,
+      "seasonDraws": 11,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 222,
+      "wins": 2678,
+      "draws": 1657,
+      "losses": 4104,
+      "transfers": 12,
+      "matchesPlayed": 338768,
+      "brainStates": 107,
+      "brainUpdates": 8435,
+      "sessionMetrics": {
+        "sessionMinutes": 9.7,
+        "actionsPerMinute": 870.9,
+        "matchesPerMinute": 22.9,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 8,
+      "seasonLosses": 22,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 223,
+      "wins": 2688,
+      "draws": 1667,
+      "losses": 4122,
+      "transfers": 12,
+      "matchesPlayed": 340288,
+      "brainStates": 107,
+      "brainUpdates": 8473,
+      "sessionMetrics": {
+        "sessionMinutes": 9.7,
+        "actionsPerMinute": 872.6,
+        "matchesPerMinute": 23,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 10,
+      "seasonLosses": 18,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 224,
+      "wins": 2708,
+      "draws": 1673,
+      "losses": 4134,
+      "transfers": 12,
+      "matchesPlayed": 341808,
+      "brainStates": 107,
+      "brainUpdates": 8511,
+      "sessionMetrics": {
+        "sessionMinutes": 9.7,
+        "actionsPerMinute": 874.2,
+        "matchesPerMinute": 23,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 20,
+      "seasonLosses": 12,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 225,
+      "wins": 2713,
+      "draws": 1680,
+      "losses": 4160,
+      "transfers": 12,
+      "matchesPlayed": 343328,
+      "brainStates": 107,
+      "brainUpdates": 8549,
+      "sessionMetrics": {
+        "sessionMinutes": 9.8,
+        "actionsPerMinute": 875.8,
+        "matchesPerMinute": 23,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 5,
+      "seasonLosses": 26,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 226,
+      "wins": 2727,
+      "draws": 1687,
+      "losses": 4177,
+      "transfers": 12,
+      "matchesPlayed": 344848,
+      "brainStates": 107,
+      "brainUpdates": 8587,
+      "sessionMetrics": {
+        "sessionMinutes": 9.8,
+        "actionsPerMinute": 877.4,
+        "matchesPerMinute": 23.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 14,
+      "seasonLosses": 17,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 227,
+      "wins": 2743,
+      "draws": 1695,
+      "losses": 4191,
+      "transfers": 12,
+      "matchesPlayed": 346368,
+      "brainStates": 107,
+      "brainUpdates": 8625,
+      "sessionMetrics": {
+        "sessionMinutes": 9.8,
+        "actionsPerMinute": 878.9,
+        "matchesPerMinute": 23.1,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 16,
+      "seasonLosses": 14,
+      "seasonDraws": 8,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 228,
+      "wins": 2765,
+      "draws": 1702,
+      "losses": 4200,
+      "transfers": 12,
+      "matchesPlayed": 347888,
+      "brainStates": 107,
+      "brainUpdates": 8663,
+      "sessionMetrics": {
+        "sessionMinutes": 9.8,
+        "actionsPerMinute": 880.4,
+        "matchesPerMinute": 23.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 22,
+      "seasonLosses": 9,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 229,
+      "wins": 2772,
+      "draws": 1712,
+      "losses": 4221,
+      "transfers": 12,
+      "matchesPlayed": 349408,
+      "brainStates": 107,
+      "brainUpdates": 8701,
+      "sessionMetrics": {
+        "sessionMinutes": 9.9,
+        "actionsPerMinute": 881.8,
+        "matchesPerMinute": 23.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 7,
+      "seasonLosses": 21,
+      "seasonDraws": 10,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 230,
+      "wins": 2793,
+      "draws": 1718,
+      "losses": 4232,
+      "transfers": 12,
+      "matchesPlayed": 350928,
+      "brainStates": 107,
+      "brainUpdates": 8739,
+      "sessionMetrics": {
+        "sessionMinutes": 9.9,
+        "actionsPerMinute": 883.2,
+        "matchesPerMinute": 23.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 21,
+      "seasonLosses": 11,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 231,
+      "wins": 2806,
+      "draws": 1724,
+      "losses": 4251,
+      "transfers": 12,
+      "matchesPlayed": 352448,
+      "brainStates": 107,
+      "brainUpdates": 8777,
+      "sessionMetrics": {
+        "sessionMinutes": 9.9,
+        "actionsPerMinute": 884.7,
+        "matchesPerMinute": 23.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 13,
+      "seasonLosses": 19,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 232,
+      "wins": 2822,
+      "draws": 1731,
+      "losses": 4266,
+      "transfers": 12,
+      "matchesPlayed": 353968,
+      "brainStates": 107,
+      "brainUpdates": 8815,
+      "sessionMetrics": {
+        "sessionMinutes": 10,
+        "actionsPerMinute": 883.4,
+        "matchesPerMinute": 23.2,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 16,
+      "seasonLosses": 15,
+      "seasonDraws": 7,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 233,
+      "wins": 2847,
+      "draws": 1737,
+      "losses": 4273,
+      "transfers": 12,
+      "matchesPlayed": 355488,
+      "brainStates": 107,
+      "brainUpdates": 8853,
+      "sessionMetrics": {
+        "sessionMinutes": 10,
+        "actionsPerMinute": 884.8,
+        "matchesPerMinute": 23.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 25,
+      "seasonLosses": 7,
+      "seasonDraws": 6,
+      "seasonTransfers": 0
+    },
+    {
+      "season": 234,
+      "wins": 2872,
+      "draws": 1742,
+      "losses": 4281,
+      "transfers": 12,
+      "matchesPlayed": 357008,
+      "brainStates": 107,
+      "brainUpdates": 8891,
+      "sessionMetrics": {
+        "sessionMinutes": 10,
+        "actionsPerMinute": 886.2,
+        "matchesPerMinute": 23.3,
+        "avgSecondsPerMatch": 3
+      },
+      "coreLoopFast": true,
+      "seasonWins": 25,
+      "seasonLosses": 8,
+      "seasonDraws": 5,
+      "seasonTransfers": 0
+    }
+  ],
+  "_hallOfLegendsCount": 3,
+  "_challengesSeen": 8876,
+  "weeksPerSecond": 15.192166262631766,
+  "running": false,
+  "currentWeek": 32,
+  "currentSeason": 235,
+  "telemetry": {
+    "overallScore": 73,
+    "timestamp": 1778437120723,
+    "detectorCount": 15,
+    "results": {
+      "SPEC-100": {
+        "spec": "SPEC-100",
+        "name": "Monotony Detector",
+        "score": 7,
+        "signals": [
+          {
+            "id": "DECISION_DOMINANCE",
+            "severity": 0.5,
+            "msg": "NARRATIVE_EVENT = 100% das decisões"
+          }
+        ],
+        "topSignal": "DECISION_DOMINANCE",
+        "_elapsedMs": 0.09999999403953552
+      },
+      "SPEC-101": {
+        "spec": "SPEC-101",
+        "name": "Balance Audit",
+        "score": 80,
+        "signals": [
+          {
+            "id": "ECONOMY_INFLATION",
+            "severity": 1,
+            "msg": "Balance multiplicou ×534335.0 em 200 semanas"
+          }
+        ],
+        "topSignal": "ECONOMY_INFLATION",
+        "histogram": {
+          "1": {
+            "W": 0,
+            "D": 0,
+            "L": 0,
+            "total": 0
+          },
+          "2": {
+            "W": 6,
+            "D": 5,
+            "L": 17,
+            "total": 28
+          },
+          "3": {
+            "W": 38,
+            "D": 11,
+            "L": 27,
+            "total": 76
+          },
+          "4": {
+            "W": 53,
+            "D": 16,
+            "L": 27,
+            "total": 96
+          }
+        },
+        "_elapsedMs": 0
+      },
+      "SPEC-102": {
+        "spec": "SPEC-102",
+        "name": "Fun Score",
+        "score": 49,
+        "signals": [],
+        "topSignal": null,
+        "averagePerMatch": 49,
+        "matchCount": 30,
+        "_elapsedMs": 0
+      },
+      "SPEC-103": {
+        "spec": "SPEC-103",
+        "name": "Decision Impact",
+        "score": 100,
+        "signals": [],
+        "topSignal": null,
+        "byActionType": {
+          "NARRATIVE_EVENT": {
+            "count": 199,
+            "avgDelta": 2.2313100000000046
+          },
+          "SUBSTITUTION": {
+            "count": 1,
+            "avgDelta": 2.23131
+          }
+        },
+        "_elapsedMs": 0.4000000059604645
+      },
+      "SPEC-104": {
+        "spec": "SPEC-104",
+        "name": "Critical Path Map",
+        "score": 63,
+        "signals": [
+          {
+            "id": "DEAD_VIEW",
+            "severity": 0.375,
+            "msg": "6 views nunca visitadas (ex: start, autoplay, tutorial)"
+          }
+        ],
+        "topSignal": "DEAD_VIEW",
+        "heatmap": {
+          "dashboard": 224,
+          "squad": 223,
+          "market": 223,
+          "standings": 223,
+          "pressView": 223,
+          "matchView": 223,
+          "rivalries": 223,
+          "chronicle": 223,
+          "achievements": 223,
+          "monitor": 223
+        },
+        "totalViews": 16,
+        "visitedViews": 10,
+        "_elapsedMs": 0
+      },
+      "SPEC-105": {
+        "spec": "SPEC-105",
+        "name": "Narrative Coverage",
+        "score": 81,
+        "signals": [
+          {
+            "id": "REPEATED_NARRATOR",
+            "severity": 0.45,
+            "msg": "\"💀 Elenco devastado pelo resultado. Mora...\" usado 9×"
+          }
+        ],
+        "topSignal": "REPEATED_NARRATOR",
+        "uniqueCount": 161,
+        "totalCount": 200,
+        "topNarrators": [
+          [
+            "💀 Elenco devastado pelo resultado. Moral em colapso.",
+            9
+          ],
+          [
+            "💀 Imprensa exige explicações do técnico.",
+            9
+          ],
+          [
+            "💀 Presidente convoca reunião de emergência.",
+            5
+          ],
+          [
+            "💀 Torcida protesta fora do estádio.",
+            5
+          ],
+          [
+            "🎉 Clima excelente no vestiário! 18 jogadores em alta moral.",
+            4
+          ]
+        ],
+        "_elapsedMs": 0.09999999403953552
+      },
+      "SPEC-106": {
+        "spec": "SPEC-106",
+        "name": "Emotional Arc",
+        "score": 100,
+        "signals": [
+          {
+            "id": "HUMILIATION_VALLEY",
+            "severity": 0.5,
+            "msg": "Vexame 0-6 (sem 12)"
+          },
+          {
+            "id": "CLUTCH_PEAK",
+            "severity": 0.4,
+            "msg": "Clutch win 3-1 (sem 36)"
+          }
+        ],
+        "topSignal": "HUMILIATION_VALLEY",
+        "peaks": [
+          {
+            "week": 36,
+            "score": 80,
+            "type": "CLUTCH",
+            "label": "Clutch win 3-1"
+          },
+          {
+            "week": 9,
+            "score": 80,
+            "type": "CLUTCH",
+            "label": "Clutch win 3-2"
+          },
+          {
+            "week": 17,
+            "score": 80,
+            "type": "CLUTCH",
+            "label": "Clutch win 2-0"
+          },
+          {
+            "week": 36,
+            "score": 80,
+            "type": "CLUTCH",
+            "label": "Clutch win 2-0"
+          },
+          {
+            "week": 16,
+            "score": 80,
+            "type": "CLUTCH",
+            "label": "Clutch win 2-0"
+          }
+        ],
+        "valleys": [
+          {
+            "week": 12,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 0-6"
+          },
+          {
+            "week": 15,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 1-6"
+          },
+          {
+            "week": 4,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 1-5"
+          },
+          {
+            "week": 2,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 1-5"
+          },
+          {
+            "week": 3,
+            "score": 70,
+            "type": "HUMILIATION",
+            "label": "Vexame 0-5"
+          }
+        ],
+        "amplitude": 75,
+        "_elapsedMs": 0
+      },
+      "SPEC-107": {
+        "spec": "SPEC-107",
+        "name": "Player Identity",
+        "score": 98,
+        "signals": [
+          {
+            "id": "CRAQUE_EMERGED",
+            "severity": 1,
+            "msg": "Samuel Pinto: 5193 gols (100%)"
+          },
+          {
+            "id": "VILLAIN_EMERGED",
+            "severity": 0.4,
+            "msg": "Otávio Nascimento: 3 expulsões"
+          }
+        ],
+        "topSignal": "CRAQUE_EMERGED",
+        "topScorer": {
+          "name": "Samuel Pinto",
+          "goals": 5193,
+          "percentage": "100"
+        },
+        "topVillain": {
+          "name": "Otávio Nascimento",
+          "redCards": 3
+        },
+        "giniCoefficient": 0.96,
+        "_elapsedMs": 0
+      },
+      "SPEC-108": {
+        "spec": "SPEC-108",
+        "name": "Rivalry Emergence",
+        "score": 80,
+        "signals": [
+          {
+            "id": "RIVAL_DETECTED",
+            "severity": 0.8,
+            "msg": "team-80: 4 jogos críticos"
+          },
+          {
+            "id": "REPEAT_OPPONENT",
+            "severity": 0.6,
+            "msg": "team-80 enfrentado 6× (V1/E3/D2)"
+          }
+        ],
+        "topSignal": "RIVAL_DETECTED",
+        "topRivals": [
+          {
+            "oppName": "team-80",
+            "encounters": 6,
+            "criticalCount": 4,
+            "headToHead": {
+              "W": 1,
+              "D": 3,
+              "L": 2
+            }
+          },
+          {
+            "oppName": "team-71",
+            "encounters": 5,
+            "criticalCount": 4,
+            "headToHead": {
+              "W": 2,
+              "D": 1,
+              "L": 2
+            }
+          },
+          {
+            "oppName": "team-23",
+            "encounters": 6,
+            "criticalCount": 3,
+            "headToHead": {
+              "W": 1,
+              "D": 1,
+              "L": 4
+            }
+          }
+        ],
+        "_elapsedMs": 0
+      },
+      "SPEC-109": {
+        "spec": "SPEC-109",
+        "name": "Economy Flow",
+        "score": 90,
+        "signals": [
+          {
+            "id": "MONEY_SINK",
+            "severity": 1,
+            "msg": "Salários: R$ 44.3M sem inflow"
+          }
+        ],
+        "topSignal": "MONEY_SINK",
+        "byCategory": {
+          "Salários": {
+            "totalIn": 0,
+            "totalOut": 44268605,
+            "netFlow": -44268605,
+            "weeks": 200
+          },
+          "Cota de TV": {
+            "totalIn": 7400000,
+            "totalOut": 0,
+            "netFlow": 7400000,
+            "weeks": 200
+          },
+          "Staff": {
+            "totalIn": 0,
+            "totalOut": 27000000,
+            "netFlow": -27000000,
+            "weeks": 200
+          },
+          "Patrocínio (🥉 Loja do Bairro)": {
+            "totalIn": 2400000,
+            "totalOut": 0,
+            "netFlow": 2400000,
+            "weeks": 96
+          },
+          "Bilheteria (16392 torcedores)": {
+            "totalIn": 491760,
+            "totalOut": 0,
+            "netFlow": 491760,
+            "weeks": 1
+          },
+          "Bilheteria (10958 torcedores)": {
+            "totalIn": 328740,
+            "totalOut": 0,
+            "netFlow": 328740,
+            "weeks": 1
+          },
+          "Bilheteria (15281 torcedores)": {
+            "totalIn": 458430,
+            "totalOut": 0,
+            "netFlow": 458430,
+            "weeks": 1
+          },
+          "Bilheteria (10534 torcedores)": {
+            "totalIn": 316020,
+            "totalOut": 0,
+            "netFlow": 316020,
+            "weeks": 1
+          },
+          "Bilheteria (13637 torcedores)": {
+            "totalIn": 409110,
+            "totalOut": 0,
+            "netFlow": 409110,
+            "weeks": 1
+          },
+          "Bilheteria (11812 torcedores)": {
+            "totalIn": 708720,
+            "totalOut": 0,
+            "netFlow": 708720,
+            "weeks": 2
+          },
+          "Bilheteria (17301 torcedores)": {
+            "totalIn": 519030,
+            "totalOut": 0,
+            "netFlow": 519030,
+            "weeks": 1
+          },
+          "Bilheteria (14253 torcedores)": {
+            "totalIn": 427590,
+            "totalOut": 0,
+            "netFlow": 427590,
+            "weeks": 1
+          },
+          "Bilheteria (11113 torcedores)": {
+            "totalIn": 333390,
+            "totalOut": 0,
+            "netFlow": 333390,
+            "weeks": 1
+          },
+          "Bilheteria (15041 torcedores)": {
+            "totalIn": 451230,
+            "totalOut": 0,
+            "netFlow": 451230,
+            "weeks": 1
+          },
+          "Patrocínio (🥈 Rede Regional)": {
+            "totalIn": 7600000,
+            "totalOut": 0,
+            "netFlow": 7600000,
+            "weeks": 76
+          },
+          "Bilheteria (9024 torcedores)": {
+            "totalIn": 270720,
+            "totalOut": 0,
+            "netFlow": 270720,
+            "weeks": 1
+          },
+          "Bilheteria (13809 torcedores)": {
+            "totalIn": 414270,
+            "totalOut": 0,
+            "netFlow": 414270,
+            "weeks": 1
+          },
+          "Bilheteria (14211 torcedores)": {
+            "totalIn": 426330,
+            "totalOut": 0,
+            "netFlow": 426330,
+            "weeks": 1
+          },
+          "Bilheteria (15125 torcedores)": {
+            "totalIn": 453750,
+            "totalOut": 0,
+            "netFlow": 453750,
+            "weeks": 1
+          },
+          "Bilheteria (15380 torcedores)": {
+            "totalIn": 461400,
+            "totalOut": 0,
+            "netFlow": 461400,
+            "weeks": 1
+          },
+          "Bilheteria (13810 torcedores)": {
+            "totalIn": 414300,
+            "totalOut": 0,
+            "netFlow": 414300,
+            "weeks": 1
+          },
+          "Bilheteria (12057 torcedores)": {
+            "totalIn": 361710,
+            "totalOut": 0,
+            "netFlow": 361710,
+            "weeks": 1
+          },
+          "Bilheteria (17900 torcedores)": {
+            "totalIn": 537000,
+            "totalOut": 0,
+            "netFlow": 537000,
+            "weeks": 1
+          },
+          "Bilheteria (15063 torcedores)": {
+            "totalIn": 451890,
+            "totalOut": 0,
+            "netFlow": 451890,
+            "weeks": 1
+          },
+          "Bilheteria (17615 torcedores)": {
+            "totalIn": 528450,
+            "totalOut": 0,
+            "netFlow": 528450,
+            "weeks": 1
+          },
+          "Bilheteria (17623 torcedores)": {
+            "totalIn": 528690,
+            "totalOut": 0,
+            "netFlow": 528690,
+            "weeks": 1
+          },
+          "Bilheteria (16190 torcedores)": {
+            "totalIn": 485700,
+            "totalOut": 0,
+            "netFlow": 485700,
+            "weeks": 1
+          },
+          "Bilheteria (9085 torcedores)": {
+            "totalIn": 272550,
+            "totalOut": 0,
+            "netFlow": 272550,
+            "weeks": 1
+          },
+          "Bilheteria (11776 torcedores)": {
+            "totalIn": 353280,
+            "totalOut": 0,
+            "netFlow": 353280,
+            "weeks": 1
+          },
+          "Bilheteria (11020 torcedores)": {
+            "totalIn": 330600,
+            "totalOut": 0,
+            "netFlow": 330600,
+            "weeks": 1
+          },
+          "Bilheteria (9894 torcedores)": {
+            "totalIn": 296820,
+            "totalOut": 0,
+            "netFlow": 296820,
+            "weeks": 1
+          },
+          "Bilheteria (12532 torcedores)": {
+            "totalIn": 375960,
+            "totalOut": 0,
+            "netFlow": 375960,
+            "weeks": 1
+          },
+          "Bilheteria (12980 torcedores)": {
+            "totalIn": 389400,
+            "totalOut": 0,
+            "netFlow": 389400,
+            "weeks": 1
+          },
+          "Bilheteria (16952 torcedores)": {
+            "totalIn": 508560,
+            "totalOut": 0,
+            "netFlow": 508560,
+            "weeks": 1
+          },
+          "Bilheteria (12085 torcedores)": {
+            "totalIn": 362550,
+            "totalOut": 0,
+            "netFlow": 362550,
+            "weeks": 1
+          },
+          "Bilheteria (10384 torcedores)": {
+            "totalIn": 311520,
+            "totalOut": 0,
+            "netFlow": 311520,
+            "weeks": 1
+          },
+          "Bilheteria (15408 torcedores)": {
+            "totalIn": 462240,
+            "totalOut": 0,
+            "netFlow": 462240,
+            "weeks": 1
+          },
+          "Bilheteria (10128 torcedores)": {
+            "totalIn": 303840,
+            "totalOut": 0,
+            "netFlow": 303840,
+            "weeks": 1
+          },
+          "Bilheteria (9056 torcedores)": {
+            "totalIn": 271680,
+            "totalOut": 0,
+            "netFlow": 271680,
+            "weeks": 1
+          },
+          "Bilheteria (16289 torcedores)": {
+            "totalIn": 488670,
+            "totalOut": 0,
+            "netFlow": 488670,
+            "weeks": 1
+          },
+          "Bilheteria (10216 torcedores)": {
+            "totalIn": 306480,
+            "totalOut": 0,
+            "netFlow": 306480,
+            "weeks": 1
+          },
+          "Bilheteria (15817 torcedores)": {
+            "totalIn": 474510,
+            "totalOut": 0,
+            "netFlow": 474510,
+            "weeks": 1
+          },
+          "Bilheteria (15673 torcedores)": {
+            "totalIn": 470190,
+            "totalOut": 0,
+            "netFlow": 470190,
+            "weeks": 1
+          },
+          "Bilheteria (15004 torcedores)": {
+            "totalIn": 450120,
+            "totalOut": 0,
+            "netFlow": 450120,
+            "weeks": 1
+          },
+          "Bilheteria (10099 torcedores)": {
+            "totalIn": 302970,
+            "totalOut": 0,
+            "netFlow": 302970,
+            "weeks": 1
+          },
+          "Bilheteria (14419 torcedores)": {
+            "totalIn": 432570,
+            "totalOut": 0,
+            "netFlow": 432570,
+            "weeks": 1
+          },
+          "Bilheteria (12576 torcedores)": {
+            "totalIn": 377280,
+            "totalOut": 0,
+            "netFlow": 377280,
+            "weeks": 1
+          },
+          "Bilheteria (12192 torcedores)": {
+            "totalIn": 365760,
+            "totalOut": 0,
+            "netFlow": 365760,
+            "weeks": 1
+          },
+          "Bilheteria (15886 torcedores)": {
+            "totalIn": 476580,
+            "totalOut": 0,
+            "netFlow": 476580,
+            "weeks": 1
+          },
+          "Bilheteria (11920 torcedores)": {
+            "totalIn": 357600,
+            "totalOut": 0,
+            "netFlow": 357600,
+            "weeks": 1
+          },
+          "Bilheteria (9291 torcedores)": {
+            "totalIn": 278730,
+            "totalOut": 0,
+            "netFlow": 278730,
+            "weeks": 1
+          },
+          "Bilheteria (9388 torcedores)": {
+            "totalIn": 281640,
+            "totalOut": 0,
+            "netFlow": 281640,
+            "weeks": 1
+          },
+          "Bilheteria (13239 torcedores)": {
+            "totalIn": 397170,
+            "totalOut": 0,
+            "netFlow": 397170,
+            "weeks": 1
+          },
+          "Bilheteria (12145 torcedores)": {
+            "totalIn": 364350,
+            "totalOut": 0,
+            "netFlow": 364350,
+            "weeks": 1
+          },
+          "Bilheteria (17553 torcedores)": {
+            "totalIn": 526590,
+            "totalOut": 0,
+            "netFlow": 526590,
+            "weeks": 1
+          },
+          "Bilheteria (15289 torcedores)": {
+            "totalIn": 458670,
+            "totalOut": 0,
+            "netFlow": 458670,
+            "weeks": 1
+          },
+          "Bilheteria (14314 torcedores)": {
+            "totalIn": 429420,
+            "totalOut": 0,
+            "netFlow": 429420,
+            "weeks": 1
+          },
+          "Bilheteria (11656 torcedores)": {
+            "totalIn": 349680,
+            "totalOut": 0,
+            "netFlow": 349680,
+            "weeks": 1
+          },
+          "Bilheteria (12514 torcedores)": {
+            "totalIn": 375420,
+            "totalOut": 0,
+            "netFlow": 375420,
+            "weeks": 1
+          },
+          "Bilheteria (11247 torcedores)": {
+            "totalIn": 337410,
+            "totalOut": 0,
+            "netFlow": 337410,
+            "weeks": 1
+          },
+          "Bilheteria (12121 torcedores)": {
+            "totalIn": 363630,
+            "totalOut": 0,
+            "netFlow": 363630,
+            "weeks": 1
+          },
+          "Bilheteria (17084 torcedores)": {
+            "totalIn": 512520,
+            "totalOut": 0,
+            "netFlow": 512520,
+            "weeks": 1
+          },
+          "Bilheteria (13174 torcedores)": {
+            "totalIn": 395220,
+            "totalOut": 0,
+            "netFlow": 395220,
+            "weeks": 1
+          },
+          "Bilheteria (14584 torcedores)": {
+            "totalIn": 437520,
+            "totalOut": 0,
+            "netFlow": 437520,
+            "weeks": 1
+          },
+          "Bilheteria (17488 torcedores)": {
+            "totalIn": 524640,
+            "totalOut": 0,
+            "netFlow": 524640,
+            "weeks": 1
+          },
+          "Bilheteria (9540 torcedores)": {
+            "totalIn": 286200,
+            "totalOut": 0,
+            "netFlow": 286200,
+            "weeks": 1
+          },
+          "Bilheteria (14373 torcedores)": {
+            "totalIn": 431190,
+            "totalOut": 0,
+            "netFlow": 431190,
+            "weeks": 1
+          },
+          "Bilheteria (16758 torcedores)": {
+            "totalIn": 502740,
+            "totalOut": 0,
+            "netFlow": 502740,
+            "weeks": 1
+          },
+          "Bilheteria (14323 torcedores)": {
+            "totalIn": 429690,
+            "totalOut": 0,
+            "netFlow": 429690,
+            "weeks": 1
+          },
+          "Bilheteria (11845 torcedores)": {
+            "totalIn": 355350,
+            "totalOut": 0,
+            "netFlow": 355350,
+            "weeks": 1
+          },
+          "Bilheteria (15145 torcedores)": {
+            "totalIn": 454350,
+            "totalOut": 0,
+            "netFlow": 454350,
+            "weeks": 1
+          },
+          "Bilheteria (14100 torcedores)": {
+            "totalIn": 423000,
+            "totalOut": 0,
+            "netFlow": 423000,
+            "weeks": 1
+          },
+          "Bilheteria (10625 torcedores)": {
+            "totalIn": 318750,
+            "totalOut": 0,
+            "netFlow": 318750,
+            "weeks": 1
+          },
+          "Bilheteria (15934 torcedores)": {
+            "totalIn": 478020,
+            "totalOut": 0,
+            "netFlow": 478020,
+            "weeks": 1
+          },
+          "Bilheteria (17961 torcedores)": {
+            "totalIn": 538830,
+            "totalOut": 0,
+            "netFlow": 538830,
+            "weeks": 1
+          },
+          "Bilheteria (17399 torcedores)": {
+            "totalIn": 521970,
+            "totalOut": 0,
+            "netFlow": 521970,
+            "weeks": 1
+          },
+          "Bilheteria (11032 torcedores)": {
+            "totalIn": 330960,
+            "totalOut": 0,
+            "netFlow": 330960,
+            "weeks": 1
+          },
+          "Bilheteria (16703 torcedores)": {
+            "totalIn": 501090,
+            "totalOut": 0,
+            "netFlow": 501090,
+            "weeks": 1
+          },
+          "Bilheteria (16433 torcedores)": {
+            "totalIn": 492990,
+            "totalOut": 0,
+            "netFlow": 492990,
+            "weeks": 1
+          },
+          "Bilheteria (11297 torcedores)": {
+            "totalIn": 338910,
+            "totalOut": 0,
+            "netFlow": 338910,
+            "weeks": 1
+          },
+          "Bilheteria (9012 torcedores)": {
+            "totalIn": 270360,
+            "totalOut": 0,
+            "netFlow": 270360,
+            "weeks": 1
+          },
+          "Bilheteria (14190 torcedores)": {
+            "totalIn": 425700,
+            "totalOut": 0,
+            "netFlow": 425700,
+            "weeks": 1
+          },
+          "Bilheteria (15997 torcedores)": {
+            "totalIn": 479910,
+            "totalOut": 0,
+            "netFlow": 479910,
+            "weeks": 1
+          },
+          "Bilheteria (11795 torcedores)": {
+            "totalIn": 353850,
+            "totalOut": 0,
+            "netFlow": 353850,
+            "weeks": 1
+          },
+          "Bilheteria (13085 torcedores)": {
+            "totalIn": 392550,
+            "totalOut": 0,
+            "netFlow": 392550,
+            "weeks": 1
+          },
+          "Bilheteria (16700 torcedores)": {
+            "totalIn": 501000,
+            "totalOut": 0,
+            "netFlow": 501000,
+            "weeks": 1
+          },
+          "Bilheteria (16184 torcedores)": {
+            "totalIn": 485520,
+            "totalOut": 0,
+            "netFlow": 485520,
+            "weeks": 1
+          },
+          "Bilheteria (13726 torcedores)": {
+            "totalIn": 411780,
+            "totalOut": 0,
+            "netFlow": 411780,
+            "weeks": 1
+          },
+          "Bilheteria (11092 torcedores)": {
+            "totalIn": 332760,
+            "totalOut": 0,
+            "netFlow": 332760,
+            "weeks": 1
+          },
+          "Bilheteria (12109 torcedores)": {
+            "totalIn": 363270,
+            "totalOut": 0,
+            "netFlow": 363270,
+            "weeks": 1
+          },
+          "Patrocínio (🥇 Marca Nacional)": {
+            "totalIn": 8400000,
+            "totalOut": 0,
+            "netFlow": 8400000,
+            "weeks": 28
+          },
+          "Bilheteria (10798 torcedores)": {
+            "totalIn": 323940,
+            "totalOut": 0,
+            "netFlow": 323940,
+            "weeks": 1
+          },
+          "Bilheteria (11861 torcedores)": {
+            "totalIn": 355830,
+            "totalOut": 0,
+            "netFlow": 355830,
+            "weeks": 1
+          },
+          "Bilheteria (13716 torcedores)": {
+            "totalIn": 411480,
+            "totalOut": 0,
+            "netFlow": 411480,
+            "weeks": 1
+          },
+          "Bilheteria (12574 torcedores)": {
+            "totalIn": 377220,
+            "totalOut": 0,
+            "netFlow": 377220,
+            "weeks": 1
+          },
+          "Bilheteria (14040 torcedores)": {
+            "totalIn": 421200,
+            "totalOut": 0,
+            "netFlow": 421200,
+            "weeks": 1
+          },
+          "Bilheteria (14337 torcedores)": {
+            "totalIn": 430110,
+            "totalOut": 0,
+            "netFlow": 430110,
+            "weeks": 1
+          },
+          "Bilheteria (16352 torcedores)": {
+            "totalIn": 490560,
+            "totalOut": 0,
+            "netFlow": 490560,
+            "weeks": 1
+          },
+          "Bilheteria (10011 torcedores)": {
+            "totalIn": 300330,
+            "totalOut": 0,
+            "netFlow": 300330,
+            "weeks": 1
+          },
+          "Bilheteria (10768 torcedores)": {
+            "totalIn": 323040,
+            "totalOut": 0,
+            "netFlow": 323040,
+            "weeks": 1
+          },
+          "Bilheteria (11699 torcedores)": {
+            "totalIn": 350970,
+            "totalOut": 0,
+            "netFlow": 350970,
+            "weeks": 1
+          },
+          "Bilheteria (17040 torcedores)": {
+            "totalIn": 511200,
+            "totalOut": 0,
+            "netFlow": 511200,
+            "weeks": 1
+          },
+          "Bilheteria (15568 torcedores)": {
+            "totalIn": 467040,
+            "totalOut": 0,
+            "netFlow": 467040,
+            "weeks": 1
+          },
+          "Bilheteria (17212 torcedores)": {
+            "totalIn": 516360,
+            "totalOut": 0,
+            "netFlow": 516360,
+            "weeks": 1
+          },
+          "Bilheteria (11407 torcedores)": {
+            "totalIn": 342210,
+            "totalOut": 0,
+            "netFlow": 342210,
+            "weeks": 1
+          },
+          "Bilheteria (14285 torcedores)": {
+            "totalIn": 428550,
+            "totalOut": 0,
+            "netFlow": 428550,
+            "weeks": 1
+          },
+          "Bilheteria (9629 torcedores)": {
+            "totalIn": 288870,
+            "totalOut": 0,
+            "netFlow": 288870,
+            "weeks": 1
+          },
+          "Bilheteria (14168 torcedores)": {
+            "totalIn": 425040,
+            "totalOut": 0,
+            "netFlow": 425040,
+            "weeks": 1
+          },
+          "Bilheteria (11233 torcedores)": {
+            "totalIn": 336990,
+            "totalOut": 0,
+            "netFlow": 336990,
+            "weeks": 1
+          }
+        },
+        "totalIn": 67874250,
+        "totalOut": 71268605,
+        "_elapsedMs": 0.20000001788139343
+      },
+      "SPEC-110": {
+        "spec": "SPEC-110",
+        "name": "Progression Curve",
+        "score": 30,
+        "signals": [
+          {
+            "id": "FLAT_CURVE",
+            "severity": 0.7,
+            "msg": "Squad OVR sem mudança (slope=0.04)"
+          }
+        ],
+        "topSignal": "FLAT_CURVE",
+        "curveSlope": 0.04,
+        "growthEventCount": 0,
+        "_elapsedMs": 0.09999999403953552
+      },
+      "SPEC-111": {
+        "spec": "SPEC-111",
+        "name": "Market Liquidity",
+        "score": 90,
+        "signals": [],
+        "topSignal": null,
+        "acceptanceRate": 0.42,
+        "avgSpread": 0.4,
+        "offerCount": 31,
+        "_elapsedMs": 0
+      },
+      "SPEC-112": {
+        "spec": "SPEC-112",
+        "name": "Session Length",
+        "score": 70,
+        "signals": [
+          {
+            "id": "TOO_FAST",
+            "severity": 0.3,
+            "msg": "Season em 0.0min (modo soak)"
+          }
+        ],
+        "topSignal": "TOO_FAST",
+        "weeksPerSec": 15.26,
+        "projectedSeasonMinutes": 0,
+        "_elapsedMs": 0
+      },
+      "SPEC-113": {
+        "spec": "SPEC-113",
+        "name": "Tutorial Funnel",
+        "score": 50,
+        "signals": [
+          {
+            "id": "NO_DATA",
+            "severity": 0.5,
+            "msg": "Tutorial não exercitado neste run"
+          }
+        ],
+        "topSignal": "NO_DATA",
+        "startedTutorial": 0,
+        "startedSkip": 0,
+        "completionRate": 0,
+        "_elapsedMs": 0
+      },
+      "SPEC-114": {
+        "spec": "SPEC-114",
+        "name": "Load Performance",
+        "score": 100,
+        "signals": [],
+        "topSignal": null,
+        "advanceWeekP95": 11.3,
+        "advanceWeekAvg": 8.9,
+        "slowestDetector": "SPEC-103",
+        "_elapsedMs": 0
+      }
+    }
+  },
+  "brain": {
+    "states": 108,
+    "totalUpdates": 8923,
+    "topActions": [
+      {
+        "action": "TRAIN_technical",
+        "totalQ": -82.72382753384207
+      },
+      {
+        "action": "TRAIN_attack",
+        "totalQ": -108.85833534229637
+      },
+      {
+        "action": "TRAIN_rest",
+        "totalQ": -109.09893623922306
+      },
+      {
+        "action": "TRAIN_fitness",
+        "totalQ": -164.0339676264192
+      },
+      {
+        "action": "TRAIN_tactical",
+        "totalQ": -243.41146564096528
+      }
+    ],
+    "personality": {
+      "id": "DESPERATE",
+      "label": "O Desesperado",
+      "ocean": {
+        "O": 0.11661012253864349,
+        "C": 0.12865625386892962,
+        "E": 0.620916206791278,
+        "A": 0.7878373728098385,
+        "N": 0.9248441160212597
+      },
+      "traits": {
+        "ambition": 0.4165394169907198,
+        "riskAppetite": 0.3044350377304959,
+        "loyalty": 0.7878373728098385,
+        "temperament": 0.07515588397874029,
+        "tacticalFlex": 0.11661012253864349
+      }
+    },
+    "emotional": {
+      "currentState": "ANXIOUS",
+      "modifiers": {
+        "epsilonMod": 1.5,
+        "lossMod": 2,
+        "riskMod": 0.3,
+        "tacticOverride": null,
+        "state": "ANXIOUS"
+      },
+      "ticksSinceChange": 0,
+      "recentTransitions": [
+        {
+          "from": "ANXIOUS",
+          "to": "CALM",
+          "event": "WIN",
+          "streak": 1,
+          "ts": 1778437120333
+        },
+        {
+          "from": "CALM",
+          "to": "ANXIOUS",
+          "event": "LOSS",
+          "streak": -2,
+          "ts": 1778437120588
+        },
+        {
+          "from": "ANXIOUS",
+          "to": "TILTED",
+          "event": "LOSS",
+          "streak": -3,
+          "ts": 1778437120627
+        },
+        {
+          "from": "TILTED",
+          "to": "DESPERATE",
+          "event": "LOSS",
+          "streak": -1,
+          "ts": 1778437120837
+        },
+        {
+          "from": "DESPERATE",
+          "to": "ANXIOUS",
+          "event": "WIN",
+          "streak": 1,
+          "ts": 1778437120879
+        }
+      ]
+    }
+  },
+  "gameDesignInsights": [
+    {
+      "spec": "SPEC-100",
+      "score": 7,
+      "problem": "Monotonia alta. NARRATIVE_EVENT = 100% das decisões",
+      "fix": "AutoPlay precisa de tática dinâmica: mudar tática automaticamente após 4+ sem sem vitória. Adicionar mais variedade na seleção de formação."
+    },
+    {
+      "spec": "SPEC-102",
+      "score": 49,
+      "problem": "Fun score baixo — partidas previsíveis.",
+      "fix": "Aumentar variância nos resultados. Checar se matchSimulator usa aleatoriedade suficiente. Adicionar eventos inesperados (VAR, lesão-chave, penalti controverso)."
+    }
+  ]
+}

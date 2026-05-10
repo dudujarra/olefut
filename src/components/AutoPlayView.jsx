@@ -12,6 +12,9 @@ import CareerInfoPanel from './learning/CareerInfoPanel';
 import BrainDashboard from './learning/BrainDashboard';
 import { RealDB } from '../engine/db/index';
 import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgSoakTest from '../assets/environments/bg_soak_test.png';
 
 const SPEED_PRESETS = [
     { label: '🐢 Slow', delay: 500 },
@@ -95,37 +98,46 @@ export function AutoPlayView() {
         };
 
         return (
-            <div className="main-content fade-in">
-                <div className="card-header">
-                    <h2>🤖 AutoPlay — Setup</h2>
-                    <button className="btn btn-secondary btn-sm" onClick={() => changeView('start')}>← Voltar</button>
-                </div>
-                <div className="card" style={{ padding: '1rem', maxWidth: '520px' }}>
-                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+            <div className="ef-anim-fade-in" style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgSoakTest})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed',
+                minHeight: '100dvh',
+                padding: '16px',
+                color: 'var(--ef-color-neutral-text-hi)'
+            }}>
+                <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h2 style={{ fontSize: '1.2rem', margin: 0 }}>🤖 AUTOPLAY SETUP</h2>
+                        <EfButton variant="secondary" size="sm" onClick={() => changeView('start')}>← VOLTAR</EfButton>
+                    </EfPanel>
+                    <EfPanel variant="elev" padding="md">
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
                         Configure o bot antes de iniciar o soak test.
                     </p>
 
                     <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>ZONA</label>
                     <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
                         {zones.map(z => (
-                            <button
+                            <EfButton
                                 key={z}
-                                className={`mode-btn ${setupZone === z ? 'active' : ''}`}
+                                variant={setupZone === z ? 'primary' : 'secondary'}
                                 onClick={() => { setSetupZone(z); setSetupTeamId(''); }}
                                 style={{ fontSize: '0.75rem' }}
-                            >{z}</button>
+                            >{z}</EfButton>
                         ))}
                     </div>
 
                     <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>DIVISÃO</label>
                     <div style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem' }}>
                         {[1, 2, 3, 4].map(d => (
-                            <button
+                            <EfButton
                                 key={d}
-                                className={`mode-btn ${setupDiv === d ? 'active' : ''}`}
+                                variant={setupDiv === d ? 'primary' : 'secondary'}
                                 onClick={() => { setSetupDiv(d); setSetupTeamId(''); }}
                                 style={{ flex: 1, fontSize: '0.75rem' }}
-                            >Div {d}</button>
+                            >Div {d}</EfButton>
                         ))}
                     </div>
 
@@ -145,39 +157,40 @@ export function AutoPlayView() {
 
                     <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>CENÁRIO</label>
                     <div style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem' }}>
-                        <button
-                            className={`mode-btn ${setupScenario === 'livre' ? 'active' : ''}`}
+                        <EfButton
+                            variant={setupScenario === 'livre' ? 'primary' : 'secondary'}
                             onClick={() => setSetupScenario('livre')}
                             style={{ flex: 1, fontSize: '0.75rem' }}
-                        >🌍 Livre</button>
-                        <button
-                            className={`mode-btn ${setupScenario === 'fallen' ? 'active' : ''}`}
+                        >🌍 Livre</EfButton>
+                        <EfButton
+                            variant={setupScenario === 'fallen' ? 'primary' : 'secondary'}
                             onClick={() => setSetupScenario('fallen')}
                             style={{ flex: 1, fontSize: '0.75rem' }}
-                        >📉 Gigante Caído</button>
+                        >📉 Gigante Caído</EfButton>
                     </div>
 
                     <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>DIFICULDADE</label>
                     <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '1rem' }}>
                         {Object.values(DIFFICULTY_MODES).map(d => (
-                            <button
+                            <EfButton
                                 key={d.id}
-                                className={`mode-btn ${setupDifficultyId === d.id ? 'active' : ''}`}
+                                variant={setupDifficultyId === d.id ? 'primary' : 'secondary'}
                                 onClick={() => setSetupDifficultyId(d.id)}
                                 style={{ flex: 1, fontSize: '0.7rem' }}
                                 title={d.description}
-                            >{d.emoji} {d.name}</button>
+                            >{d.emoji} {d.name}</EfButton>
                         ))}
                     </div>
 
-                    <button
-                        className="btn btn-primary"
+                    <EfButton
+                        variant="primary"
                         onClick={handleSetupStart}
                         disabled={!setupTeamId}
                         style={{ width: '100%' }}
                     >
                         ⚡ INICIAR AUTOPLAY
-                    </button>
+                    </EfButton>
+                    </EfPanel>
                 </div>
             </div>
         );
@@ -314,59 +327,65 @@ export function AutoPlayView() {
     }, {}) || {};
 
     return (
-        <div className="main-content fade-in">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>🤖 AutoPlay — Soak Test</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
-            </div>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgSoakTest})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>🤖 SOAK TEST DASHBOARD</h2>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
+                </EfPanel>
 
             {/* Controls */}
-            <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+            <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
                     {!stats?.running ? (
-                        <button className="btn btn-primary" onClick={handleStart}>
+                        <EfButton variant="primary" onClick={handleStart}>
                             ▶️ Iniciar
-                        </button>
+                        </EfButton>
                     ) : (
-                        <button className="btn btn-secondary" onClick={handlePause}>
+                        <EfButton variant="secondary" onClick={handlePause}>
                             ⏸️ Pausar
-                        </button>
+                        </EfButton>
                     )}
-                    <button className="btn btn-secondary" onClick={handleStop}>
+                    <EfButton variant="secondary" onClick={handleStop}>
                         ⏹️ Parar
-                    </button>
-                    <button className="btn btn-secondary" onClick={handleExport}>
+                    </EfButton>
+                    <EfButton variant="secondary" onClick={handleExport}>
                         📥 Exportar Relatório JSON
-                    </button>
-                    <button className="btn btn-secondary" onClick={handleExportTelemetry}>
+                    </EfButton>
+                    <EfButton variant="secondary" onClick={handleExportTelemetry}>
                         📊 Export Telemetry JSON
-                    </button>
-                    <button
-                        className="btn btn-secondary"
+                    </EfButton>
+                    <EfButton
+                        variant="secondary"
                         onClick={handleResetBrain}
                         title="Reset Q-table — bot esquece aprendizado, stats permanecem"
                         style={{ borderColor: 'var(--danger, #c44)', color: 'var(--danger, #c44)' }}
                     >
                         🧠 Reset Brain
-                    </button>
-                    <button
-                        className="btn btn-secondary"
+                    </EfButton>
+                    <EfButton
+                        variant="secondary"
                         onClick={handleResetAll}
                         title="Reset TUDO — apaga brain + stats + telemetry. Sem volta."
                         style={{ borderColor: '#FF4444', color: '#FF4444', fontWeight: 700 }}
                     >
                         🚨 Reset Tudo
-                    </button>
+                    </EfButton>
                 </div>
 
                 {/* SPEC-119: LLM Bridge panel — buy/sell decision engine */}
-                <div style={{
+                <EfPanel variant="sunk" padding="md" style={{
                     marginTop: '0.5rem',
-                    padding: '8px 12px',
                     background: 'rgba(106, 188, 58, 0.05)',
                     border: '1px solid #6ABC3A',
-                    borderRadius: '4px',
-                    fontSize: '0.78rem'
                 }}>
                     <div style={{ marginBottom: '6px', fontWeight: 700, color: '#6ABC3A', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span>🤝 BUY/SELL ENGINE (SPEC-119)</span>
@@ -384,35 +403,34 @@ export function AutoPlayView() {
                     )}
                     <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
                         {llmStatus.mode === 'heuristic' ? (
-                            <button
-                                className="btn btn-sm"
+                            <EfButton
+                                variant="secondary"
+                                size="sm"
                                 onClick={handleLoadLLM}
                                 style={{ fontSize: '0.7rem', borderColor: '#6ABC3A', color: '#6ABC3A' }}
                                 title="Load WebLLM Llama 3.2 1B (~700MB first time, cached after)"
                             >
                                 🧠 Carregar WebLLM
-                            </button>
+                            </EfButton>
                         ) : (
-                            <button
-                                className="btn btn-sm"
+                            <EfButton
+                                variant="secondary"
+                                size="sm"
                                 onClick={handleResetLLM}
                                 style={{ fontSize: '0.7rem' }}
                             >
                                 ↩️ Voltar Heurística
-                            </button>
+                            </EfButton>
                         )}
                     </div>
-                </div>
+                </EfPanel>
 
                 {/* SPEC-115/116/117: Brain panel — adaptive learning telemetry */}
                 {stats?.brain && (
-                    <div style={{
+                    <EfPanel variant="sunk" padding="md" style={{
                         marginTop: '0.5rem',
-                        padding: '8px 12px',
                         background: 'rgba(255, 215, 0, 0.05)',
                         border: '1px solid var(--ef-color-accent-gold, #FFD700)',
-                        borderRadius: '4px',
-                        fontSize: '0.78rem'
                     }}>
                         <div style={{ marginBottom: '6px', fontWeight: 700, color: 'var(--ef-color-accent-gold, #FFD700)' }}>
                             🧠 BRAIN (SPEC-115/116/117)
@@ -433,7 +451,7 @@ export function AutoPlayView() {
                                 ))}
                             </div>
                         )}
-                    </div>
+                    </EfPanel>
                 )}
 
                 {/* SPEC-124: Career info panel — team/division/titles/scorers */}
@@ -450,10 +468,11 @@ export function AutoPlayView() {
                 </div>
                 <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                     {SPEED_PRESETS.map(p => (
-                        <button
+                        <EfButton
                             key={p.delay}
                             onClick={() => handleSpeedChange(p.delay)}
-                            className="btn btn-sm"
+                            variant="secondary"
+                            size="sm"
                             style={{
                                 background: speed === p.delay ? 'var(--ef-color-accent-gold, #FFD700)' : 'transparent',
                                 color: speed === p.delay ? '#0F1A14' : 'var(--text)',
@@ -461,14 +480,14 @@ export function AutoPlayView() {
                                 fontSize: '0.7rem',
                                 padding: '4px 8px'
                             }}
-                        >{p.label}</button>
+                        >{p.label}</EfButton>
                     ))}
                 </div>
-            </div>
+            </EfPanel>
 
             {/* Live stats grid */}
             {stats && (
-                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                     <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>📊 Estatísticas Live</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
                         <Stat label="Status" value={stats.running ? '🟢 Rodando' : '⏸️ Pausado'} />
@@ -484,12 +503,12 @@ export function AutoPlayView() {
                         <Stat label="Errors" value={stats.errorCount} color={stats.errorCount > 0 ? 'var(--danger)' : 'var(--primary)'} />
                         <Stat label="Anomalies" value={stats.anomalies?.length || 0} color={(stats.anomalies?.length || 0) > 0 ? 'var(--accent)' : 'var(--text)'} />
                     </div>
-                </div>
+                </EfPanel>
             )}
 
             {/* Insights summary */}
             {stats?.insights && (
-                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                     <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>📈 Insights da Carreira</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px', fontSize: '0.78rem' }}>
                         <Stat label="Títulos" value={stats.insights.titlesWon} color="var(--ef-color-accent-gold, #FFD700)" />
@@ -505,12 +524,12 @@ export function AutoPlayView() {
                         <Stat label="Maior goleada" value={stats.insights.biggestWin?.score || '-'} />
                         <Stat label="Pior derrota" value={stats.insights.worstLoss?.score || '-'} color="var(--danger)" />
                     </div>
-                </div>
+                </EfPanel>
             )}
 
             {/* §23: GDD Systems Status — LIVE PROOF */}
             {stats && (
-                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                     <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                         🎯 GDD Systems Status — Live
                     </h3>
@@ -641,12 +660,12 @@ export function AutoPlayView() {
                             );
                         })()}
                     </div>
-                </div>
+                </EfPanel>
             )}
 
             {/* Telemetria — SPEC-100..114 (15 detectores) */}
             {stats?.telemetry?.results && (
-                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                     <div
                         onClick={() => setTelemetryOpen(!telemetryOpen)}
                         style={{
@@ -715,12 +734,12 @@ export function AutoPlayView() {
                             ))}
                         </div>
                     )}
-                </div>
+                </EfPanel>
             )}
 
             {/* Successes catalog */}
             {stats?.successes && stats.successes.length > 0 && (
-                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                     <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>✅ Successes ({stats.successes.length})</h3>
                     <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
                         Por tipo: {Object.entries(successTypes).map(([t, n]) => `${t}(${n})`).join(' • ')}
@@ -747,12 +766,12 @@ export function AutoPlayView() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </EfPanel>
             )}
 
             {/* Anomalies catalog */}
             {stats?.anomalies && stats.anomalies.length > 0 && (
-                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                         <h3 style={{ fontSize: '0.9rem', margin: 0 }}>⚠️ Anomalies ({stats.anomalies.length})</h3>
                         <select
@@ -794,12 +813,12 @@ export function AutoPlayView() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </EfPanel>
             )}
 
             {/* Recent decisions */}
             {stats?.decisions && stats.decisions.length > 0 && (
-                <div className="card" style={{ padding: '0.75rem' }}>
+                <EfPanel variant="elev" padding="md">
                     <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>📋 Últimas Decisões (20)</h3>
                     <div style={{ maxHeight: '200px', overflowY: 'auto', fontSize: '0.7rem', fontFamily: 'monospace' }}>
                         {stats.decisions.slice(-20).reverse().map((d, i) => (
@@ -811,8 +830,9 @@ export function AutoPlayView() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </EfPanel>
             )}
+            </div>
         </div>
     );
 }

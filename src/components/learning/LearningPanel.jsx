@@ -11,6 +11,7 @@
  * - Brain stats (states, updates, total memory)
  */
 import React, { useState, useEffect } from 'react';
+import { EfPanel } from '../ui/EfPanel';
 
 function Sparkline({ data, width = 200, height = 40, color = '#6ABC3A' }) {
     if (!Array.isArray(data) || data.length < 2) {
@@ -131,13 +132,10 @@ export default function LearningPanel({ controllerRef }) {
     const transferSeries = seasonHistory.map(s => s.seasonTransfers || 0);
 
     return (
-        <div style={{
+        <EfPanel variant="sunk" padding="md" style={{
             marginTop: '0.5rem',
-            padding: '8px 12px',
             background: 'rgba(106, 188, 58, 0.05)',
             border: '1px solid #6ABC3A',
-            borderRadius: '4px',
-            fontSize: '0.78rem'
         }}>
             <div
                 onClick={() => setOpen(o => !o)}
@@ -209,6 +207,6 @@ export default function LearningPanel({ controllerRef }) {
                     )}
                 </>
             )}
-        </div>
+        </EfPanel>
     );
 }

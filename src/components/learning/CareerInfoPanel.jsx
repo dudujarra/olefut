@@ -10,6 +10,7 @@
  * - Milestones career
  */
 import React, { useState, useEffect } from 'react';
+import { EfPanel } from '../ui/EfPanel';
 
 const DIV_NAMES = { 1: 'Série A', 2: 'Série B', 3: 'Série C', 4: 'Série D' };
 const DIV_COLOR = { 1: '#FFD700', 2: '#C0C0C0', 3: '#CD7F32', 4: '#8B7355' };
@@ -93,13 +94,10 @@ export default function CareerInfoPanel({ controllerRef }) {
     }, {});
 
     return (
-        <div style={{
+        <EfPanel variant="sunk" padding="md" style={{
             marginTop: '0.5rem',
-            padding: '8px 12px',
             background: 'rgba(255, 215, 0, 0.05)',
             border: '1px solid var(--ef-color-accent-gold, #FFD700)',
-            borderRadius: '4px',
-            fontSize: '0.78rem'
         }}>
             <div
                 onClick={() => setOpen(o => !o)}
@@ -271,6 +269,6 @@ export default function CareerInfoPanel({ controllerRef }) {
                     )}
                 </>
             )}
-        </div>
+        </EfPanel>
     );
 }

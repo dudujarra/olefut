@@ -3,6 +3,9 @@ import { useGame } from '../context/GameContext';
 import { OffPitchEventsDeck } from '../engine/OffPitchEventsDeck';
 import { PERSONALITIES, TRAITS_CATALOG, LIFESTYLE_CATALOG, SUB_ATTRIBUTES } from '../engine/PlayerCareer';
 import { EfClubBadge, EfBanner } from './ui';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgPlayerDashboard from '../assets/environments/bg_player_dashboard.png';
 
 import { rng as systemRng } from '../engine/rng.js';
 
@@ -59,7 +62,7 @@ export function PlayerDashboardView() {
         prevMotmRef.current = motm;
     });
 
-    if (!player || !team) return <div className="main-content">Erro: jogador não encontrado.</div>;
+    if (!player || !team) return <div style={{padding:'16px',color:'var(--text-main)'}}>Erro: jogador não encontrado.</div>;
 
     const handleTrain = (skill) => {
         const result = player.train(skill);
@@ -135,9 +138,13 @@ export function PlayerDashboardView() {
     const handleAdvance = () => changeView('player_match');
 
     const RelBar = ({ label, value, type }) => (
-        <div className="rel-bar">
-            <label><span>{label}</span><span>{value}%</span></label>
-            <div className="bar"><div className={`bar-fill ${type}`} style={{ width: `${value}%` }} /></div>
+        <div style={{ marginBottom: '8px' }}>
+            <label style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: '2px', color: 'var(--text-main)' }}>
+                <span>{label}</span><span>{value}%</span>
+            </label>
+            <div style={{ height: '6px', background: 'var(--bg-elevated, var(--ef-color-bg-input))', borderRadius: '3px', overflow: 'hidden', border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))' }}>
+                <div style={{ height: '100%', width: `${value}%`, background: `var(--ef-color-${type === 'boss' ? 'danger' : type === 'fans' ? 'primary' : type === 'teammates' ? 'accent' : 'warning'}, #6ABC3A)`, transition: 'width 200ms ease-out' }} />
+            </div>
         </div>
     );
 
@@ -146,277 +153,287 @@ export function PlayerDashboardView() {
     const stressColor = player.stress >= 75 ? 'var(--danger)' : player.stress >= 50 ? 'var(--accent)' : 'var(--text-muted)';
 
     return (
-        <div className="main-content fade-in ef-art-bg ef-art-managers">
-            {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
-            {/* Off-Pitch Event Modal */}
-            {offPitchEvent && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h3>📰 Evento da Semana</h3>
-                        <p>{offPitchEvent.text}</p>
-                        <div className="modal-options">
-                            {offPitchEvent.options.map((opt, i) => (
-                                <button key={i} className="btn btn-secondary" onClick={() => handleOffPitchChoice(opt)}>{opt.label}</button>
-                            ))}
-                        </div>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgPlayerDashboard})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
+                {/* Off-Pitch Event Modal */}
+                {offPitchEvent && (
+                    <div className="modal-overlay">
+                        <EfPanel variant="elev" padding="md" style={{ maxWidth: '400px' }}>
+                            <h3 style={{ margin: '0 0 10px 0' }}>📰 Evento da Semana</h3>
+                            <p style={{ fontSize: '0.9rem', marginBottom: '16px' }}>{offPitchEvent.text}</p>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                {offPitchEvent.options.map((opt, i) => (
+                                    <EfButton key={i} variant="secondary" onClick={() => handleOffPitchChoice(opt)}>{opt.label}</EfButton>
+                                ))}
+                            </div>
+                        </EfPanel>
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* Header Card */}
-            <div className="card">
-                <div className="card-header" style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                    {team?.name && <EfClubBadge name={team.name} size="lg" />}
-                    <div style={{flex:1}}>
-                        <h2>{player.name} <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{pers.emoji} {pers.name}</span></h2>
-                        <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{player.position} • {team.name} • Semana {engine.currentWeek}/38</span>
-                    </div>
-                    <div className="stars">{starStr}</div>
-                </div>
-                <div className="grid-2">
-                    <div>
-                        <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>AÇÕES RESTANTES</div>
-                        <div className="slot-indicator">
-                            {Array.from({ length: player.maxActionSlots }).map((_, i) => (
-                                <div key={i} className={`slot-dot ${i < player.actionSlots ? 'active' : ''}`} />
-                            ))}
+                {/* Header Card */}
+                <EfPanel variant="elev" padding="md">
+                    <div style={{display:'flex',alignItems:'center',gap:'12px', marginBottom: '12px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px'}}>
+                        {team?.name && <EfClubBadge name={team.name} size="lg" />}
+                        <div style={{flex:1}}>
+                            <h2 style={{ margin: 0 }}>{player.name} <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{pers.emoji} {pers.name}</span></h2>
+                            <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{player.position} • {team.name} • Semana {engine.currentWeek}/38</span>
                         </div>
-                        <ul className="stats-list" style={{ marginTop: '0.5rem' }}>
-                            <li><span>⚡ Energia:</span> <strong style={{ color: player.energy < 30 ? 'var(--danger)' : 'var(--primary)' }}>{player.energy}%</strong></li>
-                            <li><span>💰 Dinheiro:</span> <strong>R$ {player.money}</strong></li>
-                            <li><span>🥤 Energéticos:</span> <strong>{player.energyDrinks}</strong></li>
-                            <li><span>⚽ Gols:</span> <strong>{player.seasonGoals}</strong></li>
-                            <li><span>🧠 Stress:</span> <strong className={player.stress >= 75 ? 'ef-anim-pulse-glow' : ''} style={{ color: stressColor, padding: player.stress >= 75 ? '2px 6px' : 0, borderRadius: '4px' }}>{player.stress}%</strong></li>
-                        </ul>
+                        <div style={{ color: 'var(--accent)', fontSize: '1.2rem', letterSpacing: '2px' }}>{starStr}</div>
                     </div>
-                    <div>
-                        <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>SKILLS (progresso pro próximo nível)</div>
-                        {[
-                            { key: 'technique', label: '🎯 TEC' },
-                            { key: 'pace',      label: '💨 PAC' },
-                            { key: 'power',     label: '💪 POW' },
-                            { key: 'vision',    label: '👁️ VIS' }
-                        ].map(s => {
-                            const lvl = player.skills[s.key] ?? 0;
-                            const prog = player.skillProgress?.[s.key] ?? 0;
-                            return (
-                                <div key={s.key} style={{ marginBottom: '6px' }}>
-                                    <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.78rem' }}>
-                                        <span>{s.label} <strong>{lvl}</strong></span>
-                                        <span style={{ color:'var(--text-muted)' }}>{prog}/100 XP</span>
-                                    </div>
-                                    <div style={{
-                                        height: '6px',
-                                        background: 'var(--bg-elevated, var(--ef-color-bg-input))',
-                                        borderRadius: '3px',
-                                        overflow: 'hidden',
-                                        border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))'
-                                    }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                        <div>
+                            <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 'bold' }}>AÇÕES RESTANTES</div>
+                            <div style={{ display: 'flex', gap: '4px', marginBottom: '12px' }}>
+                                {Array.from({ length: player.maxActionSlots }).map((_, i) => (
+                                    <div key={i} style={{ width: '12px', height: '12px', borderRadius: '50%', background: i < player.actionSlots ? 'var(--primary)' : 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)' }} />
+                                ))}
+                            </div>
+                            <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.85rem' }}>
+                                <li style={{ marginBottom: '4px' }}><span>⚡ Energia:</span> <strong style={{ color: player.energy < 30 ? 'var(--danger)' : 'var(--primary)' }}>{player.energy}%</strong></li>
+                                <li style={{ marginBottom: '4px' }}><span>💰 Dinheiro:</span> <strong>R$ {player.money}</strong></li>
+                                <li style={{ marginBottom: '4px' }}><span>🥤 Energéticos:</span> <strong>{player.energyDrinks}</strong></li>
+                                <li style={{ marginBottom: '4px' }}><span>⚽ Gols:</span> <strong>{player.seasonGoals}</strong></li>
+                                <li><span>🧠 Stress:</span> <strong className={player.stress >= 75 ? 'ef-anim-pulse-glow' : ''} style={{ color: stressColor, padding: player.stress >= 75 ? '2px 6px' : 0, borderRadius: '4px' }}>{player.stress}%</strong></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 'bold' }}>SKILLS</div>
+                            {[
+                                { key: 'technique', label: '🎯 TEC' },
+                                { key: 'pace',      label: '💨 PAC' },
+                                { key: 'power',     label: '💪 POW' },
+                                { key: 'vision',    label: '👁️ VIS' }
+                            ].map(s => {
+                                const lvl = player.skills[s.key] ?? 0;
+                                const prog = player.skillProgress?.[s.key] ?? 0;
+                                return (
+                                    <div key={s.key} style={{ marginBottom: '6px' }}>
+                                        <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.78rem' }}>
+                                            <span>{s.label} <strong>{lvl}</strong></span>
+                                            <span style={{ color:'var(--text-muted)' }}>{prog}/100 XP</span>
+                                        </div>
                                         <div style={{
-                                            height: '100%',
-                                            width: `${prog}%`,
-                                            background: 'linear-gradient(90deg, #6ABC3A, #FFD700)',
-                                            transition: 'width 200ms ease-out'
-                                        }} />
+                                            height: '6px',
+                                            background: 'var(--bg-elevated, var(--ef-color-bg-input))',
+                                            borderRadius: '3px',
+                                            overflow: 'hidden',
+                                            border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))'
+                                        }}>
+                                            <div style={{
+                                                height: '100%',
+                                                width: `${prog}%`,
+                                                background: 'linear-gradient(90deg, #6ABC3A, #FFD700)',
+                                                transition: 'width 200ms ease-out'
+                                            }} />
+                                        </div>
                                     </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </EfPanel>
+
+                {/* Mental Break Modal */}
+                {mentalBreakModal && (
+                    <div className="modal-overlay">
+                        <EfPanel variant="elev" padding="md" style={{ maxWidth: '400px', textAlign: 'center' }}>
+                            <h3 style={{ color: 'var(--danger)', margin: '0 0 10px 0' }}>🧠 CRISE MENTAL — Stress em {player.stress}%</h3>
+                            <p style={{ fontSize: '0.9rem', marginBottom: '16px' }}>Você não aguenta mais a pressão. Precisa de uma válvula de escape.</p>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <EfButton variant="secondary" onClick={() => handleMentalBreak('party')}>🎉 Sair pra festa (Stress -40, Boss -10)</EfButton>
+                                <EfButton variant="secondary" onClick={() => handleMentalBreak('isolation')}>🏠 Isolamento total (Stress -30, Team -8)</EfButton>
+                                <EfButton variant="secondary" onClick={() => handleMentalBreak('therapy')}>🧑‍⚕️ Terapia R$2000 (Stress -20)</EfButton>
+                            </div>
+                        </EfPanel>
+                    </div>
+                )}
+
+                <div style={{ display: 'flex', gap: '16px' }}>
+                    {/* Relationships */}
+                    <EfPanel variant="sunk" padding="md" style={{ flex: 1 }}>
+                        <h3 style={{ fontSize: '1rem', marginBottom: '0.75rem', marginTop: 0 }}>RELACIONAMENTOS</h3>
+                        <RelBar label="👔 Marcos Oliveira" value={player.relationships.boss} type="boss" />
+                        <RelBar label="📣 Tio Dinho" value={player.relationships.fans} type="fans" />
+                        <RelBar label="🤝 Rafael Monteiro" value={player.relationships.teammates} type="teammates" />
+                        <RelBar label="💼 Patrícia Lemos" value={player.relationships.sponsors} type="sponsors" />
+                    </EfPanel>
+
+                    {/* Actions */}
+                    <EfPanel variant="elev" padding="md" style={{ flex: 2 }}>
+                        <h3 style={{ fontSize: '1rem', marginBottom: '0.75rem', marginTop: 0 }}>AÇÕES DA SEMANA</h3>
+                        {player.isBenched && <div style={{ background: 'rgba(239,68,68,0.1)', color: 'var(--danger)', padding: '8px', borderRadius: '4px', fontSize: '0.8rem', marginBottom: '8px' }}>🔴 Você está no BANCO! Recupere energia ou melhore sua relação com o técnico.</div>}
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                            <EfButton variant="primary" size="sm" onClick={() => handleTrain('technique')} disabled={!player.canAct}>🎯 TREINAR TEC</EfButton>
+                            <EfButton variant="primary" size="sm" onClick={() => handleTrain('pace')} disabled={!player.canAct}>💨 TREINAR PAC</EfButton>
+                            <EfButton variant="primary" size="sm" onClick={() => handleTrain('power')} disabled={!player.canAct}>💪 TREINAR POW</EfButton>
+                            <EfButton variant="primary" size="sm" onClick={() => handleTrain('vision')} disabled={!player.canAct}>👁️ TREINAR VIS</EfButton>
+                            <EfButton variant="secondary" size="sm" onClick={handleRest} disabled={!player.canAct}>😴 DESCANSAR</EfButton>
+                            <EfButton variant="secondary" size="sm" onClick={handleBuyDrink}>🛒 ENERGÉTICO (R$100)</EfButton>
+                            <EfButton variant="secondary" size="sm" onClick={handleUseDrink} disabled={player.energyDrinks <= 0}>🥤 USAR ENERGÉTICO</EfButton>
+                        </div>
+                        {log && <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '0.5rem' }}>{log}</p>}
+                        {offPitchResult && <p style={{ color: 'var(--accent)', fontSize: '0.8rem', marginTop: '0.5rem' }}>📰 {offPitchResult}</p>}
+                    </EfPanel>
+                </div>
+
+                {/* Loja de Traits — uso de dinheiro modo carreira */}
+                <EfPanel variant="elev" padding="md">
+                    <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem', marginTop: 0 }}>🛍️ LOJA DE TRAITS ESPECIAIS</h3>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 0.75rem 0' }}>
+                        Habilidades únicas. Custam dinheiro + aprovação do técnico. Saldo atual: <strong style={{ color: 'var(--primary)' }}>R$ {player.money}</strong>
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '8px' }}>
+                        {Object.entries(TRAITS_CATALOG).map(([id, t]) => {
+                            const owned = player.traits?.includes(id);
+                            const canAfford = player.money >= t.cost;
+                            const bossOk = player.relationships.boss >= t.requiredBoss;
+                            const disabled = owned || !canAfford || !bossOk;
+                            return (
+                                <div key={id} style={{
+                                    border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))',
+                                    borderRadius: '4px',
+                                    padding: '0.5rem',
+                                    background: owned ? 'rgba(106,188,58,0.1)' : 'var(--bg-panel-hover)',
+                                    opacity: disabled && !owned ? 0.7 : 1
+                                }}>
+                                    <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '2px' }}>
+                                        {owned ? '✅ ' : ''}{t.name}
+                                    </div>
+                                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
+                                        {t.description}
+                                    </div>
+                                    <div style={{ fontSize: '0.7rem', display: 'flex', gap: '8px', marginBottom: '6px' }}>
+                                        <span style={{ color: canAfford ? 'var(--primary)' : 'var(--danger)' }}>
+                                            💰 R$ {t.cost}
+                                        </span>
+                                        <span style={{ color: bossOk ? 'var(--primary)' : 'var(--danger)' }}>
+                                            👔 {t.requiredBoss}%
+                                        </span>
+                                    </div>
+                                    <EfButton
+                                        size="sm"
+                                        variant={owned ? 'secondary' : 'primary'}
+                                        onClick={() => handleBuyTrait(id)}
+                                        disabled={disabled}
+                                        style={{ width: '100%', justifyContent: 'center' }}
+                                    >
+                                        {owned ? 'ADQUIRIDO' : !canAfford ? 'SEM DINHEIRO' : !bossOk ? 'TÉCNICO BAIXO' : 'COMPRAR'}
+                                    </EfButton>
                                 </div>
                             );
                         })}
                     </div>
-                </div>
-            </div>
+                </EfPanel>
 
-            {/* Mental Break Modal */}
-            {mentalBreakModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h3>🧠 CRISE MENTAL — Stress em {player.stress}%</h3>
-                        <p>Você não aguenta mais a pressão. Precisa de uma válvula de escape.</p>
-                        <div className="modal-options">
-                            <button className="btn btn-secondary" onClick={() => handleMentalBreak('party')}>🎉 Sair pra festa (Stress -40, Boss -10)</button>
-                            <button className="btn btn-secondary" onClick={() => handleMentalBreak('isolation')}>🏠 Isolamento total (Stress -30, Team -8)</button>
-                            <button className="btn btn-secondary" onClick={() => handleMentalBreak('therapy')}>🧑‍⚕️ Terapia R$2000 (Stress -20)</button>
+                {/* SPEC-062 Sub-Attributes Panel (16 granular) */}
+                <EfPanel variant="elev" padding="md">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                        <h3 style={{ margin: 0, fontSize: '1rem' }}>🎯 SUB-ATRIBUTOS</h3>
+                        <EfButton
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => setShowSubAttrs(!showSubAttrs)}
+                        >
+                            {showSubAttrs ? 'OCULTAR' : 'MOSTRAR'}
+                        </EfButton>
+                    </div>
+                    {showSubAttrs && player.subAttrs && (
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px', marginTop: '12px' }}>
+                            {Object.entries(SUB_ATTRIBUTES).map(([base, subs]) => (
+                                <div key={base} style={{ border: '1px solid var(--border-subtle)', borderRadius: '4px', padding: '8px', background: 'var(--bg-panel-hover)' }}>
+                                    <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent)', marginBottom: '8px', textTransform: 'uppercase' }}>{base}</div>
+                                    {subs.map(sub => {
+                                        const lvl = player.subAttrs[sub] ?? 0;
+                                        const prog = player.subAttrProgress?.[sub] ?? 0;
+                                        return (
+                                            <div key={sub} style={{ marginBottom: '6px' }}>
+                                                <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.7rem', marginBottom: '4px' }}>
+                                                    <span>{sub} <strong>{lvl}</strong></span>
+                                                    <EfButton
+                                                        size="sm"
+                                                        variant="secondary"
+                                                        onClick={() => handleTrainSubAttr(sub)}
+                                                        disabled={!player.canAct}
+                                                        style={{ padding: '0 4px', height: 'auto', fontSize: '0.6rem' }}
+                                                    >TREINAR</EfButton>
+                                                </div>
+                                                <div style={{ height:'4px', background:'var(--bg-elevated)', borderRadius:'2px', overflow:'hidden', border: '1px solid var(--border-subtle)' }}>
+                                                    <div style={{ height:'100%', width:`${prog}%`, background:'#6ABC3A' }} />
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ))}
                         </div>
+                    )}
+                </EfPanel>
+
+                {/* SPEC-065 Loja Lifestyle — casa, carro, festas, caridade, investimentos, casamento */}
+                <EfPanel variant="elev" padding="md">
+                    <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem', marginTop: 0 }}>🏛️ LIFESTYLE</h3>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 0.75rem 0' }}>
+                        🏠 {player.lifestyle?.ownedHouse ? LIFESTYLE_CATALOG[player.lifestyle.ownedHouse]?.name : 'Sem casa'} • 
+                        🚗 {player.lifestyle?.ownedCar ? LIFESTYLE_CATALOG[player.lifestyle.ownedCar]?.name : 'Sem carro'} • 
+                        💑 {player.lifestyle?.isMarried ? 'Casado' : 'Solteiro'} • 
+                        😊 Mood {player.lifestyle?.mood ?? 50}%
                     </div>
-                </div>
-            )}
-
-            {/* Relationships */}
-            <div className="card">
-                <h3 style={{ marginBottom: '0.75rem' }}>Relacionamentos</h3>
-                <RelBar label="👔 Marcos Oliveira" value={player.relationships.boss} type="boss" />
-                <RelBar label="📣 Tio Dinho" value={player.relationships.fans} type="fans" />
-                <RelBar label="🤝 Rafael Monteiro" value={player.relationships.teammates} type="teammates" />
-                <RelBar label="💼 Patrícia Lemos" value={player.relationships.sponsors} type="sponsors" />
-            </div>
-
-            {/* Actions */}
-            <div className="card">
-                <h3 style={{ marginBottom: '0.75rem' }}>Ações da Semana</h3>
-                {player.isBenched && <div className="bench-warning">🔴 Você está no BANCO! Recupere energia ou melhore sua relação com o técnico.</div>}
-                <div className="action-bar">
-                    <button className="btn btn-primary btn-sm" onClick={() => handleTrain('technique')} disabled={!player.canAct}>🎯 Treinar TEC</button>
-                    <button className="btn btn-primary btn-sm" onClick={() => handleTrain('pace')} disabled={!player.canAct}>💨 Treinar PAC</button>
-                    <button className="btn btn-primary btn-sm" onClick={() => handleTrain('power')} disabled={!player.canAct}>💪 Treinar POW</button>
-                    <button className="btn btn-primary btn-sm" onClick={() => handleTrain('vision')} disabled={!player.canAct}>👁️ Treinar VIS</button>
-                    <button className="btn btn-accent btn-sm" onClick={handleRest} disabled={!player.canAct}>😴 Descansar</button>
-                    <button className="btn btn-secondary btn-sm" onClick={handleBuyDrink}>🛒 Energético (R$100)</button>
-                    <button className="btn btn-secondary btn-sm" onClick={handleUseDrink} disabled={player.energyDrinks <= 0}>🥤 Usar Energético</button>
-                </div>
-                {log && <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '0.5rem' }}>{log}</p>}
-                {offPitchResult && <p style={{ color: 'var(--accent)', fontSize: '0.8rem', marginTop: '0.5rem' }}>📰 {offPitchResult}</p>}
-            </div>
-
-            {/* Loja de Traits — uso de dinheiro modo carreira */}
-            <div className="card">
-                <h3 style={{ marginBottom: '0.5rem' }}>🛍️ Loja de Traits Especiais</h3>
-                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 0.75rem 0' }}>
-                    Habilidades únicas. Custam dinheiro + aprovação do técnico. Saldo atual: <strong>R$ {player.money}</strong>
-                </p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '8px' }}>
-                    {Object.entries(TRAITS_CATALOG).map(([id, t]) => {
-                        const owned = player.traits?.includes(id);
-                        const canAfford = player.money >= t.cost;
-                        const bossOk = player.relationships.boss >= t.requiredBoss;
-                        const disabled = owned || !canAfford || !bossOk;
-                        return (
-                            <div key={id} style={{
-                                border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))',
-                                borderRadius: '4px',
-                                padding: '0.5rem',
-                                background: owned ? 'rgba(106,188,58,0.1)' : 'transparent',
-                                opacity: disabled && !owned ? 0.7 : 1
-                            }}>
-                                <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '2px' }}>
-                                    {owned ? '✅ ' : ''}{t.name}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '8px' }}>
+                        {Object.entries(LIFESTYLE_CATALOG).map(([id, it]) => {
+                            const owned = (it.type === 'house' && player.lifestyle?.ownedHouse === id) ||
+                                          (it.type === 'car' && player.lifestyle?.ownedCar === id) ||
+                                          (it.type === 'event' && id === 'wedding' && player.lifestyle?.isMarried);
+                            const canAfford = player.money >= it.cost;
+                            const disabled = owned || !canAfford;
+                            return (
+                                <div key={id} style={{
+                                    border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))',
+                                    borderRadius: '4px',
+                                    padding: '8px',
+                                    opacity: disabled && !owned ? 0.65 : 1,
+                                    background: owned ? 'rgba(106,188,58,0.1)' : 'var(--bg-panel-hover)'
+                                }}>
+                                    <div style={{ fontSize: '0.78rem', fontWeight: 600, marginBottom: '2px' }}>
+                                        {it.emoji} {owned ? '✅ ' : ''}{it.name}
+                                    </div>
+                                    <div style={{ fontSize: '0.68rem', color: canAfford ? 'var(--primary)' : 'var(--danger)', margin: '4px 0 8px 0' }}>
+                                        R$ {it.cost.toLocaleString('pt-BR')}
+                                    </div>
+                                    <EfButton
+                                        size="sm"
+                                        variant={owned ? 'secondary' : 'primary'}
+                                        onClick={() => handleBuyLifestyle(id)}
+                                        disabled={disabled}
+                                        style={{ width: '100%', justifyContent: 'center' }}
+                                    >
+                                        {owned ? 'TEM' : !canAfford ? 'POBRE' : it.oneShot ? 'FAZER' : 'COMPRAR'}
+                                    </EfButton>
                                 </div>
-                                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
-                                    {t.description}
-                                </div>
-                                <div style={{ fontSize: '0.7rem', display: 'flex', gap: '8px', marginBottom: '6px' }}>
-                                    <span style={{ color: canAfford ? 'var(--primary)' : 'var(--danger)' }}>
-                                        💰 R$ {t.cost}
-                                    </span>
-                                    <span style={{ color: bossOk ? 'var(--primary)' : 'var(--danger)' }}>
-                                        👔 {t.requiredBoss}%
-                                    </span>
-                                </div>
-                                <button
-                                    className={`btn btn-sm ${owned ? 'btn-secondary' : 'btn-primary'}`}
-                                    onClick={() => handleBuyTrait(id)}
-                                    disabled={disabled}
-                                    style={{ width: '100%', fontSize: '0.7rem' }}
-                                >
-                                    {owned ? 'ADQUIRIDO' : !canAfford ? 'SEM DINHEIRO' : !bossOk ? 'TÉCNICO BAIXO' : 'COMPRAR'}
-                                </button>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-
-            {/* SPEC-062 Sub-Attributes Panel (16 granular) */}
-            <div className="card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                    <h3 style={{ margin: 0 }}>🎯 Sub-Atributos (16 detalhados)</h3>
-                    <button
-                        className="btn btn-sm btn-secondary"
-                        onClick={() => setShowSubAttrs(!showSubAttrs)}
-                    >
-                        {showSubAttrs ? 'Ocultar' : 'Mostrar'}
-                    </button>
-                </div>
-                {showSubAttrs && player.subAttrs && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '6px' }}>
-                        {Object.entries(SUB_ATTRIBUTES).map(([base, subs]) => (
-                            <div key={base} style={{ border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))', borderRadius: '4px', padding: '6px' }}>
-                                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent)', marginBottom: '4px', textTransform: 'uppercase' }}>{base}</div>
-                                {subs.map(sub => {
-                                    const lvl = player.subAttrs[sub] ?? 0;
-                                    const prog = player.subAttrProgress?.[sub] ?? 0;
-                                    return (
-                                        <div key={sub} style={{ marginBottom: '4px' }}>
-                                            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.7rem' }}>
-                                                <span>{sub} <strong>{lvl}</strong></span>
-                                                <button
-                                                    onClick={() => handleTrainSubAttr(sub)}
-                                                    disabled={!player.canAct}
-                                                    style={{
-                                                        fontSize:'0.6rem',
-                                                        padding:'1px 6px',
-                                                        background:'var(--accent)',
-                                                        color:'#0F1A14',
-                                                        border:'none',
-                                                        borderRadius:'2px',
-                                                        cursor: player.canAct ? 'pointer' : 'not-allowed',
-                                                        opacity: player.canAct ? 1 : 0.5
-                                                    }}
-                                                >TREINAR</button>
-                                            </div>
-                                            <div style={{ height:'3px', background:'var(--ef-color-bg-input)', borderRadius:'2px', overflow:'hidden' }}>
-                                                <div style={{ height:'100%', width:`${prog}%`, background:'#6ABC3A' }} />
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
-                )}
-            </div>
+                </EfPanel>
 
-            {/* SPEC-065 Loja Lifestyle — casa, carro, festas, caridade, investimentos, casamento */}
-            <div className="card">
-                <h3 style={{ marginBottom: '0.5rem' }}>🏛️ Lifestyle — Use Seu Dinheiro</h3>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 0.75rem 0' }}>
-                    🏠 {player.lifestyle?.ownedHouse ? LIFESTYLE_CATALOG[player.lifestyle.ownedHouse]?.name : 'Sem casa'} •
-                    🚗 {player.lifestyle?.ownedCar ? LIFESTYLE_CATALOG[player.lifestyle.ownedCar]?.name : 'Sem carro'} •
-                    💑 {player.lifestyle?.isMarried ? 'Casado' : 'Solteiro'} •
-                    😊 Mood {player.lifestyle?.mood ?? 50}%
+                <EfButton variant="primary" onClick={handleAdvance} style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '1.1rem' }}>
+                    ⚽ AVANÇAR PARA A PARTIDA (SEMANA {engine.currentWeek + 1})
+                </EfButton>
+
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView('standings')}>📊 TABELA</EfButton>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView('achievements')}>🏆 CONQUISTAS</EfButton>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '6px' }}>
-                    {Object.entries(LIFESTYLE_CATALOG).map(([id, it]) => {
-                        const owned = (it.type === 'house' && player.lifestyle?.ownedHouse === id) ||
-                                      (it.type === 'car' && player.lifestyle?.ownedCar === id) ||
-                                      (it.type === 'event' && id === 'wedding' && player.lifestyle?.isMarried);
-                        const canAfford = player.money >= it.cost;
-                        const disabled = owned || !canAfford;
-                        return (
-                            <div key={id} style={{
-                                border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))',
-                                borderRadius: '4px',
-                                padding: '6px',
-                                opacity: disabled && !owned ? 0.65 : 1,
-                                background: owned ? 'rgba(106,188,58,0.1)' : 'transparent'
-                            }}>
-                                <div style={{ fontSize: '0.78rem', fontWeight: 600 }}>
-                                    {it.emoji} {owned ? '✅ ' : ''}{it.name}
-                                </div>
-                                <div style={{ fontSize: '0.68rem', color: canAfford ? 'var(--primary)' : 'var(--danger)', margin: '2px 0' }}>
-                                    R$ {it.cost.toLocaleString('pt-BR')}
-                                </div>
-                                <button
-                                    className={`btn btn-sm ${owned ? 'btn-secondary' : 'btn-primary'}`}
-                                    onClick={() => handleBuyLifestyle(id)}
-                                    disabled={disabled}
-                                    style={{ width: '100%', fontSize: '0.65rem', padding: '4px' }}
-                                >
-                                    {owned ? 'TEM' : !canAfford ? 'POBRE' : it.oneShot ? 'FAZER' : 'COMPRAR'}
-                                </button>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-
-            <button className="btn btn-primary" onClick={handleAdvance} style={{ width: '100%' }}>
-                ⚽ AVANÇAR PARA A PARTIDA (Semana {engine.currentWeek + 1})
-            </button>
-
-            <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView('standings')}>📊 Tabela</button>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView('achievements')}>🏆 Conquistas</button>
             </div>
         </div>
     );
 }
+
+export default PlayerDashboardView;
