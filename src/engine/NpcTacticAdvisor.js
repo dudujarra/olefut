@@ -27,6 +27,12 @@ export function adviseTactic({ currentTactic, recentResults = [], squadOvr = 65,
     const losses = countTrailingLosses(recentResults);
     const ovrDiff = squadOvr - opponentOvr;
 
+    // BUG-081: boredom rotation — prevent stagnation even for winning teams
+    if (tacticAge >= 10 && rand() < 0.30) {
+        const newTactic = selectNewTactic(currentTactic, ovrDiff, rand);
+        return { tactic: newTactic, changed: true, reason: 'boredom_rotation' };
+    }
+
     // Stabilize after 2+ wins with current tactic (don't change a winning formula)
     const recentWins = recentResults.slice(0, 2).filter(r => r === 'W').length;
     if (recentWins >= 2 && tacticAge >= 2) {
