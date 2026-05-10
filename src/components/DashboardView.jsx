@@ -1,75 +1,21 @@
 import React, { useState } from 'react';
+import { Help } from './Help';
 import { useGame } from '../context/GameContext';
 import { FORMATIONS, TACTICS, TEAM_TALKS, TRAINING_TYPES } from '../engine/ManagerSystems';
 
 import { STAFF_ROLES, SCOUT_REGIONS, getStadiumInfo } from '../engine/StadiumSystem';
 import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
-import { Help } from './Help';
-import { Tooltip } from './Tooltip';
-import { DashboardHeader, DashboardAlerts, DashboardFooter } from './dashboard';
-import { LongTermGoals } from './LongTermGoals';
-import { ChallengesWidget } from './ChallengesWidget';
-import { LiveOpsBanner } from './LiveOpsBanner';
-import { EfBanner } from './ui';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
     const engine = getEngine();
     const team = engine.getTeam(gameState.teamId);
-
-    // BUG-021 fix: hooks BEFORE early return (Rules of Hooks)
-    // React error #310 fires when team transitions exists→null across renders.
+    // BUG-021: all hooks declared before early return
     const [log, setLog] = useState('');
     const [tab, setTab] = useState('overview');
-    const [banner, setBanner] = React.useState(null);
-    const prevOffersRef = React.useRef(engine.transferOffers?.length || 0);
-    const prevConfidenceRef = React.useRef(engine.board?.confidence ?? 60);
-    const prevSeasonRef = React.useRef(engine.seasonNumber);
-    const prevSponsorRef = React.useRef(engine.currentSponsor?.name || null);
-    const prevInjuriesRef = React.useRef((engine.getTeam(gameState.teamId)?.squad || []).filter(p => p.injury).length);
-    const prevSuspensionsRef = React.useRef((engine.getTeam(gameState.teamId)?.squad || []).filter(p => p.suspension > 0).length);
-
-    // Hook: detect engine events and surface as full-screen banners
     React.useEffect(() => {
         if (!team) return;
-        const offerCount = engine.transferOffers?.length || 0;
-        if (offerCount > prevOffersRef.current) setBanner('offer');
-        prevOffersRef.current = offerCount;
-
-        const conf = engine.board?.confidence ?? 60;
-        if (conf < 10 && prevConfidenceRef.current >= 10) setBanner('fired');
-        prevConfidenceRef.current = conf;
-
-        // Season transition: champion / promotion / relegation
-        if (engine.seasonNumber > prevSeasonRef.current) {
-            const lastSeasonRecord = engine.legacy?.history?.[engine.legacy.history.length - 1];
-            if (lastSeasonRecord) {
-                if (lastSeasonRecord.position === 1) setBanner('champion');
-                else if (/sub|promo/i.test(lastSeasonRecord.title || '')) setBanner('promotion');
-                else if (/cai|releg/i.test(lastSeasonRecord.title || '')) setBanner('relegation');
-            }
-            prevSeasonRef.current = engine.seasonNumber;
-        }
-
-        // Sponsor signed
-        const curSponsor = engine.currentSponsor?.name || null;
-        if (curSponsor && curSponsor !== prevSponsorRef.current) {
-            if (prevSponsorRef.current !== null) setBanner('sponsor');
-            prevSponsorRef.current = curSponsor;
-        }
-
-        // New injury / suspension
-        const teamRef = engine.getTeam(gameState.teamId);
-        if (teamRef) {
-            const injCount = teamRef.squad.filter(p => p.injury).length;
-            if (injCount > prevInjuriesRef.current) setBanner('injury');
-            prevInjuriesRef.current = injCount;
-
-            const suspCount = teamRef.squad.filter(p => p.suspension > 0).length;
-            if (suspCount > prevSuspensionsRef.current) setBanner('suspension');
-            prevSuspensionsRef.current = suspCount;
-        }
-    });
+    }, [team]);
 
     if (!team) return <div className="main-content">Time não encontrado.</div>;
 
@@ -94,38 +40,42 @@ export function DashboardView() {
 
     return (
         <div className="main-content fade-in">
-            {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
+            {/* === COMPACT HEADER === */}
+            <div className="card" style={{padding:'0.75rem 1rem'}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                    <div>
+                        <h2 style={{fontSize:'1.2rem',margin:0}}>{team.name}</h2>
+                        <span style={{fontSize:'0.72rem',color:'var(--text-muted)'}}>
+                            {pos}º • Série {['A','B','C','D'][team.division - 1]} • {stats.wins}V {stats.draws}E {stats.losses}D
+                            {stats.streak > 0 ? ` 🔥${stats.streak}` : stats.streak < 0 ? ` ❄️${Math.abs(stats.streak)}` : ''}
+                        </span>
+                    </div>
+                    <div style={{textAlign:'right'}}>
+                        <div style={{fontSize:'1.1rem',fontWeight:700,color: team.balance > 0 ? 'var(--primary)' : 'var(--danger)'}}>
+                            R$ {(team.balance / 1000000).toFixed(1)}M
+                        </div>
+                        {boardStatus && <div style={{fontSize:'0.65rem',color: boardStatus.color}} title={`Diretoria: ${boardStatus.label} (${engine.board?.confidence ?? 60}%). Demissão se < 10%.`}>{boardStatus.emoji} {boardStatus.label}</div>}
+                    </div>
+                </div>
+                {/* Season progress */}
+                <div className="progress-bar" style={{marginTop:'0.4rem'}}>
+                    <div className="progress-bar-fill" style={{width: `${(seasonWeek / 38) * 100}%`}}></div>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.65rem',color:'var(--text-muted)'}}>
+                    <span>Temp {engine.seasonNumber} • Semana {seasonWeek}/38</span>
+                    {legacyLevel && <span>{legacyLevel.emoji} {legacyLevel.label}</span>}
+                </div>
+            </div>
 
-            {/* SPEC-098 Live Ops banner */}
-            <LiveOpsBanner />
-
-            {/* === HEADER (Stitch refactor) === */}
-            <DashboardHeader
-                team={team}
-                stats={{ ...stats, position: pos }}
-                boardStatus={boardStatus}
-                board={engine.board}
-                balance={team.balance}
-                seasonWeek={seasonWeek}
-                seasonNumber={engine.seasonNumber}
-                legacyLevel={legacyLevel}
-                division={team.division}
-            />
-
-            {/* === ALERTS (Stitch refactor) === */}
-            <DashboardAlerts
-                injured={injured}
-                expiringContracts={expiringContracts}
-                avgEnergy={avgEnergy}
-                transferOffersCount={engine.transferOffers?.length ?? 0}
-                onOpenTransfers={() => setTab('transfers')}
-            />
-
-            {/* SPEC-102 Long-Term Goals widget */}
-            <LongTermGoals engine={engine} team={team} />
-
-            {/* SPEC-103 Weekly Challenges */}
-            <ChallengesWidget />
+            {/* === ALERTS === */}
+            {(injured.length > 0 || expiringContracts.length > 0 || avgEnergy < 50 || (engine.transferOffers?.length ?? 0) > 0) && (
+                <div className="alert-strip">
+                    {injured.length > 0 && <span className="alert-badge danger">🏥 {injured.length} lesionado{injured.length > 1 ? 's' : ''}</span>}
+                    {expiringContracts.length > 0 && <span className="alert-badge warning">📋 {expiringContracts.length} contrato{expiringContracts.length > 1 ? 's' : ''} vencendo</span>}
+                    {avgEnergy < 50 && <span className="alert-badge danger">⚡ Elenco cansado ({avgEnergy.toFixed(0)}%)</span>}
+                    {(engine.transferOffers?.length ?? 0) > 0 && <span className="alert-badge info" style={{cursor:'pointer'}} onClick={() => setTab('transfers')}>📬 {(engine.transferOffers?.length ?? 0)} oferta{(engine.transferOffers?.length ?? 0) > 1 ? 's' : ''}</span>}
+                </div>
+            )}
 
             {/* === NEXT MATCH CTA (Stitch scoreboard-card style) === */}
             <div className="card scoreboard-card next-match-card" style={{padding:'0.75rem 1rem',background:'linear-gradient(135deg, rgba(17,24,39,0.9), rgba(16,185,129,0.05))'}}>
@@ -147,8 +97,8 @@ export function DashboardView() {
                     <Help id="sector.def"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.defense}</span><span className="stat-label">DEF</span></div></Help>
                     <Help id="sector.mei"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.midfield}</span><span className="stat-label">MEI</span></div></Help>
                     <Help id="sector.ata"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem'}}>{sectors.attack}</span><span className="stat-label">ATA</span></div></Help>
-                    <Help id="sector.moral_avg"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem',color: avgMoral > 60 ? 'var(--primary)' : avgMoral < 40 ? 'var(--danger)' : 'var(--accent)'}}>{avgMoral.toFixed(0)}%</span><span className="stat-label">MORAL</span></div></Help>
-                    <Help id="stat.energia"><div className="inline-stat"><span className="stat-value" style={{fontSize:'0.9rem',color: avgEnergy < 50 ? 'var(--danger)' : 'var(--primary)'}}>{avgEnergy.toFixed(0)}%</span><span className="stat-label">ENERGIA</span></div></Help>
+                    <div className="inline-stat" title="Moral média do plantel (>60 bom, <40 crítico)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgMoral > 60 ? 'var(--primary)' : avgMoral < 40 ? 'var(--danger)' : 'var(--accent)'}}>{avgMoral.toFixed(0)}%</span><span className="stat-label">MORAL</span></div>
+                    <div className="inline-stat" title="Energia média (<50 risco lesão)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgEnergy < 50 ? 'var(--danger)' : 'var(--primary)'}}>{avgEnergy.toFixed(0)}%</span><span className="stat-label">ENERGIA</span></div>
                 </div>
                 <button className="btn-cta" onClick={() => {
                     engine.checkPressConference();
@@ -168,9 +118,6 @@ export function DashboardView() {
 
             {/* Feedback log */}
             {log && <div className="event-toast success" onClick={() => setLog('')}>{log}</div>}
-
-            {/* === TAB CONTENT WRAPPER (for animation) === */}
-            <div key={tab} className="ef-anim-fade-in">
 
             {/* === TAB: OVERVIEW === */}
             {tab === 'overview' && (
@@ -465,25 +412,22 @@ export function DashboardView() {
                 </div>
             )}
 
-            </div>
-            {/* === END TAB CONTENT WRAPPER === */}
-
             {/* Bottom Nav */}
-            <div className="action-bar" style={{marginTop:'0.5rem', flexWrap:'wrap'}}>
+            <div className="action-bar" style={{marginTop:'0.5rem'}}>
                 <button className="btn btn-secondary" onClick={() => changeView('squad')}>👥 Plantel</button>
                 <button className="btn btn-secondary" onClick={() => changeView('market')}>🛒 Mercado</button>
                 <button className="btn btn-secondary" onClick={() => changeView('standings')}>📊 Tabela</button>
-                <button className="btn btn-secondary" onClick={() => changeView('achievements')}>🏆 Conquistas</button>
-                <button className="btn btn-secondary" onClick={() => changeView('press')}>🎙️ Coletiva</button>
-                <button className="btn btn-secondary" onClick={() => changeView('saves')}>💾 Saves</button>
             </div>
 
-            {/* Status Footer (Stitch refactor) */}
-            <DashboardFooter
-                division={team.division}
-                seasonWeek={seasonWeek}
-                seasonNumber={engine.seasonNumber}
-            />
+            {/* Status Footer (Stitch v2 design) */}
+            <div className="status-footer">
+                <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap'}}>
+                    <span><span className="label">LIGA:</span>SÉRIE {['A','B','C','D'][team.division - 1]}</span>
+                    <span><span className="label">RODADA:</span>{seasonWeek}/38</span>
+                    <span><span className="label">TEMP:</span>{engine.seasonNumber}</span>
+                </div>
+                <div className="build">ELIFOOT MANAGER 2026 — BUILD 0.9.0</div>
+            </div>
         </div>
     );
 }
