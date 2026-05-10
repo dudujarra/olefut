@@ -17,12 +17,14 @@
 
 import React from 'react';
 import { getClubColors, getClubSprite, SPRITE_SHEETS } from '../../data/clubColors';
+import { HIGH_END_SHIELDS } from '../../assets/shields/high_end';
 
 const SIZE_PX = {
     sm: 24,
     md: 48,
     lg: 96,
-    xl: 128
+    xl: 128,
+    xxl: 180
 };
 
 export function EfClubBadge({
@@ -30,7 +32,8 @@ export function EfClubBadge({
     size = 'md',
     style = {},
     showName = false,
-    onClick = null
+    onClick = null,
+    forceHighEnd = false // If true, forces the high-end look
 }) {
     const colors = getClubColors(name);
     const sprite = getClubSprite(name);
@@ -51,9 +54,13 @@ export function EfClubBadge({
         onClick
     };
 
+    const highEndImg = HIGH_END_SHIELDS[name];
+
     return (
         <div style={wrapperStyle} {...badgeProps}>
-            {sprite ? (
+            {highEndImg ? (
+                <img src={highEndImg} alt={name} style={{ width: px, height: px, borderRadius: px * 0.1, boxShadow: '0 4px 12px rgba(0,0,0,0.5)', imageRendering: 'auto' }} />
+            ) : sprite ? (
                 <SpriteBadge sprite={sprite} px={px} />
             ) : (
                 <FallbackBadge colors={colors} px={px} />

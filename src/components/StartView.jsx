@@ -4,6 +4,7 @@ import { RealDB } from '../engine/db/index';
 import { PERSONALITIES } from '../engine/PlayerCareer';
 import { isTutorialDone } from './TutorialView';
 import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
+import { EfClubBadge } from './ui/EfClubBadge';
 
 import gameLogo from '../assets/shields/olefut_main_logo.png';
 
@@ -36,6 +37,8 @@ export function StartView() {
     const handleAutoPlay = () => {
         changeView('autoplay');
     };
+
+    const selectedTeamName = allTeams.find(t => t.id === parseInt(teamId))?.name;
 
     return (
         <div className="start-view ef-anim-fade-in ef-art-bg ef-art-champion-celebration" style={{background: 'var(--bg-dark)'}}>
@@ -75,12 +78,19 @@ export function StartView() {
                     </select>
                 )}
 
-                <select id="select-team" value={teamId} onChange={e => setTeamId(e.target.value)}>
-                    <option value="">Selecione seu time...</option>
-                    {allTeams.map(t => (
-                        <option key={t.id} value={t.id}>{t.name} ({t.zone} - Div {t.div})</option>
-                    ))}
-                </select>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: 'rgba(0,0,0,0.3)', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid var(--border)' }}>
+                    <select id="select-team" value={teamId} onChange={e => setTeamId(e.target.value)} style={{ flex: 1, margin: 0, border: 'none' }}>
+                        <option value="">Selecione seu time...</option>
+                        {allTeams.map(t => (
+                            <option key={t.id} value={t.id}>{t.name} ({t.zone} - Div {t.div})</option>
+                        ))}
+                    </select>
+                    {selectedTeamName && (
+                        <div className="ef-anim-slide-up" style={{ width: '48px', height: '48px', flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <EfClubBadge name={selectedTeamName} size="md" />
+                        </div>
+                    )}
+                </div>
 
                 {/* Difficulty selector */}
                 <div style={{ marginTop: '0.5rem' }}>
