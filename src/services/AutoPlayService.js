@@ -31,7 +31,12 @@ const FORMATION_POOL = ['4-3-3', '4-4-2', '4-2-3-1', '3-5-2'];
 const TELEMETRY_INTERVAL_WEEKS = 5;
 // BUG-029 fix: rotation cap — TRAIN was 94% of decisions in playtest.
 // Decision pool ensures TRAIN ≤30%, FORMATION/TACTIC/MARKET/VIEW share rest.
-const VIEW_ROTATION = ['dashboard', 'squad', 'market', 'standings', 'press'];
+// SPEC-104: expanded to 10 views; 'press' renamed to 'pressView' to match KNOWN_VIEWS.
+// Also includes matchView, rivalries, chronicle, achievements, monitor.
+const VIEW_ROTATION = [
+    'dashboard', 'squad', 'market', 'standings', 'pressView',
+    'matchView', 'rivalries', 'chronicle', 'achievements', 'monitor'
+];
 
 export class AutoPlayController {
     constructor(engine) {
@@ -507,10 +512,11 @@ export class AutoPlayController {
             }
         }
 
-        // Decision 5: Stadium/Academy upgrade once per 5 seasons if balance allows
-        if (this.stats.seasonsPlayed > 0 && this.stats.seasonsPlayed % 5 === 0 && this.stats.weeksPlayed % 38 === 1) {
+        // Decision 5: Stadium/Academy upgrade every 2 seasons (was 5 — too slow, balance stagnated).
+        // SPEC-100: more frequent big spending increases balance variance (CV was 1.1%).
+        if (this.stats.seasonsPlayed > 0 && this.stats.seasonsPlayed % 2 === 0 && this.stats.weeksPlayed % 38 === 1) {
             const team = engine.getTeam(teamId);
-            if (team && team.balance > 5000000) {
+            if (team && team.balance > 3_000_000) {
                 if (engine.upgradeStadium) {
                     engine.upgradeStadium();
                     this._logDecision('UPGRADE_STADIUM', {}, 0);
@@ -756,17 +762,28 @@ export class AutoPlayController {
                     // Telemetry match outcome
                     try {
                         const team = this.engine.getTeam(myTeamId);
+                        const standings = team ? this.engine.getStandings(team.zone, team.division) : [];
+                        const myPos = team ? (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length : 10;
+                        const oppId = isHome ? m.away : m.home;
+                        const oppPos = standings.findIndex(s => s.teamId === oppId) + 1;
+                        const n = standings.length;
+                        // SPEC-108/102: mark as important if late season, top-3 clash, or promotion/relegation battle
+                        const seasonWeek = this.engine.currentWeek;
+                        const isTopClash = oppPos > 0 && oppPos <= 3 && myPos <= 6;
+                        const isRelBattle = oppPos >= (n - 3) && myPos >= (n - 5);
+                        const isDecisive = seasonWeek >= 34;
+                        const isImportantMatch = m.isImportant || isTopClash || isRelBattle || isDecisive;
                         this.telemetry.record({
                             matchOutcome: {
-                                week: this.engine.currentWeek,
+                                week: seasonWeek,
                                 season: this.engine.seasonNumber,
                                 division: team?.division || 1,
                                 myGoals,
                                 oppGoals,
-                                oppId: isHome ? m.away : m.home,
-                                oppName: m.oppName || `team-${isHome ? m.away : m.home}`,
+                                oppId,
+                                oppName: m.oppName || `team-${oppId}`,
                                 result: outcome,
-                                isImportant: !!m.isImportant,
+                                isImportant: isImportantMatch,
                                 hadComeback: !!m.hadComeback
                             }
                         });
