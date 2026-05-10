@@ -57,15 +57,18 @@ export const detect = safeDetect(SPEC, NAME, (state) => {
     }
 
     // 4. MARKET_DEAD — zero offers in N weeks
+    // BUG-083: transfer windows are weeks 1-4 and 20-24 (38-week season).
+    // Any 20-week span includes ≥1 window, so 10-week check caused false positives
+    // during off-window weeks 5-19. Extended to 20 weeks minimum.
     const offers = history.offerCounts || [];
-    if (offers.length >= 10) {
-        const recent = offers.slice(-10);
+    if (offers.length >= 20) {
+        const recent = offers.slice(-20);
         const total = recent.reduce((s, n) => s + n, 0);
         if (total === 0) {
             signals.push({
                 id: 'MARKET_DEAD',
                 severity: 1,
-                msg: 'Zero ofertas nas últimas 10 semanas'
+                msg: 'Zero ofertas nas últimas 20 semanas'
             });
         }
     }
