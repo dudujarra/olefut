@@ -416,7 +416,15 @@ export function MatchView() {
 
     // === SCOREBOARD (shared between phases) ===
     const Scoreboard = ({ half }) => (
-        <EfPanel variant="elev" padding="md" className={`${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{ textAlign: 'center', position: 'relative' }}>
+        <div className={`${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{
+            position: 'relative',
+            backgroundColor: '#1E2124',
+            border: '4px solid',
+            borderColor: '#3A4047 #111417 #111417 #3A4047',
+            padding: '12px',
+            boxShadow: '0 16px 0 rgba(0,0,0,0.5)',
+            marginBottom: '24px'
+        }}>
             <div
                 className="ef-anim-crowd-flag-wave"
                 aria-hidden="true"
@@ -424,7 +432,7 @@ export function MatchView() {
                     position: 'absolute',
                     top: '4px',
                     right: '4px',
-                    opacity: 0.55,
+                    opacity: 0.25,
                     pointerEvents: 'none',
                     zIndex: 1
                 }}
@@ -473,34 +481,106 @@ export function MatchView() {
                     }}
                 />
             )}
+
+            {/* Top Info Bar */}
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '24px',
+                marginBottom: '16px',
+                fontFamily: "'Press Start 2P', monospace",
+                fontSize: '0.8rem',
+                color: '#FFD700',
+                textShadow: '2px 2px 0 #000'
+            }}>
+                <div style={{ flex: 1, textAlign: 'right' }}>HOME</div>
+                <div style={{
+                    backgroundColor: '#000',
+                    border: '2px solid',
+                    borderColor: '#111 #333 #333 #111',
+                    padding: '4px 8px',
+                    color: '#FF6B00'
+                }}>
+                    HALF: {half.includes('1') ? '1st' : '2nd'}
+                </div>
+                <div style={{ flex: 1, textAlign: 'left' }}>VISITOR</div>
+            </div>
+
             <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
-                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'8px'}}>
                     <EfClubBadge name={result.home} size="lg" />
-                    <span className="team-name">{result.home}</span>
+                    <span className="team-name" style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem'}}>{result.home}</span>
                 </div>
-                <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
-                    <div className={`match-score ${goalBurstActive ? 'ef-anim-counter' : ''}`}>{runningScore.home} — {runningScore.away}</div>
-                    {/* Cronômetro */}
+                
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'8px'}}>
+                    {/* Score LED Block */}
                     <div style={{
-                        display:'flex',alignItems:'center',gap:'0.5rem',marginTop:'0.3rem'
+                        display: 'flex',
+                        gap: '8px',
+                        backgroundColor: '#0A0A0A',
+                        padding: '12px 24px',
+                        border: '4px solid',
+                        borderColor: '#050505 #222 #222 #050505',
+                        boxShadow: 'inset 0 0 10px #000'
                     }}>
-                        <span style={{
-                            fontFamily:'Outfit',fontWeight:700,fontSize:'1.4rem',
-                            color: isPlaying ? 'var(--primary)' : 'var(--text-muted)',
-                            minWidth:'3rem',textAlign:'center'
-                        }}>
-                            {currentMinute}'
-                        </span>
-                        {isPlaying && <span className="pulse live-indicator" style={{fontSize:'0.6rem',color:'var(--danger)'}}>● AO VIVO</span>}
+                        <div className={`match-score ${goalBurstActive ? 'ef-anim-counter' : ''}`} style={{
+                            fontFamily: "monospace", 
+                            fontWeight: 900,
+                            fontSize: '4rem',
+                            color: '#FF3333',
+                            textShadow: '0 0 10px rgba(255,51,51,0.5)',
+                            lineHeight: 1
+                        }}>{runningScore.home}</div>
+                        <div style={{
+                            fontFamily: "monospace", 
+                            fontWeight: 900,
+                            fontSize: '4rem',
+                            color: '#444',
+                            lineHeight: 1,
+                            margin: '0 8px'
+                        }}>-</div>
+                        <div className={`match-score ${goalBurstActive ? 'ef-anim-counter' : ''}`} style={{
+                            fontFamily: "monospace", 
+                            fontWeight: 900,
+                            fontSize: '4rem',
+                            color: '#FF3333',
+                            textShadow: '0 0 10px rgba(255,51,51,0.5)',
+                            lineHeight: 1
+                        }}>{runningScore.away}</div>
                     </div>
-                    <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>{half}</span>
+                    
+                    {/* Time LED Block */}
+                    <div style={{
+                        backgroundColor: '#0A0A0A',
+                        padding: '6px 16px',
+                        border: '2px solid',
+                        borderColor: '#050505 #222 #222 #050505',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                    }}>
+                        <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.5rem', color: '#6ABC3A', marginBottom: '4px'}}>TIME</span>
+                        <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
+                            <span style={{
+                                fontFamily: "'Press Start 2P', monospace",
+                                fontSize: '1.2rem',
+                                color: isPlaying ? '#FFD700' : '#888',
+                                textShadow: isPlaying ? '0 0 5px rgba(255,215,0,0.5)' : 'none'
+                            }}>
+                                {String(currentMinute).padStart(2, '0')}:00
+                            </span>
+                            {isPlaying && <span className="pulse live-indicator" style={{fontSize:'0.5rem',color:'#FF3333', marginTop: '2px'}}>●REC</span>}
+                        </div>
+                    </div>
                 </div>
-                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'8px'}}>
                     <EfClubBadge name={result.away} size="lg" />
-                    <span className="team-name">{result.away}</span>
+                    <span className="team-name" style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem'}}>{result.away}</span>
                 </div>
             </div>
-        </EfPanel>
+        </div>
     );
 
     // === FIRST HALF ===
