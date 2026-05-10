@@ -1,0 +1,389 @@
+/**
+ * WeekProcessor — Extracted from engine.advanceWeek() (AKITA-RFCT-005)
+ *
+ * Processa todos os eventos semanais do modo manager:
+ * - Energia, finanças, transferências, squad health
+ * - Win/Loss tracking + SPEC-072/076/077/080 hooks
+ * - Lesões, contratos, board, empréstimos
+ * - Player development, growth, view unlocks
+ * - Dressing room, morale, mentoring, retirement
+ * - Youth intake, calendar events, sponsor
+ * - SPEC-073 (Coach Proposal), SPEC-074 (Organic Challenge)
+ *
+ * Invariante RFCT-005:
+ * - Mesma ordem de execução que advanceWeek original
+ * - Mutações no engine são feitas via referência (engine é passado como param)
+ * - Zero mudança comportamental — golden master preservado
+ */
+
+import { calculateWeeklyFinances, rollMatchCondition } from '../engine/ManagerSystems';
+import { checkSquadHealth } from '../engine/SquadHealthMonitor';
+import { generateRealTransferOffers } from '../engine/MarketPricer';
+import { evaluateGrowth } from '../engine/GrowthEventSystem';
+import { evaluateNewUnlocks, persistUnlock } from '../engine/ViewUnlockSystem';
+import { processMatchInjuries, healInjury } from '../engine/InjurySystem';
+import { processPlayerDevelopment, updateForm, processDressingRoom } from '../engine/PlayerDevelopment';
+import { processMoraleEvents, processMentoring } from '../engine/PlayerTraits';
+import { processLoans } from '../engine/YouthAcademy';
+import { getCalendarEvent } from '../engine/SeasonSystem';
+import { apply as applyBoardTension } from '../engine/BoardTensionSystem';
+import { evaluate as evaluateHumiliation } from '../engine/HumiliationCascadeSystem';
+import { evaluate as evaluateLossStreak, recordResult as recordStreakResult } from '../engine/LossStreakResponseSystem';
+import { evaluate as evaluateCoachProposal } from '../engine/CoachProposalSystem';
+import { evaluate as evaluateOrganicChallenge } from '../engine/OrganicChallengeSystem';
+
+export class WeekProcessor {
+    /**
+     * Processa semana do modo manager.
+     *
+     * @param {Engine} engine — referência mutável para state global
+     * @param {object} weekResults — resultados das rodadas dos torneios
+     */
+    process(engine, weekResults) {
+        const team = engine.getTeam(engine.manager.teamId);
+        if (!team) return;
+
+        // Energy management based on training
+        team.squad.forEach(p => {
+            if (p.isTitular) {
+                p.energy = Math.max(0, p.energy - (Math.floor(Math.random() * 10) + 12));
+            } else {
+                p.energy = Math.min(100, p.energy + 12);
+            }
+        });
+
+        // Finanças detalhadas
+        engine.weeklyFinance = calculateWeeklyFinances(team, weekResults, team.id);
+        // Staff costs
+        const staffCost = engine.staff.getWeeklyCost();
+        if (staffCost > 0) {
+            engine.weeklyFinance.expenses += staffCost;
+            engine.weeklyFinance.details.push({ label: 'Staff', amount: staffCost, type: 'expense' });
+        }
+        team.balance += engine.weeklyFinance.income - engine.weeklyFinance.expenses;
+
+        // Match condition para próxima partida
+        engine.matchCondition = rollMatchCondition();
+
+        // Transfer offers (janelas) — SPEC-133: precificação real
+        const newOffers = generateRealTransferOffers(team, engine.currentWeek);
+        if (newOffers.length > 0) {
+            engine.transferOffers.push(...newOffers);
+        }
+
+        // SPEC-132: squad emergency check (player-manager)
+        const squadAvail = team.squad.filter(p => !p.injury && !p._retired).length;
+        const healthCheck = checkSquadHealth({
+            teamId: team.id,
+            squadSize: squadAvail,
+            budget: team.balance,
+            isPlayerManager: true,
+            week: engine.currentWeek,
+            squadAvgOvr: Math.round(team.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (team.squad.length || 1)),
+            marketPlayers: engine.marketPlayers,
+            _cooldowns: engine._squadMonitorCooldowns,
+        });
+        if (healthCheck.triggered) {
+            engine._squadMonitorCooldowns[team.id] = engine.currentWeek;
+            if (healthCheck.alertMessage) {
+                engine.weekEvents.push(healthCheck.alertMessage);
+            }
+        }
+
+        // Win/Loss tracking + narrative hooks
+        this._processMatchResult(engine, team, weekResults);
+
+        // Lesões pós-partida
+        engine.weekInjuries = processMatchInjuries(team.squad);
+
+        // Curar lesões em andamento
+        team.squad.forEach(p => {
+            if (p.injury) healInjury(p);
+        });
+
+        // Contratos: reduzir semanas
+        team.squad.forEach(p => {
+            if (p.contract) p.contract.weeksLeft--;
+        });
+
+        // Remover jogadores com contrato vencido (exceto titulares)
+        const expiredPlayers = team.squad.filter(p => p.contract && p.contract.weeksLeft <= 0 && !p.isTitular);
+        if (expiredPlayers.length > 0) {
+            engine.weekEvents.push(...expiredPlayers.map(p => `📋 ${p.name} saiu: contrato encerrado.`));
+            team.squad = team.squad.filter(p => !(p.contract && p.contract.weeksLeft <= 0 && !p.isTitular));
+        }
+
+        // Board confidence
+        if (engine.board) {
+            const standings = engine.getStandings(team.zone, team.division);
+            const pos = standings.findIndex(s => s.teamId === team.id) + 1;
+            const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / team.squad.length;
+            engine.board.updateConfidence(pos, standings.length, engine.managerStats.streak, avgMorale, team.balance, engine.currentWeek);
+        }
+
+        // Process loans
+        if (engine.loanedOut.length > 0) {
+            const returned = processLoans(engine.loanedOut, team);
+            returned.forEach(p => {
+                engine.weekEvents.push(p.loanResult || `${p.name} voltou do empréstimo.`);
+            });
+            engine.loanedOut = engine.loanedOut.filter(l => l.weeksLeft > 0);
+        }
+
+        // Player Development (weekly growth/decline)
+        team.squad.forEach(p => {
+            const devChanges = processPlayerDevelopment(p);
+            devChanges.forEach(c => {
+                if (c.type === 'growth') engine.weekEvents.push(`📈 ${c.player}: ${c.attr} ${c.from}→${c.to}`);
+                if (c.type === 'decline') engine.weekEvents.push(`📉 ${c.player}: ${c.attr} ${c.from}→${c.to}`);
+            });
+        });
+
+        // SPEC-134: growth events (breakthroughs, hot streaks, peak season)
+        const recentForm = (() => {
+            const streak = engine.managerStats.streak;
+            if (streak > 0) return Array(Math.min(streak, 8)).fill('W');
+            if (streak < 0) return Array(Math.min(-streak, 8)).fill('L');
+            return [];
+        })();
+        const growthResult = evaluateGrowth({
+            teamId: team.id,
+            week: engine.currentWeek,
+            season: engine.seasonNumber,
+            players: team.squad,
+            teamRecentResults: recentForm,
+        });
+        growthResult.growthEvents.forEach(evt => {
+            if (evt.type === 'youth_breakthrough') engine.weekEvents.push(`⭐ ${evt.playerName} explodiu! OVR +${evt.ovrDelta}`);
+            if (evt.type === 'hot_streak') engine.weekEvents.push(`🔥 ${evt.playerName} em grande fase! (+3 OVR temporário)`);
+            if (evt.type === 'peak_season') engine.weekEvents.push(`📈 ${evt.playerName} na melhor fase da carreira! OVR +${evt.ovrDelta}`);
+            if (evt.type === 'training_breakthrough') engine.weekEvents.push(`💪 ${evt.playerName} evoluiu no treino! OVR +${evt.ovrDelta}`);
+        });
+
+        // SPEC-135: check for newly unlocked views
+        const newlyUnlocked = evaluateNewUnlocks(engine.viewUnlockState);
+        newlyUnlocked.forEach(({ viewId, reason }) => {
+            engine.viewUnlockState = persistUnlock(viewId, engine.viewUnlockState);
+            engine.weekEvents.push(`🔓 Novo acesso desbloqueado: ${viewId} — ${reason}`);
+        });
+
+        // Dressing Room Dynamics
+        const dressingRoom = processDressingRoom(team.squad);
+        dressingRoom.events.forEach(e => engine.weekEvents.push(e));
+
+        // Morale Events (narrative)
+        const moraleEvts = processMoraleEvents(team.squad, engine.board);
+        moraleEvts.forEach(e => engine.weekEvents.push(e));
+
+        // Mentoring (veteran teaches youth)
+        const mentorEvts = processMentoring(team.squad);
+        mentorEvts.forEach(e => engine.weekEvents.push(e));
+
+        // Remove retired players
+        const retired = team.squad.filter(p => p._retired);
+        retired.forEach(p => {
+            engine.weekEvents.push(`👴 ${p.name} (${p.age} anos) anunciou aposentadoria.`);
+        });
+        team.squad = team.squad.filter(p => !p._retired);
+
+        // Youth intake (1x por temporada, semana 38)
+        if (engine.currentWeek > 0 && engine.currentWeek % 38 === 0) {
+            const youths = engine.triggerYouthIntake();
+            youths.forEach(y => {
+                engine.weekEvents.push(`🎓 ${y.name} (${y.position}, ${y.age} anos, OVR ${y.ovr}) promovido da base!`);
+            });
+        }
+
+        // Calendar events
+        const seasonWeek = ((engine.currentWeek - 1) % 38) + 1;
+        const calEvent = getCalendarEvent(seasonWeek);
+        if (calEvent) {
+            engine.weekEvents.push(`📅 ${calEvent.name}: ${calEvent.msg}`);
+            if (calEvent.effect) {
+                if (calEvent.effect.moral) team.squad.forEach(p => { p.moral = Math.max(0, Math.min(100, (p.moral || 50) + calEvent.effect.moral)); });
+                if (calEvent.effect.energy) team.squad.forEach(p => { p.energy = Math.max(0, Math.min(100, p.energy + calEvent.effect.energy)); });
+            }
+        }
+
+        // Sponsor income
+        if (engine.currentSponsor) {
+            team.balance += engine.currentSponsor.weeklyPay;
+            if (engine.weeklyFinance) {
+                engine.weeklyFinance.income += engine.currentSponsor.weeklyPay;
+                engine.weeklyFinance.details.push({ label: `Patrocínio (${engine.currentSponsor.name})`, amount: engine.currentSponsor.weeklyPay, type: 'income' });
+            }
+        }
+
+        // SPEC-073: Coach Proposal evaluation (mid-season or near end)
+        try {
+            if (engine.currentWeek >= 10 && engine.currentWeek % 8 === 0) {
+                const formArr = (() => {
+                    const s = engine.managerStats.streak;
+                    if (s > 0) return Array(Math.min(s, 4)).fill('W');
+                    if (s < 0) return Array(Math.min(-s, 4)).fill('L');
+                    return ['D', 'D'];
+                })();
+                const clubTier = team.division === 1 ? 'big' : team.division === 2 ? 'mid' : 'small';
+                const proposal = evaluateCoachProposal({
+                    managerId: engine.manager.teamId,
+                    currentClubId: team.id,
+                    currentClubTier: clubTier,
+                    currentContractWeeksLeft: engine.managerContract?.weeksRemaining || 20,
+                    managerReputation: engine.manager.reputation || 10,
+                    recentForm: formArr,
+                    currentObjectiveMet: engine.lastContractResolution?.outcome === 'fulfilled',
+                    week: engine.currentWeek,
+                    season: engine.seasonNumber,
+                });
+                if (proposal.proposalAvailable && proposal.proposal) {
+                    engine.pendingCoachProposal = proposal.proposal;
+                    engine.weekEvents.push(`📨 Proposta: ${proposal.proposal.fromClubName} quer contratá-lo! (${proposal.proposal.reason})`);
+                }
+            }
+        } catch { /* defensive */ }
+
+        // SPEC-074: Organic Challenge evaluation
+        try {
+            if (engine.currentWeek >= 5 && engine.currentWeek % 10 === 0 && !engine.activeChallenge) {
+                const standings = engine.getStandings(team.zone, team.division);
+                const relegationZone = standings.slice(-4).map(s => {
+                    const t = engine.getTeam(s.teamId);
+                    return t ? { id: t.id, name: t.name, division: t.division } : null;
+                }).filter(Boolean);
+                const challenge = evaluateOrganicChallenge({
+                    managerId: engine.manager.teamId,
+                    currentClubId: team.id,
+                    season: engine.seasonNumber,
+                    week: engine.currentWeek,
+                    managerReputation: engine.manager.reputation || 10,
+                    clubsInRelegationZone: relegationZone,
+                });
+                if (challenge.challengeAvailable && challenge.challenge) {
+                    engine.activeChallenge = challenge.challenge;
+                    engine.weekEvents.push(`🎯 Desafio: ${challenge.challenge.description}`);
+                }
+            }
+        } catch { /* defensive */ }
+    }
+
+    /**
+     * Win/Loss/Draw tracking + SPEC-072/076/077/080 narrative hooks
+     * @private
+     */
+    _processMatchResult(engine, team, weekResults) {
+        for (const tId in weekResults) {
+            const myMatch = weekResults[tId].find(m => m.home === team.id || m.away === team.id);
+            if (myMatch && myMatch.score) {
+                const isHome = myMatch.home === team.id;
+                const myGoals = isHome ? myMatch.score.homeGoals : myMatch.score.awayGoals;
+                const theirGoals = isHome ? myMatch.score.awayGoals : myMatch.score.homeGoals;
+                if (myGoals > theirGoals) {
+                    engine.managerStats.wins++;
+                    engine.managerStats.streak = Math.max(0, engine.managerStats.streak) + 1;
+                    engine.managerStats.lossStreak = 0;
+                    recordStreakResult({ teamId: team.id, result: 'W' });
+                    team.squad.forEach(p => {
+                        p.moral = Math.min(100, (p.moral || 50) + 3);
+                        if (p.isTitular) updateForm(p, 1);
+                    });
+                    // SPEC-072: board tension — win streak
+                    try {
+                        if (engine.managerStats.streak >= 3) {
+                            const bt = applyBoardTension({ currentTension: engine.boardTension, eventType: 'win_streak' });
+                            engine.boardTension = bt.newTension;
+                            if (bt.thresholdChanged && bt.boardMessage) engine.weekEvents.push(`🏛️ ${bt.boardMessage}`);
+                        }
+                    } catch { /* defensive */ }
+                } else if (myGoals < theirGoals) {
+                    engine.managerStats.losses++;
+                    engine.managerStats.streak = Math.min(0, engine.managerStats.streak) - 1;
+                    engine.managerStats.lossStreak = (engine.managerStats.lossStreak || 0) + 1;
+                    recordStreakResult({ teamId: team.id, result: 'L' });
+                    team.squad.forEach(p => {
+                        p.moral = Math.max(0, (p.moral || 50) - 3);
+                        if (p.isTitular) updateForm(p, -1);
+                    });
+
+                    // SPEC-076: Humiliation Cascade (goleada diff >= 4)
+                    try {
+                        const scoreDiff = theirGoals - myGoals;
+                        if (scoreDiff >= 4) {
+                            const cascade = evaluateHumiliation({
+                                teamId: team.id,
+                                scoreDiff,
+                                managerTension: engine.boardTension,
+                                isPlayerManager: true,
+                            });
+                            cascade.cascadeEvents.forEach(e => {
+                                engine.weekEvents.push(`💀 ${e.description}`);
+                                if (e.tensionDelta) {
+                                    const bt = applyBoardTension({ currentTension: engine.boardTension, eventType: 'loss_streak' });
+                                    engine.boardTension = bt.newTension;
+                                }
+                            });
+                            if (cascade.survivalNarrative?.active) {
+                                engine.weekEvents.push(`🛡️ ${cascade.survivalNarrative.milestoneDescription}`);
+                            }
+                        }
+                    } catch { /* defensive */ }
+
+                    // SPEC-077: Loss Streak Response
+                    try {
+                        const streak = engine.managerStats.lossStreak || 0;
+                        if (streak >= 3) {
+                            const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / team.squad.length;
+                            const lsr = evaluateLossStreak({
+                                teamId: team.id,
+                                streakLength: streak,
+                                currentTension: engine.boardTension,
+                                squadMorale: avgMorale,
+                                isPlayerManager: true,
+                                week: engine.currentWeek,
+                            });
+                            if (lsr.streakSeverity !== 'none') {
+                                engine.weekEvents.push(`🔥 Sequência de ${streak} derrotas — crise ${lsr.streakSeverity}!`);
+                            }
+                            if (lsr.tensionApplied) {
+                                engine.boardTension = Math.max(-100, engine.boardTension + lsr.tensionApplied);
+                            }
+                            if (lsr.moraleFloorApplied) {
+                                team.squad.forEach(p => { p.moral = Math.max(5, p.moral || 50); });
+                            }
+                        }
+                    } catch { /* defensive */ }
+
+                    // SPEC-072: board tension — loss streak
+                    try {
+                        if ((engine.managerStats.lossStreak || 0) >= 3) {
+                            const bt = applyBoardTension({ currentTension: engine.boardTension, eventType: 'loss_streak' });
+                            engine.boardTension = bt.newTension;
+                            if (bt.thresholdChanged && bt.boardMessage) engine.weekEvents.push(`🏛️ ${bt.boardMessage}`);
+                        }
+                    } catch { /* defensive */ }
+                } else {
+                    engine.managerStats.draws++;
+                    engine.managerStats.streak = 0;
+                    recordStreakResult({ teamId: team.id, result: 'D' });
+                    team.squad.filter(p => p.isTitular).forEach(p => updateForm(p, 0));
+                }
+
+                // SPEC-080: track rivalry H2H
+                try {
+                    const oppId = isHome ? myMatch.away : myMatch.home;
+                    const key = team.id < oppId ? `${team.id}_${oppId}` : `${oppId}_${team.id}`;
+                    if (!engine.rivalryHistory[key]) engine.rivalryHistory[key] = [];
+                    const aIsHome = team.id < oppId;
+                    engine.rivalryHistory[key].push({
+                        clubAScore: aIsHome ? myGoals : theirGoals,
+                        clubBScore: aIsHome ? theirGoals : myGoals,
+                        week: engine.currentWeek,
+                        season: engine.seasonNumber,
+                        isDecisive: false,
+                    });
+                } catch { /* defensive */ }
+
+                break;
+            }
+        }
+    }
+}
