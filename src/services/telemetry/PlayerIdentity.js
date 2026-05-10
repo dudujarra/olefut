@@ -15,16 +15,20 @@ export const detect = safeDetect(SPEC, NAME, (state) => {
 
     const totalGoals = playerCareer.reduce((s, p) => s + (p.goals || 0), 0);
 
-    if (totalGoals === 0 || playerCareer.length === 0) {
+    // BUG-082: empty squad → hard zero. Zero goals → squad too new, return low score instead.
+    if (playerCareer.length === 0) {
         return buildResult(SPEC, NAME, 0, [{
             id: 'NO_TOP_SCORER',
             severity: 1,
             msg: 'Sem dados de gols'
-        }], {
-            topScorer: null,
-            topVillain: null,
-            giniCoefficient: 0
-        });
+        }], { topScorer: null, topVillain: null, giniCoefficient: 0 });
+    }
+    if (totalGoals === 0) {
+        return buildResult(SPEC, NAME, 20, [{
+            id: 'NO_TOP_SCORER',
+            severity: 0.8,
+            msg: 'Nenhum gol registrado (squad novo ou temporada inicial)'
+        }], { topScorer: null, topVillain: null, giniCoefficient: 0 });
     }
 
     const sortedScorers = [...playerCareer].sort((a, b) => (b.goals || 0) - (a.goals || 0));

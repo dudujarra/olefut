@@ -244,10 +244,11 @@ export class MatchSimulator {
         });
 
         // Record career stats for manager's team
+        // BUG-082: also record for bench players if they somehow scored (_matchGoals > 0)
         const managerTeam = engine.getTeam(engine.manager.teamId);
         if (managerTeam) {
             managerTeam.squad.forEach(p => {
-                if (!p.isTitular) return;
+                if (!p.isTitular && !(p._matchGoals > 0)) return;
                 initCareerStats(p);
                 const goals = p._matchGoals || 0;
                 const assists = 0; // tracked via scorers

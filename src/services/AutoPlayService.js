@@ -425,6 +425,14 @@ export class AutoPlayController {
             else if (streak <= 0) nextTactic = 'counter';
         }
         if (engine.setTactic) {
+            // BUG-081: boredom override — force rotation if same tactic >12 weeks and not winning big
+            const tacticStreak = engine.managerStats?.streak || 0;
+            if (this._consecutiveSameTactic > 12 && tacticStreak < 5) {
+                const allTactics = ['normal', 'offensive', 'defensive', 'pressing', 'counter', 'possession'];
+                const others = allTactics.filter(t => t !== nextTactic);
+                nextTactic = others[Math.floor(Math.random() * others.length)];
+                this._consecutiveSameTactic = 0;
+            }
             engine.setTactic(nextTactic);
             if (this._lastTactic === nextTactic) this._consecutiveSameTactic++;
             else this._consecutiveSameTactic = 0;
@@ -570,6 +578,14 @@ export class AutoPlayController {
             }
         } catch { /* ignore */ }
 
+        // BUG-080: emergency sell when deeply negative balance
+        try {
+            const team = engine.getTeam(teamId);
+            if (team && (team.balance || 0) < -5_000_000) {
+                this._emergencySell(team);
+            }
+        } catch { /* ignore */ }
+
         // BUG-050 fix: bot now ACTUALLY buys/sells via LLMBridge (was fake log).
         // Process incoming transfer offers + opportunistically buy if available.
         try {
@@ -611,7 +627,8 @@ export class AutoPlayController {
 
                 // SPEC-122 BUG-053: Bot scouts league + makes outgoing buy offers every 4 weeks.
                 // Picks weakest position, finds upgrade target, offers 1.3-1.5× value.
-                if (this.stats.weeksPlayed % 4 === 0 && typeof engine.scoutLeague === 'function') {
+                // BUG-080: skip buys when balance is negative (salary drain spiral prevention)
+                if (this.stats.weeksPlayed % 4 === 0 && typeof engine.scoutLeague === 'function' && (team.balance || 0) > 0) {
                     try {
                         // Find weakest position in squad
                         const positions = ['GOL', 'DEF', 'MEI', 'ATA'];
@@ -824,6 +841,30 @@ export class AutoPlayController {
                     }
                 }
             });
+        }
+    }
+
+    // BUG-080: force-sell bench player (or weakest titular) to recover from death spiral
+    _emergencySell(team) {
+        const bench = team.squad.filter(p => !p.isTitular && !p._retired && !p.injury);
+        bench.sort((a, b) => (b.value || 0) - (a.value || 0));
+        if (bench.length > 0) {
+            const p = bench[0];
+            const amount = p.value || (p.ovr || 50) * 50_000;
+            team.squad = team.squad.filter(x => x.id !== p.id);
+            team.balance += amount;
+            this._logDecision('EMERGENCY_SELL', { player: p.name, ovr: p.ovr, amount }, 0);
+            return;
+        }
+        // No bench: demote + sell weakest titular (only if >11 titulares remain)
+        const titulares = team.squad.filter(p => p.isTitular && !p._retired);
+        if (titulares.length > 11) {
+            const weakest = [...titulares].sort((a, b) => (a.ovr || 0) - (b.ovr || 0))[0];
+            weakest.isTitular = false;
+            const amount = weakest.value || (weakest.ovr || 50) * 50_000;
+            team.squad = team.squad.filter(x => x.id !== weakest.id);
+            team.balance += amount;
+            this._logDecision('EMERGENCY_SELL_TITULAR', { player: weakest.name, ovr: weakest.ovr, amount }, 0);
         }
     }
 
