@@ -9,6 +9,7 @@ import { useGame } from '../context/GameContext';
 import { getAutoPlay } from '../services/AutoPlayService';
 import LearningPanel from './learning/LearningPanel';
 import CareerInfoPanel from './learning/CareerInfoPanel';
+import BrainDashboard from './learning/BrainDashboard';
 import { RealDB } from '../engine/db/index';
 import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
 
@@ -441,6 +442,9 @@ export function AutoPlayView() {
                 {/* SPEC-123: Real-time learning panel */}
                 <LearningPanel controllerRef={controllerRef} />
 
+                {/* ML Brain Dashboard — visual Q-learning status */}
+                <BrainDashboard controllerRef={controllerRef} />
+
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
                     VELOCIDADE: {speed}ms/week
                 </div>
@@ -500,6 +504,142 @@ export function AutoPlayView() {
                         <Stat label="Pico R$" value={`${(stats.insights.peakBalance / 1e6).toFixed(0)}M`} color="var(--accent)" />
                         <Stat label="Maior goleada" value={stats.insights.biggestWin?.score || '-'} />
                         <Stat label="Pior derrota" value={stats.insights.worstLoss?.score || '-'} color="var(--danger)" />
+                    </div>
+                </div>
+            )}
+
+            {/* §23: GDD Systems Status — LIVE PROOF */}
+            {stats && (
+                <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+                    <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>
+                        🎯 GDD Systems Status — Live
+                    </h3>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                        gap: '6px',
+                        fontSize: '0.75rem'
+                    }}>
+                        <GDDStatus
+                            label="§12.4 #6 Scarcity"
+                            emoji="⏰"
+                            count={stats.decisions?.filter(d => d.action === 'SCARCITY_WINDOW').length || 0}
+                        />
+                        <GDDStatus
+                            label="§12.4 #8 Dread"
+                            emoji="⚠️"
+                            count={stats.decisions?.filter(d => d.action === 'DREAD_RELEGATION').length || 0}
+                        />
+                        <GDDStatus
+                            label="§14.2 Challenge Win"
+                            emoji="🎯"
+                            count={stats.successes?.filter(s => s.type === 'CHALLENGE_WIN').length || 0}
+                        />
+                        <GDDStatus
+                            label="§16.2 Trophy Ceremony"
+                            emoji="🏆"
+                            count={stats.successes?.filter(s => s.type === 'TROPHY_CEREMONY').length || 0}
+                        />
+                        <GDDStatus
+                            label="§17 Press Conference"
+                            emoji="🎤"
+                            count={stats.decisions?.filter(d => d.action === 'PRESS_CONFERENCE').length || 0}
+                        />
+                        <GDDStatus
+                            label="§17 Team Talk"
+                            emoji="📢"
+                            count={stats.decisions?.filter(d => d.action === 'TEAM_TALK').length || 0}
+                        />
+                        <GDDStatus
+                            label="§17 Narrative Events"
+                            emoji="📖"
+                            count={stats.decisions?.filter(d => d.action === 'NARRATIVE_EVENTS').length || 0}
+                        />
+                        <GDDStatus
+                            label="§15.3 Contract Renewal"
+                            emoji="📋"
+                            count={stats.decisions?.filter(d => d.action === 'CONTRACT_RENEWAL').length || 0}
+                        />
+                        <GDDStatus
+                            label="§19.1 View Unlock"
+                            emoji="🔓"
+                            count={stats.decisions?.filter(d => d.action === 'VISIT_VIEW').length || 0}
+                        />
+                        <GDDStatus
+                            label="§22 Substitutions"
+                            emoji="🔄"
+                            count={stats.decisions?.filter(d => d.action === 'SUBSTITUTION').length || 0}
+                        />
+                        <GDDStatus
+                            label="Training"
+                            emoji="🏋️"
+                            count={stats.decisions?.filter(d => d.action === 'TRAIN').length || 0}
+                        />
+                        <GDDStatus
+                            label="Market / Buy"
+                            emoji="💰"
+                            count={stats.decisions?.filter(d => d.action === 'BUY_OFFER' || d.action === 'MARKET_INQUIRY').length || 0}
+                        />
+                        <GDDStatus
+                            label="Formation / Tactic"
+                            emoji="📐"
+                            count={stats.decisions?.filter(d => d.action === 'FORMATION' || d.action === 'TACTIC').length || 0}
+                        />
+                        <GDDStatus
+                            label="Scouted / Signed"
+                            emoji="🔍"
+                            count={stats.decisions?.filter(d => d.action === 'SIGN_SCOUTED').length || 0}
+                        />
+                        <GDDStatus
+                            label="Staff Mgmt"
+                            emoji="👔"
+                            count={stats.decisions?.filter(d => d.action === 'HIRE_STAFF' || d.action === 'FIRE_STAFF').length || 0}
+                        />
+                        <GDDStatus
+                            label="Stadium / Academy"
+                            emoji="🏟️"
+                            count={stats.decisions?.filter(d => d.action === 'UPGRADE_STADIUM' || d.action === 'UPGRADE_ACADEMY').length || 0}
+                        />
+                    </div>
+                    <div style={{
+                        marginTop: '8px',
+                        padding: '6px 10px',
+                        background: 'rgba(59, 130, 246, 0.08)',
+                        borderRadius: '4px',
+                        fontSize: '0.7rem',
+                        color: 'var(--text-muted)',
+                        textAlign: 'center'
+                    }}>
+                        {(() => {
+                            const total = 16;
+                            const active = [
+                                stats.decisions?.some(d => d.action === 'SCARCITY_WINDOW'),
+                                stats.decisions?.some(d => d.action === 'DREAD_RELEGATION'),
+                                stats.successes?.some(s => s.type === 'CHALLENGE_WIN'),
+                                stats.successes?.some(s => s.type === 'TROPHY_CEREMONY'),
+                                stats.decisions?.some(d => d.action === 'PRESS_CONFERENCE'),
+                                stats.decisions?.some(d => d.action === 'TEAM_TALK'),
+                                stats.decisions?.some(d => d.action === 'NARRATIVE_EVENTS'),
+                                stats.decisions?.some(d => d.action === 'CONTRACT_RENEWAL'),
+                                stats.decisions?.some(d => d.action === 'VISIT_VIEW'),
+                                stats.decisions?.some(d => d.action === 'SUBSTITUTION'),
+                                stats.decisions?.some(d => d.action === 'TRAIN'),
+                                stats.decisions?.some(d => d.action === 'BUY_OFFER' || d.action === 'MARKET_INQUIRY'),
+                                stats.decisions?.some(d => d.action === 'FORMATION' || d.action === 'TACTIC'),
+                                stats.decisions?.some(d => d.action === 'SIGN_SCOUTED'),
+                                stats.decisions?.some(d => d.action === 'HIRE_STAFF' || d.action === 'FIRE_STAFF'),
+                                stats.decisions?.some(d => d.action === 'UPGRADE_STADIUM' || d.action === 'UPGRADE_ACADEMY'),
+                            ].filter(Boolean).length;
+                            const pct = Math.round((active / total) * 100);
+                            const color = pct >= 80 ? '#6ABC3A' : pct >= 50 ? '#f59e0b' : '#ef4444';
+                            return (
+                                <span>
+                                    GDD Coverage: <strong style={{ color, fontSize: '0.85rem' }}>{active}/{total} ({pct}%)</strong>
+                                    {pct >= 100 && ' 🎉 FULL PARITY'}
+                                    {pct >= 80 && pct < 100 && ' — rode mais seasons para cobertura total'}
+                                </span>
+                            );
+                        })()}
                     </div>
                 </div>
             )}
@@ -691,6 +831,34 @@ function Stat({ label, value, color }) {
             <div style={{ fontSize: '0.95rem', fontWeight: 700, color: color || 'var(--text)' }}>
                 {value}
             </div>
+        </div>
+    );
+}
+
+function GDDStatus({ label, emoji, count }) {
+    const fired = count > 0;
+    return (
+        <div style={{
+            padding: '6px 10px',
+            background: fired ? 'rgba(106, 188, 58, 0.08)' : 'rgba(239, 68, 68, 0.06)',
+            border: `1px solid ${fired ? 'rgba(106, 188, 58, 0.3)' : 'rgba(239, 68, 68, 0.2)'}`,
+            borderRadius: '6px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '6px'
+        }}>
+            <span>
+                {fired ? '✅' : '❌'} {emoji} {label}
+            </span>
+            <strong style={{
+                color: fired ? '#6ABC3A' : '#ef4444',
+                fontSize: '0.8rem',
+                minWidth: '28px',
+                textAlign: 'right'
+            }}>
+                {count}×
+            </strong>
         </div>
     );
 }

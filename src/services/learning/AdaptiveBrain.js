@@ -1,4 +1,5 @@
 import { rng as systemRng } from '../../engine/rng.js';
+import { ARCHETYPES, generateRandomPersonality, checkIsTilted } from './Archetypes.js';
 /**
  * AdaptiveBrain — SPEC-115 + SPEC-116 + SPEC-117
  *
@@ -66,16 +67,29 @@ export function encodeState(ctx = {}) {
  * Detect active goals based on state context.
  * Returns array of { goal, weight }.
  */
-export function detectGoals(ctx = {}) {
+export function detectGoals(ctx = {}, personality = null) {
     const goals = [];
     const totalTeams = ctx.totalTeams || 20;
     const pos = ctx.position || totalTeams;
 
-    if (pos > totalTeams * 0.75) goals.push({ goal: 'AVOID_RELEGATION', weight: 1.0 });
-    if ((ctx.balance || 0) < 0) goals.push({ goal: 'FINANCIAL_HEALTH', weight: 0.8 });
-    if (pos > 4 && pos <= totalTeams * 0.6) goals.push({ goal: 'CLIMB_POSITION', weight: 0.6 });
-    if ((ctx.squadSize || 0) < 18) goals.push({ goal: 'SQUAD_DEPTH', weight: 0.4 });
-    if (pos <= 4) goals.push({ goal: 'WIN_TITLE', weight: 0.3 });
+    let relW = 1.0;
+    let finW = 0.8;
+    let climbW = 0.6;
+    let squadW = 0.4;
+    let winW = 0.3;
+
+    if (personality) {
+        winW += personality.ambition * 0.5;
+        climbW += personality.ambition * 0.3;
+        finW += personality.riskAversion * 0.5;
+        squadW += personality.loyalty * 0.4;
+    }
+
+    if (pos > totalTeams * 0.75) goals.push({ goal: 'AVOID_RELEGATION', weight: relW });
+    if ((ctx.balance || 0) < 0) goals.push({ goal: 'FINANCIAL_HEALTH', weight: finW });
+    if (pos > 4 && pos <= totalTeams * 0.6) goals.push({ goal: 'CLIMB_POSITION', weight: climbW });
+    if ((ctx.squadSize || 0) < 18) goals.push({ goal: 'SQUAD_DEPTH', weight: squadW });
+    if (pos <= 4) goals.push({ goal: 'WIN_TITLE', weight: winW });
 
     return goals;
 }
@@ -165,11 +179,14 @@ export function computeReward({
 }
 
 export class AdaptiveBrain {
-    constructor() {
+    constructor(personalityId = null) {
         this.qTable = {}; // { stateKey: { actionKey: number } }
         this.visitCount = {}; // { stateKey: number }
         this.totalUpdates = 0;
         this.lastSavedAt = 0;
+        this.personality = personalityId && ARCHETYPES[personalityId] 
+            ? ARCHETYPES[personalityId] 
+            : generateRandomPersonality();
         // SPEC-122 BUG-054: episodic memory — last N decisions+outcomes for RAG.
         this.memory = []; // [{ decision, outcome, week, season, reward, ts }]
         this.memoryMax = 30;
@@ -210,6 +227,7 @@ export class AdaptiveBrain {
             if (parsed.visitCount) this.visitCount = parsed.visitCount;
             if (typeof parsed.totalUpdates === 'number') this.totalUpdates = parsed.totalUpdates;
             if (Array.isArray(parsed.memory)) this.memory = parsed.memory;
+            if (parsed.personality) this.personality = parsed.personality;
         } catch { /* ignore */ }
     }
 
@@ -221,6 +239,7 @@ export class AdaptiveBrain {
                 visitCount: this.visitCount,
                 totalUpdates: this.totalUpdates,
                 memory: this.memory,
+                personality: this.personality,
                 savedAt: Date.now()
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -251,6 +270,15 @@ export class AdaptiveBrain {
     pickAction(stateKey, availableActions, ctx = {}) {
         if (!Array.isArray(availableActions) || availableActions.length === 0) return null;
 
+        // TILT MECHANIC: Se estiver tiltado, joga no aleatório irracional (alta chance)
+        const lossStreak = ctx.lossStreak || 0;
+        if (checkIsTilted(this.personality, lossStreak)) {
+            // Quando tiltado, age aleatoriamente 50% das vezes (ignora RL)
+            if (systemRng() < 0.5) {
+                return availableActions[Math.floor(systemRng() * availableActions.length)];
+            }
+        }
+
         // Cold start: state unseen → uniform random
         const visits = this.visitCount[stateKey] || 0;
         if (visits < 3 || systemRng() < EPSILON) {
@@ -258,7 +286,7 @@ export class AdaptiveBrain {
         }
 
         // Exploit: pick action with highest Q + goal-modulated score
-        const goals = detectGoals(ctx);
+        const goals = detectGoals(ctx, this.personality);
         let bestAction = availableActions[0];
         let bestScore = -Infinity;
         for (const action of availableActions) {

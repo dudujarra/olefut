@@ -655,6 +655,12 @@ export class AutoPlayController {
             ? team.squad.reduce((s, p) => s + (p.form?.value ?? 50), 0) / team.squad.length
             : 50;
         const lastResult = this._lastMatchResult || '-';
+        
+        let lossStreak = 0;
+        if (engine.managerStats?.streak < 0) {
+            lossStreak = Math.abs(engine.managerStats.streak);
+        }
+
         return {
             position,
             totalTeams: standings.length || 20,
@@ -662,7 +668,8 @@ export class AutoPlayController {
             formAvg,
             week: engine?.currentWeek || 0,
             squadSize: team?.squad?.length || 0,
-            lastResult
+            lastResult,
+            lossStreak
         };
     }
 

@@ -166,6 +166,42 @@ import newells_old_boys from './newells_old_boys.png';
 import velez_sarsfield from './velez_sarsfield.png';
 import talleres from './talleres.png';
 
+// URU
+import penarol from './penarol.png';
+import nacional_uru from './nacional_uru.png';
+import defensor from './defensor.png';
+import danubio from './danubio.png';
+import wanderers from './wanderers.png';
+import liverpool_uru from './liverpool_uru.png';
+import plaza_colonia from './plaza_colonia.png';
+import fenix from './fenix.png';
+import cerro_largo from './cerro_largo.png';
+import boston_river from './boston_river.png';
+
+// CHI
+import colo_colo from './colo_colo.png';
+import universidad_de_chile from './universidad_de_chile.png';
+import universidad_catolica from './universidad_catolica.png';
+import cobreloa from './cobreloa.png';
+import huachipato from './huachipato.png';
+import ohiggins from './ohiggins.png';
+import union_espanola from './union_espanola.png';
+import palestino from './palestino.png';
+import audax_italiano from './audax_italiano.png';
+import everton_chi from './everton_chi.png';
+
+// COL
+import atletico_nacional from './atletico_nacional.png';
+import millonarios from './millonarios.png';
+import junior from './junior.png';
+import america_de_cali from './america_de_cali.png';
+import deportivo_cali from './deportivo_cali.png';
+import santa_fe from './santa_fe.png';
+import once_caldas from './once_caldas.png';
+import tolima from './tolima.png';
+import bucaramanga from './bucaramanga.png';
+import medellin from './medellin.png';
+
 export const HIGH_END_SHIELDS = {
     "Flamengo": flamengo,
     "Palmeiras": palmeiras,
@@ -326,5 +362,38 @@ export const HIGH_END_SHIELDS = {
     "Rosario Central": rosario_central,
     "Newell's Old Boys": newells_old_boys,
     "Vélez Sarsfield": velez_sarsfield,
-    "Talleres": talleres
+    "Talleres": talleres,
+
+    "Peñarol": penarol,
+    "Nacional-URU": nacional_uru,
+    "Defensor": defensor,
+    "Danubio": danubio,
+    "Wanderers": wanderers,
+    "Liverpool-URU": liverpool_uru,
+    "Plaza Colonia": plaza_colonia,
+    "Fénix": fenix,
+    "Cerro Largo": cerro_largo,
+    "Boston River": boston_river,
+
+    "Colo-Colo": colo_colo,
+    "Universidad de Chile": universidad_de_chile,
+    "Universidad Católica": universidad_catolica,
+    "Cobreloa": cobreloa,
+    "Huachipato": huachipato,
+    "O'Higgins": ohiggins,
+    "Unión Española": union_espanola,
+    "Palestino": palestino,
+    "Audax Italiano": audax_italiano,
+    "Everton-CHI": everton_chi,
+
+    "Atlético Nacional": atletico_nacional,
+    "Millonarios": millonarios,
+    "Junior": junior,
+    "América de Cali": america_de_cali,
+    "Deportivo Cali": deportivo_cali,
+    "Santa Fe": santa_fe,
+    "Once Caldas": once_caldas,
+    "Tolima": tolima,
+    "Bucaramanga": bucaramanga,
+    "Medellín": medellin
 };
