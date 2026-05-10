@@ -53,8 +53,13 @@ export function SquadView() {
         age: (a, b) => a.age - b.age,
         energy: (a, b) => b.energy - a.energy,
         name: (a, b) => a.name.localeCompare(b.name),
+        moral: (a, b) => (b.moral || 50) - (a.moral || 50),
     };
     const sorted = filtered.sort(sorters[sortBy] || sorters.position);
+
+    const handleSort = (key) => {
+        setSortBy(key);
+    };
 
     const toggleTitular = (playerId) => {
         const p = team.squad.find(x => x.id === playerId);
@@ -217,11 +222,36 @@ export function SquadView() {
                     <thead>
                         <tr style={{ borderBottom: '4px solid #4A5059', color: '#888' }}>
                             <th style={{padding:'12px 8px', textAlign:'center'}}>ST</th>
-                            <th style={{padding:'12px 8px', textAlign:'center'}}>POS</th>
-                            <th style={{padding:'12px 8px', textAlign:'left'}}>PLAYER</th>
-                            <th style={{padding:'12px 8px', textAlign:'center'}}>FIT</th>
-                            <th style={{padding:'12px 8px', textAlign:'center'}}>COND</th>
-                            <th style={{padding:'12px 8px', textAlign:'center'}}>MOR</th>
+                            <th 
+                                onClick={() => handleSort('position')}
+                                style={{padding:'12px 8px', textAlign:'center', cursor: 'pointer', color: sortBy === 'position' ? '#FFD700' : '#888'}}
+                            >
+                                POS {sortBy === 'position' ? '▼' : ''}
+                            </th>
+                            <th 
+                                onClick={() => handleSort('name')}
+                                style={{padding:'12px 8px', textAlign:'left', cursor: 'pointer', color: sortBy === 'name' ? '#FFD700' : '#888'}}
+                            >
+                                PLAYER {sortBy === 'name' ? '▼' : ''}
+                            </th>
+                            <th 
+                                onClick={() => handleSort('ovr')}
+                                style={{padding:'12px 8px', textAlign:'center', cursor: 'pointer', color: sortBy === 'ovr' ? '#FFD700' : '#888'}}
+                            >
+                                FIT {sortBy === 'ovr' ? '▼' : ''}
+                            </th>
+                            <th 
+                                onClick={() => handleSort('energy')}
+                                style={{padding:'12px 8px', textAlign:'center', cursor: 'pointer', color: sortBy === 'energy' ? '#FFD700' : '#888'}}
+                            >
+                                COND {sortBy === 'energy' ? '▼' : ''}
+                            </th>
+                            <th 
+                                onClick={() => handleSort('moral')}
+                                style={{padding:'12px 8px', textAlign:'center', cursor: 'pointer', color: sortBy === 'moral' ? '#FFD700' : '#888'}}
+                            >
+                                MOR {sortBy === 'moral' ? '▼' : ''}
+                            </th>
                             <th style={{padding:'12px 8px', textAlign:'center'}}>ACT</th>
                         </tr>
                     </thead>
