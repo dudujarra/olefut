@@ -127,7 +127,8 @@ pixel art. Club name "{CLUBE}" in bold pixel font at top.
 "FOOTBALL CLUB" text below emblem. "ARCADE TEAM" on bottom metallic 
 banner. {COR PRIMÁRIA} neon glow around frame edges. Dark CRT 
 scanline background (#111417). Premium 16-bit SNES quality like 
-International Superstar Soccer Deluxe. NOT 8-bit, NOT chibi, NOT flat.
+International Superstar Soccer Deluxe. Round soccer ball decorations.
+NOT 8-bit, NOT chibi, NOT flat, NOT American football, NOT oval ball.
 ```
 
 ---
@@ -199,13 +200,15 @@ Os environments são a categoria mais consistente. Regras existentes:
 ### Prompt Template Canônico
 
 ```
-16-bit SNES pixel art environment scene for a football manager game. 
+16-bit SNES pixel art environment scene for a soccer football manager game. 
 {DESCRIÇÃO NARRATIVA DA CENA}. Dark atmospheric lighting with a 
 {FONTE DE LUZ} as the main light source. Rich pixel detail with 
 dithered shadows. Green/teal color undertone. Moody, cinematic 
 composition. Dense with narrative objects. Dark background (#111417 
 dominant). Premium 16-bit quality like Chrono Trigger background art. 
-NOT cartoony, NOT bright, NOT empty.
+NOT cartoony, NOT bright, NOT empty, NOT American football.
+All jerseys/uniforms must be NEUTRAL WHITE — no specific team colors.
+Round soccer ball ONLY — NOT oval ball, NOT helmet, NOT shoulder pads.
 ```
 
 ---
@@ -369,6 +372,42 @@ Vista aérea do campo estilo ISS Deluxe para a tela de táticas.
 - [ ] Linhas brancas 2px?
 - [ ] Perspectiva top-down ~15°?
 - [ ] Strip de torcida nas bordas?
+
+---
+
+## 9. REGRAS ABSOLUTAS — Governança de Conteúdo
+
+### 9A. Regra de Neutralidade (Environments & Assets Compartilhados)
+
+> **REGRA:** Assets compartilhados entre times (backgrounds, ambientes, UI) 
+> NUNCA devem mostrar cores de time específico.
+
+- Uniformes/camisas em cenários → **BRANCO NEUTRO** (sem listras, sem cores)
+- Bandeiras/faixas genéricas → **sem escudos**, sem cores identif.
+- Bolas → **preto e branco padrão** (clássica, sem branding)
+- Resultado: qualquer time pode usar o asset sem quebra de imersão
+
+**Exceções:** Apenas shields individuais e avatares (que são POR CLUBE) podem usar cores específicas.
+
+### 9B. Regra Anti-Futebol Americano
+
+> **REGRA:** O jogo é de FUTEBOL (soccer). Zero tolerância a iconografia 
+> de American Football em qualquer asset.
+
+**PROIBIDO em qualquer asset:**
+- ❌ Bola oval (American football / rugby)
+- ❌ Capacetes com face guard
+- ❌ Shoulder pads / armaduras
+- ❌ Field goal posts (traves em Y)
+- ❌ Yard lines / campo listrado
+- ❌ Jogadores carregando a bola nas mãos
+- ❌ Touchdown celebrations
+
+**OBRIGATÓRIO em prompts de geração:**
+- ✅ Usar `"soccer football"` em vez de `"football"` sozinho
+- ✅ Adicionar `"round soccer ball"` nos prompts
+- ✅ Incluir `"NOT American football, NOT oval ball, NOT helmet"` como negative
+- ✅ Referências visuais: ISS Deluxe, Winning Eleven, PES
 
 ---
 
