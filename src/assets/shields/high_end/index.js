@@ -106,6 +106,66 @@ import athletic_bilbao from './athletic_bilbao.png';
 import valencia from './valencia.png';
 import osasuna from './osasuna.png';
 
+// ITA
+import inter_de_milao from './inter_de_milao.png';
+import milan from './milan.png';
+import juventus from './juventus.png';
+import napoli from './napoli.png';
+import roma from './roma.png';
+import lazio from './lazio.png';
+import atalanta from './atalanta.png';
+import fiorentina from './fiorentina.png';
+import bologna from './bologna.png';
+import torino from './torino.png';
+
+// GER
+import bayern_de_munique from './bayern_de_munique.png';
+import borussia_dortmund from './borussia_dortmund.png';
+import rb_leipzig from './rb_leipzig.png';
+import bayer_leverkusen from './bayer_leverkusen.png';
+import eintracht_frankfurt from './eintracht_frankfurt.png';
+import wolfsburg from './wolfsburg.png';
+import borussia_mgladbach from './borussia_mgladbach.png';
+import freiburg from './freiburg.png';
+import hoffenheim from './hoffenheim.png';
+import stuttgart from './stuttgart.png';
+
+// FRA
+import paris_saint_germain from './paris_saint_germain.png';
+import olympique_de_marseille from './olympique_de_marseille.png';
+import lyon from './lyon.png';
+import monaco from './monaco.png';
+import lille from './lille.png';
+import rennes from './rennes.png';
+import lens from './lens.png';
+import nice from './nice.png';
+import toulouse from './toulouse.png';
+import nantes from './nantes.png';
+
+// POR
+import benfica from './benfica.png';
+import fc_porto from './fc_porto.png';
+import sporting_cp from './sporting_cp.png';
+import braga from './braga.png';
+import vitoria_de_guimaraes from './vitoria_de_guimaraes.png';
+import boavista from './boavista.png';
+import maritimo from './maritimo.png';
+import gil_vicente from './gil_vicente.png';
+import rio_ave from './rio_ave.png';
+import famalicao from './famalicao.png';
+
+// ARG
+import boca_juniors from './boca_juniors.png';
+import river_plate from './river_plate.png';
+import racing_club from './racing_club.png';
+import independiente from './independiente.png';
+import san_lorenzo from './san_lorenzo.png';
+import estudiantes from './estudiantes.png';
+import rosario_central from './rosario_central.png';
+import newells_old_boys from './newells_old_boys.png';
+import velez_sarsfield from './velez_sarsfield.png';
+import talleres from './talleres.png';
+
 export const HIGH_END_SHIELDS = {
     "Flamengo": flamengo,
     "Palmeiras": palmeiras,
@@ -211,5 +271,60 @@ export const HIGH_END_SHIELDS = {
     "Villarreal": villarreal,
     "Athletic Bilbao": athletic_bilbao,
     "Valencia": valencia,
-    "Osasuna": osasuna
+    "Osasuna": osasuna,
+
+    "Inter de Milão": inter_de_milao,
+    "Milan": milan,
+    "Juventus": juventus,
+    "Napoli": napoli,
+    "Roma": roma,
+    "Lazio": lazio,
+    "Atalanta": atalanta,
+    "Fiorentina": fiorentina,
+    "Bologna": bologna,
+    "Torino": torino,
+
+    "Bayern de Munique": bayern_de_munique,
+    "Borussia Dortmund": borussia_dortmund,
+    "RB Leipzig": rb_leipzig,
+    "Bayer Leverkusen": bayer_leverkusen,
+    "Eintracht Frankfurt": eintracht_frankfurt,
+    "Wolfsburg": wolfsburg,
+    "Borussia M'gladbach": borussia_mgladbach,
+    "Freiburg": freiburg,
+    "Hoffenheim": hoffenheim,
+    "Stuttgart": stuttgart,
+
+    "Paris Saint-Germain": paris_saint_germain,
+    "Olympique de Marseille": olympique_de_marseille,
+    "Lyon": lyon,
+    "Monaco": monaco,
+    "Lille": lille,
+    "Rennes": rennes,
+    "Lens": lens,
+    "Nice": nice,
+    "Toulouse": toulouse,
+    "Nantes": nantes,
+
+    "Benfica": benfica,
+    "FC Porto": fc_porto,
+    "Sporting CP": sporting_cp,
+    "Braga": braga,
+    "Vitória de Guimarães": vitoria_de_guimaraes,
+    "Boavista": boavista,
+    "Marítimo": maritimo,
+    "Gil Vicente": gil_vicente,
+    "Rio Ave": rio_ave,
+    "Famalicão": famalicao,
+
+    "Boca Juniors": boca_juniors,
+    "River Plate": river_plate,
+    "Racing Club": racing_club,
+    "Independiente": independiente,
+    "San Lorenzo": san_lorenzo,
+    "Estudiantes": estudiantes,
+    "Rosario Central": rosario_central,
+    "Newell's Old Boys": newells_old_boys,
+    "Vélez Sarsfield": velez_sarsfield,
+    "Talleres": talleres
 };
