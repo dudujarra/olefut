@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { AnimatedStat } from '../hooks/useCountUp';
 import { Help } from './Help';
 import { useGame } from '../context/GameContext';
@@ -9,7 +9,9 @@ import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
 import { ChallengesWidget } from './ChallengesWidget';
 import { getAllAchievements } from '../engine/MetaProgression';
 import TrophyCeremony from './TrophyCeremony';
+import { UnlockTooltip, AhaMomentCard, AchievementPopup } from './ProgressiveDisclosure';
 import '../styles/trophy-ceremony.css';
+import '../styles/progressive-disclosure.css';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -18,6 +20,23 @@ export function DashboardView() {
     // BUG-021: all hooks declared before early return
     const [log, setLog] = useState('');
     const [tab, setTab] = useState('overview');
+    const [pendingUnlock, setPendingUnlock] = useState(null);
+    const [pendingAchievement, setPendingAchievement] = useState(null);
+
+    // §19.1: Detect newly unlocked views and show tooltip
+    React.useEffect(() => {
+        if (!engine?.weekEvents) return;
+        const unlockEvent = engine.weekEvents.find(e => typeof e === 'string' && e.includes('🔓 Novo acesso'));
+        if (unlockEvent) {
+            const match = unlockEvent.match(/desbloqueado: (\w+)/);
+            if (match && match[1]) setPendingUnlock(match[1]);
+        }
+        // §17: Detect achievement events
+        const achieveEvent = engine.weekEvents.find(e => typeof e === 'string' && (e.includes('🏆 CONQUISTA') || e.includes('🎖️')));
+        if (achieveEvent) {
+            setPendingAchievement({ emoji: '🏅', name: 'Conquista Desbloqueada!', description: achieveEvent });
+        }
+    }, [engine?.currentWeek]); // eslint-disable-line react-hooks/exhaustive-deps
     React.useEffect(() => {
         if (!team) return;
     }, [team]);
@@ -147,6 +166,9 @@ export function DashboardView() {
                             </div>
                         </div>
                     )}
+
+                    {/* §19.3: Aha Moment — contextual teaching */}
+                    <AhaMomentCard engine={engine} />
 
                     {/* Season Awards (if any) */}
                     {engine.seasonAwards && engine.seasonAwards.length > 0 && (
@@ -292,12 +314,23 @@ export function DashboardView() {
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📰 EVENTOS DA SEMANA</h4>
                             <div className="event-feed">
                                 {(engine.weekEvents || []).map((ev, i) => {
-                                    const isGood = ev.includes('📈') || ev.includes('🎉') || ev.includes('📚') || ev.includes('🇧🇷') || ev.includes('🎂');
-                                    const isBad = ev.includes('📉') || ev.includes('☠️') || ev.includes('👴') || ev.includes('🕺') || ev.includes('🥊');
-                                    return <div key={i} className={`event-item ${isGood ? 'highlight' : ''} ${isBad ? 'danger' : ''}`}>{ev}</div>;
+                                    const evText = typeof ev === 'string' ? ev : (ev?.text || ev?.msg || '');
+                                    const isGood = evText.includes('📈') || evText.includes('🎉') || evText.includes('📚') || evText.includes('🇧🇷') || evText.includes('🎂');
+                                    const isBad = evText.includes('📉') || evText.includes('☠️') || evText.includes('👴') || evText.includes('🕺') || evText.includes('🥊');
+                                    return <div key={i} className={`event-item ${isGood ? 'highlight' : ''} ${isBad ? 'danger' : ''}`}>{evText}</div>;
                                 })}
                             </div>
                         </div>
+                    )}
+
+                    {/* §19.1: Unlock tooltip */}
+                    {pendingUnlock && (
+                        <UnlockTooltip viewId={pendingUnlock} onDismiss={() => setPendingUnlock(null)} />
+                    )}
+
+                    {/* §17: Achievement celebration popup */}
+                    {pendingAchievement && (
+                        <AchievementPopup achievement={pendingAchievement} onDismiss={() => setPendingAchievement(null)} />
                     )}
 
                     <div className="card card-compact">

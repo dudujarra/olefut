@@ -1,0 +1,243 @@
+/* === §19.1 Unlock Tooltip === */
+.unlock-tooltip {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    max-width: 380px;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, rgba(30, 35, 50, 0.97), rgba(20, 25, 40, 0.97));
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2), 0 0 0 1px rgba(99, 102, 241, 0.1);
+    backdrop-filter: blur(16px);
+    z-index: 1000;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+.unlock-tooltip--visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.unlock-tooltip__icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    animation: unlockBounce 0.6s 0.5s ease both;
+}
+
+.unlock-tooltip__content {
+    flex: 1;
+}
+
+.unlock-tooltip__title {
+    display: block;
+    font-size: 0.85rem;
+    color: #a5b4fc;
+    margin-bottom: 0.3rem;
+}
+
+.unlock-tooltip__text {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.unlock-tooltip__close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.unlock-tooltip__close:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes unlockBounce {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* === §19.3 Aha Moment Card === */
+.aha-moment-card {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.08));
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.2s;
+    animation: ahaSlideIn 0.5s ease;
+}
+
+.aha-moment-card:hover {
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateY(-1px);
+}
+
+.aha-moment-card__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--info, #3b82f6);
+    margin-bottom: 0.35rem;
+}
+
+.aha-moment-card__emoji {
+    font-size: 1.2rem;
+    animation: ahaPulse 2s infinite;
+}
+
+.aha-moment-card__text {
+    font-size: 0.78rem;
+    color: var(--text-muted, rgba(255,255,255,0.7));
+    line-height: 1.55;
+    margin: 0;
+}
+
+.aha-moment-card__dismiss {
+    display: block;
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: right;
+    margin-top: 0.4rem;
+}
+
+@keyframes ahaSlideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ahaPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+/* === §17 Achievement Popup === */
+.achievement-popup {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.4s;
+}
+
+.achievement-popup--show,
+.achievement-popup--enter {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.achievement-popup--exit {
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+}
+
+.achievement-popup__card {
+    position: relative;
+    text-align: center;
+    padding: 2.5rem 3rem;
+    background: linear-gradient(160deg, rgba(30, 35, 55, 0.98), rgba(15, 18, 30, 0.98));
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 0 60px rgba(245, 158, 11, 0.15), 0 0 120px rgba(245, 158, 11, 0.05);
+    transform: scale(0.5);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
+    max-width: 400px;
+    overflow: hidden;
+}
+
+.achievement-popup--show .achievement-popup__card {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.achievement-popup--exit .achievement-popup__card {
+    transform: scale(1.1);
+    opacity: 0;
+}
+
+.achievement-popup__glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(245, 158, 11, 0.12), transparent 60%);
+    animation: achieveGlow 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.achievement-popup__icon {
+    font-size: 3.5rem;
+    margin-bottom: 0.75rem;
+    animation: achieveIcon 0.6s 0.3s ease both;
+    filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.5));
+}
+
+.achievement-popup__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fbbf24;
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.achievement-popup__desc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 0.75rem;
+    line-height: 1.5;
+}
+
+.achievement-popup__reward {
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.08));
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 20px;
+    font-size: 0.78rem;
+    color: #fbbf24;
+    font-weight: 600;
+}
+
+@keyframes achieveGlow {
+    0%, 100% { opacity: 0.5; transform: rotate(0deg); }
+    50% { opacity: 1; transform: rotate(180deg); }
+}
+
+@keyframes achieveIcon {
+    0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+    60% { transform: scale(1.3) rotate(5deg); }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+/* Reduced motion support — §22.7 */
+@media (prefers-reduced-motion: reduce) {
+    .unlock-tooltip { transition: opacity 0.3s; transform: none !important; }
+    .unlock-tooltip--visible { transform: none !important; }
+    .unlock-tooltip__icon { animation: none; }
+    .aha-moment-card { animation: none; }
+    .aha-moment-card__emoji { animation: none; }
+    .achievement-popup__card { transition: opacity 0.3s; transform: none !important; }
+    .achievement-popup--show .achievement-popup__card { transform: none !important; }
+    .achievement-popup__glow { animation: none; }
+    .achievement-popup__icon { animation: none; }
+}

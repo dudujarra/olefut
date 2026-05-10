@@ -726,3 +726,26 @@ h1, h2, h3, h4 {
   .inline-stats { gap: 0.5rem; }
   .hide-mobile { display: none !important; }
 }
+
+/* §22.7: Respect reduced-motion preference globally */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in,
+  .pulse,
+  .slide-up,
+  .match-score.score-changed,
+  .narration-log .goal-line {
+    animation: none !important;
+  }
+  .card,
+  .btn,
+  .btn-cta,
+  .nav-tab,
+  .mode-btn,
+  .modal-content,
+  .progress-bar-fill,
+  .bar-fill,
+  .stress-bar-fill,
+  .alert-badge {
+    transition: none !important;
+  }
+}
