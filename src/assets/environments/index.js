@@ -1,6 +1,6 @@
 /**
  * Olé FUT — Environment Background Registry
- * 16 immersive SNES 16-bit pixel art environments
+ * 19 immersive SNES 16-bit pixel art environments
  */
 
 import bg_main_menu from './bg_main_menu.png';
@@ -19,6 +19,9 @@ import bg_cosmetic_shop from './bg_cosmetic_shop.png';
 import bg_rivalries from './bg_rivalries.png';
 import bg_achievements from './bg_achievements.png';
 import bg_chronicle from './bg_chronicle.png';
+import bg_tutorial from './bg_tutorial.png';
+import bg_trophy_ceremony from './bg_trophy_ceremony.png';
+import bg_locker_room from './bg_locker_room.png';
 
 export const ENVIRONMENTS = {
     'main_menu': bg_main_menu,
@@ -37,6 +40,9 @@ export const ENVIRONMENTS = {
     'rivalries': bg_rivalries,
     'achievements': bg_achievements,
     'chronicle': bg_chronicle,
+    'tutorial': bg_tutorial,
+    'trophy_ceremony': bg_trophy_ceremony,
+    'locker_room': bg_locker_room,
 };
 
 export default ENVIRONMENTS;

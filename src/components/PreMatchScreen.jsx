@@ -3,6 +3,7 @@ import { FormationBoard } from './FormationBoard';
 import { Tooltip } from './Tooltip';
 import { Help } from './Help';
 import { EfClubBadge, EfPanel, EfButton, EfModal } from './ui';
+import bgLockerRoom from '../assets/environments/bg_locker_room.png';
 
 /**
  * PreMatchScreen — 3-panel layout pre-match info
@@ -35,7 +36,13 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
     return (
         <div
             className={`prematch-screen ef-art-bg ef-art-locker-room ${isDerby ? 'ef-anim-pulse-glow' : ''}`}
-            style={isDerby ? { border: '3px solid #D62828', borderRadius: '4px', boxShadow: '0 0 20px rgba(214,40,40,0.4)' } : {}}
+            style={{
+                ...(isDerby ? { border: '3px solid #D62828', borderRadius: '4px', boxShadow: '0 0 20px rgba(214,40,40,0.4)' } : {}),
+                backgroundImage: `url(${bgLockerRoom})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                imageRendering: 'pixelated'
+            }}
         >
             <EfPanel variant="elev" padding="lg">
                 {isDerby && (

@@ -815,7 +815,12 @@ export class AutoPlayController {
         });
 
         const nextStateKey = encodeState(currentCtx);
-        this.brain.observe(this._lastStateKey, this._lastAction, reward, nextStateKey, []);
+        // Convergence fix: pass real next-state actions for Q-value bootstrapping
+        // Ref: Watkins (1989) — δ = r + γ·max(Q[s'][a']) - Q[s][a]
+        const tacticActions = ['TACTIC_normal', 'TACTIC_offensive', 'TACTIC_defensive', 'TACTIC_counter'];
+        const trainingActions = TRAINING_ROTATION.map(id => `TRAIN_${id}`);
+        const nextActions = [...tacticActions, ...trainingActions];
+        this.brain.observe(this._lastStateKey, this._lastAction, reward, nextStateKey, nextActions);
 
         // Fase 3 ML: Feed reward to SARSA emotional modifier learner
         try { this.brain.emotions.feedReward(reward); } catch { /* defensive */ }
@@ -872,7 +877,7 @@ export class AutoPlayController {
                 });
                 // Feed reward back to Q-table
                 if (tx.stateKey && tx.action) {
-                    this.brain.observe(tx.stateKey, tx.action, reward, encodeState(ctx), []);
+                    this.brain.observe(tx.stateKey, tx.action, reward, encodeState(ctx), ['MKT_BUY_YES', 'MKT_BUY_NO', 'MKT_SELL_YES', 'MKT_SELL_NO']);
                     this._logDecision('ML_TRANSFER_REWARD', {
                         type: tx.type, reward: reward.toFixed(1),
                         posChange: tx.positionBefore - currentPos,
@@ -1529,7 +1534,7 @@ export class AutoPlayController {
                             emotionalLossMod: this.brain?.emotions?.getModifiers?.()?.lossMod || 1.0
                         });
                         if (tx.stateKey && tx.action) {
-                            this.brain.observe(tx.stateKey, tx.action, reward, encodeState(ctx), []);
+                            this.brain.observe(tx.stateKey, tx.action, reward, encodeState(ctx), ['MKT_BUY_YES', 'MKT_BUY_NO', 'MKT_SELL_YES', 'MKT_SELL_NO']);
                         }
                     } catch { /* defensive */ }
                 }

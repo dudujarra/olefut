@@ -161,12 +161,12 @@ describe('SPEC-115/116 — AdaptiveBrain Q-learning', () => {
     });
 
     test('table size capped via LRU eviction', () => {
-        // Fill > MAX_BUCKETS
-        for (let i = 0; i < 600; i++) {
+        // Fill > MAX_BUCKETS (now 800)
+        for (let i = 0; i < 900; i++) {
             brain.observe(`state_${i}`, 'A', 1, `state_${i + 1}`, ['A']);
         }
         const states = Object.keys(brain.qTable).length;
-        expect(states).toBeLessThanOrEqual(500);
+        expect(states).toBeLessThanOrEqual(800);
     });
 
     test('reset clears state', () => {

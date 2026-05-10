@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { EfButton } from './ui/EfButton';
+import bgTrophyCeremony from '../assets/environments/bg_trophy_ceremony.png';
 
 import imgWorldCup from '../assets/trophies/continental.png'; // world cup uses continental as placeholder until dedicated asset
 import imgContinentalCup from '../assets/trophies/continental.png';
@@ -66,7 +67,12 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
     return (
         <div className="trophy-ceremony-overlay ef-art-champion-celebration ef-art-bg"
              role="dialog" aria-label="Cerimônia de troféu"
-             style={{ background: 'rgba(0,0,0,0.9)' }}>
+             style={{ 
+                 background: `linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), url(${bgTrophyCeremony})`,
+                 backgroundSize: 'cover',
+                 backgroundPosition: 'center',
+                 imageRendering: 'pixelated'
+             }}>
             {/* Phase 0-1: Trophy reveal */}
             {phase >= 1 && (
                 <div className="trophy-reveal ef-anim-pop-in" aria-live="polite" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

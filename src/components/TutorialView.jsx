@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
+import bgTutorial from '../assets/environments/bg_tutorial.png';
 
 const STEPS = [
     {
@@ -72,7 +73,11 @@ export function TutorialView() {
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: '70vh',
-            gap: '1.5rem'
+            gap: '1.5rem',
+            backgroundImage: `url(${bgTutorial})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            imageRendering: 'pixelated'
         }}>
             <EfPanel variant="elev" className="ef-anim-pop-in" style={{
                 padding: '2rem',

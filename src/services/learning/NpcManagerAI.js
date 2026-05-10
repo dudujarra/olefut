@@ -173,10 +173,12 @@ export function npcBuyDecision(team, engine) {
     if (typeof engine.npcMakeBuyOffer === 'function') {
         const result = engine.npcMakeBuyOffer(team.id, target.teamId, player.id, offerAmount);
         // Feed reward: immediate signal for accepted/rejected
+        const nextCtxKey = encodeState(buildNpcStateCtx(team, engine));
+        const mktActions = ['MKT_BUY_YES', 'MKT_BUY_NO'];
         if (result?.accepted) {
-            brain.observe(best.decision.stateKey, best.decision.action, 3, encodeState(buildNpcStateCtx(team, engine)), []);
+            brain.observe(best.decision.stateKey, best.decision.action, 3, nextCtxKey, mktActions);
         } else {
-            brain.observe(best.decision.stateKey, best.decision.action, -1, encodeState(buildNpcStateCtx(team, engine)), []);
+            brain.observe(best.decision.stateKey, best.decision.action, -1, nextCtxKey, mktActions);
         }
     }
 }
@@ -228,19 +230,31 @@ export function npcObserveReward(team, ctx, lastAction, lastStateKey) {
     const brain = team.brain;
     if (!brain || !lastAction || !lastStateKey) return;
 
+    // Track NPC state deltas for richer reward signal
+    const lastPos = team._lastNpcPosition ?? ctx.position;
+    const lastBal = team._lastNpcBalance ?? (team.balance || 0);
+    const lastDiv = team._lastNpcDivision ?? (team.division || 4);
+    const currentDiv = team.division || 4;
+
     const emoMods = brain.emotions?.getModifiers() || { lossMod: 1.0 };
     const reward = computeReward({
         matchResult: ctx.lastResult,
-        balanceDelta: 0, // NPCs don't track balance delta per-tick
-        positionDelta: 0,
-        promoted: false,
-        relegated: false,
+        balanceDelta: (team.balance || 0) - lastBal,
+        positionDelta: lastPos - ctx.position, // positive = improved
+        promoted: currentDiv < lastDiv,
+        relegated: currentDiv > lastDiv,
         title: false,
         emotionalLossMod: emoMods.lossMod
     });
 
+    // Update NPC state tracking for next observation
+    team._lastNpcPosition = ctx.position;
+    team._lastNpcBalance = team.balance || 0;
+    team._lastNpcDivision = currentDiv;
+
     const nextStateKey = encodeState(ctx);
-    brain.observe(lastStateKey, lastAction, reward, nextStateKey, []);
+    const tacticActions = ['TACTIC_normal', 'TACTIC_offensive', 'TACTIC_defensive', 'TACTIC_counter'];
+    brain.observe(lastStateKey, lastAction, reward, nextStateKey, tacticActions);
 }
 
 // ─── HELPERS ─────────────────────────────────────────────────

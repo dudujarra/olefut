@@ -26,7 +26,7 @@ const STORAGE_KEY = 'elifoot_autoplay_brain';
 const ALPHA = 0.1;       // learning rate
 const GAMMA = 0.9;       // discount factor
 const BASE_EPSILON = 0.15;    // base exploration rate
-const MAX_BUCKETS = 500; // bound table size
+const MAX_BUCKETS = 800; // bound table size (covers ~62% of 1296 possible states)
 
 // ─── ELIGIBILITY TRACES (Fase 1 ML Upgrade) ─────────────────
 // Ref: Sutton & Barto, Ch.12 — Singh & Sutton 1996 (Replacing Traces)
@@ -386,9 +386,13 @@ export class AdaptiveBrain {
             if (forced) return forced;
         }
 
-        // Effective epsilon = base × emotional modifier × AI Director modifier
+        // Effective epsilon with visit-based decay
+        // Ref: Watkins (1989) — convergence requires ε → 0
+        // Decays from BASE_EPSILON → 0.02 floor as state is visited more
         const directorMod = this._aiDirectorMod || 1.0;
-        const effectiveEpsilon = Math.min(0.95, BASE_EPSILON * emo.epsilonMod * (2.0 - directorMod));
+        const visits = this.visitCount[stateKey] || 0;
+        const decayedEpsilon = BASE_EPSILON / (1 + visits * 0.1); // ~0.15 → 0.03 @ 40 visits
+        const effectiveEpsilon = Math.min(0.95, Math.max(0.02, decayedEpsilon * emo.epsilonMod * (2.0 - directorMod)));
 
         // TILT MECHANIC: high epsilonMod makes decisions erratic
         const lossStreak = ctx.lossStreak || 0;
@@ -399,7 +403,6 @@ export class AdaptiveBrain {
         }
 
         // Cold start or exploration
-        const visits = this.visitCount[stateKey] || 0;
         if (visits < 3 || systemRng() < effectiveEpsilon) {
             return availableActions[Math.floor(systemRng() * availableActions.length)];
         }
@@ -460,8 +463,11 @@ export class AdaptiveBrain {
                 const trace = actions[ta];
 
                 // Update Q-value weighted by trace
+                // Alpha decay: stabilize mature Q-values over time
+                // Ref: Even-Dar & Mansour (2003) — α=O(1/t) guarantees convergence
+                const effectiveAlpha = Math.max(0.01, ALPHA / (1 + this.totalUpdates * 0.0001));
                 if (!this.qTable[ts]) this.qTable[ts] = {};
-                this.qTable[ts][ta] = (this.qTable[ts][ta] || 0) + ALPHA * delta * trace;
+                this.qTable[ts][ta] = (this.qTable[ts][ta] || 0) + effectiveAlpha * delta * trace;
 
                 // Decay trace
                 const decayed = trace * GAMMA * LAMBDA;
