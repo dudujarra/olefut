@@ -400,6 +400,100 @@ export class AutoPlayController {
                 }
             } catch { /* hall non-critical */ }
 
+            // Sign Scouted Players — human signs in MarketView/DashboardView
+            try {
+                if (Array.isArray(this.engine.scoutedPlayers) && this.engine.scoutedPlayers.length > 0
+                    && typeof this.engine.signScoutedPlayer === 'function') {
+                    const team = this.engine.getTeam(this.engine.manager?.teamId);
+                    // Sign if squad small or player is upgrade (OVR > squad avg)
+                    const avgOVR = team?.squad?.length
+                        ? team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / team.squad.length : 50;
+                    for (let i = this.engine.scoutedPlayers.length - 1; i >= 0; i--) {
+                        const sp = this.engine.scoutedPlayers[i];
+                        const isUpgrade = (sp.ovr || 0) >= avgOVR;
+                        const needsPlayers = (team?.squad?.length || 0) < 22;
+                        if (isUpgrade || needsPlayers) {
+                            const result = this.engine.signScoutedPlayer(i);
+                            if (result?.success) {
+                                this._logDecision('SIGN_SCOUTED', {
+                                    name: sp.name, ovr: sp.ovr, position: sp.position
+                                }, 0);
+                                this.stats.transfers++;
+                                break; // one per tick max
+                            }
+                        }
+                    }
+                }
+            } catch { /* sign non-critical */ }
+
+            // Staff Management — human hires/fires in DashboardView
+            try {
+                if (typeof this.engine.hireStaff === 'function' && this.stats.weeksPlayed % 38 === 1) {
+                    const team = this.engine.getTeam(this.engine.manager?.teamId);
+                    if (team && (team.balance || 0) > 2_000_000) {
+                        const roles = ['scout', 'physio', 'assistant', 'fitness'];
+                        const staff = this.engine.staff || {};
+                        for (const role of roles) {
+                            if (!staff[role]) {
+                                const result = this.engine.hireStaff(role);
+                                if (result?.success) {
+                                    this._logDecision('HIRE_STAFF', { role }, 0);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch { /* staff non-critical */ }
+
+            // Loan Players — human loans bench in SquadView
+            try {
+                if (typeof this.engine.loanPlayer === 'function' && this.stats.weeksPlayed % 19 === 0) {
+                    const team = this.engine.getTeam(this.engine.manager?.teamId);
+                    if (team?.squad?.length > 22) {
+                        // Loan lowest OVR non-titular
+                        const bench = team.squad.filter(p => !p.isTitular && !p.injury && (p.ovr || 0) < 60);
+                        bench.sort((a, b) => (a.ovr || 0) - (b.ovr || 0));
+                        if (bench.length > 0) {
+                            const p = bench[0];
+                            const result = this.engine.loanPlayer(p.id, 20);
+                            if (result?.success) {
+                                this._logDecision('LOAN_OUT', {
+                                    name: p.name, ovr: p.ovr, weeks: 20
+                                }, 0);
+                            }
+                        }
+                    }
+                }
+            } catch { /* loan non-critical */ }
+
+            // Live Substitutions — human subs during MatchView
+            // Note: advanceWeek runs full match internally, so we simulate
+            // tactical sub decisions by checking post-match if subs would help
+            try {
+                if (typeof this.engine.applyLiveSubstitution === 'function') {
+                    const team = this.engine.getTeam(this.engine.manager?.teamId);
+                    if (team?.squad) {
+                        // Find exhausted titulars + fresh bench
+                        const tired = team.squad.filter(p => p.isTitular && (p.energy || 100) < 40);
+                        const fresh = team.squad.filter(p => !p.isTitular && !p.injury && (p.energy || 0) > 70);
+                        if (tired.length > 0 && fresh.length > 0) {
+                            // Sort fresh by OVR to pick best
+                            fresh.sort((a, b) => (b.ovr || 0) - (a.ovr || 0));
+                            const out = tired[0];
+                            const inP = fresh[0];
+                            try {
+                                this.engine.applyLiveSubstitution(out.id, inP.id, 65);
+                                this._logDecision('SUBSTITUTION', {
+                                    out: out.name, in: inP.name,
+                                    outEnergy: out.energy, inOvr: inP.ovr
+                                }, 0);
+                            } catch { /* sub may fail if not mid-match */ }
+                        }
+                    }
+                }
+            } catch { /* sub non-critical */ }
+
             // Save every 38 weeks (1 season)
             if (this.stats.weeksPlayed % 38 === 0) {
                 this.stats.seasonsPlayed++;
