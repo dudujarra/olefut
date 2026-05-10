@@ -259,6 +259,147 @@ export class AutoPlayController {
                 }
             } catch { /* PWA non-critical */ }
 
+            // === HUMAN-PARITY INTERACTIONS (mirror what player does in UI) ===
+
+            // Team Talk — human does this before matches (Dashboard + MatchView)
+            try {
+                if (typeof this.engine.doTeamTalk === 'function' && this.stats.weeksPlayed % 2 === 0) {
+                    const talks = TEAM_TALKS || [];
+                    if (talks.length > 0) {
+                        const pick = talks[Math.floor(systemRng() * talks.length)];
+                        const result = this.engine.doTeamTalk(pick.id);
+                        if (result?.success) {
+                            this._logDecision('TEAM_TALK', { talkId: pick.id, name: pick.name }, 0);
+                        }
+                    }
+                }
+            } catch { /* team talk non-critical */ }
+
+            // Contract Renewals — human renews expiring contracts in SquadView
+            try {
+                const team = this.engine.getTeam(this.engine.manager?.teamId);
+                if (team?.squad && typeof this.engine.renewContract === 'function') {
+                    const expiring = team.squad.filter(p =>
+                        p.contract && p.contract.endSeason <= (this.engine.seasonNumber || 1) + 1
+                    );
+                    for (const p of expiring.slice(0, 3)) {
+                        const result = this.engine.renewContract(p.id);
+                        if (result?.success) {
+                            this._logDecision('RENEW_CONTRACT', {
+                                playerId: p.id, name: p.name, ovr: p.ovr
+                            }, 0);
+                        }
+                    }
+                }
+            } catch { /* contract non-critical */ }
+
+            // Coach Proposals — human accepts/rejects in DashboardView
+            try {
+                if (this.engine.pendingCoachProposal) {
+                    const proposal = this.engine.pendingCoachProposal;
+                    // Bot always refuses (stays at current club) — like a loyal manager
+                    if (typeof this.engine.respondCoachProposal === 'function') {
+                        this.engine.respondCoachProposal(false);
+                    } else {
+                        // Fallback: just dismiss
+                        this.engine.pendingCoachProposal = null;
+                    }
+                    this._logDecision('COACH_PROPOSAL_REFUSED', {
+                        from: proposal.fromClubName,
+                        reason: proposal.reason
+                    }, 0);
+                }
+            } catch { /* proposal non-critical */ }
+
+            // Scout Regions — human scouts in DashboardView/MarketView
+            try {
+                if (typeof this.engine.scoutRegionAction === 'function' && this.stats.weeksPlayed % 6 === 0) {
+                    const regions = this.engine.scoutRegions || [];
+                    if (regions.length > 0) {
+                        const region = regions[Math.floor(systemRng() * regions.length)];
+                        const result = this.engine.scoutRegionAction(region.id);
+                        if (result?.players?.length > 0) {
+                            this._logDecision('SCOUT_REGION', {
+                                region: region.name || region.id,
+                                found: result.players.length
+                            }, 0);
+                        }
+                    }
+                }
+            } catch { /* scout non-critical */ }
+
+            // Week Events — human reads narrative events in DashboardView
+            try {
+                const events = this.engine.weekEvents;
+                if (Array.isArray(events) && events.length > 0) {
+                    for (const ev of events) {
+                        this._logDecision('NARRATIVE_EVENT', {
+                            type: ev.type || 'unknown',
+                            text: (ev.text || ev.msg || '').slice(0, 80)
+                        }, 0);
+                    }
+                    // Track event variety for telemetry
+                    if (!this.stats._eventTypes) this.stats._eventTypes = {};
+                    events.forEach(ev => {
+                        const t = ev.type || 'unknown';
+                        this.stats._eventTypes[t] = (this.stats._eventTypes[t] || 0) + 1;
+                    });
+                }
+            } catch { /* events non-critical */ }
+
+            // Season Awards — human sees awards banner in DashboardView
+            try {
+                if (Array.isArray(this.engine.seasonAwards) && this.engine.seasonAwards.length > 0) {
+                    for (const award of this.engine.seasonAwards) {
+                        this._logSuccess('SEASON_AWARD', `🏅 ${award.title || award.name || 'Prêmio'}`, {
+                            award: award.title || award.name,
+                            player: award.playerName || award.player
+                        });
+                    }
+                    // Clear after consuming (like UI does on next render)
+                    this.engine.seasonAwards = [];
+                }
+            } catch { /* awards non-critical */ }
+
+            // Active Challenge — human tracks in DashboardView
+            try {
+                if (this.engine.activeChallenge) {
+                    const ch = this.engine.activeChallenge;
+                    if (ch.completed) {
+                        this._logSuccess('CHALLENGE_COMPLETED', `🎯 ${ch.description}`, {
+                            reward: ch.reward
+                        });
+                    }
+                    // Log active challenge progress for telemetry
+                    if (!this.stats._challengesSeen) this.stats._challengesSeen = 0;
+                    this.stats._challengesSeen++;
+                }
+            } catch { /* challenge non-critical */ }
+
+            // Board Tension — human reads in DashboardView (no action, just observe)
+            try {
+                if (typeof this.engine.boardTension === 'number') {
+                    if (!this.stats._boardTensionHistory) this.stats._boardTensionHistory = [];
+                    this.stats._boardTensionHistory.push(this.engine.boardTension);
+                    if (this.stats._boardTensionHistory.length > 200) {
+                        this.stats._boardTensionHistory = this.stats._boardTensionHistory.slice(-100);
+                    }
+                }
+            } catch { /* board non-critical */ }
+
+            // Hall of Legends — human views in DashboardView
+            try {
+                if (this.engine.hallOfLegends?.filledCount > 0) {
+                    if (!this.stats._hallOfLegendsCount) this.stats._hallOfLegendsCount = 0;
+                    if (this.engine.hallOfLegends.filledCount > this.stats._hallOfLegendsCount) {
+                        this._logSuccess('HALL_OF_LEGENDS', `⭐ ${this.engine.hallOfLegends.filledCount} lendas`, {
+                            count: this.engine.hallOfLegends.filledCount
+                        });
+                        this.stats._hallOfLegendsCount = this.engine.hallOfLegends.filledCount;
+                    }
+                }
+            } catch { /* hall non-critical */ }
+
             // Save every 38 weeks (1 season)
             if (this.stats.weeksPlayed % 38 === 0) {
                 this.stats.seasonsPlayed++;
