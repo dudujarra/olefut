@@ -96,11 +96,11 @@ describe('SPEC-115/116 — computeReward (BUG-041 reshape)', () => {
         expect(r).toBeLessThanOrEqual(13);
         expect(r).toBeGreaterThanOrEqual(10);
     });
-    test('promotion = +50 (+ clean sheet 3)', () => {
-        expect(computeReward({ matchResult: '-', promoted: true })).toBe(53);
+    test('promotion = +60 (BUG-RC1 symmetric, + clean sheet 3)', () => {
+        expect(computeReward({ matchResult: '-', promoted: true })).toBe(63);
     });
-    test('relegation = -100 (+ clean sheet 3)', () => {
-        expect(computeReward({ matchResult: '-', relegated: true })).toBe(-97);
+    test('relegation = -60 (BUG-RC1 symmetric, + clean sheet 3)', () => {
+        expect(computeReward({ matchResult: '-', relegated: true })).toBe(-57);
     });
     test('own scoring rewards even on loss', () => {
         // Loss but scored 2 goals → -1 + 3 (1.5*2) = 2
@@ -190,5 +190,70 @@ describe('SPEC-115/116 — AdaptiveBrain Q-learning', () => {
         brain.save();
         const fresh = new AdaptiveBrain();
         expect(fresh.getQ('s1', 'A')).toBeGreaterThan(0);
+    });
+});
+
+// ─── NEW GAME+ REGRESSION ────────────────────────────────────
+describe('New Game+ — Brain persists, gameplay resets', () => {
+    test('newGamePlus() saves brain and zeroes stats', async () => {
+        // Setup: mock localStorage consistently (same as brain uses)
+        const store = {};
+        global.localStorage = {
+            getItem: (k) => Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null,
+            setItem: (k, v) => { store[k] = String(v); },
+            removeItem: (k) => { delete store[k]; },
+            get length() { return Object.keys(store).length; },
+            key: (i) => Object.keys(store)[i] || null,
+        };
+
+        const { Engine } = await import('../../src/engine/engine.js');
+        const { AutoPlayController } = await import('../../src/services/AutoPlayService.js');
+
+        const engine = new Engine();
+        engine.initGame('NGP-Test', 1, 'manager', 'livre');
+        const bot = new AutoPlayController(engine);
+
+        // Run 2 seasons to build up ML + stats
+        bot.running = true;
+        for (let w = 0; w < 80; w++) {
+            try { bot._tick(); } catch { /* ok */ }
+        }
+        bot.running = false;
+
+        // Verify we have data BEFORE New Game+
+        const brainUpdatesBefore = bot.brain.totalUpdates;
+        const qStatesBefore = Object.keys(bot.brain.qTable).length;
+        const weeksBefore = bot.stats.weeksPlayed;
+        expect(brainUpdatesBefore).toBeGreaterThan(0);
+        expect(weeksBefore).toBeGreaterThan(0);
+
+        // ACT: New Game+
+        const snapshot = bot.newGamePlus();
+
+        // ASSERT: brain snapshot returned correctly
+        expect(snapshot.states).toBe(qStatesBefore);
+        expect(snapshot.totalUpdates).toBe(brainUpdatesBefore);
+        expect(snapshot.savedAt).toBeGreaterThan(0);
+
+        // ASSERT: stats are zeroed
+        expect(bot.stats.weeksPlayed).toBe(0);
+        expect(bot.stats.seasonsPlayed).toBe(0);
+        expect(bot.stats.wins).toBe(0);
+        expect(bot.stats.losses).toBe(0);
+        expect(bot.stats.transfers).toBe(0);
+        expect(bot.stats.decisions.length).toBe(0);
+        expect(bot.stats.anomalies.length).toBe(0);
+
+        // ASSERT: brain is STILL intact in memory
+        expect(bot.brain.totalUpdates).toBe(brainUpdatesBefore);
+        expect(Object.keys(bot.brain.qTable).length).toBe(qStatesBefore);
+
+        // ASSERT: brain was saved to localStorage
+        const savedBrain = JSON.parse(store['elifoot_autoplay_brain'] || 'null');
+        expect(savedBrain).not.toBeNull();
+        expect(savedBrain.totalUpdates).toBe(brainUpdatesBefore);
+
+        // ASSERT: gameplay state was removed from localStorage
+        expect(store['elifoot_autoplay_state']).toBeUndefined();
     });
 });

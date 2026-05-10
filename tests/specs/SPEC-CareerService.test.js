@@ -4,9 +4,6 @@
 
 import { describe, test, expect } from 'vitest';
 import { CareerService } from '../../src/services/CareerService.js';
-import { CareerTransition } from '../../src/services/CareerTransition.js';
-import { MythService } from '../../src/services/MythService.js';
-import { RelationshipService } from '../../src/services/RelationshipService.js';
 
 describe('CareerService — RFCT-014 ProPlayer', () => {
     test('getProPlayer null sem proPlayer', () => {
@@ -70,116 +67,30 @@ describe('CareerService — RFCT-015 Manager Career', () => {
     });
 });
 
-describe('CareerTransition — RFCT-016', () => {
-    test('execute rejeita ProPlayer não aposentável (< 35 anos, < 12 temps)', () => {
+describe('CareerService — retireProPlayer', () => {
+    test('retireProPlayer aposenta e transiciona para manager', () => {
+        const svc = new CareerService();
         const save = {
-            proPlayer: { id: 1, name: 'Young', age: 25, seasonsPlayed: 5 }
-        };
-        const transition = new CareerTransition(save);
-        const result = transition.execute();
-        expect(result.success).toBe(false);
-    });
-
-    test('execute aceita ProPlayer 35+ anos', () => {
-        const save = {
-            proPlayer: { id: 1, name: 'Veteran', age: 36, seasonsPlayed: 15 }
-        };
-        const transition = new CareerTransition(save);
-        const result = transition.execute();
-        expect(result.success).toBe(true);
-    });
-
-    test('execute aceita ProPlayer 12+ temps mesmo com idade < 35', () => {
-        const save = {
-            proPlayer: { id: 1, name: 'Y', age: 30, seasonsPlayed: 13 }
-        };
-        const transition = new CareerTransition(save);
-        const result = transition.execute();
-        expect(result.success).toBe(true);
-    });
-
-    test('execute snapshot persiste em retiredPlayers', () => {
-        const save = {
-            proPlayer: { id: 42, name: 'Pelé', age: 40, seasonsPlayed: 20, titles: [], clubsPlayed: [1, 2] }
-        };
-        const transition = new CareerTransition(save);
-        transition.execute();
-        expect(save.retiredPlayers).toHaveLength(1);
-        expect(save.retiredPlayers[0].name).toBe('Pelé');
-        expect(save.retiredPlayers[0].clubsPlayed).toEqual([1, 2]);
-    });
-
-    test('execute promote inicializa managerCareer', () => {
-        const save = {
-            proPlayer: { id: 1, name: 'X', age: 36, seasonsPlayed: 12 }
-        };
-        const transition = new CareerTransition(save);
-        transition.execute();
-        expect(save.managerCareer).toBeDefined();
-        expect(save.managerCareer.originalPlayerId).toBe(1);
-        expect(save.proPlayer.retired).toBe(true);
-    });
-
-    test('execute initial reputation: tier S +20', () => {
-        const save = {
-            proPlayer: {
-                id: 1, name: 'Lenda', age: 36, seasonsPlayed: 14,
-                titles: [{ tier: 'S' }, { tier: 'A' }],
-                careerStats: { totalGoals: 250 }
-            }
-        };
-        const transition = new CareerTransition(save);
-        const result = transition.execute();
-        // baseline 30 + tier S 20 + tier A 10 + 200+ goals 10 = 70
-        expect(result.initialReputation).toBe(70);
-    });
-
-    test('execute initial reputation cap em 100', () => {
-        const save = {
-            proPlayer: {
-                id: 1, name: 'GOAT', age: 40, seasonsPlayed: 20,
-                titles: [{ tier: 'S' }, { tier: 'S' }, { tier: 'A' }, { tier: 'A' }, { tier: 'A' }],
-                careerStats: { totalGoals: 500, totalAssists: 200 }
-            }
-        };
-        const transition = new CareerTransition(save);
-        const result = transition.execute();
-        expect(result.initialReputation).toBe(100);
-    });
-
-    test('execute integra services injected', () => {
-        const mythService = new MythService();
-        const relSvc = new RelationshipService();
-        const save = {
-            proPlayer: {
-                id: 1, name: 'Captain', age: 36, seasonsPlayed: 14,
-                titles: [],
-                clubsPlayed: [1]
-            }
-        };
-        // Add hall slots no clube 1 pra trigger bonus
-        mythService.promoteToHallOfFame(save, 1, 1, 'idoloEterno');
-        mythService.promoteToHallOfFame(save, 2, 1, 'goleirao');
-
-        const transition = new CareerTransition(save, { mythService, relationshipService: relSvc });
-        transition.execute();
-
-        // Trust ajustado: +5 ex-clube +10 hall slots >= 2
-        expect(save.relations?.manager_president?.trust).toBe(75); // 60 + 5 + 10
-    });
-});
-
-describe('CareerService → CareerTransition integration', () => {
-    test('retireProPlayer delega a CareerTransition', () => {
-        const svc = new CareerService({
-            mythService: new MythService(),
-            relationshipService: new RelationshipService()
-        });
-        const save = {
-            proPlayer: { id: 1, name: 'X', age: 36, seasonsPlayed: 14 }
+            proPlayer: { id: 1, name: 'Veterano', age: 36 }
         };
         const result = svc.retireProPlayer(save);
         expect(result.success).toBe(true);
         expect(save.proPlayer.retired).toBe(true);
+        expect(save.mode).toBe('manager');
+        expect(save.manager.name).toBe('Veterano');
+        expect(save.manager.formerPlayer).toBe(true);
+    });
+
+    test('retireProPlayer rejeita sem proPlayer', () => {
+        const svc = new CareerService();
+        const result = svc.retireProPlayer({});
+        expect(result.success).toBe(false);
+    });
+
+    test('retireProPlayer rejeita já aposentado', () => {
+        const svc = new CareerService();
+        const save = { proPlayer: { id: 1, retired: true } };
+        const result = svc.retireProPlayer(save);
+        expect(result.success).toBe(false);
     });
 });

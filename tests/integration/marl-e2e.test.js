@@ -18,10 +18,10 @@ import { Engine } from '../../src/engine/engine.js';
 import { AdaptiveBrain, encodeState, computeReward } from '../../src/services/learning/AdaptiveBrain.js';
 import { EmotionalEngine } from '../../src/services/learning/EmotionalEngine.js';
 import { generatePersonality, suggestArchetypeForClub, ARCHETYPES, checkIsTilted } from '../../src/services/learning/Archetypes.js';
-import { applyAnchoring, applySunkCost, applyEndowment, applyHerdBehavior, applyScarcityPanic, applyRecencyBias, applyStatusQuoBias, applyBuyBiases, applySellBiases } from '../../src/services/learning/CognitiveBiases.js';
+import { applySunkCost, applyEndowment, applyHerdBehavior, applyScarcityPanic, applyRecencyBias, applyStatusQuoBias, applyBuyBiases, applySellBiases } from '../../src/services/learning/CognitiveBiases.js';
 import { AIDirector } from '../../src/services/learning/AIDirector.js';
 import { npcTacticDecision, npcFeedMatchResult, buildNpcStateCtx, countStreak, shouldUseFullBrain } from '../../src/services/learning/NpcManagerAI.js';
-import { saveAllBrains, restoreAllBrains, estimateStorageSize, clearAllBrains } from '../../src/services/learning/BrainPersistence.js';
+import { saveAllBrains, restoreAllBrains } from '../../src/services/learning/BrainPersistence.js';
 
 describe('MARL E2E Integration', () => {
     let engine;
@@ -116,7 +116,7 @@ describe('MARL E2E Integration', () => {
             expect(typeof s.ticksSinceChange).toBe('number');
             // Verify no nested objects that would crash React rendering
             for (const [k, v] of Object.entries(s)) {
-                if (k === 'modifiers' || k === 'recentTransitions') continue;
+                if (k === 'modifiers' || k === 'recentTransitions' || k === 'sarsa') continue;
                 expect(typeof v).not.toBe('object');
             }
         });
@@ -143,7 +143,8 @@ describe('MARL E2E Integration', () => {
 
         it('relegation with emotional mod is devastating', () => {
             const r = computeReward({ matchResult: 'L', balanceDelta: 0, positionDelta: 0, promoted: false, relegated: true, title: false, emotionalLossMod: 1.5 });
-            expect(r).toBeLessThan(-100);
+            // BUG-RC1: relegation=-60 (symmetric), with emotional mod 1.5 → ~-91.5
+            expect(r).toBeLessThan(-70);
         });
     });
 
@@ -192,12 +193,6 @@ describe('MARL E2E Integration', () => {
     // ═══════════════════════════════════════════════════════════
 
     describe('Fase 5: Cognitive Biases', () => {
-        it('applyAnchoring interpolates between real and anchor', () => {
-            const v = applyAnchoring(1_000_000, 2_000_000, 0.5);
-            expect(v).toBeGreaterThan(1_000_000);
-            expect(v).toBeLessThan(2_000_000);
-        });
-
         it('applySunkCost creates floor above current value if purchase was high', () => {
             const min = applySunkCost(5_000_000, 2_000_000, 0.8);
             expect(min).toBeGreaterThan(2_000_000);

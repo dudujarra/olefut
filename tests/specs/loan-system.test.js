@@ -43,8 +43,11 @@ describe('Loan System', () => {
         engine.takeLoan(opts.options[0].amount);
         const balBefore = team.balance;
         const payment = engine.activeLoan.weeklyPayment;
-        engine.processLoanPayment();
-        expect(team.balance).toBe(balBefore - payment);
+        const result = engine.processLoanPayment();
+        // BUG-085: processLoanPayment não debita direto — retorna o valor
+        // para o WeekProcessor debitar via weeklyFinance.expenses
+        expect(result.paid).toBe(payment);
+        expect(team.balance).toBe(balBefore); // balance inalterado (WeekProcessor cuida)
         expect(engine.activeLoan.weeksRemaining).toBe(opts.termWeeks - 1);
     });
 

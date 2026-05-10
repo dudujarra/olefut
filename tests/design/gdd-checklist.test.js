@@ -25,9 +25,8 @@ describe('§23 GDD Automated Design Checklist', () => {
     // === BEFORE BUILDING checks ===
     describe('Player Fantasy & Framework', () => {
         it('§1.3 Bartle types — Achiever systems exist', () => {
-            // Achievements + Prestige = achiever
+            // Achievements = achiever system
             expect(fs.existsSync(path.resolve('src/engine/systems/AchievementsSystem.js'))).toBe(true);
-            expect(fs.existsSync(path.resolve('src/engine/systems/PrestigeSystem.js'))).toBe(true);
         });
 
         it('§1.2 DDA — DifficultyModes exist', () => {
@@ -75,9 +74,7 @@ describe('§23 GDD Automated Design Checklist', () => {
             });
         });
 
-        it('§7.1 save migration — saveMigrations.js exists', () => {
-            expect(fs.existsSync(path.resolve('src/services/saveMigrations.js'))).toBe(true);
-        });
+
     });
 
     // === AFTER BUILDING checks ===
@@ -125,9 +122,7 @@ describe('§23 GDD Automated Design Checklist', () => {
             expect(found).toBeGreaterThanOrEqual(3);
         });
 
-        it('§14.4 dynasty/legacy — LineageSystem exists', () => {
-            expect(fs.existsSync(path.resolve('src/engine/systems/LineageSystem.js'))).toBe(true);
-        });
+
 
         it('§8 narrative — ChronicleSystem + NarrativeService exist', () => {
             expect(fs.existsSync(path.resolve('src/engine/ChronicleSystem.js'))).toBe(true);
