@@ -141,6 +141,8 @@ import lens from './lens.png';
 import nice from './nice.png';
 import toulouse from './toulouse.png';
 import nantes from './nantes.png';
+import montpellier from './montpellier.png';
+import strasbourg from './strasbourg.png';
 
 // POR
 import benfica from './benfica.png';
@@ -165,6 +167,8 @@ import rosario_central from './rosario_central.png';
 import newells_old_boys from './newells_old_boys.png';
 import velez_sarsfield from './velez_sarsfield.png';
 import talleres from './talleres.png';
+import argentinos_juniors from './argentinos_juniors.png';
+import lanus from './lanus.png';
 
 // URU
 import penarol from './penarol.png';
@@ -333,6 +337,7 @@ export const HIGH_END_SHIELDS = {
 
     "Paris Saint-Germain": paris_saint_germain,
     "Olympique de Marseille": olympique_de_marseille,
+    "Marseille": olympique_de_marseille,
     "Lyon": lyon,
     "Monaco": monaco,
     "Lille": lille,
@@ -341,6 +346,8 @@ export const HIGH_END_SHIELDS = {
     "Nice": nice,
     "Toulouse": toulouse,
     "Nantes": nantes,
+    "Montpellier": montpellier,
+    "Strasbourg": strasbourg,
 
     "Benfica": benfica,
     "FC Porto": fc_porto,
@@ -356,13 +363,17 @@ export const HIGH_END_SHIELDS = {
     "Boca Juniors": boca_juniors,
     "River Plate": river_plate,
     "Racing Club": racing_club,
+    "Racing": racing_club,
     "Independiente": independiente,
     "San Lorenzo": san_lorenzo,
     "Estudiantes": estudiantes,
     "Rosario Central": rosario_central,
     "Newell's Old Boys": newells_old_boys,
     "Vélez Sarsfield": velez_sarsfield,
+    "Vélez Sársfield": velez_sarsfield,
     "Talleres": talleres,
+    "Argentinos Juniors": argentinos_juniors,
+    "Lanús": lanus,
 
     "Peñarol": penarol,
     "Nacional-URU": nacional_uru,
