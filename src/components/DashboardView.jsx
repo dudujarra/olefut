@@ -11,6 +11,10 @@ import { getAllAchievements } from '../engine/MetaProgression';
 import TrophyCeremony from './TrophyCeremony';
 import { UnlockTooltip, AhaMomentCard, AchievementPopup } from './ProgressiveDisclosure';
 import { ScarcityBanner, DreadIndicator, useKeyboardNav, TutorialOverlay, IronmanMode } from './GDDSystems';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgOffice from '../assets/environments/bg_manager_office.png';
+
 import '../styles/trophy-ceremony.css';
 import '../styles/progressive-disclosure.css';
 import '../styles/gdd-systems.css';
@@ -72,7 +76,16 @@ export function DashboardView() {
     const handleRejectOffer = (playerId) => { engine.rejectTransferOffer(playerId); setLog('Oferta recusada.'); forceUpdate(); };
 
     return (
-        <div className="main-content fade-in">
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.8), rgba(11, 15, 25, 0.95)), url(${bgOffice})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {/* §16.2: Trophy ceremony overlay */}
             <TrophyCeremony
                 trophy={engine.trophyCeremony?.trophy}
@@ -81,7 +94,7 @@ export function DashboardView() {
                 onDismiss={() => { engine.trophyCeremony = null; forceUpdate(); }}
             />
             {/* === COMPACT HEADER === */}
-            <div className="card" style={{padding:'0.75rem 1rem'}}>
+            <EfPanel variant="elev" padding="md">
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <div>
                         <h2 style={{fontSize:'1.2rem',margin:0}}>{team.name}</h2>
@@ -105,7 +118,7 @@ export function DashboardView() {
                     <span>Temp {engine.seasonNumber} • Semana {seasonWeek}/38</span>
                     {legacyLevel && <span>{legacyLevel.emoji} {legacyLevel.label}</span>}
                 </div>
-            </div>
+            </EfPanel>
 
             {/* === ALERTS === */}
             {(injured.length > 0 || expiringContracts.length > 0 || avgEnergy < 50 || (engine.transferOffers?.length ?? 0) > 0) && (
@@ -118,7 +131,7 @@ export function DashboardView() {
             )}
 
             {/* === NEXT MATCH CTA (Stitch scoreboard-card style) === */}
-            <div className="card scoreboard-card next-match-card" style={{padding:'0.75rem 1rem',background:'linear-gradient(135deg, rgba(17,24,39,0.9), rgba(16,185,129,0.05))'}}>
+            <EfPanel variant="sunk" padding="md" style={{background:'linear-gradient(135deg, rgba(17,24,39,0.9), rgba(16,185,129,0.1))'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
                     <div>
                         <span style={{fontSize:'0.7rem',color:'var(--text-muted)',textTransform:'uppercase',letterSpacing:'0.5px'}}>Próximo Jogo</span>
@@ -140,20 +153,20 @@ export function DashboardView() {
                     <div className="inline-stat" title="Moral média do plantel (>60 bom, <40 crítico)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgMoral > 60 ? 'var(--primary)' : avgMoral < 40 ? 'var(--danger)' : 'var(--accent)'}}><AnimatedStat value={Math.round(avgMoral)} suffix="%" /></span><span className="stat-label">MORAL</span></div>
                     <div className="inline-stat" title="Energia média (<50 risco lesão)"><span className="stat-value" style={{fontSize:'0.9rem',color: avgEnergy < 50 ? 'var(--danger)' : 'var(--primary)'}}><AnimatedStat value={Math.round(avgEnergy)} suffix="%" /></span><span className="stat-label">ENERGIA</span></div>
                 </div>
-                <button className="btn-cta" onClick={() => {
+                <EfButton variant="primary" size="lg" style={{width: '100%', justifyContent: 'center', marginTop: '12px'}} onClick={() => {
                     engine.checkPressConference();
                     if (!engine.pressQuestion) changeView('match');
                     else forceUpdate();
-                }}>⚽ JOGAR PARTIDA</button>
-            </div>
+                }}>⚽ JOGAR PARTIDA</EfButton>
+            </EfPanel>
 
             {/* === TABS === */}
-            <div className="nav-tabs">
-                <button className={`nav-tab ${tab === 'overview' ? 'active' : ''}`} onClick={() => setTab('overview')}>Visão Geral</button>
-                <button className={`nav-tab ${tab === 'tactics' ? 'active' : ''}`} onClick={() => setTab('tactics')}>Táticas</button>
-                <button className={`nav-tab ${tab === 'training' ? 'active' : ''}`} onClick={() => setTab('training')}>Treino</button>
-                <button className={`nav-tab ${tab === 'club' ? 'active' : ''}`} onClick={() => setTab('club')}>Clube</button>
-                {(engine.transferOffers?.length ?? 0) > 0 && <button className={`nav-tab ${tab === 'transfers' ? 'active' : ''}`} onClick={() => setTab('transfers')}>Ofertas</button>}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '8px' }}>
+                <EfButton variant={tab === 'overview' ? 'primary' : 'secondary'} size="sm" onClick={() => setTab('overview')} style={{justifyContent: 'center'}}>VISÃO GERAL</EfButton>
+                <EfButton variant={tab === 'tactics' ? 'primary' : 'secondary'} size="sm" onClick={() => setTab('tactics')} style={{justifyContent: 'center'}}>TÁTICAS</EfButton>
+                <EfButton variant={tab === 'training' ? 'primary' : 'secondary'} size="sm" onClick={() => setTab('training')} style={{justifyContent: 'center'}}>TREINO</EfButton>
+                <EfButton variant={tab === 'club' ? 'primary' : 'secondary'} size="sm" onClick={() => setTab('club')} style={{justifyContent: 'center'}}>CLUBE</EfButton>
+                {(engine.transferOffers?.length ?? 0) > 0 && <EfButton variant={tab === 'transfers' ? 'primary' : 'secondary'} size="sm" onClick={() => setTab('transfers')} style={{justifyContent: 'center'}}>OFERTAS</EfButton>}
             </div>
 
             {/* Feedback log */}
@@ -605,17 +618,17 @@ export function DashboardView() {
             </div>
 
             {/* Status Footer (Stitch v2 design) */}
-            <div className="status-footer">
-                <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap'}}>
-                    <span><span className="label">LIGA:</span>SÉRIE {['A','B','C','D'][team.division - 1]}</span>
-                    <span><span className="label">RODADA:</span>{seasonWeek}/38</span>
-                    <span><span className="label">TEMP:</span>{engine.seasonNumber}</span>
+            <div className="status-footer" style={{ marginTop: 'auto', background: 'rgba(0,0,0,0.5)', padding: '12px', borderTop: '2px solid var(--ef-bevel-dark)' }}>
+                <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap', fontSize: '10px', color: 'var(--ef-color-neutral-text-muted)', letterSpacing: '0.1em'}}>
+                    <span><span style={{color: 'var(--ef-color-neutral-text-hi)'}}>LIGA:</span> SÉRIE {['A','B','C','D'][team.division - 1]}</span>
+                    <span><span style={{color: 'var(--ef-color-neutral-text-hi)'}}>RODADA:</span> {seasonWeek}/38</span>
+                    <span><span style={{color: 'var(--ef-color-neutral-text-hi)'}}>TEMP:</span> {engine.seasonNumber}</span>
                 </div>
-                <div className="build">ELIFOOT MANAGER 2026 — BUILD 0.9.0</div>
             </div>
 
             {/* §17: Step-by-step tutorial */}
             <TutorialOverlay visible={showTutorial} onDismiss={() => setShowTutorial(false)} />
+            </div>
         </div>
     );
 }

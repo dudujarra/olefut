@@ -6,6 +6,9 @@ import { sfx } from '../utils/sound';
 import { LiveSquadEditModal } from './LiveSquadEditModal';
 import { PreMatchScreen } from './PreMatchScreen';
 import { EfClubBadge, EfBanner } from './ui';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgStadium from '../assets/environments/bg_match_stadium.png';
 
 export function MatchView() {
     const { gameState, changeView, getEngine, forceUpdate, getDashboardView } = useGame();
@@ -256,7 +259,16 @@ export function MatchView() {
         const matchContext = engine.getMatchContext ? engine.getMatchContext() : null;
 
         return (
-            <div className="main-content fade-in">
+            <div className="ef-anim-fade-in" style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed',
+                minHeight: '100dvh',
+                padding: '16px',
+                color: 'var(--ef-color-neutral-text-hi)'
+            }}>
+                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {/* A3: Pre-match adversary info */}
                 {matchContext && (
                     <PreMatchScreen
@@ -269,8 +281,8 @@ export function MatchView() {
                 )}
 
                 {/* Step indicator */}
-                <div className="card card-compact" style={{textAlign:'center'}}>
-                    <h2 style={{fontSize:'1.2rem',margin:0}}>⚽ Pré-Jogo — Semana {engine.currentWeek + 1}</h2>
+                <EfPanel variant="elev" padding="md" style={{textAlign:'center'}}>
+                    <h2 style={{fontSize:'1.2rem',margin:0}}>⚽ PRÉ-JOGO — SEMANA {engine.currentWeek + 1}</h2>
                     <div style={{display:'flex',justifyContent:'center',gap:'0.5rem',marginTop:'0.4rem'}}>
                         {stepLabels.map((label, i) => (
                             <div key={i} style={{display:'flex',alignItems:'center',gap:'0.2rem',fontSize:'0.7rem',
@@ -285,20 +297,20 @@ export function MatchView() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </EfPanel>
 
                 {/* STEP 1: Squad Review */}
                 {preStep === 1 && (
                     <>
-                        <div className="card card-compact">
+                        <EfPanel variant="sunk" padding="md">
                             <div className="inline-stats" style={{justifyContent:'center'}}>
                                 <div className="inline-stat"><span className="stat-value">{sectors.goalkeeper}</span><span className="stat-label">GOL</span></div>
                                 <div className="inline-stat"><span className="stat-value">{sectors.defense}</span><span className="stat-label">DEF</span></div>
                                 <div className="inline-stat"><span className="stat-value">{sectors.midfield}</span><span className="stat-label">MEI</span></div>
                                 <div className="inline-stat"><span className="stat-value">{sectors.attack}</span><span className="stat-label">ATA</span></div>
                             </div>
-                        </div>
-                        <div className="card card-compact">
+                        </EfPanel>
+                        <EfPanel variant="elev" padding="md">
                             <h4 style={{fontSize:'0.8rem',marginBottom:'0.4rem',color:'var(--text-muted)'}}>TITULARES ({titulares.length})</h4>
                             <div style={{display:'flex',flexDirection:'column',gap:'0.15rem'}}>
                                 {titulares.map(p => (
@@ -321,47 +333,47 @@ export function MatchView() {
                                 ))}
                             </div>
                             {lowEnergy.length > 0 && <div className="alert-badge danger" style={{marginTop:'0.3rem'}}>⚠️ {lowEnergy.length} com energia baixa</div>}
-                        </div>
-                        <button className="btn btn-primary" style={{width:'100%'}} onClick={() => setPreStep(2)}>Próximo: Tática →</button>
+                        </EfPanel>
+                        <EfButton variant="primary" style={{width:'100%',justifyContent:'center'}} onClick={() => setPreStep(2)}>PRÓXIMO: TÁTICA →</EfButton>
                     </>
                 )}
 
                 {/* STEP 2: Tactics + Team Talk */}
                 {preStep === 2 && (
                     <>
-                        <div className="card card-compact">
+                        <EfPanel variant="elev" padding="md">
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>FORMAÇÃO</h4>
-                            <div className="action-bar">
+                            <div className="action-bar" style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
                                 {Object.keys(FORMATIONS).map(f => (
-                                    <button key={f} className={`btn btn-sm ${team.formation === f ? 'btn-primary' : 'btn-secondary'}`}
-                                        onClick={() => { engine.setFormation(f); forceUpdate(); }}>{f}</button>
+                                    <EfButton key={f} size="sm" variant={team.formation === f ? 'primary' : 'secondary'}
+                                        onClick={() => { engine.setFormation(f); forceUpdate(); }}>{f}</EfButton>
                                 ))}
                             </div>
-                            <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',margin:'0.5rem 0 0.3rem'}}>TÁTICA</h4>
-                            <div className="action-bar">
+                            <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',margin:'1rem 0 0.5rem'}}>TÁTICA</h4>
+                            <div className="action-bar" style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
                                 {Object.entries(TACTICS).map(([k, v]) => (
-                                    <button key={k} className={`btn btn-sm ${engine.currentTactic === k ? 'btn-primary' : 'btn-secondary'}`}
-                                        onClick={() => { engine.setTactic(k); forceUpdate(); }}>{v.name}</button>
+                                    <EfButton key={k} size="sm" variant={engine.currentTactic === k ? 'primary' : 'secondary'}
+                                        onClick={() => { engine.setTactic(k); forceUpdate(); }}>{v.name}</EfButton>
                                 ))}
                             </div>
-                            <p style={{fontSize:'0.72rem',color:'var(--text-muted)',marginTop:'0.2rem'}}>{TACTICS[engine.currentTactic]?.description}</p>
-                        </div>
-                        <div className="card card-compact">
+                            <p style={{fontSize:'0.72rem',color:'var(--text-muted)',marginTop:'0.4rem'}}>{TACTICS[engine.currentTactic]?.description}</p>
+                        </EfPanel>
+                        <EfPanel variant="elev" padding="md">
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📢 PRELEÇÃO</h4>
                             {talkDone ? (
                                 <div className="alert-badge success">✅ Preleção feita!</div>
                             ) : (
                                 <div style={{display:'flex',flexWrap:'wrap',gap:'0.3rem'}}>
                                     {TEAM_TALKS.map(t => (
-                                        <button key={t.id} className="btn btn-secondary btn-sm"
-                                            onClick={() => { engine.doTeamTalk(t.id); setTalkDone(true); forceUpdate(); }}>{t.name}</button>
+                                        <EfButton key={t.id} variant="secondary" size="sm"
+                                            onClick={() => { engine.doTeamTalk(t.id); setTalkDone(true); forceUpdate(); }}>{t.name}</EfButton>
                                     ))}
                                 </div>
                             )}
-                        </div>
-                        <div style={{display:'flex',gap:'0.5rem'}}>
-                            <button className="btn btn-secondary" style={{flex:1}} onClick={() => setPreStep(1)}>← Voltar</button>
-                            <button className="btn btn-primary" style={{flex:2}} onClick={() => setPreStep(3)}>Confirmar →</button>
+                        </EfPanel>
+                        <div style={{display:'flex',gap:'8px'}}>
+                            <EfButton variant="secondary" style={{flex:1,justifyContent:'center'}} onClick={() => setPreStep(1)}>← Voltar</EfButton>
+                            <EfButton variant="primary" style={{flex:2,justifyContent:'center'}} onClick={() => setPreStep(3)}>CONFIRMAR →</EfButton>
                         </div>
                     </>
                 )}
@@ -369,7 +381,7 @@ export function MatchView() {
                 {/* STEP 3: Confirmation */}
                 {preStep === 3 && (
                     <>
-                        <div className="card card-compact" style={{textAlign:'center'}}>
+                        <EfPanel variant="sunk" padding="md" style={{textAlign:'center'}}>
                             <div style={{fontSize:'0.85rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>
                                 {team.name} • {team.formation} • {tactic?.name}
                             </div>
@@ -383,15 +395,16 @@ export function MatchView() {
                             <div style={{fontSize:'0.72rem',color: talkDone ? 'var(--primary)' : 'var(--accent)',marginTop:'0.3rem'}}>
                                 {talkDone ? '✅ Preleção feita' : '⚠️ Sem preleção'}
                             </div>
-                        </div>
-                        <button className="btn-cta" onClick={launchMatch}>⚽ INICIAR PARTIDA</button>
-                        <button className="btn btn-secondary" style={{width:'100%',marginTop:'0.3rem'}} onClick={() => setPreStep(2)}>← Voltar</button>
+                        </EfPanel>
+                        <EfButton variant="primary" style={{justifyContent:'center',padding:'16px',fontSize:'1.1rem'}} onClick={launchMatch}>⚽ INICIAR PARTIDA</EfButton>
+                        <EfButton variant="secondary" style={{width:'100%',marginTop:'0.3rem',justifyContent:'center'}} onClick={() => setPreStep(2)}>← Voltar</EfButton>
                     </>
                 )}
 
-                <button className="btn btn-secondary" style={{width:'100%',marginTop:'0.5rem',opacity:0.5,fontSize:'0.75rem'}} onClick={() => changeView(getDashboardView())}>
+                <EfButton variant="secondary" style={{width:'100%',marginTop:'0.5rem',opacity:0.5,fontSize:'0.75rem',justifyContent:'center'}} onClick={() => changeView(getDashboardView())}>
                     Cancelar
-                </button>
+                </EfButton>
+                </div>
             </div>
         );
     }
@@ -400,7 +413,7 @@ export function MatchView() {
 
     // === SCOREBOARD (shared between phases) ===
     const Scoreboard = ({ half }) => (
-        <div className={`card ${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{ textAlign: 'center', padding: '0.75rem', position: 'relative' }}>
+        <EfPanel variant="elev" padding="md" className={`${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{ textAlign: 'center', position: 'relative' }}>
             <div
                 className="ef-anim-crowd-flag-wave"
                 aria-hidden="true"
@@ -484,13 +497,22 @@ export function MatchView() {
                     <span className="team-name">{result.away}</span>
                 </div>
             </div>
-        </div>
+        </EfPanel>
     );
 
     // === FIRST HALF ===
     if (phase === 'firsthalf') {
         return (
-            <div className="main-content fade-in">
+            <div className="ef-anim-fade-in" style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed',
+                minHeight: '100dvh',
+                padding: '16px',
+                color: 'var(--ef-color-neutral-text-hi)'
+            }}>
+                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Scoreboard half="1º Tempo" />
 
                 <div className="narration-log" ref={logRef}>
@@ -503,34 +525,34 @@ export function MatchView() {
                     ))}
                 </div>
 
-                <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem'}}>
+                <div style={{display:'flex',gap:'8px',marginTop:'0.5rem',flexWrap:'wrap'}}>
                     {/* Speed + Pause controls */}
-                    <div style={{display:'flex',gap:'0.25rem',flex:1}}>
-                        <button className={`btn btn-sm ${!paused && speed === 400 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => { setSpeed(400); setPaused(false); pausedRef.current = false; }}>1x</button>
-                        <button className={`btn btn-sm ${!paused && speed === 200 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => { setSpeed(200); setPaused(false); pausedRef.current = false; }}>2x</button>
-                        <button className={`btn btn-sm ${!paused && speed === 80 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => { setSpeed(80); setPaused(false); pausedRef.current = false; }}>5x</button>
-                        <button className={`btn btn-sm ${paused ? 'btn-primary' : 'btn-secondary'}`}
+                    <div style={{display:'flex',gap:'4px',flex:1}}>
+                        <EfButton size="sm" variant={!paused && speed === 400 ? 'primary' : 'secondary'}
+                            onClick={() => { setSpeed(400); setPaused(false); pausedRef.current = false; }}>1x</EfButton>
+                        <EfButton size="sm" variant={!paused && speed === 200 ? 'primary' : 'secondary'}
+                            onClick={() => { setSpeed(200); setPaused(false); pausedRef.current = false; }}>2x</EfButton>
+                        <EfButton size="sm" variant={!paused && speed === 80 ? 'primary' : 'secondary'}
+                            onClick={() => { setSpeed(80); setPaused(false); pausedRef.current = false; }}>5x</EfButton>
+                        <EfButton size="sm" variant={paused ? 'primary' : 'secondary'}
                             title="Pausar partida (substituições/táticas)"
                             onClick={() => {
                                 const next = !paused;
                                 setPaused(next);
                                 pausedRef.current = next;
                                 if (next) setLiveModalOpen(true);
-                            }}>{paused ? '▶️' : '⏸️'}</button>
+                            }}>{paused ? '▶️' : '⏸️'}</EfButton>
                     </div>
-                    <button className="btn btn-sm btn-secondary" onClick={() => {
+                    <EfButton size="sm" variant="secondary" onClick={() => {
                         skipToEnd(narration.filter(e => e && e.minute <= 45), 45, null);
-                    }}>⏭️ Pular</button>
+                    }}>⏭️ Pular</EfButton>
                 </div>
 
-                <button className="btn btn-primary" style={{width:'100%',marginTop:'0.5rem'}}
+                <EfButton variant="primary" style={{width:'100%',marginTop:'0.5rem',justifyContent:'center'}}
                     disabled={isPlaying}
                     onClick={() => setPhase('halftime')}>
-                    ⏸️ Intervalo
-                </button>
+                    ⏸️ INTERVALO
+                </EfButton>
 
                 {liveModalOpen && (
                     <LiveSquadEditModal
@@ -556,8 +578,17 @@ export function MatchView() {
         const tiredPlayers = team.squad.filter(p => p.isTitular && p.energy < 50);
 
         return (
-            <div className="main-content fade-in">
-                <div className="card" style={{ textAlign: 'center', padding:'0.75rem' }}>
+            <div className="ef-anim-fade-in" style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed',
+                minHeight: '100dvh',
+                padding: '16px',
+                color: 'var(--ef-color-neutral-text-hi)'
+            }}>
+                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <EfPanel variant="elev" padding="md" style={{ textAlign: 'center' }}>
                     <h3 style={{color:'var(--accent)',marginBottom:'0.3rem'}}>⏸️ INTERVALO</h3>
                     <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
                         <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
@@ -570,37 +601,37 @@ export function MatchView() {
                             <span className="team-name">{result.away}</span>
                         </div>
                     </div>
-                </div>
+                </EfPanel>
 
                 {/* Tactic change */}
                 {!tacticChanged && (
-                    <div className="card card-compact">
+                    <EfPanel variant="elev" padding="md">
                         <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>⚔️ AJUSTE TÁTICO</h4>
-                        <div className="action-bar">
+                        <div className="action-bar" style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
                             {Object.entries(TACTICS).map(([k, v]) => (
-                                <button key={k} className={`btn btn-sm ${engine.currentTactic === k ? 'btn-primary' : 'btn-secondary'}`}
+                                <EfButton key={k} size="sm" variant={engine.currentTactic === k ? 'primary' : 'secondary'}
                                     onClick={() => {
                                         engine.setTactic(k);
                                         setTacticChanged(true);
                                         forceUpdate();
                                     }}>
                                     {v.name}
-                                </button>
+                                </EfButton>
                             ))}
                         </div>
-                    </div>
+                    </EfPanel>
                 )}
 
                 {/* Substitution */}
                 {!subUsed && tiredPlayers.length > 0 && subs.length > 0 && (
-                    <div className="card card-compact">
+                    <EfPanel variant="elev" padding="md">
                         <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>🔄 SUBSTITUIÇÃO</h4>
                         {tiredPlayers.slice(0, 3).map(p => (
                             <div key={p.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.25rem 0',fontSize:'0.8rem'}}>
                                 <span style={{color:'var(--danger)'}}>
                                     {p.name} ({p.position}) ⚡{p.energy}%
                                 </span>
-                                <button className="btn btn-primary btn-sm" onClick={() => {
+                                <EfButton variant="primary" size="sm" onClick={() => {
                                     const sub = subs[0];
                                     if (sub) {
                                         p.isTitular = false;
@@ -611,20 +642,21 @@ export function MatchView() {
                                     }
                                 }}>
                                     ← {subs[0]?.name} (⚡{subs[0]?.energy}%)
-                                </button>
+                                </EfButton>
                             </div>
                         ))}
-                    </div>
+                    </EfPanel>
                 )}
 
-                <button className="btn-cta" onClick={() => {
+                <EfButton variant="primary" style={{justifyContent:'center',padding:'16px',fontSize:'1.1rem'}} onClick={() => {
                     setPhase('secondhalf');
                     setTimeout(() => {
                         startLiveTicker(narration, 46, 90, null);
                     }, 300);
                 }}>
                     ▶️ INICIAR 2º TEMPO
-                </button>
+                </EfButton>
+                </div>
             </div>
         );
     }
@@ -632,7 +664,16 @@ export function MatchView() {
     // === SECOND HALF ===
     if (phase === 'secondhalf') {
         return (
-            <div className="main-content fade-in">
+            <div className="ef-anim-fade-in" style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed',
+                minHeight: '100dvh',
+                padding: '16px',
+                color: 'var(--ef-color-neutral-text-hi)'
+            }}>
+                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Scoreboard half="2º Tempo" />
 
                 <div className="narration-log" ref={logRef}>
@@ -645,33 +686,33 @@ export function MatchView() {
                     ))}
                 </div>
 
-                <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem'}}>
-                    <div style={{display:'flex',gap:'0.25rem',flex:1}}>
-                        <button className={`btn btn-sm ${!paused && speed === 400 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => { setSpeed(400); setPaused(false); pausedRef.current = false; }}>1x</button>
-                        <button className={`btn btn-sm ${!paused && speed === 200 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => { setSpeed(200); setPaused(false); pausedRef.current = false; }}>2x</button>
-                        <button className={`btn btn-sm ${!paused && speed === 80 ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => { setSpeed(80); setPaused(false); pausedRef.current = false; }}>5x</button>
-                        <button className={`btn btn-sm ${paused ? 'btn-primary' : 'btn-secondary'}`}
+                <div style={{display:'flex',gap:'8px',marginTop:'0.5rem',flexWrap:'wrap'}}>
+                    <div style={{display:'flex',gap:'4px',flex:1}}>
+                        <EfButton size="sm" variant={!paused && speed === 400 ? 'primary' : 'secondary'}
+                            onClick={() => { setSpeed(400); setPaused(false); pausedRef.current = false; }}>1x</EfButton>
+                        <EfButton size="sm" variant={!paused && speed === 200 ? 'primary' : 'secondary'}
+                            onClick={() => { setSpeed(200); setPaused(false); pausedRef.current = false; }}>2x</EfButton>
+                        <EfButton size="sm" variant={!paused && speed === 80 ? 'primary' : 'secondary'}
+                            onClick={() => { setSpeed(80); setPaused(false); pausedRef.current = false; }}>5x</EfButton>
+                        <EfButton size="sm" variant={paused ? 'primary' : 'secondary'}
                             title="Pausar partida"
                             onClick={() => {
                                 const next = !paused;
                                 setPaused(next);
                                 pausedRef.current = next;
                                 if (next) setLiveModalOpen(true);
-                            }}>{paused ? '▶️' : '⏸️'}</button>
+                            }}>{paused ? '▶️' : '⏸️'}</EfButton>
                     </div>
-                    <button className="btn btn-sm btn-secondary" onClick={() => {
+                    <EfButton size="sm" variant="secondary" onClick={() => {
                         skipToEnd(narration, 90, null);
-                    }}>⏭️ Pular</button>
+                    }}>⏭️ Pular</EfButton>
                 </div>
 
-                <button className="btn btn-primary" style={{width:'100%',marginTop:'0.5rem'}}
+                <EfButton variant="primary" style={{width:'100%',marginTop:'0.5rem',justifyContent:'center'}}
                     disabled={isPlaying}
                     onClick={() => setPhase('fulltime')}>
-                    🏁 Fim de Jogo
-                </button>
+                    🏁 FIM DE JOGO
+                </EfButton>
 
                 {liveModalOpen && (
                     <LiveSquadEditModal
@@ -697,9 +738,18 @@ export function MatchView() {
     const motmEntry = narration.find(n => n.text?.includes('⭐ Craque'));
 
     return (
-        <div className="main-content fade-in">
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
-            <div className="card" style={{ textAlign: 'center' }}>
+            <EfPanel variant="elev" padding="md" style={{ textAlign: 'center' }}>
                 <h2 style={{fontSize:'1.2rem',marginBottom:'0.5rem'}}>🏁 FIM DE JOGO</h2>
                 <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
                     <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
@@ -713,22 +763,22 @@ export function MatchView() {
                     </div>
                 </div>
                 {motmEntry && <p style={{color:'var(--primary)',fontSize:'0.8rem',marginTop:'0.4rem'}}>{motmEntry.text}</p>}
-            </div>
+            </EfPanel>
 
             {/* Scorers */}
             {lastMatchScorers.length > 0 && (
-                <div className="card card-compact">
+                <EfPanel variant="sunk" padding="md">
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>⚽ GOLS</h4>
                     {lastMatchScorers.map((s, i) => (
                         <div key={i} style={{fontSize:'0.78rem',color:'var(--text-main)',padding:'0.15rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
                             <strong style={{color:'var(--primary)',marginRight:'0.3rem'}}>{s.minute}'</strong>{s.text}
                         </div>
                     ))}
-                </div>
+                </EfPanel>
             )}
 
             {/* Stats + Report */}
-            <div className="card card-compact">
+            <EfPanel variant="elev" padding="md">
                 <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📊 ESTATÍSTICAS</h4>
                 <ul className="stats-list">
                     {matchStats && <>
@@ -739,20 +789,20 @@ export function MatchView() {
                     {lastMatchCards.length > 0 && <li><span>🟨 Cartões:</span> <strong>{lastMatchCards.length}</strong></li>}
                     {(engine.weekInjuries?.length ?? 0) > 0 && <li><span>🏥 Lesões:</span> <strong style={{color:'var(--danger)'}}>{(engine.weekInjuries?.length ?? 0)}</strong></li>}
                 </ul>
-            </div>
+            </EfPanel>
 
             {/* Injuries */}
             {(engine.weekInjuries?.length ?? 0) > 0 && (
-                <div className="card card-compact">
+                <EfPanel variant="elev" padding="md">
                     <h4 style={{fontSize:'0.8rem',color:'var(--danger)',marginBottom:'0.25rem'}}>🏥 LESÕES</h4>
                     {(engine.weekInjuries || []).map((inj, i) => (
                         <p key={i} style={{color:'var(--danger)',fontSize:'0.75rem',padding:'0.1rem 0'}}>{inj.emoji} {inj.player} — {inj.name} ({inj.weeksLeft} sem)</p>
                     ))}
-                </div>
+                </EfPanel>
             )}
 
             {/* Board + Events */}
-            <div className="card card-compact">
+            <EfPanel variant="elev" padding="md">
                 {engine.board && (
                     <div style={{marginBottom:'0.5rem'}}>
                         <p style={{fontSize:'0.78rem',color: engine.board.getStatus().color}}>
@@ -774,16 +824,17 @@ export function MatchView() {
                         })}
                     </div>
                 )}
-            </div>
+            </EfPanel>
 
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                <button className="btn-cta" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView(getDashboardView()); }}>
+                <EfButton variant="primary" style={{justifyContent:'center', flex:1}} onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView(getDashboardView()); }}>
                     📊 VOLTAR AO DASHBOARD
-                </button>
+                </EfButton>
                 {/* SPEC-093 Press conf sempre pós-match */}
-                <button className="btn btn-secondary" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView('press'); }}>
-                    🎙️ Coletiva Pós-Jogo
-                </button>
+                <EfButton variant="secondary" style={{justifyContent:'center', flex:1}} onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView('press'); }}>
+                    🎙️ COLETIVA PÓS-JOGO
+                </EfButton>
+            </div>
             </div>
         </div>
     );

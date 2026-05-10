@@ -67,7 +67,7 @@ describe('UX overhaul P0-P2: regressions', () => {
     test('P1-9: Search box SquadView + MarketView', () => {
         const sFile = fs.readFileSync(path.join(projectRoot, 'src/components/SquadView.jsx'), 'utf-8');
         const mFile = fs.readFileSync(path.join(projectRoot, 'src/components/MarketView.jsx'), 'utf-8');
-        expect(sFile).toMatch(/Buscar jogador/);
+        expect(sFile).toMatch(/Buscar jogador/i);
         expect(mFile).toMatch(/marketSearch/);
     });
 

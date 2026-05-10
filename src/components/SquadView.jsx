@@ -5,10 +5,13 @@ import { getPlayerTraits } from '../engine/PlayerTraits';
 import { PlayerAvatar } from '../utils/avatar';
 import { Help } from './Help';
 import { Tooltip } from './Tooltip';
-import { EfClubBadge } from './ui';
+import { EfClubBadge } from './ui/EfClubBadge';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
 import { PentagonChart } from './PentagonChart';
 import { POSITIONS, getMacroPosition, calculateRatingForPosition, calculateEffectiveRating } from '../engine/Positions';
 import { injectSquadIntoTeam } from '../services/SquadDataService';
+import bgPitch from '../assets/environments/bg_tactics_pitch.png';
 
 export function SquadView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -78,20 +81,30 @@ export function SquadView() {
     const loanedOut = engine.loanedOut || [];
 
     return (
-        <div className="main-content fade-in ef-art-bg ef-art-players">
-            <div className="card-header" style={{ marginBottom: '1rem', display:'flex', alignItems:'center', gap:'12px' }}>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.7), rgba(11, 15, 25, 0.95)), url(${bgPitch})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center 20%',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+            <EfPanel variant="elev" padding="md" style={{ display:'flex', alignItems:'center', gap:'12px', flexWrap: 'wrap' }}>
                 <EfClubBadge name={team.name} size="md" />
-                <h2 style={{margin:0,flex:1}}>👥 Plantel — {team.name} ({sorted.length}/{team.squad.length} jogadores)</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(back)}>← Voltar</button>
-                <button
-                    className="btn btn-primary btn-sm"
+                <h2 style={{margin:0,flex:1, fontSize: '1.2rem'}}>👥 PLANTEL — {team.name} ({sorted.length}/{team.squad.length})</h2>
+                <EfButton variant="secondary" size="sm" onClick={() => changeView(back)}>← Voltar</EfButton>
+                <EfButton
+                    variant="primary" size="sm"
                     onClick={handleLoadRealSquad}
                     disabled={loadingReal}
                     title="Carregar plantel real do SofaScore (se disponível)"
                 >
                     {loadingReal ? '⏳ Carregando...' : '🌐 Plantel Real'}
-                </button>
-            </div>
+                </EfButton>
+            </EfPanel>
 
             {/* Manager card */}
             {team.manager && team.manager.name && (
@@ -125,55 +138,49 @@ export function SquadView() {
             )}
 
             {/* SPEC-080 Tabs */}
-            <div className="nav-tabs" style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem', borderBottom: '2px solid var(--border-subtle, var(--ef-color-border-subtle))' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '8px' }}>
                 {[
-                    { id: 'plantel', label: '👥 Plantel' },
-                    { id: 'stats', label: '📊 Stats' },
-                    { id: 'contratos', label: '📝 Contratos' }
+                    { id: 'plantel', label: '👥 PLANTEL' },
+                    { id: 'stats', label: '📊 STATS' },
+                    { id: 'contratos', label: '📝 CONTRATOS' }
                 ].map(t => (
-                    <button
+                    <EfButton
                         key={t.id}
                         onClick={() => setTab(t.id)}
-                        className="btn btn-sm"
-                        style={{
-                            background: tab === t.id ? 'var(--accent)' : 'transparent',
-                            color: tab === t.id ? '#0F1A14' : 'var(--text)',
-                            border: 'none',
-                            borderBottom: tab === t.id ? '2px solid var(--accent)' : '2px solid transparent',
-                            borderRadius: '4px 4px 0 0',
-                            padding: '0.5rem 1rem'
-                        }}
-                    >{t.label}</button>
+                        variant={tab === t.id ? 'primary' : 'secondary'}
+                        size="sm"
+                        style={{ justifyContent: 'center' }}
+                    >{t.label}</EfButton>
                 ))}
             </div>
 
             {/* P1-8/9: filter + sort + search */}
-            <div className="squad-controls" style={{display:'flex',gap:'0.5rem',marginBottom:'0.75rem',flexWrap:'wrap'}}>
+            <EfPanel variant="sunk" padding="sm" style={{display:'flex',gap:'0.5rem',flexWrap:'wrap'}}>
                 <input
                     type="text"
-                    placeholder="🔍 Buscar jogador..."
+                    placeholder="🔍 BUSCAR JOGADOR..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    style={{flex:'1 1 200px',padding:'0.45rem 0.75rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.85rem'}}
+                    style={{flex:'1 1 200px',padding:'8px 12px',background:'rgba(0,0,0,0.5)',border:'2px solid var(--ef-bevel-dark)',color:'white',fontSize:'0.85rem', outline:'none', fontWeight: 600}}
                 />
-                <select value={filterPos} onChange={(e) => setFilterPos(e.target.value)} style={{padding:'0.45rem 0.75rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.85rem'}}>
+                <select value={filterPos} onChange={(e) => setFilterPos(e.target.value)} style={{padding:'8px 12px',background:'var(--ef-color-neutral-bg)',border:'2px solid var(--ef-bevel-dark)',color:'white',fontSize:'0.85rem', outline:'none', fontWeight: 600}}>
                     <option value="all">Todas posições</option>
                     <option value="GOL">GOL</option>
                     <option value="DEF">DEF</option>
                     <option value="MEI">MEI</option>
                     <option value="ATA">ATA</option>
                 </select>
-                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{padding:'0.45rem 0.75rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.85rem'}}>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{padding:'8px 12px',background:'var(--ef-color-neutral-bg)',border:'2px solid var(--ef-bevel-dark)',color:'white',fontSize:'0.85rem', outline:'none', fontWeight: 600}}>
                     <option value="position">Ordenar: Posição</option>
                     <option value="ovr">Ordenar: OVR ↓</option>
                     <option value="age">Ordenar: Idade ↑</option>
                     <option value="energy">Ordenar: Energia ↓</option>
                     <option value="name">Ordenar: Nome A-Z</option>
                 </select>
-            </div>
+            </EfPanel>
 
             {tab === 'plantel' && (
-            <div style={{ overflowX: 'auto' }}>
+            <EfPanel variant="elev" padding="sm" style={{ overflowX: 'auto' }}>
                 <table className="standings-table">
                     <thead>
                         <tr>
@@ -187,13 +194,15 @@ export function SquadView() {
                           <React.Fragment key={p.id}>
                             <tr className={p.isTitular ? 'highlight' : ''} style={p.injury ? {opacity: 0.6} : {}}>
                                 <td>
-                                    <button
-                                        className={`btn btn-sm ${p.isTitular ? 'btn-primary' : 'btn-secondary'}`}
+                                    <EfButton
+                                        size="sm"
+                                        variant={p.isTitular ? 'primary' : 'secondary'}
                                         onClick={() => toggleTitular(p.id)}
                                         disabled={!!p.injury}
+                                        style={{ padding: '4px 8px' }}
                                     >
                                         {p.injury ? '🏥' : p.isTitular ? '⭐' : '🔄'}
-                                    </button>
+                                    </EfButton>
                                 </td>
                                 <td>
                                     <span style={{display:'inline-flex',alignItems:'center'}}>
@@ -241,16 +250,16 @@ export function SquadView() {
                                 <td>
                                     <div style={{display:'flex',gap:'0.25rem'}}>
                                         {!p.isTitular && !p.injury && p.age <= 23 && (
-                                            <Help id="btn.loan"><button className="btn btn-sm btn-secondary" onClick={() => handleLoan(p.id)}>📤</button></Help>
+                                            <Help id="btn.loan"><EfButton size="sm" variant="secondary" onClick={() => handleLoan(p.id)} style={{padding:'4px 8px'}}>📤</EfButton></Help>
                                         )}
                                         {!p.isTitular && (
-                                            <Help id="btn.sell"><button className="btn btn-sm btn-danger" onClick={() => handleSell(p)}>💰</button></Help>
+                                            <Help id="btn.sell"><EfButton size="sm" variant="danger" onClick={() => handleSell(p)} style={{padding:'4px 8px'}}>💰</EfButton></Help>
                                         )}
                                         {p.contract && p.contract.weeksLeft <= 12 && (
-                                            <Help id="btn.renew"><button className="btn btn-sm btn-primary" onClick={() => {
+                                            <Help id="btn.renew"><EfButton size="sm" variant="primary" onClick={() => {
                                                 const result = engine.renewContract(p.id);
                                                 if (result.success) forceUpdate();
-                                            }}>📝</button></Help>
+                                            }} style={{padding:'4px 8px'}}>📝</EfButton></Help>
                                         )}
                                     </div>
                                 </td>
@@ -262,10 +271,9 @@ export function SquadView() {
                                             display: 'flex',
                                             gap: '1rem',
                                             padding: '1rem',
-                                            background: 'rgba(15,26,20,0.5)',
-                                            border: '1px solid rgba(255,215,0,0.3)',
-                                            borderRadius: '4px',
-                                            margin: '4px'
+                                            background: 'rgba(0,0,0,0.5)',
+                                            borderTop: '2px solid var(--ef-bevel-dark)',
+                                            borderBottom: '2px solid var(--ef-bevel-dark)',
                                         }}>
                                             <PentagonChart player={p} size={220} />
                                             <div style={{ flex: 1, fontSize: '0.85rem' }}>
@@ -298,15 +306,15 @@ export function SquadView() {
                         ))}
                     </tbody>
                 </table>
-            </div>
+            </EfPanel>
             )}
 
             {tab === 'stats' && (
-                <div className="card" style={{ padding: '1rem' }}>
+                <EfPanel variant="elev" padding="md">
                     <h3 style={{ marginBottom: '0.75rem' }}>📊 Pentagon Comparison (Top 11 Titulares)</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
                         {sorted.filter(p => p.isTitular).slice(0, 11).map(p => (
-                            <div key={p.id} style={{ border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))', borderRadius: '4px', padding: '8px', textAlign: 'center' }}>
+                            <div key={p.id} style={{ border: '2px solid var(--ef-bevel-dark)', padding: '8px', textAlign: 'center', background: 'rgba(0,0,0,0.3)' }}>
                                 <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '4px' }}>{p.name}</div>
                                 <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
                                     {p.naturalPosition || p.position}
@@ -315,12 +323,13 @@ export function SquadView() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </EfPanel>
             )}
 
             {tab === 'contratos' && (
-                <div className="card" style={{ padding: '1rem' }}>
+                <EfPanel variant="elev" padding="md">
                     <h3 style={{ marginBottom: '0.75rem' }}>📝 Contratos</h3>
+                    <div style={{ overflowX: 'auto' }}>
                     <table className="standings-table">
                         <thead>
                             <tr>
@@ -347,12 +356,13 @@ export function SquadView() {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                    </div>
+                </EfPanel>
             )}
 
             {/* Loaned Out */}
             {loanedOut.length > 0 && (
-                <div className="card" style={{marginTop:'1rem'}}>
+                <EfPanel variant="sunk" padding="md" style={{marginTop:'1rem'}}>
                     <h3 style={{marginBottom:'0.5rem'}}>📤 Emprestados ({loanedOut.length})</h3>
                     <ul className="stats-list">
                         {loanedOut.map((l, i) => (
@@ -362,8 +372,9 @@ export function SquadView() {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </EfPanel>
             )}
+            </div>
         </div>
     );
 }

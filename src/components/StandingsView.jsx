@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { Tooltip } from './Tooltip';
-import { EfClubBadge } from './ui';
+import { EfClubBadge } from './ui/EfClubBadge';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgOffice from '../assets/environments/bg_manager_office.png';
 
 /**
  * Get zone class based on position + division
@@ -64,14 +67,28 @@ export function StandingsView() {
     const back = gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
 
     return (
-        <div className="main-content fade-in ef-art-bg ef-art-state-arrows">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>📊 Classificação</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(back)}>← Voltar</button>
-            </div>
+    return (
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.8), rgba(11, 15, 25, 0.95)), url(${bgOffice})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
+            <EfPanel variant="elev" padding="md" style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'12px', flexWrap: 'wrap'}}>
+                <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                    <h2 style={{fontSize:'1.2rem',margin:0}}>📊 CLASSIFICAÇÃO</h2>
+                </div>
+                <EfButton variant="secondary" size="sm" onClick={() => changeView(back)}>← Voltar</EfButton>
+            </EfPanel>
+
+            <EfPanel variant="sunk" padding="md">
             {/* Legend */}
-            <div className="standings-legend" style={{display:'flex',gap:'1rem',flexWrap:'wrap',fontSize:'0.78rem',marginBottom:'0.5rem'}}>
+            <div className="standings-legend" style={{display:'flex',gap:'1rem',flexWrap:'wrap',fontSize:'0.78rem',marginBottom:'0.5rem',justifyContent:'center'}}>
                 {activeDiv === 1 && (
                     <>
                         <Tooltip content="Top 4: classifica para Libertadores"><span className="zone-dot zone-libertadores">●</span> <span style={{marginLeft:4}}>Libertadores</span></Tooltip>
@@ -86,25 +103,25 @@ export function StandingsView() {
                 )}
             </div>
 
-            <div className="nav-tabs">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: '8px', marginBottom: '8px' }}>
                 {zones.map(z => (
-                    <button key={z} className={`nav-tab ${activeZone === z ? 'active' : ''}`} onClick={() => { setActiveZone(z); setActiveDiv(1); }}>
+                    <EfButton key={z} variant={activeZone === z ? 'primary' : 'secondary'} size="sm" onClick={() => { setActiveZone(z); setActiveDiv(1); }} style={{justifyContent: 'center'}}>
                         {z}
-                    </button>
+                    </EfButton>
                 ))}
             </div>
 
             {divs.length > 1 && (
-                <div className="nav-tabs">
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: '8px', marginBottom: '8px' }}>
                     {divs.map(d => (
-                        <button key={d} className={`nav-tab ${activeDiv === d ? 'active' : ''}`} onClick={() => setActiveDiv(d)}>
+                        <EfButton key={d} variant={activeDiv === d ? 'primary' : 'secondary'} size="sm" onClick={() => setActiveDiv(d)} style={{justifyContent: 'center'}}>
                             Div {d}
-                        </button>
+                        </EfButton>
                     ))}
                 </div>
             )}
 
-            <div style={{ overflowX: 'auto' }}>
+            <div style={{ overflowX: 'auto', border: '2px solid var(--ef-bevel-dark)' }}>
                 <table className="standings-table">
                     <thead>
                         <tr>
@@ -152,6 +169,8 @@ export function StandingsView() {
                         })}
                     </tbody>
                 </table>
+            </div>
+            </EfPanel>
             </div>
         </div>
     );

@@ -4,7 +4,10 @@ import { SCOUT_REGIONS } from '../engine/StadiumSystem';
 import { getPlayerTraits } from '../engine/PlayerTraits';
 import { PlayerAvatar } from '../utils/avatar';
 import { Tooltip } from './Tooltip';
-import { EfClubBadge } from './ui';
+import { EfClubBadge } from './ui/EfClubBadge';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgOffice from '../assets/environments/bg_manager_office.png';
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate, getDashboardView } = useGame();
@@ -58,56 +61,66 @@ export function MarketView() {
     const sellable = team.squad.filter(p => !p.isTitular && !p.injury);
 
     return (
-        <div className="main-content fade-in ef-art-bg ef-art-finance-icons">
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem',gap:'12px'}}>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.8), rgba(11, 15, 25, 0.95)), url(${bgOffice})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+            <EfPanel variant="elev" padding="md" style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'12px', flexWrap: 'wrap'}}>
                 <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
                     <EfClubBadge name={team.name} size="md" />
-                    <h2 style={{fontSize:'1.2rem',margin:0}}>🛒 Mercado — {team.name}</h2>
+                    <h2 style={{fontSize:'1.2rem',margin:0}}>🛒 MERCADO — {team.name}</h2>
                 </div>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
-            </div>
+                <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← Voltar</EfButton>
+            </EfPanel>
 
-            <div className="card card-compact" style={{marginBottom:'0.5rem'}}>
+            <EfPanel variant="sunk" padding="md">
                 <div className="inline-stats" style={{justifyContent:'center'}}>
                     <div className="inline-stat">
-                        <span className="stat-value" style={{fontSize:'1rem',color: team.balance > 0 ? 'var(--primary)' : 'var(--danger)'}}>R$ {(team.balance / 1000000).toFixed(1)}M</span>
+                        <span className="stat-value" style={{fontSize:'1.2rem',color: team.balance > 0 ? 'var(--primary)' : 'var(--danger)'}}>R$ {(team.balance / 1000000).toFixed(1)}M</span>
                         <span className="stat-label">SALDO</span>
                     </div>
                     <div className="inline-stat">
-                        <span className="stat-value" style={{fontSize:'1rem'}}>{team.squad.length}</span>
+                        <span className="stat-value" style={{fontSize:'1.2rem'}}>{team.squad.length}</span>
                         <span className="stat-label">ELENCO</span>
                     </div>
                 </div>
-            </div>
+            </EfPanel>
 
             {log && <div className="event-toast success" onClick={() => setLog('')}>{log}</div>}
 
-            <div className="nav-tabs">
-                <button className={`nav-tab ${tab === 'buy' ? 'active' : ''}`} onClick={() => setTab('buy')}>Comprar</button>
-                <button className={`nav-tab ${tab === 'sell' ? 'active' : ''}`} onClick={() => setTab('sell')}>Vender</button>
-                <button className={`nav-tab ${tab === 'scout' ? 'active' : ''}`} onClick={() => setTab('scout')}>Scouting</button>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '8px' }}>
+                <EfButton variant={tab === 'buy' ? 'primary' : 'secondary'} size="sm" onClick={() => setTab('buy')} style={{justifyContent: 'center'}}>COMPRAR</EfButton>
+                <EfButton variant={tab === 'sell' ? 'primary' : 'secondary'} size="sm" onClick={() => setTab('sell')} style={{justifyContent: 'center'}}>VENDER</EfButton>
+                <EfButton variant={tab === 'scout' ? 'primary' : 'secondary'} size="sm" onClick={() => setTab('scout')} style={{justifyContent: 'center'}}>SCOUTING</EfButton>
             </div>
 
             {/* === BUY TAB === */}
             {tab === 'buy' && (
-                <div className="card card-compact">
+                <EfPanel variant="elev" padding="md">
                     {/* P1-8/9 controls */}
-                    <div style={{display:'flex',gap:'0.4rem',marginBottom:'0.5rem',flexWrap:'wrap'}}>
+                    <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem',flexWrap:'wrap'}}>
                         <input
                             type="text"
                             placeholder="🔍 Buscar..."
                             value={marketSearch}
                             onChange={(e) => setMarketSearch(e.target.value)}
-                            style={{flex:'1 1 150px',padding:'0.35rem 0.6rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.8rem'}}
+                            style={{flex:'1 1 150px',padding:'8px 12px',background:'rgba(0,0,0,0.5)',border:'2px solid var(--ef-bevel-dark)',color:'white',fontSize:'0.85rem', outline:'none', fontWeight: 600}}
                         />
-                        <select value={marketFilter} onChange={(e) => setMarketFilter(e.target.value)} style={{padding:'0.35rem 0.6rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.8rem'}}>
+                        <select value={marketFilter} onChange={(e) => setMarketFilter(e.target.value)} style={{padding:'8px 12px',background:'var(--ef-color-neutral-bg)',border:'2px solid var(--ef-bevel-dark)',color:'white',fontSize:'0.85rem', outline:'none', fontWeight: 600}}>
                             <option value="all">Todas pos</option>
                             <option value="GOL">GOL</option>
                             <option value="DEF">DEF</option>
                             <option value="MEI">MEI</option>
                             <option value="ATA">ATA</option>
                         </select>
-                        <select value={marketSort} onChange={(e) => setMarketSort(e.target.value)} style={{padding:'0.35rem 0.6rem',background:'var(--bg-panel-solid)',border:'1px solid var(--glass-border)',borderRadius:'var(--radius-sm)',color:'var(--text-main)',fontSize:'0.8rem'}}>
+                        <select value={marketSort} onChange={(e) => setMarketSort(e.target.value)} style={{padding:'8px 12px',background:'var(--ef-color-neutral-bg)',border:'2px solid var(--ef-bevel-dark)',color:'white',fontSize:'0.85rem', outline:'none', fontWeight: 600}}>
                             <option value="ovr">OVR ↓</option>
                             <option value="price">Preço ↑</option>
                             <option value="age">Idade ↑</option>
@@ -148,9 +161,9 @@ export function MarketView() {
                                     </div>
                                     <div style={{display:'flex',alignItems:'center',gap:'0.4rem'}}>
                                         <span style={{fontSize:'0.72rem',color:'var(--accent)'}}>R$ {(p.value / 1000000).toFixed(1)}M</span>
-                                        <button className="btn btn-primary btn-sm" onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
+                                        <EfButton variant="primary" size="sm" onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
                                             Contratar
-                                        </button>
+                                        </EfButton>
                                     </div>
                                 </div>
                             ))}
@@ -159,12 +172,12 @@ export function MarketView() {
                     </>
                         );
                     })()}
-                </div>
+                </EfPanel>
             )}
 
             {/* === SELL TAB === */}
             {tab === 'sell' && (
-                <div className="card card-compact">
+                <EfPanel variant="elev" padding="md">
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>JOGADORES VENDÁVEIS ({sellable.length})</h4>
                     {sellable.length === 0 ? (
                         <p style={{fontSize:'0.78rem',color:'var(--text-muted)'}}>Tire jogadores da titularidade para poder vendê-los.</p>
@@ -178,7 +191,7 @@ export function MarketView() {
                                     </div>
                                     <div style={{display:'flex',alignItems:'center',gap:'0.4rem'}}>
                                         <span style={{fontSize:'0.72rem',color:'var(--accent)'}}>~R$ {((p.ovr * 100000) / 1000000).toFixed(1)}M</span>
-                                        <button className="btn btn-danger btn-sm" onClick={() => handleSell(p)}>Vender</button>
+                                        <EfButton variant="danger" size="sm" onClick={() => handleSell(p)}>Vender</EfButton>
                                     </div>
                                 </div>
                             ))}
@@ -191,8 +204,8 @@ export function MarketView() {
                             <p style={{fontSize:'0.8rem',color:'var(--accent)',marginBottom:'0.3rem'}}>💬 {negotiation.msg}</p>
                             <p style={{fontSize:'0.85rem',fontWeight:600}}>R$ {(negotiation.counterAmount / 1000000).toFixed(1)}M</p>
                             <div style={{display:'flex',gap:'0.3rem',marginTop:'0.4rem'}}>
-                                <button className="btn btn-primary btn-sm" onClick={confirmSell}>✓ Aceitar</button>
-                                <button className="btn btn-secondary btn-sm" onClick={() => {
+                                <EfButton variant="primary" size="sm" onClick={confirmSell}>✓ Aceitar</EfButton>
+                                <EfButton variant="secondary" size="sm" onClick={() => {
                                     // Counter-offer: increase price
                                     const newAmount = Math.floor(negotiation.counterAmount * 1.15);
                                     if (negotiation.round >= 2) {
@@ -206,23 +219,23 @@ export function MarketView() {
                                             msg: `Contra-proposta: R$ ${(newAmount / 1000000).toFixed(1)}M (rodada ${negotiation.round + 2}/3)`,
                                         });
                                     }
-                                }}>📈 Pedir mais</button>
-                                <button className="btn btn-secondary btn-sm" onClick={() => setNegotiation(null)}>✗ Cancelar</button>
+                                }}>📈 Pedir mais</EfButton>
+                                <EfButton variant="secondary" size="sm" onClick={() => setNegotiation(null)}>✗ Cancelar</EfButton>
                             </div>
                         </div>
                     )}
-                </div>
+                </EfPanel>
             )}
 
             {/* === SCOUT TAB === */}
             {tab === 'scout' && (
-                <div className="card card-compact">
+                <EfPanel variant="elev" padding="md">
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>🔎 REGIÕES DE SCOUTING</h4>
-                    <div className="action-bar">
+                    <div className="action-bar" style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
                         {SCOUT_REGIONS.map(r => (
-                            <button key={r.id} className="btn btn-sm btn-secondary" onClick={() => handleScout(r.id)}>
+                            <EfButton key={r.id} variant="secondary" size="sm" onClick={() => handleScout(r.id)}>
                                 {r.emoji} {r.name} (R$ {(r.cost/1000).toFixed(0)}K)
-                            </button>
+                            </EfButton>
                         ))}
                     </div>
                     {engine.scoutedPlayers?.length > 0 && (
@@ -231,17 +244,18 @@ export function MarketView() {
                             {engine.scoutedPlayers.map((p, i) => (
                                 <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',fontSize:'0.78rem',padding:'0.25rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
                                     <span>{p.name} ({p.position}, {p.age}a, OVR {p.ovr})</span>
-                                    <button className="btn btn-sm btn-primary" onClick={() => {
+                                    <EfButton variant="primary" size="sm" onClick={() => {
                                         const result = engine.signScoutedPlayer(i);
                                         setLog(result?.msg || 'Contratado!');
                                         forceUpdate();
-                                    }}>Contratar</button>
+                                    }}>Contratar</EfButton>
                                 </div>
                             ))}
                         </div>
                     )}
-                </div>
+                </EfPanel>
             )}
+            </div>
         </div>
     );
 }
