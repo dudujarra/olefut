@@ -7,6 +7,13 @@ import { ProPlayer } from './PlayerCareer';
 import { FORMATIONS, TACTICS, rollMatchCondition, calculateWeeklyFinances, applyTraining, applyTeamTalk } from './ManagerSystems';
 import { adviseTactic, initNpcTacticState, recordNpcResult, applyNpcTacticAdvice } from './NpcTacticAdvisor';
 import { checkSquadHealth } from './SquadHealthMonitor';
+
+// MARL Fase 6: Multi-Agent imports
+import { AdaptiveBrain } from '../services/learning/AdaptiveBrain.js';
+import { generatePersonality, suggestArchetypeForClub } from '../services/learning/Archetypes.js';
+import { npcTacticDecision, npcFeedMatchResult, npcBuyDecision, shouldUseFullBrain } from '../services/learning/NpcManagerAI.js';
+import { saveAllBrains, restoreAllBrains } from '../services/learning/BrainPersistence.js';
+import { AIDirector } from '../services/learning/AIDirector.js';
 import { generateRealTransferOffers } from './MarketPricer';
 import { evaluateGrowth } from './GrowthEventSystem';
 import { canAccess, persistUnlock, evaluateNewUnlocks } from './ViewUnlockSystem';
@@ -149,10 +156,29 @@ export class Engine {
                         balance: club.budget,
                         stadium: club.stadium,
                         npcTacticState: initNpcTacticState(), // SPEC-131
+                        brain: null, // MARL Fase 6: will be assigned below for NPCs
                     });
                 });
             }
         }
+
+        // MARL Fase 6: Assign AdaptiveBrain + personality to each NPC team
+        const playerTeamId = parseInt(teamId);
+        for (const team of this.teams) {
+            if (team.id === playerTeamId) continue;
+            const archetype = suggestArchetypeForClub({
+                budget: team.balance || 0,
+                division: team.division || 4,
+                reputation: team.stadium?.capacity > 40000 ? 80 : team.division <= 2 ? 60 : 30
+            });
+            team.brain = new AdaptiveBrain(archetype);
+        }
+
+        // MARL Fase 6: AI Director for player experience management
+        this._aiDirector = new AIDirector();
+
+        // MARL Fase 6: Restore persisted NPC brains
+        try { restoreAllBrains(this.teams); } catch { /* ignore */ }
 
         // Apply scenario modifiers
         if (scenario === 'fallen') {
@@ -879,20 +905,35 @@ export class Engine {
                 }
             }
 
-            // NPC tactic pivot
+            // MARL Fase 6: NPC brain-driven tactic + emotional feed
             if (!t.npcTacticState) t.npcTacticState = initNpcTacticState();
-            const oppId = this._lastNpcOpponent?.[t.id];
-            const oppTeam = oppId ? this.getTeam(oppId) : null;
-            const npcOvr = Math.round(t.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (t.squad.length || 1));
-            const oppOvr = oppTeam ? Math.round(oppTeam.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (oppTeam.squad.length || 1)) : npcOvr;
-            const advice = adviseTactic({
-                currentTactic: t.npcTacticState.currentTactic,
-                recentResults: t.npcTacticState.recentResults,
-                squadOvr: npcOvr,
-                opponentOvr: oppOvr,
-                tacticAge: t.npcTacticState.tacticAge,
-            });
-            t.npcTacticState = applyNpcTacticAdvice(t.npcTacticState, advice);
+            if (t.brain) {
+                // Brain-driven decision (replaces NpcTacticAdvisor)
+                const tacticResult = npcTacticDecision(t, this);
+                t.npcTacticState.currentTactic = tacticResult.tactic;
+                if (tacticResult.changed) t.npcTacticState.tacticAge = 0;
+                else t.npcTacticState.tacticAge = (t.npcTacticState.tacticAge || 0) + 1;
+
+                // NPC buy decisions every 4 weeks (only if near player's division for perf)
+                const playerDiv = this.getTeam(this.manager?.teamId)?.division || 1;
+                if (this.currentWeek % 4 === 0 && shouldUseFullBrain(t, playerDiv)) {
+                    try { npcBuyDecision(t, this); } catch { /* defensive */ }
+                }
+            } else {
+                // Legacy fallback: NpcTacticAdvisor
+                const oppId = this._lastNpcOpponent?.[t.id];
+                const oppTeam = oppId ? this.getTeam(oppId) : null;
+                const npcOvr = Math.round(t.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (t.squad.length || 1));
+                const oppOvr = oppTeam ? Math.round(oppTeam.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (oppTeam.squad.length || 1)) : npcOvr;
+                const advice = adviseTactic({
+                    currentTactic: t.npcTacticState.currentTactic,
+                    recentResults: t.npcTacticState.recentResults,
+                    squadOvr: npcOvr,
+                    opponentOvr: oppOvr,
+                    tacticAge: t.npcTacticState.tacticAge,
+                });
+                t.npcTacticState = applyNpcTacticAdvice(t.npcTacticState, advice);
+            }
         });
 
         // Pagar Salários
@@ -956,6 +997,9 @@ export class Engine {
         try {
             this._seasonProcessor.process(this);
         } catch { /* defensive — never break rollover */ }
+
+        // MARL Fase 6: Persist all NPC brains at season end (natural checkpoint)
+        try { saveAllBrains(this.teams); } catch { /* defensive */ }
 
         this.currentWeek = 0;
         this.seasonNumber++;

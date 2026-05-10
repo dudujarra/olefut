@@ -23,6 +23,7 @@ import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/Pl
 import { getDifficulty } from '../engine/systems/DifficultyModes.js';
 import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats } from '../engine/PlayerTraits';
 import { recordNpcResult, applyNpcTacticAdvice, adviseTactic } from '../engine/NpcTacticAdvisor';
+import { npcFeedMatchResult } from './learning/NpcManagerAI.js';
 
 import { rng as systemRng } from '../engine/rng.js';
 import { emitGameEvent, GameEvents } from '../audio/EventBus.js';
@@ -397,9 +398,13 @@ export class MatchSimulator {
         const awayResult = awayGoals > homeGoals ? 'W' : awayGoals < homeGoals ? 'L' : 'D';
         if (homeTeam && homeId !== engine.manager.teamId && homeTeam.npcTacticState) {
             homeTeam.npcTacticState = recordNpcResult(homeTeam.npcTacticState, homeResult);
+            // MARL Fase 6: feed emotional engine with match result
+            try { npcFeedMatchResult(homeTeam, homeResult, engine); } catch { /* defensive */ }
         }
         if (awayTeam && awayId !== engine.manager.teamId && awayTeam.npcTacticState) {
             awayTeam.npcTacticState = recordNpcResult(awayTeam.npcTacticState, awayResult);
+            // MARL Fase 6: feed emotional engine with match result
+            try { npcFeedMatchResult(awayTeam, awayResult, engine); } catch { /* defensive */ }
         }
         // Track last opponent for tactic advisor context
         if (!engine._lastNpcOpponent) engine._lastNpcOpponent = {};
