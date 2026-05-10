@@ -42,7 +42,7 @@ export function EfModal({
             style={{
                 position: 'fixed',
                 inset: 0,
-                background: 'rgba(0, 0, 0, 0.75)',
+                background: 'rgba(0, 0, 0, 0.85)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -57,14 +57,15 @@ export function EfModal({
                     width: '100%',
                     maxWidth: SIZE_MAP[size] || SIZE_MAP.md,
                     maxHeight: '90vh',
-                    background: 'var(--ef-bg-card)',
-                    border: '3px solid',
-                    borderColor: 'var(--ef-bevel-light) var(--ef-bevel-dark) var(--ef-bevel-dark) var(--ef-bevel-light)',
-                    boxShadow: 'var(--ef-shadow-drop-lg)',
+                    backgroundColor: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    boxShadow: '0 16px 0 rgba(0,0,0,0.8)',
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'hidden',
-                    animation: 'ef-pop-in 200ms ease-out'
+                    animation: 'ef-pop-in 200ms ease-out',
+                    fontFamily: "'Press Start 2P', monospace",
                 }}
             >
                 {/* Header */}
@@ -73,15 +74,17 @@ export function EfModal({
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        padding: 'var(--ef-space-3) var(--ef-space-4)',
-                        background: 'var(--ef-color-grass-700)',
-                        borderBottom: '2px solid var(--ef-bevel-dark)'
+                        padding: '12px 16px',
+                        background: '#111417',
+                        borderBottom: '4px solid #000',
+                        color: '#FFF',
+                        textShadow: '2px 2px 0 #000'
                     }}>
                         <h3 id="ef-modal-title" style={{
                             margin: 0,
-                            fontSize: 'var(--ef-font-size-subtitle)',
-                            fontFamily: 'var(--ef-font-family-display)',
-                            color: 'var(--ef-text-hi)'
+                            fontSize: '0.85rem',
+                            color: '#FFD700',
+                            lineHeight: 1.5
                         }}>
                             {title}
                         </h3>
@@ -89,16 +92,19 @@ export function EfModal({
                             onClick={onClose}
                             aria-label="Fechar"
                             style={{
-                                background: 'transparent',
-                                border: 'none',
-                                color: 'var(--ef-text-hi)',
-                                fontSize: '20px',
+                                background: '#FF3333',
+                                border: '2px solid',
+                                borderColor: '#FF9999 #880000 #880000 #FF9999',
+                                color: '#FFF',
+                                fontSize: '10px',
+                                fontFamily: "'Press Start 2P', monospace",
                                 cursor: 'pointer',
-                                padding: 'var(--ef-space-1) var(--ef-space-2)',
-                                lineHeight: 1
+                                padding: '4px 8px',
+                                lineHeight: 1,
+                                boxShadow: '2px 2px 0 #000'
                             }}
                         >
-                            ✕
+                            X
                         </button>
                     </div>
                 )}
@@ -106,9 +112,12 @@ export function EfModal({
                 {/* Body */}
                 <div style={{
                     flex: 1,
-                    padding: 'var(--ef-space-4)',
+                    padding: '16px',
                     overflowY: 'auto',
-                    color: 'var(--ef-text-hi)'
+                    color: '#CCC',
+                    fontFamily: 'Outfit, sans-serif',
+                    fontSize: '1rem',
+                    lineHeight: 1.6
                 }}>
                     {children}
                 </div>
@@ -116,12 +125,12 @@ export function EfModal({
                 {/* Footer */}
                 {footer && (
                     <div style={{
-                        padding: 'var(--ef-space-3) var(--ef-space-4)',
-                        borderTop: '2px solid var(--ef-bevel-dark)',
-                        background: 'var(--ef-bg-elev)',
+                        padding: '12px 16px',
+                        borderTop: '4px solid #111417',
+                        background: '#1A1C20',
                         display: 'flex',
                         justifyContent: 'flex-end',
-                        gap: 'var(--ef-space-2)'
+                        gap: '12px'
                     }}>
                         {footer}
                     </div>
