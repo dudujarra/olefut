@@ -97,7 +97,7 @@ export function FormationBoard({ team, onSave, onChange, editable = true }) {
         <div className="formation-board" style={{display:'flex',flexDirection:'column',gap:'0.5rem'}}>
             {/* Formation selector */}
             <div style={{display:'flex',gap:'0.4rem',alignItems:'center',flexWrap:'wrap'}}>
-                <span style={{fontSize:'0.85rem',color:'var(--text-muted)'}}>Formação:</span>
+                <span style={{fontSize:'0.85rem',color:'#888'}}>Formação:</span>
                 {FORMATION_KEYS.map(k => (
                     <Tooltip key={k} content={`Mudar para ${k} — reorganiza posições padrão`}>
                         <EfButton
@@ -179,7 +179,7 @@ export function FormationBoard({ team, onSave, onChange, editable = true }) {
                 </svg>
             </div>
 
-            <div style={{fontSize:'0.75rem',color:'var(--text-muted)',textAlign:'center'}}>
+            <div style={{fontSize:'0.75rem',color:'#888',textAlign:'center'}}>
                 {editable ? '👆 Arraste as camisas para ajustar posicionamento (mais avançado/recuado/lados)' : '👁️ Visualização da formação'}
             </div>
         </div>

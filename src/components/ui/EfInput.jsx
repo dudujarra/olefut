@@ -2,6 +2,7 @@
  * EfInput — Stitch component
  *
  * Beveled inverso (sunk), focus ring info, error state.
+ * 16-bit Brutalist Arcade edition.
  */
 
 import React from 'react';
@@ -32,13 +33,13 @@ export function EfInput({
     const inputId = id || `ef-input-${systemRng().toString(36).slice(2, 8)}`;
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ef-space-1)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {label && (
                 <label htmlFor={inputId} style={{
-                    fontSize: 'var(--ef-font-size-caption)',
-                    fontFamily: 'var(--ef-font-family-body)',
+                    fontSize: '0.5rem',
+                    fontFamily: "'Press Start 2P', monospace",
                     fontWeight: 600,
-                    color: 'var(--ef-text-md)',
+                    color: '#888',
                     textTransform: 'uppercase',
                     letterSpacing: '0.04em'
                 }}>
@@ -51,7 +52,7 @@ export function EfInput({
                     <span style={{
                         position: 'absolute',
                         left: '8px',
-                        color: 'var(--ef-text-md)',
+                        color: '#888',
                         pointerEvents: 'none'
                     }}>
                         {icon}
@@ -72,28 +73,28 @@ export function EfInput({
                         padding: sizing.padding,
                         paddingLeft: icon ? '32px' : sizing.padding.split(' ')[1],
                         fontSize: sizing.fontSize,
-                        fontFamily: 'var(--ef-font-family-body)',
-                        color: 'var(--ef-text-hi)',
-                        background: 'var(--ef-bg-card)',
-                        border: '2px solid',
+                        fontFamily: 'monospace',
+                        color: '#E2E8F0',
+                        background: '#111417',
+                        border: '4px solid',
                         borderColor: error
-                            ? 'var(--ef-color-func-danger)'
-                            : 'var(--ef-bevel-dark) var(--ef-bevel-light) var(--ef-bevel-light) var(--ef-bevel-dark)',
-                        boxShadow: 'var(--ef-shadow-inner-sunk)',
+                            ? '#FF3333'
+                            : '#111417 #4A5059 #4A5059 #111417',
+                        boxShadow: 'inset 2px 2px 0 rgba(0,0,0,0.5)',
                         outline: 'none',
-                        transition: 'border-color var(--ef-dur-fast)',
+                        transition: 'border-color 0.1s',
                         opacity: disabled ? 0.5 : 1,
                         cursor: disabled ? 'not-allowed' : 'text'
                     }}
                     onFocus={(e) => {
                         if (!error) {
-                            e.target.style.borderColor = 'var(--ef-color-func-info)';
+                            e.target.style.borderColor = '#40BAF7';
                         }
                     }}
                     onBlur={(e) => {
                         e.target.style.borderColor = error
-                            ? 'var(--ef-color-func-danger)'
-                            : 'var(--ef-bevel-dark) var(--ef-bevel-light) var(--ef-bevel-light) var(--ef-bevel-dark)';
+                            ? '#FF3333'
+                            : '#111417 #4A5059 #4A5059 #111417';
                     }}
                     {...rest}
                 />
@@ -101,9 +102,9 @@ export function EfInput({
 
             {error && (
                 <span style={{
-                    fontSize: 'var(--ef-font-size-caption)',
-                    color: 'var(--ef-color-func-danger)',
-                    fontFamily: 'var(--ef-font-family-body)'
+                    fontSize: '0.45rem',
+                    color: '#FF3333',
+                    fontFamily: "'Press Start 2P', monospace"
                 }}>
                     ⚠ {error}
                 </span>
@@ -111,9 +112,9 @@ export function EfInput({
 
             {helper && !error && (
                 <span id={`${inputId}-helper`} style={{
-                    fontSize: 'var(--ef-font-size-caption)',
-                    color: 'var(--ef-text-md)',
-                    fontFamily: 'var(--ef-font-family-body)'
+                    fontSize: '0.45rem',
+                    color: '#888',
+                    fontFamily: "'Press Start 2P', monospace"
                 }}>
                     {helper}
                 </span>

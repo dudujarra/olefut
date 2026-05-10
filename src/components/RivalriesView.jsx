@@ -3,26 +3,35 @@
  *
  * Tabela de rivalidades usando engine.rivalryHistory (SPEC-080).
  * Mostra H2H real, score de rivalidade, e arcos nomeados do RivalryUpgradeSystem.
+ * 
+ * 16-BIT BRUTALIST ARCADE AESTHETIC
  */
 
 import React from 'react';
 import { useGame } from '../context/GameContext';
-import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
+import { EfClubBadge } from './ui/EfClubBadge';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';
 
 function getRivalryLabel(matchCount) {
-    if (matchCount >= 10) return { label: '🔴 Consolidada', color: 'var(--danger)' };
-    if (matchCount >= 6) return { label: '🟡 Novo Clássico', color: 'var(--accent)' };
-    if (matchCount >= 3) return { label: '🟠 Crescendo', color: 'orange' };
-    return { label: '⚪ Início', color: 'var(--text-muted)' };
+    if (matchCount >= 10) return { label: 'CONSOLIDADA', color: '#FF3333', icon: '🔴' };
+    if (matchCount >= 6) return { label: 'NOVO CLÁSSICO', color: '#FFD700', icon: '🟡' };
+    if (matchCount >= 3) return { label: 'CRESCENDO', color: '#FF8C00', icon: '🟠' };
+    return { label: 'INÍCIO', color: '#888', icon: '⚪' };
+}
+
+function getRivalryBorderColor(matchCount) {
+    if (matchCount >= 10) return '#FF3333';
+    if (matchCount >= 6) return '#FFD700';
+    if (matchCount >= 3) return '#FF8C00';
+    return '#333';
 }
 
 export function RivalriesView() {
     const { getEngine, changeView, getDashboardView } = useGame();
     const engine = getEngine();
 
-    if (!engine) return <div style={{padding:'16px',color:'var(--text-main)'}}>Engine não inicializado.</div>;
+    if (!engine) return <div style={{padding:'16px',color:'#FFF',fontFamily:"'Press Start 2P', monospace"}}>ENGINE NÃO INICIALIZADO.</div>;
 
     const team = engine.getTeam(engine.manager?.teamId);
     const rivalryHistory = engine.rivalryHistory || {};
@@ -68,70 +77,155 @@ export function RivalriesView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0',
+            fontFamily: "'Outfit', sans-serif"
         }}>
             <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>⚔️ RIVALIDADES</h2>
-                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
-                </EfPanel>
 
-                <EfPanel variant="elev" padding="md">
-                    <h3 style={{ margin: '0 0 16px 0', fontSize: '1rem' }}>
-                        Confrontos Diretos ({rivalries.length})
-                    </h3>
+                {/* HEADER */}
+                <div style={{
+                    background: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    padding: '16px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    boxShadow: '0 8px 0 rgba(0,0,0,0.8)'
+                }}>
+                    <div>
+                        <h2 style={{fontFamily: "'Press Start 2P', monospace", color: '#FFD700', margin: '0 0 8px 0', fontSize: '1rem', textShadow: '3px 3px 0 #000'}}>
+                            RIVALIDADES
+                        </h2>
+                        <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', color: '#888'}}>CONFRONTOS HISTÓRICOS</span>
+                    </div>
+                    <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>SAIR</EfButton>
+                </div>
+
+                {/* RIVALRIES LIST */}
+                <div style={{
+                    background: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    padding: '16px',
+                    boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)'
+                }}>
+                    <div style={{
+                        background: '#111',
+                        padding: '8px',
+                        borderBottom: '2px solid #333',
+                        marginBottom: '16px',
+                        fontFamily: "'Press Start 2P', monospace",
+                        color: '#FFD700',
+                        fontSize: '0.65rem',
+                        textShadow: '2px 2px 0 #000'
+                    }}>
+                        CONFRONTOS DIRETOS ({rivalries.length})
+                    </div>
+
                     {rivalries.length === 0 ? (
-                        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                            Nenhuma rivalidade detectada. Jogue mais partidas para construir histórico.
-                        </p>
+                        <div style={{
+                            background: '#111',
+                            padding: '32px',
+                            textAlign: 'center',
+                            border: '4px dashed #333',
+                            fontFamily: "'Press Start 2P', monospace",
+                            fontSize: '0.6rem',
+                            color: '#888'
+                        }}>
+                            NENHUMA RIVALIDADE DETECTADA. JOGUE MAIS PARTIDAS.
+                        </div>
                     ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             {rivalries.map(r => {
                                 const label = getRivalryLabel(r.matches);
                                 const oppTeam = r.isA ? r.clubB : r.clubA;
+                                const borderColor = getRivalryBorderColor(r.matches);
                                 return (
-                                    <EfPanel key={r.key} variant="sunk" padding="sm" style={{
+                                    <div key={r.key} style={{
+                                        background: '#111',
+                                        border: '4px solid',
+                                        borderColor: '#333 #000 #000 #333',
+                                        borderLeftColor: borderColor,
+                                        borderLeftWidth: '6px',
+                                        padding: '16px',
                                         display: 'flex',
                                         justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        fontSize: '0.85rem'
+                                        alignItems: 'center'
                                     }}>
-                                        <div>
-                                            <strong style={{ color: 'var(--text-main)', fontSize: '1rem' }}>vs {oppTeam?.name || '???'}</strong>
-                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-                                                {r.matches} jogos • <span style={{ color: 'var(--primary)' }}>{r.wins}V</span> <span style={{ color: 'var(--accent)' }}>{r.draws}E</span> <span style={{ color: 'var(--danger)' }}>{r.losses}D</span>
+                                        <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                                            {oppTeam?.name && <EfClubBadge name={oppTeam.name} size="sm" />}
+                                            <div>
+                                                <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.75rem', color: '#FFF', marginBottom: '8px'}}>
+                                                    VS {(oppTeam?.name || '???').toUpperCase()}
+                                                </div>
+                                                <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', color: '#888'}}>
+                                                    {r.matches} JOGOS •{' '}
+                                                    <span style={{color: '#39FF14'}}>{r.wins}V</span>{' '}
+                                                    <span style={{color: '#FFD700'}}>{r.draws}E</span>{' '}
+                                                    <span style={{color: '#FF3333'}}>{r.losses}D</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <span style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', fontWeight: 'bold' }}>
-                                            <span style={{ fontSize: '0.8rem', color: label.color }}>{label.label}</span>
-                                        </span>
-                                    </EfPanel>
+                                        <div style={{
+                                            background: borderColor === '#333' ? '#222' : 'rgba(0,0,0,0.5)',
+                                            border: `2px solid ${borderColor}`,
+                                            padding: '4px 12px',
+                                            fontFamily: "'Press Start 2P', monospace",
+                                            fontSize: '0.5rem',
+                                            color: label.color
+                                        }}>
+                                            {label.icon} {label.label}
+                                        </div>
+                                    </div>
                                 );
                             })}
                         </div>
                     )}
-                </EfPanel>
+                </div>
 
                 {/* Former Companions (SPEC-081) */}
                 {(engine.formerCompanions?.length || 0) > 0 && (
-                    <EfPanel variant="elev" padding="md">
-                        <h3 style={{ margin: '0 0 16px 0', fontSize: '1rem' }}>
-                            👥 Ex-Companheiros ({engine.formerCompanions.length})
-                        </h3>
+                    <div style={{
+                        background: '#1E2124',
+                        border: '4px solid',
+                        borderColor: '#4A5059 #111417 #111417 #4A5059',
+                        padding: '16px'
+                    }}>
+                        <div style={{
+                            background: '#111',
+                            padding: '8px',
+                            borderBottom: '2px solid #333',
+                            marginBottom: '16px',
+                            fontFamily: "'Press Start 2P', monospace",
+                            color: '#FFD700',
+                            fontSize: '0.65rem',
+                            textShadow: '2px 2px 0 #000'
+                        }}>
+                            EX-COMPANHEIROS ({engine.formerCompanions.length})
+                        </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             {engine.formerCompanions.map((p, i) => (
-                                <EfPanel key={i} variant="sunk" padding="sm" style={{
+                                <div key={i} style={{
+                                    background: '#111',
+                                    border: '4px solid',
+                                    borderColor: '#333 #000 #000 #333',
+                                    padding: '12px',
                                     display: 'flex',
                                     justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    fontSize: '0.85rem'
+                                    alignItems: 'center'
                                 }}>
-                                    <span style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{p.name} <span style={{ color: 'var(--text-muted)', fontWeight: 'normal' }}>({p.position})</span></span>
-                                    <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>OVR {p.ovr} • Vendido temp {p.season || '?'}</span>
-                                </EfPanel>
+                                    <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.7rem', color: '#FFF'}}>
+                                        {p.name.toUpperCase()}
+                                        <span style={{color: '#888', marginLeft: '8px', fontSize: '0.55rem'}}>({p.position})</span>
+                                    </div>
+                                    <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', color: '#888'}}>
+                                        OVR {p.ovr} • TEMP {p.season || '?'}
+                                    </div>
+                                </div>
                             ))}
                         </div>
-                    </EfPanel>
+                    </div>
                 )}
             </div>
         </div>

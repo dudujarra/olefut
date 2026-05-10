@@ -150,14 +150,14 @@ export function EfBanner({ type, customTitle, customSubtitle, onDismiss }) {
                     background: cfg.bg,
                     color: cfg.color,
                     padding: '32px 48px',
-                    borderRadius: '4px',
+
                     border: '4px solid',
-                    borderColor: 'var(--ef-bevel-light, #5C8A6A) var(--ef-bevel-dark, #0A130E) var(--ef-bevel-dark, #0A130E) var(--ef-bevel-light, #5C8A6A)',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
                     boxShadow: '0 8px 0 rgba(0,0,0,0.5), 0 0 40px rgba(247,181,56,0.4)',
                     textAlign: 'center',
                     minWidth: '320px',
                     maxWidth: '600px',
-                    fontFamily: "var(--ef-font-family-display, 'Pixelify Sans'), sans-serif"
+                    fontFamily: "'Press Start 2P', monospace"
                 }}
             >
                 {cfg.spriteClass ? (

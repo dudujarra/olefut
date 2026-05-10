@@ -1,13 +1,22 @@
 /**
  * CosmeticShopView — SPEC-101
+ * 
+ * 16-BIT BRUTALIST ARCADE AESTHETIC — RPG Item Shop style
  */
 
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { COSMETICS, getCosmeticState, purchaseCosmetic, equipCosmetic, getAchievementPoints } from '../services/CosmeticShopService';
-import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgManagerOffice from '../assets/environments/bg_manager_office.png';
+
+const TYPE_LABELS = {
+    kit: '👕 KITS',
+    badge: '🛡️ BADGES',
+    portrait: '👤 PORTRAITS',
+    pitch: '🟢 GRAMAS',
+    banner: '🎉 BANNERS'
+};
 
 export function CosmeticShopView() {
     const { changeView, getEngine, getDashboardView } = useGame();
@@ -49,70 +58,147 @@ export function CosmeticShopView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0',
+            fontFamily: "'Outfit', sans-serif"
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>🛍️ LOJA DE COSMÉTICOS</h2>
-                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
-                </EfPanel>
 
-                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                {/* HEADER */}
+                <div style={{
+                    background: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    padding: '16px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    boxShadow: '0 8px 0 rgba(0,0,0,0.8)'
+                }}>
                     <div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Pontos disponíveis (de conquistas):</div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--accent)' }}>⭐ {points}</div>
+                        <h2 style={{fontFamily: "'Press Start 2P', monospace", color: '#FFD700', margin: '0 0 8px 0', fontSize: '1rem', textShadow: '3px 3px 0 #000'}}>
+                            LOJA DE COSMÉTICOS
+                        </h2>
+                        <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', color: '#888'}}>ITENS DESBLOQUEÁVEIS</span>
                     </div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textAlign: 'right' }}>
-                        Cosméticos: {state.owned.length}/{COSMETICS.length}
-                    </div>
-                </EfPanel>
+                    <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>SAIR</EfButton>
+                </div>
 
+                {/* POINTS DISPLAY — RPG Gold Counter */}
+                <div style={{
+                    background: '#111',
+                    border: '4px solid',
+                    borderColor: '#FFD700 #AA8800 #AA8800 #FFD700',
+                    padding: '16px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+                    <div>
+                        <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', color: '#888', display: 'block', marginBottom: '6px'}}>
+                            PONTOS DISPONÍVEIS
+                        </span>
+                        <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '1.4rem', color: '#FFD700', textShadow: '3px 3px 0 #000'}}>
+                            ⭐ {points}
+                        </span>
+                    </div>
+                    <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.5rem', color: '#888', textAlign: 'right'}}>
+                        ITENS: {state.owned.length}/{COSMETICS.length}
+                    </div>
+                </div>
+
+                {/* CATEGORIES */}
                 {Object.entries(grouped).map(([type, items]) => (
-                    <EfPanel key={type} variant="sunk" padding="md">
-                        <h3 style={{ fontSize: '0.9rem', marginBottom: '0.75rem', marginTop: 0, textTransform: 'uppercase' }}>
-                            {type === 'kit' ? '👕 Kits' :
-                             type === 'badge' ? '🛡️ Badges' :
-                             type === 'portrait' ? '👤 Portraits' :
-                             type === 'pitch' ? '🟢 Gramas' :
-                             type === 'banner' ? '🎉 Banners' : type}
-                        </h3>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px' }}>
+                    <div key={type} style={{
+                        background: '#1E2124',
+                        border: '4px solid',
+                        borderColor: '#4A5059 #111417 #111417 #4A5059',
+                        padding: '16px'
+                    }}>
+                        {/* Category header */}
+                        <div style={{
+                            background: '#111',
+                            padding: '8px',
+                            borderBottom: '2px solid #333',
+                            marginBottom: '16px',
+                            fontFamily: "'Press Start 2P', monospace",
+                            color: '#FFD700',
+                            fontSize: '0.65rem',
+                            textShadow: '2px 2px 0 #000'
+                        }}>
+                            {TYPE_LABELS[type] || type.toUpperCase()}
+                        </div>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
                             {items.map(item => {
                                 const owned = state.owned.includes(item.id);
                                 const equipped = state.equipped[item.type] === item.id;
                                 const canAfford = points >= item.cost;
                                 return (
                                     <div key={item.id} style={{
-                                        border: `1px solid ${equipped ? 'var(--accent)' : 'var(--border-subtle)'}`,
-                                        borderRadius: '4px',
-                                        padding: '0.5rem',
-                                        background: equipped ? 'rgba(247,181,56,0.1)' : 'var(--bg-panel-hover)'
+                                        background: '#111',
+                                        border: '4px solid',
+                                        borderColor: equipped ? '#FFD700 #AA8800 #AA8800 #FFD700' : '#333 #000 #000 #333',
+                                        padding: '16px',
+                                        textAlign: 'center'
                                     }}>
-                                        <div style={{ fontSize: '1.5rem', marginBottom: '4px', textAlign: 'center' }}>{item.emoji}</div>
-                                        <div style={{ fontSize: '0.78rem', fontWeight: 600, textAlign: 'center' }}>{item.name}</div>
-                                        <div style={{ fontSize: '0.7rem', color: 'var(--accent)', marginBottom: '8px', textAlign: 'center' }}>⭐ {item.cost}</div>
+                                        {/* Item icon */}
+                                        <div style={{
+                                            width: '48px', height: '48px', margin: '0 auto 8px',
+                                            background: equipped ? '#FFD700' : (owned ? '#39FF14' : '#333'),
+                                            border: '3px solid #000',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            fontSize: '1.5rem',
+                                            boxShadow: 'inset 2px 2px 0 rgba(255,255,255,0.2)'
+                                        }}>
+                                            {item.emoji}
+                                        </div>
+
+                                        <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', color: '#FFF', marginBottom: '4px'}}>
+                                            {item.name.toUpperCase()}
+                                        </div>
+                                        <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.5rem', color: '#FFD700', marginBottom: '12px'}}>
+                                            ⭐ {item.cost}
+                                        </div>
+
                                         {owned ? (
-                                            <EfButton
-                                                onClick={() => handleEquip(item.id)}
-                                                disabled={equipped}
-                                                variant={equipped ? 'primary' : 'secondary'}
-                                                size="sm"
-                                                style={{ width: '100%', justifyContent: 'center' }}
-                                            >{equipped ? 'EQUIPADO' : 'EQUIPAR'}</EfButton>
+                                            <div
+                                                onClick={() => !equipped && handleEquip(item.id)}
+                                                style={{
+                                                    background: equipped ? '#0A1A0A' : '#111',
+                                                    border: '4px solid',
+                                                    borderColor: equipped ? '#39FF14 #1A8A0A #1A8A0A #39FF14' : '#333 #000 #000 #333',
+                                                    padding: '6px 12px',
+                                                    cursor: equipped ? 'default' : 'pointer',
+                                                    fontFamily: "'Press Start 2P', monospace",
+                                                    fontSize: '0.5rem',
+                                                    color: equipped ? '#39FF14' : '#888'
+                                                }}
+                                            >
+                                                {equipped ? '✓ EQUIPADO' : 'EQUIPAR'}
+                                            </div>
                                         ) : (
-                                            <EfButton
-                                                onClick={() => handlePurchase(item.id)}
-                                                disabled={!canAfford}
-                                                variant="primary"
-                                                size="sm"
-                                                style={{ width: '100%', justifyContent: 'center' }}
-                                            >{canAfford ? 'COMPRAR' : 'SEM PONTOS'}</EfButton>
+                                            <div
+                                                onClick={() => canAfford && handlePurchase(item.id)}
+                                                style={{
+                                                    background: canAfford ? '#1A1A0A' : '#1A0A0A',
+                                                    border: '4px solid',
+                                                    borderColor: canAfford ? '#FFD700 #AA8800 #AA8800 #FFD700' : '#FF3333 #AA1111 #AA1111 #FF3333',
+                                                    padding: '6px 12px',
+                                                    cursor: canAfford ? 'pointer' : 'not-allowed',
+                                                    fontFamily: "'Press Start 2P', monospace",
+                                                    fontSize: '0.5rem',
+                                                    color: canAfford ? '#FFD700' : '#FF3333',
+                                                    opacity: canAfford ? 1 : 0.6
+                                                }}
+                                            >
+                                                {canAfford ? 'COMPRAR' : 'SEM PONTOS'}
+                                            </div>
                                         )}
                                     </div>
                                 );
                             })}
                         </div>
-                    </EfPanel>
+                    </div>
                 ))}
             </div>
         </div>

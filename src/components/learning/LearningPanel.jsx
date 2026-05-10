@@ -15,7 +15,7 @@ import { EfPanel } from '../ui/EfPanel';
 
 function Sparkline({ data, width = 200, height = 40, color = '#6ABC3A' }) {
     if (!Array.isArray(data) || data.length < 2) {
-        return <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>need ≥2 data points</div>;
+        return <div style={{ fontSize: '0.7rem', color: '#888' }}>need ≥2 data points</div>;
     }
     const max = Math.max(...data, 1);
     const min = Math.min(...data, 0);
@@ -78,7 +78,7 @@ function ActionBar({ action, q, max }) {
 
 function MemoryEntry({ entry }) {
     const reward = entry.reward;
-    const color = reward > 0 ? '#6ABC3A' : reward < 0 ? '#c44' : 'var(--text-muted)';
+    const color = reward > 0 ? '#6ABC3A' : reward < 0 ? '#c44' : '#888';
     return (
         <div style={{
             display: 'flex',
@@ -149,7 +149,7 @@ export default function LearningPanel({ controllerRef }) {
                 }}
             >
                 <span>📈 LEARNING REAL-TIME (SPEC-123) {open ? '▼' : '▶'}</span>
-                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                <span style={{ fontSize: '0.72rem', color: '#888' }}>
                     {brainSummary.states} states · {brainSummary.totalUpdates} updates · {memory.length} memories
                 </span>
             </div>
@@ -160,13 +160,13 @@ export default function LearningPanel({ controllerRef }) {
                     {seasonHistory.length >= 2 && (
                         <div style={{ display: 'flex', gap: '12px', marginTop: '8px', flexWrap: 'wrap' }}>
                             <div>
-                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '2px' }}>
+                                <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '2px' }}>
                                     Wins per season ({seasonHistory.length} samples)
                                 </div>
                                 <Sparkline data={winSeries} color="#6ABC3A" />
                             </div>
                             <div>
-                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '2px' }}>
+                                <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '2px' }}>
                                     Transfers per season
                                 </div>
                                 <Sparkline data={transferSeries} color="#FFD700" />
@@ -177,7 +177,7 @@ export default function LearningPanel({ controllerRef }) {
                     {/* Top Q-actions */}
                     {topActions.length > 0 && (
                         <div style={{ marginTop: '12px' }}>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
                                 Top actions Q-values:
                             </div>
                             {topActions.slice(0, 5).map((a, i) => (
@@ -189,7 +189,7 @@ export default function LearningPanel({ controllerRef }) {
                     {/* Episodic memory */}
                     {memory.length > 0 && (
                         <div style={{ marginTop: '12px' }}>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
                                 Recent memories (last {memory.length}):
                             </div>
                             <div style={{

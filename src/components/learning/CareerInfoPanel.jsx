@@ -20,7 +20,7 @@ function formatRep(rep) {
     if (rep >= 60) return { label: '⭐ Renomado', color: '#FFA500' };
     if (rep >= 40) return { label: '✨ Conhecido', color: '#90EE90' };
     if (rep >= 20) return { label: '📋 Iniciante', color: '#87CEEB' };
-    return { label: '🌱 Desconhecido', color: 'var(--text-muted)' };
+    return { label: '🌱 Desconhecido', color: '#888' };
 }
 
 export default function CareerInfoPanel({ controllerRef }) {
@@ -87,7 +87,7 @@ export default function CareerInfoPanel({ controllerRef }) {
 
     const repBadge = formatRep(snapshot.reputation);
     const divName = DIV_NAMES[snapshot.division] || `Div ${snapshot.division}`;
-    const divColor = DIV_COLOR[snapshot.division] || 'var(--text-muted)';
+    const divColor = DIV_COLOR[snapshot.division] || '#888';
     const titlesByDiv = snapshot.titles.reduce((acc, t) => {
         acc[t] = (acc[t] || 0) + 1;
         return acc;
@@ -97,21 +97,21 @@ export default function CareerInfoPanel({ controllerRef }) {
         <EfPanel variant="sunk" padding="md" style={{
             marginTop: '0.5rem',
             background: 'rgba(255, 215, 0, 0.05)',
-            border: '1px solid var(--ef-color-accent-gold, #FFD700)',
+            border: '1px solid #FFD700',
         }}>
             <div
                 onClick={() => setOpen(o => !o)}
                 style={{
                     cursor: 'pointer',
                     fontWeight: 700,
-                    color: 'var(--ef-color-accent-gold, #FFD700)',
+                    color: '#FFD700',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
                 }}
             >
                 <span>🏟️ CARREIRA INFO {open ? '▼' : '▶'}</span>
-                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                <span style={{ fontSize: '0.72rem', color: '#888' }}>
                     Season {snapshot.seasonNumber} · Wk {snapshot.currentWeek}
                 </span>
             </div>
@@ -129,43 +129,43 @@ export default function CareerInfoPanel({ controllerRef }) {
                         flexWrap: 'wrap'
                     }}>
                         <div>
-                            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>TIME</div>
+                            <div style={{ fontSize: '0.7rem', color: '#888' }}>TIME</div>
                             <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{snapshot.team.name}</div>
                             <div style={{ color: divColor, fontWeight: 700 }}>
                                 {divName} ({snapshot.zone})
                             </div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>POSIÇÃO</div>
+                            <div style={{ fontSize: '0.7rem', color: '#888' }}>POSIÇÃO</div>
                             <div style={{ fontWeight: 700, fontSize: '1.2rem', color: snapshot.position <= 4 ? '#6ABC3A' : snapshot.position >= 17 ? '#c44' : '#FFD700' }}>
                                 {snapshot.position}º
                             </div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>SQUAD</div>
+                            <div style={{ fontSize: '0.7rem', color: '#888' }}>SQUAD</div>
                             <div style={{ fontWeight: 700 }}>{snapshot.squadSize} jog · OVR {snapshot.avgOvr}</div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>BALANÇO</div>
+                            <div style={{ fontSize: '0.7rem', color: '#888' }}>BALANÇO</div>
                             <div style={{ fontWeight: 700, color: snapshot.balance < 0 ? '#c44' : '#6ABC3A' }}>
                                 R$ {(snapshot.balance / 1_000_000).toFixed(1)}M
                             </div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>REPUTAÇÃO</div>
+                            <div style={{ fontSize: '0.7rem', color: '#888' }}>REPUTAÇÃO</div>
                             <div style={{ color: repBadge.color, fontWeight: 700 }}>{repBadge.label}</div>
-                            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{snapshot.reputation}/100</div>
+                            <div style={{ fontSize: '0.7rem', color: '#888' }}>{snapshot.reputation}/100</div>
                         </div>
                     </div>
 
                     {/* Titles + insights row */}
                     <div style={{ display: 'flex', gap: '12px', marginTop: '8px', flexWrap: 'wrap' }}>
                         <div style={{ flex: 1, minWidth: '180px' }}>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
                                 🏆 TÍTULOS ({snapshot.titles.length})
                             </div>
                             {snapshot.titles.length === 0 ? (
-                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                                <div style={{ fontSize: '0.7rem', color: '#888', fontStyle: 'italic' }}>
                                     Nenhum título ainda
                                 </div>
                             ) : (
@@ -180,7 +180,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                         </div>
 
                         <div style={{ flex: 1, minWidth: '180px' }}>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
                                 📊 INSIGHTS CARREIRA
                             </div>
                             <div style={{ fontSize: '0.7rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
@@ -203,7 +203,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                     {/* Top scorers */}
                     {snapshot.topScorers.length > 0 && (
                         <div style={{ marginTop: '8px' }}>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
                                 ⚽ ARTILHEIROS (TEMPORADA ATUAL)
                             </div>
                             <div style={{ background: 'rgba(0,0,0,0.15)', borderRadius: '2px', padding: '4px' }}>
@@ -221,7 +221,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                                         </span>
                                         <span>
                                             <strong style={{ color: '#6ABC3A' }}>{p.goals} ⚽</strong>{' '}
-                                            <span style={{ color: 'var(--text-muted)' }}>
+                                            <span style={{ color: '#888' }}>
                                                 {p.assists}🅰️ · {p.apps}j
                                                 {p.totalGoals > p.goals && (
                                                     <span title="Total carreira"> · {p.totalGoals}🏅</span>
@@ -237,7 +237,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                     {/* Last seasons compact */}
                     {snapshot.seasons.length > 0 && (
                         <div style={{ marginTop: '8px' }}>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
                                 📅 ÚLTIMAS {snapshot.seasons.length} TEMPORADAS
                             </div>
                             <div style={{

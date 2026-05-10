@@ -2,6 +2,7 @@
  * EfTooltip — Stitch component (refactor de Tooltip.jsx legacy)
  *
  * Hover delay 200ms, fade-in 100ms, beveled.
+ * 16-bit Brutalist Arcade edition.
  */
 
 import React, { useState, useRef, useLayoutEffect } from 'react';
@@ -45,10 +46,10 @@ export function EfTooltip({
     if (!content) return children;
 
     const HEADER_COLOR = {
-        info: 'var(--ef-color-func-info)',
-        success: 'var(--ef-color-func-success)',
-        warning: 'var(--ef-color-func-warning)',
-        danger: 'var(--ef-color-func-danger)'
+        info: '#40BAF7',
+        success: '#39FF14',
+        warning: '#FFD700',
+        danger: '#FF3333'
     };
 
     return (
@@ -72,15 +73,15 @@ export function EfTooltip({
                         zIndex: 10000,
                         minWidth: '180px',
                         maxWidth: '320px',
-                        padding: 'var(--ef-space-2) var(--ef-space-3)',
-                        background: 'var(--ef-bg-elev)',
-                        color: 'var(--ef-text-hi)',
-                        fontFamily: 'var(--ef-font-family-body)',
-                        fontSize: '13px',
-                        lineHeight: 1.4,
-                        border: '2px solid',
-                        borderColor: 'var(--ef-bevel-light) var(--ef-bevel-dark) var(--ef-bevel-dark) var(--ef-bevel-light)',
-                        boxShadow: 'var(--ef-shadow-drop-lg)',
+                        padding: '8px 12px',
+                        background: '#1E2124',
+                        color: '#E2E8F0',
+                        fontFamily: "'Press Start 2P', monospace",
+                        fontSize: '0.45rem',
+                        lineHeight: 1.6,
+                        border: '4px solid',
+                        borderColor: '#4A5059 #111417 #111417 #4A5059',
+                        boxShadow: '4px 8px 0 rgba(0,0,0,0.6)',
                         borderTopWidth: '4px',
                         borderTopColor: HEADER_COLOR[color] || HEADER_COLOR.info,
                         pointerEvents: 'none',

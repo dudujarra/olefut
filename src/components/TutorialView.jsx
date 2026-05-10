@@ -12,7 +12,7 @@ import { EfButton } from './ui/EfButton';
 
 const STEPS = [
     {
-        title: '⚽ Bem-vindo ao ELIFOOT',
+        title: '⚽ Bem-vindo ao Olé FUT',
         body: 'Você é treinador (ou jogador) de futebol brasileiro. Conduza seu clube/jogador da Série D ao topo do mundo. Decisões táticas, transferências, narrativa profunda — tudo seu.',
         icon: '🎮'
     },
@@ -83,8 +83,8 @@ export function TutorialView() {
                 <div style={{ fontSize: '4rem', marginBottom: '1rem' }} className="ef-anim-pulse-glow">
                     {cur.icon}
                 </div>
-                <h2 style={{ marginBottom: '1rem', color: 'var(--accent)' }}>{cur.title}</h2>
-                <p style={{ fontSize: '0.95rem', lineHeight: '1.5', marginBottom: '1.5rem', color: 'var(--text)' }}>
+                <h2 style={{ marginBottom: '1rem', color: '#FFD700' }}>{cur.title}</h2>
+                <p style={{ fontSize: '0.95rem', lineHeight: '1.5', marginBottom: '1.5rem', color: '#E2E8F0' }}>
                     {cur.body}
                 </p>
                 <div style={{
@@ -100,7 +100,7 @@ export function TutorialView() {
                                 width: '40px',
                                 height: '6px',
                                 borderRadius: '3px',
-                                background: i === step ? 'var(--accent)' : i < step ? 'var(--primary)' : 'var(--border-subtle, var(--ef-color-border-subtle))',
+                                background: i === step ? '#FFD700' : i < step ? '#39FF14' : '#333',
                                 transition: 'background 200ms ease-out'
                             }}
                         />
@@ -114,13 +114,13 @@ export function TutorialView() {
                         {step < STEPS.length - 1 ? 'Próximo →' : '🎮 Começar!'}
                     </EfButton>
                 </div>
-                <div style={{ marginTop: '1rem', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                <div style={{ marginTop: '1rem', fontSize: '0.7rem', color: '#888' }}>
                     Etapa {step + 1} de {STEPS.length} • <button
                         onClick={skip}
                         style={{
                             background: 'none',
                             border: 'none',
-                            color: 'var(--text-muted)',
+                            color: '#888',
                             textDecoration: 'underline',
                             cursor: 'pointer',
                             fontSize: '0.7rem'

@@ -77,7 +77,7 @@ export function SquadView() {
         forceUpdate();
     };
 
-    const getEnergyColor = (e) => e > 60 ? 'var(--primary)' : e > 30 ? 'var(--accent)' : 'var(--danger)';
+    const getEnergyColor = (e) => e > 60 ? '#39FF14' : e > 30 ? '#FFD700' : '#FF3333';
     const getMoralEmoji = (m) => m > 70 ? '😊' : m > 40 ? '😐' : '😞';
 
     const back = gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
@@ -109,7 +109,7 @@ export function SquadView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0'
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
@@ -139,7 +139,7 @@ export function SquadView() {
                             <div style={{ fontWeight: 700, fontSize: '1rem' }}>
                                 {team.manager.name}
                             </div>
-                            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                            <div style={{ fontSize: '0.78rem', color: '#888' }}>
                                 Treinador {team.manager.country ? `• ${team.manager.country}` : ''}
                                 {team.manager.preferredFormation ? ` • Formação: ${team.manager.preferredFormation}` : ''}
                             </div>
@@ -147,9 +147,9 @@ export function SquadView() {
                         {team.manager.stats && (
                             <div style={{ fontSize: '0.75rem', textAlign: 'right' }}>
                                 <div>📊 {team.manager.stats.total || 0} jogos</div>
-                                <div style={{ color: 'var(--primary)' }}>{team.manager.stats.wins || 0}V</div>
-                                <div style={{ color: 'var(--accent)' }}>{team.manager.stats.draws || 0}E</div>
-                                <div style={{ color: 'var(--danger)' }}>{team.manager.stats.losses || 0}D</div>
+                                <div style={{ color: '#39FF14' }}>{team.manager.stats.wins || 0}V</div>
+                                <div style={{ color: '#FFD700' }}>{team.manager.stats.draws || 0}E</div>
+                                <div style={{ color: '#FF3333' }}>{team.manager.stats.losses || 0}D</div>
                             </div>
                         )}
                     </div>
@@ -180,16 +180,16 @@ export function SquadView() {
                     placeholder="🔍 BUSCAR JOGADOR..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    style={{flex:'1 1 200px',padding:'8px 12px',background:'rgba(0,0,0,0.5)',border:'2px solid var(--ef-bevel-dark)',color:'white',fontSize:'0.85rem', outline:'none', fontWeight: 600}}
+                    style={{flex:'1 1 200px',padding:'8px 12px',background:'rgba(0,0,0,0.5)',border:'4px solid #111417',color:'#E2E8F0',fontSize:'0.85rem', outline:'none', fontWeight: 600}}
                 />
-                <select value={filterPos} onChange={(e) => setFilterPos(e.target.value)} style={{padding:'8px 12px',background:'var(--ef-color-neutral-bg)',border:'2px solid var(--ef-bevel-dark)',color:'white',fontSize:'0.85rem', outline:'none', fontWeight: 600}}>
+                <select value={filterPos} onChange={(e) => setFilterPos(e.target.value)} style={{padding:'8px 12px',background:'#0A130E',border:'4px solid #111417',color:'#E2E8F0',fontSize:'0.85rem', outline:'none', fontWeight: 600}}>
                     <option value="all">Todas posições</option>
                     <option value="GOL">GOL</option>
                     <option value="DEF">DEF</option>
                     <option value="MEI">MEI</option>
                     <option value="ATA">ATA</option>
                 </select>
-                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{padding:'8px 12px',background:'var(--ef-color-neutral-bg)',border:'2px solid var(--ef-bevel-dark)',color:'white',fontSize:'0.85rem', outline:'none', fontWeight: 600}}>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{padding:'8px 12px',background:'#0A130E',border:'4px solid #111417',color:'#E2E8F0',fontSize:'0.85rem', outline:'none', fontWeight: 600}}>
                     <option value="position">Ordenar: Posição</option>
                     <option value="ovr">Ordenar: OVR ↓</option>
                     <option value="age">Ordenar: Idade ↑</option>
@@ -285,13 +285,35 @@ export function SquadView() {
                                             />
                                         </td>
                                         <td style={{padding:'8px', textAlign:'center'}}>
-                                            <span style={{
-                                                color: p.position === 'GOL' ? '#FFD700' : 
-                                                       p.position === 'DEF' ? '#40BAF7' : 
-                                                       p.position === 'MEI' ? '#39FF14' : '#FF3333'
-                                            }}>
-                                                {p.naturalPosition || p.position}
-                                            </span>
+                                            <div style={{display:'flex', gap:'4px', justifyContent:'center'}}>
+                                                {/* Primary Position (Solid) */}
+                                                <span style={{
+                                                    color: '#111',
+                                                    backgroundColor: p.position === 'GOL' ? '#FFD700' : 
+                                                           p.position === 'DEF' ? '#40BAF7' : 
+                                                           p.position === 'MEI' ? '#39FF14' : '#FF3333',
+                                                    padding: '2px 6px',
+                                                    border: '2px solid #000',
+                                                    boxShadow: '1px 1px 0 #000'
+                                                }}>
+                                                    {p.naturalPosition || p.position}
+                                                </span>
+                                                {/* Sub-Position (Outlined) for Malleability */}
+                                                {p.position !== 'GOL' && (
+                                                    <span style={{
+                                                        color: p.position === 'DEF' ? '#40BAF7' : 
+                                                               p.position === 'MEI' ? '#39FF14' : '#FF3333',
+                                                        backgroundColor: 'transparent',
+                                                        padding: '2px 6px',
+                                                        border: '2px solid',
+                                                        borderColor: p.position === 'DEF' ? '#40BAF7' : 
+                                                                     p.position === 'MEI' ? '#39FF14' : '#FF3333',
+                                                        boxShadow: '1px 1px 0 #000'
+                                                    }}>
+                                                        {p.position === 'DEF' ? 'LAT' : p.position === 'MEI' ? 'VOL' : 'PE'}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </td>
                                         <td style={{padding:'8px', textAlign:'left', position:'relative'}}>
                                             {isSelected && (
@@ -368,9 +390,9 @@ export function SquadView() {
                     <h3 style={{ marginBottom: '0.75rem' }}>📊 Pentagon Comparison (Top 11 Titulares)</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
                         {sorted.filter(p => p.isTitular).slice(0, 11).map(p => (
-                            <div key={p.id} style={{ border: '2px solid var(--ef-bevel-dark)', padding: '8px', textAlign: 'center', background: 'rgba(0,0,0,0.3)' }}>
+                            <div key={p.id} style={{ border: '4px solid #111417', padding: '8px', textAlign: 'center', background: 'rgba(0,0,0,0.3)' }}>
                                 <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '4px' }}>{p.name}</div>
-                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
+                                <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '8px' }}>
                                     {p.naturalPosition || p.position}
                                 </div>
                                 <PentagonChart player={p} size={180} />
@@ -422,7 +444,7 @@ export function SquadView() {
                         {loanedOut.map((l, i) => (
                             <li key={i}>
                                 <span>{l.playerName} → {l.destination}</span>
-                                <strong style={{color:'var(--text-muted)'}}>{l.weeksLeft}/{l.totalWeeks} sem</strong>
+                                <strong style={{color:'#888'}}>{l.weeksLeft}/{l.totalWeeks} sem</strong>
                             </li>
                         ))}
                     </ul>

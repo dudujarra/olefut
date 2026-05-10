@@ -2,12 +2,13 @@
  * ChronicleView — v1.5 (AKITA-056)
  *
  * Tela prosa do save + botões export PNG/JSON.
+ * 
+ * 16-BIT BRUTALIST ARCADE AESTHETIC
  */
 
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { ChronicleService } from '../services/ChronicleService';
-import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';
 
@@ -66,32 +67,35 @@ export function ChronicleView() {
             canvas.height = height;
             const ctx = canvas.getContext('2d');
 
-            // Background
-            ctx.fillStyle = '#0B0F19';
+            // Background — dark arcade metal
+            ctx.fillStyle = '#111417';
             ctx.fillRect(0, 0, width, height);
 
-            // Border
-            ctx.strokeStyle = '#10B981';
+            // Border — heavy bevel
+            ctx.strokeStyle = '#4A5059';
             ctx.lineWidth = 4;
             ctx.strokeRect(2, 2, width - 4, height - 4);
+            ctx.strokeStyle = '#111';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(6, 6, width - 12, height - 12);
 
             // Text
-            ctx.fillStyle = '#F1F5F9';
+            ctx.fillStyle = '#E2E8F0';
             ctx.font = '14px monospace';
             let y = 30;
             for (const line of lines) {
                 if (line.startsWith('# ')) {
-                    ctx.fillStyle = '#10B981';
+                    ctx.fillStyle = '#FFD700';
                     ctx.font = 'bold 20px monospace';
                     ctx.fillText(line.slice(2), 20, y);
                     ctx.font = '14px monospace';
-                    ctx.fillStyle = '#F1F5F9';
+                    ctx.fillStyle = '#E2E8F0';
                 } else if (line.startsWith('## ')) {
-                    ctx.fillStyle = '#F59E0B';
+                    ctx.fillStyle = '#39FF14';
                     ctx.font = 'bold 16px monospace';
                     ctx.fillText(line.slice(3), 20, y);
                     ctx.font = '14px monospace';
-                    ctx.fillStyle = '#F1F5F9';
+                    ctx.fillStyle = '#E2E8F0';
                 } else {
                     ctx.fillText(line, 30, y);
                 }
@@ -99,9 +103,9 @@ export function ChronicleView() {
             }
 
             // Footer
-            ctx.fillStyle = '#64748B';
-            ctx.font = 'italic 11px monospace';
-            ctx.fillText(`ELIFOOT WEB · gerado em ${new Date().toLocaleString('pt-BR')}`, 20, height - 15);
+            ctx.fillStyle = '#555';
+            ctx.font = '11px monospace';
+            ctx.fillText(`OLÉ FUT · gerado em ${new Date().toLocaleString('pt-BR')}`, 20, height - 15);
 
             canvas.toBlob(blob => {
                 const url = URL.createObjectURL(blob);
@@ -127,42 +131,110 @@ export function ChronicleView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0',
+            fontFamily: "'Outfit', sans-serif"
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>📜 CRÔNICA DO SAVE</h2>
-                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
-                </EfPanel>
 
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                    <EfButton
-                        variant={view === 'season' ? 'primary' : 'secondary'}
+                {/* HEADER */}
+                <div style={{
+                    background: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    padding: '16px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    boxShadow: '0 8px 0 rgba(0,0,0,0.8)'
+                }}>
+                    <h2 style={{fontFamily: "'Press Start 2P', monospace", color: '#FFD700', margin: 0, fontSize: '1rem', textShadow: '3px 3px 0 #000'}}>
+                        CRÔNICA DO SAVE
+                    </h2>
+                    <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>SAIR</EfButton>
+                </div>
+
+                {/* VIEW TABS + EXPORT */}
+                <div style={{
+                    display: 'flex',
+                    gap: '8px',
+                    flexWrap: 'wrap'
+                }}>
+                    <div
                         onClick={() => setView('season')}
+                        style={{
+                            background: view === 'season' ? '#1E2124' : '#111',
+                            border: '4px solid',
+                            borderColor: view === 'season' ? '#FFD700 #AA8800 #AA8800 #FFD700' : '#333 #000 #000 #333',
+                            padding: '10px 20px',
+                            fontFamily: "'Press Start 2P', monospace",
+                            fontSize: '0.6rem',
+                            color: view === 'season' ? '#FFD700' : '#888',
+                            cursor: 'pointer'
+                        }}
                     >
                         TEMPORADA
-                    </EfButton>
-                    <EfButton
-                        variant={view === 'lifetime' ? 'primary' : 'secondary'}
+                    </div>
+                    <div
                         onClick={() => setView('lifetime')}
+                        style={{
+                            background: view === 'lifetime' ? '#1E2124' : '#111',
+                            border: '4px solid',
+                            borderColor: view === 'lifetime' ? '#FFD700 #AA8800 #AA8800 #FFD700' : '#333 #000 #000 #333',
+                            padding: '10px 20px',
+                            fontFamily: "'Press Start 2P', monospace",
+                            fontSize: '0.6rem',
+                            color: view === 'lifetime' ? '#FFD700' : '#888',
+                            cursor: 'pointer'
+                        }}
                     >
                         SAVE INTEIRO
-                    </EfButton>
+                    </div>
                     <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
-                        <EfButton variant="secondary" onClick={handleExportPNG}>
-                            🖼️ EXPORTAR PNG
-                        </EfButton>
-                        <EfButton variant="secondary" onClick={handleExportJSON}>
-                            📄 EXPORTAR JSON
-                        </EfButton>
+                        <div
+                            onClick={handleExportPNG}
+                            style={{
+                                background: '#111', border: '4px solid', borderColor: '#333 #000 #000 #333',
+                                padding: '10px 16px', cursor: 'pointer',
+                                fontFamily: "'Press Start 2P', monospace", fontSize: '0.5rem', color: '#39FF14'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.borderColor = '#39FF14 #1A8A0A #1A8A0A #39FF14'}
+                            onMouseLeave={(e) => e.currentTarget.style.borderColor = '#333 #000 #000 #333'}
+                        >
+                            🖼️ PNG
+                        </div>
+                        <div
+                            onClick={handleExportJSON}
+                            style={{
+                                background: '#111', border: '4px solid', borderColor: '#333 #000 #000 #333',
+                                padding: '10px 16px', cursor: 'pointer',
+                                fontFamily: "'Press Start 2P', monospace", fontSize: '0.5rem', color: '#40BAF7'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.borderColor = '#40BAF7 #2070A0 #2070A0 #40BAF7'}
+                            onMouseLeave={(e) => e.currentTarget.style.borderColor = '#333 #000 #000 #333'}
+                        >
+                            📄 JSON
+                        </div>
                     </div>
                 </div>
 
-                <EfPanel variant="sunk" padding="md" className="ef-anim-slide-down">
-                    <div style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '0.85rem', lineHeight: 1.6 }}>
-                        {content || '*Carregando crônica...*'}
+                {/* CHRONICLE CONTENT */}
+                <div className="ef-anim-slide-down" style={{
+                    background: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    padding: '24px',
+                    boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)'
+                }}>
+                    <div style={{
+                        whiteSpace: 'pre-wrap',
+                        fontFamily: "'Press Start 2P', monospace",
+                        fontSize: '0.6rem',
+                        lineHeight: 2.2,
+                        color: '#E2E8F0'
+                    }}>
+                        {content || 'CARREGANDO CRÔNICA...'}
                     </div>
-                </EfPanel>
+                </div>
             </div>
         </div>
     );

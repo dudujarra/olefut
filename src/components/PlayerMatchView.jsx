@@ -165,10 +165,10 @@ export function PlayerMatchView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0'
         }}>
             <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {isBenched && <div style={{ background: 'rgba(239,68,68,0.1)', color: 'var(--danger)', padding: '12px', borderRadius: '4px', textAlign: 'center', fontWeight: 'bold' }}>🔴 VOCÊ ESTÁ NO BANCO — Observe e interaja com os eventos</div>}
+                {isBenched && <div style={{ background: 'rgba(239,68,68,0.1)', color: '#FF3333', padding: '12px', borderRadius: '4px', textAlign: 'center', fontWeight: 'bold' }}>🔴 VOCÊ ESTÁ NO BANCO — Observe e interaja com os eventos</div>}
 
                 <EfPanel variant="elev" padding="md" className={goalBurstActive ? 'ef-anim-shake' : ''} style={{ textAlign: 'center', position: 'relative' }}>
                     {goalBurstActive && (
@@ -177,16 +177,16 @@ export function PlayerMatchView() {
                     <div style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
                         <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
                             {team?.name && <EfClubBadge name={team.name} size="md" />}
-                            <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--text-main)' }}>{team?.name || 'Meu Time'}</span>
+                            <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#E2E8F0' }}>{team?.name || 'Meu Time'}</span>
                         </div>
-                        <div className={goalBurstActive ? 'ef-anim-counter' : ''} style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{homeGoals} — {awayGoals}</div>
+                        <div className={goalBurstActive ? 'ef-anim-counter' : ''} style={{ fontSize: '2.5rem', fontWeight: 800, color: '#39FF14', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{homeGoals} — {awayGoals}</div>
                         <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
                             {opponent?.name && <EfClubBadge name={opponent.name} size="md" />}
-                            <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--text-main)' }}>{opponent?.name || 'Adversário'}</span>
+                            <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#E2E8F0' }}>{opponent?.name || 'Adversário'}</span>
                         </div>
                     </div>
-                    <p style={{ color: 'var(--text-muted)', marginTop: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>{matchFinished ? 'FIM DE JOGO' : `${minute}'`}</p>
-                    <div style={{ background: 'var(--bg-elevated)', height: '6px', borderRadius: '3px', marginTop: '0.5rem', border: '1px solid var(--border-subtle)' }}>
+                    <p style={{ color: '#888', marginTop: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>{matchFinished ? 'FIM DE JOGO' : `${minute}'`}</p>
+                    <div style={{ background: '#111417', height: '6px', borderRadius: '3px', marginTop: '0.5rem', border: '1px solid #333' }}>
                         <div style={{ width: `${(minute / 90) * 100}%`, height: '100%', background: '#6ABC3A', borderRadius: '2px', transition: 'width 0.3s' }} />
                     </div>
                 </EfPanel>
@@ -195,13 +195,13 @@ export function PlayerMatchView() {
                 {activeEvent && !eventResult && (
                     <div className="modal-overlay">
                         <EfPanel variant="elev" padding="md" style={{ maxWidth: '400px', textAlign: 'center' }}>
-                            <h3 style={{ margin: '0 0 10px 0', color: activeEvent.isBench ? 'var(--text-main)' : 'var(--accent)' }}>{activeEvent.isBench ? '📋 Evento no Banco' : `⚡ Momento Decisivo — ${minute}'`}</h3>
+                            <h3 style={{ margin: '0 0 10px 0', color: activeEvent.isBench ? '#E2E8F0' : '#FFD700' }}>{activeEvent.isBench ? '📋 Evento no Banco' : `⚡ Momento Decisivo — ${minute}'`}</h3>
                             <p style={{ fontSize: '0.9rem', marginBottom: '16px' }}>{activeEvent.text}</p>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 {activeEvent.options.map((opt, i) => (
                                     <EfButton key={i} variant="secondary" onClick={() => handleChoice(opt)}>
                                         {opt.label}
-                                        {opt.skill && <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem', marginLeft: '0.5rem' }}>({opt.skill})</span>}
+                                        {opt.skill && <span style={{ color: '#888', fontSize: '0.7rem', marginLeft: '0.5rem' }}>({opt.skill})</span>}
                                     </EfButton>
                                 ))}
                             </div>
@@ -211,20 +211,20 @@ export function PlayerMatchView() {
 
                 {/* Event Result */}
                 {eventResult && (
-                    <EfPanel variant="elev" padding="md" style={{ textAlign: 'center', border: '2px solid var(--accent)' }}>
+                    <EfPanel variant="elev" padding="md" style={{ textAlign: 'center', border: '2px solid #FFD700' }}>
                         <p style={{ fontSize: '1rem', margin: 0 }}>{eventResult}</p>
                     </EfPanel>
                 )}
 
                 {/* Narration */}
                 <EfPanel variant="sunk" padding="md" style={{ maxHeight: '250px', overflowY: 'auto' }}>
-                    {narration.length === 0 && <span style={{ color: 'var(--text-muted)' }}>Aguardando início...</span>}
+                    {narration.length === 0 && <span style={{ color: '#888' }}>Aguardando início...</span>}
                     {narration.map((n, i) => (
                         <div key={i} style={{ 
                             padding: '4px 8px', 
-                            borderLeft: n.isGoal ? '3px solid var(--primary)' : 'none',
+                            borderLeft: n.isGoal ? '3px solid #39FF14' : 'none',
                             background: n.isGoal ? 'rgba(106, 188, 58, 0.1)' : 'transparent',
-                            color: n.isGoal ? 'var(--text-main)' : 'var(--text-muted)',
+                            color: n.isGoal ? '#E2E8F0' : '#888',
                             fontSize: '0.85rem',
                             marginBottom: '4px'
                         }}>{n.minute}' — {n.text}</div>

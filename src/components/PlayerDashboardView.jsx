@@ -62,7 +62,7 @@ export function PlayerDashboardView() {
         prevMotmRef.current = motm;
     });
 
-    if (!player || !team) return <div style={{padding:'16px',color:'var(--text-main)'}}>Erro: jogador não encontrado.</div>;
+    if (!player || !team) return <div style={{padding:'16px',color:'#E2E8F0'}}>Erro: jogador não encontrado.</div>;
 
     const handleTrain = (skill) => {
         const result = player.train(skill);
@@ -139,18 +139,18 @@ export function PlayerDashboardView() {
 
     const RelBar = ({ label, value, type }) => (
         <div style={{ marginBottom: '8px' }}>
-            <label style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: '2px', color: 'var(--text-main)' }}>
+            <label style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: '2px', color: '#E2E8F0' }}>
                 <span>{label}</span><span>{value}%</span>
             </label>
-            <div style={{ height: '6px', background: 'var(--bg-elevated, var(--ef-color-bg-input))', borderRadius: '3px', overflow: 'hidden', border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))' }}>
-                <div style={{ height: '100%', width: `${value}%`, background: `var(--ef-color-${type === 'boss' ? 'danger' : type === 'fans' ? 'primary' : type === 'teammates' ? 'accent' : 'warning'}, #6ABC3A)`, transition: 'width 200ms ease-out' }} />
+            <div style={{ height: '6px', background: '#111417', borderRadius: '3px', overflow: 'hidden', border: '1px solid #333' }}>
+                <div style={{ height: '100%', width: `${value}%`, background: type === 'boss' ? '#FF3333' : type === 'fans' ? '#39FF14' : type === 'teammates' ? '#FFD700' : '#6ABC3A', transition: 'width 200ms ease-out' }} />
             </div>
         </div>
     );
 
     const starStr = '⭐'.repeat(player.starRating) + '☆'.repeat(5 - player.starRating);
     const pers = PERSONALITIES[player.personality] || PERSONALITIES.maverick;
-    const stressColor = player.stress >= 75 ? 'var(--danger)' : player.stress >= 50 ? 'var(--accent)' : 'var(--text-muted)';
+    const stressColor = player.stress >= 75 ? '#FF3333' : player.stress >= 50 ? '#FFD700' : '#888';
 
     return (
         <div className="ef-anim-fade-in" style={{
@@ -163,7 +163,7 @@ export function PlayerDashboardView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0'
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
@@ -184,24 +184,24 @@ export function PlayerDashboardView() {
 
                 {/* Header Card */}
                 <EfPanel variant="elev" padding="md">
-                    <div style={{display:'flex',alignItems:'center',gap:'12px', marginBottom: '12px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px'}}>
+                    <div style={{display:'flex',alignItems:'center',gap:'12px', marginBottom: '12px', borderBottom: '1px solid #333', paddingBottom: '12px'}}>
                         {team?.name && <EfClubBadge name={team.name} size="lg" />}
                         <div style={{flex:1}}>
-                            <h2 style={{ margin: 0 }}>{player.name} <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{pers.emoji} {pers.name}</span></h2>
-                            <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{player.position} • {team.name} • Semana {engine.currentWeek}/38</span>
+                            <h2 style={{ margin: 0 }}>{player.name} <span style={{ fontSize: '0.7rem', color: '#888' }}>{pers.emoji} {pers.name}</span></h2>
+                            <span style={{ color: '#888', fontSize: '0.8rem' }}>{player.position} • {team.name} • Semana {engine.currentWeek}/38</span>
                         </div>
-                        <div style={{ color: 'var(--accent)', fontSize: '1.2rem', letterSpacing: '2px' }}>{starStr}</div>
+                        <div style={{ color: '#FFD700', fontSize: '1.2rem', letterSpacing: '2px' }}>{starStr}</div>
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                         <div>
-                            <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 'bold' }}>AÇÕES RESTANTES</div>
+                            <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: '#888', fontWeight: 'bold' }}>AÇÕES RESTANTES</div>
                             <div style={{ display: 'flex', gap: '4px', marginBottom: '12px' }}>
                                 {Array.from({ length: player.maxActionSlots }).map((_, i) => (
-                                    <div key={i} style={{ width: '12px', height: '12px', borderRadius: '50%', background: i < player.actionSlots ? 'var(--primary)' : 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)' }} />
+                                    <div key={i} style={{ width: '12px', height: '12px', borderRadius: '50%', background: i < player.actionSlots ? '#39FF14' : '#1E2124', border: '1px solid #333' }} />
                                 ))}
                             </div>
                             <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.85rem' }}>
-                                <li style={{ marginBottom: '4px' }}><span>⚡ Energia:</span> <strong style={{ color: player.energy < 30 ? 'var(--danger)' : 'var(--primary)' }}>{player.energy}%</strong></li>
+                                <li style={{ marginBottom: '4px' }}><span>⚡ Energia:</span> <strong style={{ color: player.energy < 30 ? '#FF3333' : '#39FF14' }}>{player.energy}%</strong></li>
                                 <li style={{ marginBottom: '4px' }}><span>💰 Dinheiro:</span> <strong>R$ {player.money}</strong></li>
                                 <li style={{ marginBottom: '4px' }}><span>🥤 Energéticos:</span> <strong>{player.energyDrinks}</strong></li>
                                 <li style={{ marginBottom: '4px' }}><span>⚽ Gols:</span> <strong>{player.seasonGoals}</strong></li>
@@ -209,7 +209,7 @@ export function PlayerDashboardView() {
                             </ul>
                         </div>
                         <div>
-                            <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 'bold' }}>SKILLS</div>
+                            <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', color: '#888', fontWeight: 'bold' }}>SKILLS</div>
                             {[
                                 { key: 'technique', label: '🎯 TEC' },
                                 { key: 'pace',      label: '💨 PAC' },
@@ -222,14 +222,14 @@ export function PlayerDashboardView() {
                                     <div key={s.key} style={{ marginBottom: '6px' }}>
                                         <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.78rem' }}>
                                             <span>{s.label} <strong>{lvl}</strong></span>
-                                            <span style={{ color:'var(--text-muted)' }}>{prog}/100 XP</span>
+                                            <span style={{ color:'#888' }}>{prog}/100 XP</span>
                                         </div>
                                         <div style={{
                                             height: '6px',
-                                            background: 'var(--bg-elevated, var(--ef-color-bg-input))',
+                                            background: '#111417',
                                             borderRadius: '3px',
                                             overflow: 'hidden',
-                                            border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))'
+                                            border: '1px solid #333'
                                         }}>
                                             <div style={{
                                                 height: '100%',
@@ -249,7 +249,7 @@ export function PlayerDashboardView() {
                 {mentalBreakModal && (
                     <div className="modal-overlay">
                         <EfPanel variant="elev" padding="md" style={{ maxWidth: '400px', textAlign: 'center' }}>
-                            <h3 style={{ color: 'var(--danger)', margin: '0 0 10px 0' }}>🧠 CRISE MENTAL — Stress em {player.stress}%</h3>
+                            <h3 style={{ color: '#FF3333', margin: '0 0 10px 0' }}>🧠 CRISE MENTAL — Stress em {player.stress}%</h3>
                             <p style={{ fontSize: '0.9rem', marginBottom: '16px' }}>Você não aguenta mais a pressão. Precisa de uma válvula de escape.</p>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 <EfButton variant="secondary" onClick={() => handleMentalBreak('party')}>🎉 Sair pra festa (Stress -40, Boss -10)</EfButton>
@@ -273,7 +273,7 @@ export function PlayerDashboardView() {
                     {/* Actions */}
                     <EfPanel variant="elev" padding="md" style={{ flex: 2 }}>
                         <h3 style={{ fontSize: '1rem', marginBottom: '0.75rem', marginTop: 0 }}>AÇÕES DA SEMANA</h3>
-                        {player.isBenched && <div style={{ background: 'rgba(239,68,68,0.1)', color: 'var(--danger)', padding: '8px', borderRadius: '4px', fontSize: '0.8rem', marginBottom: '8px' }}>🔴 Você está no BANCO! Recupere energia ou melhore sua relação com o técnico.</div>}
+                        {player.isBenched && <div style={{ background: 'rgba(239,68,68,0.1)', color: '#FF3333', padding: '8px', borderRadius: '4px', fontSize: '0.8rem', marginBottom: '8px' }}>🔴 Você está no BANCO! Recupere energia ou melhore sua relação com o técnico.</div>}
                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                             <EfButton variant="primary" size="sm" onClick={() => handleTrain('technique')} disabled={!player.canAct}>🎯 TREINAR TEC</EfButton>
                             <EfButton variant="primary" size="sm" onClick={() => handleTrain('pace')} disabled={!player.canAct}>💨 TREINAR PAC</EfButton>
@@ -283,16 +283,16 @@ export function PlayerDashboardView() {
                             <EfButton variant="secondary" size="sm" onClick={handleBuyDrink}>🛒 ENERGÉTICO (R$100)</EfButton>
                             <EfButton variant="secondary" size="sm" onClick={handleUseDrink} disabled={player.energyDrinks <= 0}>🥤 USAR ENERGÉTICO</EfButton>
                         </div>
-                        {log && <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '0.5rem' }}>{log}</p>}
-                        {offPitchResult && <p style={{ color: 'var(--accent)', fontSize: '0.8rem', marginTop: '0.5rem' }}>📰 {offPitchResult}</p>}
+                        {log && <p style={{ color: '#888', fontSize: '0.8rem', marginTop: '0.5rem' }}>{log}</p>}
+                        {offPitchResult && <p style={{ color: '#FFD700', fontSize: '0.8rem', marginTop: '0.5rem' }}>📰 {offPitchResult}</p>}
                     </EfPanel>
                 </div>
 
                 {/* Loja de Traits — uso de dinheiro modo carreira */}
                 <EfPanel variant="elev" padding="md">
                     <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem', marginTop: 0 }}>🛍️ LOJA DE TRAITS ESPECIAIS</h3>
-                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 0.75rem 0' }}>
-                        Habilidades únicas. Custam dinheiro + aprovação do técnico. Saldo atual: <strong style={{ color: 'var(--primary)' }}>R$ {player.money}</strong>
+                    <p style={{ fontSize: '0.78rem', color: '#888', margin: '0 0 0.75rem 0' }}>
+                        Habilidades únicas. Custam dinheiro + aprovação do técnico. Saldo atual: <strong style={{ color: '#39FF14' }}>R$ {player.money}</strong>
                     </p>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '8px' }}>
                         {Object.entries(TRAITS_CATALOG).map(([id, t]) => {
@@ -302,23 +302,23 @@ export function PlayerDashboardView() {
                             const disabled = owned || !canAfford || !bossOk;
                             return (
                                 <div key={id} style={{
-                                    border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))',
+                                    border: '1px solid #333',
                                     borderRadius: '4px',
                                     padding: '0.5rem',
-                                    background: owned ? 'rgba(106,188,58,0.1)' : 'var(--bg-panel-hover)',
+                                    background: owned ? 'rgba(106,188,58,0.1)' : '#1E2124',
                                     opacity: disabled && !owned ? 0.7 : 1
                                 }}>
                                     <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '2px' }}>
                                         {owned ? '✅ ' : ''}{t.name}
                                     </div>
-                                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
+                                    <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '6px' }}>
                                         {t.description}
                                     </div>
                                     <div style={{ fontSize: '0.7rem', display: 'flex', gap: '8px', marginBottom: '6px' }}>
-                                        <span style={{ color: canAfford ? 'var(--primary)' : 'var(--danger)' }}>
+                                        <span style={{ color: canAfford ? '#39FF14' : '#FF3333' }}>
                                             💰 R$ {t.cost}
                                         </span>
-                                        <span style={{ color: bossOk ? 'var(--primary)' : 'var(--danger)' }}>
+                                        <span style={{ color: bossOk ? '#39FF14' : '#FF3333' }}>
                                             👔 {t.requiredBoss}%
                                         </span>
                                     </div>
@@ -352,8 +352,8 @@ export function PlayerDashboardView() {
                     {showSubAttrs && player.subAttrs && (
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px', marginTop: '12px' }}>
                             {Object.entries(SUB_ATTRIBUTES).map(([base, subs]) => (
-                                <div key={base} style={{ border: '1px solid var(--border-subtle)', borderRadius: '4px', padding: '8px', background: 'var(--bg-panel-hover)' }}>
-                                    <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent)', marginBottom: '8px', textTransform: 'uppercase' }}>{base}</div>
+                                <div key={base} style={{ border: '1px solid #333', borderRadius: '4px', padding: '8px', background: '#1E2124' }}>
+                                    <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#FFD700', marginBottom: '8px', textTransform: 'uppercase' }}>{base}</div>
                                     {subs.map(sub => {
                                         const lvl = player.subAttrs[sub] ?? 0;
                                         const prog = player.subAttrProgress?.[sub] ?? 0;
@@ -369,7 +369,7 @@ export function PlayerDashboardView() {
                                                         style={{ padding: '0 4px', height: 'auto', fontSize: '0.6rem' }}
                                                     >TREINAR</EfButton>
                                                 </div>
-                                                <div style={{ height:'4px', background:'var(--bg-elevated)', borderRadius:'2px', overflow:'hidden', border: '1px solid var(--border-subtle)' }}>
+                                                <div style={{ height:'4px', background:'#111417', borderRadius:'2px', overflow:'hidden', border: '1px solid #333' }}>
                                                     <div style={{ height:'100%', width:`${prog}%`, background:'#6ABC3A' }} />
                                                 </div>
                                             </div>
@@ -384,7 +384,7 @@ export function PlayerDashboardView() {
                 {/* SPEC-065 Loja Lifestyle — casa, carro, festas, caridade, investimentos, casamento */}
                 <EfPanel variant="elev" padding="md">
                     <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem', marginTop: 0 }}>🏛️ LIFESTYLE</h3>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 0.75rem 0' }}>
+                    <div style={{ fontSize: '0.78rem', color: '#888', margin: '0 0 0.75rem 0' }}>
                         🏠 {player.lifestyle?.ownedHouse ? LIFESTYLE_CATALOG[player.lifestyle.ownedHouse]?.name : 'Sem casa'} • 
                         🚗 {player.lifestyle?.ownedCar ? LIFESTYLE_CATALOG[player.lifestyle.ownedCar]?.name : 'Sem carro'} • 
                         💑 {player.lifestyle?.isMarried ? 'Casado' : 'Solteiro'} • 
@@ -399,16 +399,16 @@ export function PlayerDashboardView() {
                             const disabled = owned || !canAfford;
                             return (
                                 <div key={id} style={{
-                                    border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))',
+                                    border: '1px solid #333',
                                     borderRadius: '4px',
                                     padding: '8px',
                                     opacity: disabled && !owned ? 0.65 : 1,
-                                    background: owned ? 'rgba(106,188,58,0.1)' : 'var(--bg-panel-hover)'
+                                    background: owned ? 'rgba(106,188,58,0.1)' : '#1E2124'
                                 }}>
                                     <div style={{ fontSize: '0.78rem', fontWeight: 600, marginBottom: '2px' }}>
                                         {it.emoji} {owned ? '✅ ' : ''}{it.name}
                                     </div>
-                                    <div style={{ fontSize: '0.68rem', color: canAfford ? 'var(--primary)' : 'var(--danger)', margin: '4px 0 8px 0' }}>
+                                    <div style={{ fontSize: '0.68rem', color: canAfford ? '#39FF14' : '#FF3333', margin: '4px 0 8px 0' }}>
                                         R$ {it.cost.toLocaleString('pt-BR')}
                                     </div>
                                     <EfButton

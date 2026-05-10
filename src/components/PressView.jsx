@@ -3,12 +3,13 @@
  *
  * Centraliza coletivas de imprensa pré + pós match.
  * Show 30+ question types via PressConference.generateQuestion().
+ * 
+ * 16-BIT BRUTALIST ARCADE AESTHETIC
  */
 
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { generateQuestion, shouldTriggerPress } from '../engine/PressConference';
-import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgPressConference from '../assets/environments/bg_press_conference.png';
 
@@ -31,8 +32,8 @@ export function PressView() {
         setQuestion(q);
     }, []);
 
-    if (!engine || !team) return <div style={{padding:'16px',color:'var(--text-main)'}}>Erro: jogo não iniciado.</div>;
-    if (!question) return <div style={{padding:'16px',color:'var(--text-main)'}}>Carregando coletiva...</div>;
+    if (!engine || !team) return <div style={{padding:'16px',color:'#FFF',fontFamily:"'Press Start 2P', monospace"}}>ERRO: JOGO NÃO INICIADO.</div>;
+    if (!question) return <div style={{padding:'16px',color:'#FFF',fontFamily:"'Press Start 2P', monospace"}}>CARREGANDO COLETIVA...</div>;
 
     const handleAnswer = (option) => {
         // Apply effects
@@ -59,77 +60,198 @@ export function PressView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0',
+            fontFamily: "'Outfit', sans-serif"
         }}>
-            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>🎙️ COLETIVA DE IMPRENSA</h2>
-                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
-                </EfPanel>
+            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
-                <EfPanel variant="sunk" padding="md" className="ef-anim-pop-in">
-                    <div style={{
-                        fontSize: '0.85rem',
-                        color: 'var(--accent)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                        marginBottom: '0.5rem'
-                    }}>
-                        CONTEXTO: {question.context}
+                {/* HEADER */}
+                <div style={{
+                    background: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    padding: '16px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    boxShadow: '0 8px 0 rgba(0,0,0,0.8)'
+                }}>
+                    <div>
+                        <h2 style={{fontFamily: "'Press Start 2P', monospace", color: '#FFD700', margin: '0 0 8px 0', fontSize: '1rem', textShadow: '3px 3px 0 #000'}}>
+                            COLETIVA DE IMPRENSA
+                        </h2>
+                        <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', color: '#888'}}>SALA DE CONFERÊNCIA</span>
                     </div>
-                    <p style={{ fontSize: '0.95rem', lineHeight: '1.5', margin: 0 }}>
-                        "{question.text}"
-                    </p>
-                </EfPanel>
+                    <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>SAIR</EfButton>
+                </div>
 
+                {/* QUESTION CARD */}
+                <div className="ef-anim-pop-in" style={{
+                    background: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    padding: '24px',
+                    boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)'
+                }}>
+                    {/* Context tag */}
+                    <div style={{
+                        display: 'inline-block',
+                        background: '#3D280B',
+                        border: '2px solid #F59E0B',
+                        padding: '4px 12px',
+                        fontFamily: "'Press Start 2P', monospace",
+                        fontSize: '0.55rem',
+                        color: '#FFD700',
+                        marginBottom: '16px'
+                    }}>
+                        CONTEXTO: {question.context.toUpperCase()}
+                    </div>
+
+                    {/* Microphone icon + Question */}
+                    <div style={{display: 'flex', gap: '16px', alignItems: 'flex-start'}}>
+                        <div style={{
+                            width: '48px', height: '48px', minWidth: '48px',
+                            background: '#111', border: '4px solid #333',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontSize: '1.5rem'
+                        }}>
+                            🎙️
+                        </div>
+                        <p style={{
+                            fontFamily: "'Press Start 2P', monospace",
+                            fontSize: '0.7rem',
+                            lineHeight: '1.8',
+                            color: '#FFF',
+                            margin: 0
+                        }}>
+                            "{question.text.toUpperCase()}"
+                        </p>
+                    </div>
+                </div>
+
+                {/* ANSWER OPTIONS */}
                 {!answered ? (
-                    <EfPanel variant="elev" padding="md">
-                        <h3 style={{ fontSize: '0.95rem', marginBottom: '0.75rem', color: 'var(--text-muted)' }}>SUA RESPOSTA:</h3>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            {question.options.map(opt => (
-                                <EfButton
+                    <div style={{
+                        background: '#1E2124',
+                        border: '4px solid',
+                        borderColor: '#4A5059 #111417 #111417 #4A5059',
+                        padding: '16px'
+                    }}>
+                        <div style={{
+                            background: '#111',
+                            padding: '8px',
+                            borderBottom: '2px solid #333',
+                            marginBottom: '16px',
+                            fontFamily: "'Press Start 2P', monospace",
+                            color: '#FFD700',
+                            fontSize: '0.65rem',
+                            textShadow: '2px 2px 0 #000'
+                        }}>
+                            SUA RESPOSTA:
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {question.options.map((opt, idx) => (
+                                <div
                                     key={opt.id}
-                                    variant="secondary"
                                     onClick={() => handleAnswer(opt)}
                                     style={{
-                                        justifyContent: 'flex-start',
-                                        textAlign: 'left',
-                                        padding: '0.75rem',
-                                        fontSize: '0.85rem',
-                                        lineHeight: '1.3'
+                                        background: '#111',
+                                        border: '4px solid',
+                                        borderColor: '#333 #000 #000 #333',
+                                        padding: '16px',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '16px',
+                                        transition: 'border-color 0.1s'
                                     }}
+                                    onMouseEnter={(e) => e.currentTarget.style.borderColor = '#FFD700 #AA8800 #AA8800 #FFD700'}
+                                    onMouseLeave={(e) => e.currentTarget.style.borderColor = '#333 #000 #000 #333'}
                                 >
-                                    {opt.text}
-                                </EfButton>
+                                    <span style={{
+                                        fontFamily: "'Press Start 2P', monospace",
+                                        fontSize: '0.8rem',
+                                        color: '#FFD700',
+                                        minWidth: '24px'
+                                    }}>
+                                        {String.fromCharCode(65 + idx)}.
+                                    </span>
+                                    <span style={{
+                                        fontFamily: "'Press Start 2P', monospace",
+                                        fontSize: '0.6rem',
+                                        lineHeight: '1.6',
+                                        color: '#FFF'
+                                    }}>
+                                        {opt.text.toUpperCase()}
+                                    </span>
+                                </div>
                             ))}
                         </div>
-                    </EfPanel>
+                    </div>
                 ) : (
-                    <EfPanel variant="elev" padding="md" className="ef-anim-slide-down">
-                        <h3 style={{ fontSize: '0.95rem', color: 'var(--primary)' }}>✓ RESPOSTA ENVIADA</h3>
-                        <p style={{ margin: '0.5rem 0', fontSize: '0.85rem' }}>{answered.text}</p>
+                    <div className="ef-anim-slide-down" style={{
+                        background: '#1E2124',
+                        border: '4px solid',
+                        borderColor: '#4A5059 #111417 #111417 #4A5059',
+                        padding: '24px'
+                    }}>
                         <div style={{
-                            fontSize: '0.78rem',
-                            color: 'var(--text-muted)',
-                            padding: '0.5rem',
-                            background: 'rgba(106,188,58,0.1)',
-                            borderRadius: '4px',
-                            marginTop: '0.5rem'
+                            fontFamily: "'Press Start 2P', monospace",
+                            fontSize: '0.7rem',
+                            color: '#39FF14',
+                            marginBottom: '16px',
+                            textShadow: '2px 2px 0 #000'
                         }}>
-                            EFEITOS: {Object.entries(answered.effect).map(([k, v]) => (
-                                <span key={k} style={{ marginRight: '8px' }}>
-                                    {k}: <strong style={{ color: v > 0 ? 'var(--primary)' : 'var(--danger)' }}>{v > 0 ? '+' : ''}{v}</strong>
+                            ✓ RESPOSTA ENVIADA
+                        </div>
+
+                        <div style={{
+                            background: '#111',
+                            border: '4px solid',
+                            borderColor: '#333 #000 #000 #333',
+                            padding: '16px',
+                            marginBottom: '16px'
+                        }}>
+                            <p style={{
+                                fontFamily: "'Press Start 2P', monospace",
+                                fontSize: '0.6rem',
+                                lineHeight: '1.6',
+                                color: '#FFF',
+                                margin: 0
+                            }}>
+                                {answered.text.toUpperCase()}
+                            </p>
+                        </div>
+
+                        {/* EFFECTS */}
+                        <div style={{
+                            background: '#0A1A0A',
+                            border: '4px solid #39FF14',
+                            padding: '12px',
+                            marginBottom: '16px'
+                        }}>
+                            <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', color: '#39FF14'}}>EFEITOS: </span>
+                            {Object.entries(answered.effect).map(([k, v]) => (
+                                <span key={k} style={{
+                                    fontFamily: "'Press Start 2P', monospace",
+                                    fontSize: '0.6rem',
+                                    marginRight: '16px',
+                                    color: '#FFF'
+                                }}>
+                                    {k.toUpperCase()}: <strong style={{ color: v > 0 ? '#39FF14' : '#FF3333' }}>{v > 0 ? '+' : ''}{v}</strong>
                                 </span>
                             ))}
                         </div>
+
                         <EfButton
                             variant="primary"
+                            size="lg"
                             onClick={() => changeView(getDashboardView())}
-                            style={{ marginTop: '1rem', width: '100%', justifyContent: 'center' }}
+                            style={{ width: '100%', justifyContent: 'center' }}
                         >
-                            ← VOLTAR AO DASHBOARD
+                            VOLTAR AO DASHBOARD
                         </EfButton>
-                    </EfPanel>
+                    </div>
                 )}
             </div>
         </div>

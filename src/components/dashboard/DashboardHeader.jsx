@@ -36,7 +36,7 @@ export function DashboardHeader({ team, stats, boardStatus, board, balance, seas
                 <div className="ef-dash-header-right">
                     <div
                         className="ef-dash-balance"
-                        style={{ color: balance > 0 ? 'var(--ef-color-func-success)' : 'var(--ef-color-func-danger)' }}
+                        style={{ color: balance > 0 ? '#39FF14' : '#FF3333' }}
                     >
                         R$ {(balance / 1000000).toFixed(1)}M
                     </div>

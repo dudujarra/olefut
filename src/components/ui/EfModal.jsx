@@ -47,7 +47,7 @@ export function EfModal({
                 alignItems: 'center',
                 justifyContent: 'center',
                 zIndex: 9999,
-                padding: 'var(--ef-space-4)',
+                padding: '16px',
                 animation: 'ef-modal-fade 200ms ease-out'
             }}
         >

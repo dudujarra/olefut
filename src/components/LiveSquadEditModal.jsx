@@ -77,21 +77,21 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                 {/* Subs counter */}
                 <Tooltip content="Limite FIFA: 5 substituições por jogo. Mudanças aplicam ao plantel.">
                     <div style={{
-                        background: 'var(--bg-panel-solid)',
+                        background: '#1E2124',
                         padding: '0.5rem 0.75rem',
-                        borderRadius: 'var(--radius-sm)',
+                        borderRadius: '0',
                         fontSize: '0.85rem',
                         marginBottom: '0.75rem'
                     }}>
                         🔄 Substituições: <strong>{liveSubsCount}</strong> / {MAX_LIVE_SUBS}
-                        {subsLeft <= 0 && <span style={{color:'var(--danger)',marginLeft:'0.5rem'}}> (limite atingido)</span>}
+                        {subsLeft <= 0 && <span style={{color:'#FF3333',marginLeft:'0.5rem'}}> (limite atingido)</span>}
                     </div>
                 </Tooltip>
 
                 {/* Tactic switch */}
                 <div style={{marginBottom: '1rem'}}>
                     <Help id="btn.set_tactics">
-                        <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>⚔️ TÁTICA ATUAL</h4>
+                        <h4 style={{fontSize:'0.85rem',color:'#888',marginBottom:'0.4rem'}}>⚔️ TÁTICA ATUAL</h4>
                     </Help>
                     <div style={{display:'flex',flexWrap:'wrap',gap:'0.3rem'}}>
                         {Object.entries(TACTICS).map(([k, v]) => (
@@ -112,9 +112,9 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                 {feedback && (
                     <div style={{
                         background: feedback.startsWith('✅') ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)',
-                        color: feedback.startsWith('✅') ? 'var(--primary)' : 'var(--danger)',
+                        color: feedback.startsWith('✅') ? '#39FF14' : '#FF3333',
                         padding: '0.5rem 0.75rem',
-                        borderRadius: 'var(--radius-sm)',
+                        borderRadius: '0',
                         fontSize: '0.85rem',
                         marginBottom: '0.75rem'
                     }}>
@@ -127,7 +127,7 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                     <>
                         {!selectedOut && (
                             <div style={{marginBottom:'0.75rem'}}>
-                                <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>👥 ESCOLHA QUEM SAI</h4>
+                                <h4 style={{fontSize:'0.85rem',color:'#888',marginBottom:'0.4rem'}}>👥 ESCOLHA QUEM SAI</h4>
                                 <div style={{display:'flex',flexDirection:'column',gap:'0.25rem',maxHeight:'200px',overflowY:'auto'}}>
                                     {titulares.map(p => (
                                         <div key={p.id} style={{
@@ -135,8 +135,8 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                                             justifyContent:'space-between',
                                             alignItems:'center',
                                             padding:'0.4rem 0.65rem',
-                                            background:'var(--bg-panel-solid)',
-                                            borderRadius:'var(--radius-xs)',
+                                            background:'#1E2124',
+                                            borderRadius:'0',
                                             fontSize:'0.85rem',
                                             cursor:'pointer'
                                         }} onClick={() => setSelectedOut(p)}>
@@ -145,7 +145,7 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                                                 {p.name}
                                             </span>
                                             <span style={{
-                                                color: p.energy < 50 ? 'var(--danger)' : p.energy < 70 ? 'var(--accent)' : 'var(--primary)',
+                                                color: p.energy < 50 ? '#FF3333' : p.energy < 70 ? '#FFD700' : '#39FF14',
                                                 fontSize:'0.8rem'
                                             }}>
                                                 ⚡{p.energy}%
@@ -161,17 +161,17 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                                 <div style={{
                                     background:'rgba(239,68,68,0.1)',
                                     padding:'0.5rem 0.75rem',
-                                    borderRadius:'var(--radius-sm)',
+                                    borderRadius:'0',
                                     fontSize:'0.85rem',
                                     marginBottom:'0.5rem'
                                 }}>
                                     Sai: <strong>{selectedOut.name}</strong> ({selectedOut.position})
                                     <EfButton variant="secondary" size="sm" style={{marginLeft:'0.5rem',padding:'0.15rem 0.5rem',fontSize:'0.75rem'}} onClick={() => setSelectedOut(null)}>Cancelar</EfButton>
                                 </div>
-                                <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>👤 ESCOLHA QUEM ENTRA</h4>
+                                <h4 style={{fontSize:'0.85rem',color:'#888',marginBottom:'0.4rem'}}>👤 ESCOLHA QUEM ENTRA</h4>
                                 <div style={{display:'flex',flexDirection:'column',gap:'0.25rem',maxHeight:'200px',overflowY:'auto'}}>
                                     {reserves.length === 0 && (
-                                        <div style={{color:'var(--text-muted)',fontSize:'0.85rem'}}>Nenhuma reserva disponível.</div>
+                                        <div style={{color:'#888',fontSize:'0.85rem'}}>Nenhuma reserva disponível.</div>
                                     )}
                                     {reserves.map(p => (
                                         <div key={p.id} style={{
@@ -179,14 +179,14 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                                             justifyContent:'space-between',
                                             alignItems:'center',
                                             padding:'0.4rem 0.65rem',
-                                            background:'var(--bg-panel-solid)',
-                                            borderRadius:'var(--radius-xs)',
+                                            background:'#1E2124',
+                                            borderRadius:'0',
                                             fontSize:'0.85rem'
                                         }}>
                                             <span>
                                                 <span className={`pos-badge ${p.position}`} style={{marginRight:'0.4rem'}}>{p.position}</span>
                                                 {p.name}
-                                                <span style={{color:'var(--text-muted)',marginLeft:'0.4rem',fontSize:'0.75rem'}}>OVR {p.ovr}</span>
+                                                <span style={{color:'#888',marginLeft:'0.4rem',fontSize:'0.75rem'}}>OVR {p.ovr}</span>
                                             </span>
                                             <EfButton
                                                 variant="primary"

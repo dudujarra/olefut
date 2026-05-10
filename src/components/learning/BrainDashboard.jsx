@@ -101,11 +101,11 @@ export function BrainDashboard({ controllerRef }) {
             >
                 <h3 style={{ fontSize: '0.9rem', margin: 0 }}>
                     🧠 Brain ML Dashboard
-                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginLeft: '8px' }}>
+                    <span style={{ fontSize: '0.72rem', color: '#888', marginLeft: '8px' }}>
                         {totalUpdates} updates • {stateKeys.length} states • {allActions.length} actions
                     </span>
                 </h3>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                <span style={{ fontSize: '0.8rem', color: '#888' }}>
                     {expanded ? '▼' : '▶'}
                 </span>
             </div>
@@ -168,7 +168,7 @@ export function BrainDashboard({ controllerRef }) {
                                 const pct = totalDecisions > 0 ? (count / totalDecisions) * 100 : 0;
                                 return (
                                     <div key={action} style={{ fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                        <span style={{ minWidth: '110px', color: 'var(--text-muted)', textAlign: 'right' }}>
+                                        <span style={{ minWidth: '110px', color: '#888', textAlign: 'right' }}>
                                             {String(action)}
                                         </span>
                                         <div style={{ flex: 1, ...barBg, height: '14px' }}>
@@ -203,7 +203,7 @@ export function BrainDashboard({ controllerRef }) {
                         {/* Top Q-Value Actions */}
                         <div style={cardStyle}>
                             <div style={titleStyle}>🏆 Top Ações (Q-value total)</div>
-                            {topActions.length === 0 && <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Sem dados — rode o autoplay</div>}
+                            {topActions.length === 0 && <div style={{ fontSize: '0.7rem', color: '#888' }}>Sem dados — rode o autoplay</div>}
                             {topActions.map((a, i) => (
                                 <div key={String(a.action)} style={{
                                     display: 'flex', justifyContent: 'space-between',
@@ -221,7 +221,7 @@ export function BrainDashboard({ controllerRef }) {
                         {/* Reward Sparkline */}
                         <div style={cardStyle}>
                             <div style={titleStyle}>📈 Reward Curve (últimas {rewardHistory.length} decisões)</div>
-                            {rewardHistory.length === 0 && <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Sem dados — rode o autoplay</div>}
+                            {rewardHistory.length === 0 && <div style={{ fontSize: '0.7rem', color: '#888' }}>Sem dados — rode o autoplay</div>}
                             {rewardHistory.length > 0 && (
                                 <div style={{ display: 'flex', alignItems: 'flex-end', height: '60px', gap: '1px' }}>
                                     {rewardHistory.slice(-30).map((r, i) => {
@@ -266,7 +266,7 @@ export function BrainDashboard({ controllerRef }) {
                                             borderRadius: '4px',
                                             background: `rgba(59, 130, 246, ${0.1 + intensity * 0.4})`,
                                             border: `1px solid rgba(59, 130, 246, ${0.2 + intensity * 0.5})`,
-                                            color: intensity > 0.5 ? '#fff' : 'var(--text-muted)'
+                                            color: intensity > 0.5 ? '#fff' : '#888'
                                         }}
                                     >
                                         {String(sv.state)} <strong>({sv.visits})</strong>
@@ -286,7 +286,7 @@ export function BrainDashboard({ controllerRef }) {
                                     padding: '3px 0', fontSize: '0.68rem',
                                     borderBottom: '1px solid rgba(255,255,255,0.04)'
                                 }}>
-                                    <span style={{ color: 'var(--text-muted)' }}>wk{m.week ?? '?'}</span>
+                                    <span style={{ color: '#888' }}>wk{m.week ?? '?'}</span>
                                     <span style={{ flex: 1 }}>{String(m.action || m.decision || '?')}</span>
                                     <span style={{ color: m.result === 'W' ? '#6ABC3A' : m.result === 'L' ? '#ef4444' : '#f59e0b' }}>
                                         {String(m.result || '')}
@@ -299,7 +299,7 @@ export function BrainDashboard({ controllerRef }) {
                                 </div>
                             ))}
                             {memory.length === 0 && (
-                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                                <div style={{ fontSize: '0.7rem', color: '#888' }}>
                                     Sem memórias — rode o autoplay
                                 </div>
                             )}
@@ -315,8 +315,8 @@ export function BrainDashboard({ controllerRef }) {
 function MiniStat({ label, value, color }) {
     return (
         <div style={{ textAlign: 'center', padding: '4px' }}>
-            <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{String(label)}</div>
-            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: color || 'var(--text)' }}>{String(value)}</div>
+            <div style={{ fontSize: '0.6rem', color: '#888', textTransform: 'uppercase' }}>{String(label)}</div>
+            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: color || '#E2E8F0' }}>{String(value)}</div>
         </div>
     );
 }
@@ -332,7 +332,7 @@ const cardStyle = {
 const titleStyle = {
     fontSize: '0.72rem',
     fontWeight: 700,
-    color: 'var(--accent, #f59e0b)',
+    color: '#FFD700',
     marginBottom: '6px',
     textTransform: 'uppercase',
     letterSpacing: '0.5px',

@@ -17,7 +17,7 @@ export function DashboardFooter({ division, seasonWeek, seasonNumber }) {
                 <span><span className="ef-dash-footer-label">RODADA:</span>{seasonWeek}/38</span>
                 <span><span className="ef-dash-footer-label">TEMP:</span>{seasonNumber}</span>
             </div>
-            <div className="ef-dash-footer-build">ELIFOOT {BUILD} SNES</div>
+            <div className="ef-dash-footer-build">OLÉ FUT {BUILD} SNES</div>
         </div>
     );
 }

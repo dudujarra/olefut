@@ -72,10 +72,9 @@ export function StartView() {
                         style={{
                             width: '240px', 
                             height: '240px', 
-                            borderRadius: '16px', 
-                            boxShadow: '0 16px 32px rgba(0,0,0,0.6), 0 0 0 4px var(--ef-bevel-dark)',
+                            boxShadow: '0 16px 32px rgba(0,0,0,0.6), 0 0 0 4px #111417',
                             imageRendering: 'pixelated',
-                            background: 'var(--ef-color-neutral-bg)'
+                            background: '#0A130E'
                         }} 
                     />
                     <h1 style={{
@@ -84,7 +83,7 @@ export function StartView() {
                         fontSize: '24px',
                         textTransform: 'uppercase',
                         letterSpacing: '0.08em',
-                        color: 'var(--ef-color-neutral-text-hi)',
+                        color: '#E2E8F0',
                         textShadow: '2px 2px 0 #000'
                     }}>
                         OléFUT
@@ -93,7 +92,7 @@ export function StartView() {
                         marginTop: '8px',
                         letterSpacing: '0.1em',
                         textTransform: 'uppercase',
-                        color: 'var(--ef-color-grass-300)',
+                        color: '#39FF14',
                         fontSize: '12px',
                         fontWeight: 600,
                         textShadow: '1px 1px 0 #000'
@@ -135,10 +134,10 @@ export function StartView() {
                                 padding: '12px 16px',
                                 background: 'rgba(0,0,0,0.5)',
                                 border: '2px solid',
-                                borderColor: 'var(--ef-bevel-dark) var(--ef-bevel-light) var(--ef-bevel-light) var(--ef-bevel-dark)',
-                                color: 'white',
+                                borderColor: '#111417 #4A5059 #4A5059 #111417',
+                                color: '#E2E8F0',
                                 fontSize: '16px',
-                                fontFamily: 'var(--ef-font-family-body)',
+                                fontFamily: 'monospace',
                                 fontWeight: '600',
                                 outline: 'none'
                             }}
@@ -152,8 +151,8 @@ export function StartView() {
                                 value={position} 
                                 onChange={e => setPosition(e.target.value)}
                                 style={{
-                                    width: '100%', padding: '12px 16px', background: 'var(--ef-color-neutral-bg)',
-                                    color: 'white', border: '2px solid var(--ef-bevel-dark)', fontFamily: 'var(--ef-font-family-body)', fontWeight: 600
+                                    width: '100%', padding: '12px 16px', background: '#0A130E',
+                                    color: '#E2E8F0', border: '4px solid #111417', fontFamily: 'monospace', fontWeight: 600
                                 }}
                             >
                                 <option value="GOL">Goleiro</option>
@@ -186,8 +185,8 @@ export function StartView() {
                                 value={scenario} 
                                 onChange={e => setScenario(e.target.value)}
                                 style={{
-                                    width: '100%', padding: '12px 16px', background: 'var(--ef-color-neutral-bg)',
-                                    color: 'white', border: '2px solid var(--ef-bevel-dark)', fontFamily: 'var(--ef-font-family-body)', fontWeight: 600
+                                    width: '100%', padding: '12px 16px', background: '#0A130E',
+                                    color: '#E2E8F0', border: '4px solid #111417', fontFamily: 'monospace', fontWeight: 600
                                 }}
                             >
                                 <option value="livre">🌍 Sandbox (Livre)</option>
@@ -200,7 +199,7 @@ export function StartView() {
                     <div style={{ 
                         display: 'flex', alignItems: 'center', gap: '16px', 
                         background: 'rgba(0,0,0,0.3)', padding: '8px 16px', 
-                        border: '2px solid var(--ef-bevel-dark)', marginBottom: '20px' 
+                        border: '4px solid #111417', marginBottom: '20px' 
                     }}>
                         <select 
                             id="select-team" 
@@ -208,7 +207,7 @@ export function StartView() {
                             onChange={e => setTeamId(e.target.value)} 
                             style={{ 
                                 flex: 1, background: 'transparent', border: 'none', color: 'white',
-                                outline: 'none', fontSize: '14px', fontFamily: 'var(--ef-font-family-body)', fontWeight: 600
+                                outline: 'none', fontSize: '14px', fontFamily: 'monospace', fontWeight: 600
                             }}
                         >
                             <option value="">SELECIONE O CLUBE...</option>
@@ -225,7 +224,7 @@ export function StartView() {
 
                     {/* Dificuldade */}
                     <div style={{ marginBottom: '24px' }}>
-                        <div style={{ fontSize: '10px', color: 'var(--ef-color-neutral-text-muted)', marginBottom: '8px', letterSpacing: '0.05em' }}>
+                        <div style={{ fontSize: '0.5rem', color: '#888', marginBottom: '8px', letterSpacing: '0.05em', fontFamily: "'Press Start 2P', monospace" }}>
                             DIFICULDADE DO MOTOR
                         </div>
                         <div style={{ display: 'flex', gap: '4px' }}>

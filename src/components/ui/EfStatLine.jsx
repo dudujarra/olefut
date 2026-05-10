@@ -16,14 +16,14 @@ export function EfStatLine({
     icon,
     bold = false
 }) {
-    let valColor = color || 'var(--ef-text-hi)';
+    let valColor = color || '#E2E8F0';
 
     if (!color && typeof barValue === 'number') {
         const pct = (barValue / barMax) * 100;
-        if (pct >= 80) valColor = 'var(--ef-color-func-success)';
-        else if (pct >= 60) valColor = 'var(--ef-color-grass-300)';
-        else if (pct >= 35) valColor = 'var(--ef-color-func-warning)';
-        else valColor = 'var(--ef-color-func-danger)';
+        if (pct >= 80) valColor = '#39FF14';
+        else if (pct >= 60) valColor = '#6ABC3A';
+        else if (pct >= 35) valColor = '#FFD700';
+        else valColor = '#FF3333';
     }
 
     return (
@@ -33,13 +33,14 @@ export function EfStatLine({
             alignItems: 'center',
             gap: '8px',
             fontSize: '13px',
-            fontFamily: 'var(--ef-font-family-body)'
+            fontFamily: "'Press Start 2P', monospace"
         }}>
             <span style={{
-                color: 'var(--ef-text-md)',
+                color: '#888',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '4px'
+                gap: '4px',
+                fontSize: '0.5rem'
             }}>
                 {icon && <span>{icon}</span>}
                 {label}
@@ -47,7 +48,8 @@ export function EfStatLine({
             <span style={{
                 color: valColor,
                 fontWeight: bold ? 700 : 500,
-                fontFamily: typeof value === 'number' ? 'var(--ef-font-family-mono)' : 'var(--ef-font-family-body)'
+                fontFamily: typeof value === 'number' ? "monospace" : "'Press Start 2P', monospace",
+                fontSize: '0.6rem'
             }}>
                 {value}{suffix}
             </span>

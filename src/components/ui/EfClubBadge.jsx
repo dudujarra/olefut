@@ -57,15 +57,15 @@ export function EfClubBadge({
             {img ? (
                 <img src={img} alt={name} style={{ width: px, height: px, imageRendering: 'pixelated', WebkitImageRendering: 'pixelated', objectFit: 'contain' }} />
             ) : (
-                <div style={{ width: px, height: px, backgroundColor: 'var(--ef-bevel-dark, #0A130E)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ color: 'var(--ef-text-hi)', fontSize: px/3, fontFamily: "'Press Start 2P', monospace" }}>?</span>
+                <div style={{ width: px, height: px, backgroundColor: '#111417', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid #000' }}>
+                    <span style={{ color: '#E2E8F0', fontSize: px/3, fontFamily: "'Press Start 2P', monospace" }}>?</span>
                 </div>
             )}
             {showName && (
                 <span style={{
                     fontFamily: "'Press Start 2P', monospace",
                     fontSize: size === 'sm' ? '7px' : size === 'md' ? '8px' : '10px',
-                    color: 'var(--ef-text-hi, #F4F1DE)',
+                    color: '#E2E8F0',
                     textTransform: 'uppercase',
                     letterSpacing: '0.04em',
                     textAlign: 'center',

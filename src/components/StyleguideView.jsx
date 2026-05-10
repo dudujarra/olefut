@@ -19,14 +19,14 @@ const PALETTE = [
 ];
 
 const FONTS = [
-    { label: 'display 48', size: '48px', family: 'var(--ef-font-family-display)' },
-    { label: 'h1 32', size: '32px', family: 'var(--ef-font-family-display)' },
-    { label: 'h2 24', size: '24px', family: 'var(--ef-font-family-display)' },
-    { label: 'subtitle 18', size: '18px', family: 'var(--ef-font-family-body)' },
-    { label: 'bodyL 16', size: '16px', family: 'var(--ef-font-family-body)' },
-    { label: 'body 14', size: '14px', family: 'var(--ef-font-family-body)' },
-    { label: 'caption 12', size: '12px', family: 'var(--ef-font-family-body)' },
-    { label: 'mono 14', size: '14px', family: 'var(--ef-font-family-mono)' }
+    { label: 'display 48', size: '48px', family: "\"Press Start 2P\", monospace" },
+    { label: 'h1 32', size: '32px', family: "\"Press Start 2P\", monospace" },
+    { label: 'h2 24', size: '24px', family: "\"Press Start 2P\", monospace" },
+    { label: 'subtitle 18', size: '18px', family: 'monospace' },
+    { label: 'bodyL 16', size: '16px', family: 'monospace' },
+    { label: 'body 14', size: '14px', family: 'monospace' },
+    { label: 'caption 12', size: '12px', family: 'monospace' },
+    { label: 'mono 14', size: '14px', family: "\"Press Start 2P\", monospace" }
 ];
 
 export function StyleguideView() {
@@ -50,7 +50,7 @@ export function StyleguideView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0'
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -64,19 +64,19 @@ export function StyleguideView() {
                         <h3 style={{ marginTop: 0 }}>Paleta (24 cores)</h3>
                         {PALETTE.map(group => (
                             <div key={group.group} style={{ marginBottom: '12px' }}>
-                                <h4 style={{ fontSize: '14px', color: 'var(--ef-text-md)', margin: '0 0 8px' }}>{group.group}</h4>
+                                <h4 style={{ fontSize: '14px', color: '#888', margin: '0 0 8px' }}>{group.group}</h4>
                                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                                     {group.tokens.map(t => (
                                         <div key={t} style={{
                                             width: '60px',
                                             height: '60px',
-                                            background: `var(--ef-color-${t})`,
-                                            border: '2px solid var(--ef-bevel-dark)',
+                                            background: '#1E2124',
+                                            border: '2px solid #111417',
                                             display: 'flex',
                                             alignItems: 'flex-end',
                                             padding: '4px',
                                             fontSize: '9px',
-                                            fontFamily: 'var(--ef-font-family-mono)',
+                                            fontFamily: "'Press Start 2P', monospace",
                                             color: t.includes('text-lo') || t.includes('grass-100') || t.includes('br-yellow') ? '#000' : '#fff'
                                         }}>
                                             {t}
@@ -95,11 +95,11 @@ export function StyleguideView() {
                                 fontSize: f.size,
                                 fontFamily: f.family,
                                 marginBottom: '12px',
-                                color: 'var(--ef-text-hi)'
+                                color: '#E2E8F0'
                             }}>
-                                <span style={{ color: 'var(--ef-text-md)', fontSize: '12px', fontFamily: 'var(--ef-font-family-mono)' }}>{f.label}</span>
+                                <span style={{ color: '#888', fontSize: '12px', fontFamily: "'Press Start 2P', monospace" }}>{f.label}</span>
                                 {' — '}
-                                ELIFOOT 1234567890
+                                OLÉ FUT 1234567890
                             </div>
                         ))}
                     </EfPanel>
@@ -191,13 +191,13 @@ export function StyleguideView() {
                             {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
                                 <div key={n} style={{ textAlign: 'center' }}>
                                     <div style={{
-                                        width: `var(--ef-space-${n})`,
+                                        width: `${n * 8}px`,
                                         height: '40px',
-                                        background: 'var(--ef-color-grass-500)',
-                                        border: '1px solid var(--ef-bevel-dark)',
+                                        background: '#39FF14',
+                                        border: '1px solid #111417',
                                         marginBottom: '4px'
                                     }} />
-                                    <span style={{ fontSize: '10px', fontFamily: 'var(--ef-font-family-mono)' }}>
+                                    <span style={{ fontSize: '10px', fontFamily: "'Press Start 2P', monospace" }}>
                                         sp-{n}
                                     </span>
                                 </div>

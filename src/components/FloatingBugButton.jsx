@@ -51,7 +51,7 @@ export function FloatingBugButton() {
                     width: '52px',
                     height: '52px',
                     borderRadius: '50%',
-                    background: 'var(--accent, #F59E0B)',
+                    background: '#FFD700',
                     color: '#000',
                     border: 'none',
                     cursor: 'pointer',
@@ -80,7 +80,7 @@ export function FloatingBugButton() {
                     )}
                 >
                     {confirm ? (
-                        <div style={{ padding: '1rem', textAlign: 'center', color: 'var(--primary)' }}>
+                        <div style={{ padding: '1rem', textAlign: 'center', color: '#39FF14' }}>
                             ✅ Registrado!
                         </div>
                     ) : (
@@ -110,9 +110,9 @@ export function FloatingBugButton() {
                                 style={{
                                     width: '100%',
                                     padding: '8px',
-                                    background: 'var(--ef-color-neutral-bg)',
-                                    color: 'var(--ef-color-neutral-text-hi)',
-                                    border: '2px inset var(--ef-bevel-dark)',
+                                    background: '#0A130E',
+                                    color: '#E2E8F0',
+                                    border: '4px inset #111417',
                                     fontFamily: 'inherit',
                                     fontSize: '0.85rem',
                                     resize: 'vertical',
@@ -121,7 +121,7 @@ export function FloatingBugButton() {
                                 }}
                             />
 
-                            <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+                            <p style={{ fontSize: '0.72rem', color: '#888', marginTop: '0.5rem' }}>
                                 Salvo localmente. Acesse Monitor (no menu) pra ver tudo + exportar JSON.
                             </p>
                         </>

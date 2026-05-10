@@ -108,19 +108,19 @@ export function AutoPlayView() {
                 backgroundAttachment: 'fixed',
                 minHeight: '100dvh',
                 padding: '16px',
-                color: 'var(--ef-color-neutral-text-hi)'
+                color: '#E2E8F0'
             }}>
                 <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h2 style={{ fontSize: '1.2rem', margin: 0 }}>🤖 AUTOPLAY SETUP</h2>
+                        <h2 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.8rem', margin: 0, color: '#FFD700', textShadow: '3px 3px 0 #000' }}>🤖 AUTOPLAY SETUP</h2>
                         <EfButton variant="secondary" size="sm" onClick={() => changeView('start')}>← VOLTAR</EfButton>
                     </EfPanel>
                     <EfPanel variant="elev" padding="md">
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+                        <p style={{ fontSize: '0.8rem', color: '#888', marginBottom: '1rem' }}>
                         Configure o bot antes de iniciar o soak test.
                     </p>
 
-                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>ZONA</label>
+                    <label style={{ fontSize: '0.75rem', color: '#888', display: 'block', marginBottom: '4px' }}>ZONA</label>
                     <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
                         {zones.map(z => (
                             <EfButton
@@ -132,7 +132,7 @@ export function AutoPlayView() {
                         ))}
                     </div>
 
-                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>DIVISÃO</label>
+                    <label style={{ fontSize: '0.75rem', color: '#888', display: 'block', marginBottom: '4px' }}>DIVISÃO</label>
                     <div style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem' }}>
                         {[1, 2, 3, 4].map(d => (
                             <EfButton
@@ -144,7 +144,7 @@ export function AutoPlayView() {
                         ))}
                     </div>
 
-                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
+                    <label style={{ fontSize: '0.75rem', color: '#888', display: 'block', marginBottom: '4px' }}>
                         TIME ({filteredTeams.length} disponíveis)
                     </label>
                     <select
@@ -158,7 +158,7 @@ export function AutoPlayView() {
                         ))}
                     </select>
 
-                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>CENÁRIO</label>
+                    <label style={{ fontSize: '0.75rem', color: '#888', display: 'block', marginBottom: '4px' }}>CENÁRIO</label>
                     <div style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem' }}>
                         <EfButton
                             variant={setupScenario === 'livre' ? 'primary' : 'secondary'}
@@ -172,7 +172,7 @@ export function AutoPlayView() {
                         >📉 Gigante Caído</EfButton>
                     </div>
 
-                    <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>DIFICULDADE</label>
+                    <label style={{ fontSize: '0.75rem', color: '#888', display: 'block', marginBottom: '4px' }}>DIFICULDADE</label>
                     <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '1rem' }}>
                         {Object.values(DIFFICULTY_MODES).map(d => (
                             <EfButton
@@ -267,6 +267,34 @@ export function AutoPlayView() {
         setTimeout(() => window.location.reload(), 100);
     };
 
+    const handleNewGamePlus = () => {
+        if (!controllerRef.current) return;
+        if (!window.confirm(
+            '🧠➕ NEW GAME+\n\n'
+            + 'Salva o ML treinado (Q-table + personalidade + memória)\n'
+            + 'e ZERA todo o gameplay (seasons, stats, resultados).\n\n'
+            + 'O bot recomeça da temporada 1 mas com todo o aprendizado intacto.\n\n'
+            + 'Continuar?'
+        )) return;
+        try {
+            const snapshot = controllerRef.current.newGamePlus();
+            window.alert(
+                `✅ NEW GAME+ ativado!\n\n`
+                + `Brain salvo:\n`
+                + `  • Q-States: ${snapshot.states}\n`
+                + `  • Updates: ${snapshot.totalUpdates}\n`
+                + `  • Personalidade: ${snapshot.personality}\n`
+                + `  • Memórias: ${snapshot.memoryEntries}\n`
+                + `  • Estado Emocional: ${snapshot.emotionalState}\n\n`
+                + `Gameplay zerado. Recarregando...`
+            );
+        } catch (e) {
+            window.alert(`Erro no New Game+: ${e.message}`);
+            return;
+        }
+        setTimeout(() => window.location.reload(), 100);
+    };
+
     const handleResetAll = () => {
         if (!controllerRef.current) return;
         if (!window.confirm('🚨 RESET TUDO: apaga TUDO (Q-table + stats + save jogo + LLM). Sem volta.')) return;
@@ -306,9 +334,9 @@ export function AutoPlayView() {
     };
 
     const scoreColor = (score) => {
-        if (score >= 70) return 'var(--ef-color-func-success, #6ABC3A)';
-        if (score >= 40) return 'var(--ef-color-accent-gold, #FFD700)';
-        return 'var(--danger)';
+        if (score >= 70) return '#39FF14';
+        if (score >= 40) return '#FFD700';
+        return '#FF3333';
     };
 
     const elapsedSec = stats ? (stats.elapsedMs / 1000).toFixed(1) : 0;
@@ -340,11 +368,11 @@ export function AutoPlayView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0'
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>🤖 SOAK TEST DASHBOARD</h2>
+                    <h2 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.7rem', margin: 0, color: '#FFD700', textShadow: '3px 3px 0 #000' }}>🤖 SOAK TEST DASHBOARD</h2>
                     <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
                 </EfPanel>
 
@@ -373,9 +401,17 @@ export function AutoPlayView() {
                         variant="secondary"
                         onClick={handleResetBrain}
                         title="Reset Q-table — bot esquece aprendizado, stats permanecem"
-                        style={{ borderColor: 'var(--danger, #c44)', color: 'var(--danger, #c44)' }}
+                        style={{ borderColor: '#FF3333', color: '#FF3333' }}
                     >
                         🧠 Reset Brain
+                    </EfButton>
+                    <EfButton
+                        variant="secondary"
+                        onClick={handleNewGamePlus}
+                        title="NEW GAME+ — salva ML treinado, zera gameplay. Recomeça com o aprendizado intacto."
+                        style={{ borderColor: '#FFD700', color: '#FFD700', fontWeight: 700 }}
+                    >
+                        🧠➕ New Game+
                     </EfButton>
                     <EfButton
                         variant="secondary"
@@ -395,12 +431,12 @@ export function AutoPlayView() {
                 }}>
                     <div style={{ marginBottom: '6px', fontWeight: 700, color: '#6ABC3A', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span>🤝 BUY/SELL ENGINE (SPEC-119)</span>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                        <span style={{ fontSize: '0.72rem', color: '#888' }}>
                             mode: <strong>{llmStatus.mode}</strong>
                         </span>
                     </div>
                     {llmStatus.mode === 'webllm' && (
-                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                        <div style={{ fontSize: '0.72rem', color: '#888' }}>
                             status: {llmStatus.loadStatus}
                             {llmStatus.loadProgress > 0 && llmStatus.loadProgress < 1 && (
                                 <span> ({(llmStatus.loadProgress * 100).toFixed(0)}%)</span>
@@ -436,9 +472,9 @@ export function AutoPlayView() {
                     <EfPanel variant="sunk" padding="md" style={{
                         marginTop: '0.5rem',
                         background: 'rgba(255, 215, 0, 0.05)',
-                        border: '1px solid var(--ef-color-accent-gold, #FFD700)',
+                        border: '1px solid #FFD700',
                     }}>
-                        <div style={{ marginBottom: '6px', fontWeight: 700, color: 'var(--ef-color-accent-gold, #FFD700)' }}>
+                        <div style={{ marginBottom: '6px', fontWeight: 700, color: '#FFD700', fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem' }}>
                             🧠 BRAIN (SPEC-115/116/117)
                         </div>
                         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '4px' }}>
@@ -446,7 +482,7 @@ export function AutoPlayView() {
                             <span>Updates: <strong>{stats.brain.totalUpdates ?? 0}</strong></span>
                         </div>
                         {stats.brain.topActions?.length > 0 && (
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                            <div style={{ fontSize: '0.72rem', color: '#888' }}>
                                 Top actions:&nbsp;
                                 {stats.brain.topActions.slice(0, 3).map((a, i) => (
                                     <span key={i} style={{ marginRight: '8px' }}>
@@ -469,7 +505,7 @@ export function AutoPlayView() {
                 {/* ML Brain Dashboard — visual Q-learning status */}
                 <BrainDashboard controllerRef={controllerRef} />
 
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                <div style={{ fontSize: '0.78rem', color: '#888', marginBottom: '4px', fontFamily: "'Press Start 2P', monospace", fontSize: '0.5rem' }}>
                     VELOCIDADE: {speed}ms/week
                 </div>
                 <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
@@ -480,9 +516,9 @@ export function AutoPlayView() {
                             variant="secondary"
                             size="sm"
                             style={{
-                                background: speed === p.delay ? 'var(--ef-color-accent-gold, #FFD700)' : 'transparent',
-                                color: speed === p.delay ? '#0F1A14' : 'var(--text)',
-                                border: '1px solid var(--ef-color-accent-gold, #FFD700)',
+                                background: speed === p.delay ? '#FFD700' : 'transparent',
+                                color: speed === p.delay ? '#0F1A14' : '#E2E8F0',
+                                border: '3px solid #FFD700',
                                 fontSize: '0.7rem',
                                 padding: '4px 8px'
                             }}
@@ -494,7 +530,7 @@ export function AutoPlayView() {
             {/* Live stats grid */}
             {stats && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>📊 Estatísticas Live</h3>
+                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem', marginBottom: '8px', color: '#FFD700', textShadow: '2px 2px 0 #000' }}>📊 ESTATÍSTICAS LIVE</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
                         <Stat label="Status" value={stats.running ? '🟢 Rodando' : '⏸️ Pausado'} />
                         <Stat label="Semanas" value={stats.weeksPlayed} />
@@ -506,8 +542,8 @@ export function AutoPlayView() {
                         <Stat label="V/E/D" value={`${stats.wins}/${stats.draws}/${stats.losses}`} />
                         <Stat label="Transfers" value={stats.transfers} />
                         <Stat label="Decisions" value={stats.decisions?.length || 0} />
-                        <Stat label="Errors" value={stats.errorCount} color={stats.errorCount > 0 ? 'var(--danger)' : 'var(--primary)'} />
-                        <Stat label="Anomalies" value={stats.anomalies?.length || 0} color={(stats.anomalies?.length || 0) > 0 ? 'var(--accent)' : 'var(--text)'} />
+                        <Stat label="Errors" value={stats.errorCount} color={stats.errorCount > 0 ? '#FF3333' : '#39FF14'} />
+                        <Stat label="Anomalies" value={stats.anomalies?.length || 0} color={(stats.anomalies?.length || 0) > 0 ? '#FFD700' : '#E2E8F0'} />
                     </div>
                 </EfPanel>
             )}
@@ -515,20 +551,20 @@ export function AutoPlayView() {
             {/* Insights summary */}
             {stats?.insights && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>📈 Insights da Carreira</h3>
+                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem', marginBottom: '8px', color: '#FFD700', textShadow: '2px 2px 0 #000' }}>📈 INSIGHTS DA CARREIRA</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px', fontSize: '0.78rem' }}>
-                        <Stat label="Títulos" value={stats.insights.titlesWon} color="var(--ef-color-accent-gold, #FFD700)" />
-                        <Stat label="Promoções" value={stats.insights.promotionsWon} color="var(--primary)" />
-                        <Stat label="Rebaixamentos" value={stats.insights.relegationsTaken} color="var(--danger)" />
+                        <Stat label="Títulos" value={stats.insights.titlesWon} color="#FFD700" />
+                        <Stat label="Promoções" value={stats.insights.promotionsWon} color="#39FF14" />
+                        <Stat label="Rebaixamentos" value={stats.insights.relegationsTaken} color="#FF3333" />
                         <Stat label="Hat-tricks" value={stats.insights.hatTricks} />
                         <Stat label="Clean sheets" value={stats.insights.cleanSheets} />
-                        <Stat label="Maior streak V" value={stats.insights.longestWinStreak} color="var(--primary)" />
-                        <Stat label="Maior streak D" value={Math.abs(stats.insights.longestLossStreak || 0)} color="var(--danger)" />
+                        <Stat label="Maior streak V" value={stats.insights.longestWinStreak} color="#39FF14" />
+                        <Stat label="Maior streak D" value={Math.abs(stats.insights.longestLossStreak || 0)} color="#FF3333" />
                         <Stat label="Peak posição" value={stats.insights.peakStanding === Infinity ? '-' : stats.insights.peakStanding + 'º'} />
                         <Stat label="Pior posição" value={stats.insights.worstStanding ? stats.insights.worstStanding + 'º' : '-'} />
-                        <Stat label="Pico R$" value={`${(stats.insights.peakBalance / 1e6).toFixed(0)}M`} color="var(--accent)" />
+                        <Stat label="Pico R$" value={`${(stats.insights.peakBalance / 1e6).toFixed(0)}M`} color="#FFD700" />
                         <Stat label="Maior goleada" value={stats.insights.biggestWin?.score || '-'} />
-                        <Stat label="Pior derrota" value={stats.insights.worstLoss?.score || '-'} color="var(--danger)" />
+                        <Stat label="Pior derrota" value={stats.insights.worstLoss?.score || '-'} color="#FF3333" />
                     </div>
                 </EfPanel>
             )}
@@ -536,8 +572,8 @@ export function AutoPlayView() {
             {/* §23: GDD Systems Status — LIVE PROOF */}
             {stats && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>
-                        🎯 GDD Systems Status — Live
+                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', marginBottom: '8px', color: '#FFD700', textShadow: '2px 2px 0 #000' }}>
+                        🎯 GDD SYSTEMS STATUS — LIVE
                     </h3>
                     <div style={{
                         display: 'grid',
@@ -629,10 +665,10 @@ export function AutoPlayView() {
                     <div style={{
                         marginTop: '8px',
                         padding: '6px 10px',
-                        background: 'rgba(59, 130, 246, 0.08)',
-                        borderRadius: '4px',
+                        background: '#111417',
+                        border: '3px solid #222',
                         fontSize: '0.7rem',
-                        color: 'var(--text-muted)',
+                        color: '#888',
                         textAlign: 'center'
                     }}>
                         {(() => {
@@ -682,13 +718,13 @@ export function AutoPlayView() {
                             userSelect: 'none'
                         }}
                     >
-                        <h3 style={{ fontSize: '0.9rem', margin: 0 }}>
+                        <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', margin: 0, color: '#FFD700', textShadow: '2px 2px 0 #000' }}>
                             📊 Telemetria ({Object.keys(stats.telemetry.results).length} detectores)
                             <span style={{ marginLeft: '8px', fontSize: '0.75rem', color: scoreColor(stats.telemetry.overallScore) }}>
                                 Score Geral: {stats.telemetry.overallScore}
                             </span>
                         </h3>
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                        <span style={{ fontSize: '0.8rem', color: '#888' }}>
                             {telemetryOpen ? '▼ Recolher' : '▶ Expandir'}
                         </span>
                     </div>
@@ -705,9 +741,8 @@ export function AutoPlayView() {
                                     onClick={() => setExpandedSpec(expandedSpec === spec ? null : spec)}
                                     style={{
                                         padding: '0.5rem',
-                                        background: 'rgba(45,90,61,0.2)',
-                                        border: `1px solid ${scoreColor(res.score)}`,
-                                        borderRadius: '4px',
+                                        background: '#1E2124',
+                                        border: `3px solid ${scoreColor(res.score)}`,
                                         cursor: 'pointer',
                                         fontSize: '0.78rem'
                                     }}
@@ -716,7 +751,7 @@ export function AutoPlayView() {
                                         <strong style={{ fontSize: '0.72rem' }}>{spec}</strong>
                                         <span style={{ fontWeight: 700, color: scoreColor(res.score) }}>{res.score}</span>
                                     </div>
-                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                                    <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '4px' }}>
                                         {res.name}
                                     </div>
                                     {res.signals?.[0] && (
@@ -746,8 +781,8 @@ export function AutoPlayView() {
             {/* Successes catalog */}
             {stats?.successes && stats.successes.length > 0 && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>✅ Successes ({stats.successes.length})</h3>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
+                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', marginBottom: '8px', color: '#39FF14', textShadow: '2px 2px 0 #000' }}>✅ SUCCESSES ({stats.successes.length})</h3>
+                    <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '6px' }}>
                         Por tipo: {Object.entries(successTypes).map(([t, n]) => `${t}(${n})`).join(' • ')}
                     </div>
                     <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
@@ -756,15 +791,15 @@ export function AutoPlayView() {
                                 key={i}
                                 style={{
                                     padding: '0.4rem 0.5rem',
-                                    borderLeft: '3px solid var(--ef-color-func-success, #6ABC3A)',
-                                    background: 'rgba(106,188,58,0.06)',
+                                    borderLeft: '4px solid #39FF14',
+                                    background: '#111417',
                                     fontSize: '0.75rem',
                                     marginBottom: '4px'
                                 }}
                             >
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <strong style={{ color: 'var(--ef-color-func-success, #6ABC3A)' }}>{s.type}</strong>
-                                    <span style={{ color: 'var(--text-muted)', fontSize: '0.65rem' }}>
+                                    <strong style={{ color: '#39FF14' }}>{s.type}</strong>
+                                    <span style={{ color: '#888', fontSize: '0.65rem' }}>
                                         Sem {s.week} • Temp {s.season}
                                     </span>
                                 </div>
@@ -779,7 +814,7 @@ export function AutoPlayView() {
             {stats?.anomalies && stats.anomalies.length > 0 && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                        <h3 style={{ fontSize: '0.9rem', margin: 0 }}>⚠️ Anomalies ({stats.anomalies.length})</h3>
+                        <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', margin: 0, color: '#FF3333', textShadow: '2px 2px 0 #000' }}>⚠️ ANOMALIES ({stats.anomalies.length})</h3>
                         <select
                             value={anomalyFilter}
                             onChange={e => setAnomalyFilter(e.target.value)}
@@ -798,21 +833,21 @@ export function AutoPlayView() {
                                 key={i}
                                 style={{
                                     padding: '0.4rem 0.5rem',
-                                    borderLeft: '3px solid var(--danger)',
+                                    borderLeft: '4px solid #FF3333',
                                     background: 'rgba(214,40,40,0.06)',
                                     fontSize: '0.75rem',
                                     marginBottom: '4px'
                                 }}
                             >
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <strong style={{ color: 'var(--danger)' }}>{a.type}</strong>
-                                    <span style={{ color: 'var(--text-muted)', fontSize: '0.65rem' }}>
+                                    <strong style={{ color: '#FF3333' }}>{a.type}</strong>
+                                    <span style={{ color: '#888', fontSize: '0.65rem' }}>
                                         Sem {a.week} • Temp {a.season}
                                     </span>
                                 </div>
                                 <div style={{ marginTop: '2px' }}>{a.msg}</div>
                                 {a.ctx && Object.keys(a.ctx).length > 0 && (
-                                    <pre style={{ fontSize: '0.65rem', color: 'var(--text-muted)', margin: '4px 0 0 0', whiteSpace: 'pre-wrap' }}>
+                                    <pre style={{ fontSize: '0.65rem', color: '#888', margin: '4px 0 0 0', whiteSpace: 'pre-wrap' }}>
                                         {JSON.stringify(a.ctx, null, 2)}
                                     </pre>
                                 )}
@@ -825,14 +860,14 @@ export function AutoPlayView() {
             {/* Recent decisions */}
             {stats?.decisions && stats.decisions.length > 0 && (
                 <EfPanel variant="elev" padding="md">
-                    <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>📋 Últimas Decisões (20)</h3>
+                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', marginBottom: '8px', color: '#FFD700', textShadow: '2px 2px 0 #000' }}>📋 ÚLTIMAS DECISÕES (20)</h3>
                     <div style={{ maxHeight: '200px', overflowY: 'auto', fontSize: '0.7rem', fontFamily: 'monospace' }}>
                         {stats.decisions.slice(-20).reverse().map((d, i) => (
                             <div key={i} style={{ padding: '2px 4px', borderBottom: '1px solid rgba(45,90,61,0.3)' }}>
-                                <span style={{ color: 'var(--text-muted)' }}>W{d.week}</span>{' '}
-                                <strong style={{ color: 'var(--accent)' }}>{d.action}</strong>{' '}
+                                <span style={{ color: '#888' }}>W{d.week}</span>{' '}
+                                <strong style={{ color: '#FFD700' }}>{d.action}</strong>{' '}
                                 <span>{JSON.stringify(d.args)}</span>
-                                {d.elapsedMs > 0 && <span style={{ color: 'var(--text-muted)' }}> ({d.elapsedMs.toFixed(0)}ms)</span>}
+                                {d.elapsedMs > 0 && <span style={{ color: '#888' }}> ({d.elapsedMs.toFixed(0)}ms)</span>}
                             </div>
                         ))}
                     </div>
@@ -846,15 +881,15 @@ export function AutoPlayView() {
 function Stat({ label, value, color }) {
     return (
         <div style={{
-            padding: '0.4rem 0.5rem',
-            background: 'rgba(45,90,61,0.2)',
-            borderRadius: '4px',
+            padding: '8px',
+            background: '#1E2124',
+            border: '3px solid #000',
             textAlign: 'center'
         }}>
-            <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.4rem', color: '#888', textTransform: 'uppercase' }}>
                 {label}
             </div>
-            <div style={{ fontSize: '0.95rem', fontWeight: 700, color: color || 'var(--text)' }}>
+            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.7rem', fontWeight: 700, color: color || '#E2E8F0', marginTop: '4px' }}>
                 {value}
             </div>
         </div>
@@ -866,9 +901,8 @@ function GDDStatus({ label, emoji, count }) {
     return (
         <div style={{
             padding: '6px 10px',
-            background: fired ? 'rgba(106, 188, 58, 0.08)' : 'rgba(239, 68, 68, 0.06)',
-            border: `1px solid ${fired ? 'rgba(106, 188, 58, 0.3)' : 'rgba(239, 68, 68, 0.2)'}`,
-            borderRadius: '6px',
+            background: fired ? '#111417' : '#1A0A0A',
+            border: `3px solid ${fired ? '#39FF14' : '#FF3333'}`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',

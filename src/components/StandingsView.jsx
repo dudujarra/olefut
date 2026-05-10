@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui/EfClubBadge';
-import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgOffice from '../assets/environments/bg_manager_office.png';
 
@@ -50,6 +49,16 @@ function getZoneTooltip(position, totalTeams, division) {
     return null;
 }
 
+function getZoneBorderColor(zoneClass) {
+    if (zoneClass.includes('libertadores')) return '#39FF14';
+    if (zoneClass.includes('suda')) return '#FFD700';
+    if (zoneClass.includes('promotion')) return '#40BAF7';
+    if (zoneClass.includes('rebaixamento')) return '#FF3333';
+    return 'transparent';
+}
+
+const SERIE_NAMES = { 1: 'SÉRIE A', 2: 'SÉRIE B', 3: 'SÉRIE C', 4: 'SÉRIE D' };
+
 export function StandingsView() {
     const { gameState, changeView, getEngine } = useGame();
     const engine = getEngine();
@@ -77,102 +86,154 @@ export function StandingsView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0',
+            fontFamily: "'Outfit', sans-serif"
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
-            <EfPanel variant="elev" padding="md" style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'12px', flexWrap: 'wrap'}}>
-                <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
-                    <h2 style={{fontSize:'1.2rem',margin:0}}>📊 CLASSIFICAÇÃO</h2>
+                {/* HEADER */}
+                <div style={{
+                    background: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    padding: '16px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    boxShadow: '0 8px 0 rgba(0,0,0,0.8)'
+                }}>
+                    <h2 style={{fontFamily: "'Press Start 2P', monospace", color: '#FFD700', margin: 0, fontSize: '1.1rem', textShadow: '3px 3px 0 #000'}}>
+                        CLASSIFICAÇÃO — {SERIE_NAMES[activeDiv] || `DIV ${activeDiv}`}
+                    </h2>
+                    <EfButton variant="secondary" size="md" onClick={() => changeView(back)}>SAIR</EfButton>
                 </div>
-                <EfButton variant="secondary" size="sm" onClick={() => changeView(back)}>← Voltar</EfButton>
-            </EfPanel>
 
-            <EfPanel variant="sunk" padding="md">
-            {/* Legend */}
-            <div className="standings-legend" style={{display:'flex',gap:'1rem',flexWrap:'wrap',fontSize:'0.78rem',marginBottom:'0.5rem',justifyContent:'center'}}>
-                {activeDiv === 1 && (
-                    <>
-                        <Tooltip content="Top 4: classifica para Libertadores"><span className="zone-dot zone-libertadores">●</span> <span style={{marginLeft:4}}>Libertadores</span></Tooltip>
-                        <Tooltip content="5º-6º: Copa Sul-Americana"><span className="zone-dot zone-suda">●</span> <span style={{marginLeft:4}}>Sul-Americana</span></Tooltip>
-                    </>
-                )}
-                {activeDiv > 1 && activeDiv <= 4 && (
-                    <Tooltip content={`Top 4: sobe para Série ${['','A','B','C'][activeDiv-1]}`}><span className="zone-dot zone-promotion">●</span> <span style={{marginLeft:4}}>Acesso</span></Tooltip>
-                )}
-                {activeDiv < 4 && (
-                    <Tooltip content="Últimos 4: rebaixamento para divisão inferior"><span className="zone-dot zone-rebaixamento">●</span> <span style={{marginLeft:4}}>Rebaixamento</span></Tooltip>
-                )}
-            </div>
+                {/* LEGEND */}
+                <div style={{
+                    background: '#111',
+                    border: '4px solid',
+                    borderColor: '#333 #000 #000 #333',
+                    padding: '12px',
+                    display: 'flex',
+                    gap: '24px',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap'
+                }}>
+                    {activeDiv === 1 && (
+                        <>
+                            <Tooltip content="Top 4: classifica para Libertadores">
+                                <span style={{display:'flex',alignItems:'center',gap:'6px',fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem'}}>
+                                    <span style={{width:'12px',height:'12px',background:'#39FF14',border:'2px solid #000',display:'inline-block'}} /> LIBERTADORES
+                                </span>
+                            </Tooltip>
+                            <Tooltip content="5º-6º: Copa Sul-Americana">
+                                <span style={{display:'flex',alignItems:'center',gap:'6px',fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem'}}>
+                                    <span style={{width:'12px',height:'12px',background:'#FFD700',border:'2px solid #000',display:'inline-block'}} /> SUL-AMERICANA
+                                </span>
+                            </Tooltip>
+                        </>
+                    )}
+                    {activeDiv > 1 && activeDiv <= 4 && (
+                        <Tooltip content={`Top 4: sobe para Série ${['','A','B','C'][activeDiv-1]}`}>
+                            <span style={{display:'flex',alignItems:'center',gap:'6px',fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem'}}>
+                                <span style={{width:'12px',height:'12px',background:'#40BAF7',border:'2px solid #000',display:'inline-block'}} /> ACESSO
+                            </span>
+                        </Tooltip>
+                    )}
+                    {activeDiv < 4 && (
+                        <Tooltip content="Últimos 4: rebaixamento para divisão inferior">
+                            <span style={{display:'flex',alignItems:'center',gap:'6px',fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem'}}>
+                                <span style={{width:'12px',height:'12px',background:'#FF3333',border:'2px solid #000',display:'inline-block'}} /> REBAIXAMENTO
+                            </span>
+                        </Tooltip>
+                    )}
+                </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: '8px', marginBottom: '8px' }}>
-                {zones.map(z => (
-                    <EfButton key={z} variant={activeZone === z ? 'primary' : 'secondary'} size="sm" onClick={() => { setActiveZone(z); setActiveDiv(1); }} style={{justifyContent: 'center'}}>
-                        {z}
-                    </EfButton>
-                ))}
-            </div>
-
-            {divs.length > 1 && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: '8px', marginBottom: '8px' }}>
-                    {divs.map(d => (
-                        <EfButton key={d} variant={activeDiv === d ? 'primary' : 'secondary'} size="sm" onClick={() => setActiveDiv(d)} style={{justifyContent: 'center'}}>
-                            Div {d}
+                {/* ZONE SELECTOR */}
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    {zones.map(z => (
+                        <EfButton key={z} variant={activeZone === z ? 'primary' : 'secondary'} size="md" onClick={() => { setActiveZone(z); setActiveDiv(1); }} style={{flex: 1, minWidth: '80px'}}>
+                            {z}
                         </EfButton>
                     ))}
                 </div>
-            )}
 
-            <div style={{ overflowX: 'auto', border: '2px solid var(--ef-bevel-dark)' }}>
-                <table className="standings-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Time</th>
-                            <Tooltip content="Pontos: 3 por vitória, 1 por empate"><th>P</th></Tooltip>
-                            <Tooltip content="Jogos disputados"><th>J</th></Tooltip>
-                            <Tooltip content="Vitórias"><th>V</th></Tooltip>
-                            <Tooltip content="Empates"><th>E</th></Tooltip>
-                            <Tooltip content="Derrotas"><th>D</th></Tooltip>
-                            <Tooltip content="Gols pró"><th>GP</th></Tooltip>
-                            <Tooltip content="Gols contra"><th>GC</th></Tooltip>
-                            <Tooltip content="Saldo de gols"><th>SG</th></Tooltip>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {standings.map((s, i) => {
-                            const t = engine.getTeam(s.teamId);
-                            const pos = i + 1;
-                            const zoneClass = getZoneClass(pos, standings.length, activeDiv);
-                            const zoneTooltip = getZoneTooltip(pos, standings.length, activeDiv);
-                            const isUser = s.teamId === userTeam?.id;
-                            const rowClass = `${zoneClass} ${isUser ? 'highlight ef-anim-pulse-glow' : ''}`.trim();
-                            const row = (
-                                <tr key={s.teamId} className={rowClass}>
-                                    <td>
-                                        {pos <= 4 && <span className={`ef-trophy-icon ef-trophy-tier-${pos}`} style={{width:'16px',height:'20px',backgroundSize:'64px 40px',backgroundPosition:`-${(pos-1)*16}px 0`,verticalAlign:'middle',marginRight:'4px'}} aria-hidden="true" />}
-                                        {pos}
-                                    </td>
-                                    <td style={{display:'flex',alignItems:'center',gap:'8px'}}>
-                                        {t?.name && <EfClubBadge name={t.name} size="sm" />}
-                                        <span>{t?.name || `Time ${s.teamId}`}</span>
-                                    </td>
-                                    <td><strong>{s.points}</strong></td>
-                                    <td>{s.played}</td>
-                                    <td>{s.won}</td>
-                                    <td>{s.drawn}</td>
-                                    <td>{s.lost}</td>
-                                    <td>{s.goalsFor}</td>
-                                    <td>{s.goalsAgainst}</td>
-                                    <td>{s.goalsFor - s.goalsAgainst}</td>
-                                </tr>
-                            );
-                            return row;
-                        })}
-                    </tbody>
-                </table>
-            </div>
-            </EfPanel>
+                {/* DIVISION SELECTOR */}
+                {divs.length > 1 && (
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                        {divs.map(d => (
+                            <EfButton key={d} variant={activeDiv === d ? 'primary' : 'secondary'} size="md" onClick={() => setActiveDiv(d)} style={{flex: 1}}>
+                                {SERIE_NAMES[d] || `DIV ${d}`}
+                            </EfButton>
+                        ))}
+                    </div>
+                )}
+
+                {/* TABLE */}
+                <div style={{
+                    backgroundColor: '#1E2124',
+                    border: '4px solid',
+                    borderColor: '#4A5059 #111417 #111417 #4A5059',
+                    boxShadow: '0 16px 0 rgba(0,0,0,0.5)',
+                    padding: '0',
+                    overflowX: 'auto'
+                }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', color: 'white', fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem' }}>
+                        <thead>
+                            <tr style={{ borderBottom: '4px solid #4A5059', color: '#888' }}>
+                                <th style={{padding:'12px 6px', textAlign:'center'}}>#</th>
+                                <th style={{padding:'12px 6px', textAlign:'left'}}>TIME</th>
+                                <Tooltip content="Pontos: 3 por vitória, 1 por empate"><th style={{padding:'12px 6px', textAlign:'center', color: '#FFD700'}}>P</th></Tooltip>
+                                <Tooltip content="Jogos disputados"><th style={{padding:'12px 6px', textAlign:'center'}}>J</th></Tooltip>
+                                <Tooltip content="Vitórias"><th style={{padding:'12px 6px', textAlign:'center', color: '#39FF14'}}>V</th></Tooltip>
+                                <Tooltip content="Empates"><th style={{padding:'12px 6px', textAlign:'center', color: '#FFD700'}}>E</th></Tooltip>
+                                <Tooltip content="Derrotas"><th style={{padding:'12px 6px', textAlign:'center', color: '#FF3333'}}>D</th></Tooltip>
+                                <Tooltip content="Gols pró"><th style={{padding:'12px 6px', textAlign:'center'}}>GP</th></Tooltip>
+                                <Tooltip content="Gols contra"><th style={{padding:'12px 6px', textAlign:'center'}}>GC</th></Tooltip>
+                                <Tooltip content="Saldo de gols"><th style={{padding:'12px 6px', textAlign:'center'}}>SG</th></Tooltip>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {standings.map((s, i) => {
+                                const t = engine.getTeam(s.teamId);
+                                const pos = i + 1;
+                                const zoneClass = getZoneClass(pos, standings.length, activeDiv);
+                                const isUser = s.teamId === userTeam?.id;
+                                const zoneBorderColor = getZoneBorderColor(zoneClass);
+                                return (
+                                    <tr key={s.teamId} style={{
+                                        backgroundColor: isUser ? '#1A2A1A' : (i % 2 === 0 ? '#111417' : '#181A1F'),
+                                        borderLeft: `4px solid ${zoneBorderColor}`,
+                                        borderBottom: '2px solid #222'
+                                    }}>
+                                        <td style={{padding:'10px 6px', textAlign:'center', color: pos <= 4 ? '#FFD700' : '#888'}}>
+                                            {pos}
+                                        </td>
+                                        <td style={{padding:'10px 6px', textAlign:'left'}}>
+                                            <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                                                {t?.name && <EfClubBadge name={t.name} size="sm" />}
+                                                <span style={{color: isUser ? '#FFD700' : '#FFF'}}>
+                                                    {(t?.name || `TIME ${s.teamId}`).toUpperCase()}
+                                                </span>
+                                                {isUser && <span style={{color:'#39FF14',fontSize:'0.5rem'}}>◄</span>}
+                                            </div>
+                                        </td>
+                                        <td style={{padding:'10px 6px', textAlign:'center', color: '#FFD700', fontWeight: 'bold'}}>{s.points}</td>
+                                        <td style={{padding:'10px 6px', textAlign:'center'}}>{s.played}</td>
+                                        <td style={{padding:'10px 6px', textAlign:'center', color: '#39FF14'}}>{s.won}</td>
+                                        <td style={{padding:'10px 6px', textAlign:'center', color: '#FFD700'}}>{s.drawn}</td>
+                                        <td style={{padding:'10px 6px', textAlign:'center', color: '#FF3333'}}>{s.lost}</td>
+                                        <td style={{padding:'10px 6px', textAlign:'center'}}>{s.goalsFor}</td>
+                                        <td style={{padding:'10px 6px', textAlign:'center'}}>{s.goalsAgainst}</td>
+                                        <td style={{padding:'10px 6px', textAlign:'center', color: (s.goalsFor - s.goalsAgainst) >= 0 ? '#39FF14' : '#FF3333'}}>
+                                            {s.goalsFor - s.goalsAgainst >= 0 ? '+' : ''}{s.goalsFor - s.goalsAgainst}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

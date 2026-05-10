@@ -1,15 +1,18 @@
 /**
  * Dashboard sub-components stylesheet.
  *
- * AKITA-RFCT-Phase2: zero inline-styles em sub-components.
- * Usa tokens var(--ef-*) e prefixo ef-dash-*.
+ * 16-BIT BRUTALIST ARCADE AESTHETIC
+ * Uses solid #1E2124/#111417 backgrounds, 4px bevel borders,
+ * Press Start 2P for headers, and #FFD700/#39FF14/#FF3333 palette.
  */
 
 /* ========== HEADER ========== */
 .ef-dash-header {
-    /* Tema clube-aware: solid primary */
-    background: var(--ef-club-primary, var(--ef-color-grass-700)) !important;
-    border-left: 4px solid var(--ef-club-accent, var(--ef-color-grass-300)) !important;
+    background: #1E2124 !important;
+    border: 4px solid !important;
+    border-color: #4A5059 #111417 #111417 #4A5059 !important;
+    border-left: 4px solid #FFD700 !important;
+    box-shadow: 0 8px 0 rgba(0,0,0,0.8);
 }
 
 .ef-dash-header-row {
@@ -25,28 +28,28 @@
 }
 
 .ef-dash-header-title {
-    font-family: var(--ef-font-family-display);
-    font-size: var(--ef-font-size-subtitle);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.9rem;
     margin: 0;
-    color: var(--ef-text-hi);
+    color: #FFD700;
+    text-shadow: 3px 3px 0 #000;
 }
 
 .ef-dash-header-nickname {
     display: block;
-    font-size: 11px;
-    color: var(--ef-club-accent, var(--ef-color-grass-300));
-    font-family: var(--ef-font-family-body);
+    font-size: 0.5rem;
+    color: #888;
+    font-family: 'Press Start 2P', monospace;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    font-style: italic;
 }
 
 .ef-dash-header-meta {
     display: block;
-    font-size: var(--ef-font-size-caption);
-    color: var(--ef-text-md);
-    font-family: var(--ef-font-family-body);
-    margin-top: 2px;
+    font-size: 0.5rem;
+    color: #888;
+    font-family: 'Press Start 2P', monospace;
+    margin-top: 4px;
 }
 
 .ef-dash-header-right {
@@ -54,41 +57,45 @@
 }
 
 .ef-dash-balance {
-    font-size: 18px;
+    font-size: 0.8rem;
     font-weight: 700;
-    font-family: var(--ef-font-family-mono);
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 2px 0 #000;
 }
 
 .ef-dash-board-status {
-    font-size: var(--ef-font-size-caption);
+    font-size: 0.45rem;
+    font-family: 'Press Start 2P', monospace;
     cursor: help;
     display: inline-block;
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 /* ========== PROGRESS BAR ========== */
 .ef-dash-progress-track {
-    height: 8px;
-    background: var(--ef-bevel-dark);
-    border: 2px solid;
-    border-color: var(--ef-bevel-dark) var(--ef-bevel-light) var(--ef-bevel-light) var(--ef-bevel-dark);
-    margin-top: 8px;
+    height: 12px;
+    background: #222;
+    border: 4px solid;
+    border-color: #000 #333 #333 #000;
+    margin-top: 12px;
     position: relative;
+    overflow: hidden;
 }
 
 .ef-dash-progress-fill {
     height: 100%;
-    background: var(--ef-color-func-success);
-    transition: width var(--ef-dur-normal) var(--ef-ease-out-quart);
+    background: linear-gradient(to bottom, #39FF14 0%, #1A8A0A 100%);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.3);
+    transition: width 300ms ease-out;
 }
 
 .ef-dash-progress-meta {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
-    color: var(--ef-text-md);
-    font-family: var(--ef-font-family-mono);
-    margin-top: 4px;
+    font-size: 0.45rem;
+    color: #888;
+    font-family: 'Press Start 2P', monospace;
+    margin-top: 6px;
 }
 
 /* ========== ALERTS STRIP ========== */
@@ -103,34 +110,36 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 4px 10px;
-    font-size: var(--ef-font-size-caption);
-    font-family: var(--ef-font-family-body);
+    padding: 6px 12px;
+    font-size: 0.5rem;
+    font-family: 'Press Start 2P', monospace;
     font-weight: 600;
-    border: 2px solid;
-    border-color: var(--ef-bevel-light) var(--ef-bevel-dark) var(--ef-bevel-dark) var(--ef-bevel-light);
+    border: 4px solid;
     text-transform: uppercase;
     letter-spacing: 0.04em;
 }
 
 .ef-dash-alert-danger {
-    background: #3A1010;
-    color: var(--ef-color-func-danger);
+    background: #1A0A0A;
+    color: #FF3333;
+    border-color: #FF3333 #AA1111 #AA1111 #FF3333;
 }
 
 .ef-dash-alert-warning {
-    background: #3D280B;
-    color: var(--ef-color-func-warning);
+    background: #1A1A0A;
+    color: #FFD700;
+    border-color: #FFD700 #AA8800 #AA8800 #FFD700;
 }
 
 .ef-dash-alert-info {
-    background: #0B2942;
-    color: var(--ef-color-func-info);
+    background: #0A0A1A;
+    color: #40BAF7;
+    border-color: #40BAF7 #2070A0 #2070A0 #40BAF7;
     cursor: pointer;
 }
 
 .ef-dash-alert-info:hover {
-    background: #0F3554;
+    background: #0F1530;
 }
 
 /* ========== STATUS FOOTER ========== */
@@ -138,28 +147,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
-    background: var(--ef-bg-elev);
-    border: 2px solid;
-    border-color: var(--ef-bevel-light) var(--ef-bevel-dark) var(--ef-bevel-dark) var(--ef-bevel-light);
-    font-family: var(--ef-font-family-mono);
-    font-size: var(--ef-font-size-caption);
-    margin-top: 16px;
+    padding: 10px 12px;
+    background: #111417;
+    border: 4px solid;
+    border-color: #4A5059 #111417 #111417 #4A5059;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.45rem;
+    margin-top: 8px;
 }
 
 .ef-dash-footer-meta {
     display: flex;
-    gap: 16px;
+    gap: 20px;
     flex-wrap: wrap;
+    color: #888;
 }
 
 .ef-dash-footer-label {
-    color: var(--ef-color-grass-300);
+    color: #FFD700;
     margin-right: 4px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
 }
 
 .ef-dash-footer-build {
-    color: var(--ef-text-md);
+    color: #555;
 }

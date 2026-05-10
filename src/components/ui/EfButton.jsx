@@ -1,39 +1,50 @@
 /**
- * EfButton — Stitch component
+ * EfButton — SNES 16-bit Brutalist Arcade
  *
  * Variants: primary | secondary | danger | ghost
  * Sizes: sm | md | lg
  *
- * Hover offset -1px Y, active offset +2px Y, disabled opacity 0.5, loading spinner.
+ * Heavy 4px bevel borders, pixel-perfect press feedback,
+ * Press Start 2P for labels, zero border-radius.
  */
 
 import React from 'react';
 
-const VARIANT_BG = {
-    primary: 'var(--ef-color-func-success)',
-    secondary: 'var(--ef-color-grass-500)',
-    danger: 'var(--ef-color-func-danger)',
-    ghost: 'transparent'
-};
-
-const VARIANT_BG_HOVER = {
-    primary: 'var(--ef-color-grass-300)',
-    secondary: 'var(--ef-color-grass-300)',
-    danger: 'var(--ef-color-func-danger-dark)',
-    ghost: 'var(--ef-color-neutral-bg-elev)'
-};
-
-const VARIANT_TEXT = {
-    primary: 'var(--ef-color-neutral-bg)',
-    secondary: 'var(--ef-color-neutral-text-hi)',
-    danger: 'var(--ef-color-neutral-text-hi)',
-    ghost: 'var(--ef-color-neutral-text-hi)'
+const VARIANT_STYLES = {
+    primary: {
+        bg: '#0A1A0A',
+        bgHover: '#0F2F0F',
+        text: '#39FF14',
+        border: '#39FF14 #1A8A0A #1A8A0A #39FF14',
+        shadow: '0 3px 0 #0A4A0A'
+    },
+    secondary: {
+        bg: '#1E2124',
+        bgHover: '#2A2D32',
+        text: '#E2E8F0',
+        border: '#4A5059 #111417 #111417 #4A5059',
+        shadow: '0 3px 0 rgba(0,0,0,0.5)'
+    },
+    danger: {
+        bg: '#1A0A0A',
+        bgHover: '#2A1010',
+        text: '#FF3333',
+        border: '#FF3333 #AA1111 #AA1111 #FF3333',
+        shadow: '0 3px 0 #400000'
+    },
+    ghost: {
+        bg: 'transparent',
+        bgHover: '#1E2124',
+        text: '#888',
+        border: '#333 #111 #111 #333',
+        shadow: 'none'
+    }
 };
 
 const SIZE = {
-    sm: { padding: '4px 8px', fontSize: '12px' },
-    md: { padding: '8px 16px', fontSize: '14px' },
-    lg: { padding: '12px 24px', fontSize: '16px' }
+    sm: { padding: '6px 10px', fontSize: '0.5rem' },
+    md: { padding: '10px 18px', fontSize: '0.55rem' },
+    lg: { padding: '14px 28px', fontSize: '0.7rem' }
 };
 
 export function EfButton({
@@ -50,6 +61,7 @@ export function EfButton({
     ...rest
 }) {
     const sizing = SIZE[size] || SIZE.md;
+    const v = VARIANT_STYLES[variant] || VARIANT_STYLES.primary;
     const isDisabled = disabled || loading;
 
     return (
@@ -64,30 +76,34 @@ export function EfButton({
             style={{
                 padding: sizing.padding,
                 fontSize: sizing.fontSize,
-                fontFamily: 'var(--ef-font-family-body)',
+                fontFamily: "'Press Start 2P', monospace",
                 fontWeight: 600,
-                background: VARIANT_BG[variant] || VARIANT_BG.primary,
-                color: VARIANT_TEXT[variant] || VARIANT_TEXT.primary,
-                border: '2px solid',
-                borderColor: variant === 'ghost' ? 'var(--ef-bevel-light)' : 'var(--ef-bevel-light) var(--ef-bevel-dark) var(--ef-bevel-dark) var(--ef-bevel-light)',
-                boxShadow: variant === 'ghost' ? 'none' : 'var(--ef-shadow-drop)',
+                background: v.bg,
+                color: v.text,
+                border: '4px solid',
+                borderColor: v.border,
+                borderRadius: '0px',
+                boxShadow: v.shadow,
                 cursor: isDisabled ? 'not-allowed' : 'pointer',
                 opacity: isDisabled ? 0.5 : 1,
-                transition: 'transform var(--ef-dur-fast) var(--ef-ease-step1), box-shadow var(--ef-dur-fast)',
+                transition: 'transform 50ms, box-shadow 50ms',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 'var(--ef-space-2)',
+                gap: '6px',
                 userSelect: 'none',
-                imageRendering: 'pixelated'
+                imageRendering: 'pixelated',
+                textShadow: variant === 'ghost' ? 'none' : '1px 1px 0 #000',
+                letterSpacing: '0.02em'
             }}
             onMouseEnter={(e) => {
                 if (isDisabled) return;
-                e.currentTarget.style.background = VARIANT_BG_HOVER[variant] || VARIANT_BG_HOVER.primary;
+                e.currentTarget.style.background = v.bgHover;
                 e.currentTarget.style.transform = 'translateY(-1px)';
             }}
             onMouseLeave={(e) => {
-                e.currentTarget.style.background = VARIANT_BG[variant] || VARIANT_BG.primary;
+                e.currentTarget.style.background = v.bg;
                 e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = v.shadow;
             }}
             onMouseDown={(e) => {
                 if (isDisabled) return;
@@ -96,7 +112,7 @@ export function EfButton({
             }}
             onMouseUp={(e) => {
                 e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.boxShadow = 'var(--ef-shadow-drop)';
+                e.currentTarget.style.boxShadow = v.shadow;
             }}
             {...rest}
         >

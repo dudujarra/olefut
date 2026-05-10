@@ -19,10 +19,10 @@ const CATEGORY_LABELS = {
 };
 
 const SEVERITY_COLORS = {
-    critical: 'var(--danger)',
-    error: 'var(--danger)',
-    warning: 'var(--accent)',
-    info: 'var(--text-muted)'
+    critical: '#FF3333',
+    error: '#FF3333',
+    warning: '#FFD700',
+    info: '#888'
 };
 
 export function MonitorView() {
@@ -77,7 +77,7 @@ export function MonitorView() {
             backgroundAttachment: 'fixed',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: '#E2E8F0'
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -94,7 +94,7 @@ export function MonitorView() {
                             <span>💬 {stats.feedback}</span>
                             <span>📝 {stats.notes}</span>
                             {stats.firstEntry && (
-                                <span style={{ color: 'var(--text-muted)' }}>
+                                <span style={{ color: '#888' }}>
                                     Desde {formatTs(stats.firstEntry)}
                                 </span>
                             )}
@@ -116,19 +116,19 @@ export function MonitorView() {
                     <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.4rem' }}>
                         <EfButton variant="secondary" size="sm" onClick={refresh}>🔄</EfButton>
                         <EfButton variant="secondary" size="sm" onClick={handleExport}>📄 EXPORTAR JSON</EfButton>
-                        <EfButton variant="danger" size="sm" onClick={handleClear} style={{ background: 'var(--danger)', color: '#fff', borderColor: 'var(--danger)' }}>🗑️ LIMPAR</EfButton>
+                        <EfButton variant="danger" size="sm" onClick={handleClear} style={{ background: '#FF3333', color: '#fff', borderColor: '#FF3333' }}>🗑️ LIMPAR</EfButton>
                     </div>
                 </EfPanel>
 
                 {entries.length === 0 ? (
-                    <EfPanel variant="elev" padding="lg" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                    <EfPanel variant="elev" padding="lg" style={{ textAlign: 'center', color: '#888' }}>
                         Nenhum entry registrado. Clique no 🐛 (canto inferior direito) pra reportar algo.
                     </EfPanel>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         {entries.map(e => (
                             <EfPanel key={e.id} variant="elev" padding="md" style={{
-                                borderLeft: `4px solid ${SEVERITY_COLORS[e.severity] || 'var(--text-muted)'}`
+                                borderLeft: `4px solid ${SEVERITY_COLORS[e.severity] || '#888'}`
                             }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                                     <span style={{ fontSize: '0.85rem', fontWeight: 700 }}>
@@ -137,7 +137,7 @@ export function MonitorView() {
                                             {e.severity}
                                         </span>
                                     </span>
-                                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                                    <span style={{ fontSize: '0.72rem', color: '#888' }}>
                                         {formatTs(e.ts)}
                                     </span>
                                 </div>
@@ -145,20 +145,20 @@ export function MonitorView() {
                                     {e.message || e.text || e.action || '(sem conteúdo)'}
                                 </div>
                                 {e.action && e.ctx && (
-                                    <EfPanel variant="sunk" padding="sm" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '8px', fontFamily: 'monospace', overflowX: 'auto' }}>
+                                    <EfPanel variant="sunk" padding="sm" style={{ fontSize: '0.75rem', color: '#888', marginTop: '8px', fontFamily: 'monospace', overflowX: 'auto' }}>
                                         {JSON.stringify(e.ctx)}
                                     </EfPanel>
                                 )}
                                 {e.stack && (
                                     <details style={{ marginTop: '8px' }}>
-                                        <summary style={{ cursor: 'pointer', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 'bold' }}>Mostrar Stack Trace</summary>
+                                        <summary style={{ cursor: 'pointer', fontSize: '0.75rem', color: '#888', fontWeight: 'bold' }}>Mostrar Stack Trace</summary>
                                         <EfPanel variant="sunk" padding="sm" style={{ fontSize: '0.7rem', overflowX: 'auto', marginTop: '4px', fontFamily: 'monospace' }}>
                                             {e.stack}
                                         </EfPanel>
                                     </details>
                                 )}
                                 {e.url && (
-                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '8px' }}>
+                                    <div style={{ fontSize: '0.7rem', color: '#888', marginTop: '8px' }}>
                                         URL: {e.url}
                                     </div>
                                 )}

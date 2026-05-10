@@ -68,7 +68,7 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                         <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'0.4rem'}}>
                             <EfClubBadge name={team.name} size="md" />
                             <Tooltip content="Sectors do seu time: GOL/DEF/MEI/ATA">
-                                <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',margin:0}}>NOSSO TIME — {team.name}</h4>
+                                <h4 style={{fontSize:'0.85rem',color:'#888',margin:0}}>NOSSO TIME — {team.name}</h4>
                             </Tooltip>
                         </div>
                         <div className="inline-stats" style={{justifyContent:'space-between'}}>
@@ -77,7 +77,7 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                             <Help id="sector.mei"><div className="inline-stat"><span className="stat-value">{sectors?.midfield ?? '-'}</span><span className="stat-label">MEI</span></div></Help>
                             <Help id="sector.ata"><div className="inline-stat"><span className="stat-value">{sectors?.attack ?? '-'}</span><span className="stat-label">ATA</span></div></Help>
                         </div>
-                        <div style={{marginTop:'0.4rem',fontSize:'0.78rem',color:'var(--text-muted)'}}>
+                        <div style={{marginTop:'0.4rem',fontSize:'0.78rem',color:'#888'}}>
                             Formação: <strong>{team.formation || '4-3-3'}</strong>
                         </div>
                         <EfButton
@@ -92,21 +92,21 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
 
                     {/* CENTER: VS */}
                     <div style={{textAlign:'center',minWidth:'80px'}}>
-                        <div className="ef-anim-pulse-glow" style={{fontSize:'1.8rem',fontWeight:700,color:'var(--accent)',display:'inline-block',padding:'4px 12px',borderRadius:'4px'}}>VS</div>
+                        <div className="ef-anim-pulse-glow" style={{fontSize:'1.8rem',fontWeight:700,color:'#FFD700',display:'inline-block',padding:'4px 12px'}}>VS</div>
                         <Tooltip content={context?.isHome ? 'Você joga em casa: +5% bilheteria, +3 moral' : 'Você joga fora: público adversário, sem boost casa'}>
                             <div style={{
                                 fontSize:'0.78rem',
                                 fontWeight:700,
                                 padding:'0.2rem 0.5rem',
-                                borderRadius:'var(--radius-xs)',
+                                borderRadius:0,
                                 background: context?.isHome ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.1)',
-                                color: context?.isHome ? 'var(--primary)' : 'var(--danger)',
+                                color: context?.isHome ? '#39FF14' : '#FF3333',
                                 marginTop:'0.3rem'
                             }}>
                                 {context?.location || 'CASA'}
                             </div>
                         </Tooltip>
-                        <div style={{fontSize:'0.7rem',color:'var(--text-muted)',marginTop:'0.4rem'}}>
+                        <div style={{fontSize:'0.7rem',color:'#888',marginTop:'0.4rem'}}>
                             Sem {context?.seasonWeek}/38
                         </div>
                     </div>
@@ -116,7 +116,7 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                         <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'0.4rem'}}>
                             {opp?.name && <EfClubBadge name={opp.name} size="md" />}
                             <Tooltip content="Estilo derivado da tática preferida do adversário">
-                                <h4 style={{fontSize:'0.85rem',color:'var(--text-muted)',margin:0}}>
+                                <h4 style={{fontSize:'0.85rem',color:'#888',margin:0}}>
                                     ADVERSÁRIO — {opp?.name || '—'}
                                 </h4>
                             </Tooltip>
@@ -129,7 +129,7 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                                     <Tooltip content="Meio-campo adversário"><div className="inline-stat"><span className="stat-value">{context.oppSectors?.midfield ?? '-'}</span><span className="stat-label">MEI</span></div></Tooltip>
                                     <Tooltip content="Ataque adversário"><div className="inline-stat"><span className="stat-value">{context.oppSectors?.attack ?? '-'}</span><span className="stat-label">ATA</span></div></Tooltip>
                                 </div>
-                                <div style={{marginTop:'0.4rem',fontSize:'0.78rem',color:'var(--text-muted)'}}>
+                                <div style={{marginTop:'0.4rem',fontSize:'0.78rem',color:'#888'}}>
                                     Formação: <strong>{opp.formation || '4-3-3'}</strong>
                                     <br />
                                     Estilo: <strong>{context.opponentStyle}</strong>
@@ -139,7 +139,7 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                                 </div>
                                 {context.h2h && context.h2h.length > 0 && (
                                     <div style={{marginTop:'0.4rem'}}>
-                                        <span style={{fontSize:'0.72rem',color:'var(--text-muted)'}}>H2H últimos {context.h2h.length}:</span>
+                                        <span style={{fontSize:'0.72rem',color:'#888'}}>H2H últimos {context.h2h.length}:</span>
                                         <div style={{display:'flex',gap:'0.2rem',marginTop:'0.2rem'}}>
                                             {context.h2h.map((m, i) => {
                                                 const ourGoals = m.home === team.id ? m.homeGoals : m.awayGoals;

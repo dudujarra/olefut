@@ -268,7 +268,7 @@ export function MatchView() {
                 WebkitImageRendering: 'pixelated',
                 minHeight: '100dvh',
                 padding: '16px',
-                color: 'var(--ef-color-neutral-text-hi)',
+                color: '#E2E8F0',
                 backgroundColor: '#0A130E'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -284,23 +284,22 @@ export function MatchView() {
                 )}
 
                 {/* Step indicator */}
-                <EfPanel variant="elev" padding="md" style={{textAlign:'center', backgroundColor: 'var(--ef-bevel-dark)', border: '2px solid var(--ef-bevel-light)'}}>
-                    <h2 style={{fontSize:'1.2rem',margin:0}}>⚽ PRÉ-JOGO — SEMANA {engine.currentWeek + 1}</h2>
-                    <div style={{display:'flex',justifyContent:'center',gap:'0.5rem',marginTop:'0.4rem'}}>
+                <div style={{textAlign:'center',background:'#1E2124',border:'4px solid',borderColor:'#4A5059 #111417 #111417 #4A5059',padding:'16px',boxShadow:'0 8px 0 rgba(0,0,0,0.8)'}}>
+                    <h2 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.8rem',margin:'0 0 12px 0',color:'#FFD700',textShadow:'3px 3px 0 #000'}}>⚽ PRÉ-JOGO — SEMANA {engine.currentWeek + 1}</h2>
+                    <div style={{display:'flex',justifyContent:'center',gap:'12px'}}>
                         {stepLabels.map((label, i) => (
-                            <div key={i} style={{display:'flex',alignItems:'center',gap:'0.2rem',fontSize:'0.7rem',
-                                color: preStep === i + 1 ? 'var(--primary)' : 'var(--text-muted)',
-                                fontWeight: preStep === i + 1 ? 700 : 400}}>
+                            <div key={i} style={{display:'flex',alignItems:'center',gap:'6px',fontFamily:"'Press Start 2P', monospace",fontSize:'0.45rem',
+                                color: preStep === i + 1 ? '#FFD700' : '#555'}}>
                                 <span style={{
-                                    width:'18px',height:'18px',borderRadius:'0',border:'2px solid #000',display:'flex',alignItems:'center',justifyContent:'center',
-                                    fontSize:'0.6rem',backgroundColor: preStep > i + 1 ? '#0B2015' : preStep === i + 1 ? '#1E3A8A' : '#111',
-                                    color: preStep > i + 1 ? 'var(--primary)' : preStep === i + 1 ? 'white' : 'var(--text-muted)'
+                                    width:'18px',height:'18px',border:'3px solid #000',display:'flex',alignItems:'center',justifyContent:'center',
+                                    fontSize:'0.45rem',background: preStep > i + 1 ? '#0B2015' : preStep === i + 1 ? '#1E3A8A' : '#111',
+                                    color: preStep > i + 1 ? '#39FF14' : preStep === i + 1 ? '#FFF' : '#555'
                                 }}>{preStep > i + 1 ? '✓' : i + 1}</span>
                                 {label}
                             </div>
                         ))}
                     </div>
-                </EfPanel>
+                </div>
 
                 {/* STEP 1: Squad Review */}
                 {preStep === 1 && (
@@ -314,7 +313,7 @@ export function MatchView() {
                             </div>
                         </EfPanel>
                         <EfPanel variant="elev" padding="md">
-                            <h4 style={{fontSize:'0.8rem',marginBottom:'0.4rem',color:'var(--text-muted)'}}>TITULARES ({titulares.length})</h4>
+                            <h4 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',marginBottom:'8px',color:'#FFD700',textShadow:'2px 2px 0 #000'}}>TITULARES ({titulares.length})</h4>
                             <div style={{display:'flex',flexDirection:'column',gap:'0.15rem'}}>
                                 {titulares.map(p => (
                                     <div key={p.id} style={{
@@ -323,19 +322,19 @@ export function MatchView() {
                                         backgroundColor: p.energy < 40 ? '#3A1010' : 'transparent', fontSize:'0.78rem'
                                     }}>
                                         <span>
-                                            <strong style={{color:'var(--text-muted)',marginRight:'0.3rem',fontSize:'0.7rem'}}>{p.position}</strong>
+                                            <strong style={{color:'#888',marginRight:'6px',fontSize:'0.7rem',fontFamily:"'Press Start 2P', monospace"}}>{p.position}</strong>
                                             {p.name}
                                             {p._isCaptain && <span style={{marginLeft:'3px'}}>©️</span>}
                                             {getFormEmoji(p.form?.trend) && <span style={{marginLeft:'3px'}}>{getFormEmoji(p.form?.trend)}</span>}
                                         </span>
                                         <span style={{display:'flex',gap:'0.5rem',alignItems:'center'}}>
                                             <span style={{fontWeight:600}}>{p.ovr}</span>
-                                            <span style={{color: p.energy < 40 ? 'var(--danger)' : p.energy < 70 ? 'var(--accent)' : 'var(--primary)', fontSize:'0.72rem'}}>⚡{p.energy}%</span>
+                                            <span style={{color: p.energy < 40 ? '#FF3333' : p.energy < 70 ? '#FFD700' : '#39FF14', fontSize:'0.72rem'}}>⚡{p.energy}%</span>
                                         </span>
                                     </div>
                                 ))}
                             </div>
-                            {lowEnergy.length > 0 && <div className="alert-badge danger" style={{marginTop:'0.3rem'}}>⚠️ {lowEnergy.length} com energia baixa</div>}
+                            {lowEnergy.length > 0 && <span style={{display:'inline-block',marginTop:'8px',background:'#1A0A0A',border:'4px solid',borderColor:'#FF3333 #AA1111 #AA1111 #FF3333',padding:'6px 12px',fontFamily:"'Press Start 2P', monospace",fontSize:'0.45rem',color:'#FF3333'}}>⚠️ {lowEnergy.length} COM ENERGIA BAIXA</span>}
                         </EfPanel>
                         <EfButton variant="primary" style={{width:'100%',justifyContent:'center'}} onClick={() => setPreStep(2)}>PRÓXIMO: TÁTICA →</EfButton>
                     </>
@@ -345,26 +344,26 @@ export function MatchView() {
                 {preStep === 2 && (
                     <>
                         <EfPanel variant="elev" padding="md">
-                            <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>FORMAÇÃO</h4>
+                            <h4 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',color:'#FFD700',marginBottom:'8px',textShadow:'2px 2px 0 #000'}}>FORMAÇÃO</h4>
                             <div className="action-bar" style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
                                 {Object.keys(FORMATIONS).map(f => (
                                     <EfButton key={f} size="sm" variant={team.formation === f ? 'primary' : 'secondary'}
                                         onClick={() => { engine.setFormation(f); forceUpdate(); }}>{f}</EfButton>
                                 ))}
                             </div>
-                            <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',margin:'1rem 0 0.5rem'}}>TÁTICA</h4>
+                            <h4 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',color:'#FFD700',margin:'16px 0 8px',textShadow:'2px 2px 0 #000'}}>TÁTICA</h4>
                             <div className="action-bar" style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
                                 {Object.entries(TACTICS).map(([k, v]) => (
                                     <EfButton key={k} size="sm" variant={engine.currentTactic === k ? 'primary' : 'secondary'}
                                         onClick={() => { engine.setTactic(k); forceUpdate(); }}>{v.name}</EfButton>
                                 ))}
                             </div>
-                            <p style={{fontSize:'0.72rem',color:'var(--text-muted)',marginTop:'0.4rem'}}>{TACTICS[engine.currentTactic]?.description}</p>
+                            <p style={{fontSize:'0.72rem',color:'#888',marginTop:'8px'}}>{TACTICS[engine.currentTactic]?.description}</p>
                         </EfPanel>
                         <EfPanel variant="elev" padding="md">
-                            <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📢 PRELEÇÃO</h4>
+                            <h4 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',color:'#FFD700',marginBottom:'8px',textShadow:'2px 2px 0 #000'}}>📢 PRELEÇÃO</h4>
                             {talkDone ? (
-                                <div className="alert-badge success">✅ Preleção feita!</div>
+                                <span style={{background:'#0B2015',border:'4px solid',borderColor:'#39FF14 #1A8A0A #1A8A0A #39FF14',padding:'6px 12px',fontFamily:"'Press Start 2P', monospace",fontSize:'0.45rem',color:'#39FF14'}}>✅ PRELEÇÃO FEITA!</span>
                             ) : (
                                 <div style={{display:'flex',flexWrap:'wrap',gap:'0.3rem'}}>
                                     {TEAM_TALKS.map(t => (
@@ -385,17 +384,17 @@ export function MatchView() {
                 {preStep === 3 && (
                     <>
                         <EfPanel variant="sunk" padding="md" style={{textAlign:'center'}}>
-                            <div style={{fontSize:'0.85rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>
+                            <div style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',color:'#888',marginBottom:'8px'}}>
                                 {team.name} • {team.formation} • {tactic?.name}
                             </div>
-                            {cond && <div className="alert-badge info" style={{display:'inline-flex',marginBottom:'0.3rem'}}>{cond.name}</div>}
-                            <div className="inline-stats" style={{justifyContent:'center'}}>
-                                <div className="inline-stat"><span className="stat-value">{sectors.goalkeeper}</span><span className="stat-label">GOL</span></div>
-                                <div className="inline-stat"><span className="stat-value">{sectors.defense}</span><span className="stat-label">DEF</span></div>
-                                <div className="inline-stat"><span className="stat-value">{sectors.midfield}</span><span className="stat-label">MEI</span></div>
-                                <div className="inline-stat"><span className="stat-value">{sectors.attack}</span><span className="stat-label">ATA</span></div>
+                            {cond && <span style={{display:'inline-block',background:'#0A0A1A',border:'3px solid #40BAF7',padding:'4px 10px',fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#40BAF7',marginBottom:'8px'}}>{cond.name}</span>}
+                            <div style={{display:'grid',gridTemplateColumns:'repeat(4, 1fr)',gap:'8px',justifyContent:'center'}}>
+                                <div style={{background:'#1E2124',border:'3px solid #000',padding:'8px',textAlign:'center'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#FFD700',display:'block'}}>{sectors.goalkeeper}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>GOL</span></div>
+                                <div style={{background:'#1E2124',border:'3px solid #000',padding:'8px',textAlign:'center'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#40BAF7',display:'block'}}>{sectors.defense}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>DEF</span></div>
+                                <div style={{background:'#1E2124',border:'3px solid #000',padding:'8px',textAlign:'center'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#39FF14',display:'block'}}>{sectors.midfield}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>MEI</span></div>
+                                <div style={{background:'#1E2124',border:'3px solid #000',padding:'8px',textAlign:'center'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#FF3333',display:'block'}}>{sectors.attack}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>ATA</span></div>
                             </div>
-                            <div style={{fontSize:'0.72rem',color: talkDone ? 'var(--primary)' : 'var(--accent)',marginTop:'0.3rem'}}>
+                            <div style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.45rem',color: talkDone ? '#39FF14' : '#FFD700',marginTop:'8px'}}>
                                 {talkDone ? '✅ Preleção feita' : '⚠️ Sem preleção'}
                             </div>
                         </EfPanel>
@@ -595,7 +594,7 @@ export function MatchView() {
                 WebkitImageRendering: 'pixelated',
                 minHeight: '100dvh',
                 padding: '16px',
-                color: 'var(--ef-color-neutral-text-hi)',
+                color: '#E2E8F0',
                 backgroundColor: '#0A130E'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -605,7 +604,7 @@ export function MatchView() {
                     {displayedEvents.filter(e => e && e.minute <= 45).map((n, i) => (
                         <div key={i} className={`${n.text?.includes('⚽') ? 'goal-line' : ''} ${n.text?.includes('🟨') ? 'card-line' : ''}`}
                              style={{animation: 'slideUp 0.2s ease-out'}}>
-                            <strong style={{color:'var(--text-muted)',fontSize:'0.7rem',marginRight:'0.4rem'}}>{n.minute}'</strong>
+                            <strong style={{fontFamily:"'Press Start 2P', monospace",color:'#FFD700',fontSize:'0.5rem',marginRight:'8px'}}>{n.minute}'</strong>
                             {n.text}
                         </div>
                     ))}
@@ -674,12 +673,12 @@ export function MatchView() {
                 WebkitImageRendering: 'pixelated',
                 minHeight: '100dvh',
                 padding: '16px',
-                color: 'var(--ef-color-neutral-text-hi)',
+                color: '#E2E8F0',
                 backgroundColor: '#0A130E'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <EfPanel variant="elev" padding="md" style={{ textAlign: 'center' }}>
-                    <h3 style={{color:'var(--accent)',marginBottom:'0.3rem'}}>⏸️ INTERVALO</h3>
+                    <h3 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.8rem',color:'#FFD700',marginBottom:'8px',textShadow:'3px 3px 0 #000'}}>⏸️ INTERVALO</h3>
                     <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
                         <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
                             <EfClubBadge name={result.home} size="md" />
@@ -696,7 +695,7 @@ export function MatchView() {
                 {/* Tactic change */}
                 {!tacticChanged && (
                     <EfPanel variant="elev" padding="md">
-                        <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>⚔️ AJUSTE TÁTICO</h4>
+                        <h4 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',color:'#FFD700',marginBottom:'8px',textShadow:'2px 2px 0 #000'}}>⚔️ AJUSTE TÁTICO</h4>
                         <div className="action-bar" style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
                             {Object.entries(TACTICS).map(([k, v]) => (
                                 <EfButton key={k} size="sm" variant={engine.currentTactic === k ? 'primary' : 'secondary'}
@@ -715,10 +714,10 @@ export function MatchView() {
                 {/* Substitution */}
                 {!subUsed && tiredPlayers.length > 0 && subs.length > 0 && (
                     <EfPanel variant="elev" padding="md">
-                        <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>🔄 SUBSTITUIÇÃO</h4>
+                        <h4 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',color:'#FFD700',marginBottom:'8px',textShadow:'2px 2px 0 #000'}}>🔄 SUBSTITUIÇÃO</h4>
                         {tiredPlayers.slice(0, 3).map(p => (
                             <div key={p.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.25rem 0',fontSize:'0.8rem'}}>
-                                <span style={{color:'var(--danger)'}}>
+                                <span style={{color:'#FF3333'}}>
                                     {p.name} ({p.position}) ⚡{p.energy}%
                                 </span>
                                 <EfButton variant="primary" size="sm" onClick={() => {
@@ -763,7 +762,7 @@ export function MatchView() {
                 WebkitImageRendering: 'pixelated',
                 minHeight: '100dvh',
                 padding: '16px',
-                color: 'var(--ef-color-neutral-text-hi)',
+                color: '#E2E8F0',
                 backgroundColor: '#0A130E'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -773,7 +772,7 @@ export function MatchView() {
                     {displayedEvents.filter(e => e && e.minute > 45).map((n, i) => (
                         <div key={i} className={`${n.text?.includes('⚽') ? 'goal-line' : ''} ${n.text?.includes('🟨') ? 'card-line' : ''}`}
                              style={{animation: 'slideUp 0.2s ease-out'}}>
-                            <strong style={{color:'var(--text-muted)',fontSize:'0.7rem',marginRight:'0.4rem'}}>{n.minute}'</strong>
+                            <strong style={{fontFamily:"'Press Start 2P', monospace",color:'#FFD700',fontSize:'0.5rem',marginRight:'8px'}}>{n.minute}'</strong>
                             {n.text}
                         </div>
                     ))}
@@ -841,13 +840,13 @@ export function MatchView() {
             WebkitImageRendering: 'pixelated',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)',
+            color: '#E2E8F0',
             backgroundColor: '#0A130E'
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
             <EfPanel variant="elev" padding="md" style={{ textAlign: 'center' }}>
-                <h2 style={{fontSize:'1.2rem',marginBottom:'0.5rem'}}>🏁 FIM DE JOGO</h2>
+                <h2 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.9rem',marginBottom:'12px',color:'#FFD700',textShadow:'3px 3px 0 #000'}}>🏁 FIM DE JOGO</h2>
                 <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
                     <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
                         <EfClubBadge name={result?.home} size="lg" />
@@ -859,16 +858,16 @@ export function MatchView() {
                         <span className="team-name">{result?.away}</span>
                     </div>
                 </div>
-                {motmEntry && <p style={{color:'var(--primary)',fontSize:'0.8rem',marginTop:'0.4rem'}}>{motmEntry.text}</p>}
+                {motmEntry && <p style={{color:'#39FF14',fontFamily:"'Press Start 2P', monospace",fontSize:'0.5rem',marginTop:'8px'}}>{motmEntry.text}</p>}
             </EfPanel>
 
             {/* Scorers */}
             {lastMatchScorers.length > 0 && (
                 <EfPanel variant="sunk" padding="md">
-                    <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>⚽ GOLS</h4>
+                    <h4 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',color:'#FFD700',marginBottom:'8px',textShadow:'2px 2px 0 #000'}}>⚽ GOLS</h4>
                     {lastMatchScorers.map((s, i) => (
-                        <div key={i} style={{fontSize:'0.78rem',color:'var(--text-main)',padding:'0.15rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
-                            <strong style={{color:'var(--primary)',marginRight:'0.3rem'}}>{s.minute}'</strong>{s.text}
+                        <div key={i} style={{fontSize:'0.78rem',color:'#E2E8F0',padding:'4px 0',borderBottom:'2px solid #111'}}>
+                            <strong style={{fontFamily:"'Press Start 2P', monospace",color:'#39FF14',marginRight:'8px',fontSize:'0.5rem'}}>{s.minute}'</strong>{s.text}
                         </div>
                     ))}
                 </EfPanel>
@@ -876,7 +875,7 @@ export function MatchView() {
 
             {/* Stats + Report */}
             <EfPanel variant="elev" padding="md">
-                <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📊 ESTATÍSTICAS</h4>
+                <h4 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',color:'#FFD700',marginBottom:'8px',textShadow:'2px 2px 0 #000'}}>📊 ESTATÍSTICAS</h4>
                 <ul className="stats-list">
                     {matchStats && <>
                         <li><span>Finalizações:</span> <strong>{matchStats.totalChances}</strong></li>
@@ -884,16 +883,16 @@ export function MatchView() {
                     </>}
                     <li><span>Tática:</span> <strong>{TACTICS[engine.currentTactic]?.name}</strong></li>
                     {lastMatchCards.length > 0 && <li><span>🟨 Cartões:</span> <strong>{lastMatchCards.length}</strong></li>}
-                    {(engine.weekInjuries?.length ?? 0) > 0 && <li><span>🏥 Lesões:</span> <strong style={{color:'var(--danger)'}}>{(engine.weekInjuries?.length ?? 0)}</strong></li>}
+                    {(engine.weekInjuries?.length ?? 0) > 0 && <li><span>🏥 Lesões:</span> <strong style={{color:'#FF3333'}}>{(engine.weekInjuries?.length ?? 0)}</strong></li>}
                 </ul>
             </EfPanel>
 
             {/* Injuries */}
             {(engine.weekInjuries?.length ?? 0) > 0 && (
                 <EfPanel variant="elev" padding="md">
-                    <h4 style={{fontSize:'0.8rem',color:'var(--danger)',marginBottom:'0.25rem'}}>🏥 LESÕES</h4>
+                    <h4 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.55rem',color:'#FF3333',marginBottom:'8px',textShadow:'2px 2px 0 #000'}}>🏥 LESÕES</h4>
                     {(engine.weekInjuries || []).map((inj, i) => (
-                        <p key={i} style={{color:'var(--danger)',fontSize:'0.75rem',padding:'0.1rem 0'}}>{inj.emoji} {inj.player} — {inj.name} ({inj.weeksLeft} sem)</p>
+                        <p key={i} style={{color:'#FF3333',fontSize:'0.75rem',padding:'2px 0'}}>{inj.emoji} {inj.player} — {inj.name} ({inj.weeksLeft} sem)</p>
                     ))}
                 </EfPanel>
             )}
