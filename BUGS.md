@@ -183,3 +183,33 @@ npm run test:ci    # roda testes + build (pipeline)
 - **Teste:** `tests/regression/BUG-021.test.js`
 - **Status:** OPEN (2026-05-08)
 
+
+---
+
+### BUG-022 ⏳ ABERTO — BUG-077 Série B encolhe: processPromoRelegation só roda pra divisão do bot
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/93
+- **Branch:** `bug/BUG-022`
+- **Fix:** TODO
+- **Teste:** `tests/regression/BUG-022.test.js`
+- **Status:** OPEN (2026-05-09)
+
+
+---
+
+### BUG-078 ⏳ ABERTO — SPEC-111 market offers not tracked — buy offers never reach history.offers (only MARKET_INQUIRY probes do)
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/94
+- **Branch:** `bug/BUG-078`
+- **Fix:** TODO
+- **Teste:** `tests/regression/BUG-078.test.js`
+- **Status:** OPEN (2026-05-10)
+
+
+---
+
+### BUG-079 ⏳ ABERTO — Player immortality — high-OVR titular players accumulate totalGoals indefinitely (7269 in 203 seasons) because age/retirement system fails for long-lived squad members
+- **Issue:** https://github.com/dudujarra/elifoot-web/issues/95
+- **Branch:** `bug/BUG-079`
+- **Fix:** TODO
+- **Teste:** `tests/regression/BUG-079.test.js`
+- **Status:** OPEN (2026-05-10)
+

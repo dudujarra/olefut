@@ -635,6 +635,18 @@ export class AutoPlayController {
                                     const playerVal = target.value || (target.ovr || 60) * 50_000;
                                     const offerAmount = Math.round(playerVal * (1.3 + Math.random() * 0.2));
                                     const result = engine.makeBuyOffer(target.teamId, target.player.id, offerAmount);
+                                    // BUG-078: log real buy offer result to history.offers for SPEC-111
+                                    if (this.telemetry?.history) {
+                                        if (!Array.isArray(this.telemetry.history.offers)) this.telemetry.history.offers = [];
+                                        this.telemetry.history.offers.push({
+                                            week: engine.currentWeek,
+                                            playerId: target.player?.id,
+                                            amount: offerAmount,
+                                            playerValue: playerVal,
+                                            accepted: result?.accepted === true,
+                                            simulated: false
+                                        });
+                                    }
                                     this._logDecision('BUY_OFFER', {
                                         target: target.player.name,
                                         position: target.position,
@@ -669,23 +681,14 @@ export class AutoPlayController {
                     } catch { /* ignore */ }
                 }
 
-                // Outgoing market inquiry every 8 weeks (telemetry data + decision log)
-                // Note: accepted=null means "not a real offer, just valuation probe"
-                // SPEC-111 should not count these as rejected — they're never sent to AI.
+                // Outgoing market inquiry every 8 weeks (decisions log only — NOT offers)
+                // BUG-078: probes were being pushed to history.offers with no amount field,
+                // causing SPEC-111 to see avgSpread=-1 (0% of value) and acceptanceRate=0%.
+                // MARKET_INQUIRY is a valuation probe, not a real buy offer.
                 if (this.stats.weeksPlayed % 8 === 0 && team.squad?.length > 0) {
                     const candidate = team.squad[Math.floor(Math.random() * team.squad.length)];
                     const playerVal = candidate.value || (candidate.ovr || 60) * 50_000;
                     const askPrice = playerVal * (1.2 + Math.random() * 0.6);
-                    if (this.telemetry?.history) {
-                        if (!Array.isArray(this.telemetry.history.offers)) this.telemetry.history.offers = [];
-                        this.telemetry.history.offers.push({
-                            week: engine.currentWeek,
-                            playerId: candidate.id,
-                            askPrice,
-                            accepted: null, // null = probe (not a real offer), do not count in acceptance rate
-                            simulated: true
-                        });
-                    }
                     this._logDecision('MARKET_INQUIRY', { playerId: candidate.id, askPrice: Math.round(askPrice) }, 0);
                 }
             }

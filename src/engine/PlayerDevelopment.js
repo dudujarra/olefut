@@ -63,6 +63,12 @@ export function processPlayerDevelopment(player) {
             changes.push({ type: 'retirement', player: player.name, age: player.age });
         }
     }
+    // BUG-079: safety cap — force-retire if age > 42 (probability of reaching this
+    // naturally is ~0, so any player here escaped the stochastic retirement system).
+    if (!player._retired && player.age > 42) {
+        player._retired = true;
+        changes.push({ type: 'retirement', player: player.name, age: player.age });
+    }
 
     // === AGING (1x por temporada, semana 38 — chamado externamente) ===
 
