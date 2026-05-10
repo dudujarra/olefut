@@ -10,6 +10,9 @@ import { useGame } from '../context/GameContext';
 import { useMyth } from '../hooks/useMyth';
 import { MYTH_SLOTS } from '../services/MythService';
 import { EfClubBadge } from './ui';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgTrophyRoom from '../assets/environments/bg_trophy_room.png';
 
 const SLOT_LABELS = {
     idoloEterno: '👑 Ídolo Eterno',
@@ -35,7 +38,7 @@ export function ClubGalleryView({ clubId }) {
     const engine = getEngine();
     const team = engine.getTeam(clubId || gameState.teamId);
 
-    if (!team) return <div className="main-content">Clube não encontrado.</div>;
+    if (!team) return <div style={{padding:'16px',color:'var(--text-main)'}}>Clube não encontrado.</div>;
 
     const hall = getHallOfFame(team.id);
     const slotsFilled = countHallSlots(team.id);
@@ -51,73 +54,83 @@ export function ClubGalleryView({ clubId }) {
     }
 
     return (
-        <div className="main-content fade-in">
-            <div className="card-header" style={{ marginBottom: '1rem', display:'flex', alignItems:'center', gap:'12px' }}>
-                <EfClubBadge name={team.name} size="lg" />
-                <h2 style={{margin:0,flex:1}}>🏛️ Galeria de Lendas — {team.name}</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
-            </div>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgTrophyRoom})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <EfClubBadge name={team.name} size="lg" />
+                        <h2 style={{ fontSize: '1.2rem', margin: 0 }}>🏛️ GALERIA DE LENDAS — {team.name}</h2>
+                    </div>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
+                </EfPanel>
 
-            <div className="card" style={{ padding: '1rem', marginBottom: '1rem' }}>
-                <h3 style={{ margin: 0, fontSize: '1rem' }}>Slots Preenchidos: {slotsFilled} / 6</h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-                    {slotsFilled === 0 && 'Nenhuma lenda canonizada ainda. Construa o legado.'}
-                    {slotsFilled > 0 && slotsFilled < 6 && `${slotsFilled} ídolo${slotsFilled > 1 ? 's' : ''} eternizado${slotsFilled > 1 ? 's' : ''}. Caminho até o panteão completo.`}
-                    {slotsFilled === 6 && 'Panteão completo. Mito do clube consolidado.'}
-                </p>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
-                {MYTH_SLOTS.map(slot => {
-                    const player = resolvePlayer(hall[slot]);
-                    const filled = !!player;
-
-                    return (
-                        <div key={slot} className={`card ${filled ? 'ef-anim-pop-in' : ''}`} style={{
-                            padding: '1rem',
-                            opacity: filled ? 1 : 0.5,
-                            border: filled ? '2px solid var(--primary)' : '2px dashed var(--text-muted)',
-                            position: 'relative'
-                        }}>
-                            <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                {filled && <span className="ef-anim-pulse-glow" style={{display:'inline-block',width:'8px',height:'8px',background:'var(--ef-color-func-warning)',borderRadius:'50%'}} />}
-                                {SLOT_LABELS[slot]}
-                            </h4>
-                            {filled ? (
-                                <>
-                                    <p style={{ margin: '0', fontSize: '1.1rem', fontWeight: 700, color: 'var(--primary)' }}>
-                                        {player.name}
-                                    </p>
-                                    {player.position && (
-                                        <p style={{ margin: '0.25rem 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                                            {player.position}
-                                            {player.retired && ' • Aposentado'}
-                                        </p>
-                                    )}
-                                </>
-                            ) : (
-                                <p style={{ margin: '0', fontSize: '0.85rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
-                                    Slot vago
-                                </p>
-                            )}
-                            <p style={{ marginTop: '0.5rem', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                                {SLOT_DESCRIPTIONS[slot]}
-                            </p>
-                        </div>
-                    );
-                })}
-            </div>
-
-            {legends && legends.length > 0 && (
-                <div className="card" style={{ padding: '1rem', marginTop: '1.5rem' }}>
-                    <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem' }}>
-                        Lendas Canonizadas ({legends.length})
-                    </h3>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                        Jogadores eternizados pelo clube. Suas histórias persistem entre saves.
+                <EfPanel variant="elev" padding="md">
+                    <h3 style={{ margin: 0, fontSize: '1rem' }}>Slots Preenchidos: {slotsFilled} / 6</h3>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
+                        {slotsFilled === 0 && 'Nenhuma lenda canonizada ainda. Construa o legado.'}
+                        {slotsFilled > 0 && slotsFilled < 6 && `${slotsFilled} ídolo${slotsFilled > 1 ? 's' : ''} eternizado${slotsFilled > 1 ? 's' : ''}. Caminho até o panteão completo.`}
+                        {slotsFilled === 6 && 'Panteão completo. Mito do clube consolidado.'}
                     </p>
+                </EfPanel>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+                    {MYTH_SLOTS.map(slot => {
+                        const player = resolvePlayer(hall[slot]);
+                        const filled = !!player;
+
+                        return (
+                            <EfPanel key={slot} variant={filled ? 'elev' : 'sunk'} padding="md" className={filled ? 'ef-anim-pop-in' : ''} style={{
+                                opacity: filled ? 1 : 0.65,
+                                border: filled ? '2px solid var(--primary)' : '2px dashed var(--border-subtle)'
+                            }}>
+                                <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    {filled && <span className="ef-anim-pulse-glow" style={{display:'inline-block',width:'8px',height:'8px',background:'var(--ef-color-func-warning)',borderRadius:'50%'}} />}
+                                    {SLOT_LABELS[slot]}
+                                </h4>
+                                {filled ? (
+                                    <>
+                                        <p style={{ margin: '0', fontSize: '1.1rem', fontWeight: 700, color: 'var(--primary)' }}>
+                                            {player.name}
+                                        </p>
+                                        {player.position && (
+                                            <p style={{ margin: '0.25rem 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                                {player.position}
+                                                {player.retired && ' • Aposentado'}
+                                            </p>
+                                        )}
+                                    </>
+                                ) : (
+                                    <p style={{ margin: '0', fontSize: '0.85rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                                        Slot vago
+                                    </p>
+                                )}
+                                <p style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                                    {SLOT_DESCRIPTIONS[slot]}
+                                </p>
+                            </EfPanel>
+                        );
+                    })}
                 </div>
-            )}
+
+                {legends && legends.length > 0 && (
+                    <EfPanel variant="elev" padding="md">
+                        <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem' }}>
+                            Lendas Canonizadas ({legends.length})
+                        </h3>
+                        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                            Jogadores eternizados pelo clube. Suas histórias persistem entre saves.
+                        </p>
+                    </EfPanel>
+                )}
+            </div>
         </div>
     );
 }

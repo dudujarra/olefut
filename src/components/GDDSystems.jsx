@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
+import { EfButton } from './ui/EfButton';
 
 /**
  * §12.4 Octalysis #6: Scarcity Emphasis
@@ -199,19 +200,19 @@ export function TutorialOverlay({ visible, onDismiss }) {
                 {current.action && (
                     <p className="tutorial-action">👉 {current.action}</p>
                 )}
-                <div className="tutorial-buttons">
-                    <button className="btn btn-secondary btn-sm" onClick={() => {
+                <div className="tutorial-buttons" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                    <EfButton variant="secondary" size="sm" onClick={() => {
                         try { localStorage.setItem('elifoot_tutorial_done', 'true'); } catch { /* storage full */ }
                         onDismiss();
-                    }}>Pular tutorial</button>
-                    <button className="btn btn-primary btn-sm" onClick={() => {
+                    }}>Pular tutorial</EfButton>
+                    <EfButton variant="primary" size="sm" onClick={() => {
                         if (isLast) {
                             try { localStorage.setItem('elifoot_tutorial_done', 'true'); } catch { /* storage full */ }
                             onDismiss();
                         } else {
                             setStep(s => s + 1);
                         }
-                    }}>{isLast ? 'Começar!' : 'Próximo →'}</button>
+                    }}>{isLast ? 'Começar!' : 'Próximo →'}</EfButton>
                 </div>
             </div>
         </div>

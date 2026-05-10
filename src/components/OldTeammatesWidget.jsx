@@ -8,6 +8,7 @@
 import React from 'react';
 import { useGame } from '../context/GameContext';
 import { useCareer } from '../hooks/useCareer';
+import { EfPanel } from './ui/EfPanel';
 
 export function OldTeammatesWidget() {
     const { getEngine } = useGame();
@@ -35,17 +36,17 @@ export function OldTeammatesWidget() {
 
     if (exTeammates.length === 0) {
         return (
-            <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+            <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                 <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '0.9rem' }}>👥 Ex-Companheiros</h4>
                 <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                     Nenhum ex-companheiro ativo encontrado. Eles também envelheceram.
                 </p>
-            </div>
+            </EfPanel>
         );
     }
 
     return (
-        <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+        <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
             <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem' }}>
                 👥 Ex-Companheiros Ativos ({exTeammates.length})
             </h4>
@@ -75,7 +76,7 @@ export function OldTeammatesWidget() {
                     </div>
                 ))}
             </div>
-        </div>
+        </EfPanel>
     );
 }
 

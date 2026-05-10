@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { useGame } from '../context/GameContext';
+import { EfPanel } from './ui/EfPanel';
 
 const TENSION_LABELS = [
     { min: 70,  label: '🟢 Carta Branca', color: 'var(--primary)', mood: 'Diretoria encantada. Faça o que quiser.' },
@@ -30,7 +31,7 @@ export function PresidentBar() {
     const barPct = Math.max(0, Math.min(100, (tension + 100) / 2));
 
     return (
-        <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+        <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                 <h4 style={{ margin: 0, fontSize: '0.9rem' }}>🏛️ Diretoria</h4>
                 <span style={{ fontSize: '0.85rem', fontWeight: 700, color: status.color }}>
@@ -83,7 +84,7 @@ export function PresidentBar() {
             <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
                 {status.mood}
             </p>
-        </div>
+        </EfPanel>
     );
 }
 

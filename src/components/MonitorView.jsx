@@ -7,6 +7,9 @@
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { MonitorService, CATEGORIES } from '../services/MonitorService';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgManagerOffice from '../assets/environments/bg_manager_office.png';
 
 const CATEGORY_LABELS = {
     bug: '🐛 Bug',
@@ -64,93 +67,103 @@ export function MonitorView() {
     }
 
     return (
-        <div className="main-content fade-in">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>📊 Monitor</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
-            </div>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgManagerOffice})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>📊 MONITOR DO SISTEMA</h2>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
+                </EfPanel>
 
-            {stats && (
-                <div className="card" style={{ padding: '0.75rem', marginBottom: '1rem' }}>
-                    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.85rem' }}>
-                        <span>Total: <strong>{stats.total}</strong></span>
-                        <span>🐛 {stats.bugs}</span>
-                        <span>🎮 {stats.gameplay}</span>
-                        <span>💬 {stats.feedback}</span>
-                        <span>📝 {stats.notes}</span>
-                        {stats.firstEntry && (
-                            <span style={{ color: 'var(--text-muted)' }}>
-                                Desde {formatTs(stats.firstEntry)}
-                            </span>
-                        )}
-                    </div>
-                </div>
-            )}
-
-            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-                {['all', ...Object.values(CATEGORIES)].map(cat => (
-                    <button
-                        key={cat}
-                        className={`btn btn-sm ${filter === cat ? 'btn-primary' : 'btn-secondary'}`}
-                        onClick={() => setFilter(cat)}
-                    >
-                        {cat === 'all' ? 'Todos' : CATEGORY_LABELS[cat] || cat}
-                    </button>
-                ))}
-                <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.4rem' }}>
-                    <button className="btn btn-sm btn-secondary" onClick={refresh}>🔄</button>
-                    <button className="btn btn-sm btn-secondary" onClick={handleExport}>📄 Export JSON</button>
-                    <button className="btn btn-sm btn-danger" onClick={handleClear}>🗑️ Limpar</button>
-                </div>
-            </div>
-
-            {entries.length === 0 ? (
-                <div className="card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
-                    Nenhum entry registrado. Clique no 🐛 (canto inferior direito) pra reportar algo.
-                </div>
-            ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    {entries.map(e => (
-                        <div key={e.id} className="card" style={{
-                            padding: '0.75rem',
-                            borderLeft: `3px solid ${SEVERITY_COLORS[e.severity] || 'var(--text-muted)'}`
-                        }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                                <span style={{ fontSize: '0.85rem', fontWeight: 700 }}>
-                                    {CATEGORY_LABELS[e.category] || e.category}
-                                    <span style={{ marginLeft: '0.5rem', color: SEVERITY_COLORS[e.severity], fontSize: '0.75rem' }}>
-                                        {e.severity}
-                                    </span>
+                {stats && (
+                    <EfPanel variant="elev" padding="md">
+                        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.85rem' }}>
+                            <span>Total: <strong>{stats.total}</strong></span>
+                            <span>🐛 {stats.bugs}</span>
+                            <span>🎮 {stats.gameplay}</span>
+                            <span>💬 {stats.feedback}</span>
+                            <span>📝 {stats.notes}</span>
+                            {stats.firstEntry && (
+                                <span style={{ color: 'var(--text-muted)' }}>
+                                    Desde {formatTs(stats.firstEntry)}
                                 </span>
-                                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                                    {formatTs(e.ts)}
-                                </span>
-                            </div>
-                            <div style={{ fontSize: '0.85rem', whiteSpace: 'pre-wrap' }}>
-                                {e.message || e.text || e.action || '(sem conteúdo)'}
-                            </div>
-                            {e.action && e.ctx && (
-                                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.3rem', fontFamily: 'monospace' }}>
-                                    {JSON.stringify(e.ctx)}
-                                </div>
-                            )}
-                            {e.stack && (
-                                <details style={{ marginTop: '0.4rem' }}>
-                                    <summary style={{ cursor: 'pointer', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Stack</summary>
-                                    <pre style={{ fontSize: '0.7rem', overflow: 'auto', padding: '0.5rem', background: 'rgba(0,0,0,0.3)', borderRadius: '3px' }}>
-                                        {e.stack}
-                                    </pre>
-                                </details>
-                            )}
-                            {e.url && (
-                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
-                                    URL: {e.url}
-                                </div>
                             )}
                         </div>
+                    </EfPanel>
+                )}
+
+                <EfPanel variant="sunk" padding="md" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                    {['all', ...Object.values(CATEGORIES)].map(cat => (
+                        <EfButton
+                            key={cat}
+                            variant={filter === cat ? 'primary' : 'secondary'}
+                            size="sm"
+                            onClick={() => setFilter(cat)}
+                        >
+                            {cat === 'all' ? 'Todos' : CATEGORY_LABELS[cat] || cat}
+                        </EfButton>
                     ))}
-                </div>
-            )}
+                    <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.4rem' }}>
+                        <EfButton variant="secondary" size="sm" onClick={refresh}>🔄</EfButton>
+                        <EfButton variant="secondary" size="sm" onClick={handleExport}>📄 EXPORTAR JSON</EfButton>
+                        <EfButton variant="danger" size="sm" onClick={handleClear} style={{ background: 'var(--danger)', color: '#fff', borderColor: 'var(--danger)' }}>🗑️ LIMPAR</EfButton>
+                    </div>
+                </EfPanel>
+
+                {entries.length === 0 ? (
+                    <EfPanel variant="elev" padding="lg" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                        Nenhum entry registrado. Clique no 🐛 (canto inferior direito) pra reportar algo.
+                    </EfPanel>
+                ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {entries.map(e => (
+                            <EfPanel key={e.id} variant="elev" padding="md" style={{
+                                borderLeft: `4px solid ${SEVERITY_COLORS[e.severity] || 'var(--text-muted)'}`
+                            }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                                    <span style={{ fontSize: '0.85rem', fontWeight: 700 }}>
+                                        {CATEGORY_LABELS[e.category] || e.category}
+                                        <span style={{ marginLeft: '0.5rem', color: SEVERITY_COLORS[e.severity], fontSize: '0.75rem', textTransform: 'uppercase' }}>
+                                            {e.severity}
+                                        </span>
+                                    </span>
+                                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                                        {formatTs(e.ts)}
+                                    </span>
+                                </div>
+                                <div style={{ fontSize: '0.85rem', whiteSpace: 'pre-wrap', lineHeight: 1.4 }}>
+                                    {e.message || e.text || e.action || '(sem conteúdo)'}
+                                </div>
+                                {e.action && e.ctx && (
+                                    <EfPanel variant="sunk" padding="sm" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '8px', fontFamily: 'monospace', overflowX: 'auto' }}>
+                                        {JSON.stringify(e.ctx)}
+                                    </EfPanel>
+                                )}
+                                {e.stack && (
+                                    <details style={{ marginTop: '8px' }}>
+                                        <summary style={{ cursor: 'pointer', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 'bold' }}>Mostrar Stack Trace</summary>
+                                        <EfPanel variant="sunk" padding="sm" style={{ fontSize: '0.7rem', overflowX: 'auto', marginTop: '4px', fontFamily: 'monospace' }}>
+                                            {e.stack}
+                                        </EfPanel>
+                                    </details>
+                                )}
+                                {e.url && (
+                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '8px' }}>
+                                        URL: {e.url}
+                                    </div>
+                                )}
+                            </EfPanel>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

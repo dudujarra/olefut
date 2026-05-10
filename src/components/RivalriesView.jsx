@@ -7,6 +7,9 @@
 
 import React from 'react';
 import { useGame } from '../context/GameContext';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgNewspaper from '../assets/environments/bg_newspaper.png';
 
 function getRivalryLabel(matchCount) {
     if (matchCount >= 10) return { label: '🔴 Consolidada', color: 'var(--danger)' };
@@ -19,7 +22,7 @@ export function RivalriesView() {
     const { getEngine, changeView, getDashboardView } = useGame();
     const engine = getEngine();
 
-    if (!engine) return <div className="main-content">Engine não inicializado.</div>;
+    if (!engine) return <div style={{padding:'16px',color:'var(--text-main)'}}>Engine não inicializado.</div>;
 
     const team = engine.getTeam(engine.manager?.teamId);
     const rivalryHistory = engine.rivalryHistory || {};
@@ -55,73 +58,79 @@ export function RivalriesView() {
         .sort((x, y) => y.matches - x.matches);
 
     return (
-        <div className="main-content fade-in ef-art-bg ef-art-crowd-strip">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>⚔️ Rivalidades</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
-            </div>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgNewspaper})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>⚔️ RIVALIDADES</h2>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
+                </EfPanel>
 
-            <div className="card" style={{ padding: '1rem', marginBottom: '1rem' }}>
-                <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem' }}>
-                    Confrontos Diretos ({rivalries.length})
-                </h3>
-                {rivalries.length === 0 ? (
-                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                        Nenhuma rivalidade detectada. Jogue mais partidas para construir histórico.
-                    </p>
-                ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                        {rivalries.map(r => {
-                            const label = getRivalryLabel(r.matches);
-                            const oppTeam = r.isA ? r.clubB : r.clubA;
-                            return (
-                                <div key={r.key} style={{
+                <EfPanel variant="elev" padding="md">
+                    <h3 style={{ margin: '0 0 16px 0', fontSize: '1rem' }}>
+                        Confrontos Diretos ({rivalries.length})
+                    </h3>
+                    {rivalries.length === 0 ? (
+                        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                            Nenhuma rivalidade detectada. Jogue mais partidas para construir histórico.
+                        </p>
+                    ) : (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {rivalries.map(r => {
+                                const label = getRivalryLabel(r.matches);
+                                const oppTeam = r.isA ? r.clubB : r.clubA;
+                                return (
+                                    <EfPanel key={r.key} variant="sunk" padding="sm" style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        fontSize: '0.85rem'
+                                    }}>
+                                        <div>
+                                            <strong style={{ color: 'var(--text-main)', fontSize: '1rem' }}>vs {oppTeam?.name || '???'}</strong>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                                                {r.matches} jogos • <span style={{ color: 'var(--primary)' }}>{r.wins}V</span> <span style={{ color: 'var(--accent)' }}>{r.draws}E</span> <span style={{ color: 'var(--danger)' }}>{r.losses}D</span>
+                                            </div>
+                                        </div>
+                                        <span style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', fontWeight: 'bold' }}>
+                                            <span style={{ fontSize: '0.8rem', color: label.color }}>{label.label}</span>
+                                        </span>
+                                    </EfPanel>
+                                );
+                            })}
+                        </div>
+                    )}
+                </EfPanel>
+
+                {/* Former Companions (SPEC-081) */}
+                {(engine.formerCompanions?.length || 0) > 0 && (
+                    <EfPanel variant="elev" padding="md">
+                        <h3 style={{ margin: '0 0 16px 0', fontSize: '1rem' }}>
+                            👥 Ex-Companheiros ({engine.formerCompanions.length})
+                        </h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {engine.formerCompanions.map((p, i) => (
+                                <EfPanel key={i} variant="sunk" padding="sm" style={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
-                                    padding: '0.5rem 0.75rem',
-                                    background: 'var(--bg-panel-solid)',
-                                    borderRadius: 'var(--radius-xs)',
                                     fontSize: '0.85rem'
                                 }}>
-                                    <div>
-                                        <strong>vs {oppTeam?.name || '???'}</strong>
-                                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                                            {r.matches} jogos • {r.wins}V {r.draws}E {r.losses}D
-                                        </div>
-                                    </div>
-                                    <span style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                                        <span style={{ fontSize: '0.75rem', color: label.color }}>{label.label}</span>
-                                    </span>
-                                </div>
-                            );
-                        })}
-                    </div>
+                                    <span style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{p.name} <span style={{ color: 'var(--text-muted)', fontWeight: 'normal' }}>({p.position})</span></span>
+                                    <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>OVR {p.ovr} • Vendido temp {p.season || '?'}</span>
+                                </EfPanel>
+                            ))}
+                        </div>
+                    </EfPanel>
                 )}
             </div>
-
-            {/* Former Companions (SPEC-081) */}
-            {(engine.formerCompanions?.length || 0) > 0 && (
-                <div className="card" style={{ padding: '1rem' }}>
-                    <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem' }}>
-                        👥 Ex-Companheiros ({engine.formerCompanions.length})
-                    </h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                        {engine.formerCompanions.map((p, i) => (
-                            <div key={i} style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                padding: '0.3rem 0.5rem',
-                                fontSize: '0.78rem',
-                                borderBottom: '1px solid var(--border-subtle)'
-                            }}>
-                                <span>{p.name} ({p.position})</span>
-                                <span style={{ color: 'var(--text-muted)' }}>OVR {p.ovr} • Vendido temp {p.season || '?'}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

@@ -11,6 +11,7 @@
  */
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { EfPanel } from '../ui/EfPanel';
 
 // Colors for bar visualization
 const BAR_COLORS = [
@@ -90,7 +91,7 @@ export function BrainDashboard({ controllerRef }) {
     if (totalUpdates === 0 && stateKeys.length === 0 && decisions.length === 0) return null;
 
     return (
-        <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
+        <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
             <div
                 onClick={() => setExpanded(!expanded)}
                 style={{
@@ -306,7 +307,7 @@ export function BrainDashboard({ controllerRef }) {
                     </div>
                 </div>
             )}
-        </div>
+        </EfPanel>
     );
 }
 

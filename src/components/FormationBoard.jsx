@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FORMATION_PRESETS, getPreset, FORMATION_KEYS } from '../engine/FormationLayout';
 import { Tooltip } from './Tooltip';
+import { EfButton } from './ui/EfButton';
 
 const FIELD_W = 600;
 const FIELD_H = 400;
@@ -99,21 +100,21 @@ export function FormationBoard({ team, onSave, onChange, editable = true }) {
                 <span style={{fontSize:'0.85rem',color:'var(--text-muted)'}}>Formação:</span>
                 {FORMATION_KEYS.map(k => (
                     <Tooltip key={k} content={`Mudar para ${k} — reorganiza posições padrão`}>
-                        <button
-                            className={`btn btn-sm ${formation === k ? 'btn-primary' : 'btn-secondary'}`}
+                        <EfButton
+                            variant={formation === k ? 'primary' : 'secondary'} size="sm"
                             onClick={() => setFormation(k)}
                         >
                             {k}
-                        </button>
+                        </EfButton>
                     </Tooltip>
                 ))}
                 <Tooltip content="Voltar para posições padrão da formação atual">
-                    <button className="btn btn-sm btn-secondary" onClick={resetToPreset}>↺ Reset</button>
+                    <EfButton variant="secondary" size="sm" onClick={resetToPreset}>↺ Reset</EfButton>
                 </Tooltip>
                 {onSave && (
-                    <button className="btn btn-sm btn-primary" onClick={handleSave} style={{marginLeft:'auto'}}>
+                    <EfButton variant="primary" size="sm" onClick={handleSave} style={{marginLeft:'auto'}}>
                         💾 Salvar
-                    </button>
+                    </EfButton>
                 )}
             </div>
 

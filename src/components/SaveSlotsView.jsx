@@ -14,6 +14,9 @@ import {
     exportSlotJSON,
     importJSONToSlot
 } from '../services/SaveSlotsService';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgManagerOffice from '../assets/environments/bg_manager_office.png';
 
 export function SaveSlotsView() {
     const { gameState, getEngine, changeView, getDashboardView } = useGame();
@@ -59,63 +62,74 @@ export function SaveSlotsView() {
     };
 
     return (
-        <div className="main-content fade-in">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>💾 Save Slots (3)</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
-            </div>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgManagerOffice})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>💾 SAVE SLOTS (3)</h2>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
+                </EfPanel>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {slots.map(slot => (
-                    <div key={slot.slot} className="card" style={{ padding: '1rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                            <div>
-                                <h3 style={{ margin: 0, fontSize: '1rem' }}>Slot {slot.slot}</h3>
-                                {slot.empty ? (
-                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: '4px 0 0 0' }}>
-                                        {slot.corrupted ? '⚠️ Corrompido' : 'Vazio'}
-                                    </p>
-                                ) : (
-                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                                        <div><strong>{slot.managerName}</strong> — {slot.teamName}</div>
-                                        <div>Temporada {slot.seasonNumber} • Semana {slot.week}</div>
-                                        <div style={{ fontSize: '0.7rem' }}>Salvo: {new Date(slot.savedAt).toLocaleString('pt-BR')}</div>
-                                    </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {slots.map(slot => (
+                        <EfPanel key={slot.slot} variant="sunk" padding="md">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                                <div>
+                                    <h3 style={{ margin: 0, fontSize: '1rem', color: 'var(--text-main)' }}>SLOT {slot.slot}</h3>
+                                    {slot.empty ? (
+                                        <p style={{ color: slot.corrupted ? 'var(--danger)' : 'var(--text-muted)', fontSize: '0.85rem', margin: '4px 0 0 0' }}>
+                                            {slot.corrupted ? '⚠️ CORROMPIDO' : 'VAZIO'}
+                                        </p>
+                                    ) : (
+                                        <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '8px' }}>
+                                            <div style={{ color: 'var(--primary)', fontWeight: 'bold', fontSize: '0.95rem' }}>{slot.managerName} — {slot.teamName}</div>
+                                            <div style={{ marginTop: '4px' }}>Temporada {slot.seasonNumber} • Semana {slot.week}</div>
+                                            <div style={{ fontSize: '0.75rem', marginTop: '4px' }}>Salvo: {new Date(slot.savedAt).toLocaleString('pt-BR')}</div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                                <EfButton variant="primary" size="sm" onClick={() => handleSave(slot.slot)}>
+                                    💾 SALVAR AQUI
+                                </EfButton>
+                                {!slot.empty && (
+                                    <>
+                                        <EfButton variant="secondary" size="sm" onClick={() => handleExport(slot.slot)}>
+                                            ⬇️ EXPORTAR JSON
+                                        </EfButton>
+                                        <EfButton variant="danger" size="sm" onClick={() => handleDelete(slot.slot)} style={{ background: 'var(--danger)', color: '#fff', borderColor: 'var(--danger)' }}>
+                                            🗑️ DELETAR
+                                        </EfButton>
+                                    </>
                                 )}
+                                <EfButton variant="secondary" size="sm" onClick={() => setImportingSlot(slot.slot)}>
+                                    ⬆️ IMPORTAR JSON
+                                </EfButton>
                             </div>
-                        </div>
 
-                        <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                            <button className="btn btn-sm btn-primary" onClick={() => handleSave(slot.slot)}>
-                                💾 Salvar Aqui
-                            </button>
-                            {!slot.empty && (
-                                <>
-                                    <button className="btn btn-sm btn-secondary" onClick={() => handleExport(slot.slot)}>
-                                        ⬇️ Exportar JSON
-                                    </button>
-                                    <button className="btn btn-sm btn-secondary" onClick={() => handleDelete(slot.slot)}>
-                                        🗑️ Deletar
-                                    </button>
-                                </>
+                            {importingSlot === slot.slot && (
+                                <div style={{ marginTop: '12px', padding: '12px', background: 'rgba(0,0,0,0.2)', borderRadius: '4px', border: '1px dashed var(--border-subtle)' }}>
+                                    <input
+                                        type="file"
+                                        accept="application/json"
+                                        onChange={(e) => handleImport(slot.slot, e.target.files?.[0])}
+                                        style={{ color: 'var(--text-main)', marginBottom: '8px', display: 'block', width: '100%' }}
+                                    />
+                                    <EfButton variant="secondary" size="sm" onClick={() => setImportingSlot(null)}>CANCELAR</EfButton>
+                                </div>
                             )}
-                            <button className="btn btn-sm btn-secondary" onClick={() => setImportingSlot(slot.slot)}>
-                                ⬆️ Importar JSON
-                            </button>
-                        </div>
-
-                        {importingSlot === slot.slot && (
-                            <div style={{ marginTop: '0.5rem' }}>
-                                <input
-                                    type="file"
-                                    accept="application/json"
-                                    onChange={(e) => handleImport(slot.slot, e.target.files?.[0])}
-                                />
-                                <button className="btn btn-sm" onClick={() => setImportingSlot(null)}>Cancelar</button>
-                            </div>
-                        )}
-                    </div>
-                ))}
+                        </EfPanel>
+                    ))}
+                </div>
             </div>
         </div>
     );

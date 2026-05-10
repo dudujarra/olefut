@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { EfButton } from './ui/EfButton';
 
 /**
  * §16.2: TrophyCeremony — Full-screen overlay for season-ending celebrations.
@@ -73,14 +74,15 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
             {phase >= 3 && (
                 <div className="trophy-hall ef-anim-fade-in">
                     <p className="hall-text">📜 Registrado no Hall da Fama</p>
-                    <button
-                        className="ef-btn ef-btn--primary ef-anim-pulse-glow"
+                    <EfButton
+                        variant="primary"
                         onClick={onDismiss}
                         aria-label="Fechar cerimônia"
                         id="trophy-dismiss-btn"
+                        className="ef-anim-pulse-glow"
                     >
                         Continuar
-                    </button>
+                    </EfButton>
                 </div>
             )}
 

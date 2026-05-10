@@ -23,6 +23,7 @@ import { ChronicleView } from './components/ChronicleView';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
 import { AudioController } from './audio/AudioController.jsx';
+import { EfButton } from './components/ui/EfButton';
 
 // Install global error handlers (idempotente)
 MonitorService.getInstance().install();
@@ -115,47 +116,47 @@ function App() {
                             <span>Sem {engine.currentWeek}/38</span>
                         )}
                         {/* P2-13: save manual button */}
-                        <button
-                            className="btn btn-sm btn-secondary"
+                        <EfButton
+                            variant="secondary" size="sm"
                             onClick={handleSave}
                             title="Salvar manual (auto-save ativo)"
                             style={{padding:'0.25rem 0.55rem'}}
                         >
                             💾
-                        </button>
+                        </EfButton>
                         {/* P1-6: sound toggle */}
-                        <button
-                            className="btn btn-sm btn-secondary"
+                        <EfButton
+                            variant="secondary" size="sm"
                             onClick={handleSoundToggle}
                             title={soundOn ? 'Som ON (clique pra desligar)' : 'Som OFF (clique pra ligar)'}
                             style={{padding:'0.25rem 0.55rem'}}
                         >
                             {soundOn ? '🔊' : '🔇'}
-                        </button>
-                        <button
-                            className="btn btn-sm btn-secondary"
+                        </EfButton>
+                        <EfButton
+                            variant="secondary" size="sm"
                             onClick={cycleTheme}
                             title={themeLabel}
                             style={{padding:'0.25rem 0.55rem'}}
                         >
                             {themeIcon}
-                        </button>
-                        <button
-                            className="btn btn-sm btn-secondary"
+                        </EfButton>
+                        <EfButton
+                            variant="secondary" size="sm"
                             onClick={() => changeView?.('monitor')}
                             title="Monitor (bugs/gameplay/feedback)"
                             style={{padding:'0.25rem 0.55rem'}}
                         >
                             📊
-                        </button>
-                        <button
-                            className="btn btn-sm btn-secondary"
+                        </EfButton>
+                        <EfButton
+                            variant="secondary" size="sm"
                             onClick={handleReset}
                             title="Resetar carreira"
                             style={{padding:'0.25rem 0.55rem'}}
                         >
                             🔄
-                        </button>
+                        </EfButton>
                     </div>
                     {savedToast && (
                         <div style={{position:'fixed',top:'4rem',right:'1rem',background:'var(--primary)',color:'white',padding:'0.5rem 1rem',borderRadius:'var(--radius-sm)',fontSize:'0.85rem',fontWeight:600,zIndex:1000,animation:'slideUp 0.3s'}}>

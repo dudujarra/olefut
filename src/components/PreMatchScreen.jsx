@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormationBoard } from './FormationBoard';
 import { Tooltip } from './Tooltip';
 import { Help } from './Help';
-import { EfClubBadge } from './ui';
+import { EfClubBadge, EfPanel, EfButton, EfModal } from './ui';
 
 /**
  * PreMatchScreen — 3-panel layout pre-match info
@@ -37,7 +37,7 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
             className={`prematch-screen ef-art-bg ef-art-locker-room ${isDerby ? 'ef-anim-pulse-glow' : ''}`}
             style={isDerby ? { border: '3px solid #D62828', borderRadius: '4px', boxShadow: '0 0 20px rgba(214,40,40,0.4)' } : {}}
         >
-            <div className="card" style={{padding:'1rem'}}>
+            <EfPanel variant="elev" padding="lg">
                 {isDerby && (
                     <div style={{
                         marginBottom: '0.5rem',
@@ -80,13 +80,14 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                         <div style={{marginTop:'0.4rem',fontSize:'0.78rem',color:'var(--text-muted)'}}>
                             Formação: <strong>{team.formation || '4-3-3'}</strong>
                         </div>
-                        <button
-                            className="btn btn-sm btn-primary"
+                        <EfButton
+                            variant="primary"
+                            size="sm"
                             style={{marginTop:'0.5rem',width:'100%'}}
                             onClick={() => setShowFormationModal(true)}
                         >
                             🎯 Editar Posicionamento
-                        </button>
+                        </EfButton>
                     </div>
 
                     {/* CENTER: VS */}
@@ -169,37 +170,28 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                         )}
                     </div>
                 </div>
-            </div>
+            </EfPanel>
 
             {/* Formation modal */}
             {showFormationModal && (
-                <div style={{
-                    position:'fixed',
-                    top:0,left:0,right:0,bottom:0,
-                    background:'rgba(0,0,0,0.85)',
-                    display:'flex',
-                    alignItems:'center',
-                    justifyContent:'center',
-                    zIndex:9000,
-                    padding:'1rem'
-                }}>
-                    <div className="card" style={{width:'100%',maxWidth:'720px',maxHeight:'95vh',overflowY:'auto',padding:'1.25rem'}}>
-                        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem'}}>
-                            <h3 style={{margin:0}}>🎯 Posicionamento Tático</h3>
-                            <button className="btn btn-sm btn-secondary" onClick={() => setShowFormationModal(false)}>✕ Fechar</button>
-                        </div>
-                        <FormationBoard
-                            team={team}
-                            onSave={(payload) => {
-                                if (engine && engine.saveFormationLayout) {
-                                    engine.saveFormationLayout(payload);
-                                }
-                                if (onSaveLayout) onSaveLayout(payload);
-                                setShowFormationModal(false);
-                            }}
-                        />
-                    </div>
-                </div>
+                <EfModal
+                    open={showFormationModal}
+                    onClose={() => setShowFormationModal(false)}
+                    title="🎯 Posicionamento Tático"
+                    size="lg"
+                    footer={null}
+                >
+                    <FormationBoard
+                        team={team}
+                        onSave={(payload) => {
+                            if (engine && engine.saveFormationLayout) {
+                                engine.saveFormationLayout(payload);
+                            }
+                            if (onSaveLayout) onSaveLayout(payload);
+                            setShowFormationModal(false);
+                        }}
+                    />
+                </EfModal>
             )}
         </div>
     );

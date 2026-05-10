@@ -8,6 +8,9 @@
 import React, { useMemo } from 'react';
 import { useGame } from '../context/GameContext';
 import { ACHIEVEMENTS, MILESTONES } from '../engine/systems/AchievementsSystem';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgTrophyRoom from '../assets/environments/bg_trophy_room.png';
 
 const RARITY_ORDER = { Common: 0, Uncommon: 1, Rare: 2, Legendary: 3 };
 const RARITY_COLORS = {
@@ -72,88 +75,98 @@ export function AchievementsView() {
     }, [sorted]);
 
     return (
-        <div className="main-content fade-in ef-art-bg ef-art-trophy-room">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>🏆 Conquistas — {stats.unlocked}/{stats.total} ({stats.percent}%)</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
-            </div>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgTrophyRoom})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>🏆 CONQUISTAS — {stats.unlocked}/{stats.total} ({stats.percent}%)</h2>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
+                </EfPanel>
 
-            <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '0.85rem' }}>Pontos totais: <strong>{stats.totalReward}</strong></span>
-                    <div style={{
-                        flex: 1,
-                        height: '12px',
-                        margin: '0 1rem',
-                        background: 'var(--ef-color-bg-input)',
-                        borderRadius: '6px',
-                        border: '1px solid var(--ef-color-border-subtle)',
-                        overflow: 'hidden'
-                    }}>
+                <EfPanel variant="elev" padding="md">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '0.85rem' }}>Pontos totais: <strong>{stats.totalReward}</strong></span>
                         <div style={{
-                            height: '100%',
-                            width: `${stats.percent}%`,
-                            background: 'linear-gradient(90deg, #6ABC3A, #FFD700)',
-                            transition: 'width 300ms ease-out'
-                        }} />
+                            flex: 1,
+                            height: '12px',
+                            margin: '0 1rem',
+                            background: 'var(--bg-elevated, var(--ef-color-bg-input))',
+                            borderRadius: '6px',
+                            border: '1px solid var(--border-subtle, var(--ef-color-border-subtle))',
+                            overflow: 'hidden'
+                        }}>
+                            <div style={{
+                                height: '100%',
+                                width: `${stats.percent}%`,
+                                background: 'linear-gradient(90deg, #6ABC3A, #FFD700)',
+                                transition: 'width 300ms ease-out'
+                            }} />
+                        </div>
+                        <span style={{ fontSize: '0.85rem', minWidth: '60px', textAlign: 'right' }}><strong>{stats.percent}%</strong></span>
                     </div>
-                    <span style={{ fontSize: '0.85rem', minWidth: '60px', textAlign: 'right' }}><strong>{stats.percent}%</strong></span>
-                </div>
-            </div>
+                </EfPanel>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '8px' }}>
-                {sorted.map(ach => {
-                    const colors = RARITY_COLORS[ach.rarity];
-                    return (
-                        <div
-                            key={ach.id}
-                            style={{
-                                border: `2px solid ${ach.unlocked ? colors.bg : 'var(--ef-color-border-subtle)'}`,
-                                borderRadius: '4px',
-                                padding: '0.6rem',
-                                background: ach.unlocked ? `linear-gradient(135deg, ${colors.bg}22, transparent)` : 'transparent',
-                                opacity: ach.unlocked ? 1 : 0.65
-                            }}
-                        >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                                <span style={{ fontSize: '1.5rem', filter: ach.unlocked ? 'none' : 'grayscale(1)' }}>{ach.badge}</span>
-                                <div style={{ flex: 1 }}>
-                                    <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>{ach.name}</div>
-                                    <div style={{
-                                        fontSize: '0.65rem',
-                                        color: colors.bg,
-                                        fontWeight: 600,
-                                        letterSpacing: '0.05em'
-                                    }}>
-                                        {colors.label} • {ach.reward}pts
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '8px' }}>
+                    {sorted.map(ach => {
+                        const colors = RARITY_COLORS[ach.rarity];
+                        return (
+                            <EfPanel
+                                variant={ach.unlocked ? 'elev' : 'sunk'}
+                                padding="sm"
+                                key={ach.id}
+                                style={{
+                                    border: `2px solid ${ach.unlocked ? colors.bg : 'var(--border-subtle)'}`,
+                                    background: ach.unlocked ? `linear-gradient(135deg, ${colors.bg}22, transparent)` : 'var(--bg-panel-hover)',
+                                    opacity: ach.unlocked ? 1 : 0.65
+                                }}
+                            >
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                    <span style={{ fontSize: '1.5rem', filter: ach.unlocked ? 'none' : 'grayscale(1)' }}>{ach.badge}</span>
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>{ach.name}</div>
+                                        <div style={{
+                                            fontSize: '0.65rem',
+                                            color: colors.bg,
+                                            fontWeight: 600,
+                                            letterSpacing: '0.05em'
+                                        }}>
+                                            {colors.label} • {ach.reward}pts
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
-                                {ach.desc}
-                            </div>
-                            {!ach.unlocked && ach.progress > 0 && (
-                                <div style={{
-                                    height: '4px',
-                                    background: 'var(--ef-color-bg-input)',
-                                    borderRadius: '2px',
-                                    overflow: 'hidden'
-                                }}>
+                                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
+                                    {ach.desc}
+                                </div>
+                                {!ach.unlocked && ach.progress > 0 && (
                                     <div style={{
-                                        height: '100%',
-                                        width: `${ach.progress}%`,
-                                        background: colors.bg
-                                    }} />
-                                </div>
-                            )}
-                            {ach.unlocked && (
-                                <div style={{ fontSize: '0.7rem', color: colors.bg, fontWeight: 700 }}>
-                                    ✓ DESBLOQUEADA
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
+                                        height: '4px',
+                                        background: 'var(--bg-elevated)',
+                                        borderRadius: '2px',
+                                        overflow: 'hidden'
+                                    }}>
+                                        <div style={{
+                                            height: '100%',
+                                            width: `${ach.progress}%`,
+                                            background: colors.bg
+                                        }} />
+                                    </div>
+                                )}
+                                {ach.unlocked && (
+                                    <div style={{ fontSize: '0.7rem', color: colors.bg, fontWeight: 700 }}>
+                                        ✓ DESBLOQUEADA
+                                    </div>
+                                )}
+                            </EfPanel>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
