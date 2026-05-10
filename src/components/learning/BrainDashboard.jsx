@@ -2,12 +2,12 @@
  * BrainDashboard — Visual ML Dashboard for AutoPlay
  *
  * Shows what the AdaptiveBrain is learning:
- * - Q-Table heatmap (state × action)
- * - Learning curve (cumulative reward over time)
+ * - Personality traits (OCEAN-derived)
+ * - Q-Table stats
+ * - Learning curve (reward sparkline)
  * - Action distribution (bar chart)
  * - State exploration map
  * - Episodic memory timeline
- * - Personality profile
  */
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -18,23 +18,27 @@ const BAR_COLORS = [
     '#14b8a6', '#f97316', '#ec4899', '#22d3ee', '#84cc16'
 ];
 
+const EMPTY = {
+    qTable: {}, visitCount: {}, totalUpdates: 0,
+    memory: [], traits: {}, archetypeLabel: 'Bot',
+    topActions: [], decisions: [],
+};
+
 export function BrainDashboard({ controllerRef }) {
     const [expanded, setExpanded] = useState(true);
-    const [brainData, setBrainData] = useState(null);
+    const [brainData, setBrainData] = useState(EMPTY);
 
     // Poll brain data every 500ms (safe ref access inside effect)
     useEffect(() => {
         const interval = setInterval(() => {
             const ctrl = controllerRef?.current;
-            if (!ctrl?.brain) { setBrainData(null); return; }
+            if (!ctrl?.brain) return;
             const b = ctrl.brain;
             setBrainData({
-                qTable: { ...b.qTable },
-                visitCount: { ...b.visitCount },
+                qTable: b.qTable || {},
+                visitCount: b.visitCount || {},
                 totalUpdates: b.totalUpdates || 0,
-                memory: [...(b.memory || [])],
-                personality: b.personality || {},
-                // Extract flat numeric traits for rendering (avoid nested objects)
+                memory: b.memory || [],
                 traits: b.personality?.traits || b.personality?.ocean || {},
                 archetypeLabel: b.personality?.label || b.personality?.id || 'Bot',
                 topActions: typeof b.topActions === 'function' ? b.topActions(10) : [],
@@ -44,14 +48,10 @@ export function BrainDashboard({ controllerRef }) {
         return () => clearInterval(interval);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (!brainData) return null;
-
+    // ALL hooks MUST be called before any early return (Rules of Hooks)
     const { qTable, visitCount, totalUpdates, memory, traits, archetypeLabel, topActions, decisions } = brainData;
     const stateKeys = Object.keys(qTable);
 
-    // === Compute derived data ===
-
-    // Action frequency from decisions
     const actionFreq = useMemo(() => {
         const freq = {};
         (decisions || []).forEach(d => {
@@ -60,38 +60,34 @@ export function BrainDashboard({ controllerRef }) {
         return Object.entries(freq)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 12);
-    }, [decisions?.length]);
+    }, [decisions]);
 
-    // Total decisions for percentage
     const totalDecisions = actionFreq.reduce((s, [, n]) => s + n, 0);
 
-    // State exploration stats
     const stateVisits = useMemo(() => {
         return stateKeys
             .map(k => ({ state: k, visits: visitCount[k] || 0 }))
             .sort((a, b) => b.visits - a.visits);
-    }, [totalUpdates]);
+    }, [stateKeys.length, totalUpdates]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // Reward history from memory
     const rewardHistory = useMemo(() => {
-        return memory
+        return (memory || [])
             .filter(m => m.reward != null)
             .map((m, i) => ({ idx: i, reward: m.reward, action: m.action || m.decision || '?', week: m.week }));
-    }, [memory.length]);
+    }, [memory]);
 
-    // Cumulative reward
     const cumulativeReward = useMemo(() => {
         let total = 0;
         return rewardHistory.map(r => { total += r.reward; return total; });
-    }, [rewardHistory.length]);
+    }, [rewardHistory]);
 
-    // Q-value range for heatmap
     const allQValues = stateKeys.flatMap(s => Object.values(qTable[s] || {}));
     const qMin = allQValues.length > 0 ? Math.min(...allQValues) : 0;
     const qMax = allQValues.length > 0 ? Math.max(...allQValues) : 1;
-
-    // Unique actions in Q-table
     const allActions = [...new Set(stateKeys.flatMap(s => Object.keys(qTable[s] || {})))].sort();
+
+    // Now safe to early return — all hooks called above
+    if (totalUpdates === 0 && stateKeys.length === 0 && decisions.length === 0) return null;
 
     return (
         <div className="card" style={{ padding: '0.75rem', marginBottom: '0.75rem' }}>
@@ -119,7 +115,7 @@ export function BrainDashboard({ controllerRef }) {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '10px' }}>
                         {/* Personality */}
                         <div style={cardStyle}>
-                            <div style={titleStyle}>🎭 Personalidade — {archetypeLabel}</div>
+                            <div style={titleStyle}>🎭 Personalidade — {String(archetypeLabel)}</div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                 {Object.entries(traits).map(([trait, val]) => {
                                     if (typeof val !== 'number') return null;
@@ -127,7 +123,7 @@ export function BrainDashboard({ controllerRef }) {
                                     return (
                                         <div key={trait} style={{ fontSize: '0.7rem' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <span style={{ textTransform: 'capitalize' }}>{trait}</span>
+                                                <span style={{ textTransform: 'capitalize' }}>{String(trait)}</span>
                                                 <span style={{ color: '#6ABC3A', fontWeight: 700 }}>{pct}%</span>
                                             </div>
                                             <div style={barBg}>
@@ -172,7 +168,7 @@ export function BrainDashboard({ controllerRef }) {
                                 return (
                                     <div key={action} style={{ fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                         <span style={{ minWidth: '110px', color: 'var(--text-muted)', textAlign: 'right' }}>
-                                            {action}
+                                            {String(action)}
                                         </span>
                                         <div style={{ flex: 1, ...barBg, height: '14px' }}>
                                             <div style={{
@@ -208,20 +204,20 @@ export function BrainDashboard({ controllerRef }) {
                             <div style={titleStyle}>🏆 Top Ações (Q-value total)</div>
                             {topActions.length === 0 && <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Sem dados — rode o autoplay</div>}
                             {topActions.map((a, i) => (
-                                <div key={a.action} style={{
+                                <div key={String(a.action)} style={{
                                     display: 'flex', justifyContent: 'space-between',
                                     fontSize: '0.7rem', padding: '2px 0',
                                     borderBottom: '1px solid rgba(255,255,255,0.05)'
                                 }}>
-                                    <span>{i + 1}. {a.action}</span>
+                                    <span>{i + 1}. {String(a.action)}</span>
                                     <strong style={{ color: a.totalQ >= 0 ? '#6ABC3A' : '#ef4444' }}>
-                                        {a.totalQ >= 0 ? '+' : ''}{a.totalQ.toFixed(1)}
+                                        {a.totalQ >= 0 ? '+' : ''}{Number(a.totalQ).toFixed(1)}
                                     </strong>
                                 </div>
                             ))}
                         </div>
 
-                        {/* Reward Sparkline (ASCII-style) */}
+                        {/* Reward Sparkline */}
                         <div style={cardStyle}>
                             <div style={titleStyle}>📈 Reward Curve (últimas {rewardHistory.length} decisões)</div>
                             {rewardHistory.length === 0 && <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Sem dados — rode o autoplay</div>}
@@ -231,18 +227,16 @@ export function BrainDashboard({ controllerRef }) {
                                         const maxAbs = Math.max(1, ...rewardHistory.slice(-30).map(x => Math.abs(x.reward)));
                                         const normalized = r.reward / maxAbs;
                                         const height = Math.abs(normalized) * 50;
-                                        const isPositive = r.reward >= 0;
                                         return (
                                             <div
                                                 key={i}
-                                                title={`wk${r.week}: ${r.action} → ${r.reward.toFixed(1)}`}
+                                                title={`wk${r.week}: ${r.action} → ${Number(r.reward).toFixed(1)}`}
                                                 style={{
                                                     flex: 1,
                                                     height: `${height}px`,
                                                     minHeight: '2px',
-                                                    background: isPositive ? '#6ABC3A' : '#ef4444',
+                                                    background: r.reward >= 0 ? '#6ABC3A' : '#ef4444',
                                                     borderRadius: '1px',
-                                                    alignSelf: isPositive ? 'flex-end' : 'flex-end',
                                                     opacity: 0.8
                                                 }}
                                             />
@@ -258,7 +252,8 @@ export function BrainDashboard({ controllerRef }) {
                         <div style={titleStyle}>🗺️ States Explorados ({stateVisits.length})</div>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', maxHeight: '120px', overflowY: 'auto' }}>
                             {stateVisits.slice(0, 30).map(sv => {
-                                const intensity = Math.min(1, sv.visits / Math.max(1, ...stateVisits.map(s => s.visits)));
+                                const maxVisits = stateVisits.length > 0 ? stateVisits[0].visits : 1;
+                                const intensity = Math.min(1, sv.visits / Math.max(1, maxVisits));
                                 return (
                                     <div
                                         key={sv.state}
@@ -273,7 +268,7 @@ export function BrainDashboard({ controllerRef }) {
                                             color: intensity > 0.5 ? '#fff' : 'var(--text-muted)'
                                         }}
                                     >
-                                        {sv.state} <strong>({sv.visits})</strong>
+                                        {String(sv.state)} <strong>({sv.visits})</strong>
                                     </div>
                                 );
                             })}
@@ -291,13 +286,13 @@ export function BrainDashboard({ controllerRef }) {
                                     borderBottom: '1px solid rgba(255,255,255,0.04)'
                                 }}>
                                     <span style={{ color: 'var(--text-muted)' }}>wk{m.week ?? '?'}</span>
-                                    <span style={{ flex: 1 }}>{m.action || m.decision || '?'}</span>
+                                    <span style={{ flex: 1 }}>{String(m.action || m.decision || '?')}</span>
                                     <span style={{ color: m.result === 'W' ? '#6ABC3A' : m.result === 'L' ? '#ef4444' : '#f59e0b' }}>
-                                        {m.result || ''}
+                                        {String(m.result || '')}
                                     </span>
                                     {m.reward != null && (
                                         <strong style={{ color: m.reward >= 0 ? '#6ABC3A' : '#ef4444', minWidth: '35px', textAlign: 'right' }}>
-                                            {m.reward >= 0 ? '+' : ''}{m.reward.toFixed(1)}
+                                            {m.reward >= 0 ? '+' : ''}{Number(m.reward).toFixed(1)}
                                         </strong>
                                     )}
                                 </div>
@@ -319,8 +314,8 @@ export function BrainDashboard({ controllerRef }) {
 function MiniStat({ label, value, color }) {
     return (
         <div style={{ textAlign: 'center', padding: '4px' }}>
-            <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{label}</div>
-            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: color || 'var(--text)' }}>{value}</div>
+            <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{String(label)}</div>
+            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: color || 'var(--text)' }}>{String(value)}</div>
         </div>
     );
 }
@@ -359,9 +354,17 @@ function traitColor(trait) {
     const map = {
         ambition: '#f59e0b',
         riskAversion: '#ef4444',
+        riskAppetite: '#ef4444',
         loyalty: '#3b82f6',
         creativity: '#a78bfa',
         patience: '#14b8a6',
+        temperament: '#14b8a6',
+        tacticalFlex: '#a78bfa',
+        O: '#f59e0b',
+        C: '#3b82f6',
+        E: '#ef4444',
+        A: '#14b8a6',
+        N: '#a78bfa',
     };
     return map[trait] || '#6ABC3A';
 }

@@ -686,6 +686,9 @@ export class AutoPlayController {
         const relegated = this._lastDivisionForReward !== null
             && this.engine?.getTeam?.(this.engine.manager?.teamId)?.division > this._lastDivisionForReward;
 
+        // MARL Fase 3: Prospect Theory — pass emotional loss modifier to reward shaping
+        const emoMods = this.brain.emotions ? this.brain.emotions.getModifiers() : { lossMod: 1.0 };
+
         const reward = computeReward({
             matchResult: currentCtx.lastResult,
             balanceDelta,
@@ -695,7 +698,8 @@ export class AutoPlayController {
             title: false,
             goalsScored: this._lastMatchGoalsScored || 0,
             goalsAllowed: this._lastMatchGoalsAllowed || 0,
-            scoreDiff: this._lastMatchScoreDiff || 0
+            scoreDiff: this._lastMatchScoreDiff || 0,
+            emotionalLossMod: emoMods.lossMod
         });
 
         const nextStateKey = encodeState(currentCtx);
@@ -1141,6 +1145,13 @@ export class AutoPlayController {
                     this._lastMatchGoalsAllowed = oppGoals;
                     this._lastMatchScoreDiff = diff;
 
+                    // MARL Fase 2: Feed EmotionalEngine with match result
+                    try {
+                        const streak = this.engine.managerStats?.streak || 0;
+                        const isRelRisk = myPos > (n * 0.75);
+                        this.brain.processMatchResult(outcome, streak, isRelRisk);
+                    } catch { /* defensive — emotional engine must not break tick */ }
+
                     if (diff > 0) {
                         this.stats.wins++;
                         // Biggest win check
@@ -1274,6 +1285,8 @@ export class AutoPlayController {
                     season: seasonNum - 1
                 });
                 this.stats.insights.titlesWon++;
+                // MARL Fase 2: Title event → Emotional Engine
+                try { this.brain.processSeasonEvent('TITLE'); } catch { /* defensive */ }
             }
             this._lastTitlesCount = titlesNow;
 
@@ -1285,12 +1298,16 @@ export class AutoPlayController {
                         to: team.division
                     });
                     this.stats.insights.promotionsWon++;
+                    // MARL Fase 2: Promotion → Emotional Engine
+                    try { this.brain.processSeasonEvent('PROMOTION'); } catch { /* defensive */ }
                 } else {
                     this._logSuccess('RELEGATION', `⬇️ Caiu pra Série ${['A','B','C','D'][team.division - 1]}`, {
                         from: this._lastDivision,
                         to: team.division
                     });
                     this.stats.insights.relegationsTaken++;
+                    // MARL Fase 2: Near-relegation → feed anxiety
+                    try { this.brain.processSeasonEvent('RELEGATION_RISK'); } catch { /* defensive */ }
                 }
             }
             this._lastDivision = team.division;

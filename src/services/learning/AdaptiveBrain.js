@@ -1,32 +1,38 @@
 import { rng as systemRng } from '../../engine/rng.js';
-import { ARCHETYPES, generateRandomPersonality, checkIsTilted } from './Archetypes.js';
+import { ARCHETYPES, generatePersonality, generateRandomPersonality, checkIsTilted, deriveTraits } from './Archetypes.js';
+import { EmotionalEngine } from './EmotionalEngine.js';
+
 /**
- * AdaptiveBrain — SPEC-115 + SPEC-116 + SPEC-117
+ * AdaptiveBrain — SPEC-115 + SPEC-116 + SPEC-117 + MARL Roadmap Fases 1-3
  *
- * Q-learning tabular with Bayesian fallback for cold-start.
- * Goal hierarchy modulates action selection.
+ * Q-learning tabular with:
+ *   - OCEAN personality system (Fase 1)
+ *   - Emotional State Machine (Fase 2)
+ *   - Prospect Theory reward shaping (Fase 3)
+ *   - Bayesian fallback for cold-start
+ *   - Goal hierarchy modulated by personality traits
  *
  * Persists to localStorage 'elifoot_autoplay_brain'.
  *
- * Pure functions where possible. Class encapsulates Q-table + state.
- *
  * Usage:
- *   const brain = new AdaptiveBrain();
- *   const action = brain.pickAction(state, availableActions);
- *   // ... apply action, get outcome ...
+ *   const brain = new AdaptiveBrain('GUARDIOLA');
+ *   const action = brain.pickAction(state, availableActions, ctx);
+ *   brain.processMatchResult('W', 3);
  *   brain.observe(state, action, reward, nextState);
  */
 
 const STORAGE_KEY = 'elifoot_autoplay_brain';
 const ALPHA = 0.1;       // learning rate
 const GAMMA = 0.9;       // discount factor
-const EPSILON = 0.15;    // exploration rate
+const BASE_EPSILON = 0.15;    // base exploration rate
 const MAX_BUCKETS = 500; // bound table size
 
-const POS_TIERS = ['top4', 'mid', 'bottom'];
-const BAL_TIERS = ['red', 'low', 'mid', 'rich'];
-const FORM_TIERS = ['poor', 'avg', 'good'];
-const WEEK_PHASES = ['early', 'mid', 'late'];
+// ─── PROSPECT THEORY CONSTANTS (Fase 3) ──────────────────────
+const LOSS_AVERSION_LAMBDA = 2.0;   // Kahneman: losses hurt 2x more
+const DIMINISHING_GAINS_ALPHA = 0.88; // concavity for gains
+const RISK_SEEKING_LOSSES_BETA = 0.88; // convexity for losses
+
+// ─── STATE ENCODING ──────────────────────────────────────────
 
 /**
  * Encode engine state to bucket key.
@@ -56,15 +62,16 @@ export function encodeState(ctx = {}) {
     const phase = w < 13 ? 'early' : (w < 26 ? 'mid' : 'late');
 
     const last = ctx.lastResult || '-';
-    // BUG-042: add squadTier to diversify state space (was only 7 states explored
-    // in playtest 3 because squad context same all run).
+    // BUG-042: add squadTier to diversify state space
     const squadSize = ctx.squadSize || 0;
     const squadTier = squadSize < 11 ? 'thin' : (squadSize < 18 ? 'normal' : 'deep');
     return `${formTier}|${posTier}|${balTier}|${phase}|${last}|${squadTier}`;
 }
 
+// ─── GOAL DETECTION ──────────────────────────────────────────
+
 /**
- * Detect active goals based on state context.
+ * Detect active goals based on state context + personality traits.
  * Returns array of { goal, weight }.
  */
 export function detectGoals(ctx = {}, personality = null) {
@@ -72,18 +79,25 @@ export function detectGoals(ctx = {}, personality = null) {
     const totalTeams = ctx.totalTeams || 20;
     const pos = ctx.position || totalTeams;
 
+    // Base weights
     let relW = 1.0;
     let finW = 0.8;
     let climbW = 0.6;
     let squadW = 0.4;
     let winW = 0.3;
 
-    if (personality) {
-        winW += personality.ambition * 0.5;
-        climbW += personality.ambition * 0.3;
-        finW += personality.riskAversion * 0.5;
-        squadW += personality.loyalty * 0.4;
+    // Modulate by OCEAN-derived traits
+    const traits = personality?.traits || personality || {};
+    if (traits.ambition != null) {
+        winW += traits.ambition * 0.5;
+        climbW += traits.ambition * 0.3;
     }
+    if (traits.loyalty != null) {
+        squadW += traits.loyalty * 0.4;
+    }
+    // Conscientiousness → financial discipline
+    const conscient = personality?.ocean?.C ?? 0.5;
+    finW += conscient * 0.4;
 
     if (pos > totalTeams * 0.75) goals.push({ goal: 'AVOID_RELEGATION', weight: relW });
     if ((ctx.balance || 0) < 0) goals.push({ goal: 'FINANCIAL_HEALTH', weight: finW });
@@ -94,47 +108,28 @@ export function detectGoals(ctx = {}, personality = null) {
     return goals;
 }
 
-/**
- * Action relevance per goal — higher = more aligned.
- * Range -1..1. Negative = action HURTS goal.
- */
+// ─── GOAL RELEVANCE MATRIX ───────────────────────────────────
+
 const GOAL_RELEVANCE = {
     AVOID_RELEGATION: {
-        TACTIC_defensive: 0.7,
-        TACTIC_normal: 0.4,
-        TACTIC_attacking: -0.2,
-        TRAIN_fitness: 0.6,
-        TRAIN_tactical: 0.5,
-        UPGRADE_STADIUM: -0.5,
-        UPGRADE_ACADEMY: -0.3,
-        SQUAD_REPLENISH: 0.7
+        TACTIC_defensive: 0.7, TACTIC_normal: 0.4, TACTIC_attacking: -0.2,
+        TRAIN_fitness: 0.6, TRAIN_tactical: 0.5,
+        UPGRADE_STADIUM: -0.5, UPGRADE_ACADEMY: -0.3, SQUAD_REPLENISH: 0.7
     },
     FINANCIAL_HEALTH: {
-        UPGRADE_STADIUM: -0.8,
-        UPGRADE_ACADEMY: -0.5,
-        ACCEPT_OFFER: 0.9,
-        TACTIC_defensive: 0.2,
-        SQUAD_REPLENISH: -0.2
+        UPGRADE_STADIUM: -0.8, UPGRADE_ACADEMY: -0.5, ACCEPT_OFFER: 0.9,
+        TACTIC_defensive: 0.2, SQUAD_REPLENISH: -0.2
     },
     CLIMB_POSITION: {
-        TACTIC_attacking: 0.7,
-        TACTIC_counter: 0.5,
-        TRAIN_attack: 0.6,
-        TRAIN_technical: 0.5,
-        FORMATION: 0.4
+        TACTIC_attacking: 0.7, TACTIC_counter: 0.5,
+        TRAIN_attack: 0.6, TRAIN_technical: 0.5, FORMATION: 0.4
     },
     SQUAD_DEPTH: {
-        SQUAD_REPLENISH: 1.0,
-        UPGRADE_ACADEMY: 0.6,
-        ACCEPT_OFFER: -0.4,
-        TRAIN_fitness: 0.2
+        SQUAD_REPLENISH: 1.0, UPGRADE_ACADEMY: 0.6, ACCEPT_OFFER: -0.4, TRAIN_fitness: 0.2
     },
     WIN_TITLE: {
-        TACTIC_attacking: 0.6,
-        TACTIC_counter: 0.5,
-        TRAIN_attack: 0.5,
-        TRAIN_technical: 0.4,
-        UPGRADE_STADIUM: 0.3
+        TACTIC_attacking: 0.6, TACTIC_counter: 0.5,
+        TRAIN_attack: 0.5, TRAIN_technical: 0.4, UPGRADE_STADIUM: 0.3
     }
 };
 
@@ -143,65 +138,142 @@ export function actionRelevance(action, goal) {
     return map[action] ?? 0;
 }
 
+// ─── PROSPECT THEORY REWARD (Fase 3) ─────────────────────────
+
+/**
+ * Prospect Theory value function.
+ * - Gains: v(x) = x^α           (concave → risk-averse when winning)
+ * - Losses: v(x) = -λ·|x|^β     (convex → risk-seeking when losing)
+ *
+ * @param {number} x — raw reward delta
+ * @returns {number} perceived value
+ */
+function prospectValue(x) {
+    if (x >= 0) {
+        return Math.pow(x, DIMINISHING_GAINS_ALPHA);
+    }
+    return -LOSS_AVERSION_LAMBDA * Math.pow(Math.abs(x), RISK_SEEKING_LOSSES_BETA);
+}
+
 /**
  * Compute reward from match + state delta.
- * BUG-041 fix: more granular signal so brain doesn't end with all-negative Q-values
- * when team consistently loses (1245× streak in playtest 3).
- * Adds: own-goals-scored bonus, clean sheet bonus, soft floor for narrow losses.
+ * Now uses Prospect Theory (Fase 3):
+ *   - Losses weighted 2x heavier (loss aversion)
+ *   - Gains have diminishing returns (risk aversion when ahead)
+ *   - Reference point = expected position for division
+ *
+ * @param {Object} params
+ * @param {number} [params.emotionalLossMod=1.0] — from EmotionalEngine
  */
 export function computeReward({
     matchResult, balanceDelta, positionDelta, promoted, relegated, title,
-    goalsScored = 0, goalsAllowed = 0, scoreDiff = 0
+    goalsScored = 0, goalsAllowed = 0, scoreDiff = 0,
+    emotionalLossMod = 1.0
 }) {
     let r = 0;
-    // Match result base
+
+    // Match result base (raw, before Prospect Theory)
     if (matchResult === 'W') r += 10;
     else if (matchResult === 'D') r += 2;
     else if (matchResult === 'L') {
-        // BUG-041: soften crushing losses but reward narrow ones (closer to draw)
-        if (Math.abs(scoreDiff) <= 1) r -= 1;       // narrow loss
-        else if (Math.abs(scoreDiff) <= 3) r -= 3;  // moderate loss
-        else r -= 5;                                 // big loss
+        // BUG-041: soften crushing losses but reward narrow ones
+        if (Math.abs(scoreDiff) <= 1) r -= 1;
+        else if (Math.abs(scoreDiff) <= 3) r -= 3;
+        else r -= 5;
+        // Emotional amplification: ANXIOUS/TILTED feel losses harder
+        r *= emotionalLossMod;
     }
+
     // BUG-041: own scoring is intrinsic positive signal even in loss
     r += Math.min(5, goalsScored * 1.5);
     // Defensive performance
-    if (matchResult !== 'L' && goalsAllowed === 0) r += 3; // clean sheet bonus
-    // Balance trend
-    if (balanceDelta) r += Math.max(-10, Math.min(10, balanceDelta / 1_000_000));
-    // Position movement
-    if (positionDelta) r += positionDelta * 2;
-    // Season events
+    if (matchResult !== 'L' && goalsAllowed === 0) r += 3;
+
+    // Balance trend — apply Prospect Theory
+    if (balanceDelta) {
+        const balReward = balanceDelta / 1_000_000;
+        r += prospectValue(Math.max(-10, Math.min(10, balReward)));
+    }
+
+    // Position movement — apply Prospect Theory
+    if (positionDelta) {
+        r += prospectValue(positionDelta * 2);
+    }
+
+    // Season events (kept large and symmetric — these are categorical, not marginal)
     if (promoted) r += 50;
-    if (relegated) r -= 100;
+    if (relegated) r -= 100 * emotionalLossMod;
     if (title) r += 200;
+
     return r;
 }
 
+// ─── ADAPTIVE BRAIN CLASS ────────────────────────────────────
+
 export class AdaptiveBrain {
+    /**
+     * @param {string|null} personalityId — archetype seed (e.g. 'GUARDIOLA')
+     */
     constructor(personalityId = null) {
-        this.qTable = {}; // { stateKey: { actionKey: number } }
-        this.visitCount = {}; // { stateKey: number }
+        this.qTable = {};
+        this.visitCount = {};
         this.totalUpdates = 0;
         this.lastSavedAt = 0;
-        this.personality = personalityId && ARCHETYPES[personalityId] 
-            ? ARCHETYPES[personalityId] 
+
+        // Fase 1: OCEAN personality
+        this.personality = personalityId
+            ? generatePersonality(personalityId)
             : generateRandomPersonality();
+
+        // Fase 2: Emotional State Machine
+        this.emotions = new EmotionalEngine(this.personality);
+
         // SPEC-122 BUG-054: episodic memory — last N decisions+outcomes for RAG.
-        this.memory = []; // [{ decision, outcome, week, season, reward, ts }]
+        this.memory = [];
         this.memoryMax = 30;
+
         this._restore();
     }
+
+    // ─── EMOTIONAL INTERFACE (Fase 2) ────────────────────────
+
+    /**
+     * Process a match result through the Emotional Engine.
+     * Call this AFTER each match to update the bot's emotional state.
+     *
+     * @param {'W'|'D'|'L'} result
+     * @param {number} streak — current streak (positive=wins, negative=losses)
+     * @param {boolean} [isRelegationRisk=false]
+     * @returns {{ from, to, changed }}
+     */
+    processMatchResult(result, streak, isRelegationRisk = false) {
+        const event = result === 'W' ? 'WIN' : result === 'D' ? 'DRAW' : 'LOSS';
+        return this.emotions.processEvent(event, streak, isRelegationRisk);
+    }
+
+    /**
+     * Process a major season event.
+     * @param {'TITLE'|'PROMOTION'|'RELEGATION_RISK'|'STREAK_BROKEN'} event
+     */
+    processSeasonEvent(event, streak = 0) {
+        return this.emotions.processEvent(event, streak);
+    }
+
+    /**
+     * Get current emotional state name.
+     */
+    get emotionalState() {
+        return this.emotions.state;
+    }
+
+    // ─── MEMORY ──────────────────────────────────────────────
 
     /**
      * Append decision+outcome to episodic memory (ring buffer).
      */
     remember(entry) {
         if (!entry) return;
-        this.memory.push({
-            ts: Date.now(),
-            ...entry
-        });
+        this.memory.push({ ts: Date.now(), ...entry });
         if (this.memory.length > this.memoryMax) {
             this.memory = this.memory.slice(-this.memoryMax);
         }
@@ -217,6 +289,8 @@ export class AdaptiveBrain {
         }).join('\n');
     }
 
+    // ─── PERSISTENCE ─────────────────────────────────────────
+
     _restore() {
         try {
             if (typeof localStorage === 'undefined') return;
@@ -228,6 +302,7 @@ export class AdaptiveBrain {
             if (typeof parsed.totalUpdates === 'number') this.totalUpdates = parsed.totalUpdates;
             if (Array.isArray(parsed.memory)) this.memory = parsed.memory;
             if (parsed.personality) this.personality = parsed.personality;
+            if (parsed.emotions) this.emotions.restore(parsed.emotions);
         } catch { /* ignore */ }
     }
 
@@ -240,6 +315,7 @@ export class AdaptiveBrain {
                 totalUpdates: this.totalUpdates,
                 memory: this.memory,
                 personality: this.personality,
+                emotions: this.emotions.serialize(),
                 savedAt: Date.now()
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -252,36 +328,46 @@ export class AdaptiveBrain {
         this.visitCount = {};
         this.totalUpdates = 0;
         this.memory = [];
+        this.emotions.forceState('CALM');
         try {
             if (typeof localStorage !== 'undefined') localStorage.removeItem(STORAGE_KEY);
         } catch { /* ignore */ }
     }
 
-    /**
-     * Q-value for state-action pair (default 0 if unseen).
-     */
+    // ─── Q-LEARNING CORE ─────────────────────────────────────
+
     getQ(stateKey, actionKey) {
         return this.qTable[stateKey]?.[actionKey] ?? 0;
     }
 
     /**
-     * Pick action: epsilon-greedy + goal modulation.
+     * Pick action: epsilon-greedy + goal modulation + emotional modifiers.
      */
     pickAction(stateKey, availableActions, ctx = {}) {
         if (!Array.isArray(availableActions) || availableActions.length === 0) return null;
 
-        // TILT MECHANIC: Se estiver tiltado, joga no aleatório irracional (alta chance)
+        const emo = this.emotions.getModifiers();
+
+        // Emotional tactic override (DESPERATE forces attacking)
+        if (emo.tacticOverride) {
+            const forced = availableActions.find(a => a.includes(emo.tacticOverride));
+            if (forced) return forced;
+        }
+
+        // Effective epsilon = base × emotional modifier
+        const effectiveEpsilon = Math.min(0.95, BASE_EPSILON * emo.epsilonMod);
+
+        // TILT MECHANIC: high epsilonMod makes decisions erratic
         const lossStreak = ctx.lossStreak || 0;
         if (checkIsTilted(this.personality, lossStreak)) {
-            // Quando tiltado, age aleatoriamente 50% das vezes (ignora RL)
             if (systemRng() < 0.5) {
                 return availableActions[Math.floor(systemRng() * availableActions.length)];
             }
         }
 
-        // Cold start: state unseen → uniform random
+        // Cold start or exploration
         const visits = this.visitCount[stateKey] || 0;
-        if (visits < 3 || systemRng() < EPSILON) {
+        if (visits < 3 || systemRng() < effectiveEpsilon) {
             return availableActions[Math.floor(systemRng() * availableActions.length)];
         }
 
@@ -333,9 +419,8 @@ export class AdaptiveBrain {
         if (this.totalUpdates % 50 === 0) this.save();
     }
 
-    /**
-     * Top-N actions across all states by total Q-value.
-     */
+    // ─── ANALYTICS ───────────────────────────────────────────
+
     topActions(limit = 10) {
         const tally = {};
         for (const stateKey of Object.keys(this.qTable)) {
@@ -353,7 +438,14 @@ export class AdaptiveBrain {
         return {
             states: Object.keys(this.qTable).length,
             totalUpdates: this.totalUpdates,
-            topActions: this.topActions(5)
+            topActions: this.topActions(5),
+            personality: {
+                id: this.personality?.id,
+                label: this.personality?.label,
+                ocean: this.personality?.ocean,
+                traits: this.personality?.traits
+            },
+            emotional: this.emotions.summary()
         };
     }
 }
