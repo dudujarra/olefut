@@ -10,8 +10,10 @@ import { ChallengesWidget } from './ChallengesWidget';
 import { getAllAchievements } from '../engine/MetaProgression';
 import TrophyCeremony from './TrophyCeremony';
 import { UnlockTooltip, AhaMomentCard, AchievementPopup } from './ProgressiveDisclosure';
+import { ScarcityBanner, DreadIndicator, useKeyboardNav, TutorialOverlay, IronmanMode } from './GDDSystems';
 import '../styles/trophy-ceremony.css';
 import '../styles/progressive-disclosure.css';
+import '../styles/gdd-systems.css';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -22,6 +24,13 @@ export function DashboardView() {
     const [tab, setTab] = useState('overview');
     const [pendingUnlock, setPendingUnlock] = useState(null);
     const [pendingAchievement, setPendingAchievement] = useState(null);
+    const [showTutorial, setShowTutorial] = useState(() => {
+        try { return !localStorage.getItem('elifoot_tutorial_done') && (engine?.seasonNumber || 1) === 1; }
+        catch { return false; }
+    });
+
+    // §22.7: Keyboard navigation
+    useKeyboardNav({ changeView, currentView: gameState?.view || 'dashboard' });
 
     // §19.1: Detect newly unlocked views and show tooltip
     React.useEffect(() => {
@@ -166,6 +175,11 @@ export function DashboardView() {
                             </div>
                         </div>
                     )}
+                    {/* §12.4 #6: Scarcity urgency */}
+                    <ScarcityBanner engine={engine} />
+
+                    {/* §12.4 #8: Loss Avoidance dread */}
+                    <DreadIndicator engine={engine} />
 
                     {/* §19.3: Aha Moment — contextual teaching */}
                     <AhaMomentCard engine={engine} />
@@ -599,6 +613,9 @@ export function DashboardView() {
                 </div>
                 <div className="build">ELIFOOT MANAGER 2026 — BUILD 0.9.0</div>
             </div>
+
+            {/* §17: Step-by-step tutorial */}
+            <TutorialOverlay visible={showTutorial} onDismiss={() => setShowTutorial(false)} />
         </div>
     );
 }

@@ -22,6 +22,8 @@ import { MonitorService } from './MonitorService';
 import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
 import { AdaptiveBrain, encodeState, computeReward } from './learning/AdaptiveBrain.js';
 import { LLMBridge, decideSellHeuristic, detectMonotonyHeuristic, generateGameDesignInsights } from './learning/LLMBridge.js';
+import { applyChallengeMode, checkChallengeWin, getAllChallengeModes } from '../engine/ChallengeModes.js';
+import { SessionMetrics } from '../components/GDDSystems.jsx';
 
 import { rng as systemRng } from '../engine/rng.js';
 
@@ -105,6 +107,12 @@ export class AutoPlayController {
         // BUG-066 fix: restore stats from localStorage. Was zeroing on refresh
         // even though _save() wrote them — only brain had its own restore path.
         this._restoreStats();
+
+        // §14.2: Challenge mode tracking
+        this._challengeModesAvailable = getAllChallengeModes();
+
+        // §17: Session time metrics
+        this._sessionMetrics = new SessionMetrics();
     }
 
     /**
@@ -232,6 +240,42 @@ export class AutoPlayController {
                 });
                 this.engine.trophyCeremony = null;
             }
+
+            // §14.2: Check challenge mode win condition
+            try {
+                const challengeWin = checkChallengeWin(this.engine);
+                if (challengeWin) {
+                    this._logSuccess('CHALLENGE_WIN', `🎯 Desafio "${challengeWin.name}" completo!`, {
+                        mode: challengeWin.id, emoji: challengeWin.emoji
+                    });
+                }
+            } catch { /* challenge non-critical */ }
+
+            // §12.4 #6: Scarcity telemetry — log transfer window pressure
+            try {
+                const seasonWeek = ((this.engine.currentWeek - 1) % 38) + 1;
+                const team = this.engine.getTeam(this.engine.manager?.teamId);
+                if (seasonWeek >= 18 && seasonWeek <= 22 && team) {
+                    this._logDecision('SCARCITY_WINDOW', {
+                        week: seasonWeek, balance: team.balance,
+                        windowClosing: seasonWeek >= 21
+                    }, 0);
+                }
+                // §12.4 #8: Loss avoidance dread telemetry
+                if (team) {
+                    const standings = this.engine.getStandings(team.zone, team.division);
+                    const pos = standings?.findIndex(s => s.teamId === team.id);
+                    const total = standings?.length || 20;
+                    if (pos !== undefined && pos >= total - 4) {
+                        this._logDecision('DREAD_RELEGATION', {
+                            position: pos + 1, total, boardConf: this.engine.board?.confidence
+                        }, 0);
+                    }
+                }
+            } catch { /* scarcity non-critical */ }
+
+            // §17: Track session metrics
+            this._sessionMetrics.recordAction();
 
             // §17: Auto-answer press conferences (random option)
             try {
@@ -497,6 +541,8 @@ export class AutoPlayController {
             // Save every 38 weeks (1 season)
             if (this.stats.weeksPlayed % 38 === 0) {
                 this.stats.seasonsPlayed++;
+                // §17: Record match for session metrics
+                this._sessionMetrics.recordMatch();
                 // SPEC-123: snapshot per-season for learning curve viz
                 if (!Array.isArray(this.stats.seasonHistory)) this.stats.seasonHistory = [];
                 const seasonRec = {
@@ -507,7 +553,10 @@ export class AutoPlayController {
                     transfers: this.stats.transfers,
                     matchesPlayed: this.stats.matchesPlayed,
                     brainStates: this.brain ? Object.keys(this.brain.qTable).length : 0,
-                    brainUpdates: this.brain?.totalUpdates || 0
+                    brainUpdates: this.brain?.totalUpdates || 0,
+                    // §17: Session metrics snapshot
+                    sessionMetrics: this._sessionMetrics.getMetrics(),
+                    coreLoopFast: this._sessionMetrics.isCoreLoopFast()
                 };
                 // Compute delta vs previous season (per-season counts)
                 const prev = this.stats.seasonHistory[this.stats.seasonHistory.length - 1];
