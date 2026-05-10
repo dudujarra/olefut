@@ -20,8 +20,9 @@ export async function registerServiceWorker() {
     }
 
     try {
-        swRegistration = await navigator.serviceWorker.register('/sw.js', {
-            scope: '/',
+        const base = import.meta.env?.BASE_URL || '/';
+        swRegistration = await navigator.serviceWorker.register(`${base}sw.js`, {
+            scope: base,
         });
         console.log('[PWA] Service worker registered:', swRegistration.scope);
         return swRegistration;

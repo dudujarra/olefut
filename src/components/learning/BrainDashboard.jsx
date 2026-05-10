@@ -33,7 +33,10 @@ export function BrainDashboard({ controllerRef }) {
                 visitCount: { ...b.visitCount },
                 totalUpdates: b.totalUpdates || 0,
                 memory: [...(b.memory || [])],
-                personality: b.personality ? { ...b.personality } : {},
+                personality: b.personality || {},
+                // Extract flat numeric traits for rendering (avoid nested objects)
+                traits: b.personality?.traits || b.personality?.ocean || {},
+                archetypeLabel: b.personality?.label || b.personality?.id || 'Bot',
                 topActions: typeof b.topActions === 'function' ? b.topActions(10) : [],
                 decisions: ctrl.stats?.decisions || [],
             });
@@ -43,7 +46,7 @@ export function BrainDashboard({ controllerRef }) {
 
     if (!brainData) return null;
 
-    const { qTable, visitCount, totalUpdates, memory, personality, topActions, decisions } = brainData;
+    const { qTable, visitCount, totalUpdates, memory, traits, archetypeLabel, topActions, decisions } = brainData;
     const stateKeys = Object.keys(qTable);
 
     // === Compute derived data ===
@@ -116,9 +119,9 @@ export function BrainDashboard({ controllerRef }) {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '10px' }}>
                         {/* Personality */}
                         <div style={cardStyle}>
-                            <div style={titleStyle}>🎭 Personalidade</div>
+                            <div style={titleStyle}>🎭 Personalidade — {archetypeLabel}</div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                {Object.entries(personality).map(([trait, val]) => {
+                                {Object.entries(traits).map(([trait, val]) => {
                                     if (typeof val !== 'number') return null;
                                     const pct = Math.round(val * 100);
                                     return (
