@@ -103,6 +103,39 @@ async function fetchSquad(page, teamId) {
     return data.players || [];
 }
 
+async function fetchTeamManager(page, teamId) {
+    try {
+        const data = await fetchJSONInPage(page, `https://api.sofascore.com/api/v1/team/${teamId}`);
+        const manager = data.team?.manager || data.manager;
+        if (!manager) return null;
+        // Enrich with manager stats
+        let stats = null;
+        try {
+            const m = await fetchJSONInPage(page, `https://api.sofascore.com/api/v1/manager/${manager.id}`);
+            stats = m.manager?.performance || null;
+            const profile = m.manager || {};
+            return {
+                id: manager.id,
+                name: manager.name,
+                shortName: manager.shortName,
+                country: profile.nationality?.name || profile.country?.name,
+                preferredFormation: profile.preferredFormation,
+                stats: profile.performance || null,
+                dateOfBirth: profile.dateOfBirth,
+                deceased: profile.deceased
+            };
+        } catch {
+            return {
+                id: manager.id,
+                name: manager.name,
+                shortName: manager.shortName
+            };
+        }
+    } catch {
+        return null;
+    }
+}
+
 async function fetchPlayerAttrs(page, playerId) {
     try {
         const data = await fetchJSONInPage(page, `https://api.sofascore.com/api/v1/player/${playerId}/attribute-overviews`);
@@ -224,7 +257,16 @@ async function main() {
                 const rawSquad = await fetchSquad(page, teamId);
                 console.log(`  ${rawSquad.length} players, enriching...`);
                 const enriched = await enrichSquad(page, rawSquad);
-                fs.writeFileSync(outFile, JSON.stringify(enriched, null, 2));
+                const manager = await fetchTeamManager(page, teamId);
+                if (manager) console.log(`  Manager: ${manager.name}`);
+                const output = {
+                    teamId,
+                    teamName: name,
+                    manager,
+                    players: enriched,
+                    scrapedAt: new Date().toISOString()
+                };
+                fs.writeFileSync(outFile, JSON.stringify(output, null, 2));
                 console.log(`  Saved ${outFile}`);
             } catch (e) {
                 console.error(`  ERROR ${name}: ${e.message}`);

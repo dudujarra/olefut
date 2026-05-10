@@ -93,6 +93,37 @@ export function SquadView() {
                 </button>
             </div>
 
+            {/* Manager card */}
+            {team.manager && team.manager.name && (
+                <div className="card" style={{
+                    padding: '0.75rem',
+                    marginBottom: '0.75rem',
+                    background: 'linear-gradient(135deg, rgba(247,181,56,0.1), rgba(15,26,20,0.5))',
+                    border: '1px solid #F7B538'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{ fontSize: '2rem' }}>👔</div>
+                        <div style={{ flex: 1 }}>
+                            <div style={{ fontWeight: 700, fontSize: '1rem' }}>
+                                {team.manager.name}
+                            </div>
+                            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                                Treinador {team.manager.country ? `• ${team.manager.country}` : ''}
+                                {team.manager.preferredFormation ? ` • Formação: ${team.manager.preferredFormation}` : ''}
+                            </div>
+                        </div>
+                        {team.manager.stats && (
+                            <div style={{ fontSize: '0.75rem', textAlign: 'right' }}>
+                                <div>📊 {team.manager.stats.total || 0} jogos</div>
+                                <div style={{ color: 'var(--primary)' }}>{team.manager.stats.wins || 0}V</div>
+                                <div style={{ color: 'var(--accent)' }}>{team.manager.stats.draws || 0}E</div>
+                                <div style={{ color: 'var(--danger)' }}>{team.manager.stats.losses || 0}D</div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {/* SPEC-080 Tabs */}
             <div className="nav-tabs" style={{ display: 'flex', gap: '4px', marginBottom: '0.75rem', borderBottom: '2px solid var(--border-subtle, #2a3530)' }}>
                 {[
