@@ -569,6 +569,7 @@ export function MatchView() {
                     />
                 )}
             </div>
+            </div>
         );
     }
 
@@ -728,6 +729,7 @@ export function MatchView() {
                         }}
                     />
                 )}
+            </div>
             </div>
         );
     }

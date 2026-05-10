@@ -7,6 +7,9 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { ChronicleService } from '../services/ChronicleService';
+import { EfPanel } from './ui/EfPanel';
+import { EfButton } from './ui/EfButton';
+import bgNewspaper from '../assets/environments/bg_newspaper.png';
 
 export function ChronicleView() {
     const { gameState, getEngine, changeView, getDashboardView } = useGame();
@@ -114,37 +117,49 @@ export function ChronicleView() {
     }
 
     return (
-        <div className="main-content fade-in ef-art-bg ef-art-newspaper">
-            <div className="card-header" style={{ marginBottom: '1rem' }}>
-                <h2>📜 Crônica do Save</h2>
-                <button className="btn btn-secondary btn-sm" onClick={() => changeView(getDashboardView())}>← Voltar</button>
-            </div>
+        <div className="ef-anim-fade-in" style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgNewspaper})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            minHeight: '100dvh',
+            padding: '16px',
+            color: 'var(--ef-color-neutral-text-hi)'
+        }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2 style={{ fontSize: '1.2rem', margin: 0 }}>📜 CRÔNICA DO SAVE</h2>
+                    <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
+                </EfPanel>
 
-            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-                <button
-                    className={`btn btn-sm ${view === 'season' ? 'btn-primary' : 'btn-secondary'}`}
-                    onClick={() => setView('season')}
-                >
-                    Temporada
-                </button>
-                <button
-                    className={`btn btn-sm ${view === 'lifetime' ? 'btn-primary' : 'btn-secondary'}`}
-                    onClick={() => setView('lifetime')}
-                >
-                    Save Inteiro
-                </button>
-                <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.4rem' }}>
-                    <button className="btn btn-sm btn-secondary" onClick={handleExportPNG}>
-                        🖼️ PNG
-                    </button>
-                    <button className="btn btn-sm btn-secondary" onClick={handleExportJSON}>
-                        📄 JSON
-                    </button>
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                    <EfButton
+                        variant={view === 'season' ? 'primary' : 'secondary'}
+                        onClick={() => setView('season')}
+                    >
+                        TEMPORADA
+                    </EfButton>
+                    <EfButton
+                        variant={view === 'lifetime' ? 'primary' : 'secondary'}
+                        onClick={() => setView('lifetime')}
+                    >
+                        SAVE INTEIRO
+                    </EfButton>
+                    <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+                        <EfButton variant="secondary" onClick={handleExportPNG}>
+                            🖼️ EXPORTAR PNG
+                        </EfButton>
+                        <EfButton variant="secondary" onClick={handleExportJSON}>
+                            📄 EXPORTAR JSON
+                        </EfButton>
+                    </div>
                 </div>
-            </div>
 
-            <div key={view} className="card ef-anim-slide-down" style={{ padding: '1.5rem', whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '0.85rem', lineHeight: 1.6 }}>
-                {content || '*Carregando crônica...*'}
+                <EfPanel variant="sunk" padding="md" className="ef-anim-slide-down">
+                    <div style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '0.85rem', lineHeight: 1.6 }}>
+                        {content || '*Carregando crônica...*'}
+                    </div>
+                </EfPanel>
             </div>
         </div>
     );

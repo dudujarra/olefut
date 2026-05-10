@@ -67,7 +67,6 @@ export function StandingsView() {
     const back = gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
 
     return (
-    return (
         <div className="ef-anim-fade-in" style={{
             backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.8), rgba(11, 15, 25, 0.95)), url(${bgOffice})`,
             backgroundSize: 'cover',
