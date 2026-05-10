@@ -910,7 +910,27 @@ export class AutoPlayController {
             }
         } catch { /* ignore */ }
 
-        // BUG-080: emergency sell when deeply negative balance
+        // Decision 6: Emergency loan when balance is critically low
+        try {
+            const team = engine.getTeam(teamId);
+            if (team && (team.balance || 0) < 0 && !engine.activeLoan) {
+                const loanOpts = engine.getLoanOptions();
+                if (loanOpts.available && loanOpts.options.length > 0) {
+                    // Take medium loan for breathing room
+                    const mediumLoan = loanOpts.options[1] || loanOpts.options[0];
+                    const result = engine.takeLoan(mediumLoan.amount);
+                    if (result.success) {
+                        this._logDecision('TAKE_LOAN', {
+                            amount: mediumLoan.amount,
+                            weeklyPayment: mediumLoan.weeklyPayment,
+                            balance: team.balance,
+                        }, 0);
+                    }
+                }
+            }
+        } catch { /* ignore */ }
+
+        // BUG-080: emergency sell when deeply negative balance (even after loan)
         try {
             const team = engine.getTeam(teamId);
             if (team && (team.balance || 0) < -5_000_000) {

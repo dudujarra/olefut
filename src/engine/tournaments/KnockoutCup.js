@@ -12,6 +12,9 @@ export class KnockoutCup extends Tournament {
 
     init(teamIds) {
         super.init(teamIds);
+        // BUG-FIX: reset phase state so tournament restarts each season
+        this.currentPhaseIndex = 0;
+        this.winner = null;
         this.currentMatches = this.createKnockoutRound(teamIds);
     }
 

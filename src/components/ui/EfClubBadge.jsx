@@ -59,7 +59,7 @@ export function EfClubBadge({
     return (
         <div style={wrapperStyle} {...badgeProps}>
             {highEndImg ? (
-                <img src={highEndImg} alt={name} style={{ width: px, height: px, borderRadius: px * 0.1, boxShadow: '0 4px 12px rgba(0,0,0,0.5)', imageRendering: 'auto' }} />
+                <img src={highEndImg} alt={name} style={{ width: px, height: px, imageRendering: 'pixelated', WebkitImageRendering: 'pixelated' }} />
             ) : sprite ? (
                 <SpriteBadge sprite={sprite} px={px} />
             ) : (

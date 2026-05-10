@@ -123,6 +123,10 @@ export class Engine {
         };
         // SPEC-132: squad monitor cooldowns
         this._squadMonitorCooldowns = {};
+
+        // Loan system: allows managers to take emergency loans with interest
+        // Each loan: { principal, interestRate, weeklyPayment, weeksRemaining, totalOwed }
+        this.activeLoan = null;
     }
 
     initGame(name, teamId, mode = 'manager', scenario = 'livre', playerPosition = 'ATA') {
@@ -841,6 +845,111 @@ export class Engine {
         const result = { answer: option.text, effect: option.effect };
         this.pressQuestion = null;
         return result;
+    }
+
+    // ============================================================
+    // LOAN SYSTEM — Emergency financial relief with interest
+    // ============================================================
+
+    /**
+     * Loan tiers based on division. Higher divisions = larger loans, lower interest.
+     */
+    getLoanOptions() {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return { available: false, reason: 'Time não encontrado' };
+        if (this.activeLoan) return { available: false, reason: 'Já possui empréstimo ativo', loan: this.activeLoan };
+
+        const divisionLoans = {
+            1: { maxLoan: 30_000_000, interestRate: 0.08, termWeeks: 38, label: 'Série A' },
+            2: { maxLoan: 15_000_000, interestRate: 0.10, termWeeks: 38, label: 'Série B' },
+            3: { maxLoan: 5_000_000,  interestRate: 0.12, termWeeks: 38, label: 'Série C' },
+            4: { maxLoan: 2_000_000,  interestRate: 0.15, termWeeks: 38, label: 'Série D' },
+        };
+
+        const tier = divisionLoans[team.division] || divisionLoans[4];
+        const options = [
+            { amount: Math.round(tier.maxLoan * 0.25), label: 'Pequeno' },
+            { amount: Math.round(tier.maxLoan * 0.50), label: 'Médio' },
+            { amount: tier.maxLoan, label: 'Grande' },
+        ];
+
+        return {
+            available: true,
+            interestRate: tier.interestRate,
+            termWeeks: tier.termWeeks,
+            options: options.map(o => ({
+                ...o,
+                totalOwed: Math.round(o.amount * (1 + tier.interestRate)),
+                weeklyPayment: Math.round((o.amount * (1 + tier.interestRate)) / tier.termWeeks),
+            })),
+        };
+    }
+
+    /**
+     * Take a loan. Returns success/failure with message.
+     */
+    takeLoan(amount) {
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return { success: false, msg: 'Time não encontrado' };
+        if (this.activeLoan) return { success: false, msg: 'Já possui empréstimo ativo. Pague primeiro.' };
+
+        const options = this.getLoanOptions();
+        if (!options.available) return { success: false, msg: options.reason };
+
+        const chosen = options.options.find(o => o.amount === amount);
+        if (!chosen) return { success: false, msg: 'Valor inválido' };
+
+        this.activeLoan = {
+            principal: chosen.amount,
+            interestRate: options.interestRate,
+            totalOwed: chosen.totalOwed,
+            weeklyPayment: chosen.weeklyPayment,
+            weeksRemaining: options.termWeeks,
+            weekTaken: this.currentWeek,
+            seasonTaken: this.seasonNumber,
+        };
+
+        team.balance += chosen.amount;
+        this.weekEvents.push(`🏦 Empréstimo de R$ ${(chosen.amount / 1_000_000).toFixed(1)}M aprovado! Juros: ${(options.interestRate * 100).toFixed(0)}%. Parcela semanal: R$ ${(chosen.weeklyPayment / 1000).toFixed(0)}K`);
+
+        return { success: true, msg: `Empréstimo de R$ ${(chosen.amount / 1_000_000).toFixed(1)}M aprovado!`, loan: this.activeLoan };
+    }
+
+    /**
+     * Process weekly loan payment. Called by WeekProcessor.
+     */
+    processLoanPayment() {
+        if (!this.activeLoan) return null;
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return null;
+
+        const payment = this.activeLoan.weeklyPayment;
+        team.balance -= payment;
+        this.activeLoan.weeksRemaining--;
+        this.activeLoan.totalOwed -= payment;
+
+        if (this.activeLoan.weeksRemaining <= 0) {
+            const msg = `🏦 Empréstimo quitado! Total pago: R$ ${((this.activeLoan.principal * (1 + this.activeLoan.interestRate)) / 1_000_000).toFixed(1)}M`;
+            this.activeLoan = null;
+            return { paid: payment, finished: true, msg };
+        }
+
+        return { paid: payment, finished: false, remaining: this.activeLoan.weeksRemaining };
+    }
+
+    /**
+     * Pay off remaining loan early. Deducts full remaining amount.
+     */
+    payOffLoan() {
+        if (!this.activeLoan) return { success: false, msg: 'Sem empréstimo ativo' };
+        const team = this.getTeam(this.manager.teamId);
+        if (!team) return { success: false, msg: 'Time não encontrado' };
+        if (team.balance < this.activeLoan.totalOwed) return { success: false, msg: `Saldo insuficiente. Precisa de R$ ${(this.activeLoan.totalOwed / 1_000_000).toFixed(1)}M` };
+
+        team.balance -= this.activeLoan.totalOwed;
+        const msg = `🏦 Empréstimo quitado antecipadamente! Economia de juros.`;
+        this.activeLoan = null;
+        return { success: true, msg };
     }
 
     /**

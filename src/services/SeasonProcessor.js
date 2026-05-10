@@ -60,6 +60,9 @@ export class SeasonProcessor {
         // BUG-077: processPromoRelegation for ALL leagues
         this._processPromoRelegation(engine, team);
 
+        // Tournament prize money for cups
+        this._processTournamentPrizes(engine, team);
+
         // Close player season stats (resets seasonGoals/seasonApps etc.)
         team.squad.forEach(p => closeSeasonStats(p, engine.seasonNumber, team.name));
 
@@ -239,6 +242,13 @@ export class SeasonProcessor {
 
     /** @private */
     _processPromoRelegation(engine, team) {
+        // Promotion bonus by target division (higher division = higher bonus)
+        const PROMOTION_BONUS = {
+            3: 2_000_000,   // Série D → Série C: R$ 2M
+            2: 5_000_000,   // Série C → Série B: R$ 5M
+            1: 15_000_000,  // Série B → Série A: R$ 15M
+        };
+
         try {
             engine.tournaments.forEach(t => {
                 if (!t.id || !/_\d+$/.test(t.id)) return;
@@ -251,11 +261,17 @@ export class SeasonProcessor {
                 const changes = processPromoRelegation(
                     engine.teams, divStandings.map(s => s), zone, div
                 );
-                // Only surface events for bot's team
                 changes.forEach(c => {
                     if (c.teamId !== team.id) return;
                     const emoji = c.action === 'promoted' ? '⬆️' : '⬇️';
                     engine.weekEvents.push(`${emoji} ${c.name} ${c.action === 'promoted' ? 'subiu' : 'caiu'} para Série ${['A','B','C','D'][c.to - 1]}`);
+
+                    // Award promotion bonus
+                    if (c.action === 'promoted' && PROMOTION_BONUS[c.to]) {
+                        const bonus = PROMOTION_BONUS[c.to];
+                        team.balance += bonus;
+                        engine.weekEvents.push(`💰 Bônus de acesso à Série ${['A','B','C','D'][c.to - 1]}: R$ ${(bonus / 1_000_000).toFixed(1)}M`);
+                    }
                 });
             });
         } catch { /* defensive */ }
@@ -427,5 +443,40 @@ export class SeasonProcessor {
                 engine.metaUnlocked = result.allUnlocked;
             }
         } catch { /* defensive — meta is bonus, never crash season */ }
+    }
+
+    /** @private — Award prize money for cup participation/victory */
+    _processTournamentPrizes(engine, team) {
+        // Prize pools by tournament ID
+        const PRIZE_POOLS = {
+            'COPA_BR':      { winner: 10_000_000, participant: 500_000, name: 'Copa do Brasil' },
+            'LIBERTADORES': { winner: 25_000_000, participant: 2_000_000, name: 'Libertadores' },
+            'SULA':         { winner: 8_000_000,  participant: 1_000_000, name: 'Sul-Americana' },
+            'CHAMPIONS':    { winner: 30_000_000, participant: 3_000_000, name: 'Champions League' },
+        };
+
+        try {
+            engine.tournaments.forEach(t => {
+                const pool = PRIZE_POOLS[t.id];
+                if (!pool) return;
+                if (!t.participants?.includes(team.id)) return;
+
+                let prize = pool.participant;
+                let label = `participação na ${pool.name}`;
+
+                if (t.winner === team.id) {
+                    prize = pool.winner;
+                    label = `🏆 campeão da ${pool.name}`;
+                    engine.weekEvents.push(`🏆 ${team.name} é campeão da ${pool.name}!`);
+                    // Add to legacy titles
+                    if (engine.legacy?.titles) {
+                        engine.legacy.titles.push(`Campeão ${pool.name}`);
+                    }
+                }
+
+                team.balance += prize;
+                engine.weekEvents.push(`💰 Prêmio ${label}: R$ ${(prize / 1_000_000).toFixed(1)}M`);
+            });
+        } catch { /* defensive */ }
     }
 }
