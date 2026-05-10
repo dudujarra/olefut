@@ -113,7 +113,7 @@ function clearStorage() {
 const ENGINE_CLASS_FIELDS = [
     'staff', 'board', 'legacy',
     '_matchSimulator', '_mythService', '_relationshipService', '_narrativeService', '_careerService',
-    '_inheritanceService', '_weekProcessor', '_seasonProcessor'
+    '_inheritanceService', '_weekProcessor', '_seasonProcessor', '_aiDirector'
 ];
 
 function serializeEngine(engine) {
@@ -127,6 +127,16 @@ function serializeEngine(engine) {
             JSON.stringify(v);
             safe[key] = v;
         } catch { /* skip non-serializable */ }
+    }
+    // BUG-096: Strip brain objects + volatile NPC AI state from teams.
+    // Brains are persisted separately via BrainPersistence.js with compaction.
+    // Including them in engine save doubles storage usage (~2-3MB of duplicated qTables).
+    if (Array.isArray(safe.teams)) {
+        safe.teams = safe.teams.map(t => {
+            if (!t) return t;
+            const { brain, _lastTacticDecision, _aiDirectorState, ...clean } = t;
+            return clean;
+        });
     }
     // Save staff state separately (just hired array)
     if (engine.staff && Array.isArray(engine.staff.hired)) {

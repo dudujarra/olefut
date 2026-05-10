@@ -283,11 +283,11 @@ export function smartBuyDecision(brain, { team, player, askingPrice, biasCtx = {
                 personality: brain.personality,
                 context: { ...biasCtx, targetPosition: player?.position }
             });
-            // If biases say it's WAY too expensive, override
-            if (biases.perceivedValue > askingPrice * 3) {
+            // If biases say it's WAY too expensive (asking much more than perceived), override
+            if (askingPrice > biases.perceivedValue * 2) {
                 return {
                     buy: false,
-                    reason: `brain said YES but biases say overpriced (perceived ${biases.perceivedValue.toFixed(0)} vs ${askingPrice})`,
+                    reason: `brain said YES but biases say overpriced (perceived ${biases.perceivedValue.toFixed(0)} vs asked ${askingPrice})`,
                     action, stateKey, source: 'smart+bias_override',
                     biases: biases.biasesApplied
                 };

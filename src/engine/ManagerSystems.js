@@ -221,7 +221,7 @@ function getRandomBuyer() {
 // ============================================================
 export function calculateSquadMoral(team) {
     if (!team.squad || team.squad.length === 0) return 50;
-    const avg = team.squad.reduce((sum, p) => sum + (p.moral || 50), 0) / team.squad.length;
+    const avg = team.squad.reduce((sum, p) => sum + (p.moral || 50), 0) / (team.squad.length || 1);
     return Math.round(avg);
 }
 

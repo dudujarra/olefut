@@ -13,6 +13,8 @@
  * agressividade de mercado). A partida em si é determinística.
  */
 
+import { rng as systemRng } from '../../engine/rng.js';
+
 // ─── DIRECTOR STATE ──────────────────────────────────────────
 
 const PHASES = {
@@ -145,7 +147,7 @@ export class AIDirector {
         this.phase = transitions[this.phase] || PHASES.BUILD_UP;
 
         const dur = PHASE_DURATIONS[this.phase];
-        this.phaseTicksRemaining = dur.min + Math.floor(Math.random() * (dur.max - dur.min));
+        this.phaseTicksRemaining = dur.min + Math.floor(systemRng() * (dur.max - dur.min));
     }
 
     _calculateModifiers() {
@@ -160,7 +162,7 @@ export class AIDirector {
                 return {
                     aggressionMod: 1.3,
                     transferBudgetMod: 1.2,
-                    tacticBias: this.playerFrustrationIndex < 40 ? 'attacking' : null
+                    tacticBias: this.playerFrustrationIndex < 40 ? 'offensive' : null
                 };
             case PHASES.RELAX:
                 return {

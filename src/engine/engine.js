@@ -4,29 +4,29 @@ import { League } from './tournaments/League';
 import { ContinentalCup } from './tournaments/ContinentalCup';
 import { KnockoutCup } from './tournaments/KnockoutCup';
 import { ProPlayer } from './PlayerCareer';
-import { FORMATIONS, TACTICS, rollMatchCondition, calculateWeeklyFinances, applyTraining, applyTeamTalk } from './ManagerSystems';
-import { adviseTactic, initNpcTacticState, recordNpcResult, applyNpcTacticAdvice } from './NpcTacticAdvisor';
+import { FORMATIONS, TACTICS, applyTraining, applyTeamTalk } from './ManagerSystems';
+import { adviseTactic, initNpcTacticState, applyNpcTacticAdvice } from './NpcTacticAdvisor';
 import { checkSquadHealth } from './SquadHealthMonitor';
 
 // MARL Fase 6: Multi-Agent imports
 import { AdaptiveBrain } from '../services/learning/AdaptiveBrain.js';
-import { generatePersonality, suggestArchetypeForClub } from '../services/learning/Archetypes.js';
-import { npcTacticDecision, npcFeedMatchResult, npcBuyDecision, shouldUseFullBrain } from '../services/learning/NpcManagerAI.js';
+import { suggestArchetypeForClub } from '../services/learning/Archetypes.js';
+import { npcTacticDecision, npcBuyDecision, shouldUseFullBrain } from '../services/learning/NpcManagerAI.js';
 import { saveAllBrains, restoreAllBrains } from '../services/learning/BrainPersistence.js';
 import { AIDirector } from '../services/learning/AIDirector.js';
-import { generateRealTransferOffers } from './MarketPricer';
-import { evaluateGrowth } from './GrowthEventSystem';
-import { canAccess, persistUnlock, evaluateNewUnlocks } from './ViewUnlockSystem';
-import { compute as computeManagerIdentity, applyEvent as applyManagerEvent, computeLeagueRankings } from './ManagerIdentitySystem';
-import { generate as generateContract, resolve as resolveContract } from './ContractGoalSystem';
+
+
+import { canAccess } from './ViewUnlockSystem';
+import { compute as computeManagerIdentity } from './ManagerIdentitySystem';
+import { generate as generateContract } from './ContractGoalSystem';
 import { BoardSystem } from './BoardSystem';
-import { processMatchInjuries, processTrainingInjuries, healInjury } from './InjurySystem';
-import { generateYouthIntake, getAcademyUpgradeCost, loanPlayerOut, processLoans } from './YouthAcademy';
+
+import { generateYouthIntake, getAcademyUpgradeCost, loanPlayerOut } from './YouthAcademy';
 import { shouldTriggerPress, generateQuestion, applyPressEffect } from './PressConference';
-import { StaffManager, getStadiumInfo, calculateTicketRevenue, STAFF_ROLES, SCOUT_REGIONS, scoutRegion } from './StadiumSystem';
-import { evaluateSponsor, getCalendarEvent, processPromoRelegation, ManagerLegacy } from './SeasonSystem';
-import { processPlayerDevelopment, ageSquad, updateForm, processDressingRoom, generateRenewalOffer, acceptRenewal, TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from './PlayerDevelopment';
-import { rollTraits, getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats, closeSeasonStats, calculateSeasonAwards, processMoraleEvents, processMentoring, isRivalry } from './PlayerTraits';
+import { StaffManager, getStadiumInfo, SCOUT_REGIONS, scoutRegion } from './StadiumSystem';
+import { evaluateSponsor, ManagerLegacy } from './SeasonSystem';
+import { generateRenewalOffer, acceptRenewal } from './PlayerDevelopment';
+import { rollTraits, initCareerStats } from './PlayerTraits';
 import { MatchSimulator } from '../services/MatchSimulator';
 import { MythService } from '../services/MythService';
 import { RelationshipService } from '../services/RelationshipService';
@@ -531,6 +531,10 @@ export class Engine {
             outName: out.name,
             inName: inPlayer.name
         });
+        // BUG-091: cap to prevent unbounded growth in soak tests
+        if (this._liveSubsLog.length > 50) {
+            this._liveSubsLog = this._liveSubsLog.slice(-50);
+        }
 
         return {
             success: true,
@@ -585,11 +589,30 @@ export class Engine {
                     ovr: soldPlayer.ovr || 50,
                     traits: soldPlayer.traits || [],
                 });
+                // BUG-090: cap to 50 entries to prevent save bloat in long soak tests
+                if (this.formerCompanions.length > 50) {
+                    this.formerCompanions = this.formerCompanions.slice(-50);
+                }
             }
         } catch { /* defensive */ }
 
+        const soldPlayer = team.squad.find(p => p.id === offerId);
         team.squad = team.squad.filter(p => p.id !== offerId);
         team.balance += offer.offerAmount;
+
+        // BUG-083b: Se a oferta veio de um NPC (buyerTeamId), transferir jogador ao NPC
+        if (offer.buyerTeamId && soldPlayer) {
+            const buyerTeam = this.getTeam(offer.buyerTeamId);
+            if (buyerTeam) {
+                soldPlayer.injury = null;
+                soldPlayer.energy = 100;
+                soldPlayer.isTitular = false;
+                soldPlayer.contract = { weeksLeft: 76, salary: Math.floor((offer.offerAmount || 500000) * 0.001) };
+                buyerTeam.squad.push(soldPlayer);
+                buyerTeam.balance -= offer.offerAmount;
+            }
+        }
+
         this.transferOffers = this.transferOffers.filter(o => o.playerId !== offerId);
         return { success: true, msg: `${offer.playerName} vendido para ${offer.buyerClub} por R$ ${(offer.offerAmount / 1000000).toFixed(1)}M!` };
     }
@@ -642,6 +665,7 @@ export class Engine {
         // Reset acquired player state
         player.injury = null;
         player.energy = 100;
+        player._purchasePrice = amount; // Track for Sunk Cost bias
         // BUG-055 fix: auto-promote to titular if position has <2 starters OR
         // new player is significantly stronger than weakest current starter.
         // Was always false → buys never played → match sim sectors=0 → 0-0 draws.
@@ -666,6 +690,76 @@ export class Engine {
             ratio,
             playerId
         };
+    }
+
+    /**
+     * NPC-to-NPC buy offer. Unlike makeBuyOffer (which uses this.manager.teamId),
+     * this explicitly receives the buyer team ID.
+     *
+     * @param {number} buyerTeamId — team that wants to buy
+     * @param {number} sellerTeamId — team that owns the player
+     * @param {string|number} playerId
+     * @param {number} amount
+     * @returns {{ success, accepted, ratio }}
+     */
+    npcMakeBuyOffer(buyerTeamId, sellerTeamId, playerId, amount) {
+        const buyerTeam = this.getTeam(buyerTeamId);
+        const sellerTeam = this.getTeam(sellerTeamId);
+        if (!buyerTeam || !sellerTeam) return { success: false, accepted: false };
+        if (buyerTeamId === sellerTeamId) return { success: false, accepted: false };
+        if ((buyerTeam.balance || 0) < amount) return { success: false, accepted: false };
+        if ((buyerTeam.squad || []).length >= 30) return { success: false, accepted: false };
+
+        const player = sellerTeam.squad?.find(p => p.id === playerId);
+        if (!player) return { success: false, accepted: false };
+
+        // BUG-083: Se o seller é o time do jogador humano, gerar oferta
+        // para o humano decidir, em vez de executar automaticamente.
+        if (sellerTeamId === this.manager?.teamId) {
+            this.transferOffers.push({
+                playerId: player.id,
+                playerName: player.name,
+                offerAmount: amount,
+                buyerClub: buyerTeam.name,
+                buyerTeamId: buyerTeamId,
+                deadline: (this.currentWeek || 0) + 3
+            });
+            return { success: true, accepted: false, pendingHuman: true };
+        }
+
+        // Same sigmoid as makeBuyOffer
+        const ratio = amount / Math.max(1, player.value || 1_000_000);
+        const acceptProb = Math.max(0, Math.min(1, (ratio - 1.0) / 0.5));
+        const accepted = systemRng() < acceptProb;
+
+        if (!accepted) {
+            return { success: true, accepted: false, ratio };
+        }
+
+        // Execute transfer
+        sellerTeam.squad = sellerTeam.squad.filter(p => p.id !== playerId);
+        sellerTeam.balance = (sellerTeam.balance || 0) + amount;
+        buyerTeam.balance -= amount;
+        player.injury = null;
+        player.energy = 100;
+        player._purchasePrice = amount; // Track for Sunk Cost bias
+
+        // Auto-promote if needed
+        const positionStarters = buyerTeam.squad.filter(p => p.isTitular && p.position === player.position);
+        if (positionStarters.length < 2) {
+            player.isTitular = true;
+        } else {
+            const weakest = positionStarters.sort((a, b) => (a.ovr || 0) - (b.ovr || 0))[0];
+            if ((player.ovr || 0) > (weakest.ovr || 0) + 3) {
+                weakest.isTitular = false;
+                player.isTitular = true;
+            } else {
+                player.isTitular = false;
+            }
+        }
+        buyerTeam.squad.push(player);
+
+        return { success: true, accepted: true, ratio };
     }
 
     /**
@@ -829,7 +923,7 @@ export class Engine {
         const standings = this.getStandings(team.zone, team.division);
         const pos = standings.findIndex(s => s.teamId === team.id) + 1;
         if (shouldTriggerPress(this.managerStats.streak, this.currentWeek, pos, standings.length)) {
-            const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / team.squad.length;
+            const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / (team.squad.length || 1);
             this.pressQuestion = generateQuestion(this.managerStats.streak, pos, standings.length, avgMorale);
             return this.pressQuestion;
         }
@@ -924,7 +1018,8 @@ export class Engine {
         if (!team) return null;
 
         const payment = this.activeLoan.weeklyPayment;
-        team.balance -= payment;
+        // BUG-085: NÃO debitar direto aqui — WeekProcessor já inclui
+        // o payment nas weeklyFinance.expenses e debita via balance += income - expenses.
         this.activeLoan.weeksRemaining--;
         this.activeLoan.totalOwed -= payment;
 
@@ -961,6 +1056,10 @@ export class Engine {
     }
 
     advanceWeek() {
+        // BUG-092: reset weekly events to prevent unbounded accumulation.
+        // Previous events are consumed by UI/telemetry before this call.
+        this.weekEvents = [];
+
         // BUG-026 fix: auto-rollover instead of dead stop. Engine was stuck
         // at week 38 forever — season-end logic at line 748+ never reached.
         if (this.currentWeek >= 38) {

@@ -21,7 +21,7 @@ import { checkSquadHealth } from '../engine/SquadHealthMonitor';
 import { generateRealTransferOffers } from '../engine/MarketPricer';
 import { evaluateGrowth } from '../engine/GrowthEventSystem';
 import { evaluateNewUnlocks, persistUnlock } from '../engine/ViewUnlockSystem';
-import { processMatchInjuries, healInjury } from '../engine/InjurySystem';
+import { processMatchInjuries, processTrainingInjuries, healInjury } from '../engine/InjurySystem';
 import { processPlayerDevelopment, updateForm, processDressingRoom } from '../engine/PlayerDevelopment';
 import { processMoraleEvents, processMentoring } from '../engine/PlayerTraits';
 import { processLoans } from '../engine/YouthAcademy';
@@ -79,6 +79,12 @@ export class WeekProcessor {
         engine.matchCondition = rollMatchCondition();
 
         // Transfer offers (janelas) — SPEC-133: precificação real
+        // BUG-084: Limpar ofertas expiradas antes de gerar novas
+        if (engine.transferOffers.length > 0) {
+            engine.transferOffers = engine.transferOffers.filter(
+                o => !o.deadline || o.deadline > engine.currentWeek
+            );
+        }
         const newOffers = generateRealTransferOffers(team, engine.currentWeek);
         if (newOffers.length > 0) {
             engine.transferOffers.push(...newOffers);
@@ -109,6 +115,17 @@ export class WeekProcessor {
         // Lesões pós-partida
         engine.weekInjuries = processMatchInjuries(team.squad);
 
+        // Lesões de treino — treino dobrado (double) tem risco elevado
+        if (engine.currentTraining === 'double') {
+            const trainingInjuries = processTrainingInjuries(team.squad, 'double');
+            if (trainingInjuries.length > 0) {
+                engine.weekInjuries.push(...trainingInjuries);
+                engine.weekEvents.push(...trainingInjuries.map(
+                    inj => `🏥 ${inj.player} se lesionou no treino dobrado! ${inj.emoji} ${inj.name} (${inj.weeksLeft} semanas)`
+                ));
+            }
+        }
+
         // Curar lesões em andamento
         team.squad.forEach(p => {
             if (p.injury) healInjury(p);
@@ -130,7 +147,7 @@ export class WeekProcessor {
         if (engine.board) {
             const standings = engine.getStandings(team.zone, team.division);
             const pos = standings.findIndex(s => s.teamId === team.id) + 1;
-            const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / team.squad.length;
+            const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / (team.squad.length || 1);
             engine.board.updateConfidence(pos, standings.length, engine.managerStats.streak, avgMorale, team.balance, engine.currentWeek);
         }
 
@@ -350,7 +367,7 @@ export class WeekProcessor {
                     try {
                         const streak = engine.managerStats.lossStreak || 0;
                         if (streak >= 3) {
-                            const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / team.squad.length;
+                            const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / (team.squad.length || 1);
                             const lsr = evaluateLossStreak({
                                 teamId: team.id,
                                 streakLength: streak,
@@ -402,6 +419,10 @@ export class WeekProcessor {
                         season: engine.seasonNumber,
                         isDecisive: false,
                     });
+                    // BUG-093: cap to 20 entries per rivalry to prevent save bloat
+                    if (engine.rivalryHistory[key].length > 20) {
+                        engine.rivalryHistory[key] = engine.rivalryHistory[key].slice(-20);
+                    }
                 } catch { /* defensive */ }
 
                 break;

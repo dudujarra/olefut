@@ -4,10 +4,9 @@
  * AKITA-RFCT-014/015/016 collapsed.
  *
  * Constructor injection. Stateless service.
- * Transição complexa delegada a CareerTransition class (Replace Method with Method Object).
+ * Transição de aposentadoria implementada inline no método retireProPlayer.
  */
 
-import { CareerTransition } from './CareerTransition';
 
 import { rng as systemRng } from '../engine/rng.js';
 
@@ -116,12 +115,24 @@ export class CareerService {
      * Uses Replace Method with Method Object pattern.
      */
     retireProPlayer(engineOrSave) {
-        const transition = new CareerTransition(engineOrSave, {
-            mythService: this._mythService,
-            relationshipService: this._relationshipService,
-            narrativeService: this._narrativeService
-        });
-        return transition.execute();
+        const proPlayer = this.getProPlayer(engineOrSave);
+        if (!proPlayer || proPlayer.retired) return { success: false, reason: 'no proPlayer or already retired' };
+
+        // Retire
+        proPlayer.retired = true;
+        proPlayer.retiredAt = proPlayer.age || 35;
+
+        // Transition to manager mode
+        engineOrSave.mode = 'manager';
+        engineOrSave.manager = engineOrSave.manager || {};
+        engineOrSave.manager.name = proPlayer.name;
+        engineOrSave.manager.formerPlayer = true;
+        engineOrSave.manager.teamId = engineOrSave.manager?.teamId || proPlayer.teamId;
+
+        return {
+            success: true,
+            msg: `${proPlayer.name} aposentou-se aos ${proPlayer.retiredAt} anos e virou treinador.`
+        };
     }
 
     // ========================================================================

@@ -85,9 +85,9 @@ export class BoardSystem {
     }
 
     getStatus() {
-        if (this.confidence >= 70) return { label: "Satisfeita", color: "var(--primary)", emoji: "😊" };
-        if (this.confidence >= 45) return { label: "Observando", color: "var(--accent)", emoji: "🤔" };
-        if (this.confidence >= 25) return { label: "Insatisfeita", color: "var(--danger)", emoji: "😤" };
-        return { label: "Furiosa", color: "var(--danger)", emoji: "🔥" };
+        if (this.confidence >= 70) return { label: "Satisfeita", color: "#39FF14", emoji: "😊" };
+        if (this.confidence >= 45) return { label: "Observando", color: "#FFD700", emoji: "🤔" };
+        if (this.confidence >= 25) return { label: "Insatisfeita", color: "#FF3333", emoji: "😤" };
+        return { label: "Furiosa", color: "#FF3333", emoji: "🔥" };
     }
 }

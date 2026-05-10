@@ -196,19 +196,19 @@ export function suggestArchetypeForClub(clubProfile) {
 
     // Clube grande e rico → Galáctico ou Guardiola
     if (reputation > 80 && budget > 50_000_000) {
-        return Math.random() < 0.5 ? 'GALACTICO' : 'GUARDIOLA';
+        return systemRng() < 0.5 ? 'GALACTICO' : 'GUARDIOLA';
     }
     // Clube médio com boa base → Formador ou Equilibrado
     if (reputation > 50 && division <= 2) {
-        return Math.random() < 0.5 ? 'FORMADOR' : 'BALANCED';
+        return systemRng() < 0.5 ? 'FORMADOR' : 'BALANCED';
     }
     // Clube pequeno na luta contra rebaixamento → Retranceiro ou Desesperado
     if (division >= 3 && budget < 5_000_000) {
-        return Math.random() < 0.4 ? 'RETRANCEIRO' : 'DESPERATE';
+        return systemRng() < 0.4 ? 'RETRANCEIRO' : 'DESPERATE';
     }
     // Clube outsider ambicioso → Mercenário ou Kamikaze
     if (budget > 20_000_000 && reputation < 60) {
-        return Math.random() < 0.5 ? 'MERCENARY' : 'KAMIKAZE';
+        return systemRng() < 0.5 ? 'MERCENARY' : 'KAMIKAZE';
     }
     // Fallback
     return 'BALANCED';

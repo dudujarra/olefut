@@ -17,13 +17,15 @@
  * - Performance (advance week elapsed)
  */
 
-import { TACTICS, TRAINING_TYPES, TEAM_TALKS, FORMATIONS } from '../engine/ManagerSystems';
+import { TRAINING_TYPES, TEAM_TALKS, FORMATIONS } from '../engine/ManagerSystems';
 import { MonitorService } from './MonitorService';
 import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
 import { AdaptiveBrain, encodeState, computeReward } from './learning/AdaptiveBrain.js';
+import { ThompsonBandit } from './learning/ThompsonBandit.js';
+import { DAggerBootstrap } from './learning/DAggerBootstrap.js';
 import { detectMonotonyHeuristic, generateGameDesignInsights } from './learning/LLMBridge.js';
-import { smartBuyDecision, smartSellDecision, rankCandidates, computeTransferReward } from './learning/SmartMarketEngine.js';
-import { applyChallengeMode, checkChallengeWin, getAllChallengeModes } from '../engine/ChallengeModes.js';
+import { smartSellDecision, rankCandidates, computeTransferReward } from './learning/SmartMarketEngine.js';
+import { checkChallengeWin, getAllChallengeModes } from '../engine/ChallengeModes.js';
 import { SessionMetrics } from '../components/GDDSystems.jsx';
 
 import { rng as systemRng } from '../engine/rng.js';
@@ -95,6 +97,34 @@ export class AutoPlayController {
 
         // SPEC-115/116/117 — adaptive learning brain
         this.brain = new AdaptiveBrain();
+
+        // Fase 2 ML: Thompson Sampling bandits for low-frequency decisions
+        // Ref: Chapelle & Li (2011) — "An Empirical Evaluation of Thompson Sampling"
+        this.bandits = {
+            teamTalk: new ThompsonBandit('teamTalk',
+                (TEAM_TALKS || []).map(t => t.id).filter(Boolean)
+            ),
+            scoutRegion: new ThompsonBandit('scoutRegion', []),  // actions set dynamically
+            staffHire: new ThompsonBandit('staffHire',
+                ['scout', 'physio', 'assistant', 'fitness']
+            )
+        };
+
+        // Fase 4 ML: DAgger warm-start — pre-fill ML tables with heuristic knowledge
+        // Ref: Ross, Gordon & Bagnell (2011) — CMU DAgger
+        // Only runs once when brain Q-table is empty (cold start)
+        if (Object.keys(this.brain.qTable || {}).length === 0) {
+            try {
+                const result = DAggerBootstrap.warmStartAll({
+                    brain: this.brain,
+                    bandits: this.bandits,
+                    sarsaModifiers: this.brain.emotions?.sarsaModifiers
+                });
+                if (result.total > 0) {
+                    console.log(`[DAgger] Warm-start: ${result.total} teacher lessons loaded`);
+                }
+            } catch { /* non-critical */ }
+        }
 
         // Transfer tracking for ML reward feedback
         this._pendingTransferRewards = []; // { type, stateKey, action, weekBought, positionBefore, balanceBefore, playerOvr }
@@ -198,6 +228,10 @@ export class AutoPlayController {
             ts: Date.now()
         };
         this.stats.anomalies.push(entry);
+        // BUG-089: cap anomalies — segmented like decisions
+        if (this.stats.anomalies.length > 500) {
+            this.stats.anomalies = this.stats.anomalies.slice(-400);
+        }
         try {
             MonitorService.getInstance().recordBug({
                 severity: 'warning',
@@ -212,12 +246,21 @@ export class AutoPlayController {
             action,
             args,
             elapsedMs,
-            week: this.engine?.currentWeek
+            week: this.engine?.currentWeek,
+            season: this.engine?.seasonNumber
         };
         this.stats.decisions.push(entry);
-        // Keep only last 200 decisions to bound memory
-        if (this.stats.decisions.length > 200) {
-            this.stats.decisions = this.stats.decisions.slice(-100);
+        // BUG-RC2 fix: segment decisions to prevent NARRATIVE_EVENT from
+        // flooding the buffer and evicting strategic decisions.
+        // Strategy: keep last 200 strategic + last 50 routine.
+        if (this.stats.decisions.length > 300) {
+            const ROUTINE = new Set(['NARRATIVE_EVENT', 'VISIT_VIEW', 'TEAM_TALK', 'PRESS_CONFERENCE']);
+            const strategic = this.stats.decisions.filter(d => !ROUTINE.has(d.action));
+            const routine = this.stats.decisions.filter(d => ROUTINE.has(d.action));
+            this.stats.decisions = [
+                ...strategic.slice(-200),
+                ...routine.slice(-50)
+            ];
         }
         // Telemetry: feed decision
         try {
@@ -228,8 +271,15 @@ export class AutoPlayController {
     _tick() {
         if (!this.running) return;
 
+        // BUG-087: _makeDecisions e _advanceWeek em try/catch independentes.
+        // Decisões falharem NÃO pode impedir a progressão do tempo.
         try {
             this._makeDecisions();
+        } catch (e) {
+            this._logAnomaly('DECISIONS_CRASH', e?.message || 'Unknown error in _makeDecisions');
+        }
+
+        try {
             this._advanceWeek();
             this.stats.weeksPlayed++;
 
@@ -306,15 +356,21 @@ export class AutoPlayController {
 
             // === HUMAN-PARITY INTERACTIONS (mirror what player does in UI) ===
 
-            // Team Talk — human does this before matches (Dashboard + MatchView)
+            // Team Talk — ML via Thompson Sampling (was random pick)
+            // Ref: Thompson (1933), Chapelle & Li (2011)
             try {
                 if (typeof this.engine.doTeamTalk === 'function' && this.stats.weeksPlayed % 2 === 0) {
                     const talks = TEAM_TALKS || [];
                     if (talks.length > 0) {
-                        const pick = talks[Math.floor(systemRng() * talks.length)];
-                        const result = this.engine.doTeamTalk(pick.id);
+                        const ctxKey = this._banditContextKey();
+                        const talkIds = talks.map(t => t.id).filter(Boolean);
+                        const pickedId = this.bandits.teamTalk.pick(ctxKey, talkIds);
+                        const result = this.engine.doTeamTalk(pickedId);
                         if (result?.success) {
-                            this._logDecision('TEAM_TALK', { talkId: pick.id, name: pick.name }, 0);
+                            this._logDecision('TEAM_TALK', { talkId: pickedId, source: 'thompson' }, 0);
+                            // Track for delayed reward feedback
+                            this._lastBanditActions = this._lastBanditActions || {};
+                            this._lastBanditActions.teamTalk = { ctxKey, action: pickedId };
                         }
                     }
                 }
@@ -356,18 +412,28 @@ export class AutoPlayController {
                 }
             } catch { /* proposal non-critical */ }
 
-            // Scout Regions — human scouts in DashboardView/MarketView
+            // Scout Regions — ML via Thompson Sampling (was random pick)
             try {
                 if (typeof this.engine.scoutRegionAction === 'function' && this.stats.weeksPlayed % 6 === 0) {
                     const regions = this.engine.scoutRegions || [];
                     if (regions.length > 0) {
-                        const region = regions[Math.floor(systemRng() * regions.length)];
-                        const result = this.engine.scoutRegionAction(region.id);
+                        const ctxKey = this._banditContextKey();
+                        const regionIds = regions.map(r => r.id || r.name).filter(Boolean);
+                        const pickedRegion = this.bandits.scoutRegion.pick(ctxKey, regionIds);
+                        const result = this.engine.scoutRegionAction(pickedRegion);
                         if (result?.players?.length > 0) {
                             this._logDecision('SCOUT_REGION', {
-                                region: region.name || region.id,
-                                found: result.players.length
+                                region: pickedRegion,
+                                found: result.players.length,
+                                source: 'thompson'
                             }, 0);
+                            // Immediate reward: found players = success signal
+                            const quality = result.players.reduce((s, p) => s + (p.ovr || 50), 0) / result.players.length;
+                            const reward = quality > 60 ? 2 : (quality > 50 ? 1 : 0.5);
+                            this.bandits.scoutRegion.update(ctxKey, pickedRegion, reward);
+                        } else {
+                            // No players found = mild negative signal
+                            this.bandits.scoutRegion.update(ctxKey, pickedRegion, -0.5);
                         }
                     }
                 }
@@ -452,7 +518,7 @@ export class AutoPlayController {
                     const team = this.engine.getTeam(this.engine.manager?.teamId);
                     // Sign if squad small or player is upgrade (OVR > squad avg)
                     const avgOVR = team?.squad?.length
-                        ? team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / team.squad.length : 50;
+                        ? team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / (team.squad.length || 1) : 50;
                     for (let i = this.engine.scoutedPlayers.length - 1; i >= 0; i--) {
                         const sp = this.engine.scoutedPlayers[i];
                         const isUpgrade = (sp.ovr || 0) >= avgOVR;
@@ -471,20 +537,22 @@ export class AutoPlayController {
                 }
             } catch { /* sign non-critical */ }
 
-            // Staff Management — human hires/fires in DashboardView
+            // Staff Management — ML via Thompson Sampling (was fixed iteration)
             try {
                 if (typeof this.engine.hireStaff === 'function' && this.stats.weeksPlayed % 38 === 1) {
                     const team = this.engine.getTeam(this.engine.manager?.teamId);
                     if (team && (team.balance || 0) > 2_000_000) {
-                        const roles = ['scout', 'physio', 'assistant', 'fitness'];
                         const staff = this.engine.staff || {};
-                        for (const role of roles) {
-                            if (!staff[role]) {
-                                const result = this.engine.hireStaff(role);
-                                if (result?.success) {
-                                    this._logDecision('HIRE_STAFF', { role }, 0);
-                                    break;
-                                }
+                        const availableRoles = ['scout', 'physio', 'assistant', 'fitness']
+                            .filter(role => !staff[role]);
+                        if (availableRoles.length > 0) {
+                            const ctxKey = this._banditContextKey();
+                            const pickedRole = this.bandits.staffHire.pick(ctxKey, availableRoles);
+                            const result = this.engine.hireStaff(pickedRole);
+                            if (result?.success) {
+                                this._logDecision('HIRE_STAFF', { role: pickedRole, source: 'thompson' }, 0);
+                                // Immediate reward: hiring is a mild positive
+                                this.bandits.staffHire.update(ctxKey, pickedRole, 1);
                             }
                         }
                     }
@@ -546,8 +614,32 @@ export class AutoPlayController {
                 this._sessionMetrics.recordMatch();
                 // SPEC-123: snapshot per-season for learning curve viz
                 if (!Array.isArray(this.stats.seasonHistory)) this.stats.seasonHistory = [];
+                const team = this.engine.getTeam(this.engine.manager?.teamId);
+                const standings = team ? this.engine.getStandings(team.zone, team.division) : [];
+                const position = team ? (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length : 0;
+                const totalTeams = standings.length || 20;
+                const promoted = position > 0 && position <= Math.max(2, Math.floor(totalTeams * 0.1));
+                const relegated = position > 0 && position > totalTeams - Math.max(2, Math.floor(totalTeams * 0.1));
+
                 const seasonRec = {
                     season: this.stats.seasonsPlayed,
+                    // Strategic data
+                    division: team?.division ?? null,
+                    position,
+                    balance: team?.balance ?? 0,
+                    promoted,
+                    relegated,
+                    squadSize: team?.squad?.length ?? 0,
+                    loanActive: !!this.engine.activeLoan,
+                    // Tournament participation
+                    tournamentData: (this.engine.tournaments || [])
+                        .filter(t => t.participants?.includes(team?.id))
+                        .map(t => ({
+                            id: t.id,
+                            winner: t.winner === team?.id,
+                            phase: t.phase || (t.currentPhaseIndex != null ? `phase-${t.currentPhaseIndex}` : null),
+                        })),
+                    // Cumulative stats
                     wins: this.stats.wins,
                     draws: this.stats.draws,
                     losses: this.stats.losses,
@@ -621,7 +713,7 @@ export class AutoPlayController {
             const squadOvr = team?.squad?.length
                 ? {
                     [seasonNum]: {
-                        avgOvr: team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / team.squad.length,
+                        avgOvr: team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / (team.squad.length || 1),
                         topOvr: Math.max(...team.squad.map(p => p.ovr || 0)),
                         count: team.squad.length
                     }
@@ -643,6 +735,25 @@ export class AutoPlayController {
     }
 
     /**
+     * Fase 2 ML: Discretize game state into a compact context key for Thompson bandits.
+     * Uses 3 dimensions: position tier, balance tier, season phase.
+     * Total: 4 × 4 × 3 = 48 possible contexts — keeps bandit tables tiny.
+     * @returns {string} e.g. "top4|rich|late"
+     */
+    _banditContextKey() {
+        const ctx = this._buildStateCtx();
+        const posTier = ctx.position <= 4 ? 'top4'
+            : ctx.position <= 10 ? 'mid'
+            : ctx.position <= 16 ? 'bottom' : 'rele';
+        const balTier = ctx.balance > 5_000_000 ? 'rich'
+            : ctx.balance > 1_000_000 ? 'stable'
+            : ctx.balance > 0 ? 'poor' : 'broke';
+        const phaseTier = ctx.week <= 12 ? 'early'
+            : ctx.week <= 28 ? 'mid' : 'late';
+        return `${posTier}|${balTier}|${phaseTier}`;
+    }
+
+    /**
      * SPEC-115/116/117: build state ctx from engine for brain.
      */
     _buildStateCtx() {
@@ -653,7 +764,7 @@ export class AutoPlayController {
         const position = team ? (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length : 20;
         const balance = team?.balance || 0;
         const formAvg = team?.squad?.length
-            ? team.squad.reduce((s, p) => s + (p.form?.value ?? 50), 0) / team.squad.length
+            ? team.squad.reduce((s, p) => s + (p.form?.value ?? 50), 0) / (team.squad.length || 1)
             : 50;
         const lastResult = this._lastMatchResult || '-';
         
@@ -705,6 +816,23 @@ export class AutoPlayController {
 
         const nextStateKey = encodeState(currentCtx);
         this.brain.observe(this._lastStateKey, this._lastAction, reward, nextStateKey, []);
+
+        // Fase 3 ML: Feed reward to SARSA emotional modifier learner
+        try { this.brain.emotions.feedReward(reward); } catch { /* defensive */ }
+
+        // Fase 2 ML: Thompson Sampling feedback for team talk
+        // Match result feeds back to the last team talk choice
+        if (this._lastBanditActions?.teamTalk) {
+            const { ctxKey, action } = this._lastBanditActions.teamTalk;
+            // Win = positive, draw = neutral, loss = negative
+            const talkReward = currentCtx.lastResult === 'W' ? 1.5
+                : currentCtx.lastResult === 'D' ? 0
+                : currentCtx.lastResult === 'L' ? -1 : 0;
+            if (talkReward !== 0) {
+                this.bandits.teamTalk.update(ctxKey, action, talkReward);
+            }
+            this._lastBanditActions.teamTalk = null; // consumed
+        }
     }
 
     _makeDecisions() {
@@ -714,6 +842,10 @@ export class AutoPlayController {
 
         // SPEC-115/116/117: Build state + observe last outcome
         const ctx = this._buildStateCtx();
+
+        // Fase 3 ML: Set emotional context for SARSA modifier learning
+        try { this.brain.emotions.setContext(ctx); } catch { /* defensive */ }
+
         this._observeOutcome(ctx);
 
         // ML Transfer Reward Feedback: evaluate past transfers every 8 weeks
@@ -783,7 +915,7 @@ export class AutoPlayController {
         }
 
         // Decision 2: Tactic — SPEC-115 brain pick (was streak hardcoded fallback)
-        const tacticActions = ['TACTIC_normal', 'TACTIC_attacking', 'TACTIC_defensive', 'TACTIC_counter'];
+        const tacticActions = ['TACTIC_normal', 'TACTIC_offensive', 'TACTIC_defensive', 'TACTIC_counter'];
         const pickedTacticKey = this.brain.pickAction(stateKey, tacticActions, ctx);
         let nextTactic = 'normal';
         if (pickedTacticKey) {
@@ -791,22 +923,32 @@ export class AutoPlayController {
         } else {
             // Fallback heuristic if brain returns null
             const streak = engine.managerStats?.streak || 0;
-            if (streak >= 3) nextTactic = 'attacking';
+            if (streak >= 3) nextTactic = 'offensive';
             else if (streak <= -2) nextTactic = 'defensive';
             else if (streak <= 0) nextTactic = 'counter';
         }
         if (engine.setTactic) {
-            // BUG-081: boredom override — force rotation if same tactic >12 weeks and not winning big
+            // BUG-081: boredom override — force rotation if same tactic >8 weeks and not winning big
+            // BUG-RC3 fix: reduced from 12→8 to break stuck loops faster
             const tacticStreak = engine.managerStats?.streak || 0;
-            if (this._consecutiveSameTactic > 12 && tacticStreak < 5) {
+            if (this._consecutiveSameTactic > 8 && tacticStreak < 5) {
                 const allTactics = ['normal', 'offensive', 'defensive', 'pressing', 'counter', 'possession'];
                 const others = allTactics.filter(t => t !== nextTactic);
                 nextTactic = others[Math.floor(systemRng() * others.length)];
                 this._consecutiveSameTactic = 0;
             }
             engine.setTactic(nextTactic);
-            if (this._lastTactic === nextTactic) this._consecutiveSameTactic++;
-            else this._consecutiveSameTactic = 0;
+            // BUG-RC3: log tactic CHANGES (not same-tactic repeats) for observability
+            if (this._lastTactic !== nextTactic) {
+                this._logDecision('TACTIC_CHANGE', {
+                    from: this._lastTactic || 'none',
+                    to: nextTactic,
+                    source: pickedTacticKey ? 'brain' : 'heuristic'
+                }, 0);
+                this._consecutiveSameTactic = 0;
+            } else {
+                this._consecutiveSameTactic++;
+            }
             this._lastTactic = nextTactic;
         }
 
@@ -817,7 +959,7 @@ export class AutoPlayController {
                 const standings = team ? engine.getStandings(team.zone, team.division) : [];
                 const position = team ? (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length : 10;
                 const avgOVR = team?.squad?.length
-                    ? team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / team.squad.length : 60;
+                    ? team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / (team.squad.length || 1) : 60;
                 const totalMatches = this.stats.wins + this.stats.draws + this.stats.losses;
                 const winRate = totalMatches > 0 ? this.stats.wins / totalMatches : 0.33;
 
@@ -872,24 +1014,9 @@ export class AutoPlayController {
             this._logDecision('FORMATION', { form }, 0);
         }
 
-        // Decision 4: Accept reasonable transfer offers
-        if (engine.transferOffers && engine.transferOffers.length > 0) {
-            const offer = engine.transferOffers[0];
-            if (offer && offer.amount && offer.player) {
-                const playerValue = offer.player.value || 1000000;
-                if (offer.amount >= playerValue * 1.5) {
-                    if (engine.acceptTransferOffer) {
-                        try {
-                            engine.acceptTransferOffer(offer.player.id);
-                            this.stats.transfers++;
-                            this._logDecision('ACCEPT_OFFER', { amount: offer.amount, value: playerValue }, 0);
-                        } catch (e) {
-                            this._logAnomaly('TRANSFER_ERROR', e.message);
-                        }
-                    }
-                }
-            }
-        }
+        // Decision 4: REMOVED (BUG-086) — transfer offer processing is handled
+        // in the ML-powered block below (L989+) with smartSellDecision + reward tracking.
+        // This legacy block used wrong field names (offer.amount/offer.player) and never executed.
 
         // Decision 5: Stadium/Academy upgrade every 2 seasons (was 5 — too slow, balance stagnated).
         // SPEC-100: more frequent big spending increases balance variance (CV was 1.1%).
@@ -1082,6 +1209,10 @@ export class AutoPlayController {
                                             simulated: false,
                                             source: best.decision.source
                                         });
+                                        // BUG-094: cap to 200 entries (consistent with TelemetryAggregator MAX_HISTORY)
+                                        if (this.telemetry.history.offers.length > 200) {
+                                            this.telemetry.history.offers = this.telemetry.history.offers.slice(-200);
+                                        }
                                     }
                                     this._logDecision('BUY_OFFER', {
                                         target: player.name,
@@ -1373,6 +1504,12 @@ export class AutoPlayController {
         // Title/promotion detection (season transition)
         const seasonNum = engine.seasonNumber || 1;
         if (this._lastSeasonNumber !== null && seasonNum > this._lastSeasonNumber) {
+            // Q(λ) episode boundary: clear eligibility traces to prevent
+            // cross-season credit leakage (Ref: Sutton & Barto Ch.12 §12.1)
+            try { this.brain.clearTraces(); } catch { /* defensive */ }
+            // Fase 3: clear SARSA(λ) emotional traces at season boundary
+            try { this.brain.emotions.clearSarsaTraces(); } catch { /* defensive */ }
+
             // Flush all pending transfer rewards (season rolled over, can't wait anymore)
             if (this._pendingTransferRewards?.length > 0 && team) {
                 const standings = engine.getStandings(team.zone, team.division) || [];
@@ -1499,6 +1636,111 @@ export class AutoPlayController {
      */
     resetBrain() {
         if (this.brain) this.brain.reset();
+    }
+
+    /**
+     * NEW GAME+ — Salva o brain treinado, reseta TUDO do gameplay.
+     * 
+     * O brain (Q-table, personality, emotions, memória episódica) é salvo
+     * no localStorage. Stats, seasons, match results, telemetry, transfer
+     * tracking — tudo é zerado. Quando o jogo reinicia, o brain restaura
+     * automaticamente do localStorage com todo o aprendizado intacto.
+     * 
+     * Fluxo:
+     *   1. Pausa o autoplay
+     *   2. Salva brain no localStorage (persiste ML)
+     *   3. Zera stats, insights, decisions, anomalies, seasonHistory
+     *   4. Reseta telemetry aggregator
+     *   5. Limpa transfer tracking interno
+     *   6. Remove save de gameplay (elifoot_autoplay_state, elifoot_save_v1)
+     *   7. Retorna snapshot do brain salvo para confirmação
+     * 
+     * @returns {{ brainStates: number, totalUpdates: number, personality: string, savedAt: number }}
+     */
+    newGamePlus() {
+        // 1. Pausa
+        this.pause();
+
+        // 2. Salva brain ANTES de limpar qualquer coisa
+        const brainSnapshot = {
+            states: Object.keys(this.brain?.qTable || {}).length,
+            totalUpdates: this.brain?.totalUpdates || 0,
+            personality: this.brain?.personality?.id || 'unknown',
+            memoryEntries: this.brain?.memory?.length || 0,
+            emotionalState: this.brain?.emotions?.state || 'CALM',
+        };
+        if (this.brain) {
+            this.brain.save(); // persiste brain no localStorage
+        }
+
+        // 3. Zera stats de gameplay
+        this.stats = {
+            weeksPlayed: 0,
+            seasonsPlayed: 0,
+            matchesPlayed: 0,
+            wins: 0,
+            draws: 0,
+            losses: 0,
+            transfers: 0,
+            errorCount: 0,
+            anomalies: [],
+            successes: [],
+            decisions: [],
+            insights: {
+                longestWinStreak: 0,
+                longestLossStreak: 0,
+                biggestWin: null,
+                worstLoss: null,
+                biggestSale: null,
+                titlesWon: 0,
+                promotionsWon: 0,
+                relegationsTaken: 0,
+                hatTricks: 0,
+                cleanSheets: 0,
+                achievementsUnlocked: 0,
+                peakBalance: 0,
+                lowestBalance: Infinity,
+                peakStanding: Infinity,
+                worstStanding: 0
+            },
+            startTime: null,
+            elapsedMs: 0
+        };
+
+        // 4. Reseta tracking interno
+        this._lastSeasonNumber = null;
+        this._lastTitlesCount = 0;
+        this._lastDivision = null;
+        this._trainingIdx = 0;
+        this._lastBalance = null;
+        this._consecutiveSameTactic = 0;
+        this._lastTactic = null;
+        this._pendingTransferRewards = [];
+        this._lastStateKey = null;
+        this._lastAction = null;
+        this._lastBalanceForReward = null;
+        this._lastPositionForReward = null;
+        this._lastSeasonForReward = null;
+        this._lastDivisionForReward = null;
+
+        // 5. Reseta telemetry
+        try {
+            this.telemetry = new TelemetryAggregator();
+            this.lastTelemetryReport = null;
+        } catch { /* ignore */ }
+
+        // 6. Limpa saves de gameplay (mas NÃO o brain!)
+        try {
+            if (typeof localStorage !== 'undefined') {
+                localStorage.removeItem('elifoot_autoplay_state');
+                localStorage.removeItem('elifoot_save_v1');
+                localStorage.removeItem('elifoot_genetic_state');
+                // NÃO remove 'elifoot_autoplay_brain' — esse é o ponto!
+            }
+        } catch { /* ignore */ }
+
+        brainSnapshot.savedAt = Date.now();
+        return brainSnapshot;
     }
 
     exportReport() {

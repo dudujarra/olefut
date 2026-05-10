@@ -152,39 +152,5 @@ function expandBrain(brain, data) {
     if (data.e && brain.emotions) brain.emotions.restore(data.e);
 }
 
-// ─── ANALYTICS ───────────────────────────────────────────────
 
-/**
- * Calcula tamanho total estimado de todos os brains em bytes.
- *
- * @param {Array<Object>} teams
- * @returns {{ totalBytes: number, brainCount: number, avgBytes: number }}
- */
-export function estimateStorageSize(teams) {
-    let totalBytes = 0;
-    let brainCount = 0;
 
-    for (const team of teams) {
-        if (!team.brain || team.brain.totalUpdates === 0) continue;
-        const compact = compactBrain(team.brain);
-        totalBytes += JSON.stringify(compact).length;
-        brainCount++;
-    }
-
-    return {
-        totalBytes,
-        brainCount,
-        avgBytes: brainCount > 0 ? Math.round(totalBytes / brainCount) : 0
-    };
-}
-
-/**
- * Limpa todos os brains persistidos.
- */
-export function clearAllBrains() {
-    try {
-        if (typeof localStorage !== 'undefined') {
-            localStorage.removeItem(STORAGE_KEY_PREFIX);
-        }
-    } catch { /* ignore */ }
-}

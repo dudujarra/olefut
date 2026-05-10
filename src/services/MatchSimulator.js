@@ -22,7 +22,7 @@ import { drawCard } from '../engine/MatchEventsDeck.js';
 import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
 import { getDifficulty } from '../engine/systems/DifficultyModes.js';
 import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats } from '../engine/PlayerTraits';
-import { recordNpcResult, applyNpcTacticAdvice, adviseTactic } from '../engine/NpcTacticAdvisor';
+import { recordNpcResult } from '../engine/NpcTacticAdvisor';
 import { npcFeedMatchResult } from './learning/NpcManagerAI.js';
 
 import { rng as systemRng } from '../engine/rng.js';
@@ -55,16 +55,22 @@ export class MatchSimulator {
         const tactic = TACTICS[homeTactic] || TACTICS.normal;
         const oppTactic = TACTICS[awayTactic] || TACTICS.normal;
 
-        // Apply tactic modifiers
+        // Apply tactic modifiers to BOTH teams' sectors
+        // BUG-095: previously only manager's team got sector-level modifiers,
+        // which caused double-application in xG formula for manager + zero application for NPCs.
+        // Now: all teams get tactic mods applied here; xG uses raw sectors.
         const isManagerHome = homeId === engine.manager.teamId;
         const isManagerAway = awayId === engine.manager.teamId;
-        if (isManagerHome) {
-            homeSectors.attack = Math.floor(homeSectors.attack * tactic.ataModifier * engine.teamTalkModifiers.ata);
-            homeSectors.defense = Math.floor(homeSectors.defense * tactic.defModifier * engine.teamTalkModifiers.def);
-        } else if (isManagerAway) {
-            awaySectors.attack = Math.floor(awaySectors.attack * tactic.ataModifier * engine.teamTalkModifiers.ata);
-            awaySectors.defense = Math.floor(awaySectors.defense * tactic.defModifier * engine.teamTalkModifiers.def);
-        }
+        // Home team: tactic + teamTalk (if manager)
+        const homeTTAta = isManagerHome ? engine.teamTalkModifiers.ata : 1.0;
+        const homeTTDef = isManagerHome ? engine.teamTalkModifiers.def : 1.0;
+        homeSectors.attack = Math.floor(homeSectors.attack * tactic.ataModifier * homeTTAta);
+        homeSectors.defense = Math.floor(homeSectors.defense * tactic.defModifier * homeTTDef);
+        // Away team: tactic + teamTalk (if manager)
+        const awayTTAta = isManagerAway ? engine.teamTalkModifiers.ata : 1.0;
+        const awayTTDef = isManagerAway ? engine.teamTalkModifiers.def : 1.0;
+        awaySectors.attack = Math.floor(awaySectors.attack * oppTactic.ataModifier * awayTTAta);
+        awaySectors.defense = Math.floor(awaySectors.defense * oppTactic.defModifier * awayTTDef);
 
         // Tactic counter modifier
         const homeCounterMod = TACTIC_COUNTERS[homeTactic]?.[awayTactic] || 1.0;
@@ -146,11 +152,13 @@ export class MatchSimulator {
         const AVG_SECTOR = 60; // baseline for strength normalization
 
         // Attack & Defense Strengths (Alpha & Beta)
-        const homeAttackStr = (homeSectors.attack * tactic.ataModifier * engine.teamTalkModifiers.ata) / AVG_SECTOR;
-        const awayDefenseStr = (awaySectors.defense * oppTactic.defModifier * engine.teamTalkModifiers.def) / AVG_SECTOR;
+        // BUG-095: sectors already include tactic + teamTalk modifiers from L62-67.
+        // Do NOT re-apply them here (was squaring the modifier effect).
+        const homeAttackStr = homeSectors.attack / AVG_SECTOR;
+        const awayDefenseStr = awaySectors.defense / AVG_SECTOR;
         
-        const awayAttackStr = (awaySectors.attack * oppTactic.ataModifier * engine.teamTalkModifiers.ata) / AVG_SECTOR;
-        const homeDefenseStr = (homeSectors.defense * tactic.defModifier * engine.teamTalkModifiers.def) / AVG_SECTOR;
+        const awayAttackStr = awaySectors.attack / AVG_SECTOR;
+        const homeDefenseStr = homeSectors.defense / AVG_SECTOR;
 
         // Base λ (home xG) and μ (away xG)
         let lambda = BASE_XG_HOME * homeAttackStr * awayDefenseStr * homeMoralFactor * homeCounterMod;

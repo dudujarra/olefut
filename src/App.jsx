@@ -159,7 +159,7 @@ function App() {
                         </EfButton>
                     </div>
                     {savedToast && (
-                        <div style={{position:'fixed',top:'4rem',right:'1rem',background:'var(--primary)',color:'white',padding:'0.5rem 1rem',borderRadius:'var(--radius-sm)',fontSize:'0.85rem',fontWeight:600,zIndex:1000,animation:'slideUp 0.3s'}}>
+                        <div style={{position:'fixed',top:'4rem',right:'1rem',background:'#39FF14',color:'#111417',padding:'0.5rem 1rem',borderRadius:'0',fontSize:'0.85rem',fontWeight:600,zIndex:1000,animation:'slideUp 0.3s',border:'2px solid #4A5059',fontFamily:"'Press Start 2P', monospace"}}>
                             ✅ Salvo!
                         </div>
                     )}

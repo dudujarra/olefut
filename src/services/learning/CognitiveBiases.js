@@ -13,25 +13,8 @@
  *   - Tversky & Kahneman (1973) — Availability/Recency Bias
  */
 
-// ─── ANCHORING ────────────────────────────────────────────────
 
-/**
- * Primeira oferta recebida "ancora" a percepção de valor do jogador.
- * Bots com OCEAN.C baixo (indisciplinados) são mais suscetíveis.
- *
- * @param {number} realValue — valor real de mercado
- * @param {number|null} firstOffer — primeira oferta que o bot viu por esse jogador
- * @param {number} anchorStrength — 0-1, quanto a âncora puxa (derivado de 1 - OCEAN.C)
- * @returns {number} valor percebido (entre firstOffer e realValue)
- */
-export function applyAnchoring(realValue, firstOffer, anchorStrength = 0.3) {
-    if (firstOffer == null || firstOffer <= 0) return realValue;
-    // Interpola entre valor real e âncora
-    // anchorStrength=0 → ignora âncora (racional puro)
-    // anchorStrength=1 → 100% ancorado na primeira oferta
-    const weight = Math.min(1, Math.max(0, anchorStrength * 0.6));
-    return Math.round(realValue * (1 - weight) + firstOffer * weight);
-}
+
 
 // ─── SUNK COST FALLACY ───────────────────────────────────────
 

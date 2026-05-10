@@ -30,7 +30,7 @@ export function buildNpcStateCtx(team, engine) {
     const position = standings.findIndex(s => s.teamId === team.id) + 1 || standings.length || 10;
     const balance = team.balance || 0;
     const formAvg = team.squad?.length
-        ? team.squad.reduce((s, p) => s + (p.form?.value ?? 50), 0) / team.squad.length
+        ? team.squad.reduce((s, p) => s + (p.form?.value ?? 50), 0) / (team.squad.length || 1)
         : 50;
     const lastResult = team.npcTacticState?.recentResults?.[0] || '-';
     const lossStreak = Math.abs(countStreak(team.npcTacticState?.recentResults || [], 'L'));
@@ -65,10 +65,13 @@ export function npcTacticDecision(team, engine) {
 
     const ctx = buildNpcStateCtx(team, engine);
     const stateKey = encodeState(ctx);
-    const tacticActions = ['TACTIC_normal', 'TACTIC_attacking', 'TACTIC_defensive', 'TACTIC_counter'];
+    const tacticActions = ['TACTIC_normal', 'TACTIC_offensive', 'TACTIC_defensive', 'TACTIC_counter'];
     const picked = brain.pickAction(stateKey, tacticActions, ctx);
     const newTactic = picked ? picked.replace('TACTIC_', '') : 'normal';
     const oldTactic = team.npcTacticState?.currentTactic || 'normal';
+
+    // Save for reward feedback after match result (npcFeedMatchResult → npcObserveReward)
+    team._lastTacticDecision = { stateKey, action: picked || 'TACTIC_normal' };
 
     return {
         tactic: newTactic,
@@ -143,7 +146,9 @@ export function npcBuyDecision(team, engine) {
 
     // Scout league for candidates
     if (typeof engine.scoutLeague !== 'function') return;
-    const candidates = engine.scoutLeague(weakest.pos, weakest.avgOVR + 3, 5);
+    // scoutLeague excludes player's team, but not this NPC's team — filter self
+    const candidates = engine.scoutLeague(weakest.pos, weakest.avgOVR + 3, 5)
+        .filter(c => c.teamId !== team.id);
     if (candidates.length === 0) return;
 
     // ML: rank candidates through brain Q-Learning
@@ -165,8 +170,8 @@ export function npcBuyDecision(team, engine) {
     const player = target.player || target;
     const offerAmount = best.askingPrice;
 
-    if (typeof engine.makeBuyOffer === 'function') {
-        const result = engine.makeBuyOffer(target.teamId, player.id, offerAmount);
+    if (typeof engine.npcMakeBuyOffer === 'function') {
+        const result = engine.npcMakeBuyOffer(team.id, target.teamId, player.id, offerAmount);
         // Feed reward: immediate signal for accepted/rejected
         if (result?.accepted) {
             brain.observe(best.decision.stateKey, best.decision.action, 3, encodeState(buildNpcStateCtx(team, engine)), []);
@@ -176,30 +181,8 @@ export function npcBuyDecision(team, engine) {
     }
 }
 
-/**
- * NPC avalia oferta de compra recebida.
- * Usa personality + sunk cost + endowment effect.
- *
- * @param {Object} team
- * @param {Object} offer — { player, amount }
- * @param {Object} engine
- * @returns {{ sell: boolean, reason: string }}
- */
-export function npcEvaluateIncomingOffer(team, offer, engine) {
-    const brain = team.brain;
-    if (!brain) {
-        // No brain: accept if overpay 1.5x
-        const isOverpay = offer.amount >= (offer.player?.value || 1_000_000) * 1.5;
-        return { sell: isOverpay, reason: isOverpay ? 'overpay (no-brain)' : 'keep (no-brain)' };
-    }
 
-    // ML: brain Q-Learning decides sell
-    return smartSellDecision(brain, {
-        team,
-        player: offer.player,
-        offerAmount: offer.amount
-    });
-}
+
 
 // ─── EMOTIONAL FEED ──────────────────────────────────────────
 
@@ -221,6 +204,13 @@ export function npcFeedMatchResult(team, result, engine) {
     const isRelRisk = pos > standings.length * 0.75;
 
     brain.processMatchResult(result, streak, isRelRisk);
+
+    // Close the Q-Learning loop: reward the tactic decision that led to this result
+    if (team._lastTacticDecision) {
+        const ctx = buildNpcStateCtx(team, engine);
+        npcObserveReward(team, ctx, team._lastTacticDecision.action, team._lastTacticDecision.stateKey);
+        team._lastTacticDecision = null; // consumed
+    }
 }
 
 // ─── Q-TABLE REWARD OBSERVATION ──────────────────────────────
