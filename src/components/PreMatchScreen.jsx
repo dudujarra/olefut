@@ -42,7 +42,7 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                     <div style={{
                         marginBottom: '0.5rem',
                         padding: '0.4rem 0.75rem',
-                        background: 'linear-gradient(90deg, #D62828, #6B0000)',
+                        background: '#D62828',
                         color: '#FFF',
                         textAlign: 'center',
                         fontWeight: 700,

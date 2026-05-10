@@ -50,7 +50,10 @@ export function PressView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgPressConference})`,
+            backgroundImage: `url(${bgPressConference})`,
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
+            backgroundColor: '#0A130E',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',

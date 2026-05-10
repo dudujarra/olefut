@@ -114,22 +114,27 @@ const GOAL_RELEVANCE = {
     AVOID_RELEGATION: {
         TACTIC_defensive: 0.7, TACTIC_normal: 0.4, TACTIC_attacking: -0.2,
         TRAIN_fitness: 0.6, TRAIN_tactical: 0.5,
-        UPGRADE_STADIUM: -0.5, UPGRADE_ACADEMY: -0.3, SQUAD_REPLENISH: 0.7
+        UPGRADE_STADIUM: -0.5, UPGRADE_ACADEMY: -0.3, SQUAD_REPLENISH: 0.7,
+        MKT_BUY_YES: 0.3, MKT_BUY_NO: -0.1, MKT_SELL_YES: -0.4, MKT_SELL_NO: 0.3
     },
     FINANCIAL_HEALTH: {
         UPGRADE_STADIUM: -0.8, UPGRADE_ACADEMY: -0.5, ACCEPT_OFFER: 0.9,
-        TACTIC_defensive: 0.2, SQUAD_REPLENISH: -0.2
+        TACTIC_defensive: 0.2, SQUAD_REPLENISH: -0.2,
+        MKT_BUY_YES: -0.6, MKT_BUY_NO: 0.4, MKT_SELL_YES: 0.8, MKT_SELL_NO: -0.5
     },
     CLIMB_POSITION: {
         TACTIC_attacking: 0.7, TACTIC_counter: 0.5,
-        TRAIN_attack: 0.6, TRAIN_technical: 0.5, FORMATION: 0.4
+        TRAIN_attack: 0.6, TRAIN_technical: 0.5, FORMATION: 0.4,
+        MKT_BUY_YES: 0.5, MKT_BUY_NO: -0.2, MKT_SELL_YES: -0.3, MKT_SELL_NO: 0.2
     },
     SQUAD_DEPTH: {
-        SQUAD_REPLENISH: 1.0, UPGRADE_ACADEMY: 0.6, ACCEPT_OFFER: -0.4, TRAIN_fitness: 0.2
+        SQUAD_REPLENISH: 1.0, UPGRADE_ACADEMY: 0.6, ACCEPT_OFFER: -0.4, TRAIN_fitness: 0.2,
+        MKT_BUY_YES: 0.8, MKT_BUY_NO: -0.5, MKT_SELL_YES: -0.6, MKT_SELL_NO: 0.4
     },
     WIN_TITLE: {
         TACTIC_attacking: 0.6, TACTIC_counter: 0.5,
-        TRAIN_attack: 0.5, TRAIN_technical: 0.4, UPGRADE_STADIUM: 0.3
+        TRAIN_attack: 0.5, TRAIN_technical: 0.4, UPGRADE_STADIUM: 0.3,
+        MKT_BUY_YES: 0.4, MKT_BUY_NO: -0.1, MKT_SELL_YES: -0.5, MKT_SELL_NO: 0.3
     }
 };
 
@@ -354,8 +359,9 @@ export class AdaptiveBrain {
             if (forced) return forced;
         }
 
-        // Effective epsilon = base × emotional modifier
-        const effectiveEpsilon = Math.min(0.95, BASE_EPSILON * emo.epsilonMod);
+        // Effective epsilon = base × emotional modifier × AI Director modifier
+        const directorMod = this._aiDirectorMod || 1.0;
+        const effectiveEpsilon = Math.min(0.95, BASE_EPSILON * emo.epsilonMod * (2.0 - directorMod));
 
         // TILT MECHANIC: high epsilonMod makes decisions erratic
         const lossStreak = ctx.lossStreak || 0;

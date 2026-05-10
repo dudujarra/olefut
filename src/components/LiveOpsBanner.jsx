@@ -21,7 +21,7 @@ export function LiveOpsBanner() {
             {events.map(ev => (
                 <div key={ev.id} style={{
                     padding: '0.5rem 0.75rem',
-                    background: 'linear-gradient(90deg, rgba(247,181,56,0.15), rgba(106,188,58,0.1))',
+                    background: '#3A2C11',
                     border: '1px solid rgba(247,181,56,0.4)',
                     borderRadius: '4px',
                     marginBottom: '4px',

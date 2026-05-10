@@ -36,7 +36,7 @@ export function PositionPicker({ player, onSelect, selectedPos = null }) {
             position: 'relative',
             width: '100%',
             paddingBottom: '70%',
-            background: 'linear-gradient(180deg, #2D5A3D 0%, #6ABC3A 100%)',
+            background: '#2D5A3D',
             borderRadius: '6px',
             border: '2px solid #2D5A3D',
             overflow: 'hidden'

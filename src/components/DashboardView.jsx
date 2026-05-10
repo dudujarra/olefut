@@ -78,13 +78,16 @@ export function DashboardView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.8), rgba(11, 15, 25, 0.95)), url(${bgOffice})`,
+            backgroundImage: `url(${bgOffice})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: 'var(--ef-color-neutral-text-hi)',
+            backgroundColor: '#0A130E' // Fallback solid background
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {/* §16.2: Trophy ceremony overlay */}
@@ -95,7 +98,7 @@ export function DashboardView() {
                 onDismiss={() => { engine.trophyCeremony = null; forceUpdate(); }}
             />
             {/* === COMPACT HEADER === */}
-            <EfPanel variant="elev" padding="md">
+            <EfPanel variant="elev" padding="md" style={{ backgroundColor: 'var(--ef-bevel-dark)', border: '2px solid var(--ef-bevel-light)' }}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <div>
                         <h2 style={{fontSize:'1.2rem',margin:0}}>{team.name}</h2>
@@ -112,8 +115,8 @@ export function DashboardView() {
                     </div>
                 </div>
                 {/* Season progress */}
-                <div className="progress-bar" style={{marginTop:'0.4rem'}}>
-                    <div className="progress-bar-fill" style={{width: `${(seasonWeek / 38) * 100}%`}}></div>
+                <div className="progress-bar" style={{marginTop:'0.4rem', border: '2px solid #000', backgroundColor: '#333'}}>
+                    <div className="progress-bar-fill" style={{width: `${(seasonWeek / 38) * 100}%`, backgroundColor: 'var(--primary)'}}></div>
                 </div>
                 <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.65rem',color:'var(--text-muted)'}}>
                     <span>Temp {engine.seasonNumber} • Semana {seasonWeek}/38</span>
@@ -131,8 +134,8 @@ export function DashboardView() {
                 </div>
             )}
 
-            {/* === NEXT MATCH CTA (Stitch scoreboard-card style) === */}
-            <EfPanel variant="sunk" padding="md" style={{background:'linear-gradient(135deg, rgba(17,24,39,0.9), rgba(16,185,129,0.1))'}}>
+            {/* === NEXT MATCH CTA === */}
+            <EfPanel variant="sunk" padding="md" style={{ backgroundColor: '#0B2015', border: '2px solid #000' }}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
                     <div>
                         <span style={{fontSize:'0.7rem',color:'var(--text-muted)',textTransform:'uppercase',letterSpacing:'0.5px'}}>Próximo Jogo</span>
@@ -176,9 +179,9 @@ export function DashboardView() {
             {/* === TAB: OVERVIEW === */}
             {tab === 'overview' && (
                 <>
-                    {/* Onboarding hints — Stitch playbook quote style */}
+                    {/* Onboarding hints */}
                     {seasonWeek <= 2 && engine.seasonNumber === 1 && (
-                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(59,130,246,0.08)',borderColor:'rgba(59,130,246,0.2)', marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#0F2942', border: '2px solid #3B82F6', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--info)',marginBottom:'0.3rem'}}>💡 PLAYBOOK DO TREINADOR</h4>
                             <div style={{fontSize:'0.75rem',color:'var(--text-muted)',lineHeight:1.6}}>
                                 <p>1️⃣ <strong>Táticas:</strong> escolha formação e tática antes de jogar</p>
@@ -200,10 +203,10 @@ export function DashboardView() {
 
                     {/* Season Awards (if any) */}
                     {engine.seasonAwards && engine.seasonAwards.length > 0 && (
-                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(245,158,11,0.08)',borderColor:'rgba(245,158,11,0.2)', marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#3D280B', border: '2px solid #F59E0B', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--accent)',marginBottom:'0.3rem'}}>🏆 PRÊMIOS DA TEMPORADA</h4>
                             {engine.seasonAwards.map((a, i) => (
-                                <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:'0.78rem',padding:'0.2rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
+                                <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:'0.78rem',padding:'0.2rem 0',borderBottom:'2px solid #111'}}>
                                     <span>{a.emoji} {a.name}</span>
                                     <strong style={{color:'var(--accent)'}}>{a.player} ({a.value})</strong>
                                 </div>
@@ -214,8 +217,8 @@ export function DashboardView() {
                     {/* AKITA-142: Board Tension Widget */}
                     {typeof engine.boardTension === 'number' && (
                         <EfPanel variant="sunk" padding="sm" style={{
-                            background: engine.boardTension < -20 ? 'rgba(239,68,68,0.08)' : engine.boardTension > 40 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)',
-                            borderColor: engine.boardTension < -20 ? 'rgba(239,68,68,0.2)' : engine.boardTension > 40 ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)',
+                            backgroundColor: engine.boardTension < -20 ? '#3A1010' : engine.boardTension > 40 ? '#0B2015' : '#3D280B',
+                            border: `2px solid ${engine.boardTension < -20 ? '#EF4444' : engine.boardTension > 40 ? '#10B981' : '#F59E0B'}`,
                             marginBottom: '0.5rem'
                         }}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>🏛️ TENSÃO DA DIRETORIA</h4>
@@ -229,12 +232,11 @@ export function DashboardView() {
                                     {engine.boardTension > 0 ? '+' : ''}{engine.boardTension}
                                 </strong>
                             </div>
-                            <div style={{height:'6px',background:'var(--bg-panel-solid)',borderRadius:'3px',overflow:'hidden',marginTop:'0.3rem'}}>
+                            <div style={{height:'6px',background:'#000',border:'1px solid #444',overflow:'hidden',marginTop:'0.3rem'}}>
                                 <div style={{
                                     width: `${Math.max(0, Math.min(100, (engine.boardTension + 100) / 2))}%`,
                                     height:'100%',
                                     background: engine.boardTension >= 0 ? 'var(--primary)' : 'var(--danger)',
-                                    transition:'width 0.3s'
                                 }} />
                             </div>
                         </EfPanel>
@@ -242,7 +244,7 @@ export function DashboardView() {
 
                     {/* AKITA-142: Loss Streak Warning */}
                     {stats.lossStreak >= 3 && (
-                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(239,68,68,0.12)',borderColor:'rgba(239,68,68,0.3)', marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#3A1010', border: '2px solid #EF4444', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--danger)',marginBottom:'0.3rem'}}>🔥 CRISE DE RESULTADOS</h4>
                             <p style={{fontSize:'0.78rem',color:'var(--text-muted)',margin:0}}>
                                 {stats.lossStreak} derrotas seguidas — moral do elenco abalada!
@@ -252,14 +254,14 @@ export function DashboardView() {
 
                     {/* DDA & Rolling Form */}
                     {stats.rollingForm && stats.rollingForm.length > 0 && (
-                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📊 FORMA RECENTE & DDA</h4>
                             <div style={{display:'flex',gap:'0.2rem',marginBottom:'0.4rem'}}>
                                 {stats.rollingForm.map((r, i) => (
                                     <span key={i} style={{
                                         display:'inline-flex', alignItems:'center', justifyContent:'center',
-                                        width:'1.5rem', height:'1.5rem', borderRadius:'3px', fontSize:'0.7rem', fontWeight:600,
-                                        background: r === 'W' ? 'rgba(16,185,129,0.2)' : r === 'D' ? 'rgba(245,158,11,0.2)' : 'rgba(239,68,68,0.2)',
+                                        width:'1.5rem', height:'1.5rem', border: '2px solid #000', fontSize:'0.7rem', fontWeight:600,
+                                        backgroundColor: r === 'W' ? '#0B2015' : r === 'D' ? '#3D280B' : '#3A1010',
                                         color: r === 'W' ? 'var(--primary)' : r === 'D' ? 'var(--accent)' : 'var(--danger)'
                                     }}>{r}</span>
                                 ))}
@@ -279,7 +281,7 @@ export function DashboardView() {
 
                     {/* AKITA-142: Coach Proposal */}
                     {engine.pendingCoachProposal && (
-                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(59,130,246,0.08)',borderColor:'rgba(59,130,246,0.2)', marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#0F2942', border: '2px solid #3B82F6', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--info)',marginBottom:'0.3rem'}}>📨 PROPOSTA DE EMPREGO</h4>
                             <p style={{fontSize:'0.78rem',color:'var(--text-muted)',margin:'0 0 0.3rem'}}>
                                 <strong>{engine.pendingCoachProposal.fromClubName}</strong> quer contratá-lo!
@@ -290,7 +292,7 @@ export function DashboardView() {
 
                     {/* AKITA-142: Active Challenge */}
                     {engine.activeChallenge && (
-                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(168,85,247,0.08)',borderColor:'rgba(168,85,247,0.2)', marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#270F3A', border: '2px solid #A855F7', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'#A855F7',marginBottom:'0.3rem'}}>🎯 DESAFIO ATIVO</h4>
                             <p style={{fontSize:'0.78rem',color:'var(--text-muted)',margin:0}}>
                                 {engine.activeChallenge.description}
@@ -308,13 +310,13 @@ export function DashboardView() {
                             const unlocked = metaAchs.filter(a => a.unlocked);
                             if (unlocked.length === 0) return null;
                             return (
-                                <EfPanel variant="sunk" padding="sm" style={{background:'rgba(123,44,191,0.06)',borderColor:'rgba(123,44,191,0.15)', marginBottom: '0.5rem'}}>
+                                <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#1E0D33', border: '2px solid #7B2CBF', marginBottom: '0.5rem'}}>
                                     <h4 style={{fontSize:'0.8rem',color:'#A855F7',marginBottom:'0.3rem'}}>
                                         🏅 CONQUISTAS DE CARREIRA ({unlocked.length}/{metaAchs.length})
                                     </h4>
                                     <div style={{display:'flex',flexWrap:'wrap',gap:'0.3rem'}}>
                                         {unlocked.map(a => (
-                                            <span key={a.id} style={{fontSize:'0.72rem',padding:'0.15rem 0.4rem',borderRadius:'3px',background:'rgba(123,44,191,0.12)',color:'#A855F7'}} title={a.description}>
+                                            <span key={a.id} style={{fontSize:'0.72rem',padding:'0.15rem 0.4rem',border:'2px solid #000',backgroundColor:'#270F3A',color:'#A855F7'}} title={a.description}>
                                                 {a.emoji} {a.name}
                                             </span>
                                         ))}
@@ -326,11 +328,11 @@ export function DashboardView() {
 
                     {/* AKITA-142: Hall of Legends (compact) */}
                     {engine.hallOfLegends && engine.hallOfLegends.filledCount > 0 && (
-                        <EfPanel variant="sunk" padding="sm" style={{background:'rgba(245,158,11,0.05)',borderColor:'rgba(245,158,11,0.15)', marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#3D280B', border: '2px solid #F59E0B', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--accent)',marginBottom:'0.3rem'}}>⭐ HALL DE LENDAS ({engine.hallOfLegends.filledCount}/{engine.hallOfLegends.slots?.length || 6})</h4>
                             <div style={{display:'flex',flexWrap:'wrap',gap:'0.3rem'}}>
                                 {(engine.hallOfLegends.slots || []).filter(s => s.filled).map((s, i) => (
-                                    <span key={i} style={{fontSize:'0.72rem',padding:'0.15rem 0.4rem',borderRadius:'3px',background:'rgba(245,158,11,0.12)',color:'var(--accent)'}}>
+                                    <span key={i} style={{fontSize:'0.72rem',padding:'0.15rem 0.4rem',border:'2px solid #000',backgroundColor:'#4A320E',color:'var(--accent)'}}>
                                         {s.playerName || `Lenda #${i+1}`}
                                     </span>
                                 ))}
@@ -339,7 +341,7 @@ export function DashboardView() {
                     )}
 
                     {(engine.weekEvents?.length ?? 0) > 0 && (
-                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📰 EVENTOS DA SEMANA</h4>
                             <div className="event-feed">
                                 {(engine.weekEvents || []).map((ev, i) => {
@@ -362,7 +364,7 @@ export function DashboardView() {
                         <AchievementPopup achievement={pendingAchievement} onDismiss={() => setPendingAchievement(null)} />
                     )}
 
-                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                    <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                         <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>💰 FINANÇAS</h4>
                         {engine.weeklyFinance ? (
                             <ul className="stats-list">
@@ -379,7 +381,7 @@ export function DashboardView() {
                     </EfPanel>
 
                     {/* Loan System */}
-                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                    <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                         <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>🏦 EMPRÉSTIMO</h4>
                         {engine.activeLoan ? (
                             <div>
@@ -417,7 +419,7 @@ export function DashboardView() {
                     </EfPanel>
 
                     {injured.length > 0 && (
-                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#3A1010', border: '2px solid #EF4444', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--danger)',marginBottom:'0.3rem'}}>🏥 D.M. ({injured.length})</h4>
                             <ul className="stats-list">
                                 {injured.map((p, i) => (
@@ -428,7 +430,7 @@ export function DashboardView() {
                     )}
 
                     {expiringContracts.length > 0 && (
-                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#3D280B', border: '2px solid #F59E0B', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--accent)',marginBottom:'0.3rem'}}>📋 CONTRATOS VENCENDO</h4>
                             <ul className="stats-list">
                                 {expiringContracts.map((p, i) => (
@@ -442,7 +444,7 @@ export function DashboardView() {
 
             {/* === TAB: TACTICS === */}
             {tab === 'tactics' && (
-                <EfPanel variant="elev" padding="sm" style={{marginBottom: '0.5rem'}}>
+                <EfPanel variant="elev" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid var(--ef-bevel-light)', marginBottom: '0.5rem'}}>
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>FORMAÇÃO</h4>
                     <div className="action-bar">
                         {Object.keys(FORMATIONS).map(f => (
@@ -477,7 +479,7 @@ export function DashboardView() {
 
             {/* === TAB: TRAINING === */}
             {tab === 'training' && (
-                <EfPanel variant="elev" padding="sm" style={{marginBottom: '0.5rem'}}>
+                <EfPanel variant="elev" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid var(--ef-bevel-light)', marginBottom: '0.5rem'}}>
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.4rem'}}>TREINO SEMANAL</h4>
                     <div style={{display:'flex',flexDirection:'column',gap:'0.3rem'}}>
                         {TRAINING_TYPES.map(t => (
@@ -496,12 +498,12 @@ export function DashboardView() {
             {tab === 'club' && (
                 <>
                     {/* Stadium + Progress */}
-                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                    <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                             <div style={{flex:1}}>
                                 <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)'}}>🏟️ {stadiumInfo.name}</h4>
                                 <span style={{fontSize:'0.72rem',color:'var(--text-muted)'}}>Cap: {stadiumInfo.capacity.toLocaleString()} • R$ {stadiumInfo.ticketPrice}/ingresso</span>
-                                <div className="progress-bar" style={{marginTop:'0.3rem'}}>
+                                <div className="progress-bar" style={{marginTop:'0.3rem', border: '2px solid #000'}}>
                                     <div className="progress-bar-fill" style={{width:`${(engine.stadiumLevel / 5) * 100}%`}}></div>
                                 </div>
                                 <span style={{fontSize:'0.6rem',color:'var(--text-muted)'}}>Nível {engine.stadiumLevel}/5</span>
@@ -517,12 +519,12 @@ export function DashboardView() {
                     </EfPanel>
 
                     {/* Staff */}
-                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                    <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                         <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>👥 STAFF ({STAFF_ROLES.filter(r => engine.staff?.getStaff(r.id)).length}/{STAFF_ROLES.length})</h4>
                         {STAFF_ROLES.map(role => {
                             const member = engine.staff?.getStaff(role.id);
                             return (
-                                <div key={role.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.2rem 0',fontSize:'0.78rem',borderBottom:'1px solid var(--border-subtle)'}}>
+                                <div key={role.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.2rem 0',fontSize:'0.78rem',borderBottom:'2px solid #111'}}>
                                     <span>{role.emoji} {role.name}: {member ? <strong style={{color:'var(--primary)'}}>{member.name}</strong> : <span style={{color:'var(--text-muted)'}}>Vago</span>}</span>
                                     {!member && (
                                         <EfButton variant="secondary" size="sm" onClick={() => {
@@ -537,13 +539,13 @@ export function DashboardView() {
                     </EfPanel>
 
                     {/* Youth Academy + Progress */}
-                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                    <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                             <div style={{flex:1}}>
                                 <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)'}}>🎓 BASE Nv.{engine.academyLevel}</h4>
                                 <span style={{fontSize:'0.72rem',color:'var(--text-muted)'}}>Produz {engine.academyLevel + 1} jovens/temporada</span>
-                                <div className="progress-bar" style={{marginTop:'0.3rem'}}>
-                                    <div className="progress-bar-fill" style={{width:`${(engine.academyLevel / 5) * 100}%`,background:'var(--accent)'}}></div>
+                                <div className="progress-bar" style={{marginTop:'0.3rem', border: '2px solid #000'}}>
+                                    <div className="progress-bar-fill" style={{width:`${(engine.academyLevel / 5) * 100}%`,backgroundColor:'var(--accent)'}}></div>
                                 </div>
                                 <span style={{fontSize:'0.6rem',color:'var(--text-muted)'}}>Nível {engine.academyLevel}/5</span>
                             </div>
@@ -558,7 +560,7 @@ export function DashboardView() {
                     </EfPanel>
 
                     {/* Scouting */}
-                    <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                    <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                         <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>🔎 SCOUTING</h4>
                         <div className="action-bar">
                             {SCOUT_REGIONS.map(r => (
@@ -574,7 +576,7 @@ export function DashboardView() {
                         {engine.scoutedPlayers?.length > 0 && (
                             <div style={{marginTop:'0.4rem'}}>
                                 {engine.scoutedPlayers.map((p, i) => (
-                                    <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:'0.75rem',padding:'0.2rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
+                                    <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:'0.75rem',padding:'0.2rem 0',borderBottom:'2px solid #111'}}>
                                         <span>{p.name} ({p.position}, {p.age}a, OVR {p.ovr})</span>
                                         <EfButton variant="primary" size="sm" onClick={() => {
                                             const result = engine.signScoutedPlayer(i);
@@ -589,14 +591,14 @@ export function DashboardView() {
 
                     {/* Board */}
                     {engine.board && (
-                        <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                        <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>🏛️ DIRETORIA</h4>
                             <ul className="stats-list">
                                 <li><span>Confiança:</span><strong style={{color: boardStatus?.color}}>{engine.board.confidence}%</strong></li>
                                 <li><span>Status:</span><strong style={{color: boardStatus?.color}}>{boardStatus?.label}</strong></li>
                             </ul>
                             {engine.legacy && (engine.legacy.history?.length ?? 0) > 0 && (
-                                <div style={{marginTop:'0.4rem',borderTop:'1px solid var(--border-subtle)',paddingTop:'0.3rem'}}>
+                                <div style={{marginTop:'0.4rem',borderTop:'2px solid #111',paddingTop:'0.3rem'}}>
                                     <span style={{fontSize:'0.7rem',color:'var(--text-muted)'}}>Histórico:</span>
                                     {engine.legacy.history.map((h, i) => (
                                         <div key={i} style={{fontSize:'0.7rem',color:'var(--text-muted)',padding:'0.1rem 0'}}>
@@ -612,10 +614,10 @@ export function DashboardView() {
 
             {/* === TAB: TRANSFERS === */}
             {tab === 'transfers' && (engine.transferOffers?.length ?? 0) > 0 && (
-                <EfPanel variant="sunk" padding="sm" style={{marginBottom: '0.5rem'}}>
+                <EfPanel variant="sunk" padding="sm" style={{backgroundColor: 'var(--bg-panel-solid)', border: '2px solid #111', marginBottom: '0.5rem'}}>
                     <h4 style={{fontSize:'0.8rem',color:'var(--text-muted)',marginBottom:'0.3rem'}}>📬 OFERTAS</h4>
                     {engine.transferOffers.map((offer, i) => (
-                        <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'1px solid var(--border-subtle)'}}>
+                        <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'2px solid #111'}}>
                             <div style={{fontSize:'0.78rem'}}>
                                 <strong>{offer.playerName}</strong> (OVR {offer.playerOvr})
                                 <div style={{fontSize:'0.68rem',color:'var(--text-muted)'}}>{offer.buyerClub} • R$ {(offer.offerAmount / 1000000).toFixed(1)}M</div>
@@ -654,8 +656,8 @@ export function DashboardView() {
                 <EfButton variant="secondary" onClick={() => changeView('standings')}>📊 Tabela</EfButton>
             </div>
 
-            {/* Status Footer (Stitch v2 design) */}
-            <div className="status-footer" style={{ marginTop: 'auto', background: 'rgba(0,0,0,0.5)', padding: '12px', borderTop: '2px solid var(--ef-bevel-dark)' }}>
+            {/* Status Footer */}
+            <div className="status-footer" style={{ marginTop: 'auto', backgroundColor: '#0A130E', padding: '12px', borderTop: '4px solid #1A2E22' }}>
                 <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap', fontSize: '10px', color: 'var(--ef-color-neutral-text-muted)', letterSpacing: '0.1em'}}>
                     <span><span style={{color: 'var(--ef-color-neutral-text-hi)'}}>LIGA:</span> SÉRIE {['A','B','C','D'][team.division - 1]}</span>
                     <span><span style={{color: 'var(--ef-color-neutral-text-hi)'}}>RODADA:</span> {seasonWeek}/38</span>

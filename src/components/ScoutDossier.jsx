@@ -45,7 +45,7 @@ export function ScoutDossier({ player, onClose, onSign, comparePlayers = [] }) {
                 <div style={{
                     width: '40px',
                     height: '40px',
-                    background: 'linear-gradient(135deg, #6ABC3A, #2D5A3D)',
+                    background: '#6ABC3A',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',

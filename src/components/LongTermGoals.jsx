@@ -88,8 +88,8 @@ export function LongTermGoals({ engine, team }) {
                             height: '100%',
                             width: `${g.progress}%`,
                             background: g.achieved
-                                ? 'linear-gradient(90deg, #6ABC3A, #FFD700)'
-                                : 'linear-gradient(90deg, #3A7DCE, #6ABC3A)',
+                                ? '#6ABC3A'
+                                : '#3A7DCE',
                             transition: 'width 300ms ease-out'
                         }} />
                     </div>

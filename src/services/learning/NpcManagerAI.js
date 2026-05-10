@@ -12,7 +12,7 @@
  */
 
 import { encodeState, detectGoals, computeReward } from './AdaptiveBrain.js';
-import { decideBuyHeuristic, decideSellHeuristic } from './LLMBridge.js';
+import { smartBuyDecision, smartSellDecision, rankCandidates } from './SmartMarketEngine.js';
 import { rng as systemRng } from '../../engine/rng.js';
 
 // ─── STATE CONTEXT BUILDER ───────────────────────────────────
@@ -129,9 +129,6 @@ export function npcBuyDecision(team, engine) {
     const brain = team.brain;
     if (!brain || (team.balance || 0) <= 0) return;
 
-    const personality = brain.personality;
-    const riskMod = brain.emotions?.getModifiers()?.riskMod ?? 0.4;
-
     // Scout weakest position
     const positions = ['GOL', 'DEF', 'MEI', 'ATA'];
     const positionStrength = positions.map(pos => {
@@ -149,27 +146,33 @@ export function npcBuyDecision(team, engine) {
     const candidates = engine.scoutLeague(weakest.pos, weakest.avgOVR + 3, 5);
     if (candidates.length === 0) return;
 
-    // Budget: personality riskMod determines how much of balance to risk
-    const maxBudget = (team.balance || 0) * riskMod;
-
-    const target = candidates.find(c => {
-        const v = c.value || (c.ovr || 60) * 50_000;
-        return v * 1.4 <= maxBudget;
-    });
-    if (!target) return;
-
-    const playerVal = target.value || (target.ovr || 60) * 50_000;
-    const offerAmount = Math.round(playerVal * (1.3 + systemRng() * 0.3));
-
-    // Apply cognitive biases to buy decision
-    const decision = decideBuyHeuristic(
+    // ML: rank candidates through brain Q-Learning
+    const ranked = rankCandidates({
+        brain,
         team,
-        { player: target.player || target, amount: offerAmount },
-        personality
-    );
+        candidates,
+        biasCtx: {
+            windowWeeksLeft: Math.max(0, 38 - (engine.currentWeek || 0)),
+            totalWindowWeeks: 38
+        },
+        limit: 1
+    });
 
-    if (decision.buy && typeof engine.makeBuyOffer === 'function') {
-        engine.makeBuyOffer(target.teamId, (target.player || target).id, offerAmount);
+    const best = ranked[0];
+    if (!best) return; // Brain rejected all
+
+    const target = best.candidate;
+    const player = target.player || target;
+    const offerAmount = best.askingPrice;
+
+    if (typeof engine.makeBuyOffer === 'function') {
+        const result = engine.makeBuyOffer(target.teamId, player.id, offerAmount);
+        // Feed reward: immediate signal for accepted/rejected
+        if (result?.accepted) {
+            brain.observe(best.decision.stateKey, best.decision.action, 3, encodeState(buildNpcStateCtx(team, engine)), []);
+        } else {
+            brain.observe(best.decision.stateKey, best.decision.action, -1, encodeState(buildNpcStateCtx(team, engine)), []);
+        }
     }
 }
 
@@ -190,7 +193,12 @@ export function npcEvaluateIncomingOffer(team, offer, engine) {
         return { sell: isOverpay, reason: isOverpay ? 'overpay (no-brain)' : 'keep (no-brain)' };
     }
 
-    return decideSellHeuristic(team, offer, brain.personality);
+    // ML: brain Q-Learning decides sell
+    return smartSellDecision(brain, {
+        team,
+        player: offer.player,
+        offerAmount: offer.amount
+    });
 }
 
 // ─── EMOTIONAL FEED ──────────────────────────────────────────

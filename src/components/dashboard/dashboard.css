@@ -7,13 +7,8 @@
 
 /* ========== HEADER ========== */
 .ef-dash-header {
-    /* Tema clube-aware: gradient sutil primary→bg-card */
-    background: linear-gradient(
-        135deg,
-        var(--ef-club-primary, var(--ef-color-grass-700)) 0%,
-        var(--ef-bg-card) 35%,
-        var(--ef-bg-card) 100%
-    ) !important;
+    /* Tema clube-aware: solid primary */
+    background: var(--ef-club-primary, var(--ef-color-grass-700)) !important;
     border-left: 4px solid var(--ef-club-accent, var(--ef-color-grass-300)) !important;
 }
 
@@ -83,7 +78,7 @@
 
 .ef-dash-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--ef-color-grass-300), var(--ef-color-func-success));
+    background: var(--ef-color-func-success);
     transition: width var(--ef-dur-normal) var(--ef-ease-out-quart);
 }
 
@@ -119,23 +114,23 @@
 }
 
 .ef-dash-alert-danger {
-    background: rgba(214, 40, 40, 0.2);
+    background: #3A1010;
     color: var(--ef-color-func-danger);
 }
 
 .ef-dash-alert-warning {
-    background: rgba(247, 181, 56, 0.2);
+    background: #3D280B;
     color: var(--ef-color-func-warning);
 }
 
 .ef-dash-alert-info {
-    background: rgba(58, 125, 206, 0.2);
+    background: #0B2942;
     color: var(--ef-color-func-info);
     cursor: pointer;
 }
 
 .ef-dash-alert-info:hover {
-    background: rgba(58, 125, 206, 0.35);
+    background: #0F3554;
 }
 
 /* ========== STATUS FOOTER ========== */

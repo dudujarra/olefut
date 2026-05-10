@@ -10,9 +10,9 @@ import React from 'react';
 const VARIANT_BG = {
     default: 'var(--ef-bg-card)',
     elev: 'var(--ef-bg-elev)',
-    hero: 'linear-gradient(180deg, var(--ef-color-grass-700) 0%, var(--ef-color-grass-800) 100%)',
-    warning: 'linear-gradient(180deg, var(--ef-color-func-warning) 0%, #C8941F 100%)',
-    danger: 'linear-gradient(180deg, var(--ef-color-func-danger) 0%, var(--ef-color-func-danger-dark) 100%)'
+    hero: 'var(--ef-color-grass-700)',
+    warning: 'var(--ef-color-func-warning)',
+    danger: 'var(--ef-color-func-danger)'
 };
 
 export function EfPanel({
@@ -45,7 +45,7 @@ export function EfPanel({
             {title && (
                 <div style={{
                     padding: '8px 12px',
-                    background: headerColor || (variant === 'hero' ? 'rgba(0,0,0,0.3)' : 'var(--ef-color-grass-700)'),
+                    background: headerColor || (variant === 'hero' ? '#0B2015' : 'var(--ef-color-grass-700)'),
                     borderBottom: '2px solid var(--ef-bevel-dark)',
                     display: 'flex',
                     alignItems: 'center',

@@ -68,7 +68,10 @@ export function StandingsView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.8), rgba(11, 15, 25, 0.95)), url(${bgOffice})`,
+            backgroundImage: `url(${bgOffice})`,
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
+            backgroundColor: '#0A130E',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',

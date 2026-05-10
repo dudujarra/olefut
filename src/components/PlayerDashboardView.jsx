@@ -154,7 +154,10 @@ export function PlayerDashboardView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgPlayerDashboard})`,
+            backgroundImage: `url(${bgPlayerDashboard})`,
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
+            backgroundColor: '#0A130E',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
@@ -231,7 +234,7 @@ export function PlayerDashboardView() {
                                             <div style={{
                                                 height: '100%',
                                                 width: `${prog}%`,
-                                                background: 'linear-gradient(90deg, #6ABC3A, #FFD700)',
+                                                background: '#6ABC3A',
                                                 transition: 'width 200ms ease-out'
                                             }} />
                                         </div>

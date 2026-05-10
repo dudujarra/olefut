@@ -260,13 +260,16 @@ export function MatchView() {
 
         return (
             <div className="ef-anim-fade-in" style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+                backgroundImage: `url(${bgStadium})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundAttachment: 'fixed',
+                imageRendering: 'pixelated',
+                WebkitImageRendering: 'pixelated',
                 minHeight: '100dvh',
                 padding: '16px',
-                color: 'var(--ef-color-neutral-text-hi)'
+                color: 'var(--ef-color-neutral-text-hi)',
+                backgroundColor: '#0A130E'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {/* A3: Pre-match adversary info */}
@@ -281,7 +284,7 @@ export function MatchView() {
                 )}
 
                 {/* Step indicator */}
-                <EfPanel variant="elev" padding="md" style={{textAlign:'center'}}>
+                <EfPanel variant="elev" padding="md" style={{textAlign:'center', backgroundColor: 'var(--ef-bevel-dark)', border: '2px solid var(--ef-bevel-light)'}}>
                     <h2 style={{fontSize:'1.2rem',margin:0}}>⚽ PRÉ-JOGO — SEMANA {engine.currentWeek + 1}</h2>
                     <div style={{display:'flex',justifyContent:'center',gap:'0.5rem',marginTop:'0.4rem'}}>
                         {stepLabels.map((label, i) => (
@@ -289,9 +292,9 @@ export function MatchView() {
                                 color: preStep === i + 1 ? 'var(--primary)' : 'var(--text-muted)',
                                 fontWeight: preStep === i + 1 ? 700 : 400}}>
                                 <span style={{
-                                    width:'18px',height:'18px',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',
-                                    fontSize:'0.6rem',background: preStep > i + 1 ? 'var(--primary)' : preStep === i + 1 ? 'rgba(16,185,129,0.2)' : 'var(--bg-panel-hover)',
-                                    color: preStep > i + 1 ? 'var(--bg-base)' : preStep === i + 1 ? 'var(--primary)' : 'var(--text-muted)'
+                                    width:'18px',height:'18px',borderRadius:'0',border:'2px solid #000',display:'flex',alignItems:'center',justifyContent:'center',
+                                    fontSize:'0.6rem',backgroundColor: preStep > i + 1 ? '#0B2015' : preStep === i + 1 ? '#1E3A8A' : '#111',
+                                    color: preStep > i + 1 ? 'var(--primary)' : preStep === i + 1 ? 'white' : 'var(--text-muted)'
                                 }}>{preStep > i + 1 ? '✓' : i + 1}</span>
                                 {label}
                             </div>
@@ -316,8 +319,8 @@ export function MatchView() {
                                 {titulares.map(p => (
                                     <div key={p.id} style={{
                                         display:'flex', justifyContent:'space-between', alignItems:'center',
-                                        padding:'0.2rem 0.4rem', borderRadius:'var(--radius-xs)',
-                                        background: p.energy < 40 ? 'rgba(239,68,68,0.1)' : 'transparent', fontSize:'0.78rem'
+                                        padding:'0.2rem 0.4rem', borderRadius:'0', borderBottom: '1px solid #111',
+                                        backgroundColor: p.energy < 40 ? '#3A1010' : 'transparent', fontSize:'0.78rem'
                                     }}>
                                         <span>
                                             <strong style={{color:'var(--text-muted)',marginRight:'0.3rem',fontSize:'0.7rem'}}>{p.position}</strong>
@@ -504,13 +507,16 @@ export function MatchView() {
     if (phase === 'firsthalf') {
         return (
             <div className="ef-anim-fade-in" style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+                backgroundImage: `url(${bgStadium})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundAttachment: 'fixed',
+                imageRendering: 'pixelated',
+                WebkitImageRendering: 'pixelated',
                 minHeight: '100dvh',
                 padding: '16px',
-                color: 'var(--ef-color-neutral-text-hi)'
+                color: 'var(--ef-color-neutral-text-hi)',
+                backgroundColor: '#0A130E'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Scoreboard half="1º Tempo" />
@@ -580,13 +586,16 @@ export function MatchView() {
 
         return (
             <div className="ef-anim-fade-in" style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+                backgroundImage: `url(${bgStadium})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundAttachment: 'fixed',
+                imageRendering: 'pixelated',
+                WebkitImageRendering: 'pixelated',
                 minHeight: '100dvh',
                 padding: '16px',
-                color: 'var(--ef-color-neutral-text-hi)'
+                color: 'var(--ef-color-neutral-text-hi)',
+                backgroundColor: '#0A130E'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <EfPanel variant="elev" padding="md" style={{ textAlign: 'center' }}>
@@ -666,13 +675,16 @@ export function MatchView() {
     if (phase === 'secondhalf') {
         return (
             <div className="ef-anim-fade-in" style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+                backgroundImage: `url(${bgStadium})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundAttachment: 'fixed',
+                imageRendering: 'pixelated',
+                WebkitImageRendering: 'pixelated',
                 minHeight: '100dvh',
                 padding: '16px',
-                color: 'var(--ef-color-neutral-text-hi)'
+                color: 'var(--ef-color-neutral-text-hi)',
+                backgroundColor: '#0A130E'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Scoreboard half="2º Tempo" />
@@ -741,13 +753,16 @@ export function MatchView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.98)), url(${bgStadium})`,
+            backgroundImage: `url(${bgStadium})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
             minHeight: '100dvh',
             padding: '16px',
-            color: 'var(--ef-color-neutral-text-hi)'
+            color: 'var(--ef-color-neutral-text-hi)',
+            backgroundColor: '#0A130E'
         }}>
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}

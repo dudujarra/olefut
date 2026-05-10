@@ -41,7 +41,10 @@ export function StyleguideView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgManagerOffice})`,
+            backgroundImage: `url(${bgManagerOffice})`,
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
+            backgroundColor: '#0A130E',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',

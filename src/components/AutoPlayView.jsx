@@ -99,7 +99,10 @@ export function AutoPlayView() {
 
         return (
             <div className="ef-anim-fade-in" style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgSoakTest})`,
+                backgroundImage: `url(${bgSoakTest})`,
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
+            backgroundColor: '#0A130E',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundAttachment: 'fixed',
@@ -328,7 +331,10 @@ export function AutoPlayView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgSoakTest})`,
+            backgroundImage: `url(${bgSoakTest})`,
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
+            backgroundColor: '#0A130E',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',

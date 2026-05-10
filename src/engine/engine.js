@@ -1045,6 +1045,32 @@ export class Engine {
             }
         });
 
+        // MARL Fase 6: AI Director tick — modulates NPC difficulty near player
+        if (this._aiDirector && this.mode === 'manager') {
+            try {
+                const playerTeam = this.getTeam(this.manager.teamId);
+                if (playerTeam) {
+                    const standings = this.getStandings(playerTeam.zone, playerTeam.division);
+                    const position = (standings.findIndex(s => s.teamId === playerTeam.id) + 1) || standings.length;
+                    const recentResults = (this.managerStats?.rollingForm || []).map(r =>
+                        r === 'W' ? 'W' : r === 'D' ? 'D' : 'L'
+                    );
+                    const dirMods = this._aiDirector.tick({
+                        recentResults,
+                        position,
+                        totalTeams: standings.length || 20,
+                        streak: this.managerStats?.streak || 0
+                    });
+                    // Apply aggression modifier to same-division NPC brains
+                    const playerDiv = playerTeam.division;
+                    for (const t of this.teams) {
+                        if (t.id === playerTeam.id || !t.brain || t.division !== playerDiv) continue;
+                        t.brain._aiDirectorMod = dirMods.aggressionMod;
+                    }
+                }
+            } catch { /* defensive — never break advanceWeek */ }
+        }
+
         // Pagar Salários
         if (this.mode === 'manager') this.manager.money += this.manager.salary;
         if (this.mode === 'player' && this.proPlayer) {

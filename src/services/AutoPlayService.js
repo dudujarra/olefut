@@ -21,7 +21,8 @@ import { TACTICS, TRAINING_TYPES, TEAM_TALKS, FORMATIONS } from '../engine/Manag
 import { MonitorService } from './MonitorService';
 import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
 import { AdaptiveBrain, encodeState, computeReward } from './learning/AdaptiveBrain.js';
-import { LLMBridge, decideSellHeuristic, detectMonotonyHeuristic, generateGameDesignInsights } from './learning/LLMBridge.js';
+import { detectMonotonyHeuristic, generateGameDesignInsights } from './learning/LLMBridge.js';
+import { smartBuyDecision, smartSellDecision, rankCandidates, computeTransferReward } from './learning/SmartMarketEngine.js';
 import { applyChallengeMode, checkChallengeWin, getAllChallengeModes } from '../engine/ChallengeModes.js';
 import { SessionMetrics } from '../components/GDDSystems.jsx';
 
@@ -95,8 +96,8 @@ export class AutoPlayController {
         // SPEC-115/116/117 — adaptive learning brain
         this.brain = new AdaptiveBrain();
 
-        // SPEC-119 — buy/sell decision engine (heuristic default, WebLLM opt-in)
-        this.llmBridge = new LLMBridge();
+        // Transfer tracking for ML reward feedback
+        this._pendingTransferRewards = []; // { type, stateKey, action, weekBought, positionBefore, balanceBefore, playerOvr }
         this._lastStateKey = null;
         this._lastAction = null;
         this._lastBalanceForReward = null;
@@ -715,6 +716,44 @@ export class AutoPlayController {
         const ctx = this._buildStateCtx();
         this._observeOutcome(ctx);
 
+        // ML Transfer Reward Feedback: evaluate past transfers every 8 weeks
+        if (this.stats.weeksPlayed % 8 === 0 && this._pendingTransferRewards?.length > 0) {
+            const team = engine.getTeam(teamId);
+            const standings = team ? (engine.getStandings(team.zone, team.division) || []) : [];
+            const currentPos = team ? (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length : 10;
+
+            // Process transfers that are at least 6 weeks old
+            const matured = this._pendingTransferRewards.filter(
+                t => (engine.currentWeek || 0) - t.weekDone >= 6
+            );
+            for (const tx of matured) {
+                const reward = computeTransferReward({
+                    action: tx.type,
+                    positionBefore: tx.positionBefore,
+                    positionAfter: currentPos,
+                    balanceBefore: tx.balanceBefore,
+                    balanceAfter: team?.balance || 0,
+                    playerBecameStarter: tx.type === 'BUY' && (tx.playerOvr || 0) >= 65,
+                    playerWasStarter: tx.playerWasStarter || false,
+                    offerRatio: tx.offerRatio || 1.0,
+                    emotionalLossMod: this.brain?.emotions?.getModifiers?.()?.lossMod || 1.0
+                });
+                // Feed reward back to Q-table
+                if (tx.stateKey && tx.action) {
+                    this.brain.observe(tx.stateKey, tx.action, reward, encodeState(ctx), []);
+                    this._logDecision('ML_TRANSFER_REWARD', {
+                        type: tx.type, reward: reward.toFixed(1),
+                        posChange: tx.positionBefore - currentPos,
+                        stateKey: tx.stateKey
+                    }, 0);
+                }
+            }
+            // Remove matured entries
+            this._pendingTransferRewards = this._pendingTransferRewards.filter(
+                t => (engine.currentWeek || 0) - t.weekDone < 6
+            );
+        }
+
         const stateKey = encodeState(ctx);
 
         // BUG-029 fix: TRAIN was 94% of decisions. Cap to 1-in-3 weeks.
@@ -952,27 +991,34 @@ export class AutoPlayController {
                         if (!offer?.playerId || !offer?.offerAmount) continue;
                         const player = team.squad.find(p => p.id === offer.playerId);
                         if (!player) {
-                            // Player not in squad (already sold/retired) — discard offer
                             engine.rejectTransferOffer?.(offer.playerId);
                             continue;
                         }
-                        const normalizedOffer = { player, amount: offer.offerAmount };
-                        // Fase 5: pass personality to enable cognitive biases in sell decisions
-                        const decision = decideSellHeuristic(team, normalizedOffer, this.brain?.personality);
+                        // ML: brain decides via Q-Learning (learns from sell outcomes)
+                        const decision = smartSellDecision(this.brain, {
+                            team, player, offerAmount: offer.offerAmount
+                        });
                         if (decision.sell && typeof engine.acceptTransferOffer === 'function') {
+                            // Track for reward feedback
+                            const standings = engine.getStandings(team.zone, team.division) || [];
+                            const posBefore = (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length;
+                            this._pendingTransferRewards.push({
+                                type: 'SELL', stateKey: decision.stateKey, action: decision.action,
+                                weekDone: engine.currentWeek, positionBefore: posBefore,
+                                balanceBefore: team.balance, playerWasStarter: (player.ovr || 0) >= 65,
+                                offerRatio: offer.offerAmount / Math.max(player.value || 1, 1)
+                            });
                             const result = engine.acceptTransferOffer(offer.playerId);
                             if (result?.success) {
                                 this.stats.transfers++;
-                                this._logSuccess('TRANSFER_SOLD', `Vendeu ${player.name} (OVR${player.ovr}) por R$ ${(offer.offerAmount/1e6).toFixed(1)}M para ${offer.buyerClub || 'clube'}. ${decision.reason}`);
+                                this._logSuccess('TRANSFER_SOLD', `Vendeu ${player.name} (OVR${player.ovr}) por R$ ${(offer.offerAmount/1e6).toFixed(1)}M. ${decision.reason}`);
                                 this._logDecision('SELL_PLAYER', {
-                                    playerId: offer.playerId,
-                                    amount: offer.offerAmount,
-                                    source: decision.source,
-                                    reason: decision.reason
+                                    playerId: offer.playerId, amount: offer.offerAmount,
+                                    source: decision.source, reason: decision.reason,
+                                    biases: decision.biases || []
                                 }, 0);
                             }
                         } else if (offer.deadline && engine.currentWeek >= offer.deadline) {
-                            // Offer expired — clear it
                             engine.rejectTransferOffer?.(offer.playerId);
                         }
                     }
@@ -994,63 +1040,88 @@ export class AutoPlayController {
                         });
                         const weakest = positionStrength.sort((a, b) => a.avgOVR - b.avgOVR)[0];
 
-                        // Urgent scout flag from monotony detector
                         const urgentScout = this._urgentScout;
                         if (urgentScout) this._urgentScout = false;
 
                         if (weakest && (weakest.avgOVR < 70 || urgentScout)) {
                             const candidates = engine.scoutLeague(weakest.pos, weakest.avgOVR + 5, 10);
                             if (candidates.length > 0) {
-                                // Pick affordable + best OVR upgrade
-                                // Use ovr-based value fallback if value not set (bug: player.value undefined → offer = 0)
-                                const target = candidates.find(c => {
-                                    const v = c.value || (c.ovr || 60) * 50_000;
-                                    return v * 1.5 <= (team.balance || 0) * 0.3;
+                                // ML: rank candidates through brain Q-Learning
+                                const biasCtx = {
+                                    windowWeeksLeft: Math.max(0, 38 - (engine.currentWeek || 0)),
+                                    totalWindowWeeks: 38
+                                };
+                                const ranked = rankCandidates({
+                                    brain: this.brain,
+                                    team,
+                                    candidates,
+                                    biasCtx,
+                                    limit: 3
                                 });
-                                if (target) {
-                                    const playerVal = target.value || (target.ovr || 60) * 50_000;
-                                    const offerAmount = Math.round(playerVal * (1.3 + systemRng() * 0.2));
-                                    const result = engine.makeBuyOffer(target.teamId, target.player.id, offerAmount);
-                                    // BUG-078: log real buy offer result to history.offers for SPEC-111
+
+                                // Try best candidate that brain approved
+                                const best = ranked[0];
+                                if (best) {
+                                    const target = best.candidate;
+                                    const player = target.player || target;
+                                    const offerAmount = best.askingPrice;
+
+                                    const result = engine.makeBuyOffer(target.teamId, player.id, offerAmount);
+                                    // Track for ML reward feedback
+                                    const standings = engine.getStandings(team.zone, team.division) || [];
+                                    const posBefore = (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length;
+
                                     if (this.telemetry?.history) {
                                         if (!Array.isArray(this.telemetry.history.offers)) this.telemetry.history.offers = [];
                                         this.telemetry.history.offers.push({
                                             week: engine.currentWeek,
-                                            playerId: target.player?.id,
+                                            playerId: player?.id,
                                             amount: offerAmount,
-                                            playerValue: playerVal,
+                                            playerValue: target.value || (player.ovr || 60) * 50_000,
                                             accepted: result?.accepted === true,
-                                            simulated: false
+                                            simulated: false,
+                                            source: best.decision.source
                                         });
                                     }
                                     this._logDecision('BUY_OFFER', {
-                                        target: target.player.name,
-                                        position: target.position,
-                                        ovr: target.ovr,
+                                        target: player.name,
+                                        position: player.position || weakest.pos,
+                                        ovr: player.ovr || target.ovr,
                                         amount: offerAmount,
-                                        accepted: result?.accepted || false
+                                        accepted: result?.accepted || false,
+                                        reason: best.decision.reason,
+                                        source: best.decision.source
                                     }, 0);
+
                                     if (result?.accepted) {
                                         this.stats.transfers++;
-                                        // SPEC-122 BUG-054: remember decision + outcome
+                                        // Track for delayed reward
+                                        this._pendingTransferRewards.push({
+                                            type: 'BUY', stateKey: best.decision.stateKey,
+                                            action: best.decision.action,
+                                            weekDone: engine.currentWeek, positionBefore: posBefore,
+                                            balanceBefore: team.balance, playerOvr: player.ovr || 60
+                                        });
                                         this.brain?.remember({
-                                            week: engine.currentWeek,
-                                            season: engine.seasonNumber,
-                                            action: `BUY_${target.position}_OVR${target.ovr}`,
-                                            result: 'success',
-                                            reward: 5,
-                                            details: `R$ ${(offerAmount / 1_000_000).toFixed(1)}M`
+                                            week: engine.currentWeek, season: engine.seasonNumber,
+                                            action: `BUY_${weakest.pos}_OVR${player.ovr}`,
+                                            result: 'accepted', reward: 3,
+                                            details: `R$ ${(offerAmount / 1_000_000).toFixed(1)}M via ML`
                                         });
                                     } else if (result?.success === true) {
-                                        // offer rejected (bid too low) — bot learns
                                         this.brain?.remember({
-                                            week: engine.currentWeek,
-                                            season: engine.seasonNumber,
-                                            action: `BUY_${target.position}_OVR${target.ovr}`,
-                                            result: `rejected (ratio ${result.ratio?.toFixed(2)})`,
-                                            reward: -1
+                                            week: engine.currentWeek, season: engine.seasonNumber,
+                                            action: `BUY_${weakest.pos}_OVR${player.ovr}`,
+                                            result: `rejected`, reward: -1
                                         });
                                     }
+                                } else {
+                                    // Brain rejected all candidates
+                                    this._logDecision('BUY_ALL_REJECTED_BY_ML', {
+                                        position: weakest.pos,
+                                        candidatesScanned: candidates.length,
+                                        brainStates: Object.keys(this.brain?.qTable || {}).length
+                                    }, 0);
                                 }
                             }
                         }
@@ -1302,6 +1373,31 @@ export class AutoPlayController {
         // Title/promotion detection (season transition)
         const seasonNum = engine.seasonNumber || 1;
         if (this._lastSeasonNumber !== null && seasonNum > this._lastSeasonNumber) {
+            // Flush all pending transfer rewards (season rolled over, can't wait anymore)
+            if (this._pendingTransferRewards?.length > 0 && team) {
+                const standings = engine.getStandings(team.zone, team.division) || [];
+                const currentPos = (standings.findIndex(s => s.teamId === team.id) + 1) || standings.length;
+                const ctx = this._buildStateCtx();
+                for (const tx of this._pendingTransferRewards) {
+                    try {
+                        const reward = computeTransferReward({
+                            action: tx.type,
+                            positionBefore: tx.positionBefore,
+                            positionAfter: currentPos,
+                            balanceBefore: tx.balanceBefore,
+                            balanceAfter: team?.balance || 0,
+                            playerBecameStarter: tx.type === 'BUY' && (tx.playerOvr || 0) >= 65,
+                            playerWasStarter: tx.playerWasStarter || false,
+                            offerRatio: tx.offerRatio || 1.0,
+                            emotionalLossMod: this.brain?.emotions?.getModifiers?.()?.lossMod || 1.0
+                        });
+                        if (tx.stateKey && tx.action) {
+                            this.brain.observe(tx.stateKey, tx.action, reward, encodeState(ctx), []);
+                        }
+                    } catch { /* defensive */ }
+                }
+                this._pendingTransferRewards = [];
+            }
             const titlesNow = engine.legacy?.titles?.length || 0;
             if (titlesNow > this._lastTitlesCount) {
                 const newTitle = engine.legacy.titles[titlesNow - 1];

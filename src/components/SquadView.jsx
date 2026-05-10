@@ -82,7 +82,10 @@ export function SquadView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.7), rgba(11, 15, 25, 0.95)), url(${bgPitch})`,
+            backgroundImage: `url(${bgPitch})`,
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
+            backgroundColor: '#0A130E',
             backgroundSize: 'cover',
             backgroundPosition: 'center 20%',
             backgroundAttachment: 'fixed',
@@ -109,7 +112,7 @@ export function SquadView() {
             {/* Manager card */}
             {team.manager && team.manager.name && (
                 <EfPanel variant="sunk" padding="md" style={{
-                    background: 'linear-gradient(135deg, rgba(247,181,56,0.1), rgba(15,26,20,0.5))',
+                    background: '#1F1A10',
                     border: '1px solid #F7B538'
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

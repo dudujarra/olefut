@@ -156,7 +156,10 @@ export function PlayerMatchView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgMatchStadium})`,
+            backgroundImage: `url(${bgMatchStadium})`,
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
+            backgroundColor: '#0A130E',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
@@ -184,7 +187,7 @@ export function PlayerMatchView() {
                     </div>
                     <p style={{ color: 'var(--text-muted)', marginTop: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>{matchFinished ? 'FIM DE JOGO' : `${minute}'`}</p>
                     <div style={{ background: 'var(--bg-elevated)', height: '6px', borderRadius: '3px', marginTop: '0.5rem', border: '1px solid var(--border-subtle)' }}>
-                        <div style={{ width: `${(minute / 90) * 100}%`, height: '100%', background: 'linear-gradient(90deg, #6ABC3A, #FFD700)', borderRadius: '2px', transition: 'width 0.3s' }} />
+                        <div style={{ width: `${(minute / 90) * 100}%`, height: '100%', background: '#6ABC3A', borderRadius: '2px', transition: 'width 0.3s' }} />
                     </div>
                 </EfPanel>
 

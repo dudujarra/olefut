@@ -15,7 +15,7 @@ const BANNER_CONFIG = {
         icon: '🏆',
         title: 'CAMPEÃO!',
         subtitle: 'Título conquistado',
-        bg: 'linear-gradient(135deg, #FFD700 0%, #FF6B00 100%)',
+        bg: '#FFD700',
         color: '#0F1A14',
         spriteClass: 'ef-anim-trophy-unlock',
         duration: 4000
@@ -24,7 +24,7 @@ const BANNER_CONFIG = {
         icon: '⬆️',
         title: 'PROMOÇÃO',
         subtitle: 'Subiu de divisão',
-        bg: 'linear-gradient(135deg, #6ABC3A 0%, #2D5A3D 100%)',
+        bg: '#2D5A3D',
         color: '#FFFFFF',
         duration: 3000
     },
@@ -32,7 +32,7 @@ const BANNER_CONFIG = {
         icon: '⬇️',
         title: 'REBAIXAMENTO',
         subtitle: 'Caiu de divisão',
-        bg: 'linear-gradient(135deg, #D62828 0%, #6B0000 100%)',
+        bg: '#6B0000',
         color: '#FFFFFF',
         duration: 3000
     },
@@ -40,7 +40,7 @@ const BANNER_CONFIG = {
         icon: '💼',
         title: 'DEMITIDO',
         subtitle: 'Diretoria encerrou contrato',
-        bg: 'linear-gradient(135deg, #4A0000 0%, #000000 100%)',
+        bg: '#000000',
         color: '#FFFFFF',
         duration: 3500
     },
@@ -48,7 +48,7 @@ const BANNER_CONFIG = {
         icon: '🤝',
         title: 'CONTRATADO',
         subtitle: 'Novo desafio',
-        bg: 'linear-gradient(135deg, #3A7DCE 0%, #002E63 100%)',
+        bg: '#002E63',
         color: '#FFFFFF',
         duration: 3000
     },
@@ -56,7 +56,7 @@ const BANNER_CONFIG = {
         icon: '🎖️',
         title: 'APOSENTADORIA',
         subtitle: 'Fim de carreira lendária',
-        bg: 'linear-gradient(135deg, #7B2CBF 0%, #4A0E7A 100%)',
+        bg: '#4A0E7A',
         color: '#FFFFFF',
         duration: 4500
     },
@@ -64,7 +64,7 @@ const BANNER_CONFIG = {
         icon: '📨',
         title: 'PROPOSTA',
         subtitle: 'Nova oferta recebida',
-        bg: 'linear-gradient(135deg, #F7B538 0%, #C8941F 100%)',
+        bg: '#C8941F',
         color: '#0F1A14',
         duration: 2500
     },
@@ -72,7 +72,7 @@ const BANNER_CONFIG = {
         icon: '💰',
         title: 'PATROCÍNIO',
         subtitle: 'Contrato fechado',
-        bg: 'linear-gradient(135deg, #FFD700 0%, #6ABC3A 100%)',
+        bg: '#6ABC3A',
         color: '#0F1A14',
         duration: 2500
     },
@@ -80,7 +80,7 @@ const BANNER_CONFIG = {
         icon: '⭐',
         title: 'CRAQUE DA PARTIDA',
         subtitle: 'MVP',
-        bg: 'linear-gradient(135deg, #FFD700 0%, #F7B538 100%)',
+        bg: '#F7B538',
         color: '#0F1A14',
         duration: 3000
     },
@@ -88,7 +88,7 @@ const BANNER_CONFIG = {
         icon: '🎩',
         title: 'HAT-TRICK!',
         subtitle: 'Três gols na mesma partida',
-        bg: 'linear-gradient(135deg, #FFD700 0%, #D62828 100%)',
+        bg: '#D62828',
         color: '#0F1A14',
         duration: 3500
     },
@@ -96,7 +96,7 @@ const BANNER_CONFIG = {
         icon: '🩹',
         title: 'LESÃO',
         subtitle: 'Departamento médico',
-        bg: 'linear-gradient(135deg, #D62828 0%, #4A0000 100%)',
+        bg: '#4A0000',
         color: '#FFFFFF',
         duration: 2500
     },
@@ -104,7 +104,7 @@ const BANNER_CONFIG = {
         icon: '🟥',
         title: 'SUSPENSÃO',
         subtitle: 'Cartões acumulados',
-        bg: 'linear-gradient(135deg, #D62828 0%, #000000 100%)',
+        bg: '#000000',
         color: '#FFFFFF',
         duration: 2500
     },
@@ -112,7 +112,7 @@ const BANNER_CONFIG = {
         icon: '🛡️',
         title: 'JOGO SEM SOFRER GOLS',
         subtitle: 'Defesa intransponível',
-        bg: 'linear-gradient(135deg, #6ABC3A 0%, #2D5A3D 100%)',
+        bg: '#2D5A3D',
         color: '#FFFFFF',
         duration: 2000
     }

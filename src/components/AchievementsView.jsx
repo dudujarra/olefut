@@ -76,7 +76,10 @@ export function AchievementsView() {
 
     return (
         <div className="ef-anim-fade-in" style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url(${bgTrophyRoom})`,
+            backgroundImage: `url(${bgTrophyRoom})`,
+            imageRendering: 'pixelated',
+            WebkitImageRendering: 'pixelated',
+            backgroundColor: '#0A130E',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
@@ -105,7 +108,7 @@ export function AchievementsView() {
                             <div style={{
                                 height: '100%',
                                 width: `${stats.percent}%`,
-                                background: 'linear-gradient(90deg, #6ABC3A, #FFD700)',
+                                background: '#6ABC3A',
                                 transition: 'width 300ms ease-out'
                             }} />
                         </div>
@@ -123,7 +126,7 @@ export function AchievementsView() {
                                 key={ach.id}
                                 style={{
                                     border: `2px solid ${ach.unlocked ? colors.bg : 'var(--border-subtle)'}`,
-                                    background: ach.unlocked ? `linear-gradient(135deg, ${colors.bg}22, transparent)` : 'var(--bg-panel-hover)',
+                                    background: ach.unlocked ? colors.bg : 'var(--bg-panel-hover)',
                                     opacity: ach.unlocked ? 1 : 0.65
                                 }}
                             >
