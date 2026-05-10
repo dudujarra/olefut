@@ -1,6 +1,7 @@
 import { rng as systemRng } from '../../engine/rng.js';
 import { ARCHETYPES, generatePersonality, generateRandomPersonality, checkIsTilted, deriveTraits } from './Archetypes.js';
 import { EmotionalEngine } from './EmotionalEngine.js';
+import { LearnedGoalRelevance } from './LearnedGoalRelevance.js';
 
 /**
  * AdaptiveBrain — SPEC-115 + SPEC-116 + SPEC-117 + MARL Roadmap Fases 1-3
@@ -252,6 +253,10 @@ export class AdaptiveBrain {
         this.memory = [];
         this.memoryMax = 30;
 
+        // Fase 5: Learned Goal Relevance Matrix
+        // Ref: Agrawal & Goyal (2013) — Thompson Sampling for Contextual Bandits
+        this.goalRelevance = new LearnedGoalRelevance();
+
         this._restore();
     }
 
@@ -395,11 +400,12 @@ export class AdaptiveBrain {
 
         // Exploit: pick action with highest Q + goal-modulated score
         const goals = detectGoals(ctx, this.personality);
+        this._lastGoals = goals; // Store for observe() goal relevance feedback
         let bestAction = availableActions[0];
         let bestScore = -Infinity;
         for (const action of availableActions) {
             const q = this.getQ(stateKey, action);
-            const goalBoost = goals.reduce((sum, g) => sum + g.weight * actionRelevance(action, g.goal), 0);
+            const goalBoost = goals.reduce((sum, g) => sum + g.weight * this.goalRelevance.getRelevance(action, g.goal), 0);
             const score = q + goalBoost;
             if (score > bestScore) {
                 bestScore = score;
@@ -488,6 +494,14 @@ export class AdaptiveBrain {
 
         // Save throttled (every 50 updates)
         if (this.totalUpdates % 50 === 0) this.save();
+
+        // Fase 5: Feed goal relevance learner
+        // The reward signal tells us if this action was good for current goals
+        if (this.goalRelevance && this._lastGoals) {
+            for (const g of this._lastGoals) {
+                this.goalRelevance.update(g.goal, actionKey, reward > 0 ? reward : reward);
+            }
+        }
     }
 
     /**
