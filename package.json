@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@mlc-ai/web-llm": "^0.2.83",
+    "@phosphor-icons/react": "^2.1.10",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "tone": "^14.9.17"

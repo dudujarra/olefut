@@ -157,17 +157,44 @@ export function rollMatchCondition() {
 export function calculateWeeklyFinances(team, weekResults, teamId) {
     const finance = { income: 0, expenses: 0, details: [] };
 
-    // Salários do plantel
-    const totalWages = team.squad.reduce((sum, p) => sum + (p.salary || 5000), 0);
+    // ── DESPESAS ─────────────────────────────────────
+
+    // 1. Salários do plantel (AUDIT-FIX #C: escalar por divisão)
+    // Div 1 players earn 5x more than Div 3-4 players on average
+    const divMultiplier = team.division === 1 ? 5.0 : team.division === 2 ? 2.5 : team.division === 3 ? 1.2 : 1.0;
+    const totalWages = team.squad.reduce((sum, p) => {
+        const baseSalary = p.salary || 5000;
+        return sum + Math.floor(baseSalary * divMultiplier);
+    }, 0);
     finance.expenses += totalWages;
     finance.details.push({ type: "expense", label: "Salários", amount: totalWages });
+
+    // 2. AUDIT-FIX #E: Infrastructure costs (money sinks)
+    // Stadium maintenance scales with capacity
+    const stadiumMaintenance = Math.floor((team.stadium || 5000) * 3);
+    finance.expenses += stadiumMaintenance;
+    finance.details.push({ type: "expense", label: "Manutenção do Estádio", amount: stadiumMaintenance });
+
+    // Youth academy costs (fixed by division)
+    const academyCost = team.division === 1 ? 50000 : team.division === 2 ? 25000 : 10000;
+    finance.expenses += academyCost;
+    finance.details.push({ type: "expense", label: "Base / CT", amount: academyCost });
+
+    // Medical department (scales with squad size)
+    const medicalCost = Math.floor((team.squad?.length || 18) * 1500);
+    finance.expenses += medicalCost;
+    finance.details.push({ type: "expense", label: "Depto. Médico", amount: medicalCost });
+
+    // ── RECEITAS ─────────────────────────────────────
 
     // Bilheteria (jogos em casa)
     for (const tId in weekResults) {
         const myMatch = weekResults[tId].find(m => m.home === teamId);
         if (myMatch) {
-            const attendance = Math.floor(team.stadium * (0.5 + systemRng() * 0.5));
-            const ticketIncome = attendance * 30;
+            // AUDIT-FIX: ticket price scales with division
+            const ticketPrice = team.division === 1 ? 60 : team.division === 2 ? 35 : 15;
+            const attendance = Math.floor((team.stadium || 5000) * (0.5 + systemRng() * 0.5));
+            const ticketIncome = attendance * ticketPrice;
             finance.income += ticketIncome;
             finance.details.push({ type: "income", label: `Bilheteria (${attendance} torcedores)`, amount: ticketIncome });
         }
@@ -232,6 +259,8 @@ export function applyTraining(team, trainingType) {
     const improvements = [];
 
     team.squad.forEach(player => {
+        // BUG-096: guard contra attributes undefined
+        if (!player.attributes) player.attributes = { FIS: 50, DEF: 50, CRI: 50, FIN: 50, REF: 50 };
         // Energy
         player.energy = Math.max(0, Math.min(100, player.energy + training.effect.energyRecovery));
         // Moral
@@ -257,6 +286,8 @@ export function applyTraining(team, trainingType) {
 
     // Recalculate OVR
     team.squad.forEach(p => {
+        // BUG-096: guard contra attributes undefined
+        if (!p.attributes) p.attributes = { FIS: 50, DEF: 50, CRI: 50, FIN: 50, REF: 50 };
         const attrs = p.attributes;
         p.ovr = Math.floor((attrs.FIS + attrs.DEF + attrs.CRI + attrs.FIN + (attrs.REF || 50)) / 5);
     });

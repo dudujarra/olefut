@@ -259,19 +259,8 @@ export function MatchView() {
         const matchContext = engine.getMatchContext ? engine.getMatchContext() : null;
 
         return (
-            <div className="ef-anim-fade-in" style={{
-                backgroundImage: `url(${bgStadium})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundAttachment: 'fixed',
-                imageRendering: 'pixelated',
-                WebkitImageRendering: 'pixelated',
-                minHeight: '100dvh',
-                padding: '16px',
-                color: '#E2E8F0',
-                backgroundColor: '#0A130E'
-            }}>
-                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgStadium})`, backgroundPosition: 'center' }}>
+                <div className="ef-layout-container">
                 {/* A3: Pre-match adversary info */}
                 {matchContext && (
                     <PreMatchScreen
@@ -284,7 +273,7 @@ export function MatchView() {
                 )}
 
                 {/* Step indicator */}
-                <div style={{textAlign:'center',background:'#1E2124',border:'4px solid',borderColor:'#4A5059 #111417 #111417 #4A5059',padding:'16px',boxShadow:'0 8px 0 rgba(0,0,0,0.8)'}}>
+                <EfPanel variant="default" padding="md" style={{ textAlign: 'center', boxShadow: '0 8px 0 rgba(0,0,0,0.8)' }}>
                     <h2 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.8rem',margin:'0 0 12px 0',color:'#FFD700',textShadow:'3px 3px 0 #000'}}>⚽ PRÉ-JOGO — SEMANA {engine.currentWeek + 1}</h2>
                     <div style={{display:'flex',justifyContent:'center',gap:'12px'}}>
                         {stepLabels.map((label, i) => (
@@ -299,7 +288,7 @@ export function MatchView() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </EfPanel>
 
                 {/* STEP 1: Squad Review */}
                 {preStep === 1 && (
@@ -389,10 +378,10 @@ export function MatchView() {
                             </div>
                             {cond && <span style={{display:'inline-block',background:'#0A0A1A',border:'3px solid #40BAF7',padding:'4px 10px',fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#40BAF7',marginBottom:'8px'}}>{cond.name}</span>}
                             <div style={{display:'grid',gridTemplateColumns:'repeat(4, 1fr)',gap:'8px',justifyContent:'center'}}>
-                                <div style={{background:'#1E2124',border:'3px solid #000',padding:'8px',textAlign:'center'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#FFD700',display:'block'}}>{sectors.goalkeeper}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>GOL</span></div>
-                                <div style={{background:'#1E2124',border:'3px solid #000',padding:'8px',textAlign:'center'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#40BAF7',display:'block'}}>{sectors.defense}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>DEF</span></div>
-                                <div style={{background:'#1E2124',border:'3px solid #000',padding:'8px',textAlign:'center'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#39FF14',display:'block'}}>{sectors.midfield}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>MEI</span></div>
-                                <div style={{background:'#1E2124',border:'3px solid #000',padding:'8px',textAlign:'center'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#FF3333',display:'block'}}>{sectors.attack}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>ATA</span></div>
+                                <div className="ef-panel ef-panel-default ef-panel-p-sm" style={{textAlign:'center', border: '3px solid #000', boxShadow: 'none'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#FFD700',display:'block'}}>{sectors.goalkeeper}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>GOL</span></div>
+                                <div className="ef-panel ef-panel-default ef-panel-p-sm" style={{textAlign:'center', border: '3px solid #000', boxShadow: 'none'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#40BAF7',display:'block'}}>{sectors.defense}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>DEF</span></div>
+                                <div className="ef-panel ef-panel-default ef-panel-p-sm" style={{textAlign:'center', border: '3px solid #000', boxShadow: 'none'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#39FF14',display:'block'}}>{sectors.midfield}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>MEI</span></div>
+                                <div className="ef-panel ef-panel-default ef-panel-p-sm" style={{textAlign:'center', border: '3px solid #000', boxShadow: 'none'}}><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.7rem',color:'#FF3333',display:'block'}}>{sectors.attack}</span><span style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.4rem',color:'#888'}}>ATA</span></div>
                             </div>
                             <div style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.45rem',color: talkDone ? '#39FF14' : '#FFD700',marginTop:'8px'}}>
                                 {talkDone ? '✅ Preleção feita' : '⚠️ Sem preleção'}
@@ -415,14 +404,10 @@ export function MatchView() {
 
     // === SCOREBOARD (shared between phases) ===
     const Scoreboard = ({ half }) => (
-        <div className={`${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{
+        <div className={`ef-panel ef-panel-default ef-panel-p-md ${goalBurstActive ? 'ef-anim-shake' : ''}`} style={{
             position: 'relative',
-            backgroundColor: '#1E2124',
-            border: '4px solid',
-            borderColor: '#3A4047 #111417 #111417 #3A4047',
-            padding: '12px',
-            boxShadow: '0 16px 0 rgba(0,0,0,0.5)',
-            marginBottom: '24px'
+            marginBottom: '24px',
+            boxShadow: '0 16px 0 rgba(0,0,0,0.5)'
         }}>
             <div
                 className="ef-anim-crowd-flag-wave"
@@ -585,19 +570,8 @@ export function MatchView() {
     // === FIRST HALF ===
     if (phase === 'firsthalf') {
         return (
-            <div className="ef-anim-fade-in" style={{
-                backgroundImage: `url(${bgStadium})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundAttachment: 'fixed',
-                imageRendering: 'pixelated',
-                WebkitImageRendering: 'pixelated',
-                minHeight: '100dvh',
-                padding: '16px',
-                color: '#E2E8F0',
-                backgroundColor: '#0A130E'
-            }}>
-                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgStadium})`, backgroundPosition: 'center' }}>
+                <div className="ef-layout-container">
                 <Scoreboard half="1º Tempo" />
 
                 <div className="narration-log" ref={logRef}>
@@ -664,19 +638,8 @@ export function MatchView() {
         const tiredPlayers = team.squad.filter(p => p.isTitular && p.energy < 50);
 
         return (
-            <div className="ef-anim-fade-in" style={{
-                backgroundImage: `url(${bgStadium})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundAttachment: 'fixed',
-                imageRendering: 'pixelated',
-                WebkitImageRendering: 'pixelated',
-                minHeight: '100dvh',
-                padding: '16px',
-                color: '#E2E8F0',
-                backgroundColor: '#0A130E'
-            }}>
-                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgStadium})`, backgroundPosition: 'center' }}>
+                <div className="ef-layout-container">
                 <EfPanel variant="elev" padding="md" style={{ textAlign: 'center' }}>
                     <h3 style={{fontFamily:"'Press Start 2P', monospace",fontSize:'0.8rem',color:'#FFD700',marginBottom:'8px',textShadow:'3px 3px 0 #000'}}>⏸️ INTERVALO</h3>
                     <div className="match-teams" style={{display:'flex',alignItems:'center',justifyContent:'space-around',gap:'1rem'}}>
@@ -753,19 +716,8 @@ export function MatchView() {
     // === SECOND HALF ===
     if (phase === 'secondhalf') {
         return (
-            <div className="ef-anim-fade-in" style={{
-                backgroundImage: `url(${bgStadium})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundAttachment: 'fixed',
-                imageRendering: 'pixelated',
-                WebkitImageRendering: 'pixelated',
-                minHeight: '100dvh',
-                padding: '16px',
-                color: '#E2E8F0',
-                backgroundColor: '#0A130E'
-            }}>
-                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgStadium})`, backgroundPosition: 'center' }}>
+                <div className="ef-layout-container">
                 <Scoreboard half="2º Tempo" />
 
                 <div className="narration-log" ref={logRef}>

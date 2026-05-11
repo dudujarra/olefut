@@ -124,12 +124,14 @@ export function generateRealTransferOffers(team, currentWeek) {
 // ─── helpers ────────────────────────────────────────────────
 
 function baseValue(ovr) {
-    // SPEC-140: reescalonamento ~10-30x para alinhar com economia real do jogo
-    // (saldos R$10M-600M observados no deep soak — OVR82 por R$0.2M era absurdo)
-    if (ovr < 60) return 500_000 + ovr * 5_000;
-    if (ovr < 80) return 1_000_000 + (ovr - 60) * 100_000;
-    return 3_000_000 + (ovr - 80) * 350_000;
-    // OVR60→R$800k | OVR70→R$2M | OVR76→R$2.6M | OVR80→R$3M | OVR82→R$3.7M | OVR90→R$6.15M
+    // AUDIT-FIX #D: Curva EXPONENCIAL — OVR 80 = 10x OVR 60, OVR 90 = 50x OVR 60
+    // Resolve mercado flat onde todos custam parecido.
+    // Formula: base * 1.12^(ovr-50) — doubling every ~6 OVR points
+    if (ovr < 50) return 200_000;
+    const exponential = Math.floor(500_000 * Math.pow(1.12, ovr - 50));
+    // Cap at R$200M to prevent absurd values
+    return Math.min(200_000_000, exponential);
+    // OVR50→R$500k | OVR60→R$1.55M | OVR70→R$4.8M | OVR80→R$15.3M | OVR85→R$27M | OVR90→R$48.5M | OVR95→R$85M
 }
 
 function ageMultiplier(age) {

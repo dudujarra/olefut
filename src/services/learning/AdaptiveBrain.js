@@ -78,7 +78,10 @@ export function encodeState(ctx = {}) {
     // BUG-042: add squadTier to diversify state space
     const squadSize = ctx.squadSize || 0;
     const squadTier = squadSize < 11 ? 'thin' : (squadSize < 18 ? 'normal' : 'deep');
-    return `${formTier}|${posTier}|${balTier}|${phase}|${last}|${squadTier}`;
+    // AUDIT-FIX #10: Division-aware encoding — separate policy per division tier
+    const div = ctx.division || 4;
+    const divTier = div <= 1 ? 'elite' : (div <= 2 ? 'pro' : 'lower');
+    return `${formTier}|${posTier}|${balTier}|${phase}|${last}|${squadTier}|${divTier}`;
 }
 
 // ─── GOAL DETECTION ──────────────────────────────────────────
@@ -266,6 +269,11 @@ export class AdaptiveBrain {
         // Ref: Schaul et al (2015) — "Prioritized Experience Replay"
         // Stores recent transitions for offline re-training at season boundaries
         this.replayBuffer = [];
+
+        // AUDIT-FIX #F: Yo-yo detector — tracks division history for meta-learning
+        // Detects promotion→relegation→promotion cycles and applies penalty
+        this.divisionHistory = [];
+        this._yoyoCount = 0;
 
         this._restore();
     }
@@ -627,6 +635,44 @@ export class AdaptiveBrain {
         }
     }
 
+    // ─── AUDIT-FIX #F: YO-YO DETECTOR + META-LEARNING ────────
+
+    /**
+     * Record season-end division for yo-yo detection.
+     * Call at season boundary (after promo/relegation resolves).
+     *
+     * @param {number} division — current division after promo/releg
+     * @param {number} season — season number
+     * @returns {{ isYoyo: boolean, yoyoCount: number, penalty: number }}
+     */
+    recordSeasonDivision(division, season) {
+        this.divisionHistory.push({ div: division, season });
+        // Keep last 10 seasons
+        if (this.divisionHistory.length > 10) {
+            this.divisionHistory = this.divisionHistory.slice(-10);
+        }
+
+        // Detect yo-yo: division changed direction 3+ times in last 6 seasons
+        const recent = this.divisionHistory.slice(-6);
+        let directionChanges = 0;
+        for (let i = 2; i < recent.length; i++) {
+            const prev = recent[i-1].div - recent[i-2].div;
+            const curr = recent[i].div - recent[i-1].div;
+            if (prev !== 0 && curr !== 0 && Math.sign(prev) !== Math.sign(curr)) {
+                directionChanges++;
+            }
+        }
+
+        const isYoyo = directionChanges >= 2;
+        if (isYoyo) this._yoyoCount++;
+
+        // Apply escalating penalty: each yo-yo cycle gets punished harder
+        // This teaches the agent that stability > oscillation
+        const penalty = isYoyo ? -15 * Math.min(5, this._yoyoCount) : 0;
+
+        return { isYoyo, yoyoCount: this._yoyoCount, penalty };
+    }
+
     // ─── ANALYTICS ───────────────────────────────────────────
 
     topActions(limit = 10) {
@@ -655,6 +701,8 @@ export class AdaptiveBrain {
             replayBuffer: this.replayBuffer.length,
             replayImpactful: this.replayBuffer.filter(e => Math.abs(e.r) > REPLAY_REWARD_THRESHOLD).length,
             lambda: LAMBDA,
+            yoyoCount: this._yoyoCount,
+            divisionHistory: this.divisionHistory,
             topActions: this.topActions(5),
             personality: {
                 id: this.personality?.id,

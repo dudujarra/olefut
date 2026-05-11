@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap');
-@import './styles/8bit-theme.css';
-@import './styles/32bit-theme.css';
-@import './styles/themes/snes.css';
+@import './styles/luxury-arcade.css';
 @import './styles/animations.css';
 @import './styles/mobile.css';
 
@@ -67,41 +65,7 @@
 .zone-dot.zone-promotion { color: #FBBF24; }
 .zone-dot.zone-rebaixamento { color: #EF4444; }
 
-/* 8-bit theme zone variants */
-body.theme-8bit .standings-table tr.zone-libertadores {
-  border-left: 4px solid #52B788;
-  background: rgba(82, 183, 136, 0.12);
-}
-body.theme-8bit .standings-table tr.zone-suda {
-  border-left: 4px solid #4A90E2;
-  background: rgba(74, 144, 226, 0.1);
-}
-body.theme-8bit .standings-table tr.zone-promotion {
-  border-left: 4px solid #FFD600;
-  background: rgba(255, 214, 0, 0.1);
-}
-body.theme-8bit .standings-table tr.zone-rebaixamento {
-  border-left: 4px solid #C62828;
-  background: rgba(198, 40, 40, 0.12);
-}
 
-/* 32-bit SNES variant */
-body.theme-32bit .standings-table tr.zone-libertadores {
-  border-left: 4px solid #52B788;
-  background: linear-gradient(90deg, rgba(82, 183, 136, 0.18) 0%, transparent 80%);
-}
-body.theme-32bit .standings-table tr.zone-suda {
-  border-left: 4px solid #6BA3C5;
-  background: linear-gradient(90deg, rgba(107, 163, 197, 0.15) 0%, transparent 80%);
-}
-body.theme-32bit .standings-table tr.zone-promotion {
-  border-left: 4px solid #FFD700;
-  background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, transparent 80%);
-}
-body.theme-32bit .standings-table tr.zone-rebaixamento {
-  border-left: 4px solid #C62828;
-  background: linear-gradient(90deg, rgba(198, 40, 40, 0.18) 0%, transparent 80%);
-}
 
 /* === Tooltip system (universal — funciona em qualquer tema) === */
 .tooltip-wrapper {
@@ -187,55 +151,9 @@ body.theme-32bit .standings-table tr.zone-rebaixamento {
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* Theme-specific tooltip styling */
-body.theme-8bit .tooltip-bubble {
-  background: #14291B;
-  border: 3px solid #2D5016;
-  font-family: 'VT323', monospace;
-  font-size: 0.95rem;
-  color: #F1FAEE;
-  border-radius: 0;
-}
 
-body.theme-32bit .tooltip-bubble {
-  background: linear-gradient(180deg, #14291B 0%, #08120D 100%);
-  border: 2px solid;
-  border-color: #52B788 #08120D #08120D #52B788;
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.85rem;
-  color: #F1FAEE;
-  border-radius: 4px;
-  box-shadow:
-    inset 1px 1px 0 rgba(255, 255, 255, 0.1),
-    3px 3px 8px rgba(0, 0, 0, 0.6);
-}
 
-:root {
-  /* OléFUT High-End SNES Luxury Palette */
-  --primary: #00FF66; /* Neon Turf Green */
-  --primary-dark: #00CC52;
-  --primary-glow: rgba(0, 255, 102, 0.25);
-  
-  --bg-dark: #040805; /* Deep OLED Night */
-  --bg-panel: #0A140D; /* Pitch Green Solid */
-  --bg-panel-solid: #0A140D;
-  --bg-panel-hover: #112417;
-  
-  --text-main: #FDFBF7; /* Chalk White */
-  --text-muted: #8E9E94; /* Silver Green */
-  
-  --accent: #FFD600; /* Arcade Yellow */
-  --danger: #FF1744; /* Crimson Red */
-  --info: #00E5FF; /* Electric Blue */
-  
-  --glass-border: rgba(0, 255, 102, 0.3); /* SNES style high contrast border */
-  --border-subtle: rgba(253, 251, 247, 0.08);
-  
-  /* SNES chunky but modern rounded corners */
-  --radius: 8px;
-  --radius-sm: 4px;
-  --radius-xs: 2px;
-}
+
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 

@@ -335,6 +335,59 @@ export class MatchSimulator {
                     performanceMap[offender.id] = (performanceMap[offender.id] || 0) - 1;
                 }
             }
+
+            // ══════════════════════════════════════════
+            // AUDIT-FIX #B: Surprise Events — SPEC-102 Fun Score booster
+            // Rare dramatic events (~0.5% per minute ≈ 1 per 2-3 matches)
+            // ══════════════════════════════════════════
+            if (systemRng() < 0.005 && homeGoals + awayGoals < MAX_COMBINED_GOALS) {
+                const eventRoll = systemRng();
+
+                if (eventRoll < 0.30) {
+                    // OWN GOAL (~30% of surprise events)
+                    const unluckyTeam = systemRng() > 0.5 ? homeTeam : awayTeam;
+                    const unluckyDef = pickRandom(unluckyTeam === homeTeam ? homeDefenders : awayDefenders);
+                    const name = unluckyDef?.name || unluckyTeam.name;
+                    if (unluckyTeam === homeTeam) { awayGoals++; } else { homeGoals++; }
+                    events.textLog.push({ minute, text: `😱 GOL CONTRA! ${name} (${unluckyTeam.name}) desviou para o próprio gol! (${homeGoals} x ${awayGoals})` });
+                    if (unluckyDef) performanceMap[unluckyDef.id] = (performanceMap[unluckyDef.id] || 0) - 3;
+
+                } else if (eventRoll < 0.55) {
+                    // VAR CONTROVERSY (~25% of surprise events)
+                    const side = systemRng() > 0.5 ? 'home' : 'away';
+                    const varDecisions = ['gol anulado por impedimento', 'pênalti marcado após revisão', 'cartão vermelho direto após revisão'];
+                    const decision = varDecisions[Math.floor(systemRng() * varDecisions.length)];
+                    const affectedTeam = side === 'home' ? homeTeam : awayTeam;
+                    events.textLog.push({ minute, text: `📺 VAR! ${decision} para ${affectedTeam.name}!` });
+                    // VAR penalty: 70% conversion
+                    if (decision.includes('pênalti') && systemRng() < 0.70) {
+                        if (side === 'home') { homeGoals++; } else { awayGoals++; }
+                        events.textLog.push({ minute, text: `⚽ GOOOOL de pênalti! (${homeGoals} x ${awayGoals})` });
+                    }
+
+                } else if (eventRoll < 0.80) {
+                    // KEY PLAYER INJURY mid-match (~25% of surprise events)
+                    const injTeam = systemRng() > 0.5 ? homeTeam : awayTeam;
+                    const candidates = (injTeam.squad || []).filter(p => p.isTitular && !p.injury);
+                    const injured = pickRandom(candidates);
+                    if (injured) {
+                        injured.injury = { name: 'Lesão muscular', weeksLeft: 2 + Math.floor(systemRng() * 4), emoji: '🤕' };
+                        events.textLog.push({ minute, text: `🤕 ${injured.name} (${injTeam.name}) saiu de maca! Lesão durante o jogo!` });
+                        performanceMap[injured.id] = (performanceMap[injured.id] || 0) - 2;
+                    }
+
+                } else {
+                    // RED CARD (~20% of surprise events)
+                    const redTeam = systemRng() > 0.5 ? homeTeam : awayTeam;
+                    const redCandidates = redTeam === homeTeam ? homeDefenders : awayDefenders;
+                    const expelled = pickRandom(redCandidates);
+                    if (expelled) {
+                        events.cards.push({ minute, player: expelled.name, team: redTeam.name, type: 'red' });
+                        events.textLog.push({ minute, text: `🟥 EXPULSO! ${expelled.name} (${redTeam.name}) recebeu vermelho direto!` });
+                        performanceMap[expelled.id] = (performanceMap[expelled.id] || 0) - 4;
+                    }
+                }
+            }
         }
 
         // Penalties

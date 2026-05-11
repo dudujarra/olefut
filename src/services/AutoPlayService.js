@@ -38,11 +38,12 @@ const FORMATION_POOL = ['4-3-3', '4-4-2', '4-2-3-1', '3-5-2'];
 const TELEMETRY_INTERVAL_WEEKS = 5;
 // BUG-029 fix: rotation cap — TRAIN was 94% of decisions in playtest.
 // Decision pool ensures TRAIN ≤30%, FORMATION/TACTIC/MARKET/VIEW share rest.
-// SPEC-104: expanded to 10 views; 'press' renamed to 'pressView' to match KNOWN_VIEWS.
-// Also includes matchView, rivalries, chronicle, achievements, monitor.
+// SPEC-104: expanded to ALL 16 views from CriticalPathMap.KNOWN_VIEWS.
+// Bot MUST visit every single view or SPEC-104 will report dead views.
 const VIEW_ROTATION = [
     'dashboard', 'squad', 'market', 'standings', 'pressView',
-    'matchView', 'rivalries', 'chronicle', 'achievements', 'monitor'
+    'matchView', 'rivalries', 'chronicle', 'achievements', 'monitor',
+    'tutorial', 'saveSlots', 'styleguide', 'cosmeticShop', 'start', 'autoplay'
 ];
 
 export class AutoPlayController {
@@ -803,7 +804,8 @@ export class AutoPlayController {
             week: engine?.currentWeek || 0,
             squadSize: team?.squad?.length || 0,
             lastResult,
-            lossStreak
+            lossStreak,
+            division: team?.division || 4, // AUDIT-FIX #F.2: division-aware state encoding
         };
     }
 
@@ -1610,6 +1612,23 @@ export class AutoPlayController {
                 }
             }
             this._lastDivision = team.division;
+
+            // AUDIT-FIX #F: Yo-yo detection at season boundary
+            // Records division history and applies escalating penalty if yo-yo detected
+            try {
+                const yoyo = this.brain.recordSeasonDivision(team.division, seasonNum);
+                if (yoyo.isYoyo && yoyo.penalty !== 0) {
+                    // Feed yo-yo penalty as a reward signal to discourage oscillation
+                    const ctx = this._buildStateCtx();
+                    const stateKey = encodeState(ctx);
+                    this.brain.observe(stateKey, 'YOYO_PENALTY', yoyo.penalty, stateKey, []);
+                    this._logDecision('YOYO_DETECTED', {
+                        yoyoCount: yoyo.yoyoCount,
+                        penalty: yoyo.penalty,
+                        divisionHistory: this.brain.divisionHistory
+                    }, 0);
+                }
+            } catch { /* defensive */ }
         }
         if (this._lastSeasonNumber === null) {
             this._lastSeasonNumber = seasonNum;

@@ -1,0 +1,487 @@
+/**
+ * ELIFOOT Luxury Arcade Design System
+ * The single source of truth for UI standardization.
+ */
+
+:root {
+  /* Core Colors */
+  --bg-dark: #111417; /* Deep OLED/CRT Night */
+  --bg-panel: #1A1F24; /* Elevated dark */
+  --bg-panel-hover: #222830;
+  --bg-panel-sunk: #0C0F12;
+  
+  --primary: #00FF66; /* Neon Turf Green */
+  --primary-dark: #00CC52;
+  --primary-glow: rgba(0, 255, 102, 0.25);
+  
+  --accent: #FFD600; /* Arcade Yellow */
+  --accent-dark: #CCAA00;
+  
+  --danger: #FF1744; /* Crimson Red */
+  --danger-dark: #CC1236;
+  
+  --info: #00E5FF; /* Electric Blue */
+  --info-dark: #00B7CC;
+  
+  --text-main: #FDFBF7; /* Chalk White */
+  --text-muted: #8E9E94; /* Silver Green */
+  --text-inverse: #040805;
+
+  /* Borders & Shadows */
+  --glass-border: rgba(0, 255, 102, 0.3);
+  --border-subtle: rgba(253, 251, 247, 0.08);
+  --border-panel: #4A5059;
+  
+  /* SNES 16-bit 3D Bezel Colors */
+  --bezel-light: #4A5059;
+  --bezel-dark: #0C0F12;
+  --bezel-primary-light: #39FF14;
+  --bezel-primary-dark: #1A8A0A;
+  --bezel-danger-light: #FF3333;
+  --bezel-danger-dark: #AA1111;
+  --bezel-accent-light: #FFD700;
+  --bezel-accent-dark: #AA8800;
+
+  /* Sizing & Radius */
+  --radius: 8px;
+  --radius-sm: 4px;
+  --radius-xs: 2px;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { 
+  font-family: 'Outfit', sans-serif; 
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pixel-font {
+  font-family: 'Press Start 2P', monospace;
+  image-rendering: pixelated;
+}
+
+/* ==========================================================================
+   EfButton Component
+   ========================================================================== */
+
+.ef-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: 'Press Start 2P', monospace;
+  font-weight: 600;
+  border: 4px solid;
+  border-radius: 0;
+  cursor: pointer;
+  user-select: none;
+  image-rendering: pixelated;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: transform 50ms, box-shadow 50ms, background-color 50ms;
+}
+
+.ef-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ef-btn:active {
+  transform: translateY(2px);
+  box-shadow: none !important;
+}
+
+/* Button Sizes */
+.ef-btn-sm { padding: 6px 10px; font-size: 0.5rem; }
+.ef-btn-md { padding: 10px 18px; font-size: 0.55rem; }
+.ef-btn-lg { padding: 14px 28px; font-size: 0.7rem; }
+
+/* Button Variants */
+.ef-btn-primary {
+  background: #0A1A0A;
+  color: var(--primary);
+  border-color: var(--bezel-primary-light) var(--bezel-primary-dark) var(--bezel-primary-dark) var(--bezel-primary-light);
+  box-shadow: 0 3px 0 #0A4A0A;
+  text-shadow: 1px 1px 0 #000;
+}
+.ef-btn-primary:hover {
+  background: #0F2F0F;
+  transform: translateY(-1px);
+}
+
+.ef-btn-secondary {
+  background: var(--bg-panel);
+  color: var(--text-main);
+  border-color: var(--bezel-light) var(--bezel-dark) var(--bezel-dark) var(--bezel-light);
+  box-shadow: 0 3px 0 rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 0 #000;
+}
+.ef-btn-secondary:hover {
+  background: var(--bg-panel-hover);
+  transform: translateY(-1px);
+}
+
+.ef-btn-danger {
+  background: #1A0A0A;
+  color: var(--danger);
+  border-color: var(--bezel-danger-light) var(--bezel-danger-dark) var(--bezel-danger-dark) var(--bezel-danger-light);
+  box-shadow: 0 3px 0 #400000;
+  text-shadow: 1px 1px 0 #000;
+}
+.ef-btn-danger:hover {
+  background: #2A1010;
+  transform: translateY(-1px);
+}
+
+.ef-btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: #333 #111 #111 #333;
+  box-shadow: none;
+}
+.ef-btn-ghost:hover {
+  background: var(--bg-panel);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   EfPanel Component
+   ========================================================================== */
+
+.ef-panel {
+  color: var(--text-main);
+  border: 4px solid;
+  border-radius: 0;
+  image-rendering: pixelated;
+  transition: background-color 0.2s;
+}
+
+.ef-panel-header {
+  padding: 8px 12px;
+  border-bottom: 2px solid #000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* Panel Padding Sizes */
+.ef-panel-p-sm { padding: 8px; }
+.ef-panel-p-md { padding: 16px; }
+.ef-panel-p-lg { padding: 24px; }
+
+/* Panel Variants */
+.ef-panel-default, .ef-panel-elev {
+  background: var(--bg-panel);
+  border-color: var(--bezel-light) var(--bezel-dark) var(--bezel-dark) var(--bezel-light);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.5);
+}
+
+.ef-panel-sunk {
+  background: var(--bg-dark);
+  border-color: var(--bezel-dark) var(--bezel-light) var(--bezel-light) var(--bezel-dark);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.ef-panel-hero {
+  background: #0B2015;
+  border-color: var(--bezel-primary-light) var(--bezel-primary-dark) var(--bezel-primary-dark) var(--bezel-primary-light);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.5);
+}
+
+.ef-panel-warning {
+  background: #1A1A0A;
+  border-color: var(--bezel-accent-light) var(--bezel-accent-dark) var(--bezel-accent-dark) var(--bezel-accent-light);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.5);
+}
+
+.ef-panel-danger {
+  background: #1A0A0A;
+  border-color: var(--bezel-danger-light) var(--bezel-danger-dark) var(--bezel-danger-dark) var(--bezel-danger-light);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.5);
+}
+
+/* ==========================================================================
+   EfCardPlayer Component
+   ========================================================================== */
+
+.ef-card-player {
+  display: flex;
+  background: #1E2124;
+  border: 4px solid;
+  border-color: var(--bezel-light) var(--bezel-dark) var(--bezel-dark) var(--bezel-light);
+  box-shadow: 2px 4px 0 rgba(0,0,0,0.5);
+  transition: transform 0.1s, border-color 0.1s, box-shadow 0.1s;
+  position: relative;
+}
+
+.ef-card-player-row {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  min-width: 200px;
+}
+
+.ef-card-player-col {
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  min-width: 120px;
+  text-align: center;
+}
+
+.ef-card-player[role="button"]:hover {
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+
+.ef-card-player.ef-selected {
+  border-color: #40BAF7;
+  box-shadow: 0 0 0 2px #40BAF7;
+}
+
+.ef-card-player-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ef-card-player-row .ef-card-player-info {
+  text-align: left;
+}
+
+.ef-card-player-col .ef-card-player-info {
+  text-align: center;
+}
+
+.ef-card-player-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ef-card-player-row .ef-card-player-header {
+  justify-content: space-between;
+}
+
+.ef-card-player-col .ef-card-player-header {
+  justify-content: center;
+}
+
+.ef-card-player-name {
+  font-size: 14px;
+  color: var(--text-main);
+  font-weight: bold;
+}
+
+.ef-card-player-pos {
+  font-size: 10px;
+  padding: 2px 4px;
+  color: #0A130E;
+  font-weight: 700;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.ef-card-player-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'Geist Mono', 'Courier Prime', monospace;
+}
+
+.ef-card-player-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  padding: 2px 6px;
+  background: var(--accent);
+  color: #0A130E;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  border: 3px solid #000;
+}
+
+/* Mini Progress Bar */
+.ef-minibar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.ef-minibar-label {
+  color: var(--text-muted);
+  min-width: 24px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+}
+
+.ef-minibar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-dark);
+  border: 2px solid #000;
+  position: relative;
+}
+
+.ef-minibar-fill {
+  height: 100%;
+  transition: width 0.2s ease-out;
+}
+
+.ef-minibar-value {
+  color: var(--text-main);
+  min-width: 20px;
+  text-align: right;
+  font-family: 'Geist Mono', 'Courier Prime', monospace;
+}
+
+/* ==========================================================================
+   Layout Utilities
+   ========================================================================== */
+
+.ef-layout-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ef-layout-pitch {
+  background-color: #0A130E;
+  background-size: cover;
+  background-position: center 20%;
+  background-attachment: fixed;
+  min-height: 100dvh;
+  padding: 16px;
+  color: #E2E8F0;
+  image-rendering: pixelated;
+  -webkit-image-rendering: pixelated;
+  position: relative;
+  z-index: 1;
+}
+
+.ef-layout-pitch::before {
+  content: '';
+  position: fixed; /* Use fixed to cover the entire scrolled viewport */
+  inset: 0;
+  background: rgba(10, 19, 14, 0.65); /* Dimming the background image */
+  z-index: -1;
+  pointer-events: none;
+}
+
+.ef-flex-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ef-flex-row-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-flex-1 { flex: 1; }
+.ef-flex-col { display: flex; flexDirection: column; gap: 12px; }
+
+.ef-form-input {
+  flex: 1 1 200px;
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.5);
+  border: 4px solid var(--bg-dark);
+  color: var(--text-main);
+  font-size: 0.85rem;
+  outline: none;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.1s;
+}
+
+.ef-form-input:focus {
+  border-color: var(--primary);
+}
+
+.ef-form-select {
+  padding: 8px 12px;
+  background: #0A130E;
+  border: 4px solid var(--bg-dark);
+  color: var(--text-main);
+  font-size: 0.85rem;
+  outline: none;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: border-color 0.1s;
+}
+
+.ef-form-select:hover, .ef-form-select:focus {
+  border-color: var(--primary);
+}
+
+/* ==========================================================================
+   Table Utilities
+   ========================================================================== */
+
+.ef-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-main);
+  font-size: 0.75rem;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.ef-table th {
+  padding: 12px 8px;
+  color: var(--text-muted);
+  border-bottom: 4px solid var(--border-panel);
+}
+
+.ef-table th.sortable {
+  cursor: pointer;
+  transition: color 0.1s;
+}
+
+.ef-table th.sortable:hover {
+  color: var(--text-main);
+}
+
+.ef-table th.active-sort {
+  color: var(--accent);
+}
+
+.ef-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.ef-table tbody tr {
+  transition: background-color 0.1s, transform 0.1s;
+}
+
+.ef-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateX(2px);
+  border-left-color: var(--primary) !important;
+}
