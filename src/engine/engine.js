@@ -83,7 +83,7 @@ export class Engine {
         this.matchCondition = null;
         this.transferOffers = [];
         this.weeklyFinance = null;
-        this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [] };
+        this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0 };
         this.board = null;
         this.weekInjuries = [];
         this.weekEvents = [];
@@ -1240,7 +1240,7 @@ export class Engine {
         // SPEC-135: atualiza seasonsCompleted para view unlock
         this.viewUnlockState.seasonsCompleted = this.seasonNumber - 1;
         if (this.managerStats) {
-            this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [] };
+            this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0 };
         }
         // BUG-040: emergency squad replenish if critically short (<11).
         try {

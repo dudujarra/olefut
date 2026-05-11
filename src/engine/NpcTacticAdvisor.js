@@ -1,9 +1,12 @@
 import { rng as systemRng } from './rng.js';
+import { getNpcProfile } from './NpcBehaviorProfile.js';
+
 /**
  * NpcTacticAdvisor — SPEC-131: AI Tactic Pivot
  *
  * Detecta tática ineficaz em times NPC e sugere adaptação.
  * Resolve TACTIC_STUCK (100+ eventos em 203 seasons, Monotony score=11).
+ * SPEC-137: suporta 4 levels de dificuldade via NpcBehaviorProfile.
  *
  * Stateless: não muta nada, retorna sugestão.
  */
@@ -22,14 +25,19 @@ const TACTIC_KEYS = ['normal', 'offensive', 'defensive', 'pressing', 'counter', 
  * @param {number} [opts.seed] — seed para determinismo em testes
  * @returns {{ tactic: string, changed: boolean, reason: string|null }}
  */
-export function adviseTactic({ currentTactic, recentResults = [], squadOvr = 65, opponentOvr = 65, tacticAge = 0, seed = null }) {
+export function adviseTactic({ currentTactic, recentResults = [], squadOvr = 65, opponentOvr = 65, tacticAge = 0, seed = null, npcLevel = null }) {
     const rand = seed !== null ? seededRandom(seed) : systemRng;
+    const profile = npcLevel ? getNpcProfile(npcLevel) : null;
 
     const losses = countTrailingLosses(recentResults);
     const ovrDiff = squadOvr - opponentOvr;
 
+    // SPEC-137: usar tacticFlexibility do profile se fornecido
+    const boredomThreshold = profile ? Math.round(1 / (profile.tacticFlexibility || 0.10)) : 10;
+    const boredomChance = profile ? profile.tacticFlexibility * 3 : 0.30;
+
     // BUG-081: boredom rotation — prevent stagnation even for winning teams
-    if (tacticAge >= 10 && rand() < 0.30) {
+    if (tacticAge >= boredomThreshold && rand() < boredomChance) {
         const newTactic = selectNewTactic(currentTactic, ovrDiff, rand);
         return { tactic: newTactic, changed: true, reason: 'boredom_rotation' };
     }
