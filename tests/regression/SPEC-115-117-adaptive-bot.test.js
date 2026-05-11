@@ -39,9 +39,9 @@ describe('SPEC-115/116 — encodeState', () => {
     });
 
     test('week phase early/mid/late', () => {
-        expect(encodeState({ week: 5 }).split('|')[3]).toBe('early');
-        expect(encodeState({ week: 20 }).split('|')[3]).toBe('mid');
-        expect(encodeState({ week: 35 }).split('|')[3]).toBe('late');
+        expect(encodeState({ week: 5 }).split('|')[3]).toBe('E');
+        expect(encodeState({ week: 20 }).split('|')[3]).toBe('M');
+        expect(encodeState({ week: 35 }).split('|')[3]).toBe('L');
     });
 });
 

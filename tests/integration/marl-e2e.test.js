@@ -367,7 +367,7 @@ describe('MARL E2E Integration', () => {
             for (let i = 0; i < 38; i++) engine.advanceWeek();
 
             const npcTeams = engine.teams.filter(t => t.brain?.emotions);
-            const notCalm = npcTeams.filter(t => t.brain.emotions.currentState !== 'CALM');
+            const notCalm = npcTeams.filter(t => t.brain.emotions.state !== 'CALM');
             // After a full season of W/L/D, some NPCs should have shifted emotional state
             // This is probabilistic, so we check > 0
             console.log(`Emotional diversity: ${notCalm.length}/${npcTeams.length} NPCs not CALM after season`);

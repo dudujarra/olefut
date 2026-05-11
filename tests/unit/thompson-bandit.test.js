@@ -46,7 +46,9 @@ describe('ThompsonBandit', () => {
     let bandit;
 
     beforeEach(() => {
+        if (typeof localStorage !== 'undefined') localStorage.clear();
         bandit = new ThompsonBandit('test', ['A', 'B', 'C']);
+        bandit.reset(); // ensure fresh state
     });
 
     it('constructs with correct defaults', () => {
