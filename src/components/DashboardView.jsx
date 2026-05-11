@@ -293,14 +293,37 @@ export function DashboardView() {
                         </EfPanel>
                     )}
 
-                    {/* AKITA-142: Coach Proposal */}
+                    {/* AKITA-142 + BUG-coach: Coach Proposal com botões */}
                     {engine.pendingCoachProposal && (
                         <EfPanel variant="sunk" padding="sm" style={{backgroundColor: '#0F2942', border: '2px solid #3B82F6', marginBottom: '0.5rem'}}>
                             <h4 style={{fontSize:'0.8rem',color:'#40BAF7',marginBottom:'0.3rem'}}>📨 PROPOSTA DE EMPREGO</h4>
-                            <p style={{fontSize:'0.78rem',color:'#888',margin:'0 0 0.3rem'}}>
+                            <p style={{fontSize:'0.78rem',color:'#888',margin:'0 0 0.4rem'}}>
                                 <strong>{engine.pendingCoachProposal.fromClubName}</strong> quer contratá-lo!
                                 <br/><span style={{fontSize:'0.72rem'}}>{engine.pendingCoachProposal.reason}</span>
+                                {engine.pendingCoachProposal.exitFee > 0 && (
+                                    <><br/><span style={{fontSize:'0.70rem',color:'#f59e0b'}}>Multa rescisória: R$ {(engine.pendingCoachProposal.exitFee/1e6).toFixed(1)}M</span></>
+                                )}
                             </p>
+                            <div style={{display:'flex',gap:'0.4rem'}}>
+                                <button
+                                    onClick={() => {
+                                        const result = engine.respondCoachProposal(true);
+                                        if (result?.success) forceUpdate();
+                                    }}
+                                    style={{flex:1,padding:'0.3rem 0.5rem',fontSize:'0.72rem',background:'#1d4ed8',color:'#fff',border:'none',borderRadius:'4px',cursor:'pointer',fontWeight:'bold'}}
+                                >
+                                    ✅ Aceitar
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        engine.respondCoachProposal(false);
+                                        forceUpdate();
+                                    }}
+                                    style={{flex:1,padding:'0.3rem 0.5rem',fontSize:'0.72rem',background:'#374151',color:'#9ca3af',border:'none',borderRadius:'4px',cursor:'pointer'}}
+                                >
+                                    ❌ Recusar
+                                </button>
+                            </div>
                         </EfPanel>
                     )}
 

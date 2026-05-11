@@ -394,21 +394,43 @@ export class AutoPlayController {
                 }
             } catch { /* contract non-critical */ }
 
-            // Coach Proposals — human accepts/rejects in DashboardView
+            // Coach Proposals — bot decide com base em contexto (BUG-coach)
             try {
                 if (this.engine.pendingCoachProposal) {
                     const proposal = this.engine.pendingCoachProposal;
-                    // Bot always refuses (stays at current club) — like a loyal manager
+                    const team = this.engine.getTeam(this.engine.manager?.teamId);
+                    const standings = team ? this.engine.getStandings(team.zone, team.division) : [];
+                    const pos = standings.length > 0
+                        ? (standings.findIndex(s => s.teamId === team?.id) + 1) || standings.length
+                        : 10;
+                    const totalTeams = standings.length || 20;
+                    const isRelegationZone = pos >= totalTeams - 3;
+                    const contractEnding = (this.engine.managerContract?.weeksRemaining || 20) <= 8;
+                    const tierMap = { big: 3, mid: 2, small: 1 };
+                    const currentTier = tierMap[team?.division === 1 ? 'big' : team?.division === 2 ? 'mid' : 'small'] || 1;
+                    const proposalTier = tierMap[proposal.fromClubTier] || 1;
+                    const isBetterClub = proposalTier > currentTier;
+                    const emotion = this.brain?.emotions?.state || 'CALM';
+                    const isTilted = emotion === 'TILTED' || emotion === 'DESPERATE';
+
+                    // Aceitar se: clube melhor, ou zona rebaixamento, ou contrato acabando, ou tilted
+                    const shouldAccept = isBetterClub || isRelegationZone || contractEnding || isTilted;
+
                     if (typeof this.engine.respondCoachProposal === 'function') {
-                        this.engine.respondCoachProposal(false);
+                        const result = this.engine.respondCoachProposal(shouldAccept);
+                        if (shouldAccept && result.success) {
+                            this._logDecision('COACH_PROPOSAL_ACCEPTED', {
+                                from: proposal.fromClubName,
+                                newTeamId: result.newTeamId,
+                                reason: isRelegationZone ? 'relegation_zone' : isBetterClub ? 'better_club' : contractEnding ? 'contract_ending' : 'tilted',
+                            }, 0);
+                            this._logSuccess('TRANSFER_SOLD', `✈️ Técnico mudou para ${proposal.fromClubName}`, {});
+                        } else {
+                            this._logDecision('COACH_PROPOSAL_REFUSED', { from: proposal.fromClubName, reason: 'staying' }, 0);
+                        }
                     } else {
-                        // Fallback: just dismiss
                         this.engine.pendingCoachProposal = null;
                     }
-                    this._logDecision('COACH_PROPOSAL_REFUSED', {
-                        from: proposal.fromClubName,
-                        reason: proposal.reason
-                    }, 0);
                 }
             } catch { /* proposal non-critical */ }
 

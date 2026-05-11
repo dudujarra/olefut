@@ -294,6 +294,63 @@ export class Engine {
         return this.teams.find(t => t.id === parseInt(id));
     }
 
+    /**
+     * SPEC-073 + BUG-coach: Processa decisão do manager sobre proposta de clube.
+     * @param {boolean} accept — true = aceitar, false = recusar
+     * @returns {{ success: boolean, newTeamId?: number, msg: string }}
+     */
+    respondCoachProposal(accept) {
+        const proposal = this.pendingCoachProposal;
+        if (!proposal) return { success: false, msg: 'Sem proposta pendente' };
+
+        this.pendingCoachProposal = null;
+
+        if (!accept) {
+            return { success: false, msg: `Recusou proposta de ${proposal.fromClubName}` };
+        }
+
+        // Validar clube destino
+        const newTeamId = proposal.fromClubId;
+        const newTeam = this.getTeam(newTeamId);
+        if (!newTeam) {
+            return { success: false, msg: `Clube destino não encontrado: ${newTeamId}` };
+        }
+
+        // Cobrar exit fee se aplicável
+        const currentTeam = this.getTeam(this.manager?.teamId);
+        if (proposal.exitFee > 0 && currentTeam) {
+            currentTeam.balance = (currentTeam.balance || 0) - proposal.exitFee;
+        }
+
+        // Mudar manager para novo clube
+        const oldTeamId = this.manager.teamId;
+        this.manager.teamId = newTeam.id;
+
+        // Boost de reputação
+        if (proposal.reputationBoost) {
+            this.manager.reputation = Math.min(100, (this.manager.reputation || 10) + proposal.reputationBoost);
+        }
+
+        // Resetar stats de temporada (começar do zero no novo clube)
+        this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0 };
+
+        // Limpar estado contextual do clube anterior
+        this.boardTension = 0;
+        this.lastContractResolution = null;
+
+        // Log na carreira do manager
+        if (!Array.isArray(this.manager.careerHistory)) this.manager.careerHistory = [];
+        this.manager.careerHistory.push({
+            clubName: currentTeam?.name || 'Clube Anterior',
+            leftFor: newTeam.name,
+            season: this.seasonNumber,
+        });
+
+        this.weekEvents.push(`✈️ ${this.manager.name} assina com ${newTeam.name}! (saiu de ${currentTeam?.name || oldTeamId})`);
+
+        return { success: true, newTeamId: newTeam.id, msg: `Aceitou proposta de ${newTeam.name}` };
+    }
+
     // SPEC-135: consulta UI se view está acessível
     getViewAccess(viewId) {
         return canAccess(viewId, this.viewUnlockState);
