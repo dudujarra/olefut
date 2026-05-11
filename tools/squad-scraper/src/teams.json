@@ -1,0 +1,678 @@
+{
+  "Flamengo": {
+    "id": 5981,
+    "tier": 1
+  },
+  "Palmeiras": {
+    "id": 1963,
+    "tier": 1
+  },
+  "São Paulo": {
+    "id": 1981,
+    "tier": 1
+  },
+  "Corinthians": {
+    "id": 1957,
+    "tier": 1
+  },
+  "Atlético-MG": {
+    "id": 1977,
+    "tier": 1
+  },
+  "Fluminense": {
+    "id": 1961,
+    "tier": 1
+  },
+  "Grêmio": {
+    "id": 5926,
+    "tier": 1
+  },
+  "Internacional": {
+    "id": 1966,
+    "tier": 1
+  },
+  "Athletico-PR": {
+    "id": 1967,
+    "tier": 1
+  },
+  "Botafogo": {
+    "id": 1958,
+    "tier": 1
+  },
+  "Vasco da Gama": {
+    "id": 1974,
+    "tier": 1
+  },
+  "Cruzeiro": {
+    "id": 1954,
+    "tier": 1
+  },
+  "Bahia": {
+    "id": 1955,
+    "tier": 1
+  },
+  "Fortaleza": {
+    "id": 2020,
+    "tier": 1
+  },
+  "Ceará": {
+    "id": 2001,
+    "tier": 1
+  },
+  "Sport Recife": {
+    "id": 1959,
+    "tier": 1
+  },
+  "Vitória": {
+    "id": 1962,
+    "tier": 1
+  },
+  "Goiás": {
+    "id": 1960,
+    "tier": 1
+  },
+  "Coritiba": {
+    "id": 1982,
+    "tier": 1
+  },
+  "Santos": {
+    "id": 1968,
+    "tier": 1
+  },
+  "Ponte Preta": {
+    "id": 1969,
+    "tier": 2
+  },
+  "Guarani": {
+    "id": 5994,
+    "tier": 2
+  },
+  "Juventude": {
+    "id": 1980,
+    "tier": 2
+  },
+  "Criciúma": {
+    "id": 1984,
+    "tier": 2
+  },
+  "Vila Nova": {
+    "id": 2021,
+    "tier": 2
+  },
+  "Atlético-GO": {
+    "id": 7314,
+    "tier": 2
+  },
+  "América-MG": {
+    "id": 1973,
+    "tier": 2
+  },
+  "Chapecoense": {
+    "id": 21845,
+    "tier": 2
+  },
+  "CRB": {
+    "id": 22032,
+    "tier": 2
+  },
+  "Novorizontino": {
+    "id": 135514,
+    "tier": 2
+  },
+  "Mirassol": {
+    "id": 21982,
+    "tier": 2
+  },
+  "Avaí": {
+    "id": 7315,
+    "tier": 2
+  },
+  "Paysandu": {
+    "id": 1997,
+    "tier": 2
+  },
+  "Remo": {
+    "id": 2012,
+    "tier": 2
+  },
+  "Sampaio Corrêa": {
+    "id": 2005,
+    "tier": 2
+  },
+  "Náutico": {
+    "id": 2011,
+    "tier": 2
+  },
+  "Tombense": {
+    "id": 87202,
+    "tier": 2
+  },
+  "Ituano": {
+    "id": 2025,
+    "tier": 2
+  },
+  "Botafogo-SP": {
+    "id": 1979,
+    "tier": 2
+  },
+  "Operário-PR": {
+    "id": 39634,
+    "tier": 2
+  },
+  "Figueirense": {
+    "id": 1985,
+    "tier": 3
+  },
+  "CSA": {
+    "id": 2010,
+    "tier": 3
+  },
+  "ABC": {
+    "id": 21838,
+    "tier": 3
+  },
+  "Londrina": {
+    "id": 2022,
+    "tier": 3
+  },
+  "Volta Redonda": {
+    "id": 6982,
+    "tier": 3
+  },
+  "Amazonas": {
+    "id": 336664,
+    "tier": 3
+  },
+  "Brusque": {
+    "id": 21884,
+    "tier": 3
+  },
+  "São Bernardo": {
+    "id": 47504,
+    "tier": 3
+  },
+  "Aparecidense": {
+    "id": 111195,
+    "tier": 3
+  },
+  "Ypiranga": {
+    "id": 32766,
+    "tier": 3
+  },
+  "Confiança": {
+    "id": 2017,
+    "tier": 3
+  },
+  "Botafogo-PB": {
+    "id": 49196,
+    "tier": 3
+  },
+  "Floresta": {
+    "id": 274286,
+    "tier": 3
+  },
+  "São José-RS": {
+    "id": 32789,
+    "tier": 3
+  },
+  "Altos": {
+    "id": 228199,
+    "tier": 3
+  },
+  "Manaus": {
+    "id": 283918,
+    "tier": 3
+  },
+  "Ferroviário": {
+    "id": 32791,
+    "tier": 3
+  },
+  "Caxias": {
+    "id": 2000,
+    "tier": 3
+  },
+  "Athletic Club": {
+    "id": 2825,
+    "tier": 1
+  },
+  "Ferroviária": {
+    "id": 35285,
+    "tier": 3
+  },
+  "Santa Cruz": {
+    "id": 1976,
+    "tier": 4
+  },
+  "Paraná Clube": {
+    "id": 1965,
+    "tier": 4
+  },
+  "América-RN": {
+    "id": 2023,
+    "tier": 4
+  },
+  "Campinense": {
+    "id": 34010,
+    "tier": 4
+  },
+  "Treze": {
+    "id": 2018,
+    "tier": 4
+  },
+  "Caldense": {
+    "id": 39621,
+    "tier": 4
+  },
+  "Sergipe": {
+    "id": 2016,
+    "tier": 4
+  },
+  "Brasiliense": {
+    "id": 2024,
+    "tier": 4
+  },
+  "Bangu": {
+    "id": 1993,
+    "tier": 4
+  },
+  "Moto Club": {
+    "id": 2009,
+    "tier": 4
+  },
+  "Nacional-AM": {
+    "id": 21859,
+    "tier": 4
+  },
+  "Rio Branco-ES": {
+    "id": 49199,
+    "tier": 4
+  },
+  "Anápolis": {
+    "id": 21872,
+    "tier": 4
+  },
+  "Nova Iguaçu": {
+    "id": 6981,
+    "tier": 4
+  },
+  "Cianorte": {
+    "id": 21892,
+    "tier": 4
+  },
+  "Inter de Limeira": {
+    "id": 135526,
+    "tier": 4
+  },
+  "Portuguesa-RJ": {
+    "id": 208067,
+    "tier": 4
+  },
+  "Retrô": {
+    "id": 324839,
+    "tier": 4
+  },
+  "Iguatu": {
+    "id": 274287,
+    "tier": 4
+  },
+  "Sousa": {
+    "id": 21864,
+    "tier": 4
+  },
+  "Manchester City": {
+    "id": 17,
+    "tier": 1
+  },
+  "Arsenal": {
+    "id": 42,
+    "tier": 1
+  },
+  "Liverpool": {
+    "id": 44,
+    "tier": 1
+  },
+  "Manchester United": {
+    "id": 35,
+    "tier": 1
+  },
+  "Chelsea": {
+    "id": 38,
+    "tier": 1
+  },
+  "Tottenham Hotspur": {
+    "id": 33,
+    "tier": 1
+  },
+  "Newcastle United": {
+    "id": 39,
+    "tier": 1
+  },
+  "Aston Villa": {
+    "id": 40,
+    "tier": 1
+  },
+  "West Ham United": {
+    "id": 37,
+    "tier": 1
+  },
+  "Brighton & Hove Albion": {
+    "id": 30,
+    "tier": 1
+  },
+  "Real Madrid": {
+    "id": 2829,
+    "tier": 1
+  },
+  "FC Barcelona": {
+    "id": 2817,
+    "tier": 1
+  },
+  "Atlético Madrid": {
+    "id": 2836,
+    "tier": 1
+  },
+  "Sevilla FC": {
+    "id": 2833,
+    "tier": 1
+  },
+  "Real Sociedad": {
+    "id": 2824,
+    "tier": 1
+  },
+  "Real Betis Balompié": {
+    "id": 2816,
+    "tier": 1
+  },
+  "Villarreal CF": {
+    "id": 2819,
+    "tier": 1
+  },
+  "Valencia CF": {
+    "id": 2828,
+    "tier": 1
+  },
+  "CA Osasuna": {
+    "id": 2820,
+    "tier": 1
+  },
+  "Inter": {
+    "id": 2697,
+    "tier": 1
+  },
+  "AC Milan": {
+    "id": 2692,
+    "tier": 1
+  },
+  "Juventus": {
+    "id": 2687,
+    "tier": 1
+  },
+  "Napoli": {
+    "id": 2714,
+    "tier": 1
+  },
+  "Roma": {
+    "id": 2702,
+    "tier": 1
+  },
+  "Lazio": {
+    "id": 2699,
+    "tier": 1
+  },
+  "Atalanta": {
+    "id": 2686,
+    "tier": 1
+  },
+  "Fiorentina": {
+    "id": 2693,
+    "tier": 1
+  },
+  "Bologna": {
+    "id": 2685,
+    "tier": 1
+  },
+  "Torino": {
+    "id": 2696,
+    "tier": 1
+  },
+  "FC Bayern München": {
+    "id": 2672,
+    "tier": 1
+  },
+  "Borussia Dortmund": {
+    "id": 2673,
+    "tier": 1
+  },
+  "RB Leipzig": {
+    "id": 36360,
+    "tier": 1
+  },
+  "Bayer 04 Leverkusen": {
+    "id": 2681,
+    "tier": 1
+  },
+  "Eintracht Frankfurt": {
+    "id": 2674,
+    "tier": 1
+  },
+  "VfL Wolfsburg": {
+    "id": 2524,
+    "tier": 1
+  },
+  "Borussia Mönchengladbach": {
+    "id": 2527,
+    "tier": 1
+  },
+  "SC Freiburg": {
+    "id": 2538,
+    "tier": 1
+  },
+  "TSG 1899 Hoffenheim": {
+    "id": 36652,
+    "tier": 1
+  },
+  "VfB Stuttgart": {
+    "id": 2677,
+    "tier": 1
+  },
+  "Paris Saint-Germain": {
+    "id": 1644,
+    "tier": 1
+  },
+  "Olympique de Marseille": {
+    "id": 1641,
+    "tier": 1
+  },
+  "Olympique Lyonnais": {
+    "id": 1649,
+    "tier": 1
+  },
+  "AS Monaco": {
+    "id": 1653,
+    "tier": 1
+  },
+  "Lille OSC": {
+    "id": 1643,
+    "tier": 1
+  },
+  "OGC Nice": {
+    "id": 1661,
+    "tier": 1
+  },
+  "Stade Rennais FC": {
+    "id": 1658,
+    "tier": 1
+  },
+  "RC Lens": {
+    "id": 1648,
+    "tier": 1
+  },
+  "RC Strasbourg Alsace": {
+    "id": 1659,
+    "tier": 1
+  },
+  "Montpellier HSC": {
+    "id": 1642,
+    "tier": 1
+  },
+  "Boca Juniors": {
+    "id": 3202,
+    "tier": 1
+  },
+  "River Plate": {
+    "id": 3211,
+    "tier": 1
+  },
+  "Racing Club": {
+    "id": 3213,
+    "tier": 1
+  },
+  "Independiente": {
+    "id": 3209,
+    "tier": 1
+  },
+  "San Lorenzo de Almagro": {
+    "id": 3201,
+    "tier": 1
+  },
+  "Vélez Sarsfield": {
+    "id": 3208,
+    "tier": 1
+  },
+  "Estudiantes de La Plata": {
+    "id": 3206,
+    "tier": 1
+  },
+  "Talleres": {
+    "id": 3210,
+    "tier": 1
+  },
+  "Argentinos Juniors": {
+    "id": 3216,
+    "tier": 1
+  },
+  "Lanús": {
+    "id": 3218,
+    "tier": 1
+  },
+  "Peñarol": {
+    "id": 3227,
+    "tier": 1
+  },
+  "Club Nacional de Football": {
+    "id": 3230,
+    "tier": 1
+  },
+  "Defensor Sporting": {
+    "id": 3229,
+    "tier": 1
+  },
+  "Danubio FC": {
+    "id": 3228,
+    "tier": 1
+  },
+  "Montevideo Wanderers": {
+    "id": 3240,
+    "tier": 1
+  },
+  "Liverpool (URU)": {
+    "id": 3234,
+    "tier": 1
+  },
+  "Plaza Colonia": {
+    "id": 3235,
+    "tier": 1
+  },
+  "Fénix": {
+    "id": 112495,
+    "tier": 1
+  },
+  "Cerro Largo": {
+    "id": 25009,
+    "tier": 1
+  },
+  "Boston River": {
+    "id": 174970,
+    "tier": 1
+  },
+  "Colo-Colo": {
+    "id": 3155,
+    "tier": 1
+  },
+  "Universidad de Chile": {
+    "id": 3161,
+    "tier": 1
+  },
+  "Universidad Católica": {
+    "id": 3151,
+    "tier": 1
+  },
+  "Cobreloa": {
+    "id": 3159,
+    "tier": 1
+  },
+  "Huachipato": {
+    "id": 3164,
+    "tier": 1
+  },
+  "CD O'Higgins": {
+    "id": 3163,
+    "tier": 1
+  },
+  "Unión Española": {
+    "id": 3153,
+    "tier": 1
+  },
+  "CD Palestino": {
+    "id": 3157,
+    "tier": 1
+  },
+  "Audax Italiano": {
+    "id": 3162,
+    "tier": 1
+  },
+  "Everton de Viña del Mar": {
+    "id": 5032,
+    "tier": 1
+  },
+  "Atlético Nacional": {
+    "id": 6106,
+    "tier": 1
+  },
+  "Millonarios FC": {
+    "id": 6117,
+    "tier": 1
+  },
+  "Junior FC": {
+    "id": 6105,
+    "tier": 1
+  },
+  "América de Cali": {
+    "id": 6102,
+    "tier": 1
+  },
+  "Deportivo Cali": {
+    "id": 6112,
+    "tier": 1
+  },
+  "Independiente Santa Fe": {
+    "id": 6116,
+    "tier": 1
+  },
+  "Once Caldas": {
+    "id": 6118,
+    "tier": 1
+  },
+  "Tolima": {
+    "id": 6111,
+    "tier": 1
+  },
+  "Atlético Bucaramanga": {
+    "id": 6103,
+    "tier": 1
+  },
+  "Independiente Medellín": {
+    "id": 6115,
+    "tier": 1
+  }
+}
