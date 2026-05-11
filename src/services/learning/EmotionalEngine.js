@@ -45,7 +45,7 @@ const TRANSITIONS = {
     CALM: {
         WIN:             (streak) => streak >= 3 ? 'CONFIDENT' : 'CALM',
         DRAW:            () => 'CALM',
-        LOSS:            (streak) => Math.abs(streak) >= 2 ? 'ANXIOUS' : 'CALM',
+        LOSS:            (streak) => Math.abs(streak) >= 3 ? 'ANXIOUS' : 'CALM',
         TITLE:           () => 'EUPHORIC',
         PROMOTION:       () => 'EUPHORIC',
         RELEGATION_RISK: () => 'ANXIOUS'
@@ -68,7 +68,7 @@ const TRANSITIONS = {
     },
     ANXIOUS: {
         WIN:             () => 'CALM',
-        DRAW:            () => 'ANXIOUS',
+        DRAW:            () => 'CALM',  // SPEC-139: empate é suficiente pra sair do pânico
         LOSS:            (streak) => Math.abs(streak) >= 4 ? 'TILTED' : 'ANXIOUS',
         TITLE:           () => 'EUPHORIC',
         PROMOTION:       () => 'EUPHORIC',

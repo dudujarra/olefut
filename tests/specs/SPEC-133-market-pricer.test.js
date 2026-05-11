@@ -49,10 +49,10 @@ describe('SPEC-133: MarketPricer', () => {
         expect(young).toBeGreaterThanOrEqual(prime * 1.3);
     });
 
-    test('OVR 70 age 25 → marketValue 150k-250k', () => {
+    test('OVR 70 age 25 → marketValue 1M-4M (SPEC-140 rescale)', () => {
         const mv = calcMarketValue({ playerOvr: 70, playerAge: 25, playerContract: 26 });
-        expect(mv).toBeGreaterThanOrEqual(150000);
-        expect(mv).toBeLessThanOrEqual(250000);
+        expect(mv).toBeGreaterThanOrEqual(1_000_000);
+        expect(mv).toBeLessThanOrEqual(4_000_000);
     });
 
     test('counterOffer > offerPrice when rejected', () => {

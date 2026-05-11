@@ -124,9 +124,12 @@ export function generateRealTransferOffers(team, currentWeek) {
 // ─── helpers ────────────────────────────────────────────────
 
 function baseValue(ovr) {
-    if (ovr < 60) return 50000 + ovr * 500;
-    if (ovr < 80) return 100000 + (ovr - 60) * 5000;
-    return 200000 + (ovr - 80) * 15000;
+    // SPEC-140: reescalonamento ~10-30x para alinhar com economia real do jogo
+    // (saldos R$10M-600M observados no deep soak — OVR82 por R$0.2M era absurdo)
+    if (ovr < 60) return 500_000 + ovr * 5_000;
+    if (ovr < 80) return 1_000_000 + (ovr - 60) * 100_000;
+    return 3_000_000 + (ovr - 80) * 350_000;
+    // OVR60→R$800k | OVR70→R$2M | OVR76→R$2.6M | OVR80→R$3M | OVR82→R$3.7M | OVR90→R$6.15M
 }
 
 function ageMultiplier(age) {

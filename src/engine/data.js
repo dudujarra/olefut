@@ -24,8 +24,10 @@ export const Data = {
 
     generatePlayer(position, tier) {
         // tier: 1 (top) to 4 (low). Affects base attribute range.
-        const baseMin = Math.max(20, 80 - (tier * 15));
-        const baseMax = Math.min(99, 95 - (tier * 10));
+        // SPEC-142: piso mais alto, gap menor entre divisões (era 12-13 pts, alvo 8-10)
+        // Tier1: 70-83 | Tier2: 58-76 | Tier3: 46-69 | Tier4: 35-62 → OVR médio ~48 (era ~37)
+        const baseMin = Math.max(35, 82 - (tier * 12));
+        const baseMax = Math.min(99, 90 - (tier * 7));
 
         const age = rng.int(18, 35);
 

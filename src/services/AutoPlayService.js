@@ -1635,6 +1635,61 @@ export class AutoPlayController {
         const gameDesignInsights = this.lastTelemetryReport
             ? generateGameDesignInsights(this.lastTelemetryReport)
             : [];
+
+        // SPEC-143: distribuição emocional — computa dos decisions logados
+        const emotionalDistribution = (() => {
+            const decisions = this.stats.decisions || [];
+            const counts = {};
+            decisions.forEach(d => {
+                const emo = d.args?.emotion;
+                if (emo) counts[emo] = (counts[emo] || 0) + 1;
+            });
+            const total = Object.values(counts).reduce((s, n) => s + n, 0) || 1;
+            return Object.fromEntries(
+                Object.entries(counts).map(([k, v]) => [k, `${(v / total * 100).toFixed(1)}%`])
+            );
+        })();
+
+        // SPEC-143: preços de transferência — extrai dos successes TRANSFER_SOLD
+        const transferPrices = (() => {
+            const sells = (this.stats.successes || []).filter(s => s.type === 'TRANSFER_SOLD');
+            if (!sells.length) return null;
+            const priceRe = /R\$\s*([\d.]+)M/;
+            const ovrRe = /OVR(\d+)/;
+            const byOvr = {};
+            sells.forEach(s => {
+                const priceM = parseFloat((priceRe.exec(s.msg) || [])[1] || '0') * 1e6;
+                const ovr = parseInt((ovrRe.exec(s.msg) || [])[1] || '0');
+                if (ovr && priceM) {
+                    const bucket = Math.floor(ovr / 5) * 5;
+                    if (!byOvr[bucket]) byOvr[bucket] = [];
+                    byOvr[bucket].push(priceM);
+                }
+            });
+            return Object.fromEntries(
+                Object.entries(byOvr).map(([ovr, prices]) => [
+                    `ovr${ovr}Avg`, Math.round(prices.reduce((s, p) => s + p, 0) / prices.length)
+                ])
+            );
+        })();
+
+        // SPEC-143: diversidade tática — dos decisions TACTIC_CHANGE
+        const tacticDiversity = (() => {
+            const tactics = (this.stats.decisions || [])
+                .filter(d => d.action === 'TACTIC_CHANGE')
+                .map(d => d.args?.to)
+                .filter(Boolean);
+            const unique = new Set(tactics);
+            const stuck = (this.stats.anomalies || [])
+                .filter(a => a.type === 'TACTIC_STUCK')
+                .map(a => a.ctx?.streak || 0);
+            return {
+                uniqueTacticsUsed: unique.size,
+                tacticChanges: tactics.length,
+                maxConsecutiveSameTactic: stuck.length ? Math.max(...stuck) : 0,
+            };
+        })();
+
         return {
             ...this.stats,
             elapsedMs: this.stats.startTime ? Date.now() - this.stats.startTime : 0,
@@ -1646,7 +1701,11 @@ export class AutoPlayController {
             // SPEC-115/116/117: brain summary
             brain: this.brain ? this.brain.summary() : null,
             // Game design insights from telemetry analysis
-            gameDesignInsights
+            gameDesignInsights,
+            // SPEC-143: métricas melhoradas para deep soak v2
+            emotionalDistribution,
+            transferPrices,
+            tacticDiversity,
         };
     }
 
