@@ -93,6 +93,15 @@ export const Data = {
         return `Jogador ${rng.int(1, 9999)}`;
     },
 
+    getRandomRealPlayer(pos, tier) {
+        const pool = realPlayers.filter(p => mapSofifaPosition(p.position) === pos);
+        if (pool.length > 0) {
+            const raw = rng.pick(pool);
+            return this.generatePlayer(pos, tier, { realPlayer: raw });
+        }
+        return this.generatePlayer(pos, tier);
+    },
+
     /**
      * Gera jogador híbrido: Se passarmos um realPlayer, ele usa a base real.
      * Caso contrário, usa a geração algorítmica de atributos com especialidades.

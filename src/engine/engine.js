@@ -470,7 +470,8 @@ export class Engine {
         for (let i = 0; i < 20; i++) {
             const positions = ['GOL', 'DEF', 'MEI', 'ATA'];
             const pos = positions[Math.floor(systemRng() * positions.length)];
-            this.marketPlayers.push(Data.generatePlayer(pos, 2));
+            // Agora usa um jogador real gringo/brasileiro para povoar o mercado livre
+            this.marketPlayers.push(Data.getRandomRealPlayer(pos, 2));
         }
     }
 
