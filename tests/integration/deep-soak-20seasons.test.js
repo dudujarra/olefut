@@ -13,6 +13,7 @@ if (typeof globalThis.localStorage === 'undefined') {
         getItem: (k) => store[k] || null,
         setItem: (k, v) => { store[k] = v; },
         removeItem: (k) => { delete store[k]; },
+        clear: () => { for (const k of Object.keys(store)) delete store[k]; },
     };
 }
 
@@ -22,6 +23,9 @@ describe('Deep Soak Test — 20 seasons ML convergence', () => {
     const MAX_WEEKS = SEASONS * 38 + 40; // safety margin
 
     beforeAll(() => {
+        // CRITICAL: clear any state from previous test files in same worker
+        localStorage.clear();
+        
         const engine = new Engine();
         engine.initGame('DeepBot', 1, 'manager', 'fallen');
         bot = new AutoPlayController(engine);

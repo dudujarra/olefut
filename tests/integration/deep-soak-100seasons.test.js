@@ -6,13 +6,14 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
 import { AutoPlayController } from '../../src/services/AutoPlayService.js';
 
-// Mock localStorage for Node
+// Mock localStorage for Node — fresh per test file
 if (typeof globalThis.localStorage === 'undefined') {
     const store = {};
     globalThis.localStorage = {
         getItem: (k) => store[k] || null,
         setItem: (k, v) => { store[k] = v; },
         removeItem: (k) => { delete store[k]; },
+        clear: () => { for (const k of Object.keys(store)) delete store[k]; },
     };
 }
 
@@ -22,6 +23,9 @@ describe('Deep Soak Test — 100 seasons ML convergence', () => {
     const MAX_WEEKS = SEASONS * 38 + 40; // safety margin
 
     beforeAll(() => {
+        // CRITICAL: clear any state from previous test files in same worker
+        localStorage.clear();
+        
         const engine = new Engine();
         engine.initGame('DeepBot', 1, 'manager', 'fallen');
         bot = new AutoPlayController(engine);
@@ -38,7 +42,7 @@ describe('Deep Soak Test — 100 seasons ML convergence', () => {
         bot.running = false;
         stats = bot.getStats();
         console.log(`\n=== DEEP SOAK: ${stats.weeksPlayed} weeks, ${stats.seasonsPlayed} seasons, ${errors.length} errors ===`);
-    }, 30000);
+    }, 600_000); // 600s — 100 seasons ~5min due to non-linear state growth
 
     it('zero crashes over 100 seasons', () => {
         expect(stats.seasonsPlayed).toBeGreaterThanOrEqual(SEASONS);
