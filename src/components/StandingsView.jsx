@@ -76,37 +76,16 @@ export function StandingsView() {
     const back = gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
 
     return (
-        <div className="ef-anim-fade-in" style={{
-            backgroundImage: `url(${bgOffice})`,
-            imageRendering: 'pixelated',
-            WebkitImageRendering: 'pixelated',
-            backgroundColor: '#0A130E',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100dvh',
-            padding: '16px',
-            color: '#E2E8F0',
-            fontFamily: "'Outfit', sans-serif"
-        }}>
-            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgOffice})` }}>
+            <div className="ef-layout-container">
 
                 {/* HEADER */}
-                <div style={{
-                    background: '#1E2124',
-                    border: '4px solid',
-                    borderColor: '#4A5059 #111417 #111417 #4A5059',
-                    padding: '16px',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    boxShadow: '0 8px 0 rgba(0,0,0,0.8)'
-                }}>
+                <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h2 style={{fontFamily: "'Press Start 2P', monospace", color: '#FFD700', margin: 0, fontSize: '1.1rem', textShadow: '3px 3px 0 #000'}}>
                         CLASSIFICAÇÃO — {SERIE_NAMES[activeDiv] || `DIV ${activeDiv}`}
                     </h2>
                     <EfButton variant="secondary" size="md" onClick={() => changeView(back)}>SAIR</EfButton>
-                </div>
+                </EfPanel>
 
                 {/* LEGEND */}
                 <div style={{
@@ -170,27 +149,20 @@ export function StandingsView() {
                 )}
 
                 {/* TABLE */}
-                <div style={{
-                    backgroundColor: '#1E2124',
-                    border: '4px solid',
-                    borderColor: '#4A5059 #111417 #111417 #4A5059',
-                    boxShadow: '0 16px 0 rgba(0,0,0,0.5)',
-                    padding: '0',
-                    overflowX: 'auto'
-                }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', color: 'white', fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem' }}>
+                <EfPanel variant="default" padding="none" style={{ overflowX: 'auto' }}>
+                    <table className="ef-table">
                         <thead>
-                            <tr style={{ borderBottom: '4px solid #4A5059', color: '#888' }}>
-                                <th style={{padding:'12px 6px', textAlign:'center'}}>#</th>
-                                <th style={{padding:'12px 6px', textAlign:'left'}}>TIME</th>
-                                <Tooltip content="Pontos: 3 por vitória, 1 por empate"><th style={{padding:'12px 6px', textAlign:'center', color: '#FFD700'}}>P</th></Tooltip>
-                                <Tooltip content="Jogos disputados"><th style={{padding:'12px 6px', textAlign:'center'}}>J</th></Tooltip>
-                                <Tooltip content="Vitórias"><th style={{padding:'12px 6px', textAlign:'center', color: '#39FF14'}}>V</th></Tooltip>
-                                <Tooltip content="Empates"><th style={{padding:'12px 6px', textAlign:'center', color: '#FFD700'}}>E</th></Tooltip>
-                                <Tooltip content="Derrotas"><th style={{padding:'12px 6px', textAlign:'center', color: '#FF3333'}}>D</th></Tooltip>
-                                <Tooltip content="Gols pró"><th style={{padding:'12px 6px', textAlign:'center'}}>GP</th></Tooltip>
-                                <Tooltip content="Gols contra"><th style={{padding:'12px 6px', textAlign:'center'}}>GC</th></Tooltip>
-                                <Tooltip content="Saldo de gols"><th style={{padding:'12px 6px', textAlign:'center'}}>SG</th></Tooltip>
+                            <tr>
+                                <th style={{ textAlign:'center' }}>#</th>
+                                <th style={{ textAlign:'left' }}>TIME</th>
+                                <Tooltip content="Pontos: 3 por vitória, 1 por empate"><th style={{ textAlign:'center', color: '#FFD700' }}>P</th></Tooltip>
+                                <Tooltip content="Jogos disputados"><th style={{ textAlign:'center' }}>J</th></Tooltip>
+                                <Tooltip content="Vitórias"><th style={{ textAlign:'center', color: '#39FF14' }}>V</th></Tooltip>
+                                <Tooltip content="Empates"><th style={{ textAlign:'center', color: '#FFD700' }}>E</th></Tooltip>
+                                <Tooltip content="Derrotas"><th style={{ textAlign:'center', color: '#FF3333' }}>D</th></Tooltip>
+                                <Tooltip content="Gols pró"><th style={{ textAlign:'center' }}>GP</th></Tooltip>
+                                <Tooltip content="Gols contra"><th style={{ textAlign:'center' }}>GC</th></Tooltip>
+                                <Tooltip content="Saldo de gols"><th style={{ textAlign:'center' }}>SG</th></Tooltip>
                             </tr>
                         </thead>
                         <tbody>
@@ -233,7 +205,7 @@ export function StandingsView() {
                             })}
                         </tbody>
                     </table>
-                </div>
+                </EfPanel>
             </div>
         </div>
     );

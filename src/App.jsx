@@ -32,29 +32,7 @@ function App() {
     const { gameState, getEngine, saveGame, resetGame, changeView } = useGame();
     const [soundOn, setSoundOn] = useState(isSoundEnabled());
     const [savedToast, setSavedToast] = useState(false);
-    // Tri-state theme: modern → 8bit → 32bit → modern (cycle)
-    const [theme, setTheme] = useState(() => {
-        try {
-            const v = localStorage.getItem('elifoot_theme');
-            return ['modern', '8bit', '32bit'].includes(v) ? v : 'modern';
-        } catch { return 'modern'; }
-    });
 
-    React.useEffect(() => {
-        document.body.classList.remove('theme-8bit', 'theme-32bit');
-        if (theme === '8bit') document.body.classList.add('theme-8bit');
-        else if (theme === '32bit') document.body.classList.add('theme-32bit');
-        try { localStorage.setItem('elifoot_theme', theme); } catch { /* ignore */ }
-    }, [theme]);
-
-    const cycleTheme = () => {
-        const next = theme === 'modern' ? '8bit' : theme === '8bit' ? '32bit' : 'modern';
-        setTheme(next);
-        sfx.click();
-    };
-
-    const themeIcon = theme === 'modern' ? '🎨' : theme === '8bit' ? '🕹️' : '🎮';
-    const themeLabel = theme === 'modern' ? 'Tema: Modern (clique → 8-BIT)' : theme === '8bit' ? 'Tema: 8-BIT NES (clique → 32-BIT SNES)' : 'Tema: 32-BIT SNES (clique → Modern)';
 
     const renderView = () => {
         switch (gameState.view) {
@@ -133,14 +111,7 @@ function App() {
                         >
                             {soundOn ? '🔊' : '🔇'}
                         </EfButton>
-                        <EfButton
-                            variant="secondary" size="sm"
-                            onClick={cycleTheme}
-                            title={themeLabel}
-                            style={{padding:'0.25rem 0.55rem'}}
-                        >
-                            {themeIcon}
-                        </EfButton>
+
                         <EfButton
                             variant="secondary" size="sm"
                             onClick={() => changeView?.('monitor')}

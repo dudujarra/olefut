@@ -141,7 +141,7 @@ export class Engine {
                 const div = parseInt(divStr);
                 RealDB[zone][div].forEach(club => {
                     const tier = zone === 'BRA' ? div : (zone === 'ARG' || zone === 'COL' ? 1.5 : 2);
-                    const squad = Data.generateSquad(tier);
+                    const squad = Data.generateSquad(tier, club.budget, club.name);
                     // Add contracts to each player
                     squad.forEach(p => {
                         p.contract = { weeksLeft: 38 + Math.floor(systemRng() * 76), salary: p.salary || 5000 };
@@ -426,7 +426,12 @@ export class Engine {
             return Math.floor(ratings.reduce((s, r) => s + r, 0) / ratings.length);
         };
 
-        const avg = (arr, attr) => arr.length === 0 ? 0 : Math.floor(arr.reduce((s, p) => s + (p.attributes?.[attr] || 50), 0) / arr.length);
+        // BUG-096: avg uses optional chaining for safety, but also run ensureAttributes
+        // on each player in the sector computation to prevent crashes in subsequent code paths
+        const avg = (arr, attr) => arr.length === 0 ? 0 : Math.floor(arr.reduce((s, p) => {
+            if (!p.attributes) p.attributes = { FIS: 50, DEF: 50, CRI: 50, FIN: 50, REF: 50 };
+            return s + (p.attributes[attr] || 50);
+        }, 0) / arr.length);
 
         // BUG-055 fix: when 0 titulares in position, fallback to ANY squad player
         // in that position (bench backup). Was returning 0 → match sim 0 chanceRatio
@@ -1300,13 +1305,28 @@ export class Engine {
             this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0 };
         }
         // BUG-040: emergency squad replenish if critically short (<11).
+        // AUDIT-FIX: now covers ALL teams (NPC + player), not just manager's team.
+        // Without this, NPC teams can hit 0 players after mass retirements + contract expiry.
         try {
-            const team = this.getTeam(this.manager?.teamId);
-            if (team?.squad && team.squad.length < 11 && typeof this.triggerYouthIntake === 'function') {
-                this.triggerYouthIntake();
-                this.triggerYouthIntake();
-            }
-        } catch { /* ignore */ }
+            this.teams.forEach(t => {
+                if (t?.squad && t.squad.length < 11) {
+                    // Generate emergency youth players via Data.generateSquad
+                    const tier = t.division || 3;
+                    const needed = 11 - t.squad.length;
+                    const positions = ['GOL', 'DEF', 'DEF', 'DEF', 'MEI', 'MEI', 'MEI', 'ATA', 'ATA', 'ATA', 'ATA'];
+                    for (let i = 0; i < needed && i < positions.length; i++) {
+                        const p = Data.generatePlayer(positions[i], tier + 1, {});
+                        p.age = systemRng.int(18, 22);
+                        p.potential = Math.min(99, p.ovr + systemRng.int(10, 25));
+                        p.isYouth = true;
+                        p.contract = { weeksLeft: 76, salary: 5000 };
+                        p.energy = 100;
+                        p.isTitular = t.squad.filter(x => x.position === positions[i] && x.isTitular).length < 1;
+                        t.squad.push(p);
+                    }
+                }
+            });
+        } catch { /* defensive — never crash rollover */ }
         // Capture final Série A standings BEFORE league re-init resets them —
         // needed for continental cup re-qualification.
         const finalDiv1Standings = {};

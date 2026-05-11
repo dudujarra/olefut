@@ -1,0 +1,3742 @@
+[
+  {
+    "name": "Los Angeles FC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "FC Barcelona",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Burnley",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "PEC Zwolle",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Olympique de Marseille",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "KVC Westerlo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Lille OSC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Real Madrid",
+    "league": "World",
+    "tier": 1
+  },
+  {
+    "name": "Sevilla FC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Goiás",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Qingdao Hainiu FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Inter Miami",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "UD Las Palmas",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Club América",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Fulham FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Torino",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Mansfield Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Paris Saint-Germain",
+    "league": "World",
+    "tier": 1
+  },
+  {
+    "name": "Hamburger SV",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Cambridge United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SK Slavia Praha",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "AFC Bournemouth",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Sparta Rotterdam",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Sion",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Nagoya Grampus",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Union Saint-Gilloise",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "AZ Alkmaar",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Livingston FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cádiz CF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Inter",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "FC St. Pauli",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Kocaelispor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RCD Mallorca",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Portland Timbers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Çaykur Rizespor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RC Strasbourg Alsace",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Palermo FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Fenerbahçe SK",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "VfL Wolfsburg",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Girona FC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Al Hilal",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Feyenoord",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Rangers FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Real Betis Balompié",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Olympiacos FC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Monza",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Milton Keynes Dons",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Everton",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Molde FK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sassuolo",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "1. FC Heidenheim 1846",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "West Ham United",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Aarhus Gymnastikforening",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Standard de Liège",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "HJK Helsinki",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Dinamo Zagreb",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "1. FSV Mainz 05",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Swindon Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CA Osasuna",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Roma",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "AEK Athens",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Arsenal",
+    "league": "World",
+    "tier": 1
+  },
+  {
+    "name": "AC Milan",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Deportivo Alavés",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Boca Juniors",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Atlético Clube Goianiense",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Crystal Palace",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Juventus",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "FC Utrecht",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Dundee FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Nottingham Forest",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Aston Villa",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Leicester City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Modena",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Adelaide United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Birmingham City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Columbus Crew",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "1. FC Union Berlin",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Widzew Łódź",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Fayha",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Leeds United",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Wolverhampton Wanderers",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Hertha BSC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Twente",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Genoa",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Beşiktaş JK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "VfB Stuttgart",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Galatasaray SK",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "RB Leipzig",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Marítimo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Central Cordoba SdE",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FCSB",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "PSV",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "FC Red Bull Salzburg",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Panathinaikos FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Athletic Club",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Borussia Dortmund",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Al-Najma SC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Valenciennes FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Norwich City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RC Lens",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Eyüpspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "KV Kortrijk",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Tigre",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Chicago Fire",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Arouca",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Peterborough United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bromley",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Blackpool FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Tottenham Hotspur",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Famalicão",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Bayern München",
+    "league": "World",
+    "tier": 1
+  },
+  {
+    "name": "Wrexham",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Getafe CF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Nantes",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Swansea City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hellas Verona FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Winterthur",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Club Atlético Sarmiento",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Kalmar FF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Lugano",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Brøndby IF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hibernian",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Motherwell FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Viktoria Köln",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AS Monaco",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "1. FC Köln",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "RSC Anderlecht",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "K Beerschot VA",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Empoli",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Millwall FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Quevilly Rouen Métropole",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Mjøndalen IF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hajduk Split",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Südtirol",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Schalke 04",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Rosario Central",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Port Vale",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Basel 1893",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "DC United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bristol City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "IF Brommapojkarna",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Charlotte FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Luton Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Gangwon FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "BK Häcken",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "West Bromwich Albion",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Ajax",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Excelsior",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Alanyaspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RC Deportivo de La Coruña",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "BSC Young Boys",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Manchester City",
+    "league": "World",
+    "tier": 1
+  },
+  {
+    "name": "Medipol Başakşehir FK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Elche CF",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Stade Brestois 29",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Valencia CF",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Atalanta",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Real Valladolid CF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Como",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Orlando City SC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Malmö FF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CFR Cluj",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "1. FC Kaiserslautern",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Atlético Tucumán",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "St. Mirren",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Burgos CF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Fiorentina",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Lazio",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Shanghai Shenhua",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Royal Excel Mouscron",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Burton Albion",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Tenerife",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Atlético Nacional",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Al Ettifaq",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RKC Waalwijk",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Oxford United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "APOEL FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Tai",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bayer 04 Leverkusen",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Eintracht Braunschweig",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Belgrano de Córdoba",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Spezia",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Real Oviedo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "OGC Nice",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Plymouth Argyle",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Carlisle United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC St. Gallen 1879",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Chelsea",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Sporting CP",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Al Nassr",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Mirandés",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bologna",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "KFUM-Kameratene Oslo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Reading FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Watford",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Colchester United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "New York Red Bulls",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Brentford",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Brighton & Hove Albion",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "FK Bodø/Glimt",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FCV Farul Constanța",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "UD Ibiza",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Pescara",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Derry City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SSC Bari",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AVS Futebol SAD",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Venezia",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Middlesbrough",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SV Wehen Wiesbaden",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Volendam",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Royal Antwerp FC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Fortuna Düsseldorf",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Shakhtar Donetsk",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Levante UD",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Córdoba CF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Preston North End",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "KAA Gent",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SSV Ulm 1846",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Leganés",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SD Eibar",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Stockport County",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "1. FC Saarbrücken",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Dallas",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Wellington Phoenix",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Rayo Vallecano",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Celtic",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Wycombe Wanderers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Nacional",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Djurgårdens IF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Parma",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Stade Rennais FC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Jagiellonia Białystok",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "River Plate",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Grasshopper Club Zürich",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "San Jose Earthquakes",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Morecambe",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SV Darmstadt 98",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Angers SCO",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Málaga CF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Shrewsbury Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Taawoun FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Damac FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Universitario de Deportes",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Atlético Madrid",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Cagliari",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Libertad",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "USL Dunkerque",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Nîmes Olympique",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Portimonense SC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Santa Clara",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bristol Rovers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SL Benfica",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Sheffield Wednesday",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Perth Glory",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Instituto Atlético Central Córdoba",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Estudiantes de La Plata",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Derby County",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Willem II",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Cincinnati",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Southampton",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SV Werder Bremen",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Antalyaspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Voluntari",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Borussia Mönchengladbach",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Estrela da Amadora",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Ross County FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Ferencvárosi Torna Club",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Bohemian FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Portsmouth",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Ittihad",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "LA Galaxy",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Shenzhen Peng City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Wolfsberger AC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cesena FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Brisbane Roar",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Liverpool",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "FC København",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Akhdoud Saudi Club",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cheltenham Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Peñarol",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Konyaspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Ascoli",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Os Belenenses",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Aalesunds FK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Eintracht Frankfurt",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Go Ahead Eagles",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SC Freiburg",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "LASK Linz",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Orobah FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Paris FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "GD Estoril Praia",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SV Zulte Waregem",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SV Ried",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Guadalajara",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Vålerenga Fotball",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Harrogate Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SV Waldhof Mannheim",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Huddersfield Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Viktoria Plzeň",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Falkirk",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Fortuna Sittard",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Shamrock Rovers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Dundalk",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hull City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Leyton Orient",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "1. FC Nürnberg",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Fleetwood Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Incheon United FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Newcastle United",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Gaziantep FK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Oud-Heverlee Leuven",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Lecce",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Blackburn Rovers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Alverca",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RFC Seraing",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Macarthur FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Udinese",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "TSV Havelse",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Crewe Alexandra",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "DSC Arminia Bielefeld",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Wisła Płock",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "NEC Nijmegen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Gil Vicente FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Galway United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Royal Charleroi Sporting Club",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Viborg FF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Khaleej",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sporting Clube de Braga",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Real Sporting de Gijón",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Club Olimpia",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Queens Park Rangers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Lincoln City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cultural Leonesa",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AFC Wimbledon",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sporting Kansas City",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Huracán",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SK Rapid",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Coventry City",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Grimsby Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Porto",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Toronto FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Montpellier HSC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Racing Club de Montevideo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Riyadh",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Lorient",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "SpVgg Greuther Fürth",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Girondins de Bordeaux",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Reggiana",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Newport County",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Wigan Athletic",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RCD Espanyol",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "The Strongest",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Real Sociedad",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Barrow",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Holstein Kiel",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Pogoń Szczecin",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Martigues",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hallescher FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Nordsjælland",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "St. Louis CITY SC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Toulouse FC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Lanús",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Defensa y Justicia",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Metz",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Dynamo Kyiv",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bradford City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Napoli",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "KV Oostende",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Real Zaragoza",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "San Lorenzo de Almagro",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Aberdeen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Casa Pia",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Vitória SC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "UTA Arad",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "MSV Duisburg",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Pisa",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Gillingham",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Spartak Moscow",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Barnet",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cerro Porteño",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Raed",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Stevenage",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Villarreal CF",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Racing Club",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Pendikspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Karlsruher SC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Flamengo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Junior FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Shanghai Port",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Emmen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Degerfors IF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sunderland",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Rot-Weiss Essen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "ADO Den Haag",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Notts County",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Rotherham United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Stal Mielec",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "1. FC Magdeburg",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bolívar",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Guaraní",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FK Austria Wien",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Boavista FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "US Salernitana 1919",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FK Haugesund",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Waterford FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Vélez Sarsfield",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Nashville SC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Jeonbuk Hyundai Motors",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "León",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sheffield United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Crawley Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SD Huesca",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Odds Ballklubb",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SD Amorebieta",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Fatih Karagümrük",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cracovia",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SV Meppen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hannover 96",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Zürich",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sanfrecce Hiroshima",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Vitória",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Viking FK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Vitória FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Salford City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AS Nancy Lorraine",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "UD Almería",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hearts",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Calcio Padova",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "KV Mechelen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Rosenborg BK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Jiangsu FC",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Sparta Praha",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Shonan Bellmare",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Manchester United",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Rio Ave FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SC Paderborn 07",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Samsunspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Luzern",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Universitatea Cluj",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Midtjylland",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Platense",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Club Brugge KV",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "SC Verl",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Górnik Zabrze",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "New England Revolution",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Blau-Weiß Linz",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Ingolstadt 04",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Telstar",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Exeter City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Stade Malherbe Caen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AJ Auxerre",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RC Celta",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Monterrey",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Minnesota United FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Qadsiah FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Melbourne City FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Rodez Aveyron Football",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Rapid Bucuresti",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AS FC Buzău",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Ain",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Hansa Rostock",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Augsburg",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "San Diego FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Philadelphia Union",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Houston Dynamo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "1. FC Schweinfurt 05",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "GKS Katowice",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Piast Gliwice",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Śląsk Wrocław",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Alianza FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Olympique Lyonnais",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Independiente",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Grenoble Foot 38",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sandefjord Fotball",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Juárez",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Amiens SC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Servette FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Kasımpaşa SK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hatayspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Legia Warszawa",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Fateh",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Newcastle Jets",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "NEOM SC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Shabab",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Chesterfield",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Ahli SFC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Kilmarnock",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Botoşani",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sampdoria",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Avellino",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Doncaster Rovers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Moreirense FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Barnsley",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Jamshedpur FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Thun",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Grazer AK 1902",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Mjällby AIF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Paços de Ferreira",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "VfL Osnabrück",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Austin FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SC Rheindorf Altach",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Randers FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SK Austria Klagenfurt",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CF Montréal",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Odense Boldklub",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Daegu FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Gamba Osaka",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Yokohama F. Marinos",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Faisaly",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Ulsan HD FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AC Ajaccio",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Castellón",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Atlanta United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Barracas Central",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Arsenal Tula",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Seattle Sounders FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Northampton Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Tranmere Rovers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Pohang Steelers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Yeni Malatyaspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bolton Wanderers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Beijing Guoan",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Wuhan Three Towns",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Shandong Taishan",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Chengdu Rongcheng",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Frosinone",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Suwon FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Seoul",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Albacete Balompié",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Danubio FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Racing Santander",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "IFK Norrköping",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Scunthorpe United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Vissel Kobe",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SD Ponferradina",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Tromsø IL",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Palestino",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Charlton Athletic",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Western Sydney Wanderers",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "PAOK",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Gwangju FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Motor Lublin",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cremonese",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Brescia",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SPAL",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Club Atlético Unión",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "ŁKS Łódź",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "İstanbulspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Godoy Cruz",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SK Sturm Graz",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Chemnitzer FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "US Orléans Loiret Football",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Amkar Perm",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Nacional Asunción",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Groningen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Kawasaki Frontale",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Kayserispor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sutton United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cerro Largo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "IF Elfsborg",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Dalian Yingbo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sønderjyske Fodbold",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Aves",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Erzgebirge Aue",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Ipswich Town",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sydney FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Lyngby Boldklub",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Rayo Majadahonda",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Lausanne-Sport",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Vejle Boldklub",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sint-Truidense VV",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Atlante",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Always Ready",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "América de Cali",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Lillestrøm SK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "St Johnstone FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Zagłębie Lubin",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Auckland FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sarpsborg 08 FF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Catanzaro",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "ESTAC Troyes",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SpVgg Unterhaching",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Halmstads BK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Andorra",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Meizhou Hakka",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Göztepe SK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Dinamo Bucureşti",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Melbourne Victory",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Mumbai City FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SSV Jahn Regensburg",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Lech Poznań",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Universidad Católica",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Le Mans FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD O'Higgins",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Carrarese",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Abha",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Stoke City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Annecy",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "TSV Hartberg",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "KRC Genk",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "AIK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SC Preußen Münster",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SC Heerenveen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Independiente Rivadavia",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Talleres",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Radomiak Radom",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "TSV 1860 München",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "WSG Tirol",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CA Aldosivi",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "VfB Stuttgart II",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "IFK Göteborg",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "East Bengal FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Trabzonspor",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Cittadella",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Club Nacional de Football",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Argentinos Juniors",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Colorado Rapids",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Le Havre AC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Tondela",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Toluca",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Oldham Athletic",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Daejeon Citizen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Shelbourne FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Energie Cottbus",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Audax Italiano",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FeralpiSalò",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Odisha FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Clermont Foot 63",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Fredericia",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AD Alcorcón",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Jeju United FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Kholood",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Dundee United FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Cartagena",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "UD Logroñés",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FBC Melgar",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Unión La Calera",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Stade Lavallois Mayenne FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RWD Molenbeek",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Accrington Stanley",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Universidad Central de Venezuela",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "IK Sirius",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Walsall",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Heracles Almelo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Asociația Clubul Sportiv Petrolul 52",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hamarkameratene",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Pachuca",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "St Patrick's Athletic FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Raków Częstochowa",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Magallanes",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Hazem FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Granada CF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bayern München II",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Rochdale",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CSM Politehnica Iași",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CS Mioveni",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FSV Zwickau",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Changchun Yatai",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Universidad Católica del Ecuador",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Atlas FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Al Wehda",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "RAAL La Louvière",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CA Banfield",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "TSG 1899 Hoffenheim",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Cork City",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AS Eupen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Denizlispor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Arsenal de Sarandi",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AS Saint-Étienne",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cosenza",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Alemannia Aachen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Academia Puerto Cabello",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SV Sandhausen",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AS Reggina 1914",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Independiente Medellín",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Tijuana",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Orlando Pirates",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "SG Sonnenhof Großaspach",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Argeș",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Sivasspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Universitatea Craiova",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Lugo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Crotone",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Club Atlético Juventud",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Gençlerbirliği SK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Pau FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "US Boulogne Cote d'Opale",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Bengaluru FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Åtvidabergs FF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "GD Chaves",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Independiente Santa Fe",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Kristiansund BK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Rostov",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cercle Brugge KSV",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Deportivo Táchira",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Torquay United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "AC ChievoVerona",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Tianjin Jinmen Tiger",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cangzhou Mighty Lions FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "LDU Quito",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Dijon FCO",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Lecco",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC Hermannstadt",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "En Avant Guingamp",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "FC U Craiova 1948",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Veracruz",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "IFK Värnamo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "SC Cambuur",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Górnik Łęczna",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Silkeborg IF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Tigres UANL",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "Cienciano",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "GIF Sundsvall",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Korona Kielce",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Extremadura UD",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "CD Eldense",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Helsingborgs IF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Oțelul Galați",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Chennaiyin FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hvidovre IF",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Örebro SK",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Red Star FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Roda JC Kerkrade",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "VfL Bochum 1848",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cruz Azul",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Hartlepool United",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Stabæk Fotball",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "MKE Ankaragücü",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "New York City FC",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "Giresunspor",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Esbjerg fB",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Lechia Gdańsk",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Deportivo Riestra",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Millonarios FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Vicenza",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Puebla FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "VVV-Venlo",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Finn Harps",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Ternana",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "TSG 1899 Hoffenheim II",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Cusco FC",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Leones Negros UdeG",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Vasco da Gama",
+    "league": "World",
+    "tier": 2
+  },
+  {
+    "name": "CF Reus Deportiu",
+    "league": "World",
+    "tier": 4
+  },
+  {
+    "name": "Santos",
+    "league": "World",
+    "tier": 3
+  },
+  {
+    "name": "GFC Ajaccio",
+    "league": "World",
+    "tier": 4
+  }
+]

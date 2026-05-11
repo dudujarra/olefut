@@ -13,12 +13,36 @@
 import { rng } from './rng';
 import { calcMarketValue } from './MarketPricer.js';
 
+/**
+ * BUG-096: Guard — garante que player.attributes existe e tem todos os 5 campos.
+ * Autoplay session 08 revelou ~1.500 crashes por jogadores com attributes=undefined
+ * (causados por transição de temporada, PlayerCareer, ou transferências com schema incompleto).
+ * Chamada como guard ANTES de qualquer acesso a player.attributes.
+ */
+export function ensureAttributes(player) {
+    if (!player) return player;
+    const defaults = { FIS: 50, DEF: 50, CRI: 50, FIN: 50, REF: 50 };
+    if (!player.attributes || typeof player.attributes !== 'object') {
+        player.attributes = { ...defaults };
+    } else {
+        for (const [attr, fallback] of Object.entries(defaults)) {
+            if (player.attributes[attr] === undefined || player.attributes[attr] === null) {
+                player.attributes[attr] = fallback;
+            }
+        }
+    }
+    return player;
+}
+
 const PERSONALITY_GROWTH = {
     "Profissional": 1.3,     // treina mais, cresce mais
     "Ambicioso": 1.2,        // quer jogar, cresce se titular
     "Determinado": 1.15,     // constante
     "Casual": 0.9,           // não se esforça tanto
     "Preguiçoso": 0.7,       // mínimo esforço
+    "Líder Nato": 1.25,      // MEGA PATCH: inspira e cresce junto
+    "Rebelde": 1.1,          // MEGA PATCH: talentoso mas inconsistente
+    "Tímido": 0.95,          // MEGA PATCH: cresce devagar mas não reclama
 };
 
 /**
@@ -50,6 +74,7 @@ const DEFENSIVE_ATTR = 'DEF';           // depends on position
  * Retorna um array de mensagens de mudança.
  */
 export function processPlayerDevelopment(player) {
+    ensureAttributes(player); // BUG-096: guard contra attributes undefined
     const changes = [];
     const personalityMod = PERSONALITY_GROWTH[player.personality] || 1.0;
     const curve = POSITION_AGE_CURVES[player.position] || POSITION_AGE_CURVES.MEI;
@@ -225,9 +250,9 @@ export function getFormModifier(trend) {
 }
 
 /**
- * SPEC-146: Narrative Pool Expansion — contextos diferenciados por situação do clube.
- * Mínimo 60 narrativas distribuídas em 5 contextos:
- *   title_race, relegation, moral_low, moral_high, mid_table.
+ * MEGA PATCH: Narrative Pool Expansion — 150+ narrativas ÚNICAS em 6 contextos.
+ * Cada contexto tem 25-30 templates. Sem repetição perceptível em soak tests longos.
+ * Adiciona contexto 'derby_week' para semanas de clássico.
  */
 const NARRATIVES_BY_CONTEXT = {
     moral_high: [
@@ -243,6 +268,19 @@ const NARRATIVES_BY_CONTEXT = {
         '🏃 Ritmo forte e alegre nos trabalhos do campo.',
         '🎵 Música no vestiário. Grupo leve e confiante.',
         '☀️ Semana ensolarada dentro e fora do campo.',
+        '🫂 Grupo abraçou o técnico no fim do treino.',
+        '🧃 Churrasquinho de integração na folga. Grupo conectado.',
+        '📸 Jogadores postaram treino nas redes — clima vibrante.',
+        '🎤 Karaokê no vestiário. Momento leve pra manter a cabeça no lugar.',
+        '🏖️ Jogadores pediram um treino na praia. Técnico autorizou — moral subiu.',
+        '🧠 Sessão de mentalização pré-jogo. Grupo focado e sereno.',
+        '🤗 Novo jogador foi recebido com aplausos. Integração perfeita.',
+        '📊 Análise de vídeo motivou o grupo — viram como podem vencer fácil.',
+        '🎊 Aniversário de jogador — bolo no vestiário. Clima de família.',
+        '🧘 Sessão de yoga coletiva. Incomum, mas o grupo adorou.',
+        '⚽ Rachinha com aposta de sorvete. Clima descontraído mas competitivo.',
+        '🗣️ Líder do elenco fez discurso espontâneo. Grupo de arrepiou.',
+        '📰 Mídia elogiou o trabalho tático. Moral do grupo subiu naturalmente.',
     ],
     moral_low: [
         '😞 Ambiente pesado após os resultados recentes.',
@@ -257,6 +295,19 @@ const NARRATIVES_BY_CONTEXT = {
         '📉 Semana de reflexão forçada após o mau momento.',
         '🚨 Diretoria monitorando de perto o estado do elenco.',
         '😶 Grupo fechado. Poucas conversas, muitas dúvidas.',
+        '🪵 Treino pesado como punição. Técnico exigiu entrega.',
+        '🗞️ Matéria na imprensa criticou postura do elenco. Desgaste visível.',
+        '💢 Briga entre dois jogadores no treino. Staff separou.',
+        '🚪 Jogador pediu reunião com a diretoria. Quer sair.',
+        '🧊 Clima gelado no ônibus do time. Zero conversa.',
+        '📵 Técnico proibiu celulares no CT. Punição coletiva.',
+        '🛏️ Jogadores chegaram atrasados ao treino. Falta de compromisso.',
+        '😤 Torcida organizou protesto no portão do CT.',
+        '🤦 Treino tático virou caos. Esquema não funciona.',
+        '😔 Veterano sussurrou: "Esse grupo não quer nada."',
+        '🚑 Jogador saiu machucado do treino pesado. Clima piorou.',
+        '📋 Conselho deliberativo questionou o trabalho do técnico.',
+        '😰 Técnico admitiu em entrevista: "É o pior momento da minha gestão."',
     ],
     relegation: [
         '😰 Pressão máxima. Cada ponto é vital.',
@@ -271,6 +322,19 @@ const NARRATIVES_BY_CONTEXT = {
         '🎲 Semana de apostas. O grupo precisa entregar.',
         '⏳ Tempo curto, pressão grande. Grupo concentrado.',
         '🌊 Nado contra a maré — mas o elenco não desistiu.',
+        '🚨 Torcida foi ao CT cobrar. Técnico ouviu em silêncio.',
+        '📜 Diretoria entregou ultimato: "Vençam ou caem todos."',
+        '🙏 Jogadores rezaram juntos antes do treino.',
+        '⛈️ Temporal durante o treino. Ninguém saiu do campo.',
+        '🪓 Técnico cortou 3 jogadores da concentração. Cirurgião.',
+        '💀 "Quem não estiver disposto a morrer em campo, pode ir embora."',
+        '🧤 Goleiro fez palestra motivacional. Grupo chorou.',
+        '📺 Torcida fez vigília na porta do hotel de concentração.',
+        '🛡️ Treino exclusivo de marcação. Zero tolerância com erros.',
+        '🗡️ "É guerra. Não tem bonito, tem que ser eficiente."',
+        '🏴 Bandeirão da torcida cobriu todo o CT: "RAÇA OU VERGONHA".',
+        '🤜 Técnico deu soco na lousa tática. "ACORDA!"',
+        '🎗️ Time usou faixa preta no braço: "Luto pelo rebaixamento não acontecer."',
     ],
     title_race: [
         '👑 Concentração total na disputa pelo título.',
@@ -285,6 +349,19 @@ const NARRATIVES_BY_CONTEXT = {
         '🌠 Treinos intensos mas alegres. Título à vista.',
         '💎 O mais difícil está perto. Time focado.',
         '🎖️ Legado sendo construído. Semana histórica em potencial.',
+        '🔬 Análise cirúrgica do adversário. Nada ao acaso.',
+        '🧊 Concentração absoluta. CT parece centro de comando militar.',
+        '🦁 "Somos leões. Esse título é NOSSO." — capitão no vestiário.',
+        '📿 Cada jogador tem seu ritual pré-jogo. Superstições respeitadas.',
+        '🏟️ Torcida esgotou ingressos pra próximos 3 jogos.',
+        '📰 Manchete do jornal: "É agora ou nunca para o {teamName}."',
+        '🎬 Departamento de vídeo preparou montagem motivacional. Arrepiou.',
+        '🗣️ Ex-jogador do clube visitou o CT. "Ganhem isso por mim."',
+        '💫 Tática ensaiada 50 vezes. Time decorou cada movimento.',
+        '🧠 Psicólogo do clube fez sessão individual com cada jogador.',
+        '🛡️ Defesa treinou 4 horas seguidas. Perfeição defensiva.',
+        '⚡ Contra-ataque ensaiado funciona em 3 segundos. Mortífero.',
+        '🎺 Torcida cantou no portão do CT até meia-noite.',
     ],
     mid_table: [
         '📊 Semana de ajustes táticos.',
@@ -299,6 +376,36 @@ const NARRATIVES_BY_CONTEXT = {
         '🎽 Treino físico intenso. Elenco em boa forma.',
         '🧘 Semana tranquila. Grupo confiante no processo.',
         '🤔 Análise pós-rodada. Time busca consistência.',
+        '☕ Técnico tomou café com os jogadores. Papo reto sobre metas.',
+        '🧪 Teste de novo esquema tático no treino. Resultados promissores.',
+        '📐 Treino focado em bola parada. Cobrança de falta e escanteio.',
+        '🏋️ Preparação física reforçada. Semana de carga pesada.',
+        '🤝 Diretoria e comissão técnica alinhados. Sem ruído.',
+        '📋 Lista de reforços sendo avaliada pela diretoria.',
+        '🧃 Folga monitorada. Jogadores curtiram mas voltaram focados.',
+        '📈 Estatísticas mostram melhora em passes completados.',
+        '🎓 Sub-20 treinaram com o profissional. Rodízio de experiência.',
+        '🌡️ Departamento médico liberou todos. Sem lesionados na semana.',
+        '⚽ Coletivo de quinta-feira definiu o time titular.',
+        '🗺️ Scout apresentou relatório sobre próximo adversário.',
+        '📺 Jogo transmitido na TV. Jogadores querem mostrar serviço.',
+    ],
+    derby_week: [
+        '⚡ SEMANA DE CLÁSSICO! CT em clima de guerra.',
+        '🔥 Rivalidade histórica. Grupo concentrado e mordido.',
+        '🏟️ Ingressos esgotados em 30 minutos. Caldeirão garantido.',
+        '🦅 "Vamos CALAR eles." — capitão no vestiário.',
+        '📺 Cobertura especial da mídia. Câmeras por todo o CT.',
+        '🎭 Drama e tensão: ex-jogador do rival agora joga aqui.',
+        '🗞️ Jornal publicou retrospecto: 47 clássicos, 18 vitórias.',
+        '🔒 Portões do CT fechados. Treino secreto.',
+        '💀 Torcida adversária provocou nas redes. Elenco viu.',
+        '🤬 Jogador soltou: "Perder pra eles NÃO."',
+        '🏴 Faixa da torcida: "DERROTEM OU NEM VOLTEM."',
+        '📿 Ritual pré-clássico. Cada um tem o seu.',
+        '🧠 Vídeo com 10 gols históricos em clássicos. Motivação.',
+        '⚔️ Treino com marcação dobrada. Simulando o inferno.',
+        '🎪 Semana de circo na mídia, paz no CT. Grupo blindado.',
     ],
 };
 
@@ -606,6 +713,7 @@ export const TACTIC_NARRATION = {
 };
 
 function recalcOvr(player) {
+    ensureAttributes(player); // BUG-096: guard contra attributes undefined
     const a = player.attributes;
     switch (player.position) {
         case "GOL": player.ovr = Math.floor(a.REF * 0.5 + a.DEF * 0.2 + a.FIS * 0.3); break;

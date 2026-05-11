@@ -153,7 +153,7 @@ export class SeasonProcessor {
                     },
                 };
             }
-            // SPEC-150: gerar story da temporada
+            // SPEC-150: gerar story da temporada (AUDIT-FIX #G: pass previousStories for arc detection)
             try {
                 const story = generateSeasonStory({
                     wins: engine.managerStats?.wins || 0,
@@ -169,6 +169,7 @@ export class SeasonProcessor {
                     relegated: season?.title === 'Rebaixado',
                     division: team.division,
                     seasonNumber: engine.seasonNumber,
+                    previousStories: engine.seasonHistory || [],
                 });
                 if (!engine.seasonHistory) engine.seasonHistory = [];
                 engine.seasonHistory.push(story);
@@ -271,6 +272,9 @@ export class SeasonProcessor {
             1: 15_000_000,  // Série B → Série A: R$ 15M
         };
 
+        // AUDIT-FIX #C.2: Relegation penalty — lose 30% of balance
+        const RELEGATION_PENALTY_RATE = 0.30;
+
         try {
             engine.tournaments.forEach(t => {
                 if (!t.id || !/_\d+$/.test(t.id)) return;
@@ -293,6 +297,13 @@ export class SeasonProcessor {
                         const bonus = PROMOTION_BONUS[c.to];
                         team.balance += bonus;
                         engine.weekEvents.push(`💰 Bônus de acesso à Série ${['A','B','C','D'][c.to - 1]}: R$ ${(bonus / 1_000_000).toFixed(1)}M`);
+                    }
+
+                    // AUDIT-FIX #C.2: Apply relegation financial penalty
+                    if (c.action === 'relegated' && team.balance > 0) {
+                        const penalty = Math.floor(team.balance * RELEGATION_PENALTY_RATE);
+                        team.balance -= penalty;
+                        engine.weekEvents.push(`💸 Multa de rebaixamento: -R$ ${(penalty / 1_000_000).toFixed(1)}M (perda de receitas, patrocínios e TV)`);
                     }
                 });
             });

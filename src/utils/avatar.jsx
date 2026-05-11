@@ -1,3 +1,5 @@
+import { HIGH_END_FACES } from '../assets/faces/high_end';
+
 // P2-10: Avatar iniciais + cor deterministic via name hash
 const COLORS = [
     '#EF4444', '#F59E0B', '#10B981', '#06B6D4', '#3B82F6',
@@ -20,16 +22,33 @@ export function getAvatarColor(name = '') {
     return COLORS[Math.abs(hash) % COLORS.length];
 }
 
+export function getFaceIndex(name = '') {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = ((hash << 5) - hash) + name.charCodeAt(i);
+        hash |= 0;
+    }
+    return Math.abs(hash) % HIGH_END_FACES.length;
+}
+
 export function PlayerAvatar({ name, size = 28 }) {
-    const initials = getInitials(name);
-    const color = getAvatarColor(name);
+    const faceIndex = getFaceIndex(name);
+    const faceSrc = HIGH_END_FACES[faceIndex];
+
     return (
-        <span
+        <img
+            src={faceSrc}
+            alt={`Avatar ${name}`}
             className="player-avatar"
-            style={{ width: size, height: size, background: color, fontSize: size * 0.4 }}
-            aria-label={`Avatar ${name}`}
-        >
-            {initials}
-        </span>
+            style={{ 
+                width: size, 
+                height: size, 
+                objectFit: 'cover',
+                borderRadius: '4px',
+                border: '1px solid #334155',
+                backgroundColor: '#111417',
+                imageRendering: 'pixelated'
+            }}
+        />
     );
 }
