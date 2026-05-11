@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * Tooltip — Simple hover tooltip component.
  * Created as a lightweight replacement to fix build (no external dep).

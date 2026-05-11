@@ -89,30 +89,43 @@ export const TEAM_TALKS = [
 // ============================================================
 // TREINO DO PLANTEL
 // ============================================================
+// SCHEMA-UNIFIED: attrBoost usa chaves root-level
 export const TRAINING_TYPES = [
     {
         id: "fitness",
         name: "🏃 Preparação Física",
         description: "Foco em resistência e recuperação.",
-        effect: { energyRecovery: 20, attrBoost: "FIS", attrAmount: 1, moralCost: -2 }
+        effect: { energyRecovery: 20, attrBoost: "attacking", attrAmount: 1, moralCost: -2 }
     },
     {
         id: "tactical",
         name: "📋 Treino Tático",
         description: "Ensaios de jogadas e posicionamento.",
-        effect: { energyRecovery: 5, attrBoost: "DEF", attrAmount: 1, moralCost: 0 }
+        effect: { energyRecovery: 5, attrBoost: "tactical", attrAmount: 1, moralCost: 0 }
     },
     {
         id: "technical",
         name: "⚽ Treino Técnico",
-        description: "Passe, finalização e controle de bola.",
-        effect: { energyRecovery: 5, attrBoost: "CRI", attrAmount: 1, moralCost: 0 }
+        description: "Passe, controle de bola e visão de jogo.",
+        effect: { energyRecovery: 5, attrBoost: "technical", attrAmount: 1, moralCost: 0 }
     },
     {
         id: "attack",
         name: "🎯 Treino de Ataque",
         description: "Movimentação ofensiva e finalização.",
-        effect: { energyRecovery: 5, attrBoost: "FIN", attrAmount: 1, moralCost: -1 }
+        effect: { energyRecovery: 5, attrBoost: "attacking", attrAmount: 1, moralCost: -1 }
+    },
+    {
+        id: "creativity",
+        name: "🧠 Treino Criativo",
+        description: "Passes decisivos, dribles e improviso.",
+        effect: { energyRecovery: 5, attrBoost: "creativity", attrAmount: 1, moralCost: 0 }
+    },
+    {
+        id: "defense",
+        name: "🛡️ Treino Defensivo",
+        description: "Marcação, posicionamento e desarmes.",
+        effect: { energyRecovery: 5, attrBoost: "defending", attrAmount: 1, moralCost: 0 }
     },
     {
         id: "rest",
@@ -252,6 +265,9 @@ export function calculateSquadMoral(team) {
     return Math.round(avg);
 }
 
+// SCHEMA-UNIFIED: Training opera direto nas chaves root-level do player
+const STAT_KEYS_TRAINING = ['attacking', 'technical', 'tactical', 'defending', 'creativity'];
+
 export function applyTraining(team, trainingType) {
     const training = TRAINING_TYPES.find(t => t.id === trainingType);
     if (!training) return { success: false, msg: "Tipo de treino inválido.", improvements: [] };
@@ -259,8 +275,10 @@ export function applyTraining(team, trainingType) {
     const improvements = [];
 
     team.squad.forEach(player => {
-        // BUG-096: guard contra attributes undefined
-        if (!player.attributes) player.attributes = { FIS: 50, DEF: 50, CRI: 50, FIN: 50, REF: 50 };
+        // SCHEMA-UNIFIED: garantir atributos root-level
+        for (const k of STAT_KEYS_TRAINING) {
+            if (player[k] === undefined) player[k] = player.ovr || 50;
+        }
         // Energy
         player.energy = Math.max(0, Math.min(100, player.energy + training.effect.energyRecovery));
         // Moral
@@ -268,28 +286,34 @@ export function applyTraining(team, trainingType) {
         // Attribute boost
         if (training.effect.attrBoost === "ALL") {
             const boosted = [];
-            ['FIS', 'DEF', 'CRI', 'FIN'].forEach(attr => {
-                const old = player.attributes[attr] || 50;
-                player.attributes[attr] = Math.min(99, old + training.effect.attrAmount);
-                if (player.attributes[attr] > old) boosted.push({ attr, old, now: player.attributes[attr] });
+            STAT_KEYS_TRAINING.forEach(attr => {
+                const old = player[attr] || 50;
+                player[attr] = Math.min(99, old + training.effect.attrAmount);
+                if (player[attr] > old) boosted.push({ attr, old, now: player[attr] });
             });
             if (boosted.length > 0) improvements.push({ name: player.name, changes: boosted });
         } else if (training.effect.attrBoost) {
             const attr = training.effect.attrBoost;
-            const old = player.attributes[attr] || 50;
-            player.attributes[attr] = Math.min(99, old + training.effect.attrAmount);
-            if (player.attributes[attr] > old) {
-                improvements.push({ name: player.name, changes: [{ attr, old, now: player.attributes[attr] }] });
+            const old = player[attr] || 50;
+            player[attr] = Math.min(99, old + training.effect.attrAmount);
+            if (player[attr] > old) {
+                improvements.push({ name: player.name, changes: [{ attr, old, now: player[attr] }] });
             }
         }
     });
 
-    // Recalculate OVR
+    // Recalculate OVR — SCHEMA-UNIFIED: weighted average por posição
     team.squad.forEach(p => {
-        // BUG-096: guard contra attributes undefined
-        if (!p.attributes) p.attributes = { FIS: 50, DEF: 50, CRI: 50, FIN: 50, REF: 50 };
-        const attrs = p.attributes;
-        p.ovr = Math.floor((attrs.FIS + attrs.DEF + attrs.CRI + attrs.FIN + (attrs.REF || 50)) / 5);
+        for (const k of STAT_KEYS_TRAINING) {
+            if (p[k] === undefined) p[k] = p.ovr || 50;
+        }
+        switch (p.position) {
+            case 'GOL': p.ovr = Math.floor(p.defending * 0.45 + p.tactical * 0.25 + p.technical * 0.20 + p.creativity * 0.05 + p.attacking * 0.05); break;
+            case 'DEF': p.ovr = Math.floor(p.defending * 0.50 + p.tactical * 0.25 + p.attacking * 0.10 + p.technical * 0.10 + p.creativity * 0.05); break;
+            case 'MEI': p.ovr = Math.floor(p.creativity * 0.30 + p.technical * 0.25 + p.tactical * 0.20 + p.defending * 0.10 + p.attacking * 0.15); break;
+            case 'ATA': p.ovr = Math.floor(p.attacking * 0.45 + p.technical * 0.20 + p.creativity * 0.20 + p.tactical * 0.10 + p.defending * 0.05); break;
+            default: p.ovr = Math.floor((p.attacking + p.technical + p.tactical + p.defending + p.creativity) / 5);
+        }
     });
 
     const impText = improvements.slice(0, 5).map(i =>

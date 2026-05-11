@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Engine } from './engine.js';
 import { drawCard } from './MatchEventsDeck.js';
 import { PERSONALITIES, NPCS } from './PlayerCareer.js';

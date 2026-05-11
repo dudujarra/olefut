@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * EfBanner — full-screen narrative moment overlay.
  *

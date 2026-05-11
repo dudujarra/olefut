@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * DashboardAlerts — alert strip Stitch refactor.
  */

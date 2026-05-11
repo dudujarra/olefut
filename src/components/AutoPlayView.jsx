@@ -14,6 +14,7 @@ import { RealDB } from '../engine/db/index';
 import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
+import { EfModal } from './ui/EfModal';
 import bgSoakTest from '../assets/environments/bg_soak_test.png';
 
 const SPEED_PRESETS = [
@@ -36,6 +37,7 @@ export function AutoPlayView() {
     // SPEC-119: LLM mode state (BUG-052: must be BEFORE early return — Rules of Hooks)
     const [llmStatus, setLlmStatus] = useState({ mode: 'heuristic', loadStatus: 'idle' });
     // AutoPlay setup state (BUG-052: BEFORE early return)
+    const [pacingQueue, setPacingQueue] = useState([]);
     const [setupTeamId, setSetupTeamId] = useState('');
     const [setupZone, setSetupZone] = useState('BRA');
     const [setupDiv, setSetupDiv] = useState(4);
@@ -76,6 +78,22 @@ export function AutoPlayView() {
         }, 1000);
         return () => clearInterval(id);
     }, []);
+
+    // Pacing Friction Auto-Resolution
+    useEffect(() => {
+        if (!engine) return;
+        const events = engine.getPacingEvents?.() || [];
+        if (events.length > 0) {
+            setPacingQueue(events);
+            // Auto dismiss after 1.5s to show it visually without blocking
+            const timer = setTimeout(() => {
+                setPacingQueue([]);
+            }, 1500);
+            return () => clearTimeout(timer);
+        } else {
+            setPacingQueue([]);
+        }
+    }, [stats?.weeksPlayed, engine]);
 
     if (!engine || !engine.manager?.teamId) {
         const zones = [...new Set(allTeams.map(t => t.zone))].sort();
@@ -878,6 +896,25 @@ export function AutoPlayView() {
                 </EfPanel>
             )}
             </div>
+
+            {/* Pacing Friction Modal Auto-Resolution UI */}
+            {pacingQueue.length > 0 && (() => {
+                const evt = pacingQueue[0];
+                const sevColors = { critical: '#FF3333', warning: '#FFD700', info: '#40BAF7' };
+                const borderColor = sevColors[evt.severity] || '#40BAF7';
+                return (
+                    <EfModal title={evt.title} onClose={() => {}}>
+                        <div style={{ borderLeft: `4px solid ${borderColor}`, paddingLeft: '16px', marginBottom: '24px' }}>
+                            <p style={{ margin: 0, fontSize: '1rem', lineHeight: 1.6, fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>{evt.body}</p>
+                        </div>
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                            <div style={{ width: '100%', textAlign: 'center', fontSize: '0.8rem', color: '#888', fontStyle: 'italic', padding: '8px' }}>
+                                🤖 Auto-resolvendo (Soak Test)...
+                            </div>
+                        </div>
+                    </EfModal>
+                );
+            })()}
         </div>
     );
 }

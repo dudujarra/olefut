@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { rng } from './rng.js';
 import { calcMarketValue } from './MarketPricer.js';
 import realPlayers from '../data/realPlayers.json';

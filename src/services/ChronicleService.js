@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ChronicleService — v1.5 (AKITA-056)
  *

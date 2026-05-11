@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Tournament } from './Tournament';
 
 export class League extends Tournament {

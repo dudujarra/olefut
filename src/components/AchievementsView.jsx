@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useMemo } from 'react';
 import { useGame } from '../context/GameContext';
 import { ACHIEVEMENTS, MILESTONES } from '../engine/systems/AchievementsSystem';

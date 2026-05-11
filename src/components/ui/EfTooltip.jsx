@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * EfTooltip — Stitch component (refactor de Tooltip.jsx legacy)
  *

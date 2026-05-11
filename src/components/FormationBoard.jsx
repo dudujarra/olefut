@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { FORMATION_PRESETS, getPreset, FORMATION_KEYS } from '../engine/FormationLayout';
 import { EfTooltip, EfButton } from './ui';

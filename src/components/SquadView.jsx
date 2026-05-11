@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { Help } from './Help';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
-import { PentagonChart } from './PentagonChart';
+import { HexagonChart } from './HexagonChart';
 import { calculateRatingForPosition } from '../engine/Positions';
 import { injectSquadIntoTeam } from '../services/SquadDataService';
 
@@ -285,7 +286,7 @@ export function SquadView() {
                                                     <td colSpan="7" style={{ padding: '24px', borderBottom: '1px solid #2D3748' }}>
                                                         <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
                                                             <div style={{ background: '#1A1F24', padding: '16px', border: '1px solid #2D3748' }}>
-                                                                <PentagonChart player={p} size={180} />
+                                                                <HexagonChart player={p} size={180} />
                                                             </div>
                                                             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                                                 <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#FDFBF7', fontFamily: 'var(--font-sans)' }}>
@@ -339,7 +340,7 @@ export function SquadView() {
                                 <div key={p.id} style={{ background: '#1A1F24', border: '1px solid #2D3748', padding: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <div style={{ fontWeight: 'bold', fontSize: '1rem', color: '#FDFBF7', fontFamily: 'var(--font-sans)', marginBottom: '8px', textAlign: 'center' }}>{p.name}</div>
                                     <div style={{ fontSize: '0.8rem', color: getPosColor(p.position), fontWeight: 'bold', fontFamily: 'var(--font-mono)', marginBottom: '16px', background: '#0D1117', padding: '4px 12px', }}>{p.naturalPosition || p.position}</div>
-                                    <PentagonChart player={p} size={160} />
+                                    <HexagonChart player={p} size={160} />
                                 </div>
                             ))}
                         </div>

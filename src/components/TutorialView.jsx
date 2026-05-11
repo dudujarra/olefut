@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * TutorialView — SPEC-072
  *
@@ -129,7 +130,6 @@ export function TutorialView() {
             padding: '24px',
             backgroundColor: colors.bg,
             backgroundImage: `url(${bgTutorial})`,
-            backgroundColor: '#111417',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',

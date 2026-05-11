@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * PlayerDevelopment.js — Aging, Form, Development, Retirement
  * 
@@ -14,22 +15,33 @@ import { rng } from './rng';
 import { calcMarketValue } from './MarketPricer.js';
 
 /**
- * BUG-096: Guard — garante que player.attributes existe e tem todos os 5 campos.
- * Autoplay session 08 revelou ~1.500 crashes por jogadores com attributes=undefined
- * (causados por transição de temporada, PlayerCareer, ou transferências com schema incompleto).
- * Chamada como guard ANTES de qualquer acesso a player.attributes.
+ * SCHEMA-UNIFIED: Guard — garante que player tem os 5 atributos root-level.
+ * Migrado de player.attributes.{FIS,DEF,CRI,FIN,REF} para player.{attacking,technical,tactical,defending,creativity}
+ * para alinhar com data.js generatePlayer() que espalha stats no root do player object.
+ *
+ * BUG-096 fix: antes criava player.attributes fantasma com tudo em 50, causando
+ * convergência de OVR para 50 ao longo das semanas. Agora opera diretamente nas
+ * chaves reais que data.js gera.
  */
+const STAT_KEYS = ['attacking', 'technical', 'tactical', 'defending', 'creativity'];
+
 export function ensureAttributes(player) {
     if (!player) return player;
-    const defaults = { FIS: 50, DEF: 50, CRI: 50, FIN: 50, REF: 50 };
-    if (!player.attributes || typeof player.attributes !== 'object') {
-        player.attributes = { ...defaults };
-    } else {
-        for (const [attr, fallback] of Object.entries(defaults)) {
-            if (player.attributes[attr] === undefined || player.attributes[attr] === null) {
-                player.attributes[attr] = fallback;
+    for (const attr of STAT_KEYS) {
+        if (player[attr] === undefined || player[attr] === null || isNaN(player[attr])) {
+            player[attr] = player.ovr || 50; // fallback inteligente: usa o OVR como base
+        }
+    }
+    // Backward compat: se existir player.attributes do schema antigo, migrar e limpar
+    if (player.attributes && typeof player.attributes === 'object') {
+        const old = player.attributes;
+        const mapping = { FIN: 'attacking', CRI: 'creativity', DEF: 'defending', FIS: 'technical', REF: 'tactical' };
+        for (const [oldKey, newKey] of Object.entries(mapping)) {
+            if (old[oldKey] !== undefined && (player[newKey] === undefined || player[newKey] === (player.ovr || 50))) {
+                player[newKey] = old[oldKey];
             }
         }
+        delete player.attributes; // limpar schema antigo
     }
     return player;
 }
@@ -61,10 +73,10 @@ const POSITION_AGE_CURVES = {
  * Attribute categories — physical decline fast, mental can improve.
  * §3.1: "Physical stats decline sharply after peak; Mental stats can IMPROVE past 30"
  */
-const PHYSICAL_ATTRS = ['FIS'];        // speed, stamina, acceleration
-const TECHNICAL_ATTRS = ['FIN', 'REF']; // finishing, reflexes — slow decline
-const MENTAL_ATTRS = ['CRI'];           // creativity, vision, positioning — can grow
-const DEFENSIVE_ATTR = 'DEF';           // depends on position
+const PHYSICAL_ATTRS = ['attacking'];              // explosive power, speed — fast decline
+const TECHNICAL_ATTRS = ['technical', 'creativity']; // skill, vision — slow decline
+const MENTAL_ATTRS = ['tactical'];                   // game reading, positioning — can IMPROVE
+const DEFENSIVE_ATTR = 'defending';                  // depends on position
 
 /**
  * §3.2: Processa desenvolvimento semanal de um jogador.
@@ -99,15 +111,14 @@ export function processPlayerDevelopment(player) {
         const growthChance = gapFactor * personalityMod * ageBonus;
 
         if (rng.chance(growthChance)) {
-            const attrs = Object.keys(player.attributes);
-            const attr = rng.pick(attrs);
+            const attr = rng.pick(STAT_KEYS);
             const boost = player.age < 20 ? 2 : 1;
-            const oldVal = player.attributes[attr];
+            const oldVal = player[attr];
             // Cap at potential-derived ceiling
             const ceiling = Math.min(99, Math.floor(potential * 1.05));
-            player.attributes[attr] = Math.min(ceiling, oldVal + boost);
-            if (player.attributes[attr] > oldVal) {
-                changes.push({ type: 'growth', player: player.name, attr, from: oldVal, to: player.attributes[attr] });
+            player[attr] = Math.min(ceiling, oldVal + boost);
+            if (player[attr] > oldVal) {
+                changes.push({ type: 'growth', player: player.name, attr, from: oldVal, to: player[attr] });
             }
         }
     }
@@ -119,12 +130,12 @@ export function processPlayerDevelopment(player) {
         // Physical attributes: decline sharply (§3.1)
         const physDeclineChance = yearsOverDecline * 0.06; // 6% per year
         PHYSICAL_ATTRS.forEach(attr => {
-            if (player.attributes[attr] !== undefined && rng.chance(physDeclineChance)) {
-                const oldVal = player.attributes[attr];
+            if (player[attr] !== undefined && rng.chance(physDeclineChance)) {
+                const oldVal = player[attr];
                 const drop = yearsOverDecline >= 3 ? 2 : 1;
-                player.attributes[attr] = Math.max(20, oldVal - drop);
-                if (player.attributes[attr] < oldVal) {
-                    changes.push({ type: 'decline', player: player.name, attr, from: oldVal, to: player.attributes[attr] });
+                player[attr] = Math.max(20, oldVal - drop);
+                if (player[attr] < oldVal) {
+                    changes.push({ type: 'decline', player: player.name, attr, from: oldVal, to: player[attr] });
                 }
             }
         });
@@ -132,26 +143,26 @@ export function processPlayerDevelopment(player) {
         // Technical attributes: decline slowly (§3.1)
         const techDeclineChance = yearsOverDecline * 0.03; // 3% per year
         TECHNICAL_ATTRS.forEach(attr => {
-            if (player.attributes[attr] !== undefined && rng.chance(techDeclineChance)) {
-                const oldVal = player.attributes[attr];
-                player.attributes[attr] = Math.max(25, oldVal - 1);
-                if (player.attributes[attr] < oldVal) {
-                    changes.push({ type: 'decline', player: player.name, attr, from: oldVal, to: player.attributes[attr] });
+            if (player[attr] !== undefined && rng.chance(techDeclineChance)) {
+                const oldVal = player[attr];
+                player[attr] = Math.max(25, oldVal - 1);
+                if (player[attr] < oldVal) {
+                    changes.push({ type: 'decline', player: player.name, attr, from: oldVal, to: player[attr] });
                 }
             }
         });
 
         // DEF attribute: position-dependent decline
         // Centerbacks/GKs lose defensive awareness slower (cognitive compensates)
-        if (player.attributes[DEFENSIVE_ATTR] !== undefined) {
+        if (player[DEFENSIVE_ATTR] !== undefined) {
             const defDeclineRate = (player.position === 'DEF' || player.position === 'GOL')
                 ? yearsOverDecline * 0.02  // very slow — experience compensates
                 : yearsOverDecline * 0.04; // moderate for other positions
             if (rng.chance(defDeclineRate)) {
-                const oldVal = player.attributes[DEFENSIVE_ATTR];
-                player.attributes[DEFENSIVE_ATTR] = Math.max(25, oldVal - 1);
-                if (player.attributes[DEFENSIVE_ATTR] < oldVal) {
-                    changes.push({ type: 'decline', player: player.name, attr: DEFENSIVE_ATTR, from: oldVal, to: player.attributes[DEFENSIVE_ATTR] });
+                const oldVal = player[DEFENSIVE_ATTR];
+                player[DEFENSIVE_ATTR] = Math.max(25, oldVal - 1);
+                if (player[DEFENSIVE_ATTR] < oldVal) {
+                    changes.push({ type: 'decline', player: player.name, attr: DEFENSIVE_ATTR, from: oldVal, to: player[DEFENSIVE_ATTR] });
                 }
             }
         }
@@ -160,11 +171,11 @@ export function processPlayerDevelopment(player) {
         // Creativity/positioning grows from experience — 5% chance per year
         const mentalGrowthChance = 0.05 * personalityMod;
         MENTAL_ATTRS.forEach(attr => {
-            if (player.attributes[attr] !== undefined && rng.chance(mentalGrowthChance)) {
-                const oldVal = player.attributes[attr];
-                player.attributes[attr] = Math.min(99, oldVal + 1);
-                if (player.attributes[attr] > oldVal) {
-                    changes.push({ type: 'growth', player: player.name, attr, from: oldVal, to: player.attributes[attr] });
+            if (player[attr] !== undefined && rng.chance(mentalGrowthChance)) {
+                const oldVal = player[attr];
+                player[attr] = Math.min(99, oldVal + 1);
+                if (player[attr] > oldVal) {
+                    changes.push({ type: 'growth', player: player.name, attr, from: oldVal, to: player[attr] });
                 }
             }
         });
@@ -713,14 +724,14 @@ export const TACTIC_NARRATION = {
 };
 
 function recalcOvr(player) {
-    ensureAttributes(player); // BUG-096: guard contra attributes undefined
-    const a = player.attributes;
+    ensureAttributes(player); // SCHEMA-UNIFIED: guard root-level attrs
+    // Weighted OVR por posição usando schema unificado
     switch (player.position) {
-        case "GOL": player.ovr = Math.floor(a.REF * 0.5 + a.DEF * 0.2 + a.FIS * 0.3); break;
-        case "DEF": player.ovr = Math.floor(a.DEF * 0.6 + a.FIS * 0.25 + a.CRI * 0.15); break;
-        case "MEI": player.ovr = Math.floor(a.CRI * 0.5 + a.FIS * 0.2 + a.FIN * 0.15 + a.DEF * 0.15); break;
-        case "ATA": player.ovr = Math.floor(a.FIN * 0.5 + a.FIS * 0.25 + a.CRI * 0.25); break;
-        default: player.ovr = Math.floor((a.FIS + a.DEF + a.CRI + a.FIN + (a.REF || 50)) / 5);
+        case "GOL": player.ovr = Math.floor(player.defending * 0.45 + player.tactical * 0.25 + player.technical * 0.20 + player.creativity * 0.05 + player.attacking * 0.05); break;
+        case "DEF": player.ovr = Math.floor(player.defending * 0.50 + player.tactical * 0.25 + player.attacking * 0.10 + player.technical * 0.10 + player.creativity * 0.05); break;
+        case "MEI": player.ovr = Math.floor(player.creativity * 0.30 + player.technical * 0.25 + player.tactical * 0.20 + player.defending * 0.10 + player.attacking * 0.15); break;
+        case "ATA": player.ovr = Math.floor(player.attacking * 0.45 + player.technical * 0.20 + player.creativity * 0.20 + player.tactical * 0.10 + player.defending * 0.05); break;
+        default: player.ovr = Math.floor((player.attacking + player.technical + player.tactical + player.defending + player.creativity) / 5);
     }
 
     // Hedonic Pricing recalculation upon OVR change

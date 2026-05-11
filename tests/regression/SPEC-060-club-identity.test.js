@@ -1,7 +1,7 @@
 // Regression / harness for SPEC-060 — Club Identity System
 // Validates: 170 clubes mapped (80 BR + 50 EU + 40 SA), defaults fallback, sprite coords.
 import { describe, test, expect } from 'vitest';
-import { CLUB_COLORS, DEFAULT_COLORS, getClubColors, deriveInitials, CLUB_COUNT, CLUB_SPRITES, getClubSprite, SPRITE_SHEETS } from '../../src/data/clubColors.js';
+import { CLUB_COLORS, DEFAULT_COLORS, getClubColors, deriveInitials, CLUB_COUNT, CLUB_SPRITES, getClubSprite, SPRITE_SHEETS, normalizeClubName } from '../../src/data/clubColors.js';
 import { BrazilDB } from '../../src/engine/db/brazil.js';
 import { EuropeDB } from '../../src/engine/db/europe.js';
 import { SouthAmericaDB } from '../../src/engine/db/south_america.js';
@@ -46,12 +46,12 @@ describe('SPEC-060: Club Identity System (170 clubes BR+EU+SA)', () => {
     });
 
     test('All 170 clubs from DBs are mapped in CLUB_COLORS', () => {
-        const unmapped = allClubs.filter(c => !CLUB_COLORS[c.name]);
+        const unmapped = allClubs.filter(c => !CLUB_COLORS[normalizeClubName(c.name)]);
         expect(unmapped.map(c => c.name)).toEqual([]);
     });
 
     test('All 170 clubs have sprite coords', () => {
-        const unmapped = allClubs.filter(c => !CLUB_SPRITES[c.name]);
+        const unmapped = allClubs.filter(c => !CLUB_SPRITES[normalizeClubName(c.name)]);
         expect(unmapped.map(c => c.name)).toEqual([]);
     });
 

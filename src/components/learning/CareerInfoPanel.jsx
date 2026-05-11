@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * CareerInfoPanel — SPEC-124
  *
@@ -11,6 +12,7 @@
  */
 import React, { useState, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
+import { HexagonChart } from '../HexagonChart';
 
 const DIV_NAMES = { 1: 'Série A', 2: 'Série B', 3: 'Série C', 4: 'Série D' };
 const DIV_COLOR = { 1: '#FFD700', 2: '#C0C0C0', 3: '#CD7F32', 4: '#8B7355' };
@@ -41,9 +43,7 @@ export default function CareerInfoPanel({ controllerRef }) {
             // Top scorers current season (seasonGoals reset each season — realistic numbers)
             const topScorers = (team?.squad || [])
                 .map(p => ({
-                    name: p.name,
-                    position: p.position,
-                    ovr: p.ovr,
+                    ...p,
                     goals: p.career?.seasonGoals || 0,
                     assists: p.career?.seasonAssists || 0,
                     apps: p.career?.seasonApps || 0,
@@ -205,26 +205,46 @@ export default function CareerInfoPanel({ controllerRef }) {
                             <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
                                 ⚽ ARTILHEIROS (TEMPORADA ATUAL)
                             </div>
-                            <div style={{ background: '#040805', padding: '4px' }}>
-                                {snapshot.topScorers.map((p, i) => (
-                                    <div key={i} style={{
+                            <div style={{ background: '#040805', padding: '8px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                {/* Destaque o Top 1 com o Hexagon Chart */}
+                                {snapshot.topScorers.length > 0 && (
+                                    <div style={{ display: 'flex', gap: '16px', alignItems: 'center', padding: '8px', background: '#0A140C', border: '1px solid #1B4332' }}>
+                                        <div style={{ width: '120px', height: '120px', flexShrink: 0 }}>
+                                            <HexagonChart player={snapshot.topScorers[0]} size={120} showLabels={true} />
+                                        </div>
+                                        <div style={{ flex: 1 }}>
+                                            <div style={{ color: '#FFD700', fontSize: '0.7rem', fontWeight: 700, marginBottom: '4px' }}>🏆 DESTAQUE DA TEMPORADA</div>
+                                            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#FDFBF7' }}>{snapshot.topScorers[0].name}</div>
+                                            <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: '8px' }}>
+                                                {snapshot.topScorers[0].position} · OVR {snapshot.topScorers[0].ovr}
+                                            </div>
+                                            <div style={{ fontSize: '0.8rem' }}>
+                                                <strong style={{ color: '#6ABC3A' }}>{snapshot.topScorers[0].goals} ⚽</strong>{' '}
+                                                <span style={{ color: '#888' }}>
+                                                    {snapshot.topScorers[0].assists}🅰️ · {snapshot.topScorers[0].apps}j
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                
+                                {/* Lista dos demais artilheiros */}
+                                {snapshot.topScorers.slice(1).map((p, i) => (
+                                    <div key={i + 1} style={{
                                         display: 'flex',
                                         justifyContent: 'space-between',
                                         fontSize: '0.7rem',
-                                        padding: '2px 4px',
-                                        borderBottom: i < snapshot.topScorers.length - 1 ? '1px solid #0E1F14' : 'none'
+                                        padding: '4px',
+                                        borderBottom: i < snapshot.topScorers.length - 2 ? '1px solid #0E1F14' : 'none'
                                     }}>
                                         <span>
-                                            <strong style={{ color: '#FFD700' }}>{i + 1}.</strong>{' '}
+                                            <strong style={{ color: '#888' }}>{i + 2}.</strong>{' '}
                                             {p.name} ({p.position} · OVR {p.ovr})
                                         </span>
                                         <span>
                                             <strong style={{ color: '#6ABC3A' }}>{p.goals} ⚽</strong>{' '}
                                             <span style={{ color: '#888' }}>
                                                 {p.assists}🅰️ · {p.apps}j
-                                                {p.totalGoals > p.goals && (
-                                                    <span title="Total carreira"> · {p.totalGoals}🏅</span>
-                                                )}
                                             </span>
                                         </span>
                                     </div>

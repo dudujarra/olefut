@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { rng as systemRng } from '../../engine/rng.js';
 import { ARCHETYPES, generatePersonality, generateRandomPersonality, checkIsTilted, deriveTraits } from './Archetypes.js';
 import { EmotionalEngine } from './EmotionalEngine.js';

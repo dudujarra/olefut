@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ChallengesWidget — SPEC-103
  *

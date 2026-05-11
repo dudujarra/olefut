@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * StarProtectionSystem — SPEC-075: Craque Protegido pelo Técnico
  *

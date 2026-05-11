@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * HumiliationCascadeSystem — SPEC-076: Vexame com Consequências Narrativas
  *

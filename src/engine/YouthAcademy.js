@@ -46,8 +46,10 @@ export function generateYouthIntake(academyLevel = 1, clubReputation = 50) {
         player.value = 500000 + Math.floor(systemRng() * 2000000);
 
         // Ajustar atributos para jovem (mais baixos)
-        Object.keys(player.attributes).forEach(attr => {
-            player.attributes[attr] = Math.max(20, player.attributes[attr] - 10 + Math.floor(systemRng() * 5));
+        ['attacking', 'technical', 'tactical', 'defending', 'creativity'].forEach(attr => {
+            if (player[attr] !== undefined) {
+                player[attr] = Math.max(20, player[attr] - 10 + Math.floor(systemRng() * 5));
+            }
         });
 
         youngsters.push(player);
@@ -117,31 +119,33 @@ export function processLoans(loans, team) {
             if (systemRng() < growthChance) {
                 // Sucesso: atributos melhoram +1 a +3
                 const boost = 1 + Math.floor(systemRng() * 3);
-                Object.keys(player.attributes).forEach(attr => {
-                    player.attributes[attr] = Math.min(99, player.attributes[attr] + Math.floor(systemRng() * (boost + 1)));
+                ['attacking', 'technical', 'tactical', 'defending', 'creativity'].forEach(attr => {
+                    if (player[attr] !== undefined) {
+                        player[attr] = Math.min(99, player[attr] + Math.floor(systemRng() * (boost + 1)));
+                    }
                 });
                 // BUG-FIX: recalculate OVR from attributes (position-weighted) instead of naive += boost
-                const a = player.attributes;
                 const oldOvr = player.ovr;
+                const a = player;
                 switch (player.position) {
-                    case "GOL": player.ovr = Math.floor(a.REF * 0.5 + a.DEF * 0.2 + a.FIS * 0.3); break;
-                    case "DEF": player.ovr = Math.floor(a.DEF * 0.6 + a.FIS * 0.25 + a.CRI * 0.15); break;
-                    case "MEI": player.ovr = Math.floor(a.CRI * 0.5 + a.FIS * 0.2 + a.FIN * 0.15 + a.DEF * 0.15); break;
-                    case "ATA": player.ovr = Math.floor(a.FIN * 0.5 + a.FIS * 0.25 + a.CRI * 0.25); break;
-                    default: player.ovr = Math.floor((a.FIS + a.DEF + a.CRI + a.FIN + (a.REF || 50)) / 5);
+                    case "GOL": player.ovr = Math.floor((a.defending * 0.4) + (a.tactical * 0.3) + (a.technical * 0.3)); break;
+                    case "DEF": player.ovr = Math.floor((a.defending * 0.6) + (a.tactical * 0.25) + (a.technical * 0.15)); break;
+                    case "MEI": player.ovr = Math.floor((a.creativity * 0.5) + (a.tactical * 0.2) + (a.attacking * 0.15) + (a.defending * 0.15)); break;
+                    case "ATA": player.ovr = Math.floor((a.attacking * 0.5) + (a.technical * 0.25) + (a.creativity * 0.25)); break;
+                    default: player.ovr = Math.floor((a.attacking + a.defending + a.creativity + a.technical + a.tactical) / 5);
                 }
                 const actualBoost = player.ovr - oldOvr;
                 player.loanResult = `✅ ${player.name} voltou de ${loan.destination} melhorado (+${Math.max(0, actualBoost)} OVR)!`;
             } else {
                 // Fracasso: atributos FIS -1, moral baixa
-                if (player.attributes.FIS) player.attributes.FIS = Math.max(20, player.attributes.FIS - 1);
-                const a = player.attributes;
+                if (player.tactical) player.tactical = Math.max(20, player.tactical - 1);
+                const a = player;
                 switch (player.position) {
-                    case "GOL": player.ovr = Math.floor(a.REF * 0.5 + a.DEF * 0.2 + a.FIS * 0.3); break;
-                    case "DEF": player.ovr = Math.floor(a.DEF * 0.6 + a.FIS * 0.25 + a.CRI * 0.15); break;
-                    case "MEI": player.ovr = Math.floor(a.CRI * 0.5 + a.FIS * 0.2 + a.FIN * 0.15 + a.DEF * 0.15); break;
-                    case "ATA": player.ovr = Math.floor(a.FIN * 0.5 + a.FIS * 0.25 + a.CRI * 0.25); break;
-                    default: player.ovr = Math.floor((a.FIS + a.DEF + a.CRI + a.FIN + (a.REF || 50)) / 5);
+                    case "GOL": player.ovr = Math.floor((a.defending * 0.4) + (a.tactical * 0.3) + (a.technical * 0.3)); break;
+                    case "DEF": player.ovr = Math.floor((a.defending * 0.6) + (a.tactical * 0.25) + (a.technical * 0.15)); break;
+                    case "MEI": player.ovr = Math.floor((a.creativity * 0.5) + (a.tactical * 0.2) + (a.attacking * 0.15) + (a.defending * 0.15)); break;
+                    case "ATA": player.ovr = Math.floor((a.attacking * 0.5) + (a.technical * 0.25) + (a.creativity * 0.25)); break;
+                    default: player.ovr = Math.floor((a.attacking + a.defending + a.creativity + a.technical + a.tactical) / 5);
                 }
                 player.moral = Math.max(20, (player.moral || 50) - 10);
                 player.loanResult = `⚠️ ${player.name} voltou de ${loan.destination} sem evolução.`;

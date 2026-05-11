@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { rng as systemRng } from './rng.js';
 /**
  * GrowthEventSystem — SPEC-134: Progression Growth Events
@@ -144,12 +145,12 @@ function countTrailingWins(results) {
     return count;
 }
 
+// SCHEMA-UNIFIED: opera direto nas chaves root-level
 function applyAttrsBoost(player, amount) {
-    if (!player.attributes) return;
-    const attrs = Object.keys(player.attributes);
+    const statKeys = ['attacking', 'technical', 'tactical', 'defending', 'creativity'];
     // Boost 1-2 random attributes
-    const picks = attrs.sort(() => systemRng() - 0.5).slice(0, 2);
+    const picks = statKeys.sort(() => systemRng() - 0.5).slice(0, 2);
     picks.forEach(attr => {
-        player.attributes[attr] = Math.min(99, (player.attributes[attr] || 50) + amount);
+        player[attr] = Math.min(99, (player[attr] || 50) + amount);
     });
 }

@@ -27,6 +27,7 @@ describe('MARL E2E Integration', () => {
     let engine;
 
     beforeEach(() => {
+        if (typeof localStorage !== 'undefined') localStorage.clear();
         engine = new Engine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
     });

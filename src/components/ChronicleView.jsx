@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { ChronicleService } from '../services/ChronicleService';

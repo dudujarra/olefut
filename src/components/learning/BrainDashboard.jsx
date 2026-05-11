@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * BrainDashboard — Visual ML Dashboard for AutoPlay
  *

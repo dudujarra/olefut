@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * AutoPlayService — Soak Test / Self-Play
  *

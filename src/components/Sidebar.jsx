@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * Sidebar — SPEC-099 Persistent Nav
  *

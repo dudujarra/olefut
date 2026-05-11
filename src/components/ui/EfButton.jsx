@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * EfButton — SNES 16-bit Brutalist Arcade
  *

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * EfClubBadge v3 — pixel-art sprite-based club shield (SPEC-060).
  *

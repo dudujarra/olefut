@@ -238,12 +238,68 @@ export const CLUB_SPRITES = {
 };
 
 /**
+ * Normalize formal DB names to simpler clubColors dictionary keys
+ */
+export function normalizeClubName(name) {
+    if (!name) return name;
+    const aliases = {
+        "Tottenham Hotspur": "Tottenham",
+        "Newcastle United": "Newcastle",
+        "West Ham United": "West Ham",
+        "Brighton & Hove Albion": "Brighton",
+        "FC Barcelona": "Barcelona",
+        "Atlético Madrid": "Atlético de Madrid",
+        "Sevilla FC": "Sevilla",
+        "Real Betis Balompié": "Real Betis",
+        "Villarreal CF": "Villarreal",
+        "Valencia CF": "Valencia",
+        "CA Osasuna": "Osasuna",
+        "Inter": "Inter de Milão",
+        "AC Milan": "Milan",
+        "FC Bayern München": "Bayern de Munique",
+        "Bayer 04 Leverkusen": "Bayer Leverkusen",
+        "VfL Wolfsburg": "Wolfsburg",
+        "Borussia Mönchengladbach": "Borussia M'gladbach",
+        "SC Freiburg": "Freiburg",
+        "TSG 1899 Hoffenheim": "Hoffenheim",
+        "VfB Stuttgart": "Stuttgart",
+        "Olympique de Marseille": "Marseille",
+        "Olympique Lyonnais": "Lyon",
+        "AS Monaco": "Monaco",
+        "Lille OSC": "Lille",
+        "OGC Nice": "Nice",
+        "Stade Rennais FC": "Rennes",
+        "RC Lens": "Lens",
+        "RC Strasbourg Alsace": "Strasbourg",
+        "Montpellier HSC": "Montpellier",
+        "Racing Club": "Racing",
+        "San Lorenzo de Almagro": "San Lorenzo",
+        "Vélez Sarsfield": "Vélez Sársfield",
+        "Estudiantes de La Plata": "Estudiantes",
+        "Club Nacional de Football": "Nacional-URU",
+        "Defensor Sporting": "Defensor",
+        "Danubio FC": "Danubio",
+        "Montevideo Wanderers": "Wanderers",
+        "Liverpool (URU)": "Liverpool-URU",
+        "CD O'Higgins": "O'Higgins",
+        "CD Palestino": "Palestino",
+        "Everton de Viña del Mar": "Everton-CHI",
+        "Millonarios FC": "Millonarios",
+        "Junior FC": "Junior",
+        "Independiente Santa Fe": "Santa Fe",
+        "Atlético Bucaramanga": "Bucaramanga",
+        "Independiente Medellín": "Medellín"
+    };
+    return aliases[name] || name;
+}
+
+/**
  * Get sprite coords for a club. Returns null if no sprite.
  * @param {string} name
  * @returns {{sheet: string, col: number, row: number} | null}
  */
 export function getClubSprite(name) {
-    return CLUB_SPRITES[name] || null;
+    return CLUB_SPRITES[normalizeClubName(name)] || null;
 }
 
 
@@ -459,7 +515,8 @@ export const CLUB_COLORS = {
  * @returns {{primary: string, secondary: string, accent: string, nickname: string, initials: string}}
  */
 export function getClubColors(name) {
-    return CLUB_COLORS[name] || { ...DEFAULT_COLORS, initials: deriveInitials(name) };
+    const normalized = normalizeClubName(name);
+    return CLUB_COLORS[normalized] || { ...DEFAULT_COLORS, initials: deriveInitials(normalized) };
 }
 
 /**

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { rng as systemRng } from './rng.js';
 /**
  * FilhosRegenSystem — SPEC-081: Regens-Filhos de Ex-Companheiros

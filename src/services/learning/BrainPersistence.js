@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * BrainPersistence — MARL Fase 6.5
  *

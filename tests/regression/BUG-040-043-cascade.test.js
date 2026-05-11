@@ -60,22 +60,22 @@ describe('BUG-040 — emergency squad replenish in startNewSeason', () => {
     });
 });
 
-describe('BUG-042 — state encoding includes squadTier (6 dims)', () => {
+describe('BUG-042 — state encoding includes squadTier (7 dims)', () => {
     test('thin squad bucket detected', () => {
         const key = encodeState({ squadSize: 8 });
         const parts = key.split('|');
-        expect(parts.length).toBe(6);
-        expect(parts[5]).toBe('thin');
+        expect(parts.length).toBe(7);
+        expect(parts[5]).toBe('TN');
     });
 
     test('normal squad bucket', () => {
         const key = encodeState({ squadSize: 15 });
-        expect(key.split('|')[5]).toBe('normal');
+        expect(key.split('|')[5]).toBe('NR');
     });
 
     test('deep squad bucket', () => {
         const key = encodeState({ squadSize: 22 });
-        expect(key.split('|')[5]).toBe('deep');
+        expect(key.split('|')[5]).toBe('DP');
     });
 
     test('different squad sizes produce different state keys', () => {

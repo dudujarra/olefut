@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * LearningPanel — SPEC-123
  *

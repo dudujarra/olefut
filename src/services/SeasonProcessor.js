@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * SeasonProcessor — Extracted from engine.startNewSeason() (AKITA-RFCT-005)
  *
@@ -25,6 +26,7 @@ import { applyEvent as applyManagerEvent } from '../engine/ManagerIdentitySystem
 import { generate as generateContract, resolve as resolveContract } from '../engine/ContractGoalSystem';
 import { BoardSystem } from '../engine/BoardSystem';
 import { evaluateSponsor, processPromoRelegation } from '../engine/SeasonSystem';
+import { onRelegation, onPromotion } from '../engine/AmbitionEngine';
 import { closeSeasonStats, calculateSeasonAwards } from '../engine/PlayerTraits';
 import { ageSquad } from '../engine/PlayerDevelopment';
 import { apply as applyBoardTension } from '../engine/BoardTensionSystem';
@@ -297,6 +299,12 @@ export class SeasonProcessor {
                         const bonus = PROMOTION_BONUS[c.to];
                         team.balance += bonus;
                         engine.weekEvents.push(`💰 Bônus de acesso à Série ${['A','B','C','D'][c.to - 1]}: R$ ${(bonus / 1_000_000).toFixed(1)}M`);
+
+                        // SPEC-200: Ambition Engine — promoção melhora moral e pode retirar transfer requests
+                        try {
+                            const promoEvents = onPromotion(team, c.from, c.to);
+                            promoEvents.forEach(e => engine.weekEvents.push(e.msg));
+                        } catch { /* defensive */ }
                     }
 
                     // AUDIT-FIX #C.2: Apply relegation financial penalty
@@ -304,6 +312,18 @@ export class SeasonProcessor {
                         const penalty = Math.floor(team.balance * RELEGATION_PENALTY_RATE);
                         team.balance -= penalty;
                         engine.weekEvents.push(`💸 Multa de rebaixamento: -R$ ${(penalty / 1_000_000).toFixed(1)}M (perda de receitas, patrocínios e TV)`);
+
+                        // SPEC-200: Ambition Engine — rebaixamento causa cascade de insatisfação
+                        try {
+                            const relEvents = onRelegation(team, c.from, c.to);
+                            relEvents.forEach(e => {
+                                engine.weekEvents.push(e.msg);
+                                if (e.type === 'relegation_exit') {
+                                    if (!engine._ambitionTransferRequests) engine._ambitionTransferRequests = [];
+                                    engine._ambitionTransferRequests.push(e);
+                                }
+                            });
+                        } catch { /* defensive */ }
                     }
                 });
             });

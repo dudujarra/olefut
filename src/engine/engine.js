@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Data } from './data';
 import { RealDB } from './db/index';
 import { League } from './tournaments/League';

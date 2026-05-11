@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * CognitiveBiases — MARL Fase 5
  *

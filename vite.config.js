@@ -12,6 +12,7 @@ export default defineConfig({
     // BUG-GOLDEN: 190-week simulations need >5s under parallel load.
     // Default 5000ms causes intermittent timeouts in characterization tests.
     testTimeout: 30000,
+    fileParallelism: false,
     // Add localstorage-file path to eliminate Node 22 warning during automated soak tests
     execArgv: ['--localstorage-file=./.vitest-localstorage'],
   },

@@ -31,6 +31,7 @@ import { evaluate as evaluateHumiliation } from '../engine/HumiliationCascadeSys
 import { evaluate as evaluateLossStreak, recordResult as recordStreakResult } from '../engine/LossStreakResponseSystem';
 import { evaluate as evaluateCoachProposal } from '../engine/CoachProposalSystem';
 import { evaluate as evaluateOrganicChallenge } from '../engine/OrganicChallengeSystem';
+import { processAmbitionWeekly } from '../engine/AmbitionEngine';
 
 import { rng as systemRng } from '../engine/rng.js';
 
@@ -214,6 +215,22 @@ export class WeekProcessor {
         // Mentoring (veteran teaches youth)
         const mentorEvts = processMentoring(team.squad);
         mentorEvts.forEach(e => engine.weekEvents.push(e));
+
+        // SPEC-200: Ambition Engine — player satisfaction vs club prestige
+        try {
+            const ambitionEvents = processAmbitionWeekly(team);
+            ambitionEvents.forEach(e => {
+                engine.weekEvents.push(e.msg || `🔔 ${e.type}: ${e.playerName}`);
+                // Armazenar transfer requests no engine para a UI consumir
+                if (e.type === 'transfer_request' || e.type === 'relegation_exit') {
+                    if (!engine._ambitionTransferRequests) engine._ambitionTransferRequests = [];
+                    engine._ambitionTransferRequests.push(e);
+                }
+            });
+        } catch (err) {
+            // Defensive: AmbitionEngine não pode quebrar o loop principal
+            console.warn('[AmbitionEngine] Error in weekly processing:', err.message);
+        }
 
         // Remove retired players
         const retired = team.squad.filter(p => p._retired);

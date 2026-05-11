@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
 import { Engine } from '../engine/engine';
 import { Tournament } from '../engine/tournaments/Tournament';

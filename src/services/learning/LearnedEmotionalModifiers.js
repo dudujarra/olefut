@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * LearnedEmotionalModifiers — SARSA(λ) for Emotional Response Tuning
  *

@@ -10,7 +10,7 @@ import {
 } from '../../src/services/learning/AdaptiveBrain.js';
 
 describe('SPEC-115/116 — encodeState', () => {
-    test('encodes all 6 dimensions (BUG-042 added squadTier)', () => {
+    test('encodes all 7 dimensions (BUG-042 added squadTier, divTier)', () => {
         const key = encodeState({
             position: 1,
             totalTeams: 20,
@@ -21,21 +21,21 @@ describe('SPEC-115/116 — encodeState', () => {
             squadSize: 22
         });
         expect(typeof key).toBe('string');
-        expect(key.split('|').length).toBe(6);
+        expect(key.split('|').length).toBe(7);
     });
 
     test('top4 vs bottom positioning', () => {
         const top = encodeState({ position: 2, totalTeams: 20 });
         const bot = encodeState({ position: 19, totalTeams: 20 });
-        expect(top.startsWith('avg|top4')).toBe(true);
-        expect(bot.startsWith('avg|bottom')).toBe(true);
+        expect(top.split('|')[1]).toBe('T4');
+        expect(bot.split('|')[1]).toBe('BT');
     });
 
     test('balance tiers', () => {
-        expect(encodeState({ balance: -100 }).split('|')[2]).toBe('red');
-        expect(encodeState({ balance: 1_000_000 }).split('|')[2]).toBe('low');
-        expect(encodeState({ balance: 30_000_000 }).split('|')[2]).toBe('mid');
-        expect(encodeState({ balance: 200_000_000 }).split('|')[2]).toBe('rich');
+        expect(encodeState({ balance: -100 }).split('|')[2]).toBe('NEG');
+        expect(encodeState({ balance: 1_000_000 }).split('|')[2]).toBe('LOW');
+        expect(encodeState({ balance: 30_000_000 }).split('|')[2]).toBe('MID');
+        expect(encodeState({ balance: 200_000_000 }).split('|')[2]).toBe('RCH');
     });
 
     test('week phase early/mid/late', () => {
