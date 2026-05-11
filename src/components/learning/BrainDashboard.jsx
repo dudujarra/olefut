@@ -23,6 +23,9 @@ const EMPTY = {
     qTable: {}, visitCount: {}, totalUpdates: 0,
     memory: [], traits: {}, archetypeLabel: 'Bot',
     topActions: [], decisions: [],
+    replayBuffer: 0, replayImpactful: 0,
+    activeTraces: 0, emotionalState: 'CALM',
+    effectiveAlpha: 0.1, effectiveEpsilon: 0.15,
 };
 
 export function BrainDashboard({ controllerRef }) {
@@ -44,13 +47,25 @@ export function BrainDashboard({ controllerRef }) {
                 archetypeLabel: b.personality?.label || b.personality?.id || 'Bot',
                 topActions: typeof b.topActions === 'function' ? b.topActions(10) : [],
                 decisions: ctrl.stats?.decisions || [],
+                // Phase D convergence metrics
+                replayBuffer: b.replayBuffer?.length || 0,
+                replayImpactful: b.replayBuffer?.filter?.(e => Math.abs(e.r) > 3)?.length || 0,
+                activeTraces: Object.values(b.traces || {}).reduce((s, t) => s + Object.keys(t).length, 0),
+                emotionalState: b.emotions?.state || 'CALM',
+                effectiveAlpha: Math.max(0.01, 0.1 / (1 + (b.totalUpdates || 0) * 0.0001)),
+                effectiveEpsilon: (() => {
+                    const maxVisits = Math.max(1, ...Object.values(b.visitCount || {}).map(Number).filter(n => !isNaN(n)));
+                    return Math.max(0.02, 0.15 / (1 + maxVisits * 0.03));
+                })(),
             });
         }, 500);
         return () => clearInterval(interval);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     // ALL hooks MUST be called before any early return (Rules of Hooks)
-    const { qTable, visitCount, totalUpdates, memory, traits, archetypeLabel, topActions, decisions } = brainData;
+    const { qTable, visitCount, totalUpdates, memory, traits, archetypeLabel, topActions, decisions,
+            replayBuffer, replayImpactful, activeTraces, emotionalState,
+            effectiveAlpha, effectiveEpsilon } = brainData;
     const stateKeys = Object.keys(qTable);
 
     const actionFreq = useMemo(() => {
@@ -156,6 +171,45 @@ export function BrainDashboard({ controllerRef }) {
                                         ? cumulativeReward[cumulativeReward.length - 1].toFixed(0)
                                         : '0'}
                                     color={cumulativeReward.length > 0 && cumulativeReward[cumulativeReward.length - 1] > 0 ? '#6ABC3A' : '#ef4444'} />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Row 1.5: Convergence Metrics (Phase D) */}
+                    <div style={{ ...cardStyle, marginBottom: '10px' }}>
+                        <div style={titleStyle}>⚡ Convergência ML (Fase D)</div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', fontSize: '0.72rem' }}>
+                            <MiniStat label="Replay Buffer" value={replayBuffer} color="#a78bfa" />
+                            <MiniStat label="High Impact" value={replayImpactful} color="#f59e0b" />
+                            <MiniStat label="Active Traces" value={activeTraces} color="#3b82f6" />
+                            <MiniStat label="Emotional" value={emotionalState} color={
+                                emotionalState === 'CALM' ? '#6ABC3A' :
+                                emotionalState === 'CONFIDENT' ? '#3b82f6' :
+                                emotionalState === 'ANXIOUS' ? '#f59e0b' :
+                                emotionalState === 'TILTED' ? '#ef4444' :
+                                emotionalState === 'DESPERATE' ? '#dc2626' : '#888'
+                            } />
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', marginTop: '8px' }}>
+                            {/* Alpha decay bar */}
+                            <div style={{ fontSize: '0.68rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+                                    <span style={{ color: '#888' }}>α (learning rate)</span>
+                                    <span style={{ color: '#14b8a6', fontWeight: 700 }}>{effectiveAlpha.toFixed(4)}</span>
+                                </div>
+                                <div style={barBg}>
+                                    <div style={{ ...barFill, width: `${(effectiveAlpha / 0.1) * 100}%`, background: '#14b8a6' }} />
+                                </div>
+                            </div>
+                            {/* Epsilon decay bar */}
+                            <div style={{ fontSize: '0.68rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+                                    <span style={{ color: '#888' }}>ε (exploration)</span>
+                                    <span style={{ color: '#ec4899', fontWeight: 700 }}>{effectiveEpsilon.toFixed(4)}</span>
+                                </div>
+                                <div style={barBg}>
+                                    <div style={{ ...barFill, width: `${(effectiveEpsilon / 0.15) * 100}%`, background: '#ec4899' }} />
+                                </div>
                             </div>
                         </div>
                     </div>
