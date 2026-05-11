@@ -28,6 +28,14 @@
 | `tests/regression/BUG-055-draws-only.test.js` | BUG-055 | ✅ |
 | `tests/regression/BUG-078.test.js` | BUG-078 | ✅ |
 | `tests/regression/BUG-079.test.js` | BUG-079 | ✅ |
+| `tests/regression/SPEC-117-skip-auto-restore.test.js` | AKITA-204 NPC brain bug (5 testes) | ✅ (Mandamento #6 — 3-artefact completo via SPEC-154) |
+
+**Bugs abertos (Akita 3-artefact pendente — Mandamento #6)**:
+
+| BUG | Issue | Spec | Status |
+|-----|-------|------|--------|
+| BUG-080 | deep-soak-100seasons flaky em suite-load | SPEC-157 | 📝 ticket aberto, fix pendente (mover pra `npm run test:soak`) |
+| BUG-081 | 14 react-hooks/set-state-in-effect warnings | SPEC-158 | 📝 audit pendente |
 
 **Regressões em SPECs (mesmo arquivo de regression cobre):**
 - `tests/regression/SPEC-060-club-identity.test.js` — ✅ (AKITA-104: Proxy alias 88 DB→canonical)

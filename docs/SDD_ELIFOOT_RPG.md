@@ -83,6 +83,22 @@ Legendary cards gated by `minRenown` (3 ou 4 estrelas).
 | AKITA-002 | RPG Decks: Match + Bench + OffPitch |
 | AKITA-003 | UI React: Manager + Player modes |
 | AKITA-004 | RPG Deep: 40 tiered cards, Personality, Stress, Flags, NPCs |
+| AKITA-200 | Ambition Engine + Schema Unification (Dudu, main) |
+| AKITA-201 | Complete schema purge + NPC economy + contextual buyers (Dudu, main) |
+| AKITA-202 | Systematic debugging — creativity decline bug + schema migrate (Dudu, main) |
+| AKITA-203 (main) | Fix cross-test localStorage leak deep-soak + 100-season timeout (Dudu, main) |
+| AKITA-203 (PR #105) | Doc canônica Akita — CLAUDE.md, LICENSE, CONTRIBUTING, GEMINI/CODEX, specs/generators |
+| AKITA-204 | Bundle code-split (SPEC-153) + skipAutoRestore (SPEC-154) + test isolation (SPEC-155) + lint cleanup + cleanup |
+| AKITA-205 | Gap fixes pós-audit: regression test SPEC-117 + sync docs (1044→1049 tests) |
+
+## Mecânicas adicionadas via AKITA-204
+
+| Mecânica | Arquivo | SPEC | Status |
+|---|---|---|---|
+| Bundle code-split de rotas (16 views via React.lazy) | `src/App.jsx` | SPEC-153 | ✅ |
+| NPC brain `skipAutoRestore` opt-in | `src/services/learning/AdaptiveBrain.js` | SPEC-154 | ✅ |
+| Test localStorage isolation setupFile | `tests/_setup-isolate-localstorage.js` | SPEC-155 | ✅ |
+| ADR resolução conflito numbering AKITA paralelo | `specs/infra/SPEC-156-decision-akita-numbering-conflicts.md` | SPEC-156 | ✅ accepted |
 
 ## Backlog
 
@@ -99,3 +115,7 @@ Legendary cards gated by `minRenown` (3 ou 4 estrelas).
 | Sistema de Rivais | Camada 3 | ❌ |
 | Lesões com Recovery | Camada 3 | ❌ |
 | UX Review completa | — | ❌ |
+| deep-soak suite separada `npm run test:soak` | infra | 📝 SPEC-157 / BUG-080 |
+| Audit `react-hooks/set-state-in-effect` (14 warnings) | ui | 📝 SPEC-158 / BUG-081 |
+| Build budget test (chunk ≤ 500KB CI gate) | infra | 📝 derivado SPEC-153 |
+| Refactor engine.js god-class (17 PRs) | refactor | 📝 specs/refactor/AKITA-RFCT-000..017 |
