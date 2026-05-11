@@ -2,8 +2,8 @@
 
 **Status**: 🔨 Em evolução (SDD ativo desde 2026-05-07)
 **Total specs**: **97** (engine 39 + gameplay 15 + ui 6 + infra 7 + learning 10 + refactor 19 + telemetry 15 + raiz)
-**Test files**: 86
-**Tests passing**: 1035 / 1035 ✅ (AKITA-104 fechou 18 vermelhos)
+**Test files**: 87
+**Tests passing**: 1044 / 1044 ✅ (AKITA-204 fechou bugs latentes pós-merge main AKITA-200..203)
 **Codebase coverage**: ver `npm run mutate:report`
 **Last updated**: 2026-05-11
 

@@ -6,7 +6,7 @@
 🎮 **Live demo**: https://dudujarra.github.io/elifoot-web/
 
 [![CI](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-1035%2F1035-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
+[![Tests](https://img.shields.io/badge/tests-1044%2F1044-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
 [![Specs](https://img.shields.io/badge/specs-97-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
 [![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/elifoot-web/blob/main/specs/SPEC-RULES.md)
 [![Bugs Tracked](https://img.shields.io/badge/bugs%20regression-13-orange)](https://github.com/dudujarra/elifoot-web/blob/main/BUGS.md)
@@ -95,7 +95,7 @@ Roadmap narrativo completo: [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-
 |---------|-------|
 | **Specs documentadas** | 97 (engine 39 + gameplay 15 + ui 6 + infra 7 + learning 10 + refactor 19 + telemetry 15 + raiz) |
 | **Test files** | 86 |
-| **Tests passing** | 1035 / 1035 ✅ |
+| **Tests passing** | 1044 / 1044 ✅ |
 | **Bugs com regression test** | 13 arquivos em `tests/regression/` (BUG-001..079 + cascades) |
 | **AKITA commits** | 166 |
 | **Engine modules** | 40+ (sistemas em `src/engine/`) |

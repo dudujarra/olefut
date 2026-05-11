@@ -9,7 +9,7 @@
 |---|---|
 | Bugs com regression test em `tests/regression/` | **13 arquivos** (alguns cobrem cascatas) |
 | Bugs resolvidos com 3-artefact completo | Ver tabela abaixo |
-| Bugs abertos / regressões ativas (2026-05-11) | ~~18 testes vermelhos~~ **resolvidos via AKITA-104** ✅ — 1035/1035 verde |
+| Bugs abertos / regressões ativas (2026-05-11) | ✅ 1044/1044 verde após merge main + AKITA-204 (skipAutoRestore fix) |
 
 ## Inventário de regression tests
 

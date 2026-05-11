@@ -201,7 +201,7 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 
 | Métrica | Valor | Fonte |
 |---------|-------|-------|
-| Tests | **1035/1035 stable** ✅ — 1044 total (9 skipped em `deep-soak-100seasons.test.js`, flaky pré-existente em main) | `vitest run` 2026-05-11 |
+| Tests | **1044/1044** ✅ (0 failed suites após merge main + AKITA-204) | `vitest run` 2026-05-11 |
 | Test files | 87 | `find tests -name "*.test.js"` |
 | Specs totais | **97** | `find specs -name "SPEC-*.md"` |
 | Bugs com regression test | 13 arquivos em `tests/regression/` | — |

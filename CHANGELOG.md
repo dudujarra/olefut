@@ -4,23 +4,49 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
-### [chore] AKITA-205 — Bundle code-split + lint cleanup + isolation + root cleanup (2026-05-11)
+### [feat] AKITA-204 — Bundle code-split + lint + isolation + skipAutoRestore + cleanup (2026-05-11)
 
-Múltiplos débitos arquiteturais fechados num único PR após auditoria via systematic-debugging:
+PR único consolidando múltiplas frentes (commit `4b54cd4`).
 
-- **Bundle**: `index.js` 1.56MB → **376KB** (-76%, gzip 110KB). 16 views via `React.lazy()` + `Suspense`. Eager: `StartView`, `DashboardView`, `Sidebar`, `FloatingBugButton`, `AudioController`, `EfButton`. Inline `isTutorialDone` em `StartView.jsx` elimina `INEFFECTIVE_DYNAMIC_IMPORT`.
-- **Lint**: 180+ → **130 warnings**, 0 errors. 6 `react-hooks/rules-of-hooks` (bugs reais) corrigidos em `MarketView.jsx` (early-return movido para depois dos `useState`). 47 imports `React` mortos removidos via codemod (React 19 JSX runtime — main usava `/* eslint-disable no-unused-vars */` band-aid).
-- **Isolation de testes**: `tests/_setup-isolate-localstorage.js` + `setupFiles` no `vite.config.js` limpam `localStorage` no início de cada suite. Resolve root cause de flakies order-dependent (`.vitest-localstorage*` persistia state entre runs). Mais granular que `fileParallelism: false` que main usava como mitigação.
-- **SDD local**: `scripts/spec-check.sh` copiado de `~/bin/`. CI workflow já referenciava com fallback.
-- **Root cleanup**: 4.5MB de artefatos transientes deletados (3× screenshots, vitest_report.json, test_output.txt, build_errors.log, audit HTMLs, fifa_sample.csv stub). 11 scripts ad-hoc órfãos removidos (`audit_ui.cjs`, `check_teams.{cjs,js}`, `fix_*.{py,cjs,js}`, `test_{squad,ui,localstorage}*`, `screenshot*.js`). `.gitignore` previne regressão.
+**Fix de bug latente em prod — NPC brain unique persona**:
 
-### [fix] AKITA-204 — NPC brain unique persona + golden master determinism (2026-05-11)
-
-Bug latente descoberto: `AdaptiveBrain._restore()` lia o key compartilhado `elifoot_autoplay_brain` em todo constructor — todos NPCs criados pelo engine convergiam para uma única persona (a do último autoplay save). Quebrava SPEC-117 (unique OCEAN) e golden master determinism.
+Todos NPCs criados pelo engine compartilhavam `STORAGE_KEY = 'elifoot_autoplay_brain'` via `AdaptiveBrain._restore()` no constructor. Convergiam para uma única persona (a do último autoplay save). Quebrava SPEC-117 (unique OCEAN) e marl-e2e test silenciosamente em prod.
 
 - `AdaptiveBrain` constructor agora aceita `{ skipAutoRestore }`. Engine passa `true` para NPC brains; NPCs hidratam via `BrainPersistence.js` com per-team keys.
-- Test `tests/integration/marl-e2e.test.js > NPC brains have EmotionalEngine attached` agora passa (estava falhando em main).
-- `tests/integration/deep-soak-100seasons.test.js` timeout bumped de 30s → 120s (ainda flaky em suite-load — débito para teste solo via `npm run test:soak`).
+- Regression test: `tests/regression/SPEC-117-skip-auto-restore.test.js` (5 testes — Mandamento #6 — 3-artefact).
+- Test `tests/integration/marl-e2e.test.js > NPC brains have EmotionalEngine attached` agora passa.
+
+**Bundle code-split**:
+
+- `index.js` 1.56MB → **376KB** (-76%, gzip 110KB). 16 views via `React.lazy()` + `Suspense` fallback.
+- Eager mantido: `StartView`, `DashboardView`, `Sidebar`, `FloatingBugButton`, `AudioController`, `EfButton`.
+- Inline `isTutorialDone` em `StartView.jsx` elimina `INEFFECTIVE_DYNAMIC_IMPORT`.
+
+**Lint cleanup** (180+ → 130 warnings, 0 errors):
+
+- 6 `react-hooks/rules-of-hooks` (bugs reais) corrigidos em `MarketView.jsx` (early-return movido para depois dos `useState`).
+- 47 imports `React` mortos removidos via codemod (React 19 JSX runtime — main usava `/* eslint-disable no-unused-vars */` band-aid).
+- `TutorialView.jsx`: `backgroundColor` duplicado removido (lint error blocker).
+
+**Isolation de testes**:
+
+- `tests/_setup-isolate-localstorage.js` + `setupFiles` no `vite.config.js` limpam `localStorage` no início de cada suite. Resolve root cause de flakies order-dependent (`.vitest-localstorage*` persistia state entre runs). Mais granular que `fileParallelism: false` que main usava como mitigação.
+
+**SDD enforcement local**:
+
+- `scripts/spec-check.sh` copiado de `~/bin/`. CI workflow já referenciava com fallback.
+
+**Root cleanup** (4.5MB de artefatos transientes deletados):
+
+- 3× screenshots, `vitest_report.json`, `test_output.txt`, `build_errors.log`, `audit-escudos.html`, `shield-audit.html`, `fifa_sample.csv` stub, `lint_output.txt`, `lint_json.json`.
+- 11 scripts ad-hoc órfãos: `audit_ui.cjs`, `check_teams.{cjs,js}`, `fix_*.{py,cjs,js}`, `test_{squad,ui,localstorage}*`, `screenshot*.js`. Nenhum referenciado em `package.json`/CI.
+- `.gitignore` patterns previnem regressão.
+
+**Débitos restantes** (documentados para próximo PR):
+
+- `tests/integration/deep-soak-100seasons.test.js` flaky em suite-load (main bumped pra 600s + inline clear; ainda intermitente — débito para `npm run test:soak` solo).
+- 14 `react-hooks/set-state-in-effect` warnings — anti-pattern, sem mudança comportamental urgente.
+- SPEC formal para code-split + skipAutoRestore (escopo de pre-implementação não documentado — débito SDD).
 
 ### [docs] AKITA-203 — Documentação canônica Akita (2026-05-11)
 
