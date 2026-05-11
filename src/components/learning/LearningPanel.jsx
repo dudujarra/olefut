@@ -150,7 +150,9 @@ export default function LearningPanel({ controllerRef }) {
             >
                 <span>📈 LEARNING REAL-TIME (SPEC-123) {open ? '▼' : '▶'}</span>
                 <span style={{ fontSize: '0.72rem', color: '#888' }}>
-                    {brainSummary.states} states · {brainSummary.totalUpdates} updates · {memory.length} memories
+                    {brainSummary.states} states · {brainSummary.totalUpdates} upd · {memory.length} mem
+                    {brainSummary.replayBuffer > 0 && ` · ${brainSummary.replayBuffer} replay`}
+                    {brainSummary.activeTraces > 0 && ` · ${brainSummary.activeTraces} traces`}
                 </span>
             </div>
 
