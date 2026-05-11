@@ -83,22 +83,34 @@ export function npcTacticDecision(team, engine) {
 // ─── TRAINING DECISION ───────────────────────────────────────
 
 /**
- * NPC decide treinamento baseado em personality + contexto.
- * Formador → prioriza youth. Guardiola → tactical. Kamikaze → attacking.
+ * NPC decide treinamento via brain ML (was heuristic-only).
+ * Falls back to personality-based preference if no brain.
  *
  * @param {Object} team
+ * @param {Object} engine — game engine reference (for state context)
  * @param {Array<string>} availableTrainings — IDs de treino disponíveis
  * @returns {string} trainingId
  */
-export function npcTrainingDecision(team, availableTrainings = []) {
+export function npcTrainingDecision(team, engine, availableTrainings = []) {
     if (!availableTrainings.length) return 'fitness';
     const brain = team.brain;
-    if (!brain) return availableTrainings[Math.floor(systemRng() * availableTrainings.length)];
 
-    const personality = brain.personality;
+    // ML path: use brain.pickAction like player AutoPlayService does
+    if (brain) {
+        const ctx = buildNpcStateCtx(team, engine);
+        const stateKey = encodeState(ctx);
+        const trainingActions = availableTrainings.map(id => `TRAIN_${id}`);
+        const picked = brain.pickAction(stateKey, trainingActions, ctx);
+        if (picked) {
+            // Save for reward observation
+            team._lastTrainingDecision = { stateKey, action: picked };
+            return picked.replace(/^TRAIN_/, '');
+        }
+    }
+
+    // Fallback: personality-based heuristic (no brain or cold-start)
+    const personality = brain?.personality;
     const bias = personality?.tacticalBias || 'normal';
-
-    // Map personality bias → preferred training
     const preferenceMap = {
         'possession': ['tactical', 'technical', 'fitness'],
         'attacking': ['attack', 'technical', 'fitness'],
@@ -107,15 +119,11 @@ export function npcTrainingDecision(team, availableTrainings = []) {
         'counter': ['tactical', 'defensive', 'attack'],
         'pressing': ['fitness', 'tactical', 'attack']
     };
-
     const preferred = preferenceMap[bias] || preferenceMap.normal;
-
-    // Pick first available from preference list
     for (const pref of preferred) {
         const match = availableTrainings.find(t => t.includes(pref));
         if (match) return match;
     }
-
     return availableTrainings[0];
 }
 

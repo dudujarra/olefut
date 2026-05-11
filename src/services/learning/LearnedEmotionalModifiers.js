@@ -35,7 +35,8 @@ const STORAGE_KEY = 'elifoot_emotion_sarsa';
 const ALPHA = 0.08;      // learning rate (slightly lower than Q-learning for stability)
 const GAMMA = 0.85;       // discount factor
 const LAMBDA = 0.6;       // trace decay (shorter than Q(λ) — emotions are more local)
-const EPSILON = 0.12;     // exploration rate
+const EPSILON = 0.12;     // base exploration rate
+const MIN_EPSILON = 0.03; // floor after decay
 const TRACE_MIN = 0.01;
 const MAX_STATES = 200;   // bound state table
 const REWARD_CLIP = 20;   // soft-clip for SARSA (tighter than Q-Learning)
@@ -146,8 +147,11 @@ export class LearnedEmotionalModifiers {
      * @returns {{ actionId: string, modifiers: Object }}
      */
     pickResponse(stateKey) {
-        // ε-greedy exploration
-        if (systemRng() < EPSILON || !this.qTable[stateKey]) {
+        // Visit-based ε-decay: explore less as states become familiar
+        const visits = this.visitCount[stateKey] || 0;
+        const effectiveEpsilon = Math.max(MIN_EPSILON, EPSILON / (1 + visits * 0.1));
+
+        if (systemRng() < effectiveEpsilon || !this.qTable[stateKey]) {
             const idx = Math.floor(systemRng() * EMOTIONAL_ACTIONS.length);
             const action = EMOTIONAL_ACTIONS[idx];
             return { actionId: action.id, modifiers: { ...action } };
