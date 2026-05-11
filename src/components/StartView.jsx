@@ -1,9 +1,12 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { RealDB } from '../engine/db/index';
 import { PERSONALITIES } from '../engine/PlayerCareer';
-import { isTutorialDone } from './TutorialView';
+// AKITA-105: inline para evitar puxar TutorialView (heavy) ao chunk inicial
+// via StartView (eager). Vite emitia INEFFECTIVE_DYNAMIC_IMPORT.
+const isTutorialDone = () => {
+    try { return localStorage.getItem('elifoot_tutorial_done') !== null; } catch { return false; }
+};
 import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';

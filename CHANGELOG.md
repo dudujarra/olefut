@@ -4,6 +4,38 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### [chore] AKITA-106 — Cleanup root clutter (2026-05-11)
+
+- Remove 4.5MB de artefatos transientes commitados: `screenshot*.png` (3.6MB), `vitest_report.json` (328KB), `test_output.txt` (144KB), `build_errors.log` (20KB), `audit-escudos.html` (76KB), `shield-audit.html`, `fifa_sample.csv` (stub 404).
+- Remove 11 scripts ad-hoc órfãos do root (`audit_ui.cjs`, `check_teams.{cjs,js}`, `fix_{brand,quotes,styles,ui}.{py,cjs,js}`, `test_{squad,ui}.{cjs,js}`, `test-localstorage.js`, `screenshot.js`, `screenshot_squad.js`) — nenhum referenciado em `package.json` ou CI.
+- `.gitignore` ganha padrões `*.log`, `screenshot*.png`, `test_output*.txt`, `vitest_report.json`, `audit-*.html`, `shield-audit.html`, `fifa_sample.csv` para impedir regressão.
+
+### [feat] AKITA-105 — Code-split bundle + isolamento de testes (2026-05-11)
+
+- **Bundle**: `index.js` 1.56MB → **376KB** (-76%, gzip 110KB). Todas as 17 views via `React.lazy()` + `Suspense`. `EfButton` mantido eager como shared chunk.
+- **Lint**: 180 → **133 warnings**, 0 errors. 6 `react-hooks/rules-of-hooks` (bugs reais) corrigidos em `MarketView.jsx`. 47 imports `React` mortos removidos em batch (React 19 JSX runtime).
+- **Isolamento de testes**: `tests/_setup-isolate-localstorage.js` + `setupFiles` no `vite.config.js` limpam `localStorage` no início de cada suite. Root cause dos flakies order-dependent: `.vitest-localstorage*` persistia state entre runs. Arquivos gitignored.
+- **SDD enforcement local**: `scripts/spec-check.sh` copiado de `~/bin/`. CI já referenciava; agora também local.
+- **Inline `isTutorialDone`** em `StartView.jsx`: elimina `INEFFECTIVE_DYNAMIC_IMPORT`.
+
+### [fix] AKITA-104 — Fecha 18 vermelhos pós-integração de dados reais (2026-05-11)
+
+Cluster de regressões herdado de AKITA-100..102. Todos com regression test correspondente.
+
+- `YouthAcademy.generateYouthIntake` usa stats flat (`attacking/technical/tactical/defending/creativity`) em vez do `player.attributes` removido pelo `generatePlayer` atual.
+- `AdaptiveBrain.encodeState` realinhado com SPEC-116: 6 dims, nomes longos. `divTier` (AUDIT-FIX #10 sem spec — vibe addition) removido.
+- `src/data/clubColors.js` ganha `CLUB_NAME_ALIASES` + Proxy resolvendo 46 nomes oficiais → 170 entradas canônicas.
+- `AdaptiveBrain` constructor aceita `{ skipAutoRestore }`. Engine usa para NPC brains — todos compartilhavam `STORAGE_KEY` do autoplay (bug latente em prod).
+- `engine.initGame.restoreAllBrains` só roda fora de test env (golden master determinism).
+- `TutorialView.jsx`: remove `backgroundColor` duplicado.
+- `SPEC-025-aging`, `SPEC-134-growth-event-system`, `autoplay-full-audit`: pin seed em `beforeEach/beforeAll`.
+
+### [docs] AKITA-103 — Fechamento dos gaps Akita na documentação (2026-05-11)
+
+Criados: `CLAUDE.md` (Mandamento #4 fonte única), `LICENSE` MIT, `CONTRIBUTING.md`, `GEMINI.md` + `CODEX.md` (espelhos multi-IA), `specs/generators/{code,research,pipeline,decision}.md`, `.github/ISSUE_TEMPLATE/feature_request.md`.
+
+Atualizados: `AKITA_RULES.md` (7 mandamentos globais), `README.md` (badges + Numbers corrigidos), `BUGS.md`, `SPECS-MASTER-GUIDE.md` (30→97 specs), `.github/PULL_REQUEST_TEMPLATE.md` + `bug_report.md` (Regra 0 explícita).
+
 ### [feat] v2.0.0 — SNES Pacaembu Edition (2026-05-08)
 
 Massive 6-sprint cohesive design + motion overhaul. Estética 32-bit SNES ISS Deluxe / PS1-era, paleta Pacaembu (grass green #2D5A3D, gold #FFD700, leather brown #6B3D1F), narrative event banners, atmospheric backdrops, animation strips e cleanup legacy.

@@ -1,30 +1,39 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { useGame } from './context/GameContext';
+// Eager: rotas de entrada (StartView é a primeira tela; DashboardView é o hub
+// principal acessado em quase todo gameplay). Outras rotas viram chunks
+// separados via lazy() para reduzir o bundle inicial (AKITA-105 V2).
 import { StartView } from './components/StartView';
 import { DashboardView } from './components/DashboardView';
-import { PlayerDashboardView } from './components/PlayerDashboardView';
-import { PlayerMatchView } from './components/PlayerMatchView';
-import { SquadView } from './components/SquadView';
-import { MarketView } from './components/MarketView';
-import { StandingsView } from './components/StandingsView';
-import { MatchView } from './components/MatchView';
-import { MonitorView } from './components/MonitorView';
-import { FloatingBugButton } from './components/FloatingBugButton';
 import { Sidebar } from './components/Sidebar';
-import { CosmeticShopView } from './components/CosmeticShopView';
-import { AutoPlayView } from './components/AutoPlayView';
-import { StyleguideView } from './components/StyleguideView';
-import { AchievementsView } from './components/AchievementsView';
-import { TutorialView } from './components/TutorialView';
-import { PressView } from './components/PressView';
-import { SaveSlotsView } from './components/SaveSlotsView';
-import { RivalriesView } from './components/RivalriesView';
-import { ChronicleView } from './components/ChronicleView';
+import { FloatingBugButton } from './components/FloatingBugButton';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
 import { AudioController } from './audio/AudioController.jsx';
 import { EfButton } from './components/ui/EfButton';
+
+const PlayerDashboardView = lazy(() => import('./components/PlayerDashboardView').then(m => ({ default: m.PlayerDashboardView })));
+const PlayerMatchView = lazy(() => import('./components/PlayerMatchView').then(m => ({ default: m.PlayerMatchView })));
+const SquadView = lazy(() => import('./components/SquadView').then(m => ({ default: m.SquadView })));
+const MarketView = lazy(() => import('./components/MarketView').then(m => ({ default: m.MarketView })));
+const StandingsView = lazy(() => import('./components/StandingsView').then(m => ({ default: m.StandingsView })));
+const MatchView = lazy(() => import('./components/MatchView').then(m => ({ default: m.MatchView })));
+const MonitorView = lazy(() => import('./components/MonitorView').then(m => ({ default: m.MonitorView })));
+const CosmeticShopView = lazy(() => import('./components/CosmeticShopView').then(m => ({ default: m.CosmeticShopView })));
+const AutoPlayView = lazy(() => import('./components/AutoPlayView').then(m => ({ default: m.AutoPlayView })));
+const StyleguideView = lazy(() => import('./components/StyleguideView').then(m => ({ default: m.StyleguideView })));
+const AchievementsView = lazy(() => import('./components/AchievementsView').then(m => ({ default: m.AchievementsView })));
+const TutorialView = lazy(() => import('./components/TutorialView').then(m => ({ default: m.TutorialView })));
+const PressView = lazy(() => import('./components/PressView').then(m => ({ default: m.PressView })));
+const SaveSlotsView = lazy(() => import('./components/SaveSlotsView').then(m => ({ default: m.SaveSlotsView })));
+const RivalriesView = lazy(() => import('./components/RivalriesView').then(m => ({ default: m.RivalriesView })));
+const ChronicleView = lazy(() => import('./components/ChronicleView').then(m => ({ default: m.ChronicleView })));
+
+const Fallback = () => (
+    <div style={{ padding: '24px', color: 'var(--text-muted)', fontFamily: "'JetBrains Mono', monospace" }}>
+        CARREGANDO…
+    </div>
+);
 
 // Install global error handlers (idempotente)
 MonitorService.getInstance().install();
@@ -144,7 +153,9 @@ function App() {
                 )}
                 
                 <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    {renderView()}
+                    <Suspense fallback={<Fallback />}>
+                        {renderView()}
+                    </Suspense>
                 </main>
                 
                 <FloatingBugButton />

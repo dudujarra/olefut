@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { SCOUT_REGIONS } from '../engine/StadiumSystem';
 import { PlayerAvatar } from '../utils/avatar';
@@ -12,10 +11,6 @@ import { ShoppingCart, Bank, CurrencyDollar, MagnifyingGlass, Funnel, Users, Sto
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate, getDashboardView } = useGame();
-    const engine = getEngine();
-    const team = engine.getTeam(gameState.teamId);
-    if (!team) return null;
-
     const [tab, setTab] = useState('buy');
     const [log, setLog] = useState('');
     const [negotiation, setNegotiation] = useState(null); // {playerId, round, counterAmount}
@@ -23,6 +18,10 @@ export function MarketView() {
     const [marketFilter, setMarketFilter] = useState('all'); // pos
     const [marketSort, setMarketSort] = useState('ovr'); // ovr | price | age | name
     const [marketSearch, setMarketSearch] = useState('');
+
+    const engine = getEngine();
+    const team = engine.getTeam(gameState.teamId);
+    if (!team) return null;
 
     const handleBuy = (player) => {
         if (team.balance < player.value) return;
