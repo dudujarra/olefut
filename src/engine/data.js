@@ -2,7 +2,19 @@ import { rng } from './rng.js';
 import { calcMarketValue } from './MarketPricer.js';
 import realPlayers from '../data/realPlayers.json';
 
-const ALL_REAL_NAMES = realPlayers.map(p => p.name);
+const FIRST_NAMES = [];
+const LAST_NAMES = [];
+
+realPlayers.forEach(p => {
+    const nameStr = p.shortName || p.name;
+    const parts = nameStr.split(' ');
+    if (parts.length > 1) {
+        FIRST_NAMES.push(parts[0]);
+        LAST_NAMES.push(parts[parts.length - 1]);
+    } else {
+        FIRST_NAMES.push(parts[0]);
+    }
+});
 const PLAYERS_BY_TEAM = {};
 realPlayers.forEach(p => {
     if (!PLAYERS_BY_TEAM[p.team]) PLAYERS_BY_TEAM[p.team] = [];
@@ -75,8 +87,8 @@ const FOOT = ["Destro", "Canhoto", "Ambidestro"];
 
 export const Data = {
     generatePlayerName() {
-        if (ALL_REAL_NAMES.length > 0) {
-            return rng.pick(ALL_REAL_NAMES);
+        if (FIRST_NAMES.length > 0 && LAST_NAMES.length > 0) {
+            return `${rng.pick(FIRST_NAMES)} ${rng.pick(LAST_NAMES)}`;
         }
         return `Jogador ${rng.int(1, 9999)}`;
     },
@@ -126,10 +138,8 @@ export const Data = {
             if (isSuper) {
                 ovr = rng.int(Math.max(75, baseMin + 10), Math.min(99, baseMax + 15));
             } else {
-                // Multiplicador caótico: 0.8 a 1.2, cria de flops a hidden gems no mesmo time
-                const chaos = 0.8 + (rng() * 0.4); 
-                ovr = Math.floor(rng.int(baseMin, baseMax) * chaos);
-                ovr = Math.max(10, Math.min(99, ovr));
+                // Removido o caos extremo para manter dentro da janela da divisão
+                ovr = rng.int(baseMin, baseMax);
             }
             ovr = Math.min(ovr, maxOvrForTier);
 
