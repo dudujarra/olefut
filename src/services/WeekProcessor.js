@@ -86,7 +86,7 @@ export class WeekProcessor {
                 o => !o.deadline || o.deadline > engine.currentWeek
             );
         }
-        const newOffers = generateRealTransferOffers(team, engine.currentWeek);
+        const newOffers = generateRealTransferOffers(team, engine.currentWeek, engine.teams);
         if (newOffers.length > 0) {
             engine.transferOffers.push(...newOffers);
         }

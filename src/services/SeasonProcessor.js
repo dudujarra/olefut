@@ -328,6 +328,67 @@ export class SeasonProcessor {
                 });
             });
         } catch { /* defensive */ }
+
+        // SPEC-200: Process ALL NPC teams (prestige, budget, contracts)
+        this._processNPCSeasonEnd(engine, team);
+    }
+
+    /**
+     * SPEC-200: Processa fim de temporada para TODOS os times NPC.
+     * - Recalcula prestige de cada time
+     * - Ajusta budgets baseado em divisão (TV money)
+     * - Envelhece contratos de NPC → gera free agents
+     * - Incrementa _seasonsAtClub dos jogadores
+     */
+    _processNPCSeasonEnd(engine, playerTeam) {
+        try {
+            const { calcPrestige } = require('../engine/AmbitionEngine');
+            const SEASON_BUDGET_BY_DIV = { 1: 12_000_000, 2: 5_000_000, 3: 2_000_000, 4: 800_000 };
+
+            for (const t of (engine.teams || [])) {
+                // Prestige recalc
+                t._prestige = calcPrestige(t);
+
+                // Budget injection (TV money): NPCs ganham orçamento sazonal
+                if (t.id !== playerTeam?.id) {
+                    const seasonBudget = SEASON_BUDGET_BY_DIV[t.division] || 800_000;
+                    t.balance = (t.balance || 0) + seasonBudget;
+                    // Cap NPC balance to prevent infinite accumulation
+                    t.balance = Math.min(t.balance, seasonBudget * 5);
+                }
+
+                // Contract aging + free agents for ALL teams
+                for (const p of (t.squad || [])) {
+                    // Incrementar tempo no clube
+                    p._seasonsAtClub = (p._seasonsAtClub || 0) + 1;
+
+                    // Contract aging: diminui weeksLeft
+                    if (p.contract) {
+                        p.contract.weeksLeft = (p.contract.weeksLeft || 52) - 38; // 1 season ≈ 38 weeks
+                        // Contract expired → free agent (NPC only)
+                        if (p.contract.weeksLeft <= 0 && t.id !== playerTeam?.id) {
+                            p._contractExpired = true;
+                        }
+                    }
+                }
+
+                // Remove expired NPC contracts → move to market pool
+                if (t.id !== playerTeam?.id) {
+                    const expired = (t.squad || []).filter(p => p._contractExpired);
+                    expired.forEach(p => {
+                        delete p._contractExpired;
+                        p.contract = { weeksLeft: 0 };
+                        // Add to market pool as free agent
+                        if (engine.marketPlayers) {
+                            engine.marketPlayers.push({ ...p, salary: Math.floor((p.salary || 5000) * 0.7) });
+                        }
+                    });
+                    t.squad = (t.squad || []).filter(p => !p._contractExpired);
+                }
+            }
+        } catch (err) {
+            console.warn('[SeasonProcessor] NPC season end error:', err.message);
+        }
     }
 
     /** @private */

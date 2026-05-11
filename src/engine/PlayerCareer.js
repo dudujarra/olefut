@@ -112,14 +112,12 @@ export class ProPlayer {
         this.subAttrProgress = {};
         ALL_SUB_ATTRS.forEach(a => { this.subAttrProgress[a] = 0; });
 
-        // Atributos do jogador no squad do time (para a Engine usar)
-        this.attributes = {
-            FIS: this.skills.pace,
-            DEF: this.skills.power,
-            CRI: this.skills.vision,
-            FIN: this.skills.technique,
-            REF: 50
-        };
+        // SCHEMA-UNIFIED: stats root-level (matching data.js generatePlayer)
+        this.attacking  = this.skills.pace;
+        this.technical  = this.skills.technique;
+        this.defending  = this.skills.power;
+        this.creativity = this.skills.vision;
+        this.tactical   = 50;
 
         // Energia e economia
         this.energy = 100;

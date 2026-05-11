@@ -382,25 +382,27 @@ export function processMentoring(squad) {
 
     if (mentors.length === 0 || mentees.length === 0) return events;
 
+    // SCHEMA-UNIFIED: usa root-level stats
+    const STAT_KEYS = ['attacking', 'technical', 'tactical', 'defending', 'creativity'];
+
     // One mentoring session per week (10% chance per eligible pair)
     for (const mentee of mentees) {
         if (systemRng() > 0.10) continue;
         const mentor = mentors[Math.floor(systemRng() * mentors.length)];
 
         // Mentee gets a small boost to a random attr
-        const attrs = Object.keys(mentee.attributes);
-        const attr = attrs[Math.floor(systemRng() * attrs.length)];
+        const attr = STAT_KEYS[Math.floor(systemRng() * STAT_KEYS.length)];
         const boost = 1;
-        const oldVal = mentee.attributes[attr];
-        mentee.attributes[attr] = Math.min(99, oldVal + boost);
+        const oldVal = mentee[attr] || 50;
+        mentee[attr] = Math.min(99, oldVal + boost);
 
-        if (mentee.attributes[attr] > oldVal) {
+        if (mentee[attr] > oldVal) {
             // Mentee moral boost
             mentee.moral = Math.min(100, (mentee.moral || 50) + 3);
             // Mentor feels valued
             mentor.moral = Math.min(100, (mentor.moral || 50) + 1);
 
-            events.push(`📚 ${mentor.name} treinou ${mentee.name}: ${attr} ${oldVal}→${mentee.attributes[attr]}`);
+            events.push(`📚 ${mentor.name} treinou ${mentee.name}: ${attr} ${oldVal}→${mentee[attr]}`);
         }
         break; // One mentoring per week
     }

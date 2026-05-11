@@ -277,7 +277,11 @@ export class Engine {
                     id: 'pro_player',
                     name: name,
                     position: playerPosition,
-                    attributes: { ...this.proPlayer.attributes },
+                    attacking: this.proPlayer.attacking,
+                    technical: this.proPlayer.technical,
+                    tactical: this.proPlayer.tactical,
+                    defending: this.proPlayer.defending,
+                    creativity: this.proPlayer.creativity,
                     ovr: 50,
                     age: 17,
                     energy: 100,
@@ -427,11 +431,9 @@ export class Engine {
             return Math.floor(ratings.reduce((s, r) => s + r, 0) / ratings.length);
         };
 
-        // BUG-096: avg uses optional chaining for safety, but also run ensureAttributes
-        // on each player in the sector computation to prevent crashes in subsequent code paths
+        // SCHEMA-UNIFIED: avg reads root-level stat keys
         const avg = (arr, attr) => arr.length === 0 ? 0 : Math.floor(arr.reduce((s, p) => {
-            if (!p.attributes) p.attributes = { FIS: 50, DEF: 50, CRI: 50, FIN: 50, REF: 50 };
-            return s + (p.attributes[attr] || 50);
+            return s + (p[attr] || 50);
         }, 0) / arr.length);
 
         // BUG-055 fix: when 0 titulares in position, fallback to ANY squad player
@@ -457,10 +459,10 @@ export class Engine {
         };
 
         return {
-            attack:     finalSector(avgPentagon(ataPlayers), avg(ataPlayers, 'FIN')),
-            midfield:   finalSector(avgPentagon(meiPlayers), avg(meiPlayers, 'CRI')),
-            defense:    finalSector(avgPentagon(defPlayers), avg(defPlayers, 'DEF')),
-            goalkeeper: finalSector(avgPentagon(golPlayers), avg(golPlayers, 'REF'))
+            attack:     finalSector(avgPentagon(ataPlayers), avg(ataPlayers, 'attacking')),
+            midfield:   finalSector(avgPentagon(meiPlayers), avg(meiPlayers, 'creativity')),
+            defense:    finalSector(avgPentagon(defPlayers), avg(defPlayers, 'defending')),
+            goalkeeper: finalSector(avgPentagon(golPlayers), avg(golPlayers, 'defending'))
         };
     }
 
@@ -1351,11 +1353,11 @@ export class Engine {
 
             this.proPlayer.energy = Math.max(0, this.proPlayer.energy - this.proPlayer.energyDecayRate);
 
-            // Sync attributes
-            this.proPlayer.attributes.FIS = this.proPlayer.skills.pace;
-            this.proPlayer.attributes.DEF = this.proPlayer.skills.power;
-            this.proPlayer.attributes.CRI = this.proPlayer.skills.vision;
-            this.proPlayer.attributes.FIN = this.proPlayer.skills.technique;
+            // SCHEMA-UNIFIED: Sync root-level stats from skills
+            this.proPlayer.attacking  = this.proPlayer.skills.pace;
+            this.proPlayer.defending  = this.proPlayer.skills.power;
+            this.proPlayer.creativity = this.proPlayer.skills.vision;
+            this.proPlayer.technical  = this.proPlayer.skills.technique;
 
             // Reset weekly slots
             this.proPlayer.resetWeeklySlots();

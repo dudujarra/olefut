@@ -87,16 +87,26 @@ export function makeOffer({ playerOvr, playerAge, playerPotential, playerContrac
 
 /**
  * Substitui generateTransferOffers do ManagerSystems com precificação real.
- * Retorna ofertas para jogadores do time usando MarketPricer.
+ * SPEC-200: Agora aceita allTeams para encontrar compradores contextuais
+ * em vez de usar nomes hardcoded de clubes europeus.
  */
-export function generateRealTransferOffers(team, currentWeek) {
+export function generateRealTransferOffers(team, currentWeek, allTeams = []) {
     if (currentWeek > 4 && currentWeek < 20) return [];
     if (currentWeek > 24) return [];
 
+    // Lazy import to avoid circular dependency
+    let findContextualBuyers;
+    try {
+        findContextualBuyers = require('./AmbitionEngine').findContextualBuyers;
+    } catch { findContextualBuyers = null; }
+
     const offers = [];
     team.squad.forEach(player => {
-        if (player.ovr >= 65 && systemRng() < 0.12) {
-            const need = player.ovr >= 80 ? 'high' : 'medium';
+        // Jogadores com transfer request têm chance muito maior de receber oferta
+        const baseChance = player._transferRequested ? 0.40 : 0.12;
+        if (player.ovr >= 65 && systemRng() < baseChance) {
+            const need = player._transferRequested ? 'high' : (player.ovr >= 80 ? 'high' : 'medium');
+            const willingness = player._transferRequested ? 'forced' : 'open';
             const result = makeOffer({
                 playerOvr: player.ovr,
                 playerAge: player.age || 25,
@@ -104,8 +114,17 @@ export function generateRealTransferOffers(team, currentWeek) {
                 playerContract: player.contract?.weeksLeft ?? 26,
                 playerForm: player.form?.trend || 0,
                 need,
-                sellingWillingness: 'open',
+                sellingWillingness: willingness,
             });
+
+            // SPEC-200: usar compradores contextuais se disponível
+            let buyerClub = getContextualBuyerName(player, allTeams, team, findContextualBuyers);
+
+            // Se tem relegation clause, usar o valor da cláusula como teto
+            if (player._relegationClause && player._relegationClauseValue) {
+                result.offerPrice = Math.min(result.offerPrice, player._relegationClauseValue);
+            }
+
             offers.push({
                 playerId: player.id,
                 playerName: player.name,
@@ -113,8 +132,10 @@ export function generateRealTransferOffers(team, currentWeek) {
                 offerAmount: result.offerPrice,
                 marketValue: result.marketValue,
                 spread: result.spread,
-                buyerClub: getRandomBuyer(),
+                buyerClub,
                 deadline: currentWeek + 2,
+                isTransferRequest: !!player._transferRequested,
+                isRelegationClause: !!player._relegationClause,
             });
         }
     });
@@ -173,11 +194,23 @@ function seededRandom(seed) {
     };
 }
 
-const BUYERS = [
-    'Manchester City', 'PSG', 'Real Madrid', 'Bayern Munich', 'Barcelona',
-    'Inter Milan', 'Liverpool', 'Chelsea', 'Juventus', 'Atletico Madrid',
-    'Borussia Dortmund', 'AC Milan', 'Arsenal', 'Napoli', 'Tottenham',
-];
-function getRandomBuyer() {
-    return BUYERS[Math.floor(systemRng() * BUYERS.length)];
+/**
+ * SPEC-200: Tenta encontrar comprador contextual do mundo do jogo.
+ * Fallback para nomes genéricos se allTeams não disponível.
+ */
+function getContextualBuyerName(player, allTeams, sellerTeam, findContextualBuyers) {
+    if (findContextualBuyers && allTeams && allTeams.length > 0) {
+        try {
+            const buyers = findContextualBuyers(player, allTeams, sellerTeam);
+            if (buyers.length > 0) {
+                return buyers[0].teamName;
+            }
+        } catch { /* fallback */ }
+    }
+    // Fallback: gera nome genérico baseado na divisão
+    const FALLBACK_BUYERS = [
+        'Clube Internacional', 'Equipe Europeia', 'Time Asiático',
+        'Clube da MLS', 'Time Mexicano', 'Equipe Árabe',
+    ];
+    return FALLBACK_BUYERS[Math.floor(systemRng() * FALLBACK_BUYERS.length)];
 }
