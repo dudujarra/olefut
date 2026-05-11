@@ -1,42 +1,13 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { SCOUT_REGIONS } from '../engine/StadiumSystem';
-import { getPlayerTraits } from '../engine/PlayerTraits';
 import { PlayerAvatar } from '../utils/avatar';
 import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui/EfClubBadge';
+import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgOffice from '../assets/environments/bg_transfer_market.png';
-
-// 16-bit Brutalist Panel Component for Market
-const MarketPanel = ({ children, title, flex }) => (
-    <div style={{
-        background: '#1E2124',
-        border: '4px solid',
-        borderColor: '#4A5059 #111417 #111417 #4A5059',
-        padding: '16px',
-        boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)',
-        flex: flex || 'none',
-        display: 'flex',
-        flexDirection: 'column'
-    }}>
-        {title && (
-            <div style={{
-                background: '#111',
-                padding: '8px',
-                borderBottom: '2px solid #333',
-                marginBottom: '12px',
-                fontFamily: "'Press Start 2P', monospace",
-                color: '#FFD700',
-                fontSize: '0.7rem',
-                textShadow: '2px 2px 0 #000'
-            }}>
-                {title}
-            </div>
-        )}
-        {children}
-    </div>
-);
+import { ShoppingCart, Bank, CurrencyDollar, MagnifyingGlass, Funnel, Users, Storefront, ChartLineUp, Handshake, GlobeHemisphereWest, CheckCircle } from '@phosphor-icons/react';
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate, getDashboardView } = useGame();
@@ -87,110 +58,136 @@ export function MarketView() {
     };
 
     const sellable = team.squad.filter(p => !p.isTitular && !p.injury);
+    const fontMono = { fontFamily: "'JetBrains Mono', 'Geist Mono', monospace" };
 
     return (
-        <div className="ef-anim-fade-in" style={{
-            backgroundImage: `url(${bgOffice})`,
-            imageRendering: 'pixelated',
-            WebkitImageRendering: 'pixelated',
-            backgroundColor: '#0A130E',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100dvh',
-            padding: '16px',
-            color: '#E2E8F0',
-            fontFamily: "'Outfit', sans-serif"
-        }}>
-            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgOffice})` }}>
+            <div className="ef-layout-container" style={{ maxWidth: '1100px' }}>
 
-                {/* HEADER */}
-                <div style={{
-                    background: '#1E2124',
-                    border: '4px solid',
-                    borderColor: '#4A5059 #111417 #111417 #4A5059',
-                    padding: '16px',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    boxShadow: '0 8px 0 rgba(0,0,0,0.8)'
-                }}>
-                    <div style={{display:'flex',alignItems:'center',gap:'16px'}}>
+                {/* HEADER HERO */}
+                <EfPanel variant="elev" padding="md" className="ef-flex-row" style={{ justifyContent: 'space-between' }}>
+                    <div className="ef-flex-row">
                         <EfClubBadge name={team.name} size="md" />
                         <div>
-                            <h2 style={{fontFamily: "'Press Start 2P', monospace", color: '#FFD700', margin: '0 0 8px 0', fontSize: '1.2rem', textShadow: '3px 3px 0 #000'}}>MERCADO DE TRANSFERÊNCIAS</h2>
-                            <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem', color: '#888'}}>DIRETORIA FINANCEIRA</span>
+                            <h2 style={{ margin: 0, fontSize: '1.4rem', color: 'var(--text-main)', fontFamily: 'Satoshi, sans-serif' }}>
+                                Mercado de Transferências
+                            </h2>
+                            <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', ...fontMono }}>
+                                DIRETORIA FINANCEIRA
+                            </div>
                         </div>
                     </div>
                     <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>SAIR</EfButton>
-                </div>
+                </EfPanel>
 
-                {/* CLUB FINANCES */}
-                <div style={{
-                    background: '#111',
-                    border: '4px solid',
-                    borderColor: '#333 #000 #000 #333',
-                    padding: '16px',
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    alignItems: 'center'
-                }}>
-                    <div style={{textAlign: 'center'}}>
-                        <span style={{display: 'block', fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem', color: '#888', marginBottom: '8px'}}>SALDO DISPONÍVEL</span>
-                        <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '1.5rem', color: team.balance > 0 ? '#4ADE80' : '#F87171', textShadow: '3px 3px 0 #000'}}>
+                {/* FINANCES BENTO */}
+                <EfPanel variant="sunk" padding="md" className="ef-flex-row" style={{ justifyContent: 'space-around' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)', fontSize: '0.75rem', ...fontMono }}>
+                            <Bank size={16} /> SALDO DISPONÍVEL
+                        </div>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: team.balance > 0 ? 'var(--primary)' : 'var(--danger)', ...fontMono }}>
                             R$ {(team.balance / 1000000).toFixed(1)}M
-                        </span>
+                        </div>
                     </div>
-                    <div style={{textAlign: 'center'}}>
-                        <span style={{display: 'block', fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem', color: '#888', marginBottom: '8px'}}>ELENCO</span>
-                        <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '1.5rem', color: '#FFF', textShadow: '3px 3px 0 #000'}}>
+                    <div style={{ width: '2px', background: 'var(--border-panel)', alignSelf: 'stretch' }} />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)', fontSize: '0.75rem', ...fontMono }}>
+                            <Users size={16} /> ELENCO
+                        </div>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: 'var(--text-main)', ...fontMono }}>
                             {team.squad.length}
-                        </span>
+                        </div>
                     </div>
-                </div>
+                </EfPanel>
 
+                {/* NOTIFICATION LOG */}
                 {log && (
                     <div className="ef-anim-pulse-glow" onClick={() => setLog('')} style={{
-                        background: '#064E3B', border: '4px solid #10B981', color: '#FFF', padding: '12px',
-                        fontFamily: "'Press Start 2P', monospace", fontSize: '0.7rem', textAlign: 'center',
-                        cursor: 'pointer', boxShadow: '0 8px 0 rgba(0,0,0,0.8)'
+                        background: '#064E3B', 
+                        border: '2px solid #10B981', 
+                        color: '#FFF', 
+                        padding: '12px',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        ...fontMono
                     }}>
+                        <CheckCircle size={20} weight="fill" color="#10B981" />
                         {log}
                     </div>
                 )}
 
                 {/* TAB SELECTORS */}
                 <div style={{ display: 'flex', gap: '8px' }}>
-                    <EfButton variant={tab === 'buy' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('buy')} style={{flex: 1}}>COMPRAR</EfButton>
-                    <EfButton variant={tab === 'sell' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('sell')} style={{flex: 1}}>VENDER</EfButton>
-                    <EfButton variant={tab === 'scout' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('scout')} style={{flex: 1}}>SCOUTING</EfButton>
+                    <EfButton variant={tab === 'buy' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('buy')} style={{flex: 1}}>
+                        <ShoppingCart size={20} /> COMPRAR
+                    </EfButton>
+                    <EfButton variant={tab === 'sell' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('sell')} style={{flex: 1}}>
+                        <CurrencyDollar size={20} /> VENDER
+                    </EfButton>
+                    <EfButton variant={tab === 'scout' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('scout')} style={{flex: 1}}>
+                        <GlobeHemisphereWest size={20} /> SCOUTING
+                    </EfButton>
                 </div>
 
                 {/* === BUY TAB === */}
                 {tab === 'buy' && (
-                    <MarketPanel title="JOGADORES DISPONÍVEIS">
-                        <div style={{display:'flex',gap:'8px',marginBottom:'16px',flexWrap:'wrap'}}>
-                            <input
-                                type="text"
-                                placeholder="NOME DO JOGADOR..."
-                                value={marketSearch}
-                                onChange={(e) => setMarketSearch(e.target.value)}
-                                style={{flex:1, padding:'12px', background:'#111', border:'4px solid', borderColor:'#333 #000 #000 #333', color:'#FFF', fontFamily: "'Press Start 2P', monospace", fontSize:'0.6rem', outline:'none'}}
-                            />
-                            <select value={marketFilter} onChange={(e) => setMarketFilter(e.target.value)} style={{padding:'12px', background:'#111', border:'4px solid', borderColor:'#333 #000 #000 #333', color:'#FFF', fontFamily: "'Press Start 2P', monospace", fontSize:'0.6rem', outline:'none', appearance: 'none'}}>
-                                <option value="all">TODAS POS</option>
-                                <option value="GOL">GOL</option>
-                                <option value="DEF">DEF</option>
-                                <option value="MEI">MEI</option>
-                                <option value="ATA">ATA</option>
-                            </select>
-                            <select value={marketSort} onChange={(e) => setMarketSort(e.target.value)} style={{padding:'12px', background:'#111', border:'4px solid', borderColor:'#333 #000 #000 #333', color:'#FFF', fontFamily: "'Press Start 2P', monospace", fontSize:'0.6rem', outline:'none', appearance: 'none'}}>
-                                <option value="ovr">MAIOR OVR</option>
-                                <option value="price">MAIOR PREÇO</option>
-                                <option value="age">MAIS VELHO</option>
-                                <option value="name">A-Z</option>
-                            </select>
+                    <EfPanel variant="default" padding="md">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: 'var(--text-main)', ...fontMono, fontSize: '0.85rem' }}>
+                            <Storefront size={20} color="var(--primary)" /> JOGADORES DISPONÍVEIS
                         </div>
+                        
+                        <div style={{ display:'flex', gap:'8px', marginBottom:'16px', flexWrap:'wrap' }}>
+                            <div style={{ flex: 1, position: 'relative' }}>
+                                <MagnifyingGlass size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+                                <input
+                                    type="text"
+                                    placeholder="NOME DO JOGADOR..."
+                                    value={marketSearch}
+                                    onChange={(e) => setMarketSearch(e.target.value)}
+                                    style={{
+                                        width: '100%', padding: '12px 12px 12px 36px', 
+                                        background: 'var(--bg-sunk)', border: '2px solid var(--border-panel)', 
+                                        color: 'var(--text-main)', ...fontMono, fontSize: '0.8rem', outline: 'none',
+                                        borderRadius: '4px'
+                                    }}
+                                />
+                            </div>
+                            <div style={{ display: 'flex', position: 'relative', width: '160px' }}>
+                                <Funnel size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                                <select value={marketFilter} onChange={(e) => setMarketFilter(e.target.value)} style={{
+                                    width: '100%', padding: '12px 12px 12px 36px', 
+                                    background: 'var(--bg-sunk)', border: '2px solid var(--border-panel)', 
+                                    color: 'var(--text-main)', ...fontMono, fontSize: '0.8rem', outline: 'none', appearance: 'none',
+                                    borderRadius: '4px'
+                                }}>
+                                    <option value="all">TODAS POS</option>
+                                    <option value="GOL">GOL</option>
+                                    <option value="DEF">DEF</option>
+                                    <option value="MEI">MEI</option>
+                                    <option value="ATA">ATA</option>
+                                </select>
+                            </div>
+                            <div style={{ display: 'flex', position: 'relative', width: '180px' }}>
+                                <ChartLineUp size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                                <select value={marketSort} onChange={(e) => setMarketSort(e.target.value)} style={{
+                                    width: '100%', padding: '12px 12px 12px 36px', 
+                                    background: 'var(--bg-sunk)', border: '2px solid var(--border-panel)', 
+                                    color: 'var(--text-main)', ...fontMono, fontSize: '0.8rem', outline: 'none', appearance: 'none',
+                                    borderRadius: '4px'
+                                }}>
+                                    <option value="ovr">MAIOR OVR</option>
+                                    <option value="price">MAIOR PREÇO</option>
+                                    <option value="age">MAIS VELHO</option>
+                                    <option value="name">A-Z</option>
+                                </select>
+                            </div>
+                        </div>
+
                         {(() => {
                             let market = [...(engine.marketPlayers || [])];
                             if (marketFilter !== 'all') market = market.filter(p => p.position === marketFilter);
@@ -208,30 +205,33 @@ export function MarketView() {
                             return (
                                 <>
                                     {market.length === 0 ? (
-                                        <div style={{background: '#111', padding: '32px', textAlign: 'center', border: '4px dashed #333', color: '#888'}}>
+                                        <div style={{ background: 'var(--bg-sunk)', padding: '32px', textAlign: 'center', border: '2px dashed var(--border-panel)', color: 'var(--text-muted)', ...fontMono }}>
                                             NENHUM JOGADOR ENCONTRADO.
                                         </div>
                                     ) : (
-                                        <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
+                                        <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
                                             {market.map(p => (
                                                 <div key={p.id} className="ef-anim-fade-in" style={{
                                                     display:'flex', justifyContent:'space-between', alignItems:'center', padding:'12px',
-                                                    background: '#111', border: '4px solid', borderColor: '#333 #000 #000 #333',
-                                                    borderLeftColor: p.ovr >= 80 ? '#FFD700' : '#333'
+                                                    background: 'var(--bg-sunk)', border: '1px solid var(--border-panel)',
+                                                    borderLeft: p.ovr >= 80 ? '4px solid var(--accent)' : '4px solid var(--border-panel)'
                                                 }}>
-                                                    <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                                                        <PlayerAvatar name={p.name} size={32} />
+                                                    <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
+                                                        <PlayerAvatar name={p.name} size={40} />
                                                         <div>
-                                                            <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.8rem', color: '#FFF', marginBottom: '6px'}}>{p.name.toUpperCase()}</div>
-                                                            <div style={{fontSize: '0.8rem', color: '#888'}}>
-                                                                <span style={{color: '#FFF', background: '#333', padding: '2px 4px'}}>{p.position}</span>
-                                                                <span style={{marginLeft: '8px'}}>OVR <strong style={{color: p.ovr >= 80 ? '#FFD700' : '#FFF'}}>{p.ovr}</strong></span>
-                                                                <span style={{marginLeft: '8px'}}>{p.age} ANOS</span>
+                                                            <div style={{ fontWeight: 'bold', color: 'var(--text-main)', marginBottom: '4px', fontFamily: 'Satoshi, sans-serif', fontSize: '1.1rem' }}>
+                                                                {p.name.toUpperCase()}
+                                                            </div>
+                                                            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', ...fontMono, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                                <span style={{ color: 'var(--bg-dark)', background: 'var(--text-muted)', padding: '2px 6px', borderRadius: '2px', fontWeight: 'bold' }}>{p.position}</span>
+                                                                <span>OVR <strong style={{ color: p.ovr >= 80 ? 'var(--accent)' : 'var(--text-main)' }}>{p.ovr}</strong></span>
+                                                                <span>•</span>
+                                                                <span>{p.age} ANOS</span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div style={{display:'flex',alignItems:'center',gap:'16px'}}>
-                                                        <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.9rem', color: '#4ADE80'}}>
+                                                    <div style={{ display:'flex', alignItems:'center', gap:'24px' }}>
+                                                        <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary)', ...fontMono }}>
                                                             R$ {(p.value / 1000000).toFixed(1)}M
                                                         </span>
                                                         <EfButton variant="primary" size="md" onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
@@ -245,33 +245,43 @@ export function MarketView() {
                                 </>
                             );
                         })()}
-                    </MarketPanel>
+                    </EfPanel>
                 )}
 
                 {/* === SELL TAB === */}
                 {tab === 'sell' && (
-                    <MarketPanel title="SEU ELENCO (VENDÁVEIS)">
+                    <EfPanel variant="default" padding="md">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: 'var(--text-main)', ...fontMono, fontSize: '0.85rem' }}>
+                            <Handshake size={20} color="var(--accent)" /> SEU ELENCO (VENDÁVEIS)
+                        </div>
+
                         {sellable.length === 0 ? (
-                            <div style={{background: '#111', padding: '32px', textAlign: 'center', border: '4px dashed #333', color: '#888'}}>
+                            <div style={{ background: 'var(--bg-sunk)', padding: '32px', textAlign: 'center', border: '2px dashed var(--border-panel)', color: 'var(--text-muted)', ...fontMono }}>
                                 NENHUM JOGADOR VENDÁVEL. TIRE-OS DA TITULARIDADE PRIMEIRO.
                             </div>
                         ) : (
-                            <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
+                            <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
                                 {sellable.sort((a,b) => b.ovr - a.ovr).map(p => (
                                     <div key={p.id} style={{
                                         display:'flex', justifyContent:'space-between', alignItems:'center', padding:'12px',
-                                        background: '#111', border: '4px solid', borderColor: '#333 #000 #000 #333'
+                                        background: 'var(--bg-sunk)', border: '1px solid var(--border-panel)'
                                     }}>
-                                        <div>
-                                            <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.8rem', color: '#FFF', marginBottom: '6px'}}>{p.name.toUpperCase()}</div>
-                                            <div style={{fontSize: '0.8rem', color: '#888'}}>
-                                                <span style={{color: '#FFF', background: '#333', padding: '2px 4px'}}>{p.position}</span>
-                                                <span style={{marginLeft: '8px'}}>OVR <strong style={{color: '#FFF'}}>{p.ovr}</strong></span>
-                                                <span style={{marginLeft: '8px'}}>{p.age} ANOS</span>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                            <PlayerAvatar name={p.name} size={40} />
+                                            <div>
+                                                <div style={{ fontWeight: 'bold', color: 'var(--text-main)', marginBottom: '4px', fontFamily: 'Satoshi, sans-serif', fontSize: '1.1rem' }}>
+                                                    {p.name.toUpperCase()}
+                                                </div>
+                                                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', ...fontMono, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                    <span style={{ color: 'var(--bg-dark)', background: 'var(--text-muted)', padding: '2px 6px', borderRadius: '2px', fontWeight: 'bold' }}>{p.position}</span>
+                                                    <span>OVR <strong style={{ color: 'var(--text-main)' }}>{p.ovr}</strong></span>
+                                                    <span>•</span>
+                                                    <span>{p.age} ANOS</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div style={{display:'flex',alignItems:'center',gap:'16px'}}>
-                                            <span style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.8rem', color: '#4ADE80'}}>
+                                        <div style={{ display:'flex', alignItems:'center', gap:'24px' }}>
+                                            <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary)', ...fontMono }}>
                                                 ~R$ {((p.ovr * 100000) / 1000000).toFixed(1)}M
                                             </span>
                                             <EfButton variant="danger" size="md" onClick={() => handleSell(p)}>VENDER</EfButton>
@@ -283,13 +293,17 @@ export function MarketView() {
 
                         {negotiation && (
                             <div className="ef-anim-fade-in" style={{
-                                marginTop: '16px', padding: '16px',
-                                background: '#3D280B', border: '4px solid #F59E0B',
-                                boxShadow: '0 8px 0 rgba(0,0,0,0.8)'
+                                marginTop: '16px', padding: '24px',
+                                background: '#2E1A05', border: '2px solid var(--accent)',
+                                borderRadius: '4px'
                             }}>
-                                <p style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.7rem', color: '#FFD700', marginBottom: '12px'}}>{negotiation.msg}</p>
-                                <p style={{fontFamily: "'Press Start 2P', monospace", fontSize: '1.2rem', color: '#FFF', marginBottom: '16px'}}>R$ {(negotiation.counterAmount / 1000000).toFixed(1)}M</p>
-                                <div style={{display:'flex',gap:'8px'}}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent)', marginBottom: '8px', ...fontMono, fontSize: '0.75rem' }}>
+                                    <Handshake size={16} /> {negotiation.msg}
+                                </div>
+                                <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: 'var(--text-main)', marginBottom: '24px', ...fontMono }}>
+                                    R$ {(negotiation.counterAmount / 1000000).toFixed(1)}M
+                                </div>
+                                <div style={{ display:'flex', gap:'8px' }}>
                                     <EfButton variant="primary" size="md" onClick={confirmSell}>ACEITAR</EfButton>
                                     <EfButton variant="secondary" size="md" onClick={() => {
                                         const newAmount = Math.floor(negotiation.counterAmount * 1.15);
@@ -301,7 +315,7 @@ export function MarketView() {
                                                 ...negotiation,
                                                 round: negotiation.round + 1,
                                                 counterAmount: newAmount,
-                                                msg: `CONTRA-PROPOSTA: R$ ${(newAmount / 1000000).toFixed(1)}M (TENTATIVA ${negotiation.round + 2}/3)`,
+                                                msg: `CONTRA-PROPOSTA (TENTATIVA ${negotiation.round + 2}/3)`,
                                             });
                                         }
                                     }}>PEDIR MAIS</EfButton>
@@ -309,38 +323,51 @@ export function MarketView() {
                                 </div>
                             </div>
                         )}
-                    </MarketPanel>
+                    </EfPanel>
                 )}
 
                 {/* === SCOUT TAB === */}
                 {tab === 'scout' && (
-                    <MarketPanel title="AGÊNCIA DE SCOUTING (OLHEIROS)">
-                        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px'}}>
+                    <EfPanel variant="default" padding="md">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: 'var(--text-main)', ...fontMono, fontSize: '0.85rem' }}>
+                            <GlobeHemisphereWest size={20} color="var(--primary)" /> AGÊNCIA DE SCOUTING (OLHEIROS)
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
                             {SCOUT_REGIONS.map(r => (
-                                <EfButton key={r.id} variant="secondary" size="lg" onClick={() => handleScout(r.id)} style={{justifyContent: 'flex-start', padding: '16px'}}>
-                                    <span style={{fontSize: '1.5rem', marginRight: '12px'}}>{r.emoji}</span>
-                                    <div style={{textAlign: 'left'}}>
-                                        <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem', color: '#FFF', marginBottom: '4px'}}>{r.name.toUpperCase()}</div>
-                                        <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem', color: '#F59E0B'}}>CUSTO: R$ {(r.cost/1000).toFixed(0)}K</div>
+                                <EfButton key={r.id} variant="secondary" size="lg" onClick={() => handleScout(r.id)} style={{ justifyContent: 'flex-start', padding: '16px', height: 'auto' }}>
+                                    <span style={{ fontSize: '2rem', marginRight: '16px' }}>{r.emoji}</span>
+                                    <div style={{ textAlign: 'left' }}>
+                                        <div style={{ fontWeight: 'bold', color: 'var(--text-main)', marginBottom: '4px', fontFamily: 'Satoshi, sans-serif' }}>{r.name.toUpperCase()}</div>
+                                        <div style={{ color: 'var(--accent)', ...fontMono, fontSize: '0.75rem' }}>CUSTO: R$ {(r.cost/1000).toFixed(0)}K</div>
                                     </div>
                                 </EfButton>
                             ))}
                         </div>
+
                         {engine.scoutedPlayers?.length > 0 && (
-                            <div style={{marginTop:'24px'}}>
-                                <h4 style={{fontFamily: "'Press Start 2P', monospace", fontSize:'0.7rem', color:'#FFD700', marginBottom:'12px'}}>JOGADORES ENCONTRADOS</h4>
-                                <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
+                            <div style={{ marginTop:'32px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: 'var(--accent)', ...fontMono, fontSize: '0.85rem' }}>
+                                    <Users size={16} /> JOGADORES ENCONTRADOS
+                                </div>
+                                <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
                                     {engine.scoutedPlayers.map((p, i) => (
                                         <div key={i} className="ef-anim-fade-in" style={{
                                             display:'flex', justifyContent:'space-between', alignItems:'center', padding:'12px',
-                                            background: '#111', border: '4px solid', borderColor: '#333 #000 #000 #333'
+                                            background: 'var(--bg-sunk)', border: '1px solid var(--border-panel)',
+                                            borderLeft: '4px solid var(--primary)'
                                         }}>
-                                            <div>
-                                                <div style={{fontFamily: "'Press Start 2P', monospace", fontSize: '0.8rem', color: '#FFF', marginBottom: '6px'}}>{p.name.toUpperCase()}</div>
-                                                <div style={{fontSize: '0.8rem', color: '#888'}}>
-                                                    <span style={{color: '#FFF', background: '#333', padding: '2px 4px'}}>{p.position}</span>
-                                                    <span style={{marginLeft: '8px'}}>OVR <strong style={{color: p.ovr >= 80 ? '#FFD700' : '#FFF'}}>{p.ovr}</strong></span>
-                                                    <span style={{marginLeft: '8px'}}>{p.age} ANOS</span>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                                <PlayerAvatar name={p.name} size={40} />
+                                                <div>
+                                                    <div style={{ fontWeight: 'bold', color: 'var(--text-main)', marginBottom: '4px', fontFamily: 'Satoshi, sans-serif', fontSize: '1.1rem' }}>
+                                                        {p.name.toUpperCase()}
+                                                    </div>
+                                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', ...fontMono, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                        <span style={{ color: 'var(--bg-dark)', background: 'var(--text-muted)', padding: '2px 6px', borderRadius: '2px', fontWeight: 'bold' }}>{p.position}</span>
+                                                        <span>OVR <strong style={{ color: p.ovr >= 80 ? 'var(--accent)' : 'var(--text-main)' }}>{p.ovr}</strong></span>
+                                                        <span>•</span>
+                                                        <span>{p.age} ANOS</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <EfButton variant="primary" size="md" onClick={() => {
@@ -353,9 +380,10 @@ export function MarketView() {
                                 </div>
                             </div>
                         )}
-                    </MarketPanel>
+                    </EfPanel>
                 )}
             </div>
         </div>
     );
 }
+
