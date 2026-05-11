@@ -21,7 +21,7 @@ import { TACTICS } from '../engine/ManagerSystems';
 import { drawCard } from '../engine/MatchEventsDeck.js';
 import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
 import { getDifficulty } from '../engine/systems/DifficultyModes.js';
-import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats } from '../engine/PlayerTraits';
+import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats, getGoalConversionBonus, getDefenseSectorBonus, getSetPieceBonus, getPenaltySaveBonus, getPenaltyConversionBonus } from '../engine/PlayerTraits';
 import { recordNpcResult } from '../engine/NpcTacticAdvisor';
 import { npcFeedMatchResult } from './learning/NpcManagerAI.js';
 
@@ -156,13 +156,18 @@ export class MatchSimulator {
         // Do NOT re-apply them here (was squaring the modifier effect).
         const homeAttackStr = homeSectors.attack / AVG_SECTOR;
         const awayDefenseStr = awaySectors.defense / AVG_SECTOR;
-        
+
         const awayAttackStr = awaySectors.attack / AVG_SECTOR;
         const homeDefenseStr = homeSectors.defense / AVG_SECTOR;
 
+        // SPEC-144: rockwall trait — +15% setor defensivo por DEF/GOL com trait
+        const homeRockwallMod = getDefenseSectorBonus(homeTeam.squad);
+        const awayRockwallMod = getDefenseSectorBonus(awayTeam.squad);
+
         // Base λ (home xG) and μ (away xG)
-        let lambda = BASE_XG_HOME * homeAttackStr * awayDefenseStr * homeMoralFactor * homeCounterMod;
-        let mu = BASE_XG_AWAY * awayAttackStr * homeDefenseStr * awayMoralFactor * awayCounterMod;
+        // rockwall reduz xG do adversário (defende melhor)
+        let lambda = BASE_XG_HOME * homeAttackStr * (awayDefenseStr * awayRockwallMod) * homeMoralFactor * homeCounterMod;
+        let mu = BASE_XG_AWAY * awayAttackStr * (homeDefenseStr * homeRockwallMod) * awayMoralFactor * awayCounterMod;
 
         // Apply DDA (Dynamic Difficulty) boost to bot if manager is on a streak
         if (isManagerHome) {
@@ -226,16 +231,25 @@ export class MatchSimulator {
 
                 if (isHomeAttacking) homeShots++; else awayShots++;
 
-                const scorer = pickRandom(attackers);
+                // SPEC-144: set_piece_target — DEF/ATA alvo de bola parada também pode marcar
+                // Nos minutos pós-escanteio (~30, ~60, ~85), incluir defenders nos candidatos
+                const isSetPieceMinute = (minute % 30 === 0 && minute > 0);
+                const scorerPool = isSetPieceMinute
+                    ? [...attackers, ...((isHomeAttacking ? homeDefenders : awayDefenders))]
+                    : attackers;
+                const scorer = pickRandom(scorerPool);
                 const formMod = scorer ? getFormModifier(scorer.form?.trend) : 1.0;
                 const traitMod = scorer ? getTraitMatchModifier(scorer, minute, isManagerHome ? homeTactic : awayTactic, false) : 1.0;
-                
+                // SPEC-144: poacher (+25% conv) + set_piece_target (+20% se minuto de bola parada)
+                const poacherMod = getGoalConversionBonus(scorer);
+                const setPieceMod = (isSetPieceMinute && scorer) ? getSetPieceBonus(scorer) : 1.0;
+
                 // Adjust shotPower threshold so average conversion = CONVERSION_RATE
                 // §2: PRD pity bonus — +10% per consecutive miss (caps at +50%)
                 const pityBonus = isHomeAttacking
                     ? Math.min(0.5, homeMissStreak * 0.10)
                     : Math.min(0.5, awayMissStreak * 0.10);
-                const shotPower = atkSectors.attack * cond.ataModifier * systemRng() * formMod * traitMod * (1 + pityBonus);
+                const shotPower = atkSectors.attack * cond.ataModifier * systemRng() * formMod * traitMod * poacherMod * setPieceMod * (1 + pityBonus);
                 const saveChance = defSectors.goalkeeper * systemRng() * 0.8; 
 
                 const chanceTemplate = narr.chance[Math.floor(systemRng() * narr.chance.length)];
@@ -275,10 +289,13 @@ export class MatchSimulator {
 
                     const assistPlayer = pickRandom(attackers.filter(p => p !== scorer));
                     const assistText = assistPlayer ? ` (assist: ${assistPlayer.name})` : '';
+                    // SPEC-144: indicar bola parada se DEF marcou com trait
+                    const setPieceLabel = (scorer?.position === 'DEF' && scorer?.traits?.includes('set_piece_target'))
+                        ? ' 🎯 (Alvo de Bola Parada!)' : '';
 
                     events.textLog.push({
                         minute,
-                        text: `⚽ ${goalText}${assistText} (${homeGoals} x ${awayGoals})`
+                        text: `⚽ ${goalText}${assistText}${setPieceLabel} (${homeGoals} x ${awayGoals})`
                     });
 
                     events.scorers.push({ minute, name: scorerName, team: attTeam.name, assist: assistPlayer?.name });
@@ -328,12 +345,31 @@ export class MatchSimulator {
         // Penalties
         if (isCup && homeGoals === awayGoals) {
             events.textLog.push({ minute: 90, text: `⚖️ Empate! Decisão nos Pênaltis!` });
-            if (systemRng() > 0.5) {
+
+            // SPEC-144: penalty_stopper e penalty_king afetam resultado
+            const homeGol = (homeTeam.squad || []).find(p => p.position === 'GOL' && p.isTitular);
+            const awayGol = (awayTeam.squad || []).find(p => p.position === 'GOL' && p.isTitular);
+            const homeTaker = pickRandom([...homeAttackers]) || null;
+            const awayTaker = pickRandom([...awayAttackers]) || null;
+
+            // Base 50/50 ajustado por traits
+            const homeSaveBonus  = getPenaltySaveBonus(homeGol);           // home GOL defende tiro away
+            const awaySaveBonus  = getPenaltySaveBonus(awayGol);           // away GOL defende tiro home
+            const homeKingBonus  = getPenaltyConversionBonus(homeTaker);   // home taker converte
+            const awayKingBonus  = getPenaltyConversionBonus(awayTaker);   // away taker converte
+
+            // Probabilidade de home vencer: normalizada entre traits
+            const homeWinProb = (homeKingBonus / awaySaveBonus) /
+                ((homeKingBonus / awaySaveBonus) + (awayKingBonus / homeSaveBonus));
+
+            if (systemRng() < homeWinProb) {
                 homeGoals++;
-                events.textLog.push({ minute: 91, text: `🏆 ${homeTeam.name} VENCE nos pênaltis!` });
+                const note = homeGol?.traits?.includes('penalty_stopper') ? ' (Pegador de Pênalti!)' : '';
+                events.textLog.push({ minute: 91, text: `🏆 ${homeTeam.name} VENCE nos pênaltis!${note}` });
             } else {
                 awayGoals++;
-                events.textLog.push({ minute: 91, text: `🏆 ${awayTeam.name} VENCE nos pênaltis!` });
+                const note = awayGol?.traits?.includes('penalty_stopper') ? ' (Pegador de Pênalti!)' : '';
+                events.textLog.push({ minute: 91, text: `🏆 ${awayTeam.name} VENCE nos pênaltis!${note}` });
             }
         }
 

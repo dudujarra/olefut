@@ -9,7 +9,57 @@ import { rng as systemRng } from './rng.js';
  */
 
 // ============================================================
-// TRAITS — Habilidades Especiais
+// POSITION_TRAITS — Especializações por Posição (SPEC-144)
+// São o que cria "estrelas" no jogo. Exclusivos por posição.
+// ============================================================
+export const POSITION_TRAITS = [
+    {
+        id: 'poacher',
+        name: '🎯 Artilheiro',
+        description: '+25% conversão de gols',
+        positions: ['ATA'],
+        rarity: 0.12,
+        goalConversionBonus: 1.25,
+    },
+    {
+        id: 'penalty_stopper',
+        name: '🧤 Pegador de Pênalti',
+        description: '+35% save em pênalti',
+        positions: ['GOL'],
+        rarity: 0.10,
+        penaltySaveBonus: 1.35,
+    },
+    {
+        id: 'penalty_king',
+        name: '⚽ Cobrador Nato',
+        description: '+40% conversão em pênalti',
+        positions: ['ATA', 'MEI'],
+        rarity: 0.10,
+        penaltyConversionBonus: 1.40,
+    },
+    {
+        id: 'rockwall',
+        name: '🧱 Muralha',
+        description: '+15% setor defensivo do time',
+        positions: ['DEF', 'GOL'],
+        rarity: 0.08,
+        defenseSectorBonus: 0.15,
+    },
+    {
+        id: 'set_piece_target',
+        name: '🎯 Alvo de Bola Parada',
+        description: '+20% gol em escanteio/falta',
+        positions: ['ATA', 'DEF'],
+        rarity: 0.09,
+        setPieceConvBonus: 1.20,
+    },
+];
+
+// IDs de todos os position traits (para validação de stacking)
+const POSITION_TRAIT_IDS = new Set(POSITION_TRAITS.map(t => t.id));
+
+// ============================================================
+// TRAITS — Habilidades Genéricas (qualquer posição)
 // ============================================================
 export const TRAITS = [
     { id: "clutch", name: "🎯 Decisivo", description: "Rende mais nos últimos 15 min", matchEffect: (minute) => minute >= 75 ? 1.25 : 1.0, rarity: 0.08 },
@@ -30,13 +80,26 @@ export const TRAITS = [
 ];
 
 /**
- * Assign 0-2 traits to a player based on rarity
+ * SPEC-144: Assign traits respeitando posição.
+ * Máx 1 trait de especialização (posição-específico) + 1 genérico.
  */
 export function rollTraits(player) {
     if (player.traits && player.traits.length > 0) return; // already has
     player.traits = [];
     const maxTraits = player.age < 22 ? 1 : 2;
-    
+
+    // 1. Tentar 1 trait de especialização (posição-específico)
+    const eligible = POSITION_TRAITS.filter(t => t.positions.includes(player.position));
+    const shuffledPos = [...eligible].sort(() => systemRng() - 0.5);
+    for (const trait of shuffledPos) {
+        if (player.traits.length >= 1) break;
+        if (systemRng() < trait.rarity) {
+            player.traits.push(trait.id);
+            break;
+        }
+    }
+
+    // 2. Traits genéricos até maxTraits
     const shuffled = [...TRAITS].sort(() => systemRng() - 0.5);
     for (const trait of shuffled) {
         if (player.traits.length >= maxTraits) break;
@@ -48,11 +111,54 @@ export function rollTraits(player) {
 
 export function getPlayerTraits(player) {
     if (!player.traits) return [];
-    return player.traits.map(id => TRAITS.find(t => t.id === id)).filter(Boolean);
+    const all = [...TRAITS, ...POSITION_TRAITS];
+    return player.traits.map(id => all.find(t => t.id === id)).filter(Boolean);
 }
 
 export function hasTrait(player, traitId) {
     return player.traits && player.traits.includes(traitId);
+}
+
+// ============================================================
+// SPEC-144: Helpers de bonus para MatchSimulator
+// ============================================================
+
+/** ATA com poacher → +25% conversão de gol */
+export function getGoalConversionBonus(player) {
+    return player?.traits?.includes('poacher') ? 1.25 : 1.0;
+}
+
+/** GOL com penalty_stopper → +35% save em pênalti */
+export function getPenaltySaveBonus(player) {
+    return player?.traits?.includes('penalty_stopper') ? 1.35 : 1.0;
+}
+
+/** ATA/MEI com penalty_king → +40% conversão em pênalti */
+export function getPenaltyConversionBonus(player) {
+    return player?.traits?.includes('penalty_king') ? 1.40 : 1.0;
+}
+
+/**
+ * Time com DEF/GOL rockwall → +15% por jogador com trait no setor defensivo.
+ * @param {Array} squad - squad completo do time
+ */
+export function getDefenseSectorBonus(squad) {
+    if (!squad?.length) return 1.0;
+    const defenders = squad.filter(p => p.isTitular && (p.position === 'DEF' || p.position === 'GOL'));
+    const rockwalls = defenders.filter(p => p.traits?.includes('rockwall')).length;
+    return 1.0 + (rockwalls * 0.15);
+}
+
+/** ATA/DEF com set_piece_target → +20% conversão em bola parada */
+export function getSetPieceBonus(player) {
+    return player?.traits?.includes('set_piece_target') ? 1.20 : 1.0;
+}
+
+/** Retorna display name do trait de especialização do jogador (para UI) */
+export function getSpecializationDisplay(player) {
+    if (!player?.traits) return null;
+    const spec = POSITION_TRAITS.find(t => player.traits.includes(t.id));
+    return spec ? { id: spec.id, name: spec.name, description: spec.description } : null;
 }
 
 /**
