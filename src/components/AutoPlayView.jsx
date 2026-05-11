@@ -505,7 +505,7 @@ export function AutoPlayView() {
                 {/* ML Brain Dashboard — visual Q-learning status */}
                 <BrainDashboard controllerRef={controllerRef} />
 
-                <div style={{ fontSize: '0.78rem', color: '#888', marginBottom: '4px', fontFamily: "'Press Start 2P', monospace", fontSize: '0.5rem' }}>
+                <div style={{ color: '#888', marginBottom: '4px', fontFamily: "'Press Start 2P', monospace", fontSize: '0.5rem' }}>
                     VELOCIDADE: {speed}ms/week
                 </div>
                 <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
