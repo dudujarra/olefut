@@ -160,7 +160,7 @@ export class SeasonProcessor {
         if (!team?.squad?.length) return null;
         let best = null;
         for (const p of team.squad) {
-            const goals = p.career?.seasonGoals || p.seasonGoals || 0;
+            const goals = p.career?.seasonGoals ?? p.seasonGoals ?? 0;
             if (!best || goals > best.goals) {
                 best = { name: p.name, goals };
             }

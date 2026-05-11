@@ -276,7 +276,7 @@ export class AutoPlayController {
         try {
             this._makeDecisions();
         } catch (e) {
-            this._logAnomaly('DECISIONS_CRASH', e?.message || 'Unknown error in _makeDecisions');
+            this._logAnomaly('DECISIONS_CRASH', `${e?.message || 'Unknown'} | ${e?.stack?.split('\n')[1]?.trim() || 'n/a'}`, { errorType: e?.constructor?.name });
         }
 
         try {
@@ -285,7 +285,7 @@ export class AutoPlayController {
 
             // §16.2: Auto-dismiss trophy ceremony (log it as success)
             if (this.engine.trophyCeremony) {
-                this._logSuccess('TROPHY_CEREMONY', `🏆 Cerimônia: ${this.engine.trophyCeremony.trophy}`, {
+                this._logSuccess('TROPHY_CEREMONY', `🏆 Cerimônia: ${this.engine.trophyCeremony.trophy?.name || this.engine.trophyCeremony.trophy}`, {
                     trophy: this.engine.trophyCeremony.trophy,
                     season: this.engine.trophyCeremony.season
                 });
@@ -1006,7 +1006,7 @@ export class AutoPlayController {
                     }
                     // Log monotony signals for telemetry
                     monotony.signals.forEach(sig => {
-                        if (sig.id === 'TACTIC_STUCK') this._logAnomaly('TACTIC_STUCK', sig.msg, { tactic: nextTactic, streak: this._consecutiveSameTactic });
+                        if (sig.id === 'TACTIC_STUCK') this._logAnomaly('TACTIC_STUCK', sig.msg, { tactic: nextTactic, streak: sig.streak ?? this._consecutiveSameTactic });
                     });
                 }
             } catch { /* ignore */ }

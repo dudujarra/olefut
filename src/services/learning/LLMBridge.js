@@ -6,6 +6,8 @@
  *   - generateGameDesignInsights: maps telemetry scores to actionable fixes
  */
 
+import { applyMonotonyPenalty } from './MonotonyRewardPenalty.js';
+
 // ============================================================
 // MONOTONY DETECTION + GAMEPLAY SUGGESTIONS
 // ============================================================
@@ -35,7 +37,7 @@ export function detectMonotonyHeuristic(gameState) {
 
     // --- Tactic monotony ---
     if (tacticStreak >= 8) {
-        signals.push({ id: 'TACTIC_STUCK', msg: `Mesma tática '${currentTactic}' há ${tacticStreak} sem` });
+        signals.push({ id: 'TACTIC_STUCK', msg: `Mesma tática '${currentTactic}' há ${tacticStreak} sem`, streak: tacticStreak });
         const TACTICS = ['offensive', 'defensive', 'counter', 'normal'];
         const alt = TACTICS.find(t => t !== currentTactic) || 'counter';
         suggestions.push({ action: 'CHANGE_TACTIC', value: alt, reason: `tática ${currentTactic} monótona` });
@@ -71,14 +73,23 @@ export function detectMonotonyHeuristic(gameState) {
         suggestions.push({ action: 'CHANGE_FORMATION', reason: 'formação estagnada' });
     }
 
+    const rewardShaping = applyMonotonyPenalty({
+        consecutiveWeeks: tacticStreak,
+        recentResults: gameState?.rollingForm || [],
+        currentReward: 0,
+    });
+
     return {
         monotonous: signals.length > 0,
         severity: signals.length,
         signals,
         suggestions,
-        topSuggestion: suggestions[0] || null
+        topSuggestion: suggestions[0] || null,
+        rewardShaping,
     };
 }
+
+export { applyMonotonyPenalty };
 
 /**
  * Generates game design insights from a telemetry SPEC report.

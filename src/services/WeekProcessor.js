@@ -307,6 +307,8 @@ export class WeekProcessor {
                 const isHome = myMatch.home === team.id;
                 const myGoals = isHome ? myMatch.score.homeGoals : myMatch.score.awayGoals;
                 const theirGoals = isHome ? myMatch.score.awayGoals : myMatch.score.homeGoals;
+                engine.managerStats.goalsFor = (engine.managerStats.goalsFor || 0) + myGoals;
+                engine.managerStats.goalsAgainst = (engine.managerStats.goalsAgainst || 0) + theirGoals;
                 if (myGoals > theirGoals) {
                     engine.managerStats.wins++;
                     engine.managerStats.streak = Math.max(0, engine.managerStats.streak) + 1;
