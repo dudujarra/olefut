@@ -12,7 +12,7 @@ function makePlayer(age, ovr = 85) {
         id: 'test', name: 'Samuel Teixeira', position: 'ATA', age, ovr,
         energy: 100, moral: 70,
         personality: 'Profissional',
-        attributes: { FIS: 85, DEF: 60, CRI: 85, FIN: 90, REF: 50 },
+        attacking: 85, technical: 90, tactical: 60, defending: 60, creativity: 85,
         career: { totalGoals: 7000, seasonGoals: 50, totalApps: 1000 }
     };
 }

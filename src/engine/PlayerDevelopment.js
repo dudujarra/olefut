@@ -74,8 +74,8 @@ const POSITION_AGE_CURVES = {
  * §3.1: "Physical stats decline sharply after peak; Mental stats can IMPROVE past 30"
  */
 const PHYSICAL_ATTRS = ['attacking'];              // explosive power, speed — fast decline
-const TECHNICAL_ATTRS = ['technical', 'creativity']; // skill, vision — slow decline
-const MENTAL_ATTRS = ['tactical'];                   // game reading, positioning — can IMPROVE
+const TECHNICAL_ATTRS = ['technical'];               // skill — slow decline
+const MENTAL_ATTRS = ['tactical', 'creativity'];     // game reading, vision — can IMPROVE past 30, NEVER declines (§3.1)
 const DEFENSIVE_ATTR = 'defending';                  // depends on position
 
 /**

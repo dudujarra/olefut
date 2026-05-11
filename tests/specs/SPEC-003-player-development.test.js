@@ -2,13 +2,18 @@
 import { describe, test, expect } from 'vitest';
 import { processPlayerDevelopment, ageSquad, updateForm, getFormModifier, TACTIC_COUNTERS } from '../../src/engine/PlayerDevelopment.js';
 
-function makePlayer({ age = 22, personality = 'Profissional', attrs = { FIS: 70, DEF: 70, CRI: 70, FIN: 70, REF: 70 } } = {}) {
+function makePlayer({ age = 22, personality = 'Profissional', attrs = { attacking: 70, technical: 70, tactical: 70, defending: 70, creativity: 70 } } = {}) {
     return {
         id: 1,
         name: 'TestPlayer',
         age,
         personality,
-        attributes: { ...attrs },
+        // SCHEMA-UNIFIED: root-level stats
+        attacking: attrs.attacking ?? 70,
+        technical: attrs.technical ?? 70,
+        tactical: attrs.tactical ?? 70,
+        defending: attrs.defending ?? 70,
+        creativity: attrs.creativity ?? 70,
         position: 'MEI',
         ovr: 70,
         retired: false,
@@ -81,8 +86,9 @@ describe('SPEC-003: Player Development', () => {
     });
 
     test('Attributes capped at 99', () => {
-        const player = makePlayer({ age: 18, attrs: { FIS: 99, DEF: 70, CRI: 70, FIN: 70, REF: 70 } });
+        const player = makePlayer({ age: 18, attrs: { attacking: 99, technical: 70, tactical: 70, defending: 70, creativity: 70 } });
         for (let i = 0; i < 100; i++) processPlayerDevelopment(player);
-        expect(player.attributes.FIS).toBeLessThanOrEqual(99);
+        expect(player.attacking).toBeLessThanOrEqual(99);
     });
 });
+

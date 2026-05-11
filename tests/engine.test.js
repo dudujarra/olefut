@@ -67,7 +67,7 @@ describe('BUG-002: signScoutedPlayer', () => {
         const fakePlayer = {
             id: 'scout-test-1', name: 'Test Scout', position: 'MEI',
             ovr: 65, age: 22, energy: 100, value: 100000,
-            attributes: { FIS: 60, DEF: 60, CRI: 70, FIN: 65, REF: 50 }
+            attacking: 60, technical: 65, tactical: 60, defending: 60, creativity: 70
         };
         engine.scoutedPlayers = [fakePlayer];
         const squadBefore = team.squad.length;
@@ -82,7 +82,7 @@ describe('BUG-002: signScoutedPlayer', () => {
         const expensive = {
             id: 'scout-exp', name: 'Expensive', position: 'ATA',
             ovr: 90, age: 25, energy: 100, value: 999999999999,
-            attributes: { FIS: 90, DEF: 90, CRI: 90, FIN: 90, REF: 90 }
+            attacking: 90, technical: 90, tactical: 90, defending: 90, creativity: 90
         };
         engine.scoutedPlayers = [expensive];
         const result = engine.signScoutedPlayer(0);
@@ -195,7 +195,7 @@ describe('Training feedback — applyTraining returns improvements', () => {
         if (!team) return;
         // Force low attrs to guarantee improvement
         team.squad.forEach(p => {
-            if (p.attributes) p.attributes.FIS = 30;
+            p.attacking = 30;
         });
         const result = applyTraining(team, 'physical');
         if (result.improvements.length > 0) {

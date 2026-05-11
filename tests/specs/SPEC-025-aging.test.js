@@ -5,7 +5,7 @@ import { processPlayerDevelopment, ageSquad } from '../../src/engine/PlayerDevel
 function makePlayer({ age = 22, personality = 'Profissional' } = {}) {
     return {
         id: 1, name: 'Test', age, personality,
-        attributes: { FIS: 70, DEF: 70, CRI: 70, FIN: 70, REF: 70 },
+        attacking: 70, technical: 70, tactical: 70, defending: 70, creativity: 70,
         position: 'MEI', ovr: 70, retired: false,
     };
 }
@@ -66,9 +66,11 @@ describe('SPEC-025: Advanced Player Aging', () => {
         for (let i = 0; i < 200; i++) {
             processPlayerDevelopment(p);
         }
-        for (const v of Object.values(p.attributes)) {
-            expect(v).toBeGreaterThanOrEqual(20);
-            expect(v).toBeLessThanOrEqual(99);
+        // SCHEMA-UNIFIED: check root-level stats
+        const STAT_KEYS = ['attacking', 'technical', 'tactical', 'defending', 'creativity'];
+        for (const key of STAT_KEYS) {
+            expect(p[key]).toBeGreaterThanOrEqual(20);
+            expect(p[key]).toBeLessThanOrEqual(99);
         }
     });
 
@@ -83,9 +85,9 @@ describe('SPEC-025: Advanced Player Aging', () => {
         expect(pG).toBeGreaterThanOrEqual(lG);
     });
 
-    // §3.1: Physical (FIS) decline fast, technical (FIN, REF) decline slow,
-    // DEF declines position-dependent. CRI (mental) can GROW, never declines.
-    test('Decline first hits physical/technical/defensive (never mental CRI)', () => {
+    // §3.1: Physical (attacking) decline fast, technical decline slow,
+    // defending declines position-dependent. creativity (mental) can GROW, never declines.
+    test('Decline first hits physical/technical/defensive (never creativity)', () => {
         const p = makePlayer({ age: 36 });
         const changes = [];
         for (let i = 0; i < 100; i++) {
@@ -94,9 +96,10 @@ describe('SPEC-025: Advanced Player Aging', () => {
         const declines = changes.filter((c) => c.type === 'decline');
         if (declines.length > 0) {
             for (const d of declines) {
-                // CRI (mental) should NEVER decline — it can only grow
-                expect(['FIS', 'DEF', 'FIN', 'REF']).toContain(d.attr);
+                // creativity (mental) should NEVER decline — it can only grow
+                expect(['attacking', 'defending', 'technical', 'tactical']).toContain(d.attr);
             }
         }
     });
 });
+

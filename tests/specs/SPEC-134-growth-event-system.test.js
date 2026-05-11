@@ -7,7 +7,7 @@ function makePlayer(overrides = {}) {
         name: 'Test Player',
         age: 25,
         ovr: 65,
-        attributes: { FIS: 65, DEF: 65, CRI: 65, FIN: 65 },
+        attacking: 65, technical: 65, tactical: 65, defending: 65, creativity: 65,
         energy: 80,
         moral: 60,
         gamesThisSeason: 20,
