@@ -81,66 +81,75 @@ function App() {
     };
 
     return (
-        <>
-            {gameState.started && (
-                <header className="top-bar glass-panel">
-                    <div className="logo">OléFUT</div>
-                    <div className="user-info" style={{display:'flex',alignItems:'center',gap:'0.6rem'}}>
-                        <span className="manager-name">{gameState.manager}</span>
-                        {gameState.mode === 'player' && engine.proPlayer && (
-                            <strong>R$ {engine.proPlayer.money}</strong>
-                        )}
-                        {gameState.mode === 'manager' && (
-                            <span>Sem {engine.currentWeek}/38</span>
-                        )}
-                        {/* P2-13: save manual button */}
-                        <EfButton
-                            variant="secondary" size="sm"
-                            onClick={handleSave}
-                            title="Salvar manual (auto-save ativo)"
-                            style={{padding:'0.25rem 0.55rem'}}
-                        >
-                            💾
-                        </EfButton>
-                        {/* P1-6: sound toggle */}
-                        <EfButton
-                            variant="secondary" size="sm"
-                            onClick={handleSoundToggle}
-                            title={soundOn ? 'Som ON (clique pra desligar)' : 'Som OFF (clique pra ligar)'}
-                            style={{padding:'0.25rem 0.55rem'}}
-                        >
-                            {soundOn ? '🔊' : '🔇'}
-                        </EfButton>
-
-                        <EfButton
-                            variant="secondary" size="sm"
-                            onClick={() => changeView?.('monitor')}
-                            title="Monitor (bugs/gameplay/feedback)"
-                            style={{padding:'0.25rem 0.55rem'}}
-                        >
-                            📊
-                        </EfButton>
-                        <EfButton
-                            variant="secondary" size="sm"
-                            onClick={handleReset}
-                            title="Resetar carreira"
-                            style={{padding:'0.25rem 0.55rem'}}
-                        >
-                            🔄
-                        </EfButton>
-                    </div>
-                    {savedToast && (
-                        <div style={{position:'fixed',top:'4rem',right:'1rem',background:'#39FF14',color:'#111417',padding:'0.5rem 1rem',borderRadius:'0',fontSize:'0.85rem',fontWeight:600,zIndex:1000,animation:'slideUp 0.3s',border:'2px solid #4A5059',fontFamily:"'Press Start 2P', monospace"}}>
-                            ✅ Salvo!
-                        </div>
-                    )}
-                </header>
+        <div style={{ display: 'flex', minHeight: '100dvh', backgroundColor: '#000' }}>
+            {gameState.started && gameState.view !== 'start' && gameState.view !== 'tutorial' && (
+                <Sidebar />
             )}
-            <Sidebar />
-            {renderView()}
-            <FloatingBugButton />
-            <AudioController />
-        </>
+            
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', overflowX: 'hidden' }}>
+                {gameState.started && (
+                    <header className="top-bar glass-panel">
+                        <div className="logo">OléFUT</div>
+                        <div className="user-info" style={{display:'flex',alignItems:'center',gap:'0.6rem'}}>
+                            <span className="manager-name">{gameState.manager}</span>
+                            {gameState.mode === 'player' && engine.proPlayer && (
+                                <strong>R$ {engine.proPlayer.money}</strong>
+                            )}
+                            {gameState.mode === 'manager' && (
+                                <span>Sem {engine.currentWeek}/38</span>
+                            )}
+                            {/* P2-13: save manual button */}
+                            <EfButton
+                                variant="secondary" size="sm"
+                                onClick={handleSave}
+                                title="Salvar manual (auto-save ativo)"
+                                style={{padding:'0.25rem 0.55rem'}}
+                            >
+                                💾
+                            </EfButton>
+                            {/* P1-6: sound toggle */}
+                            <EfButton
+                                variant="secondary" size="sm"
+                                onClick={handleSoundToggle}
+                                title={soundOn ? 'Som ON (clique pra desligar)' : 'Som OFF (clique pra ligar)'}
+                                style={{padding:'0.25rem 0.55rem'}}
+                            >
+                                {soundOn ? '🔊' : '🔇'}
+                            </EfButton>
+
+                            <EfButton
+                                variant="secondary" size="sm"
+                                onClick={() => changeView?.('monitor')}
+                                title="Monitor (bugs/gameplay/feedback)"
+                                style={{padding:'0.25rem 0.55rem'}}
+                            >
+                                📊
+                            </EfButton>
+                            <EfButton
+                                variant="secondary" size="sm"
+                                onClick={handleReset}
+                                title="Resetar carreira"
+                                style={{padding:'0.25rem 0.55rem'}}
+                            >
+                                🔄
+                            </EfButton>
+                        </div>
+                        {savedToast && (
+                            <div style={{position:'fixed',top:'4rem',right:'1rem',background:'#39FF14',color:'#111417',padding:'0.5rem 1rem',borderRadius:'0',fontSize:'0.85rem',fontWeight:600,zIndex:1000,animation:'slideUp 0.3s',border:'2px solid #4A5059',fontFamily:"'Press Start 2P', monospace"}}>
+                                ✅ Salvo!
+                            </div>
+                        )}
+                    </header>
+                )}
+                
+                <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    {renderView()}
+                </main>
+                
+                <FloatingBugButton />
+                <AudioController />
+            </div>
+        </div>
     );
 }
 

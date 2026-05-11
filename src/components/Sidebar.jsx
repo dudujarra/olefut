@@ -9,7 +9,7 @@
  * [SQUAD] [TACTICS] [TEAM] [GAME] [EXIT]
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useGame } from '../context/GameContext';
 
 const NAV_ITEMS_MANAGER = [
@@ -35,7 +35,6 @@ const NAV_ITEMS_PLAYER = [
 
 export function Sidebar() {
     const { gameState, changeView } = useGame();
-    const [collapsed, setCollapsed] = useState(false);
 
     if (!gameState.started) return null;
     if (gameState.view === 'start' || gameState.view === 'tutorial') return null;
@@ -44,49 +43,28 @@ export function Sidebar() {
     const currentView = gameState.view;
 
     return (
-        <>
-            {/* Burger button — 16-bit metal toggle */}
-            <button
-                className="sidebar-toggle"
-                onClick={() => setCollapsed(!collapsed)}
-                aria-label="Toggle menu"
-                style={{
-                    position: 'fixed',
-                    top: '8px',
-                    left: '8px',
-                    zIndex: 999,
-                    background: '#1E2124',
-                    color: '#FFD700',
-                    border: '3px solid',
-                    borderColor: '#4A5059 #111417 #111417 #4A5059',
-                    borderRadius: '0px',
-                    padding: '8px 10px',
-                    cursor: 'pointer',
-                    fontFamily: "'Press Start 2P', monospace",
-                    fontSize: '0.8rem',
-                    boxShadow: '2px 2px 0 #000'
-                }}
-            >
-                {collapsed ? '☰' : '✕'}
-            </button>
-
-            <nav
-                className={`elifoot-sidebar ${collapsed ? 'collapsed' : ''}`}
-                style={{
-                    position: 'fixed',
-                    left: collapsed ? '-200px' : '0',
-                    top: 0,
-                    bottom: 0,
-                    width: '180px',
-                    background: '#111417',
-                    borderRight: '4px solid #4A5059',
-                    padding: '3.5rem 8px 16px',
-                    transition: 'left 200ms ease-out',
-                    zIndex: 998,
-                    overflowY: 'auto',
-                    boxShadow: '8px 0 0 rgba(0,0,0,0.6)'
-                }}
-            >
+        <aside
+            className="elifoot-sidebar"
+            style={{
+                width: '180px',
+                minWidth: '180px',
+                background: '#0B0D0F', // Slightly darker than main bg to recede
+                borderRight: '4px solid #4A5059',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100dvh',
+                position: 'sticky',
+                top: 0,
+                zIndex: 998,
+                overflowY: 'auto'
+            }}
+        >
+            <div style={{
+                padding: '24px 8px 16px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px'
+            }}>
                 {/* Mode label */}
                 <div style={{
                     fontFamily: "'Press Start 2P', monospace",
@@ -94,7 +72,9 @@ export function Sidebar() {
                     color: '#888',
                     padding: '0 8px 12px',
                     borderBottom: '2px solid #333',
-                    marginBottom: '12px'
+                    marginBottom: '12px',
+                    textAlign: 'center',
+                    letterSpacing: '0.05em'
                 }}>
                     {gameState.mode === 'player' ? '⚽ JOGADOR' : '🧑‍💼 TÉCNICO'}
                 </div>
@@ -104,25 +84,24 @@ export function Sidebar() {
                     return (
                         <div
                             key={item.view}
-                            onClick={() => { changeView(item.view); setCollapsed(true); }}
+                            onClick={() => changeView(item.view)}
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: '10px',
                                 width: '100%',
-                                padding: '10px 8px',
-                                marginBottom: '2px',
+                                padding: '12px 10px',
                                 cursor: 'pointer',
                                 background: isActive ? '#1E2124' : 'transparent',
-                                borderLeft: isActive ? '4px solid #FFD700' : '4px solid transparent',
+                                borderLeft: isActive ? '4px solid var(--primary)' : '4px solid transparent',
                                 borderRight: isActive ? '2px solid #4A5059' : '2px solid transparent',
                                 boxSizing: 'border-box',
                                 transition: 'background 0.1s, border-left-color 0.1s'
                             }}
                             onMouseEnter={(e) => {
                                 if (!isActive) {
-                                    e.currentTarget.style.background = '#1A1C20';
-                                    e.currentTarget.style.borderLeftColor = '#555';
+                                    e.currentTarget.style.background = '#14171A';
+                                    e.currentTarget.style.borderLeftColor = '#333';
                                 }
                             }}
                             onMouseLeave={(e) => {
@@ -136,7 +115,7 @@ export function Sidebar() {
                             <span style={{
                                 fontFamily: "'Press Start 2P', monospace",
                                 fontSize: '0.5rem',
-                                color: isActive ? '#FFD700' : '#888',
+                                color: isActive ? 'var(--primary)' : '#888',
                                 textShadow: isActive ? '1px 1px 0 #000' : 'none'
                             }}>
                                 {item.label}
@@ -144,8 +123,8 @@ export function Sidebar() {
                         </div>
                     );
                 })}
-            </nav>
-        </>
+            </div>
+        </aside>
     );
 }
 
