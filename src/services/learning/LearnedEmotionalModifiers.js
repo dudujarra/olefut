@@ -38,6 +38,8 @@ const LAMBDA = 0.6;       // trace decay (shorter than Q(λ) — emotions are mo
 const EPSILON = 0.12;     // exploration rate
 const TRACE_MIN = 0.01;
 const MAX_STATES = 200;   // bound state table
+const REWARD_CLIP = 20;   // soft-clip for SARSA (tighter than Q-Learning)
+const Q_VALUE_BOUND = 30; // hard cap on SARSA Q-values
 
 // ─── MODIFIER PRESETS ───────────────────────────────────────
 // Instead of learning continuous values (needs neural net),
@@ -203,8 +205,11 @@ export class LearnedEmotionalModifiers {
         if (!this.qTable[stateKey]) this.qTable[stateKey] = {};
         const nextQ = this.qTable[stateKey][actionId] || 0;
 
+        // Soft-clip reward to prevent extreme emotional Q-value drift
+        const clippedR = REWARD_CLIP * Math.tanh(r / REWARD_CLIP);
+
         // TD error (SARSA — uses actual next action, not max)
-        const delta = r + GAMMA * nextQ - oldQ;
+        const delta = clippedR + GAMMA * nextQ - oldQ;
 
         // Replacing trace for last (state, action)
         if (!this.traces[this._lastState]) this.traces[this._lastState] = {};
@@ -217,7 +222,10 @@ export class LearnedEmotionalModifiers {
                 const trace = actions[a];
 
                 if (!this.qTable[s]) this.qTable[s] = {};
-                this.qTable[s][a] = (this.qTable[s][a] || 0) + ALPHA * delta * trace;
+                // Alpha decay: stabilize mature emotional Q-values
+                const effectiveAlpha = Math.max(0.01, ALPHA / (1 + this.totalUpdates * 0.0001));
+                const newQ = (this.qTable[s][a] || 0) + effectiveAlpha * delta * trace;
+                this.qTable[s][a] = Math.max(-Q_VALUE_BOUND, Math.min(Q_VALUE_BOUND, newQ));
 
                 // Decay trace
                 const decayed = trace * GAMMA * LAMBDA;

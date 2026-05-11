@@ -35,6 +35,10 @@ const MAX_BUCKETS = 800; // bound table size (covers ~62% of 1296 possible state
 const LAMBDA = 0.7;          // trace decay rate
 const TRACE_MIN = 0.01;      // prune traces below this threshold
 const MAX_TRACE_ENTRIES = 300; // bound trace table size
+const MAX_REPLAY_BUFFER = 200; // experience replay buffer size
+const REPLAY_REWARD_THRESHOLD = 3; // only replay impactful experiences
+const REWARD_CLIP = 30; // soft-clip reward magnitude (tanh scaling)
+const Q_VALUE_BOUND = 50; // hard cap on Q-value magnitude
 
 // ─── PROSPECT THEORY CONSTANTS (Fase 3) ──────────────────────
 const LOSS_AVERSION_LAMBDA = 2.0;   // Kahneman: losses hurt 2x more
@@ -257,6 +261,12 @@ export class AdaptiveBrain {
         // Ref: Agrawal & Goyal (2013) — Thompson Sampling for Contextual Bandits
         this.goalRelevance = new LearnedGoalRelevance();
 
+        // Fase C: Experience Replay Buffer
+        // Ref: Lin (1992) — "Self-Improving Reactive Agents Based on RL, Planning and Teaching"
+        // Ref: Schaul et al (2015) — "Prioritized Experience Replay"
+        // Stores recent transitions for offline re-training at season boundaries
+        this.replayBuffer = [];
+
         this._restore();
     }
 
@@ -326,6 +336,7 @@ export class AdaptiveBrain {
             if (parsed.visitCount) this.visitCount = parsed.visitCount;
             if (typeof parsed.totalUpdates === 'number') this.totalUpdates = parsed.totalUpdates;
             if (Array.isArray(parsed.memory)) this.memory = parsed.memory;
+            if (Array.isArray(parsed.replayBuffer)) this.replayBuffer = parsed.replayBuffer;
             if (parsed.personality) this.personality = parsed.personality;
             if (parsed.emotions) this.emotions.restore(parsed.emotions);
         } catch { /* ignore */ }
@@ -339,6 +350,7 @@ export class AdaptiveBrain {
                 visitCount: this.visitCount,
                 totalUpdates: this.totalUpdates,
                 memory: this.memory,
+                replayBuffer: this.replayBuffer,
                 personality: this.personality,
                 emotions: this.emotions.serialize(),
                 savedAt: Date.now()
@@ -354,6 +366,7 @@ export class AdaptiveBrain {
         this.traces = {};
         this.totalUpdates = 0;
         this.memory = [];
+        this.replayBuffer = [];
         this._lastGoals = null;
         this.emotions.forceState('CALM');
         this.goalRelevance.reset();
@@ -439,13 +452,20 @@ export class AdaptiveBrain {
         if (!this.qTable[stateKey]) this.qTable[stateKey] = {};
         const oldQ = this.qTable[stateKey][actionKey] || 0;
 
+        // Fase D: Soft reward clipping — prevents Q-value explosion from
+        // extreme rewards (title=+200, relegation=-60) while preserving signal.
+        // Uses tanh scaling: maps [-Inf,+Inf] → [-REWARD_CLIP, +REWARD_CLIP]
+        // Ref: Mnih et al (2015) — Atari DQN used hard clipping [-1,+1]
+        // We use soft clip to preserve ordinal ranking of reward magnitudes.
+        const clippedReward = REWARD_CLIP * Math.tanh(reward / REWARD_CLIP);
+
         let maxNextQ = 0;
         if (nextStateKey && nextActions.length > 0) {
             maxNextQ = Math.max(...nextActions.map(a => this.getQ(nextStateKey, a)));
         }
 
-        // TD error (same as before)
-        const delta = reward + GAMMA * maxNextQ - oldQ;
+        // TD error with clipped reward
+        const delta = clippedReward + GAMMA * maxNextQ - oldQ;
 
         // Replacing trace: set current (s,a) to 1.0
         // (replaces rather than accumulates — more stable for control tasks)
@@ -467,7 +487,9 @@ export class AdaptiveBrain {
                 // Ref: Even-Dar & Mansour (2003) — α=O(1/t) guarantees convergence
                 const effectiveAlpha = Math.max(0.01, ALPHA / (1 + this.totalUpdates * 0.0001));
                 if (!this.qTable[ts]) this.qTable[ts] = {};
-                this.qTable[ts][ta] = (this.qTable[ts][ta] || 0) + effectiveAlpha * delta * trace;
+                const newQ = (this.qTable[ts][ta] || 0) + effectiveAlpha * delta * trace;
+                // Fase D: Q-value bounding — hard cap prevents runaway accumulation
+                this.qTable[ts][ta] = Math.max(-Q_VALUE_BOUND, Math.min(Q_VALUE_BOUND, newQ));
 
                 // Decay trace
                 const decayed = trace * GAMMA * LAMBDA;
@@ -511,6 +533,12 @@ export class AdaptiveBrain {
                 this.goalRelevance.update(g.goal, actionKey, reward);
             }
         }
+
+        // Fase C: Record transition in experience replay buffer
+        this.replayBuffer.push({ s: stateKey, a: actionKey, r: reward, s2: nextStateKey, na: nextActions });
+        if (this.replayBuffer.length > MAX_REPLAY_BUFFER) {
+            this.replayBuffer = this.replayBuffer.slice(-MAX_REPLAY_BUFFER);
+        }
     }
 
     /**
@@ -519,6 +547,52 @@ export class AdaptiveBrain {
      */
     clearTraces() {
         this.traces = {};
+    }
+
+    /**
+     * Replay high-impact experiences from buffer to reinforce learning.
+     * Call at season boundaries AFTER clearTraces().
+     *
+     * Only replays transitions with |reward| > REPLAY_REWARD_THRESHOLD
+     * (promotions, relegations, title wins, big transfers) at 50% learning
+     * rate to prevent overfitting to replayed data.
+     *
+     * Ref: Lin (1992) — "Self-Improving Reactive Agents Based on RL"
+     * Ref: Schaul et al (2015) — "Prioritized Experience Replay"
+     *
+     * @returns {number} count of replayed experiences
+     */
+    replayExperiences() {
+        const impactful = this.replayBuffer.filter(e => Math.abs(e.r) > REPLAY_REWARD_THRESHOLD);
+        if (impactful.length === 0) return 0;
+
+        let replayed = 0;
+        for (const exp of impactful) {
+            if (!exp.s || !exp.a) continue;
+
+            // Compute TD error with clipped + attenuated reward
+            const clippedR = REWARD_CLIP * Math.tanh(exp.r / REWARD_CLIP);
+            const replayReward = clippedR * 0.5;
+            if (!this.qTable[exp.s]) this.qTable[exp.s] = {};
+            const oldQ = this.qTable[exp.s][exp.a] || 0;
+
+            let maxNextQ = 0;
+            if (exp.s2 && Array.isArray(exp.na) && exp.na.length > 0) {
+                maxNextQ = Math.max(...exp.na.map(a => this.getQ(exp.s2, a)));
+            }
+
+            const delta = replayReward + GAMMA * maxNextQ - oldQ;
+            const effectiveAlpha = Math.max(0.01, ALPHA / (1 + this.totalUpdates * 0.0001));
+
+            // Direct Q-update (no traces during replay — traces are cleared)
+            const newQ = oldQ + effectiveAlpha * delta;
+            this.qTable[exp.s][exp.a] = Math.max(-Q_VALUE_BOUND, Math.min(Q_VALUE_BOUND, newQ));
+            replayed++;
+        }
+
+        // Save after replay
+        if (replayed > 0) this.save();
+        return replayed;
     }
 
     /**
@@ -578,6 +652,8 @@ export class AdaptiveBrain {
             states: Object.keys(this.qTable).length,
             totalUpdates: this.totalUpdates,
             activeTraces: traceEntries,
+            replayBuffer: this.replayBuffer.length,
+            replayImpactful: this.replayBuffer.filter(e => Math.abs(e.r) > REPLAY_REWARD_THRESHOLD).length,
             lambda: LAMBDA,
             topActions: this.topActions(5),
             personality: {

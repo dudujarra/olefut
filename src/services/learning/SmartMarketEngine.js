@@ -26,26 +26,7 @@
 
 import { applyBuyBiases, applySellBiases } from './CognitiveBiases.js';
 
-// ─── QUANTIZE HELPERS (continuous → discrete bins for Q-table) ──
-
-function quantize(value, bins) {
-    for (let i = 0; i < bins.length; i++) {
-        if (value <= bins[i]) return i;
-    }
-    return bins.length;
-}
-
-// Bins for each feature dimension
-const NEED_BINS    = [-1, 0, 1, 3];      // 5 levels: surplus → critical need
-const OVR_BINS     = [-5, 0, 5, 15];     // 5 levels: downgrade → huge upgrade
-const AGE_BINS     = [21, 25, 29, 32];   // 5 levels: youth → veteran
-const AFFORD_BINS  = [0.1, 0.25, 0.4, 0.6]; // 5 levels: cheap → expensive
-const SQUAD_BINS   = [15, 18, 22, 26];   // 5 levels: tiny → bloated
-const EMO_BINS     = [0, 1, 2, 3];       // 5 levels: calm → desperate
-const RISK_BINS    = [0.2, 0.35, 0.5, 0.7]; // 5 levels: conservative → aggressive
-const RATIO_BINS   = [0.8, 1.0, 1.3, 2.0]; // 5 levels: lowball → amazing (sell)
-
-// Emotional state → numeric scale
+// ─── EMOTIONAL STATE SCALE (used by composite encoders) ──
 const EMO_SCALE = {
     CALM: 0, CONFIDENT: 1, EUPHORIC: 2,
     ANXIOUS: 2, TILTED: 3, DESPERATE: 4
@@ -86,7 +67,14 @@ export function analyzeSquad(squad = []) {
 
 /**
  * Encode a potential buy into a compact state key for Q-learning.
- * Returns a string like "MKT_B|n3|u2|a1|f2|s1|e0|r2"
+ *
+ * Uses 3 composite features (instead of 7 independent) for faster convergence:
+ *   - deal: squad need + quality upgrade + affordability → "is this a good deal?"
+ *   - risk: emotional state + personality + squad bloat → "am I in a state to buy?"
+ *   - player: age trajectory → "is this player worth investing in?"
+ *
+ * State space: 3×3×3 = 27 states × 2 actions = 54 state-action pairs
+ * Converges in ~10-20 seasons vs never with 5^7 = 78,125 states.
  *
  * @param {Object} params
  * @param {Object} params.team
@@ -101,34 +89,33 @@ export function encodeBuyState({ team, player, askingPrice, personality = null, 
     const pos = player?.position || 'MEI';
     const posAnalysis = analyzeSquad(squad)[pos] || {};
 
-    // Feature 1: Squad need at position
-    const need = quantize(posAnalysis.gap || 0, NEED_BINS);
-
-    // Feature 2: OVR delta (how much better is this player)
+    // ── Composite 1: DEAL QUALITY (need + upgrade + affordability) ──
+    // Each sub-feature: -1 (bad), 0 (neutral), +1 (good)
+    const needScore = (posAnalysis.gap || 0) >= 2 ? 1 : (posAnalysis.gap || 0) <= -1 ? -1 : 0;
     const ovrDelta = (player?.ovr || 50) - (posAnalysis.avgOvr || 50);
-    const upgrade = quantize(ovrDelta, OVR_BINS);
-
-    // Feature 3: Player age
-    const age = quantize(player?.age || 25, AGE_BINS);
-
-    // Feature 4: Affordability (price / balance ratio)
+    const upgradeScore = ovrDelta >= 5 ? 1 : ovrDelta <= -5 ? -1 : 0;
     const balance = Math.max(team?.balance || 1, 1);
-    const affordRatio = askingPrice / balance;
-    const afford = quantize(affordRatio, AFFORD_BINS);
+    const affordScore = (askingPrice / balance) <= 0.25 ? 1 : (askingPrice / balance) >= 0.5 ? -1 : 0;
+    // Sum: -3 to +3 → 3 tiers
+    const dealSum = needScore + upgradeScore + affordScore;
+    const deal = dealSum >= 1 ? 2 : dealSum <= -1 ? 0 : 1; // 0=bad, 1=neutral, 2=good
 
-    // Feature 5: Squad size
-    const squadSize = squad.filter(p => !p._retired).length;
-    const size = quantize(squadSize, SQUAD_BINS);
-
-    // Feature 6: Emotional state
-    const emo = quantize(EMO_SCALE[emotionalState] || 0, EMO_BINS);
-
-    // Feature 7: Personality risk appetite (Openness + Extraversion - Conscientiousness)
+    // ── Composite 2: RISK PROFILE (emotion + personality + squad pressure) ──
+    const emoVal = EMO_SCALE[emotionalState] || 0;
+    const emoScore = emoVal >= 3 ? 1 : emoVal === 0 ? -1 : 0; // desperate/tilted = risky
     const ocean = personality?.ocean || {};
     const riskAppetite = ((ocean.O || 0.5) + (ocean.E || 0.5) - (ocean.C || 0.5)) / 2;
-    const risk = quantize(riskAppetite, RISK_BINS);
+    const riskScore = riskAppetite >= 0.5 ? 1 : riskAppetite <= 0.2 ? -1 : 0;
+    const squadSize = squad.filter(p => !p._retired).length;
+    const squadScore = squadSize >= 24 ? 1 : squadSize <= 16 ? -1 : 0; // bloated = pressure NOT to buy
+    const riskSum = emoScore + riskScore - squadScore; // high emo + high risk - bloated
+    const risk = riskSum >= 1 ? 2 : riskSum <= -1 ? 0 : 1; // 0=conservative, 1=neutral, 2=aggressive
 
-    return `MKT_B|n${need}|u${upgrade}|a${age}|f${afford}|s${size}|e${emo}|r${risk}`;
+    // ── Composite 3: PLAYER PROFILE (age trajectory) ──
+    const age = player?.age || 25;
+    const playerTier = age <= 23 ? 2 : age >= 30 ? 0 : 1; // 0=veteran, 1=peak, 2=young
+
+    return `MKT_B|d${deal}|r${risk}|p${playerTier}`;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -137,6 +124,13 @@ export function encodeBuyState({ team, player, askingPrice, personality = null, 
 
 /**
  * Encode a sell offer into a compact state key for Q-learning.
+ *
+ * Uses 3 composite features for faster convergence:
+ *   - offer: offer/value ratio + financial need → "is this offer worth taking?"
+ *   - impact: position depth + is starter → "can I afford to lose this player?"
+ *   - context: age + emotion + personality → "should I be selling?"
+ *
+ * State space: 3×3×3 = 27 states × 2 actions = 54 state-action pairs
  *
  * @param {Object} params
  * @returns {string} state key
@@ -147,31 +141,32 @@ export function encodeSellState({ team, player, offerAmount, personality = null,
     const posAnalysis = analyzeSquad(squad)[pos] || {};
     const playerValue = player?.value || (player?.ovr || 50) * 50_000;
 
-    // Feature 1: Offer/value ratio
-    const ratio = quantize(offerAmount / Math.max(playerValue, 100_000), RATIO_BINS);
-
-    // Feature 2: Player age
-    const age = quantize(player?.age || 25, AGE_BINS);
-
-    // Feature 3: Position depth (can we afford to lose?)
-    const depth = quantize(posAnalysis.depth || 0, [1, 2, 3, 5]);
-
-    // Feature 4: Is player a starter? (OVR vs position max)
-    const isStarter = (player?.ovr || 0) >= (posAnalysis.maxOvr || 50) - 3 ? 1 : 0;
-
-    // Feature 5: Financial need (negative balance = urgent)
+    // ── Composite 1: OFFER QUALITY (ratio + financial urgency) ──
+    const offerRatio = offerAmount / Math.max(playerValue, 100_000);
+    const ratioScore = offerRatio >= 1.3 ? 1 : offerRatio <= 0.8 ? -1 : 0;
     const balance = team?.balance || 0;
-    const finNeed = balance < 0 ? 3 : balance < 1_000_000 ? 2 : balance < 5_000_000 ? 1 : 0;
+    const finScore = balance < 0 ? 1 : balance < 1_000_000 ? 0 : -1; // negative = urgent to sell
+    const offerSum = ratioScore + finScore;
+    const offer = offerSum >= 1 ? 2 : offerSum <= -1 ? 0 : 1; // 0=bad offer, 1=neutral, 2=good/urgent
 
-    // Feature 6: Emotional state
-    const emo = quantize(EMO_SCALE[emotionalState] || 0, EMO_BINS);
+    // ── Composite 2: SQUAD IMPACT (depth + starter status) ──
+    const isStarter = (player?.ovr || 0) >= (posAnalysis.maxOvr || 50) - 3 ? 1 : 0;
+    const hasDepth = (posAnalysis.depth || 0) >= 3 ? 1 : 0;
+    // Selling starter from thin depth = high impact (bad)
+    const impact = isStarter && !hasDepth ? 0 : !isStarter ? 2 : 1; // 0=critical loss, 1=moderate, 2=safe
 
-    // Feature 7: Personality sell willingness (Agreeableness - Neuroticism)
+    // ── Composite 3: AGENT CONTEXT (age + emotion + personality) ──
+    const age = player?.age || 25;
+    const ageScore = age >= 30 ? 1 : age <= 23 ? -1 : 0; // older = more willing to sell
+    const emoVal = EMO_SCALE[emotionalState] || 0;
+    const emoScore = emoVal >= 3 ? 1 : emoVal === 0 ? -1 : 0;
     const ocean = personality?.ocean || {};
     const sellWill = ((ocean.A || 0.5) - (ocean.N || 0.5) + 0.5) / 1.5;
-    const will = quantize(sellWill, RISK_BINS);
+    const willScore = sellWill >= 0.5 ? 1 : sellWill <= 0.2 ? -1 : 0;
+    const ctxSum = ageScore + emoScore + willScore;
+    const ctx = ctxSum >= 1 ? 2 : ctxSum <= -1 ? 0 : 1; // 0=reluctant, 1=neutral, 2=willing
 
-    return `MKT_S|r${ratio}|a${age}|d${depth}|s${isStarter}|f${finNeed}|e${emo}|w${will}`;
+    return `MKT_S|o${offer}|i${impact}|c${ctx}`;
 }
 
 // ═══════════════════════════════════════════════════════════════

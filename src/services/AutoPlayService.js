@@ -1514,6 +1514,20 @@ export class AutoPlayController {
             try { this.brain.clearTraces(); } catch { /* defensive */ }
             // Fase 3: clear SARSA(λ) emotional traces at season boundary
             try { this.brain.emotions.clearSarsaTraces(); } catch { /* defensive */ }
+            // Fase C: replay high-impact experiences at season boundary
+            // Re-trains on promotions, relegations, title wins, big transfers
+            try { this.brain.replayExperiences(); } catch { /* defensive */ }
+
+            // Fase C: NPC season boundary — clear traces + replay for all NPC brains
+            try {
+                const allTeams = engine.getAllTeams?.() || [];
+                for (const t of allTeams) {
+                    if (t.brain && t.id !== team?.id) {
+                        try { t.brain.clearTraces(); } catch { /* skip */ }
+                        try { t.brain.replayExperiences(); } catch { /* skip */ }
+                    }
+                }
+            } catch { /* defensive */ }
 
             // Flush all pending transfer rewards (season rolled over, can't wait anymore)
             if (this._pendingTransferRewards?.length > 0 && team) {
