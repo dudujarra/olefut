@@ -11,14 +11,19 @@
 import { describe, test, expect, beforeEach } from 'vitest';
 import { AdaptiveBrain } from '../../src/services/learning/AdaptiveBrain.js';
 
+// Some envs (Node sem --localstorage-file ou --experimental-webstorage) não expõem
+// localStorage global. Tests que dependem de persistência são skipped nesses envs;
+// os que apenas verificam comportamento de opt-out rodam normalmente.
+const HAS_PERSISTENT_STORAGE = typeof localStorage !== 'undefined' && typeof localStorage.setItem === 'function';
+
 describe('AKITA-204 — AdaptiveBrain skipAutoRestore opt-in', () => {
     beforeEach(() => {
-        if (typeof localStorage !== 'undefined' && localStorage.clear) {
+        if (HAS_PERSISTENT_STORAGE && typeof localStorage.clear === 'function') {
             localStorage.clear();
         }
     });
 
-    test('persona persists across constructor when skipAutoRestore omitted', () => {
+    test.skipIf(!HAS_PERSISTENT_STORAGE)('persona persists across constructor when skipAutoRestore omitted', () => {
         const b1 = new AdaptiveBrain('GUARDIOLA');
         b1.qTable['test|state'] = { TACTIC_offensive: 42 };
         b1.totalUpdates = 7;
