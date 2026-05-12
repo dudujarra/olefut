@@ -18,7 +18,7 @@ export async function searchTeam(query) {
         const response = await api.get(`/search/all?q=${encodeURIComponent(query)}`);
         return response.data.results.filter(r => r.type === 'team');
     } catch (error) {
-        throw new Error(`Erro na busca do time ${query}: ${error.message}`);
+        throw new Error(`Erro na busca do time ${query}: ${error.message}`, { cause: error });
     }
 }
 
@@ -30,6 +30,6 @@ export async function getTeamSquad(teamId) {
         const response = await api.get(`/team/${teamId}/players`);
         return response.data.players || [];
     } catch (error) {
-        throw new Error(`Erro ao buscar elenco do time ${teamId}: ${error.message}`);
+        throw new Error(`Erro ao buscar elenco do time ${teamId}: ${error.message}`, { cause: error });
     }
 }
