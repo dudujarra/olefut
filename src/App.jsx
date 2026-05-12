@@ -7,6 +7,7 @@ import { StartView } from './components/StartView';
 import { DashboardView } from './components/DashboardView';
 import { Sidebar } from './components/Sidebar';
 import { FloatingBugButton } from './components/FloatingBugButton';
+import { ChronicleSeasonEndModal } from './components/ChronicleSeasonEndModal';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
 import { EfButton } from './components/ui/EfButton';
@@ -151,6 +152,9 @@ function App() {
 
     return (
         <div style={{ display: 'flex', minHeight: '100dvh', backgroundColor: '#000' }}>
+            {/* SPEC-B3: Chronicle full-screen ao fim de temporada (auto-trigger) */}
+            <ChronicleSeasonEndModal />
+
             {gameState.started && gameState.view !== 'start' && gameState.view !== 'tutorial' && (
                 <Sidebar />
             )}

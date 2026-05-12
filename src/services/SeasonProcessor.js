@@ -445,6 +445,8 @@ export class SeasonProcessor {
             });
             engine.chronicles.push(chronicle);
             engine.weekEvents.push(`📜 ${chronicle.chronicle}`);
+            // SPEC-B3: trigger full-screen Chronicle modal next tick
+            engine.pendingChronicleSeason = chronicle;
         } catch { /* defensive */ }
     }
 
