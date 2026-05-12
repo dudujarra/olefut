@@ -24,6 +24,7 @@ import { getDifficulty, calcOpponentBoost } from '../engine/systems/DifficultyMo
 import { getRookieHandicapFromEngine } from '../engine/RookieHandicap.js';
 import { getModifiersForMatch as getWinStreakBonus, recordResult as recordWinStreak } from '../engine/WinStreakModifierSystem.js';
 import { getAtmosphere } from '../engine/BrazilianAtmosphere.js';
+import { getClubVoice } from '../engine/ClubVoiceSystem.js';
 import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats, getGoalConversionBonus, getDefenseSectorBonus, getSetPieceBonus, getPenaltySaveBonus, getPenaltyConversionBonus } from '../engine/PlayerTraits';
 import { recordNpcResult } from '../engine/NpcTacticAdvisor';
 import { npcFeedMatchResult } from './learning/NpcManagerAI.js';
@@ -168,6 +169,11 @@ export class MatchSimulator {
             const preMatch = getAtmosphere('pre_match', atmoSeed);
             if (preMatch.flavorString) {
                 events.textLog.push({ minute: 0, text: preMatch.flavorString });
+            }
+            // SPEC-F3.3: club voice na entrada do estádio (mandante)
+            const clubEntry = getClubVoice(homeTeam?.name, 'stadium_entry', atmoSeed);
+            if (clubEntry) {
+                events.textLog.push({ minute: 0, text: clubEntry });
             }
         }
 
