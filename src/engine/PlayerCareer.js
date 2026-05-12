@@ -1,3 +1,21 @@
+/**
+ * PlayerCareer / ProPlayer — Player Career mode orchestrator
+ *
+ * PLAYER MODE ONLY — see SPEC-179
+ *
+ * This file owns 4 of the 6 player-only features identified in the audit:
+ *   - checkBenchStatus() (L~377)            — Decision B (Hide)
+ *   - Stress System: addStress + resolveMentalBreak (L~381-410) — Decision A (Promote later as Dashboard widget)
+ *   - Chain Flags: setFlag / hasFlag / clearFlag (L~411-419)    — Decision B (Hide)
+ *   - Bench Status Auto: checkBenchStatus     (L~377)           — Decision B (Hide)
+ *
+ * The remaining 2 features live in BenchEventsDeck.js (B) and OffPitchEventsDeck.js (B),
+ * with NamedNPCs (A — Promote partial) shared between the decks and NpcBehaviorProfile.js.
+ *
+ * Do NOT promote a method to Manager Mode without writing a separate SPEC and
+ * a harness. The stress aggregation widget proposed in SPEC-179 §3 is one such
+ * follow-up.
+ */
 import { rng as systemRng } from './rng.js';
 // === SPEC-062 SUB-ATTRIBUTES (16 attrs in 4 groups) ===
 export const SUB_ATTRIBUTES = {

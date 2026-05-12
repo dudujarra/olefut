@@ -4,150 +4,28 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
-### [feat] Bloco 3.1 FINAL — UI consistency 100% (AKITA-254, PR #138, 2026-05-12)
+### [docs] SPEC-179 — Player Mode Features Scope + dist/audio policy (2026-05-12)
 
-20/20 views aplicando design system `luxury-arcade` consistentemente. SPEC-175 fecha a frente de UI iniciada em B3.1 (AKITA-245/249/251).
+Auditoria pass-2 expôs duas pendências sem decisão: (a) `dist/audio` ~465 MB
+local e (b) 6 features só visíveis em Player Career mode (sub-1% dos usuários).
+SPEC-179 registra a decisão por feature e a política para o build artifact.
 
-- Cobertura completa de tokens (`var(--color-*)`, `var(--font-*)`, `var(--spacing-*)`).
-- Zero inline-style residual em views; classes CSS centralizadas.
-- Harness: regression test verifica ausência de inline styles em components produtivos.
-
-### [feat] AKITA-253 — brazil.js expansion: Mineiro + Gaúcho estaduais ATIVOS (PR #137)
-
-Estaduais Mineiro e Gaúcho passam de placeholder a torneios ativos no calendário. Completa cobertura do "4 estaduais" prometido pelo SDD (Paulistão + Carioca + Mineiro + Gaúcho).
-
-### [feat] SPEC-174 — LLM toggle UI (opt-in WebLLM) (AKITA-252, PR #136)
-
-Switch em settings/dashboard para o usuário ativar/desativar WebLLM (LLMNarrativeService). Default OFF (graceful — engine roda 100% sem LLM). Mantém compromisso "LLM local default" do Mandamento #7.
-
-### [feat] Bloco 3.1 batch 3 — UI consistency 8 views (SPEC-173, AKITA-251, PR #135)
-
-Continuação do roll-out luxury-arcade tokens. 8 views adicionais migradas para classes CSS canônicas. Soma cumulativa: 16/20.
-
-### [feat] Bloco 3.1 continuação — UI consistency 5 mais views (AKITA-249, PR #133)
-
-5 views adicionais aplicando design system. Soma cumulativa: 8/20.
-
-### [feat] Bloco 3.1 partial — UI consistency 3 views (AKITA-245, PR #132)
-
-3 views iniciais aplicando design system luxury-arcade canonical. Soma cumulativa: 3/20.
-
-### [perf] Bloco 3.3 — Performance pass (build -54%) (AKITA-244, PR #131)
-
-Otimizações no pipeline de build + tree-shaking + lazy chunks adicionais. Tempo de build reduzido em 54% (~1.06s → ~0.49s na máquina de referência). Mantém initial chunk dentro do budget SPEC-159.
-
-### [feat] Bloco 2.2 final — StateChampionship wire-up (Paulistão + Carioca) (AKITA-243, PR #130)
-
-`tournaments/StateChampionship.js` deixa de ser órfão. Wire-up em `engine.js` initialization + ajuste de calendário em `WeekProcessor` + aba estadual em `StandingsView`. Paulistão e Carioca ativos. Fecha o gap #22 do feature audit AKITA-233.
-
-### [feat] Bloco 2.3 — LLMNarrativeService com 3 use cases + graceful fallback (AKITA-240, PR #129)
-
-`src/services/LLMNarrativeService.js` integra `@mlc-ai/web-llm` em 3 use cases concretos:
-- Post-match analysis (resumo narrativo da partida)
-- Manager advice (auxiliar narra contexto e recomenda)
-- Player chat (interação com proPlayer no modo jogador)
-
-Graceful degradation: se WebLLM não carregar, services retornam null e UI esconde widgets dependentes. SPEC-167 fecha a frente.
-
-### [feat] Bloco 2.2 — Linhagem & Legado painel unificado (AKITA-239, PR #128)
-
-Painel agregando 4 sistemas que eram "engine-only sem UI" (audit AKITA-233):
-- Heritage Traits (#29)
-- Humiliation Cascade (#32)
-- Growth Events (#35)
-- Hall of Fame / Legacy (#36)
-
-Sub-tabs em `LinhagemLegadoView` consolidam os efeitos antes invisíveis. Resolve gap top-2 do feature audit.
-
-### [feat] Bloco 2.5 — tutorial tooltips em 19 botões (AKITA-238, PR #127)
-
-19 botões críticos ganham tooltip contextual (`<Help>` component) explicando função + atalho quando aplicável. Cobre menu primário + ações de match + transfer market.
-
-### [test] Bloco 2.4 — E2E scaffolding + 6 flow specs (8 tests) (AKITA-236, PR #126)
-
-`npm run test:e2e` script + workflow CI. 6 flows Playwright cobrindo:
-- Primeira temporada completa
-- Save/Reload round-trip
-- Match flow (live subs)
-- Market transfer
-- Tutorial replay
-- Navegação sidebar
-
-Total 8 tests. Resolve gap "0/40 features com E2E real" do AKITA-233.
-
-### [docs] AKITA-235 — MASTER-ROADMAP PROGRESSO sync (Bloco 2.1 done, 2.2 em andamento, PR #125)
-
-Atualiza `specs/MASTER-ROADMAP-FOUNDATION-FIRST.md` § PROGRESSO marcando Bloco 2.1 (feature audit) como done e abrindo Bloco 2.2 (gap fixes).
-
-### [feat] AKITA-234 — Bloco 2.2 quick wins: LiveOps purge + Tutorial sidebar (PR #124)
-
-- **LiveOpsService DELETADO** (79 LOC dead code, zero consumers). Resolve gap #37 do feature audit.
-- Tutorial replay agora acessível via sidebar (antes só pré-carreira via StartView).
-
-### [docs] AKITA-233 — Bloco 2.1 feature audit (40 features matrix, PR #123)
-
-`specs/AKITA-FEATURE-AUDIT-2026-05-12.md` produzido: matriz completa de 40 features auditando engine + UI + reachability + E2E coverage. Resultado: 0/40 com Playwright E2E real, 11 funcionais via spec-test, 18 com gaps, 11 órfãs/quebradas. Insumo principal pra B2.2.
-
-### [docs] AKITA-232 — MASTER-ROADMAP PROGRESSO: Bloco 1 Fundação done (PR #122)
-
-Marca Bloco 1 Fundação como funcionalmente completo no roadmap. 13 PRs sequenciais (#109-#121), engine.js 1525→431 LOC, AutoPlayService 1280→490 LOC, doc auto-gen ativo, golden master preservado.
-
-### [refactor] AKITA-230 — RFCT-020 AutoPlayService split (1280→490 LOC, PR #121)
-
-`AutoPlayService.js` partido em 3 sub-services:
-- `AutoPlayLogger` (224 LOC) — logging instrumentado
-- `AutoPlayBanditCoordinator` (136 LOC) — Thompson sampling
-- `AutoPlayDecisions` (512 LOC) — decision tree
-
-Target era ≤400; overshoot 90 LOC documentado (thin delegators p/ compat com AutoPlayPacing/AutoPlaySimulator). Bloco 1 DoD parcial atendido.
-
-### [tooling] AKITA-229 — doc auto-gen script + CI drift check (PR #120)
-
-`scripts/update-doc-metrics.cjs` computa métricas live (test count, engine LOC, specs count, services, bug regression, AKITA commits) e atualiza badges README + snapshot CLAUDE.md. Modo `--check` em CI rejeita PR se docs desatualizados. Pre-commit hook integrado. Mata "doc rot" definitivamente.
-
-### [perf] AKITA-228 — Tone.js lazy load (PR #119)
-
-`Tone.js` (345 KB) movido para chunk lazy. Initial chunk preservado, audio carrega sob demanda quando `AudioController` é montado. Mantém budget SPEC-159 (initial ≤500 KB).
-
-### [refactor] AKITA-227 — RFCT-019.10 extract GameInitializer (engine 618→431 LOC, PR #118)
-
-`src/services/GameInitializer.js` (204 LOC) absorve a lógica de bootstrap do save inicial. Cleanup de imports dead em engine.js. **Marco**: engine.js atinge 431 LOC (target ≤400, overshoot 31). Fim da sequência RFCT-019 (10 PRs).
-
-### [refactor] AKITA-226 — RFCT-019.9 extract SectorService (engine 760→618 LOC, PR #117)
-
-`src/services/SectorService.js` (167 LOC) absorve sector duels logic. Engine reduzido em 142 linhas.
-
-### [refactor] AKITA-225 — RFCT-019.8 startNewSeason rollover → SeasonProcessor (engine 890→760 LOC, PR #116)
-
-`startNewSeason` rollover (130 LOC) movido para `SeasonProcessor`. Engine vira delegator.
-
-### [refactor] AKITA-224 — RFCT-019.7 extract PressService (engine 962→890 LOC, PR #115)
-
-`src/services/PressService.js` (122 LOC) absorve press conference + boardroom messaging. Engine -72 LOC.
-
-### [refactor] AKITA-223 — RFCT-019.6 extract FormationService (engine 1079→962 LOC, PR #114)
-
-`src/services/FormationService.js` (158 LOC) absorve formation editor + tactic logic. Engine -117 LOC.
-
-### [refactor] AKITA-222 — RFCT-019.5 extract FacilityService (engine 1097→1079 LOC, PR #113)
-
-`src/services/FacilityService.js` (74 LOC) absorve youth academy + stadium upgrades. Engine -18 LOC.
-
-### [refactor] AKITA-221 — RFCT-019.4 extract LoanService (engine 1183→1097 LOC, PR #112)
-
-`src/services/LoanService.js` (130 LOC) absorve loan-out logic. Engine -86 LOC.
-
-### [refactor] AKITA-220 — RFCT-019.3 extract ScoutingService (engine 1224→1183 LOC, PR #111)
-
-`src/services/ScoutingService.js` (86 LOC) absorve scouting league logic. Engine -41 LOC.
-
-### [refactor] AKITA-219 — RFCT-019.2 extract TransferService (engine ~1400→1224 LOC, PR #110)
-
-`src/services/TransferService.js` (181 LOC) absorve generateMarket + transfer offer/accept/reject ops. Engine -176 LOC.
-
-### [refactor] AKITA-218 — RFCT-019.1 engine.advanceWeek shrink (PR #109)
-
-Primeira de 10 extractions sequenciais (RFCT-019.1 a 019.10). NPC week management + AI Director + player career week movidos pra services dedicados. engine.js inicia a redução de 1525 LOC.
+- `dist/audio` 465 MB: investigação revelou que a fonte é `public/audio/fase1/`
+  (440 MB de WAVs **commitados** desde AKITA-103). Vite copia `public/` → `dist/`
+  e o workflow `deploy.yml` empacota tudo no artifact do GitHub Pages, então
+  usuários do `https://dudujarra.github.io/elifoot-web/` baixam centenas de MB
+  via `AudioController.jsx` (linha 35: `STEMS_BASE_PATH = '/audio/fase1'`).
+  Ação corretiva real precisa de decisão técnica (LFS / CDN externo / OGG-MP3)
+  — agendada para SPEC-180. Este PR documenta o achado; não remove os WAVs
+  (quebraria runtime sem fallback procedural).
+- 6 features Player-Only: 2× **A — Promote (futuro)** (Stress System como
+  widget Dashboard "Tensão do elenco"; Named NPCs nos diálogos TransferOffer /
+  PressConference) + 4× **B — Hide com sinalização** (Bench Status Auto, Bench
+  Events, OffPitch Events, Chain Flags). Zero decommission.
+- Marker `PLAYER MODE ONLY — see SPEC-179` adicionado em 4 arquivos: `BenchEventsDeck.js`,
+  `OffPitchEventsDeck.js`, `NpcBehaviorProfile.js`, `PlayerCareer.js`.
+- Harness: `tests/specs/SPEC-179-player-mode-scope.test.js` (markers + gitignore
+  + spec existence) — Regra 0 cumprida.
 
 ### [fix] BUG-083 + SPEC-171 — save→reload error boundary + font CSS tokens (2026-05-12)
 
