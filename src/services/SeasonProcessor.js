@@ -429,6 +429,23 @@ export class SeasonProcessor {
             })();
             const relegated = pos >= 19;
             const promoted = pos <= 2 && team.division > 1;
+            // SPEC-F4.1: enriquecer seasonData com top scorer + star + key events
+            const topScorer = (() => {
+                if (!Array.isArray(team.squad)) return null;
+                const sorted = [...team.squad]
+                    .filter(p => (p.seasonGoals || 0) > 0)
+                    .sort((a, b) => (b.seasonGoals || 0) - (a.seasonGoals || 0));
+                if (sorted.length === 0) return null;
+                return { name: sorted[0].name, goals: sorted[0].seasonGoals };
+            })();
+
+            const starPlayer = (() => {
+                if (!engine.starPlayerId) return null;
+                const sp = (team.squad || []).find(p => p.id === engine.starPlayerId);
+                if (!sp) return null;
+                return { name: sp.name, goals: sp.seasonGoals || 0, apps: sp.seasonApps || 0 };
+            })();
+
             const chronicle = generateChronicle({
                 season: engine.seasonNumber,
                 clubName: team.name,
@@ -441,6 +458,8 @@ export class SeasonProcessor {
                     worstLoss,
                     wins: engine.managerStats?.wins || 0,
                     totalTeams: standings.length || 20,
+                    topScorer,
+                    starPlayer,
                 },
             });
             engine.chronicles.push(chronicle);

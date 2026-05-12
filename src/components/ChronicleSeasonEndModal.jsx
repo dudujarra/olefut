@@ -62,7 +62,7 @@ export function renderChronicleToCanvas(chronicle, opts = {}) {
     const width = opts.width || 800;
     const lineHeight = opts.lineHeight || 24;
     const padding = opts.padding || 40;
-    const titleHeight = 80;
+    const titleHeight = 100; // SPEC-F4.4: expandido pra fit highlights
 
     // Wrap text manual para canvas
     const body = (chronicle.chronicle || '').split(/\s+/);
@@ -122,6 +122,26 @@ export function renderChronicleToCanvas(chronicle, opts = {}) {
     lines.forEach((line, idx) => {
         ctx.fillText(line, padding, padding + titleHeight + (idx + 1) * lineHeight);
     });
+
+    // SPEC-F4.4: highlights row (top scorer + star player)
+    const seasonData = chronicle.seasonData || {};
+    let highlightY = padding + titleHeight + (lines.length * lineHeight) + 20;
+    if (seasonData.topScorer || seasonData.starPlayer) {
+        ctx.fillStyle = moodColor;
+        ctx.font = 'bold 13px sans-serif';
+        ctx.fillText('DESTAQUES DA TEMPORADA', padding, highlightY);
+        highlightY += 20;
+        ctx.fillStyle = '#FDFBF7';
+        ctx.font = '12px monospace';
+        if (seasonData.topScorer) {
+            ctx.fillText(`Artilheiro: ${seasonData.topScorer.name} (${seasonData.topScorer.goals}g)`, padding, highlightY);
+            highlightY += 16;
+        }
+        if (seasonData.starPlayer && seasonData.starPlayer.name) {
+            ctx.fillText(`Estrela: ${seasonData.starPlayer.name} (${seasonData.starPlayer.apps}j, ${seasonData.starPlayer.goals}g)`, padding, highlightY);
+            highlightY += 16;
+        }
+    }
 
     // Footer
     ctx.fillStyle = '#8E9E94';
