@@ -16,6 +16,7 @@ import { RealDB } from '../engine/db/index';
 import { League } from '../engine/tournaments/League';
 import { ContinentalCup } from '../engine/tournaments/ContinentalCup';
 import { KnockoutCup } from '../engine/tournaments/KnockoutCup';
+import { StateChampionship, STATE_CHAMPIONSHIPS, getClubState } from '../engine/tournaments/StateChampionship';
 import { ProPlayer } from '../engine/PlayerCareer';
 import { initNpcTacticState } from '../engine/NpcTacticAdvisor';
 import { AdaptiveBrain } from './learning/AdaptiveBrain.js';
@@ -57,6 +58,7 @@ export class GameInitializer {
 
         this._initializeLeagues(engine);
         this._initializeCups(engine);
+        this._initializeStateChampionships(engine);
         engine.generateMarket();
 
         if (mode === 'player') {
@@ -176,6 +178,40 @@ export class GameInitializer {
         const champions = new ContinentalCup('CHAMPIONS', 'Champions League', [6, 10, 14], [18, 22, 26]);
         champions.init(clTeams);
         engine.tournaments.push(champions);
+    }
+
+    /**
+     * SPEC-168: wire-up dos estaduais brasileiros.
+     * - Agrupa clubes BRA por estado (via CLUB_STATE_MAP).
+     * - Para cada estadual definido em STATE_CHAMPIONSHIPS:
+     *     * filtra clubes do estado (qualquer divisão BRA)
+     *     * trunca pra `size` máximo definido no metadata
+     *     * só instancia se >= 8 clubes (mandamento #5 — padronização)
+     * - Estaduais rodam weeks 1-16 (lógica interna em StateChampionship.advanceWeek).
+     */
+    _initializeStateChampionships(engine) {
+        const braTeams = engine.teams.filter(t => t.zone === 'BRA');
+        const byState = {};
+        for (const team of braTeams) {
+            const state = getClubState(team.name);
+            if (!state) continue;
+            if (!byState[state]) byState[state] = [];
+            byState[state].push(team);
+        }
+
+        for (const config of Object.values(STATE_CHAMPIONSHIPS)) {
+            const pool = byState[config.state] || [];
+            if (pool.length < 8) continue; // SPEC-168: skip se < 8 clubes
+            // Ordenar por divisão asc + balance desc → escolher os "top" do estado
+            const sorted = [...pool].sort((a, b) => {
+                if (a.division !== b.division) return a.division - b.division;
+                return (b.balance || 0) - (a.balance || 0);
+            });
+            const teamIds = sorted.slice(0, config.size).map(t => t.id);
+            const championship = new StateChampionship(config.id, config.name, config.state);
+            championship.init(teamIds);
+            engine.tournaments.push(championship);
+        }
     }
 
     _initializePlayerMode(engine, name, playerPosition) {

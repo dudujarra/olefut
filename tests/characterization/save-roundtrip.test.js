@@ -19,6 +19,7 @@ import { Tournament } from '../../src/engine/tournaments/Tournament.js';
 import { League } from '../../src/engine/tournaments/League.js';
 import { KnockoutCup } from '../../src/engine/tournaments/KnockoutCup.js';
 import { ContinentalCup } from '../../src/engine/tournaments/ContinentalCup.js';
+import { StateChampionship } from '../../src/engine/tournaments/StateChampionship.js';
 
 function createSeededRng(seed) {
     let state = seed >>> 0;
@@ -32,11 +33,13 @@ function createSeededRng(seed) {
 }
 
 const ENGINE_CLASS_FIELDS = ['staff', 'board', 'legacy'];
-const TOURNAMENT_CLASSES = { Tournament, League, KnockoutCup, ContinentalCup };
+const TOURNAMENT_CLASSES = { Tournament, League, KnockoutCup, ContinentalCup, StateChampionship };
 
 function tournamentClassFromShape(t) {
     if (!t || typeof t !== 'object') return Tournament;
     if (t.__class && TOURNAMENT_CLASSES[t.__class]) return TOURNAMENT_CLASSES[t.__class];
+    // SPEC-168: state championships têm `state` (UF) e `phase`
+    if (typeof t.state === 'string' && typeof t.phase === 'string') return StateChampionship;
     if (typeof t.level === 'number') return League;
     if (Array.isArray(t.groupWeeks)) return ContinentalCup;
     if (Array.isArray(t.roundWeeks)) return KnockoutCup;
@@ -193,7 +196,8 @@ describe('Save round-trip preservation (RFCT-002)', () => {
         // All tournaments have __class tag
         for (const t of serialized.tournaments) {
             expect(t.__class).toBeDefined();
-            expect(['Tournament', 'League', 'KnockoutCup', 'ContinentalCup']).toContain(t.__class);
+            // SPEC-168: StateChampionship adicionado em Bloco 2.2
+            expect(['Tournament', 'League', 'KnockoutCup', 'ContinentalCup', 'StateChampionship']).toContain(t.__class);
         }
     });
 

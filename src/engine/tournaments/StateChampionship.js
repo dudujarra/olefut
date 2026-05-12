@@ -1,5 +1,5 @@
 /**
- * StateChampionship — SPEC-061
+ * StateChampionship — SPEC-061 / SPEC-168 (wire-up)
  *
  * Estaduais brasileiros (jan-abril). 4 torneios principais:
  * - Paulistão (16 clubes SP)
@@ -9,9 +9,78 @@
  *
  * Calendário: weeks 1-16 (16 semanas, jan-abril). Roda paralelo Brasileirão.
  * Formato: liga ida-volta (15-31 jogos), top 4 → semis, final ida-volta.
+ *
+ * SPEC-168: estaduais agora são instanciados pelo GameInitializer e o mapping
+ * clube→estado mora aqui (brazil.js não tem campo `state`).
  */
 
 import { Tournament } from './Tournament';
+
+/**
+ * SPEC-168: mapa estático clube→estado.
+ * Cobre todos os 80 clubes brasileiros em src/engine/db/brazil.js.
+ * Clube ausente do mapa = sem estadual (ignorado pelo GameInitializer).
+ */
+export const CLUB_STATE_MAP = {
+    // SP
+    'Palmeiras': 'SP', 'São Paulo': 'SP', 'Corinthians': 'SP', 'Santos': 'SP',
+    'Ponte Preta': 'SP', 'Guarani': 'SP', 'Mirassol': 'SP', 'Novorizontino': 'SP',
+    'Botafogo-SP': 'SP', 'Ituano': 'SP', 'Inter de Limeira': 'SP',
+    'Ferroviária': 'SP', 'São Bernardo': 'SP',
+    // RJ
+    'Flamengo': 'RJ', 'Fluminense': 'RJ', 'Botafogo': 'RJ', 'Vasco da Gama': 'RJ',
+    'Bangu': 'RJ', 'Nova Iguaçu': 'RJ', 'Portuguesa-RJ': 'RJ', 'Volta Redonda': 'RJ',
+    // MG
+    'Atlético-MG': 'MG', 'Cruzeiro': 'MG', 'América-MG': 'MG',
+    'Tombense': 'MG', 'Athletic Club': 'MG', 'Caldense': 'MG',
+    // RS
+    'Grêmio': 'RS', 'Internacional': 'RS', 'Juventude': 'RS',
+    'Caxias': 'RS', 'São José-RS': 'RS', 'Ypiranga': 'RS',
+    // PR
+    'Athletico-PR': 'PR', 'Coritiba': 'PR', 'Operário-PR': 'PR',
+    'Paraná Clube': 'PR', 'Londrina': 'PR', 'Cianorte': 'PR',
+    // SC
+    'Criciúma': 'SC', 'Chapecoense': 'SC', 'Avaí': 'SC',
+    'Figueirense': 'SC', 'Brusque': 'SC',
+    // BA
+    'Bahia': 'BA', 'Vitória': 'BA',
+    // CE
+    'Fortaleza': 'CE', 'Ceará': 'CE', 'Ferroviário': 'CE',
+    'Floresta': 'CE', 'Iguatu': 'CE',
+    // PE
+    'Sport Recife': 'PE', 'Náutico': 'PE', 'Santa Cruz': 'PE', 'Retrô': 'PE',
+    // GO
+    'Goiás': 'GO', 'Atlético-GO': 'GO', 'Vila Nova': 'GO',
+    'Aparecidense': 'GO', 'Anápolis': 'GO',
+    // AL
+    'CRB': 'AL', 'CSA': 'AL',
+    // MA
+    'Sampaio Corrêa': 'MA', 'Moto Club': 'MA',
+    // PA
+    'Paysandu': 'PA', 'Remo': 'PA',
+    // AM
+    'Amazonas': 'AM', 'Manaus': 'AM', 'Nacional-AM': 'AM',
+    // PB
+    'Botafogo-PB': 'PB', 'Campinense': 'PB', 'Treze': 'PB', 'Sousa': 'PB',
+    // RN
+    'ABC': 'RN', 'América-RN': 'RN',
+    // SE
+    'Confiança': 'SE', 'Sergipe': 'SE',
+    // PI
+    'Altos': 'PI',
+    // ES
+    'Rio Branco-ES': 'ES',
+    // DF
+    'Brasiliense': 'DF',
+};
+
+/**
+ * SPEC-168: helper para obter estado de um time.
+ * Retorna null se o clube não está mapeado (não-brasileiro ou clube novo).
+ */
+export function getClubState(teamName) {
+    return CLUB_STATE_MAP[teamName] || null;
+}
 
 export const STATE_CHAMPIONSHIPS = {
     paulistao: {
@@ -72,6 +141,9 @@ export class StateChampionship extends Tournament {
             goalsFor: 0, goalsAgainst: 0, points: 0
         }));
         this.fixtures = this.generateRoundRobin(teamIds);
+        // SPEC-168: re-init must reset phase for new season
+        this.phase = 'group';
+        this.winner = null;
     }
 
     generateRoundRobin(teamIds) {

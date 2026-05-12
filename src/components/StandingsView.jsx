@@ -41,8 +41,17 @@ export function StandingsView() {
     const userTeam = engine.getTeam(gameState.teamId);
     const [activeZone, setActiveZone] = useState(userTeam?.zone || 'BRA');
     const [activeDiv, setActiveDiv] = useState(userTeam?.division || 1);
+    // SPEC-168: estadual tab
+    const [activeState, setActiveState] = useState(null);
 
-    const standings = engine.getStandings(activeZone, activeDiv);
+    // SPEC-168: detectar estaduais ativos (Tournament.id em STATE_CHAMPIONSHIPS map)
+    const stateTournaments = (engine.tournaments || []).filter(
+        t => t && ['paulistao', 'carioca', 'mineiro', 'gaucho'].includes(t.id)
+    );
+
+    const standings = activeState
+        ? (stateTournaments.find(t => t.id === activeState)?.getStandings?.() || [])
+        : engine.getStandings(activeZone, activeDiv);
     const zones = [...new Set(engine.teams.map(t => t.zone))];
     const divs = [...new Set(engine.teams.filter(t => t.zone === activeZone).map(t => t.division))].sort();
 
@@ -62,7 +71,9 @@ export function StandingsView() {
                                 Classificação
                             </h2>
                             <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', ...fontMono }}>
-                                {activeZone} / {SERIE_NAMES[activeDiv] || `DIV ${activeDiv}`}
+                                {activeState
+                                    ? (stateTournaments.find(t => t.id === activeState)?.name || activeState.toUpperCase())
+                                    : `${activeZone} / ${SERIE_NAMES[activeDiv] || `DIV ${activeDiv}`}`}
                             </div>
                         </div>
                     </div>
@@ -74,11 +85,11 @@ export function StandingsView() {
                     <div style={{ display: 'flex', gap: '8px', flex: '1 1 auto', alignItems: 'center' }}>
                         <MapPin size={16} color="var(--text-muted)" />
                         {zones.map(z => (
-                            <EfButton 
-                                key={z} 
-                                variant={activeZone === z ? 'primary' : 'secondary'} 
-                                size="sm" 
-                                onClick={() => { setActiveZone(z); setActiveDiv(1); }} 
+                            <EfButton
+                                key={z}
+                                variant={activeZone === z ? 'primary' : 'secondary'}
+                                size="sm"
+                                onClick={() => { setActiveZone(z); setActiveDiv(1); setActiveState(null); }}
                                 style={{ flex: 1, minWidth: '60px' }}
                             >
                                 {z}
@@ -89,11 +100,11 @@ export function StandingsView() {
                         <div style={{ display: 'flex', gap: '8px', flex: '1 1 auto', alignItems: 'center', borderLeft: '2px solid var(--border-panel)', paddingLeft: '12px' }}>
                             <Trophy size={16} color="var(--text-muted)" />
                             {divs.map(d => (
-                                <EfButton 
-                                    key={d} 
-                                    variant={activeDiv === d ? 'primary' : 'secondary'} 
-                                    size="sm" 
-                                    onClick={() => setActiveDiv(d)} 
+                                <EfButton
+                                    key={d}
+                                    variant={!activeState && activeDiv === d ? 'primary' : 'secondary'}
+                                    size="sm"
+                                    onClick={() => { setActiveDiv(d); setActiveState(null); }}
                                     style={{ flex: 1 }}
                                 >
                                     {SERIE_NAMES[d] || `DIV ${d}`}
@@ -103,9 +114,34 @@ export function StandingsView() {
                     )}
                 </EfPanel>
 
+                {/* SPEC-168: estaduais brasileiros (jan-abril, weeks 1-16) */}
+                {activeZone === 'BRA' && stateTournaments.length > 0 && (
+                    <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap" style={{ gap: '8px', alignItems: 'center' }}>
+                        <Trophy size={16} color="var(--text-muted)" />
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', ...fontMono }}>ESTADUAIS</span>
+                        {stateTournaments.map(st => (
+                            <EfButton
+                                key={st.id}
+                                variant={activeState === st.id ? 'primary' : 'secondary'}
+                                size="sm"
+                                onClick={() => setActiveState(activeState === st.id ? null : st.id)}
+                                style={{ flex: '1 1 auto' }}
+                            >
+                                {st.name}
+                            </EfButton>
+                        ))}
+                    </EfPanel>
+                )}
+
                 {/* LEGEND BENTO */}
                 <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap" style={{ justifyContent: 'center', gap: '16px' }}>
-                    {activeDiv === 1 && (
+                    {activeState && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
+                            <Trophy size={14} color="var(--accent)" weight="fill" />
+                            <span style={{ color: 'var(--text-muted)' }}>TOP 4 → SEMIFINAIS</span>
+                        </div>
+                    )}
+                    {!activeState && activeDiv === 1 && (
                         <>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
                                 <AirplaneTilt size={14} color="#39FF14" weight="fill" /> 
@@ -117,15 +153,15 @@ export function StandingsView() {
                             </div>
                         </>
                     )}
-                    {activeDiv > 1 && activeDiv <= 4 && (
+                    {!activeState && activeDiv > 1 && activeDiv <= 4 && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
-                            <CaretUp size={16} color="#40BAF7" weight="bold" /> 
+                            <CaretUp size={16} color="#40BAF7" weight="bold" />
                             <span style={{ color: 'var(--text-muted)' }}>ACESSO</span>
                         </div>
                     )}
-                    {activeDiv < 4 && (
+                    {!activeState && activeDiv < 4 && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
-                            <CaretDown size={16} color="#FF3333" weight="bold" /> 
+                            <CaretDown size={16} color="#FF3333" weight="bold" />
                             <span style={{ color: 'var(--text-muted)' }}>REBAIXAMENTO</span>
                         </div>
                     )}
@@ -152,7 +188,10 @@ export function StandingsView() {
                             {standings.map((s, i) => {
                                 const t = engine.getTeam(s.teamId);
                                 const pos = i + 1;
-                                const zoneClass = getZoneClass(pos, standings.length, activeDiv);
+                                // SPEC-168: state championships — top 4 vão pra semis, sem prom/releg
+                                const zoneClass = activeState
+                                    ? (pos <= 4 ? 'zone-promotion' : '')
+                                    : getZoneClass(pos, standings.length, activeDiv);
                                 const isUser = s.teamId === userTeam?.id;
                                 const zoneBorderColor = getZoneBorderColor(zoneClass);
                                 
