@@ -17,6 +17,7 @@ import { EfModal } from './ui/EfModal';
 import { OnboardingCoach } from './OnboardingCoach';
 import { getUnifiedView } from '../engine/UnifiedModeBridge';
 import { getWeeklyQuote } from '../engine/StarPlayerNarrative';
+import { evaluateAhaMoments, markAhaSeen } from '../engine/AhaMomentsSystem';
 import { 
   Users, ShoppingCart, ChartBar, SoccerBall, TrendUp, TrendDown, Heartbeat,
   Newspaper, Lightning, Envelope, Wallet, Bank, Building, GraduationCap, Binoculars, 
@@ -41,10 +42,33 @@ export function DashboardView() {
         try { return !localStorage.getItem('elifoot_tutorial_done') && (engine?.seasonNumber || 1) === 1; }
         catch { return false; }
     });
+    // Gap fix #2: aha moments state
+    const [ahaMoment, setAhaMoment] = useState(null);
     // SPEC-167: manager advice panel state
     const [advicePanel, setAdvicePanel] = useState({ open: false, loading: false, text: '' });
 
     useKeyboardNav({ changeView, currentView: gameState?.view || 'dashboard' });
+
+    // Gap fix #2: aha moments detector (week change)
+    /* eslint-disable react-hooks/set-state-in-effect */
+    React.useEffect(() => {
+        if (!engine || ahaMoment) return;
+        try {
+            const stats = engine.managerStats || {};
+            const teamData = engine.getTeam?.(gameState.teamId);
+            const ctx = {
+                matchesPlayed: (stats.wins || 0) + (stats.draws || 0) + (stats.losses || 0),
+                firstInjuryDetected: (engine.weekInjuries?.length || 0) > 0 && (stats.matchesPlayed || 0) <= 5,
+                lowMoraleStreak: (stats.lossStreak || 0),
+                balance: teamData?.balance || engine.manager?.money || 100000,
+            };
+            const triggered = evaluateAhaMoments(ctx);
+            if (triggered.length > 0) {
+                setAhaMoment(triggered[0]);
+            }
+        } catch { /* defensive */ }
+    }, [engine?.currentWeek]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     // BUG-081 (SPEC-158): aceitável — abre modais em resposta a eventos da engine (unlock/achievement).
     // Event-subscriber side-effect. setState dispara render que mostra modal.
@@ -124,6 +148,29 @@ export function DashboardView() {
                     show={(engine?.seasonNumber || 1) === 1 && (engine?.currentWeek || 1) === 1}
                     onComplete={() => forceUpdate()}
                 />
+
+                {/* Gap fix #2: Aha moment banner */}
+                {ahaMoment && (
+                    <EfPanel padding="md" style={{ border: '1px solid #FFD700', backgroundColor: '#1A1408' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <Lightbulb size={24} color="#FFD700" weight="fill" />
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: '0.7rem', color: '#FFD700', fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.1em', marginBottom: '4px' }}>
+                                    DICA ESTRATÉGICA
+                                </div>
+                                <div style={{ fontSize: '0.95rem', color: '#FDFBF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold', marginBottom: '4px' }}>
+                                    {ahaMoment.title}
+                                </div>
+                                <div style={{ fontSize: '0.8rem', color: '#8E9E94', fontFamily: 'var(--font-sans)' }}>
+                                    {ahaMoment.body}
+                                </div>
+                            </div>
+                            <EfButton variant="secondary" size="sm" onClick={() => { markAhaSeen(ahaMoment.id); setAhaMoment(null); }}>
+                                ENTENDI
+                            </EfButton>
+                        </div>
+                    </EfPanel>
+                )}
 
                 {/* SPEC-C2.3 + F4.2: Unified Mode — Star Progress panel com frase semanal */}
                 {(() => {

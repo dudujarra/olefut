@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useGame } from '../context/GameContext';
+import { ViewOnboarding } from './ViewOnboarding';
 import { ACHIEVEMENTS } from '../engine/systems/AchievementsSystem';
 import { EfPanel, EfButton } from './ui';
 import bgTrophyRoom from '../assets/environments/bg_trophy_room.png';
@@ -79,6 +80,7 @@ export function AchievementsView() {
 
     return (
         <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgTrophyRoom})` }}>
+            <ViewOnboarding viewId="achievements" />
             <div className="ef-view-container">
 
                 {/* HEADER */}

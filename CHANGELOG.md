@@ -4,6 +4,44 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### [feat] V2 GAME-DESIGN delivery — AKITA-298..308 (2026-05-12)
+
+V2 do roadmap entregue após análise brutal #1. 11 PRs cobrindo Fases F1-F6
+do `specs/GAME-DESIGN-ROADMAP-V2-POST-BRUTAL-2026-05-12.md`.
+
+**F1 — Match Pause + Decisões:**
+- AKITA-305 MatchHighlightModal pulse em gol/vermelho
+- AKITA-306 ReactiveCards + StarImpactToast
+
+**F2 — Features mortas wire:**
+- AKITA-299 Win Streak wire MatchSimulator + Legends wire CareerService + ModLoader auto-load
+- AKITA-300 BrazilianAtmosphere wire em Manager mode
+
+**F3 — Conteúdo BR profundo:**
+- AKITA-300 BrazilianAtmosphere expansion 36→90 + regional weather
+- AKITA-301 ClubVoiceSystem 20 clubes BR + wire MatchSimulator
+
+**F4 — Chronicle + Star com VOZ:**
+- AKITA-302 StarPlayerNarrative + frase semanal wire DashboardView
+- AKITA-304 Chronicle enrichment topScorer/starPlayer + PNG destaques
+
+**F5 + F6:**
+- AKITA-303 AhaMoments engine + Telemetry opt-in
+- AKITA-307 OnboardingTriggers (8 views) + Playtest plan doc
+- AKITA-308 Replay tutorial UI em TutorialView
+
+### [fix] Gap fixes pós-análise brutal #2 — AKITA-309 (2026-05-12)
+
+Análise brutal #2 detectou 8 lacunas reais nos 11 PRs V2:
+1. ✅ Highlight modal pausa ticker durante exibição (auto-resume on dismiss)
+2. ✅ Aha moments wired em DashboardView (banner dourado dismissable)
+3. ✅ Onboarding triggers wired em 8 views (Market, Squad, Standings, Press, Chronicle, Rivalries, Lineage, Achievements) via novo ViewOnboarding component
+4. ✅ Reactive cards wired em MatchView ticker (opponent_goal trigger 2.6s pós-highlight)
+5. ✅ Win Streak feature flag default ON (override via globalThis.ENABLE_WIN_STREAK=false em testes)
+6. ✅ ClubVoiceSystem nomes corrigidos: "Vasco"→"Vasco da Gama", "Sport"→"Sport Recife" pra match data.js exact
+7. ✅ CHANGELOG V2 entries (este bloco)
+8. ⏸️ Smoke test browser pendente (Dudu deve rodar `npm run dev` + jogar 5min)
+
 ### [feat+docs] GAME-DESIGN ROADMAP delivery — AKITA-263..288 (2026-05-12)
 
 26 PRs cobrindo Fase A (5/5), Fase B (6/6), Fase C (5/6) do

@@ -1,4 +1,5 @@
 import { useGame } from '../context/GameContext';
+import { ViewOnboarding } from './ViewOnboarding';
 import { EfButton, EfPanel, EfClubBadge } from './ui';
 import { findNextDerby } from '../engine/DerbyDetector';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';
@@ -63,6 +64,7 @@ export function RivalriesView() {
 
     return (
         <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgNewspaper})` }}>
+            <ViewOnboarding viewId="rivalries" />
             <div className="ef-view-container ef-view-container--narrow">
 
                 {/* HEADER */}
