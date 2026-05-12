@@ -36,6 +36,9 @@ jobs:
             bash scripts/spec-check.sh validate || true
           fi
 
+      - name: Doc metrics drift check (AKITA-229)
+        run: node scripts/update-doc-metrics.cjs --check
+
   deploy:
     needs: validate
     if: github.ref == 'refs/heads/main'
