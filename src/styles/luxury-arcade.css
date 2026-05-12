@@ -2084,3 +2084,230 @@ h1, h2, h3, h4 {
   gap: 8px;
 }
 
+/* ==========================================================================
+   B3.1 UI Consistency Final Plus — LineageView Utilities (SPEC-175 omissão)
+   Extracted from LineageView (Hall de Lendas, Heritage, Humiliation, Growth)
+   inline styles. Same pattern as SPEC-170/172/173/175.
+   ========================================================================== */
+
+/* --- Tab badge (count indicator inside a tab button) -------------------- */
+
+.ef-tab-badge {
+  margin-left: 8px;
+  background-color: #1A1F24;
+  color: var(--text-main, #FDFBF7);
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  border: 1px solid #2D3748;
+}
+.ef-tab-badge--active {
+  background-color: #000;
+  color: var(--primary, #39FF14);
+}
+
+/* --- Lineage tabs cluster (horizontal scrollable button row) ------------ */
+
+.ef-lineage-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* --- Panel intro paragraph (small muted text above grid/list) ----------- */
+
+.ef-panel-intro {
+  margin: 0 0 24px 0;
+  font-size: 0.8rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: var(--font-mono);
+  line-height: 1.6;
+}
+
+/* --- Panel sub-heading (uppercase accent mono, top of panel) ------------ */
+
+.ef-panel-subhead {
+  margin: 0 0 16px 0;
+  font-size: 0.95rem;
+  color: var(--accent, #FFD700);
+  font-family: var(--font-mono);
+}
+.ef-panel-subhead--primary { color: var(--primary, #39FF14); }
+.ef-panel-subhead--danger  { color: var(--danger,  #FF3333); }
+
+/* --- Hall of Legends slot grid ------------------------------------------ */
+
+.ef-hall-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.ef-hall-slot {
+  padding: 14px;
+  background-color: #1A1F24;
+  border: 1px dashed #2D3748;
+  opacity: 0.65;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ef-hall-slot--filled {
+  opacity: 1;
+  border: 2px solid var(--accent, #FFD700);
+}
+.ef-hall-slot__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ef-hall-slot__title {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: var(--font-sans);
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+.ef-hall-slot--filled .ef-hall-slot__title { color: var(--text-main, #FDFBF7); }
+.ef-hall-slot__name {
+  font-size: 1rem;
+  color: var(--accent, #FFD700);
+  font-family: var(--font-mono);
+  font-weight: bold;
+}
+.ef-hall-slot__stats {
+  display: flex;
+  gap: 12px;
+  font-size: 0.7rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: var(--font-mono);
+}
+.ef-hall-slot__placeholder {
+  font-size: 1.4rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: var(--font-mono);
+}
+.ef-hall-slot__criteria {
+  font-size: 0.7rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: var(--font-mono);
+  line-height: 1.5;
+}
+
+/* --- Heritage regen card (player row + trait grid) ---------------------- */
+
+.ef-heritage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ef-heritage-card {
+  padding: 14px;
+  background-color: #1A1F24;
+  border: 1px solid #2D3748;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ef-heritage-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ef-heritage-card__identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ef-heritage-card__name {
+  font-size: 0.95rem;
+  color: var(--text-main, #FDFBF7);
+  font-weight: bold;
+  font-family: var(--font-mono);
+}
+.ef-heritage-card__meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.7rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: var(--font-mono);
+}
+.ef-heritage-traits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+.ef-heritage-trait {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ef-heritage-trait__label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: var(--font-mono);
+}
+.ef-heritage-trait__value {
+  font-weight: bold;
+}
+
+/* Bar specific to heritage traits (6px tall like .ef-progress--sm but with
+   the standard border treatment used inside cards). */
+.ef-heritage-bar {
+  height: 6px;
+  background-color: var(--bg-dark, #0D1117);
+  border: 1px solid #2D3748;
+  position: relative;
+}
+.ef-heritage-bar__fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* --- Event row (humiliation / growth) — colored left border ------------- */
+/* Variant of .ef-list-row but renders as a stacked vertical list (instead   */
+/* of the space-between row) for textual event entries.                     */
+
+.ef-event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ef-event-row {
+  padding: 12px 14px;
+  background-color: #1A1F24;
+  border-left: 4px solid #2D3748;
+  font-size: 0.85rem;
+  color: var(--text-main, #FDFBF7);
+  font-family: var(--font-mono);
+  line-height: 1.5;
+}
+.ef-event-row--danger  { border-left-color: var(--danger,  #FF3333); }
+.ef-event-row--primary { border-left-color: var(--primary, #39FF14); }
+.ef-event-row--accent  { border-left-color: var(--accent,  #FFD700); }
+
+/* --- Empty-state title + paragraph helpers (used inside .ef-empty-state) - */
+
+.ef-empty-state__title {
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--text-main, #FDFBF7);
+}
+.ef-empty-state__p {
+  margin: 0 0 8px 0;
+}
+.ef-empty-state__p--last {
+  margin: 0;
+}
+.ef-empty-state__p--small {
+  font-size: 0.75rem;
+}
+.ef-empty-state__icon {
+  margin-bottom: 16px;
+}
+

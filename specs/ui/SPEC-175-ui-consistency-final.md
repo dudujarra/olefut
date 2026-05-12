@@ -204,3 +204,40 @@ Adicionalmente (utility components fora do roster principal mas cobertos pela me
 ✅ 6 emojis decorativos trocados por Phosphor icons em PlayerMatchView.
 
 > **Nota Akita**: quarta e última leva do Bloco 3.1 UI consistency. Pattern documentado em 4 SPECs (170, 172, 173, 175), 20 components cobertos, ~250 inline blocks e ~200 `fontFamily` literais removidos cumulativamente. CSS reuse system maduro pra próximos blocos (visual polish, animation passes, mobile responsive). Harness = tests + lint + build + E2E todos verdes.
+
+---
+
+## Notas
+
+### Pós-merge: LineageView refactor (omissão SPEC-175)
+
+`LineageView.jsx` (#128, SPEC-166) tinha 57 inline `style={{}}` + `colors = {...}` local + spread `...fontMono` literal — mesmo anti-pattern que SPEC-170/172/173/175 atacaram, mas a view ficou de fora porque não estava no roster do batch B3.1 (focado em DashboardView/MarketView/SquadView/etc).
+
+**Patch aplicado** (worktree `/tmp/fix-lineage`, branch `claude/fix-lineage-inline`):
+
+- LineageView: **57 → 8** inline styles. Remanescentes justificados (1 background-image, 1 panel header border-bottom-color, 4 dynamic per-slot/trait accent colors, 1 inline-block layout único do growth empty-state, 1 padding do engine-fallback).
+- Removidos: `colors = {...}` local e `fontMono = {...}` local (zero callsites quebrados → 0 no-undef).
+- Novas classes em `luxury-arcade.css` (apêndice "B3.1 UI Consistency Final Plus — LineageView Utilities"):
+  - `.ef-lineage-tabs`, `.ef-tab-badge` (+`--active`)
+  - `.ef-panel-subhead` (+`--primary`, `--danger`), `.ef-panel-intro`
+  - `.ef-hall-grid`, `.ef-hall-slot` (+`--filled`), `.ef-hall-slot__header/title/name/stats/placeholder/criteria`
+  - `.ef-heritage-list`, `.ef-heritage-card` (+`__row/identity/name/meta`), `.ef-heritage-traits`, `.ef-heritage-trait` (+`__label/value`), `.ef-heritage-bar` (+`__fill`)
+  - `.ef-event-list`, `.ef-event-row` (+`--danger/primary/accent`)
+  - `.ef-empty-state__title/p` (+`--last/--small`), `.ef-empty-state__icon`
+- Header/scene-shell/empty-state existentes (SPEC-172/173) reaproveitados — não duplicados.
+- Regression test: `tests/specs/SPEC-166-lineage-inline-audit.test.js` — ceiling ≤10 `style={{`, `colors = {...}` proibido, `fontMono`/`fontSans` refs proibidos, exigência das utility classes canônicas.
+
+**Métricas pós-LineageView refactor**:
+
+| Métrica | Pré | Pós | Δ |
+|---------|-----|-----|---|
+| Inline `style={{` LineageView | 57 | 8 | **−49** |
+| `colors = {...}` local | 1 | 0 | **−1** |
+| `fontMono = {...}` local | 1 | 0 | **−1** |
+| Tests passing | 1114 | 1114 | 0 |
+| Lint errors | 0 | 0 | 0 |
+| Lint warnings | 117 | 117 | 0 |
+| Initial chunk | 382.84KB | 382.84KB (idem) | ~0 |
+| Build time | ~1.34s | ~1.58s | +0.24s |
+
+**Cumulativo B3.1 com correção da omissão: 21/21 components cobertos** (LineageView agora explicitamente padronizado).
