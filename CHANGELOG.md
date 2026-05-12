@@ -4,6 +4,54 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### [feat+docs] GAME-DESIGN ROADMAP delivery — AKITA-263..288 (2026-05-12)
+
+26 PRs cobrindo Fase A (5/5), Fase B (6/6), Fase C (5/6) do
+`specs/GAME-DESIGN-ROADMAP-2026-05-12.md`. Cada PR commit individual.
+Auto-push hook fired 26/26.
+
+**Fase A — Tornar JOGÁVEL (5/5):**
+- AKITA-264 SPEC-A1 Rookie Sidebar (sidebar 4 entradas na 1ª temp)
+- AKITA-265 SPEC-A2 OnboardingCoach (4 tooltips dentro do dashboard)
+- AKITA-266 SPEC-A3 PreMatch Decision-Ready (forma WWLDD + sugestão auxiliar)
+- AKITA-267 SPEC-A4 MatchPostMortem (3 cards causal-effect pós-jogo)
+- AKITA-268 SPEC-A5 RookieHandicap (decay -10% → -3% primeiras 3 partidas)
+
+**Fase B — Tornar PRAZEROSO (6/6):**
+- AKITA-269 SPEC-B6 BrazilianAtmosphere catalog (36 strings cultura BR)
+- AKITA-270 SPEC-B5 TacticFormatter (modifier preview concreto)
+- AKITA-271 SPEC-B3 ChronicleSeasonEndModal (full-screen + auto-trigger)
+- AKITA-272 SPEC-B2 MidMatchManagerDeck (8 cartas mid-match manager)
+- AKITA-273 SPEC-B1 MatchEventClassifier + pitch-bg CSS
+- AKITA-276 SPEC-B2.2 MidMatchCardModal componente
+- AKITA-279 SPEC-B1.2 pitch backdrop wire MatchView
+- AKITA-280 SPEC-B2.2 wire modal em MatchView ticker
+- AKITA-282 SPEC-B3 PNG export (canvas, sem deps)
+- AKITA-285 SPEC-B6.2 enrichCardWithAtmosphere helper
+- AKITA-287 SPEC-B1.3 MatchBallSprite animation
+
+**Fase C — Tornar MEMORÁVEL (5/6 — C2.2 deferred):**
+- AKITA-274 SPEC-C4 ModLoader (JSON cartas custom)
+- AKITA-275 SPEC-C6 SeasonalBREvents catalog (4 eventos Jan/Jun/Out/Dez)
+- AKITA-277 SPEC-C6 wire WeekProcessor (auto-trigger por week)
+- AKITA-278 SPEC-C6.2 SeasonalEventModal renderer
+- AKITA-281 SPEC-C2 StarPlayerLink (groundwork unified mode)
+- AKITA-283 SPEC-C1.2 wire LLM post-match narrative em UI
+- AKITA-284 SPEC-C4.2 sample BR mod pack + /docs/MODDING.md
+- AKITA-286 SPEC-C5.2 DerbyDetector + UI highlight próximo derby
+
+**Apoio:**
+- AKITA-263 SPEC-180 Win Streak + SPEC-181 Legends Cross-Save Pool (DRAFTs)
+- AKITA-288 Etapa 5 statistical baseline (20 saves) + report
+
+**Métricas finais:**
+- Suite testes: 1431 pass
+- Lint: 0 errors
+- Build: 757ms
+- Sem regressão golden master
+
+**Único deferred:** C2.2 unified mode full migration (14h arquitetural).
+
 ### [docs] SPEC-179 — Player Mode Features Scope + dist/audio policy (2026-05-12)
 
 Auditoria pass-2 expôs duas pendências sem decisão: (a) `dist/audio` ~465 MB

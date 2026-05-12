@@ -49,6 +49,9 @@ export function SeasonalEventModal() {
     const engine = getEngine?.();
     const event = engine?.pendingSeasonalEvent || null;
 
+    /* eslint-disable react-hooks/preserve-manual-memoization, react-hooks/immutability */
+    // BUG-081 pattern: engine é external store — mutações intencionais via forceUpdate.
+    // React Compiler não consegue preservar memoization, esperado.
     const close = useCallback(() => {
         if (!engine) return;
         engine.pendingSeasonalEvent = null;
@@ -61,7 +64,7 @@ export function SeasonalEventModal() {
             const team = engine.getTeam(engine.manager?.teamId);
             applyEventEffectToTeam(opt.effect, team);
             if (engine.weekEvents) {
-                engine.weekEvents.push(`📅 ${opt.resultText || ''}`);
+                engine.weekEvents.push(`[Sazonal] ${opt.resultText || ''}`);
             }
         } catch { /* defensive */ }
         close();
@@ -75,6 +78,7 @@ export function SeasonalEventModal() {
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
     }, [event, close]);
+    /* eslint-enable react-hooks/preserve-manual-memoization, react-hooks/immutability */
 
     if (!event) return null;
 
