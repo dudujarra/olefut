@@ -140,6 +140,53 @@ export function shouldTriggerMidMatch(minute, alreadyTriggered = new Set()) {
     return true;
 }
 
+// SPEC-F1.2: reactive cards (não minute-based, context-driven)
+export const ReactiveCards = [
+    {
+        id: 'reactive_injury_titular',
+        reactiveType: 'injury',
+        text: 'Titular caído. Médico já entrou. Substituir ou aguentar?',
+        options: [
+            { label: 'Substituir agora', effect: { moralDelta: 0, energyDelta: 5 }, resultText: 'Reserva entra com fome. Time se ajusta.' },
+            { label: 'Aguentar mais um pouco', effect: { moralDelta: -2 }, resultText: 'Risco. Pode piorar.' },
+        ],
+    },
+    {
+        id: 'reactive_yellow_titular',
+        reactiveType: 'yellow',
+        text: 'Cartão amarelo no titular. Risco de expulsão.',
+        options: [
+            { label: 'Substituir preventivo', effect: { moralDelta: 1, energyDelta: 3 }, resultText: 'Sai forte, entra fresco.' },
+            { label: 'Falar pra ele pegar leve', effect: { moralDelta: 0 }, resultText: 'Capitão avisa. Cuidado nas divididas.' },
+            { label: 'Confiar na experiência', effect: { moralDelta: 2 }, resultText: 'Veterano sabe se controlar.' },
+        ],
+    },
+    {
+        id: 'reactive_opponent_goal',
+        reactiveType: 'opponent_goal',
+        text: 'Adversário marcou. Time abaixou a cabeça. Que mensagem?',
+        options: [
+            { label: 'Cobrar reação imediata', effect: { moralDelta: 4, energyDelta: -3 }, resultText: 'Time reage no peito.' },
+            { label: 'Mudar tática (ataque)', effect: { tacticShift: 'offensive', moralDelta: 2 }, resultText: 'Ofensivo: tudo ou nada.' },
+            { label: 'Acalmar e organizar', effect: { moralDelta: 1, energyDelta: 2 }, resultText: 'Mantém compostura.' },
+        ],
+    },
+];
+
+/**
+ * Pure: seleciona carta reactiva por tipo + seed.
+ *
+ * @param {string} reactiveType — 'injury' | 'yellow' | 'opponent_goal'
+ * @param {number} seed
+ * @returns {object|null}
+ */
+export function getReactiveCard(reactiveType, seed = 0) {
+    const candidates = ReactiveCards.filter(c => c.reactiveType === reactiveType);
+    if (candidates.length === 0) return null;
+    const idx = Math.abs(seed) % candidates.length;
+    return candidates[idx];
+}
+
 /**
  * Pure: seleciona carta candidata para um minuto via seed.
  * Filtra deck por minuteRange + escolhe via modular seed.

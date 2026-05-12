@@ -10,9 +10,10 @@ import { analyzeMatch } from '../engine/MatchAnalyst';
 import { MidMatchCardModal } from './MidMatchCardModal';
 import { shouldTriggerMidMatch, getMidMatchCard } from '../engine/MidMatchManagerDeck';
 import { MatchBallSprite } from './MatchBallSprite';
-import { applyToStarPlayer } from '../engine/StarPlayerLink';
+import { applyToStarPlayer, getStarPlayer } from '../engine/StarPlayerLink';
 import { MatchHighlightModal, extractHighlightContext } from './MatchHighlightModal';
 import { isUnifiedMode, applyPlayerCardEffectToStar } from '../engine/UnifiedModeBridge';
+import { StarImpactToast } from './StarImpactToast';
 import { EfClubBadge, EfBanner } from './ui';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
@@ -61,6 +62,9 @@ export function MatchView() {
     // SPEC-F1.1: highlight modal state
     const [highlightContext, setHighlightContext] = useState(null);
     const highlightedEventsRef = useRef(new Set());
+
+    // SPEC-F1.3: star impact toast state
+    const [starToast, setStarToast] = useState(null);
 
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
@@ -130,7 +134,14 @@ export function MatchView() {
                     moralDelta: typeof opt.effect?.moralDelta === 'number' ? Math.round(opt.effect.moralDelta * 0.5) : 0,
                     xpDelta: 5,
                 };
-                applyToStarPlayer(engine, starAmplify);
+                const r = applyToStarPlayer(engine, starAmplify);
+                // SPEC-F1.3: surface toast
+                if (r.applied) {
+                    const star = getStarPlayer(engine);
+                    if (star) {
+                        setStarToast({ starName: star.name, changes: r.changes });
+                    }
+                }
             }
             // SPEC-C2.3: unified mode — aplica effects player-perspective também
             if (isUnifiedMode(engine)) {
@@ -618,6 +629,13 @@ export function MatchView() {
                 context={highlightContext}
                 onDismiss={() => setHighlightContext(null)}
                 autoDismissMs={2500}
+            />
+            {/* SPEC-F1.3: star impact toast */}
+            <StarImpactToast
+                starName={starToast?.starName}
+                changes={starToast?.changes}
+                visible={!!starToast}
+                onDismiss={() => setStarToast(null)}
             />
             <div className="ef-view-container">
                 <Scoreboard half={half} />
