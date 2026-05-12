@@ -34,7 +34,8 @@ jobs:
           PASSED=0
           FAILED=0
           FAILED_FILES=""
-          for f in $(find tests -name "*.test.js" | sort); do
+          # SPEC-157: deep-soak files rodam em suite separada (test:soak), pulados aqui.
+          for f in $(find tests -name "*.test.js" | grep -v "deep-soak-" | sort); do
             echo "::group::$f"
             if npx vitest run "$f" --reporter=dot; then
               PASSED=$((PASSED + 1))
