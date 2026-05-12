@@ -42,6 +42,9 @@ export function FormationBoard({ team, onSave, onChange, editable = true }) {
         jerseyGold: '#B8860B' // Premium gold for GK
     };
 
+    // BUG-081 (SPEC-158): aceitável — onChange callback efeito-puro precisa rodar após render.
+    // Setlayout é derivado mas onChange propaga pro pai (não cabe useMemo).
+    /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
     useEffect(() => {
         // When formation changes, reset to preset layout (preserve player assignments by role)
         const preset = getPreset(formation);
@@ -58,8 +61,8 @@ export function FormationBoard({ team, onSave, onChange, editable = true }) {
         });
         setLayout(newLayout);
         if (onChange) onChange(newLayout);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formation, team]);
+    /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 
     function handlePointerDown(e, slotIdx) {
         if (!editable) return;

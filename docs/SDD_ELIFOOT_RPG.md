@@ -90,6 +90,8 @@ Legendary cards gated by `minRenown` (3 ou 4 estrelas).
 | AKITA-203 (PR #105) | Doc canônica Akita — CLAUDE.md, LICENSE, CONTRIBUTING, GEMINI/CODEX, specs/generators |
 | AKITA-204 | Bundle code-split (SPEC-153) + skipAutoRestore (SPEC-154) + test isolation (SPEC-155) + lint cleanup + cleanup |
 | AKITA-205 | Gap fixes pós-audit: regression test SPEC-117 + sync docs (1044→1049 tests) |
+| AKITA-206 | 100% Akita compliance — SPECs retroativas (153/154/155), ADR (156), BUG tickets (157/158), SDD/Roadmap sync |
+| AKITA-207 | BUG-080 (deep-soak isolado) + BUG-081 (audit 14 react-hooks) + SPEC-159 (build budget gate) + RFCT-000 kickoff (RFCT-001/002/003 verificadas done) |
 
 ## Mecânicas adicionadas via AKITA-204
 
@@ -99,6 +101,9 @@ Legendary cards gated by `minRenown` (3 ou 4 estrelas).
 | NPC brain `skipAutoRestore` opt-in | `src/services/learning/AdaptiveBrain.js` | SPEC-154 | ✅ |
 | Test localStorage isolation setupFile | `tests/_setup-isolate-localstorage.js` | SPEC-155 | ✅ |
 | ADR resolução conflito numbering AKITA paralelo | `specs/infra/SPEC-156-decision-akita-numbering-conflicts.md` | SPEC-156 | ✅ accepted |
+| Deep-soak isolation (`npm run test:soak`) | `vite.config.js` + `package.json` | SPEC-157 | ✅ AKITA-207 |
+| Audit react-hooks/set-state-in-effect (14→0 warnings) | 14 files components/* + context | SPEC-158 | ✅ AKITA-207 |
+| Build budget CI gate (initial ≤500KB, chunk ≤800KB, total ≤3MB) | `tests/integration/build-budget.test.js` | SPEC-159 | ✅ AKITA-207 |
 
 ## Backlog
 
@@ -115,7 +120,7 @@ Legendary cards gated by `minRenown` (3 ou 4 estrelas).
 | Sistema de Rivais | Camada 3 | ❌ |
 | Lesões com Recovery | Camada 3 | ❌ |
 | UX Review completa | — | ❌ |
-| deep-soak suite separada `npm run test:soak` | infra | 📝 SPEC-157 / BUG-080 |
-| Audit `react-hooks/set-state-in-effect` (14 warnings) | ui | 📝 SPEC-158 / BUG-081 |
-| Build budget test (chunk ≤ 500KB CI gate) | infra | 📝 derivado SPEC-153 |
-| Refactor engine.js god-class (17 PRs) | refactor | 📝 specs/refactor/AKITA-RFCT-000..017 |
+| ~~deep-soak suite separada `npm run test:soak`~~ | infra | ✅ AKITA-207 (SPEC-157) |
+| ~~Audit `react-hooks/set-state-in-effect` (14 warnings)~~ | ui | ✅ AKITA-207 (SPEC-158) |
+| ~~Build budget test (chunk ≤ 500KB CI gate)~~ | infra | ✅ AKITA-207 (SPEC-159) |
+| Refactor engine.js god-class (17 PRs) | refactor | 🟡 kickoff AKITA-207 (001/002/003 ✅, 004+ pendente) |

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { COSMETICS, getCosmeticState, purchaseCosmetic, equipCosmetic, getAchievementPoints } from '../services/CosmeticShopService';
 import { EfPanel, EfButton } from './ui';
@@ -29,11 +29,9 @@ export function CosmeticShopView() {
     const { changeView, getEngine, getDashboardView } = useGame();
     const engine = getEngine();
     const [state, setState] = useState(getCosmeticState());
-    const [points, setPoints] = useState(0);
-
-    useEffect(() => {
-        setPoints(getAchievementPoints(engine));
-    }, [engine]);
+    // BUG-081 fix: useState initializer evita setState em useEffect.
+    // points é mutado localmente em handlePurchase (não pode ser useMemo derivado).
+    const [points, setPoints] = useState(() => getAchievementPoints(engine));
 
     const handlePurchase = (id) => {
         const result = purchaseCosmetic(id, points);

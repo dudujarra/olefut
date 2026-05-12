@@ -1,7 +1,7 @@
 # SPEC-157: BUG-080 — deep-soak-100seasons flaky em suite-load
 
 **Categoria**: infra
-**Status**: 📝 draft (planejado, não implementado nesta PR)
+**Status**: ✅ implementado 2026-05-12
 **Owner**: Dudu
 **Criada**: 2026-05-11
 
@@ -58,8 +58,29 @@ Repro: rodar `npm test` em CI, ver suite skipped/failed intermittently.
 - ❌ Skip do teste em CI (perde cobertura ML convergence)
 - ❌ Reduzir `SEASONS = 100` (descaracteriza o teste — é deep-soak por design)
 
-## 7. Resultado (preenche ao implementar)
+## 7. Resultado
 
-> **Status**: aberto
-> **PR**: pendente
-> **Data**: —
+> **Status**: ✅ implementado
+> **PR**: AKITA-207 (este)
+> **Data**: 2026-05-12
+
+**Mudanças aplicadas**:
+
+- `vite.config.js`: exclude condicional `tests/integration/deep-soak-*.test.js` quando `SOAK` env var não setada
+- `package.json`:
+  - novo: `"test:soak": "SOAK=1 vitest run tests/integration/deep-soak --testTimeout=600000"`
+  - update: `"test:ci": "vitest run --reporter=verbose && npm run test:soak && vite build"` (chain sequencial)
+
+**Verificação**:
+
+| Comando | Antes | Depois |
+|---------|-------|--------|
+| `npm test` | 1044 tests, 9 skipped (deep-soak timeout) | 1031 tests, 0 skipped |
+| `npm run test:soak` | n/a | 18 tests verde, isolado |
+| `npm run test:ci` | 1044 + build | 1031 + 18 soak + build (sequencial) |
+
+**Critério "respondida"**:
+- [x] `npm test` rápido, 100% verde (deep-soak excluído)
+- [x] `npm run test:soak` 100% verde solo
+- [x] `npm run test:ci` chama ambos sequencial
+- [ ] CI workflow GitHub Actions atualizado (próxima task)

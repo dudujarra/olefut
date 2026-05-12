@@ -53,6 +53,9 @@ export function PlayerMatchView() {
         prevHomeGoalsRef.current = homeGoals;
     }, [homeGoals]);
 
+    // BUG-081 (SPEC-158): aceitável — player.checkBenchStatus() muta engine (side effect).
+    // Busca oponente em engine.tournaments também é lookup externo.
+    /* eslint-disable react-hooks/set-state-in-effect */
     useEffect(() => {
         player.checkBenchStatus();
         setIsBenched(player.isBenched);
@@ -71,6 +74,7 @@ export function PlayerMatchView() {
 
         return () => clearInterval(timerRef.current);
     }, []);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     useEffect(() => {
         if (matchFinished || activeEvent) return;

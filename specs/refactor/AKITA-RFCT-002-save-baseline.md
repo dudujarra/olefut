@@ -7,6 +7,7 @@
 - **Escopo:** salvar `__fixtures__/save-baseline-v2.json` + teste round-trip
 - **Fase:** 2 de 17 (PR-0.2)
 - **PR pré-requisitos:** AKITA-RFCT-001
+- **Status:** ✅ implementado (verificado 2026-05-12 via AKITA-207 kickoff)
 
 ## 2. Motivação
 

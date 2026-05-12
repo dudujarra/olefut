@@ -36,6 +36,10 @@ export function ChronicleView() {
         careerService: engine?._careerService
     });
 
+    // BUG-081 (SPEC-158): aceitável — content derivado de engine.chronicles + view.
+    // Engine é external store; chronicle.generateSeasonChronicle pode ter efeitos.
+    // Effect (não useMemo) preserva async safety. Mudança de view ou chronicles dispara.
+    /* eslint-disable react-hooks/set-state-in-effect */
     React.useEffect(() => {
         if (!engine) return;
         if (view === 'season') {
@@ -53,6 +57,7 @@ export function ChronicleView() {
             setContent(chronicle.generateLifetimeChronicle(engine));
         }
     }, [view, engine]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     function handleExportJSON() {
         const json = chronicle.exportSaveJSON(engine);

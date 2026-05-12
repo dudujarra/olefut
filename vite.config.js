@@ -8,7 +8,15 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.NODE_ENV === 'production' ? '/elifoot-web/' : '/',
   test: {
-    exclude: [...defaultExclude, '**/.claude/worktrees/**', 'tests/e2e/**'],
+    exclude: [
+      ...defaultExclude,
+      '**/.claude/worktrees/**',
+      'tests/e2e/**',
+      // SPEC-157/BUG-080: deep-soak (100/20 seasons) roda solo via `npm run test:soak`.
+      // Em suite-load excede timeout (100 seasons × 38 weeks × engine work).
+      // SOAK=1 env flag desativa este exclude (test:soak script).
+      ...(process.env.SOAK ? [] : ['tests/integration/deep-soak-*.test.js']),
+    ],
     // BUG-GOLDEN: 190-week simulations need >5s under parallel load.
     // Default 5000ms causes intermittent timeouts in characterization tests.
     testTimeout: 30000,

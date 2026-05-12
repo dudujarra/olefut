@@ -12,39 +12,57 @@
 
 `engine.js` god class 1.014 LOC com ~44 métodos públicos. State mutation in-place. `playMatch()` 600+ linhas inline. Refactor obrigatório antes v1.2 (transição) pra evitar dívida geométrica.
 
-**Métricas partida:**
+**Métricas partida (2026-04-01)**:
 - engine.js: 1.014 LOC
 - Methods: ~44 públicos / 168 method-shape
 - State attrs: 19+
 
-**Métricas alvo:**
+**Métricas atuais (2026-05-12)**:
+- engine.js: **1.524 LOC** (cresceu — RFCT-004 mais urgente)
+- Métodos: **105** method-shape
+- State attrs: ~22
+
+**Métricas alvo**:
 - engine.js: ≤400 LOC (orchestrator only)
 - Services: 4 (Myth/Relationship/Narrative/Career), cada ≤300 LOC
 - MatchSimulator extracted: ≥500 LOC out
 
 ## 3. Sequência PRs
 
-| PR | ID | Escopo | Horas | Pré-req |
-|----|-----|--------|-------|---------|
-| PR-0.1 | RFCT-001 | Characterization tests + Golden Master | 5 | nenhum |
-| PR-0.2 | RFCT-002 | Save baseline + round-trip test | 2 | RFCT-001 |
-| PR-0.3 | RFCT-003 | Stryker mutation baseline | 2 | RFCT-001 |
-| PR-0.4 | RFCT-004 | Extract MatchSimulator (600 LOC) | 10 | RFCT-001/002/003 |
-| PR-1.1 | RFCT-005 | MythService skeleton + reads | 4 | RFCT-004 |
-| PR-1.2 | RFCT-006 | Move read methods to MythService | 3 | RFCT-005 |
-| PR-1.3 | RFCT-007 | Move writes + saveSerializer registry | 4 | RFCT-006 |
-| PR-2.1 | RFCT-008 | RelationshipService skeleton | 4 | RFCT-007 |
-| PR-2.2 | RFCT-009 | Move read methods | 3 | RFCT-008 |
-| PR-2.3 | RFCT-010 | Move writes + Wrap Method playMatch | 4 | RFCT-009 |
-| PR-3.1 | RFCT-011 | NarrativeService skeleton + Camadas 1-2 | 6 | RFCT-010 |
-| PR-3.2 | RFCT-012 | Camadas 3-4 em NarrativeService | 6 | RFCT-011 |
-| PR-3.3 | RFCT-013 | Camada 5 + integration MythService | 4 | RFCT-012 |
-| PR-4.1 | RFCT-014 | CareerService skeleton + ProPlayer | 5 | RFCT-013 |
-| PR-4.2 | RFCT-015 | Manager career | 4 | RFCT-014 |
-| PR-4.3 | RFCT-016 | Transição Replace Method with Method Object | 6 | RFCT-015 |
-| PR-5.1 | RFCT-017 | UI hooks-fachada migration + SAVE_VERSION 2→3 | 4 | RFCT-016 |
+| PR | ID | Escopo | Horas | Status | Pré-req |
+|----|-----|--------|-------|--------|---------|
+| PR-0.1 | RFCT-001 | Characterization tests + Golden Master | 5 | ✅ done | nenhum |
+| PR-0.2 | RFCT-002 | Save baseline + round-trip test | 2 | ✅ done | RFCT-001 |
+| PR-0.3 | RFCT-003 | Stryker mutation baseline | 2 | ✅ done | RFCT-001 |
+| PR-0.4 | RFCT-004 | Extract MatchSimulator (600 LOC) | 10 | 📝 ready | RFCT-001/002/003 |
+| PR-1.1 | RFCT-005 | MythService skeleton + reads | 4 | pendente | RFCT-004 |
+| PR-1.2 | RFCT-006 | Move read methods to MythService | 3 | pendente | RFCT-005 |
+| PR-1.3 | RFCT-007 | Move writes + saveSerializer registry | 4 | pendente | RFCT-006 |
+| PR-2.1 | RFCT-008 | RelationshipService skeleton | 4 | pendente | RFCT-007 |
+| PR-2.2 | RFCT-009 | Move read methods | 3 | pendente | RFCT-008 |
+| PR-2.3 | RFCT-010 | Move writes + Wrap Method playMatch | 4 | pendente | RFCT-009 |
+| PR-3.1 | RFCT-011 | NarrativeService skeleton + Camadas 1-2 | 6 | pendente | RFCT-010 |
+| PR-3.2 | RFCT-012 | Camadas 3-4 em NarrativeService | 6 | pendente | RFCT-011 |
+| PR-3.3 | RFCT-013 | Camada 5 + integration MythService | 4 | pendente | RFCT-012 |
+| PR-4.1 | RFCT-014 | CareerService skeleton + ProPlayer | 5 | pendente | RFCT-013 |
+| PR-4.2 | RFCT-015 | Manager career | 4 | pendente | RFCT-014 |
+| PR-4.3 | RFCT-016 | Transição Replace Method with Method Object | 6 | pendente | RFCT-015 |
+| PR-5.1 | RFCT-017 | UI hooks-fachada migration + SAVE_VERSION 2→3 | 4 | pendente | RFCT-016 |
 
 **Total:** 76h ≈ 12-13 semanas a 6h/sem
+**Kickoff (AKITA-207, 2026-05-12):** PRs 0.1/0.2/0.3 verificadas done. Pré-condições verdes pra atacar RFCT-004 na próxima sessão.
+
+### Baseline pré-RFCT-004 (capturado 2026-05-12)
+
+| Artefato | Existência | Estado |
+|----------|-----------|--------|
+| `tests/characterization/engine-golden.test.js` | ✅ | seed=42, 5 temporadas, snapshot determinístico |
+| `tests/characterization/save-roundtrip.test.js` | ✅ | round-trip + BUG-021 regression embedded |
+| `tests/characterization/stryker-baseline.json` | ✅ | mutation baseline gerado |
+| `npm test` | ✅ 1031/1031 | 0 failed, 0 skipped |
+| `npm run test:soak` | ✅ 18/18 | deep-soak isolado |
+| `npm run build` | ✅ 1.12s | initial 376KB, total ~1.9MB |
+| madge --circular | a verificar | RFCT-004 deve manter zero ciclos |
 
 ## 4. Comportamento — INVARIANTE
 

@@ -49,6 +49,9 @@ export function MatchView() {
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
 
+    // BUG-081 (SPEC-158): aceitável — banner dispara em transição de fase (event-driven).
+    // setState aciona banner UI; parse de narration tem side effects (regex match).
+    /* eslint-disable react-hooks/set-state-in-effect */
     // Detect hat-trick + clean-sheet at fulltime
     useEffect(() => {
         if (phase !== 'fulltime' || !narration?.length) return;
@@ -65,6 +68,7 @@ export function MatchView() {
         const oppGoals = isHome ? result?.awayGoals : result?.homeGoals;
         if (oppGoals === 0 && myGoals > 0) setBanner('cleanSheet');
     }, [phase, narration, result, team.name]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     // Auto-scroll narration log
     useEffect(() => {
