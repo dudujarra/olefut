@@ -143,8 +143,8 @@ export function DashboardView() {
                                 <span>SEM {seasonWeek}/38</span>
                                 <span>TEMP {engine.seasonNumber}</span>
                             </div>
-                            <div style={{ width: '100%', height: '4px', background: '#1A1F24', overflow: 'hidden' }}>
-                                <div style={{ width: `${(seasonWeek / 38) * 100}%`, height: '100%', background: '#39FF14' }} />
+                            <div className="ef-progress ef-progress--xs">
+                                <div className="ef-progress__fill" style={{ width: `${(seasonWeek / 38) * 100}%` }} />
                             </div>
                         </div>
                     </div>
@@ -205,10 +205,10 @@ export function DashboardView() {
                                 </div>
                             </div>
                             <div style={{ display: 'flex', gap: '24px' }}>
-                                <div style={{ textAlign: 'center' }}><span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 'bold', color: '#FFD700', display: 'block' }}><AnimatedStat value={sectors.goalkeeper} /></span><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#8E9E94', display: 'flex', alignItems: 'center', gap: '4px' }}><Help id="sector.gol" />GOL</span></div>
-                                <div style={{ textAlign: 'center' }}><span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 'bold', color: '#40BAF7', display: 'block' }}><AnimatedStat value={sectors.defense} /></span><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#8E9E94', display: 'flex', alignItems: 'center', gap: '4px' }}><Help id="sector.def" />DEF</span></div>
-                                <div style={{ textAlign: 'center' }}><span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 'bold', color: '#39FF14', display: 'block' }}><AnimatedStat value={sectors.midfield} /></span><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#8E9E94', display: 'flex', alignItems: 'center', gap: '4px' }}><Help id="sector.mei" />MEI</span></div>
-                                <div style={{ textAlign: 'center' }}><span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 'bold', color: '#FF3333', display: 'block' }}><AnimatedStat value={sectors.attack} /></span><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#8E9E94', display: 'flex', alignItems: 'center', gap: '4px' }}><Help id="sector.ata" />ATA</span></div>
+                                <div className="ef-stat-cell"><span className="ef-stat-cell__value ef-text-accent"><AnimatedStat value={sectors.goalkeeper} /></span><span className="ef-stat-cell__label"><Help id="sector.gol" />GOL</span></div>
+                                <div className="ef-stat-cell"><span className="ef-stat-cell__value ef-text-info"><AnimatedStat value={sectors.defense} /></span><span className="ef-stat-cell__label"><Help id="sector.def" />DEF</span></div>
+                                <div className="ef-stat-cell"><span className="ef-stat-cell__value ef-text-primary"><AnimatedStat value={sectors.midfield} /></span><span className="ef-stat-cell__label"><Help id="sector.mei" />MEI</span></div>
+                                <div className="ef-stat-cell"><span className="ef-stat-cell__value ef-text-danger"><AnimatedStat value={sectors.attack} /></span><span className="ef-stat-cell__label"><Help id="sector.ata" />ATA</span></div>
                             </div>
                         </EfPanel>
 
@@ -234,7 +234,7 @@ export function DashboardView() {
                                     <AhaMomentCard engine={engine} />
                                     
                                     <EfPanel padding="md">
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px', color: '#8E9E94' }}><Wallet weight="fill" /> FINANÇAS</div>
+                                        <div className="ef-panel-section-label"><Wallet weight="fill" /> FINANÇAS</div>
                                         {engine.weeklyFinance ? (
                                             <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
                                                 <tbody>
@@ -253,7 +253,7 @@ export function DashboardView() {
 
                                     {engine.activeLoan && (
                                         <EfPanel padding="md" style={{ background: '#2D2916', borderColor: '#FFD700' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px', color: '#FFD700' }}><Bank weight="fill" /> EMPRÉSTIMO ATIVO</div>
+                                            <div className="ef-panel-section-label ef-text-accent"><Bank weight="fill" /> EMPRÉSTIMO ATIVO</div>
                                             <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
                                                 <tbody>
                                                     <tr style={{ borderBottom: '1px solid #1B4332' }}><td style={{ color: '#8E9E94', padding: '8px 0' }}>Principal</td><td style={{ textAlign: 'right', padding: '8px 0', color: '#FDFBF7' }}>R$ {(engine.activeLoan.principal / 1_000_000).toFixed(1)}M</td></tr>
@@ -273,7 +273,7 @@ export function DashboardView() {
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                                     {(engine.weekEvents?.length ?? 0) > 0 && (
                                         <EfPanel padding="md">
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px', color: '#8E9E94' }}><Newspaper weight="fill" /> EVENTOS DA SEMANA</div>
+                                            <div className="ef-panel-section-label"><Newspaper weight="fill" /> EVENTOS DA SEMANA</div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                                 {(engine.weekEvents || []).map((ev, i) => {
                                                     const evText = typeof ev === 'string' ? ev : (ev?.text || ev?.msg || '');
@@ -307,23 +307,18 @@ export function DashboardView() {
                                                     {engine.boardTension > 0 ? '+' : ''}{engine.boardTension}
                                                 </strong>
                                             </div>
-                                            <div style={{ width: '100%', height: '6px', background: '#1A1F24', marginTop: '16px', overflow: 'hidden' }}>
-                                                <div style={{ height: '100%', width: `${Math.max(0, Math.min(100, (engine.boardTension + 100) / 2))}%`, background: engine.boardTension >= 0 ? '#39FF14' : '#FF3333' }} />
+                                            <div className="ef-progress ef-progress--sm" style={{ marginTop: '16px' }}>
+                                                <div className={`ef-progress__fill ${engine.boardTension >= 0 ? '' : 'ef-progress__fill--danger'}`} style={{ width: `${Math.max(0, Math.min(100, (engine.boardTension + 100) / 2))}%` }} />
                                             </div>
                                         </EfPanel>
                                     )}
 
                                     {stats.rollingForm && stats.rollingForm.length > 0 && (
                                         <EfPanel padding="md">
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px', color: '#8E9E94' }}><ChartLineUp weight="fill" /> FORMA RECENTE</div>
+                                            <div className="ef-panel-section-label"><ChartLineUp weight="fill" /> FORMA RECENTE</div>
                                             <div style={{ display: 'flex', gap: '8px' }}>
                                                 {stats.rollingForm.map((r, i) => (
-                                                    <span key={i} style={{
-                                                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                                                        width: '32px', height: '32px', fontSize: '0.85rem', fontFamily: 'var(--font-mono)', fontWeight: 'bold',
-                                                        backgroundColor: r === 'W' ? '#162D1C' : r === 'D' ? '#2D2916' : '#2D1616',
-                                                        color: r === 'W' ? '#39FF14' : r === 'D' ? '#FFD700' : '#FF3333'
-                                                    }}>{r}</span>
+                                                    <span key={i} className={`ef-form-chip ef-form-chip--${r.toLowerCase()}`}>{r}</span>
                                                 ))}
                                             </div>
                                         </EfPanel>
@@ -351,7 +346,7 @@ export function DashboardView() {
                                 </EfPanel>
 
                                 <EfPanel padding="lg">
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '24px', color: '#FDFBF7' }}><Megaphone weight="fill" /> PRELEÇÃO</div>
+                                    <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem', marginBottom: '24px' }}><Megaphone weight="fill" /> PRELEÇÃO</div>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                         {TEAM_TALKS.map(t => {
                                             const moral = t.effect?.moralBoost ?? 0;
@@ -387,10 +382,10 @@ export function DashboardView() {
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                                     <EfPanel padding="md" style={{ background: '#161B22' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '16px', color: '#FDFBF7' }}><Building weight="fill" /> {stadiumInfo.name}</div>
+                                        <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem' }}><Building weight="fill" /> {stadiumInfo.name}</div>
                                         <div style={{ fontSize: '0.85rem', color: '#8E9E94', marginBottom: '16px', fontFamily: 'var(--font-sans)' }}>Cap: {stadiumInfo.capacity.toLocaleString()} • R$ {stadiumInfo.ticketPrice}/ingresso</div>
-                                        <div style={{ width: '100%', height: '6px', background: '#1A1F24', marginBottom: '16px', overflow: 'hidden' }}>
-                                            <div style={{ height: '100%', width: `${(engine.stadiumLevel / 5) * 100}%`, background: '#40BAF7' }} />
+                                        <div className="ef-progress ef-progress--sm" style={{ marginBottom: '16px' }}>
+                                            <div className="ef-progress__fill ef-progress__fill--info" style={{ width: `${(engine.stadiumLevel / 5) * 100}%` }} />
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: '#8E9E94' }}>NÍVEL {engine.stadiumLevel}/5</span>
@@ -401,10 +396,10 @@ export function DashboardView() {
                                     </EfPanel>
 
                                     <EfPanel padding="md" style={{ background: '#161B22' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '16px', color: '#FDFBF7' }}><GraduationCap weight="fill" /> BASE Nv.{engine.academyLevel}</div>
+                                        <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem' }}><GraduationCap weight="fill" /> BASE Nv.{engine.academyLevel}</div>
                                         <div style={{ fontSize: '0.85rem', color: '#8E9E94', marginBottom: '16px', fontFamily: 'var(--font-sans)' }}>Produz {engine.academyLevel + 1} jovens/temporada</div>
-                                        <div style={{ width: '100%', height: '6px', background: '#1A1F24', marginBottom: '16px', overflow: 'hidden' }}>
-                                            <div style={{ height: '100%', width: `${(engine.academyLevel / 5) * 100}%`, background: '#FFD700' }} />
+                                        <div className="ef-progress ef-progress--sm" style={{ marginBottom: '16px' }}>
+                                            <div className="ef-progress__fill ef-progress__fill--accent" style={{ width: `${(engine.academyLevel / 5) * 100}%` }} />
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: '#8E9E94' }}>NÍVEL {engine.academyLevel}/5</span>
@@ -416,7 +411,7 @@ export function DashboardView() {
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                                     <EfPanel padding="md" style={{ background: '#161B22' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '16px', color: '#FDFBF7' }}><Users weight="fill" /> STAFF</div>
+                                        <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem' }}><Users weight="fill" /> STAFF</div>
                                         <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)', fontSize: '0.85rem' }}>
                                             <tbody>
                                                 {STAFF_ROLES.map(role => {
@@ -435,7 +430,7 @@ export function DashboardView() {
                                     </EfPanel>
 
                                     <EfPanel padding="md" style={{ background: '#161B22' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '16px', color: '#FDFBF7' }}><Binoculars weight="fill" /> SCOUTING</div>
+                                        <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem' }}><Binoculars weight="fill" /> SCOUTING</div>
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
                                             {SCOUT_REGIONS.map(r => (
                                                 <EfButton key={r.id} variant="secondary" size="sm" onClick={() => { const res = engine.scoutRegionAction(r.id); setLog(res.msg); forceUpdate(); }} style={{ fontFamily: 'var(--font-sans)', fontWeight: '600' }}>
@@ -462,7 +457,7 @@ export function DashboardView() {
 
                         {tab === 'transfers' && (engine.transferOffers?.length ?? 0) > 0 && (
                             <EfPanel padding="lg">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '24px', color: '#FDFBF7' }}><Envelope weight="fill" /> OFERTAS RECEBIDAS</div>
+                                <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem', marginBottom: '24px' }}><Envelope weight="fill" /> OFERTAS RECEBIDAS</div>
                                 <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)', fontSize: '0.9rem' }}>
                                     <tbody>
                                         {engine.transferOffers.map((offer, i) => (

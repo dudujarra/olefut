@@ -69,21 +69,20 @@ export function StandingsView() {
     );
 
     const back = gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
-    const fontMono = { fontFamily: "'JetBrains Mono', 'Geist Mono', monospace" };
 
     return (
         <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgOffice})` }}>
             <div className="ef-layout-container" style={{ maxWidth: '1000px' }}>
-                
+
                 {/* HERO PANEL */}
                 <EfPanel variant="elev" padding="md" className="ef-flex-row" style={{ justifyContent: 'space-between' }}>
                     <div className="ef-flex-row">
                         <Trophy size={32} color="var(--primary)" weight="duotone" />
                         <div>
-                            <h2 style={{ margin: 0, fontSize: '1.4rem', color: 'var(--text-main)', fontFamily: 'Satoshi, sans-serif' }}>
+                            <h2 className="ef-sans" style={{ margin: 0, fontSize: '1.4rem', color: 'var(--text-main)' }}>
                                 Classificação
                             </h2>
-                            <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', ...fontMono }}>
+                            <div className="ef-mono ef-text-muted" style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 {activeState
                                     ? (stateTournaments.find(t => t.id === activeState)?.name || activeState.toUpperCase())
                                     : `${activeZone} / ${SERIE_NAMES[activeDiv] || `DIV ${activeDiv}`}`}
@@ -131,7 +130,7 @@ export function StandingsView() {
                 {activeZone === 'BRA' && stateTournaments.length > 0 && (
                     <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap" style={{ gap: '8px', alignItems: 'center' }}>
                         <Trophy size={16} color="var(--text-muted)" />
-                        <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', ...fontMono }}>ESTADUAIS</span>
+                        <span className="ef-mono ef-text-muted" style={{ fontSize: '0.75rem' }}>ESTADUAIS</span>
                         {stateTournaments.map(st => (
                             <EfButton
                                 key={st.id}
@@ -149,33 +148,33 @@ export function StandingsView() {
                 {/* LEGEND BENTO */}
                 <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap" style={{ justifyContent: 'center', gap: '16px' }}>
                     {activeState && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
+                        <div className="ef-legend-chip">
                             <Trophy size={14} color="var(--accent)" weight="fill" />
-                            <span style={{ color: 'var(--text-muted)' }}>TOP 4 → SEMIFINAIS</span>
+                            <span className="ef-text-muted">TOP 4 → SEMIFINAIS</span>
                         </div>
                     )}
                     {!activeState && activeDiv === 1 && (
                         <>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
-                                <AirplaneTilt size={14} color="#39FF14" weight="fill" /> 
-                                <span style={{ color: 'var(--text-muted)' }}>LIBERTADORES</span>
+                            <div className="ef-legend-chip">
+                                <AirplaneTilt size={14} color="#39FF14" weight="fill" />
+                                <span className="ef-text-muted">LIBERTADORES</span>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
-                                <AirplaneTilt size={14} color="#FFD700" weight="fill" /> 
-                                <span style={{ color: 'var(--text-muted)' }}>SUL-AMERICANA</span>
+                            <div className="ef-legend-chip">
+                                <AirplaneTilt size={14} color="#FFD700" weight="fill" />
+                                <span className="ef-text-muted">SUL-AMERICANA</span>
                             </div>
                         </>
                     )}
                     {!activeState && activeDiv > 1 && activeDiv <= 4 && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
+                        <div className="ef-legend-chip">
                             <CaretUp size={16} color="#40BAF7" weight="bold" />
-                            <span style={{ color: 'var(--text-muted)' }}>ACESSO</span>
+                            <span className="ef-text-muted">ACESSO</span>
                         </div>
                     )}
                     {!activeState && activeDiv < 4 && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
+                        <div className="ef-legend-chip">
                             <CaretDown size={16} color="#FF3333" weight="bold" />
-                            <span style={{ color: 'var(--text-muted)' }}>REBAIXAMENTO</span>
+                            <span className="ef-text-muted">REBAIXAMENTO</span>
                         </div>
                     )}
                 </EfPanel>
@@ -211,32 +210,33 @@ export function StandingsView() {
                                 // Solid colors enforcing Zero-Transparency
                                 const rowBg = isUser ? '#102A10' : (i % 2 === 0 ? 'var(--bg-dark)' : 'var(--bg-panel)');
                                 
+                                const sg = s.goalsFor - s.goalsAgainst;
                                 return (
                                     <tr key={s.teamId} style={{
                                         background: rowBg,
                                         borderLeft: `4px solid ${zoneBorderColor}`,
                                         borderBottom: '1px solid var(--border-panel)'
                                     }}>
-                                        <td style={{ padding:'12px 6px', textAlign:'center', color: pos <= 4 ? 'var(--accent)' : 'var(--text-muted)', ...fontMono }}>
+                                        <td className={`ef-mono ${pos <= 4 ? 'ef-text-accent' : 'ef-text-muted'}`} style={{ padding:'12px 6px', textAlign:'center' }}>
                                             {pos}
                                         </td>
                                         <td style={{ padding:'12px 6px', textAlign:'left' }}>
                                             <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
                                                 {t?.name && <EfClubBadge name={t.name} size="sm" />}
-                                                <span style={{ color: isUser ? 'var(--primary)' : 'var(--text-main)', fontWeight: isUser ? 700 : 500, fontFamily: 'Satoshi, sans-serif' }}>
+                                                <span className="ef-sans" style={{ color: isUser ? 'var(--primary)' : 'var(--text-main)', fontWeight: isUser ? 700 : 500 }}>
                                                     {t?.name || `TIME ${s.teamId}`}
                                                 </span>
                                             </div>
                                         </td>
-                                        <td style={{ padding:'12px 6px', textAlign:'center', color: 'var(--accent)', fontWeight: 'bold', ...fontMono }}>{s.points}</td>
-                                        <td style={{ padding:'12px 6px', textAlign:'center', color: 'var(--text-muted)', ...fontMono }}>{s.played}</td>
-                                        <td style={{ padding:'12px 6px', textAlign:'center', color: 'var(--primary)', ...fontMono }}>{s.won}</td>
-                                        <td style={{ padding:'12px 6px', textAlign:'center', color: 'var(--accent)', ...fontMono }}>{s.drawn}</td>
-                                        <td style={{ padding:'12px 6px', textAlign:'center', color: 'var(--danger)', ...fontMono }}>{s.lost}</td>
-                                        <td style={{ padding:'12px 6px', textAlign:'center', color: 'var(--text-muted)', ...fontMono }}>{s.goalsFor}</td>
-                                        <td style={{ padding:'12px 6px', textAlign:'center', color: 'var(--text-muted)', ...fontMono }}>{s.goalsAgainst}</td>
-                                        <td style={{ padding:'12px 6px', textAlign:'center', color: (s.goalsFor - s.goalsAgainst) >= 0 ? 'var(--primary)' : 'var(--danger)', fontWeight: 600, ...fontMono }}>
-                                            {s.goalsFor - s.goalsAgainst >= 0 ? '+' : ''}{s.goalsFor - s.goalsAgainst}
+                                        <td className="ef-mono ef-text-accent" style={{ padding:'12px 6px', textAlign:'center', fontWeight: 'bold' }}>{s.points}</td>
+                                        <td className="ef-mono ef-text-muted" style={{ padding:'12px 6px', textAlign:'center' }}>{s.played}</td>
+                                        <td className="ef-mono ef-text-primary" style={{ padding:'12px 6px', textAlign:'center' }}>{s.won}</td>
+                                        <td className="ef-mono ef-text-accent" style={{ padding:'12px 6px', textAlign:'center' }}>{s.drawn}</td>
+                                        <td className="ef-mono ef-text-danger" style={{ padding:'12px 6px', textAlign:'center' }}>{s.lost}</td>
+                                        <td className="ef-mono ef-text-muted" style={{ padding:'12px 6px', textAlign:'center' }}>{s.goalsFor}</td>
+                                        <td className="ef-mono ef-text-muted" style={{ padding:'12px 6px', textAlign:'center' }}>{s.goalsAgainst}</td>
+                                        <td className={`ef-mono ${sg >= 0 ? 'ef-text-primary' : 'ef-text-danger'}`} style={{ padding:'12px 6px', textAlign:'center', fontWeight: 600 }}>
+                                            {sg >= 0 ? '+' : ''}{sg}
                                         </td>
                                     </tr>
                                 );
