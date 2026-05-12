@@ -1,9 +1,10 @@
 import { useGame } from '../context/GameContext';
 import { EfButton, EfPanel, EfClubBadge } from './ui';
+import { findNextDerby } from '../engine/DerbyDetector';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';
 
 import {
-    Fire, ArrowLeft, Users, Trophy, TrendUp, WarningCircle
+    Fire, ArrowLeft, Users, Trophy, TrendUp, WarningCircle, Lightning
 } from '@phosphor-icons/react';
 
 function getRivalryLabel(matchCount) {
@@ -25,6 +26,10 @@ export function RivalriesView() {
 
     const team = engine.getTeam(engine.manager?.teamId);
     const rivalryHistory = engine.rivalryHistory || {};
+
+    // SPEC-C5.2: detecta próximo derby do calendário
+    const nextDerby = findNextDerby(engine, 6);
+    const nextDerbyTeam = nextDerby ? engine.getTeam(nextDerby.oppTeamId) : null;
 
     // Build rivalry list from engine.rivalryHistory (SPEC-080 real data)
     const rivalries = Object.keys(rivalryHistory)
@@ -75,6 +80,27 @@ export function RivalriesView() {
                         <ArrowLeft size={16} /> SAIR
                     </EfButton>
                 </EfPanel>
+
+                {/* SPEC-C5.2: Próximo derby highlighted */}
+                {nextDerby && nextDerbyTeam && (
+                    <EfPanel padding="lg" style={{ border: '2px solid #FF3333', backgroundColor: '#1A0E0E' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <Lightning size={28} color="#FF3333" weight="fill" />
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: '0.7rem', color: '#FF3333', fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.1em', marginBottom: '4px' }}>
+                                    PRÓXIMO DERBY — SEMANA {nextDerby.week}
+                                </div>
+                                <div style={{ fontSize: '1.2rem', color: '#FDFBF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                                    VS {nextDerbyTeam.name}
+                                </div>
+                                <div style={{ fontSize: '0.8rem', color: '#FF8C00', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                                    {nextDerby.matchCount} confrontos · {nextDerby.level.toUpperCase()}
+                                </div>
+                            </div>
+                            <EfClubBadge name={nextDerbyTeam.name} size="lg" />
+                        </div>
+                    </EfPanel>
+                )}
 
                 {/* RIVALRIES LIST */}
                 <EfPanel padding="lg">
