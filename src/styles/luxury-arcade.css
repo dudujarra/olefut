@@ -2392,3 +2392,40 @@ h1, h2, h3, h4 {
 .ef-onboarding-coach__next:hover {
   background: #D9BB75;
 }
+
+/* ─── SPEC-B1: Match Pitch Backdrop + Event Tiers ─── */
+.ef-match-pitch-bg {
+  background-image: url('/sprites/pitch-topdown-32bit.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.ef-match-pitch-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 17, 23, 0.72);
+  pointer-events: none;
+  z-index: 0;
+}
+.ef-match-pitch-bg > * {
+  position: relative;
+  z-index: 1;
+}
+.ef-match-event--highlight {
+  border-left: 3px solid #FFD700;
+  padding-left: 12px;
+  font-weight: bold;
+  background: rgba(255, 215, 0, 0.08);
+}
+.ef-match-event--tactical {
+  border-left: 3px solid #40BAF7;
+  padding-left: 12px;
+  background: rgba(64, 186, 247, 0.05);
+}
+.ef-match-event--minor {
+  border-left: 2px solid #2D3748;
+  padding-left: 12px;
+  opacity: 0.85;
+}
