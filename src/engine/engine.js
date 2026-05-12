@@ -36,6 +36,7 @@ import { InheritanceService } from '../services/InheritanceService';
 import { WeekProcessor } from '../services/WeekProcessor';
 import { SeasonProcessor } from '../services/SeasonProcessor';
 import { NpcWeekProcessor } from '../services/NpcWeekProcessor';
+import { TransferService } from '../services/TransferService';
 import { apply as applyBoardTension } from './BoardTensionSystem';
 import { onBoardSellAttempt as checkStarProtection } from './StarProtectionSystem';
 
@@ -58,6 +59,8 @@ export class Engine {
         this._seasonProcessor = new SeasonProcessor();
         // RFCT-019.1: NpcWeekProcessor — extracted NPC management + AI Director from advanceWeek
         this._npcWeekProcessor = new NpcWeekProcessor();
+        // RFCT-019.2: TransferService — extracted market generation + transfer ops
+        this._transferService = new TransferService();
         // RFCT-007: MythService — Camada 5 (Mito) Hall de Lendas (stateless)
         this._mythService = new MythService();
         // RFCT-008/010: RelationshipService — Camada 3 (Relacional) (stateless)
@@ -469,13 +472,7 @@ export class Engine {
     }
 
     generateMarket() {
-        this.marketPlayers = [];
-        for (let i = 0; i < 20; i++) {
-            const positions = ['GOL', 'DEF', 'MEI', 'ATA'];
-            const pos = positions[Math.floor(systemRng() * positions.length)];
-            // Agora usa um jogador real gringo/brasileiro para povoar o mercado livre
-            this.marketPlayers.push(Data.getRandomRealPlayer(pos, 2));
-        }
+        return this._transferService.generateMarket(this);
     }
 
     // === MANAGER ACTIONS ===
@@ -629,135 +626,22 @@ export class Engine {
     }
 
     acceptTransferOffer(offerId) {
-        const offer = this.transferOffers.find(o => o.playerId === offerId);
-        if (!offer) return { success: false, msg: 'Oferta não encontrada.' };
-        const team = this.getTeam(this.manager.teamId);
-        if (!team) return { success: false, msg: 'Time não encontrado.' };
-
-        // SPEC-075: Star Protection check — board selling protected player → tension spike
-        try {
-            const starEvent = checkStarProtection({ managerId: this.manager.teamId, playerId: offerId });
-            if (starEvent) {
-                const bt = applyBoardTension({ currentTension: this.boardTension, eventType: 'board_sold_player' });
-                this.boardTension = bt.newTension;
-                this.weekEvents.push(`⚠️ ${starEvent.publicReaction}`);
-                if (bt.thresholdChanged && bt.boardMessage) this.weekEvents.push(`🏛️ ${bt.boardMessage}`);
-            }
-        } catch { /* defensive */ }
-
-        // Track former companion for FilhosRegen (SPEC-081)
-        try {
-            const soldPlayer = team.squad.find(p => p.id === offerId);
-            if (soldPlayer) {
-                this.formerCompanions.push({
-                    playerId: soldPlayer.id,
-                    name: soldPlayer.name,
-                    primeYear: 2026 + this.seasonNumber,
-                    position: soldPlayer.position,
-                    ovr: soldPlayer.ovr || 50,
-                    traits: soldPlayer.traits || [],
-                });
-                // BUG-090: cap to 50 entries to prevent save bloat in long soak tests
-                if (this.formerCompanions.length > 50) {
-                    this.formerCompanions = this.formerCompanions.slice(-50);
-                }
-            }
-        } catch { /* defensive */ }
-
-        const soldPlayer = team.squad.find(p => p.id === offerId);
-        team.squad = team.squad.filter(p => p.id !== offerId);
-        team.balance += offer.offerAmount;
-
-        // BUG-083b: Se a oferta veio de um NPC (buyerTeamId), transferir jogador ao NPC
-        if (offer.buyerTeamId && soldPlayer) {
-            const buyerTeam = this.getTeam(offer.buyerTeamId);
-            if (buyerTeam) {
-                soldPlayer.injury = null;
-                soldPlayer.energy = 100;
-                soldPlayer.isTitular = false;
-                soldPlayer.contract = { weeksLeft: 76, salary: Math.floor((offer.offerAmount || 500000) * 0.001) };
-                buyerTeam.squad.push(soldPlayer);
-                buyerTeam.balance -= offer.offerAmount;
-            }
-        }
-
-        this.transferOffers = this.transferOffers.filter(o => o.playerId !== offerId);
-        return { success: true, msg: `${offer.playerName} vendido para ${offer.buyerClub} por R$ ${(offer.offerAmount / 1000000).toFixed(1)}M!` };
+        return this._transferService.acceptTransferOffer(this, offerId);
     }
 
     rejectTransferOffer(offerId) {
-        this.transferOffers = this.transferOffers.filter(o => o.playerId !== offerId);
-        return { success: true, msg: 'Oferta recusada.' };
+        return this._transferService.rejectTransferOffer(this, offerId);
     }
 
     /**
-     * SPEC-122 BUG-053: Outgoing buy offer.
-     * Bot picks player from another team, makes offer. Opponent auto-decides.
-     * Acceptance probability = sigmoid(amount / playerValue).
+     * SPEC-122 BUG-053: Outgoing buy offer. Sigmoid acceptance.
      * @param {number} otherTeamId
      * @param {string|number} playerId
      * @param {number} amount
      * @returns {{success, msg, accepted}}
      */
     makeBuyOffer(otherTeamId, playerId, amount) {
-        const myTeam = this.getTeam(this.manager?.teamId);
-        const otherTeam = this.getTeam(otherTeamId);
-        if (!myTeam || !otherTeam) return { success: false, msg: 'Time não encontrado.', accepted: false };
-        if (myTeam.id === otherTeam.id) return { success: false, msg: 'Mesmo time.', accepted: false };
-        if ((myTeam.balance || 0) < amount) return { success: false, msg: 'Saldo insuficiente.', accepted: false };
-        if ((myTeam.squad || []).length >= 30) return { success: false, msg: 'Squad cheio.', accepted: false };
-
-        const player = otherTeam.squad?.find(p => p.id === playerId);
-        if (!player) return { success: false, msg: 'Jogador não encontrado.', accepted: false };
-
-        // SPEC-125: sigmoid mais íngreme. Bot conseguia comprar com 1.3× value (90%
-        // accept rate). Realista: <1.0 reject, >1.5 accept, sigmoid 1.0-1.5.
-        const ratio = amount / Math.max(1, player.value || 1_000_000);
-        const acceptProb = Math.max(0, Math.min(1, (ratio - 1.0) / 0.5));
-        const accepted = systemRng() < acceptProb;
-
-        if (!accepted) {
-            return {
-                success: true,
-                accepted: false,
-                msg: `${otherTeam.name} recusou oferta R$ ${(amount / 1_000_000).toFixed(1)}M por ${player.name} (esperava ${(ratio * 100).toFixed(0)}% do valor).`,
-                ratio,
-                acceptProb
-            };
-        }
-
-        // Transfer execution
-        otherTeam.squad = otherTeam.squad.filter(p => p.id !== playerId);
-        otherTeam.balance = (otherTeam.balance || 0) + amount;
-        myTeam.balance -= amount;
-        // Reset acquired player state
-        player.injury = null;
-        player.energy = 100;
-        player._purchasePrice = amount; // Track for Sunk Cost bias
-        // BUG-055 fix: auto-promote to titular if position has <2 starters OR
-        // new player is significantly stronger than weakest current starter.
-        // Was always false → buys never played → match sim sectors=0 → 0-0 draws.
-        const positionStarters = myTeam.squad.filter(p => p.isTitular && p.position === player.position);
-        if (positionStarters.length < 2) {
-            player.isTitular = true;
-        } else {
-            const weakestStarter = positionStarters.sort((a, b) => (a.ovr || 0) - (b.ovr || 0))[0];
-            if ((player.ovr || 0) > (weakestStarter.ovr || 0) + 3) {
-                weakestStarter.isTitular = false;
-                player.isTitular = true;
-            } else {
-                player.isTitular = false;
-            }
-        }
-        myTeam.squad.push(player);
-
-        return {
-            success: true,
-            accepted: true,
-            msg: `🎉 Comprou ${player.name} de ${otherTeam.name} por R$ ${(amount / 1_000_000).toFixed(1)}M!`,
-            ratio,
-            playerId
-        };
+        return this._transferService.makeBuyOffer(this, otherTeamId, playerId, amount);
     }
 
     /**
@@ -771,63 +655,7 @@ export class Engine {
      * @returns {{ success, accepted, ratio }}
      */
     npcMakeBuyOffer(buyerTeamId, sellerTeamId, playerId, amount) {
-        const buyerTeam = this.getTeam(buyerTeamId);
-        const sellerTeam = this.getTeam(sellerTeamId);
-        if (!buyerTeam || !sellerTeam) return { success: false, accepted: false };
-        if (buyerTeamId === sellerTeamId) return { success: false, accepted: false };
-        if ((buyerTeam.balance || 0) < amount) return { success: false, accepted: false };
-        if ((buyerTeam.squad || []).length >= 30) return { success: false, accepted: false };
-
-        const player = sellerTeam.squad?.find(p => p.id === playerId);
-        if (!player) return { success: false, accepted: false };
-
-        // BUG-083: Se o seller é o time do jogador humano, gerar oferta
-        // para o humano decidir, em vez de executar automaticamente.
-        if (sellerTeamId === this.manager?.teamId) {
-            this.transferOffers.push({
-                playerId: player.id,
-                playerName: player.name,
-                offerAmount: amount,
-                buyerClub: buyerTeam.name,
-                buyerTeamId: buyerTeamId,
-                deadline: (this.currentWeek || 0) + 3
-            });
-            return { success: true, accepted: false, pendingHuman: true };
-        }
-
-        // Same sigmoid as makeBuyOffer
-        const ratio = amount / Math.max(1, player.value || 1_000_000);
-        const acceptProb = Math.max(0, Math.min(1, (ratio - 1.0) / 0.5));
-        const accepted = systemRng() < acceptProb;
-
-        if (!accepted) {
-            return { success: true, accepted: false, ratio };
-        }
-
-        // Execute transfer
-        sellerTeam.squad = sellerTeam.squad.filter(p => p.id !== playerId);
-        sellerTeam.balance = (sellerTeam.balance || 0) + amount;
-        buyerTeam.balance -= amount;
-        player.injury = null;
-        player.energy = 100;
-        player._purchasePrice = amount; // Track for Sunk Cost bias
-
-        // Auto-promote if needed
-        const positionStarters = buyerTeam.squad.filter(p => p.isTitular && p.position === player.position);
-        if (positionStarters.length < 2) {
-            player.isTitular = true;
-        } else {
-            const weakest = positionStarters.sort((a, b) => (a.ovr || 0) - (b.ovr || 0))[0];
-            if ((player.ovr || 0) > (weakest.ovr || 0) + 3) {
-                weakest.isTitular = false;
-                player.isTitular = true;
-            } else {
-                player.isTitular = false;
-            }
-        }
-        buyerTeam.squad.push(player);
-
-        return { success: true, accepted: true, ratio };
+        return this._transferService.npcMakeBuyOffer(this, buyerTeamId, sellerTeamId, playerId, amount);
     }
 
     /**
@@ -952,16 +780,7 @@ export class Engine {
 
     // Sell a player from squad (BUG-006)
     sellPlayer(playerId, amount) {
-        const team = this.getTeam(this.manager.teamId);
-        if (!team) return { success: false, msg: 'Time não encontrado.' };
-        const player = team.squad.find(p => p.id === playerId);
-        if (!player) return { success: false, msg: 'Jogador não encontrado.' };
-        if (player.isTitular) return { success: false, msg: 'Tire da titularidade antes de vender.' };
-        team.squad = team.squad.filter(p => p.id !== playerId);
-        team.balance += amount;
-        // SPEC-135: track transfers para view unlock
-        this.viewUnlockState.totalTransfers = (this.viewUnlockState.totalTransfers || 0) + 1;
-        return { success: true, msg: `💰 ${player.name} vendido por R$ ${(amount/1000000).toFixed(1)}M!` };
+        return this._transferService.sellPlayer(this, playerId, amount);
     }
 
     // === CONTRATOS ===
