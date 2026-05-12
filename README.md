@@ -6,8 +6,8 @@
 🎮 **Live demo**: https://dudujarra.github.io/elifoot-web/
 
 [![CI](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-1151%2F1151-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
-[![Specs](https://img.shields.io/badge/specs-123-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
+[![Tests](https://img.shields.io/badge/tests-1157%2F1157-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
+[![Specs](https://img.shields.io/badge/specs-124-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
 [![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/elifoot-web/blob/main/specs/SPEC-RULES.md)
 [![Bugs Tracked](https://img.shields.io/badge/bugs%20regression-17-orange)](https://github.com/dudujarra/elifoot-web/blob/main/BUGS.md)
 [![Theme](https://img.shields.io/badge/theme-32bit%20SNES-yellow)](https://github.com/dudujarra/elifoot-web/blob/main/src/styles/animations.css)
