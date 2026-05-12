@@ -39,6 +39,7 @@ import { NpcWeekProcessor } from '../services/NpcWeekProcessor';
 import { TransferService } from '../services/TransferService';
 import { ScoutingService } from '../services/ScoutingService';
 import { LoanService } from '../services/LoanService';
+import { FacilityService } from '../services/FacilityService';
 import { apply as applyBoardTension } from './BoardTensionSystem';
 import { onBoardSellAttempt as checkStarProtection } from './StarProtectionSystem';
 
@@ -67,6 +68,8 @@ export class Engine {
         this._scoutingService = new ScoutingService();
         // RFCT-019.4: LoanService — extracted loan financial + player loan
         this._loanService = new LoanService();
+        // RFCT-019.5: FacilityService — extracted academy/stadium upgrades + staff
+        this._facilityService = new FacilityService();
         // RFCT-007: MythService — Camada 5 (Mito) Hall de Lendas (stateless)
         this._mythService = new MythService();
         // RFCT-008/010: RelationshipService — Camada 3 (Relacional) (stateless)
@@ -673,23 +676,13 @@ export class Engine {
         return this._scoutingService.scoutLeague(this, targetPosition, minOVR, limit, maxAge);
     }
 
-    // === YOUTH ACADEMY ===
+    // === YOUTH ACADEMY (RFCT-019.5 delegators) ===
     triggerYouthIntake() {
-        const team = this.getTeam(this.manager.teamId);
-        if (!team) return [];
-        const youths = generateYouthIntake(this.academyLevel, team.division === 1 ? 80 : team.division === 2 ? 50 : 30);
-        youths.forEach(y => team.squad.push(y));
-        return youths;
+        return this._facilityService.triggerYouthIntake(this);
     }
 
     upgradeAcademy() {
-        const team = this.getTeam(this.manager.teamId);
-        if (!team || this.academyLevel >= 5) return { success: false, msg: 'Nível máximo atingido.' };
-        const cost = getAcademyUpgradeCost(this.academyLevel);
-        if (team.balance < cost) return { success: false, msg: `Saldo insuficiente. Custo: R$ ${(cost/1000000).toFixed(0)}M` };
-        team.balance -= cost;
-        this.academyLevel++;
-        return { success: true, msg: `Base melhorada para nível ${this.academyLevel}! Custo: R$ ${(cost/1000000).toFixed(0)}M` };
+        return this._facilityService.upgradeAcademy(this);
     }
 
     // === EMPRÉSTIMOS (RFCT-019.4 delegators) ===
@@ -697,28 +690,17 @@ export class Engine {
         return this._loanService.loanPlayer(this, playerId, weeks);
     }
 
-    // === ESTÁDIO ===
+    // === ESTÁDIO + STAFF (RFCT-019.5 delegators) ===
     upgradeStadium() {
-        const team = this.getTeam(this.manager.teamId);
-        if (!team || this.stadiumLevel >= 5) return { success: false, msg: 'Nível máximo.' };
-        const next = getStadiumInfo(this.stadiumLevel + 1);
-        const cost = next.upgradeCost || 999999999;
-        if (team.balance < cost) return { success: false, msg: `Saldo insuficiente. Custo: R$ ${(cost/1000000).toFixed(0)}M` };
-        team.balance -= cost;
-        this.stadiumLevel++;
-        const info = getStadiumInfo(this.stadiumLevel);
-        return { success: true, msg: `Estádio melhorado para "${info.name}" (${info.capacity.toLocaleString()} lugares)!` };
+        return this._facilityService.upgradeStadium(this);
     }
 
-    // === STAFF ===
     hireStaff(roleId) {
-        const team = this.getTeam(this.manager.teamId);
-        if (!team) return { success: false, msg: 'Time não encontrado.' };
-        return this.staff.hire(roleId);
+        return this._facilityService.hireStaff(this, roleId);
     }
 
     fireStaff(roleId) {
-        return this.staff.fire(roleId);
+        return this._facilityService.fireStaff(this, roleId);
     }
 
     // === SCOUTING (RFCT-019.3 delegators) ===
