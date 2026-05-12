@@ -60,11 +60,22 @@ export class CareerService {
             proPlayer.seasonGoals = proPlayer.seasonGoals || 0;
             proPlayer.seasonAssists = proPlayer.seasonAssists || 0;
             proPlayer.seasonApps = (proPlayer.seasonApps || 0) + 1;
+            // BUG-086: ensure career sub-tree exists for hat-trick tracking + Hat_trick achievement
+            proPlayer.career = proPlayer.career || {};
+            proPlayer.career.hatTricks = proPlayer.career.hatTricks || 0;
             const isAttacker = proPlayer.position === 'ATA';
             const isMid = proPlayer.position === 'MEI';
-            if (isAttacker && systemRng() < 0.35) { proPlayer.seasonGoals++; events.push({ type: 'goal', msg: `⚽ GOL de ${proPlayer.name}!` }); }
-            if (isMid && systemRng() < 0.20) { proPlayer.seasonGoals++; events.push({ type: 'goal', msg: `⚽ GOL de ${proPlayer.name}!` }); }
+            let matchGoals = 0;
+            if (isAttacker && systemRng() < 0.35) { matchGoals++; proPlayer.seasonGoals++; events.push({ type: 'goal', msg: `⚽ GOL de ${proPlayer.name}!` }); }
+            if (isAttacker && systemRng() < 0.18) { matchGoals++; proPlayer.seasonGoals++; events.push({ type: 'goal', msg: `⚽ Segundo gol de ${proPlayer.name}!` }); }
+            if (isAttacker && systemRng() < 0.08) { matchGoals++; proPlayer.seasonGoals++; events.push({ type: 'goal', msg: `⚽ Terceiro gol de ${proPlayer.name}!` }); }
+            if (isMid && systemRng() < 0.20) { matchGoals++; proPlayer.seasonGoals++; events.push({ type: 'goal', msg: `⚽ GOL de ${proPlayer.name}!` }); }
             if ((isAttacker || isMid) && systemRng() < 0.25) { proPlayer.seasonAssists++; }
+            // BUG-086: hat-trick = 3+ gols numa partida (Hat_trick achievement callsite)
+            if (matchGoals >= 3) {
+                proPlayer.career.hatTricks++;
+                events.push({ type: 'hat_trick', msg: `🎩 HAT-TRICK de ${proPlayer.name}!` });
+            }
 
             // Injury risk: 3% per match, higher if fatigued
             const injuryChance = proPlayer.energy < 30 ? 0.08 : 0.03;

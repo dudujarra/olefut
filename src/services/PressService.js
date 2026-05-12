@@ -1,6 +1,19 @@
 // AKITA-RFCT-019.7: extract press conference + contract renewal + coach proposal response.
 //
 // Stateless. Engine como contexto.
+//
+// ARQUITETURA — Por que PressService existe (auditoria BUG-085 confirmou: LIVE, não morto):
+//   - Engine.checkPressConference / answerPress / getRenewalOffer / renewContract /
+//     respondCoachProposal delegam para esta classe.
+//   - Consumers reais:
+//       * DashboardView.jsx (manager UI: pergunta + respostas via engine.checkPressConference / answerPress)
+//       * AutoPlayService.js (headless: triggera coletiva no autoplay)
+//       * AutoPlayPacing.js (headless: renewContract + respondCoachProposal automáticos)
+//       * MonitorService.js (registra renewContract entre métodos monitorados)
+//       * tests/integration/autoplay-gdd-proof.test.js
+//   - PressView.jsx NÃO usa este service (acessa engine/PressConference.js direto via useState
+//     initializer pra reatividade React). Caminho UI manual vs caminho headless/autoplay são
+//     intencionalmente separados.
 
 import { shouldTriggerPress, generateQuestion, applyPressEffect } from '../engine/PressConference';
 import { generateRenewalOffer, acceptRenewal } from '../engine/PlayerDevelopment';

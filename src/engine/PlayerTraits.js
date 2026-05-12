@@ -189,6 +189,7 @@ export function initCareerStats(player) {
             totalApps: 0,
             totalCards: 0,
             totalMotm: 0,
+            hatTricks: 0, // BUG-086: Hat_trick achievement callsite
             seasonGoals: 0,
             seasonAssists: 0,
             seasonApps: 0,
@@ -196,6 +197,9 @@ export function initCareerStats(player) {
             seasonMotm: 0,
             history: [], // [{season, team, goals, assists, apps}]
         };
+    } else if (player.career.hatTricks === undefined) {
+        // BUG-086: backfill em saves antigos
+        player.career.hatTricks = 0;
     }
 }
 
@@ -212,6 +216,10 @@ export function recordMatchStats(player, goals, assists, cards, isMotm) {
     if (isMotm) {
         player.career.totalMotm += 1;
         player.career.seasonMotm += 1;
+    }
+    // BUG-086: hat-trick = 3+ gols na partida (callsite real para Hat_trick achievement)
+    if (goals >= 3) {
+        player.career.hatTricks = (player.career.hatTricks || 0) + 1;
     }
 }
 

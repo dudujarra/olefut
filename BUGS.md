@@ -38,6 +38,8 @@
 |-----|-------|------|--------|
 | BUG-080 | deep-soak-100seasons flaky em suite-load | SPEC-157 | ✅ resolvido AKITA-207 (mov pra `npm run test:soak`) |
 | BUG-081 | 14 react-hooks/set-state-in-effect warnings | SPEC-158 | ✅ resolvido AKITA-207 (3 refactor + 11 doc/silence) |
+| BUG-085 | Audit suspeitou PressService morto (era falso positivo) | n/a (auditoria) | ✅ resolvido (verificação + comentário arquitetural) |
+| BUG-086 | Hat_trick achievement sem callsite real durante partida | n/a (callsite) | ⚠️ parcial — Hat_trick hooked; ~15 outros achievements ainda sem progress callsite (backlog) |
 
 **Regressões em SPECs (mesmo arquivo de regression cobre):**
 - `tests/regression/SPEC-060-club-identity.test.js` — ✅ (AKITA-104: Proxy alias 88 DB→canonical)
@@ -277,6 +279,7 @@ npm run test:ci    # roda testes + build (pipeline)
 - **Status:** CLOSED (2026-05-12)
 
 
+<<<<<<< HEAD
 ---
 
 ### BUG-084 ✅ RESOLVIDO — StandingsView React hydration warning (`<span>` inside `<tr>`)
@@ -289,3 +292,46 @@ npm run test:ci    # roda testes + build (pipeline)
 - **Safety net:** SPEC-176 (`tests/e2e/_fixtures.js`) — todas as E2E specs agora capturam `pageerror` + `console.error` e falham se hydration warning (ou qualquer erro não-whitelist) ocorrer durante o flow. Esta classe inteira de bug não passa silenciosa de novo.
 - **Status:** CLOSED (2026-05-12)
 
+=======
+
+---
+
+### BUG-085 ✅ RESOLVIDO — Audit suspeita PressService morto (falso positivo)
+- **Arquivo:** `src/services/PressService.js`
+- **Branch:** `claude/pressservice-achievements`
+- **Repro:** Brutal audit AKITA-233 sugere que `src/services/PressService.js` é intermediário morto porque `PressView.jsx` importa direto de `src/engine/PressConference.js`.
+- **Investigação:** PressService **está vivo e é load-bearing**. 5 métodos (`checkPressConference`, `answerPress`, `getRenewalOffer`, `renewContract`, `respondCoachProposal`) são delegados pela engine para múltiplos consumers reais:
+    - `src/components/DashboardView.jsx` (linhas 186, 502, 567) — UI manual no dashboard
+    - `src/services/AutoPlayService.js` (241-246) — autoplay headless
+    - `src/services/AutoPlayPacing.js` (64-105) — renewContract + respondCoachProposal automáticos
+    - `src/services/MonitorService.js` (180) — observabilidade
+    - `tests/integration/autoplay-gdd-proof.test.js` (84-85)
+- **Por que PressView não usa:** PressView precisa de reactividade React (`useState` initializer com `generateQuestion`). O caminho UI manual e o caminho headless/autoplay são **intencionalmente separados** — isso é boa arquitetura, não duplicação.
+- **Fix:** Adicionado comentário arquitetural no topo de `src/services/PressService.js` documentando consumers reais + por que PressView bypassa.
+- **Teste:** `tests/regression/BUG-085-press-service-dead.test.js` (assertions de que classe + 5 métodos existem; engine delega corretamente; PressService **NÃO** pode ser deletado).
+- **Status:** CLOSED (2026-05-12)
+
+
+---
+
+### BUG-086 ⚠️ PARCIAL — Achievements declarados sem callsite real (Hat_trick, Iron_man, e ~15 outros)
+- **Arquivos:** `src/engine/PlayerTraits.js`, `src/services/MatchSimulator.js` (via `recordMatchStats`), `src/services/CareerService.js`, `src/components/AchievementsView.jsx`
+- **Branch:** `claude/pressservice-achievements`
+- **Repro:** Brutal audit aponta `Hat_trick` e `Iron_man` em `AchievementsSystem.ACHIEVEMENTS` sem hook real durante partida.
+- **Investigação:** Existem **2 sistemas de achievements** em paralelo:
+    1. `src/engine/MetaProgression.js` — **ATIVO**. 10 achievements cross-career, called via `evaluateAchievements()` em `SeasonProcessor._processMetaProgression`. Funciona.
+    2. `src/engine/systems/AchievementsSystem.js` — **ZUMBI**. Classe nunca instanciada em produção (zero `new AchievementsSystem()` em `src/`). Apenas o dict `ACHIEVEMENTS` (27 achievements) é importado por `AchievementsView.jsx` para renderizar a tela de conquistas. `checkAchievements()` da classe só roda em unit tests.
+    
+    `AchievementsView.computeProgress()` calcula progresso client-side via heurísticas em cima do `engine.managerStats` + `engine.legacy` + `engine.proPlayer.career`. Apenas ~11 dos 27 achievements têm `case` no switch; o resto cai em `default: 0` (locked forever).
+- **Especificamente:**
+    - `Hat_trick`: lê `engine.proPlayer?.career?.hatTricks` — **nunca escrito** em lugar nenhum antes deste fix.
+    - `Iron_man`: lê `matchesPlayed = managerStats.wins + draws + losses` — **funciona** (achievement chega a 100% em ~50 jogos com manager team).
+- **Fix aplicado (parcial — Hat_trick):**
+    - `src/engine/PlayerTraits.initCareerStats`: adiciona `hatTricks: 0` + backfill em saves antigos.
+    - `src/engine/PlayerTraits.recordMatchStats`: incrementa `player.career.hatTricks` quando `goals >= 3` na partida (caminho squad real, via MatchSimulator).
+    - `src/services/CareerService` (proPlayer mode): refatorado simulador semanal para acumular `matchGoals` por partida e incrementar `proPlayer.career.hatTricks` se chegar a 3.
+- **Achievements restantes sem callsite real (backlog — não fixados neste PR):** `Golden_boot`, `Overhead`, `National_hero`, `Club_legend`, `Veteran_15` (apenas seasonNumber ≠ 15 anos jogador), `Perfect_season`, `Cinderella`, `Comeback`, `Defensive_masterclass`, `Flawless_match`, `From_zero`, `Winter_champion`, `Spring_winner`, `Rival_slayer`, `Underdog`, `Rivalry_master`, `Legend_tier` (depende `engine.legacy.prestige` que talvez não exista), `Survivor` (placeholder simplificado), `Cup_winner` (depende `engine.legacy.cupTitles` placeholder).
+    - **Decisão estratégica:** consolidar em SPEC futura. Opções: (a) deletar `src/engine/systems/AchievementsSystem.js` + sua `AchievementsView` e usar apenas `MetaProgression`, ou (b) hookar cada achievement num evento real do match/season pipeline. Akita Mandamento #4 sugere (a) — não manter sistema fantasma + UI fantasma.
+- **Teste:** `tests/regression/BUG-086-achievement-callsites.test.js` (asserts `Hat_trick` é incrementado em hat-trick real via `recordMatchStats` e via CareerService proPlayer mode; lista achievements restantes pendentes para forçar consciência).
+- **Status:** PARCIAL (2026-05-12) — Hat_trick corrigido; demais documentados como backlog.
+>>>>>>> b00e7cf (AKITA-259: BUG-085 PressService kept + BUG-086 Hat_trick callsite)
