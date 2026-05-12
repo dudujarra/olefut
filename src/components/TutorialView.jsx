@@ -10,6 +10,7 @@ import { useGame } from '../context/GameContext';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgTutorial from '../assets/environments/bg_tutorial.png';
+import { resetAllOnboarding, getSeenViews, ONBOARDING_BY_VIEW } from '../engine/OnboardingTriggers';
 import {
     SoccerBall, ChartBar, Strategy, Television, Medal,
     ArrowRight, ArrowLeft, FastForward
@@ -172,6 +173,38 @@ export function TutorialView() {
                 <div style={{ marginTop: '8px' }}>
                     <button onClick={skip} className="ef-skip-link">
                         <FastForward size={14} /> PULAR TUTORIAL
+                    </button>
+                </div>
+
+                {/* SPEC-F5.3: Replay onboarding contextual */}
+                <div style={{ marginTop: '24px', borderTop: '1px solid #2D3748', paddingTop: '16px', width: '100%' }}>
+                    <div style={{ fontSize: '0.7rem', color: '#8E9E94', fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.1em', marginBottom: '8px' }}>
+                        TUTORIAIS CONTEXTUAIS JÁ VISTOS
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: '#FDFBF7', fontFamily: 'var(--font-mono)', marginBottom: '12px' }}>
+                        {getSeenViews().length === 0 ? 'Nenhum ainda.' : getSeenViews().map(v => ONBOARDING_BY_VIEW[v]?.title || v).join(' · ')}
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            if (typeof window !== 'undefined' && window.confirm('Resetar TODOS os tutoriais? Eles voltarão a aparecer ao abrir cada view.')) {
+                                resetAllOnboarding();
+                                if (typeof window !== 'undefined') window.location.reload();
+                            }
+                        }}
+                        style={{
+                            backgroundColor: 'transparent',
+                            color: '#40BAF7',
+                            border: '1px solid #40BAF7',
+                            padding: '6px 14px',
+                            fontFamily: 'var(--font-sans)',
+                            fontSize: '0.75rem',
+                            fontWeight: 'bold',
+                            letterSpacing: '0.05em',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        REVER TUTORIAIS
                     </button>
                 </div>
             </EfPanel>
