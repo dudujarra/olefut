@@ -228,4 +228,59 @@ export class CareerService {
         });
         return { success: true };
     }
+
+    // ========================================================================
+    // AKITA-RFCT-019.1: Player mode weekly processing (extracted from engine.advanceWeek)
+    // ========================================================================
+
+    /**
+     * Processa proPlayer career na semana (Player mode).
+     * Inclui: wage, bench status, match participation, energy decay, stat sync,
+     * weekly slot reset, renown update.
+     *
+     * @param {Engine} engine
+     * @param {object} weekResults — keyed por tournamentId
+     */
+    processPlayerWeek(engine, weekResults) {
+        const proPlayer = engine?.proPlayer;
+        if (!proPlayer) return;
+
+        proPlayer.receiveWage();
+
+        // Check bench status
+        proPlayer.checkBenchStatus();
+
+        // Se o jogador não foi barrado, cobrar o preço do jogo
+        if (!proPlayer.isBenched) {
+            let matchWon = false;
+            for (const tId in weekResults) {
+                const match = weekResults[tId].find(m => m.home === engine.manager.teamId || m.away === engine.manager.teamId);
+                if (match && match.score) {
+                    if (match.home === engine.manager.teamId && match.score.homeGoals > match.score.awayGoals) matchWon = true;
+                    if (match.away === engine.manager.teamId && match.score.awayGoals > match.score.homeGoals) matchWon = true;
+                }
+            }
+
+            const goalsScored = proPlayer.seasonGoals - (proPlayer.lastWeekGoals || 0);
+            proPlayer.lastWeekGoals = proPlayer.seasonGoals;
+            proPlayer.playMatch(90, goalsScored, matchWon);
+        } else {
+            proPlayer.playMatch(0, 0, false);
+        }
+
+        proPlayer.energy = Math.max(0, proPlayer.energy - proPlayer.energyDecayRate);
+
+        // SCHEMA-UNIFIED: Sync root-level stats from skills
+        proPlayer.attacking  = proPlayer.skills.pace;
+        proPlayer.defending  = proPlayer.skills.power;
+        proPlayer.creativity = proPlayer.skills.vision;
+        proPlayer.technical  = proPlayer.skills.technique;
+
+        // Reset weekly slots
+        proPlayer.resetWeeklySlots();
+
+        // Update renown
+        proPlayer.renown += proPlayer.seasonGoals > 0 ? 1 : 0;
+        proPlayer.updateStarRating();
+    }
 }
