@@ -2,43 +2,23 @@ import { useGame } from '../context/GameContext';
 import { EfButton, EfPanel, EfClubBadge } from './ui';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';
 
-import { 
+import {
     Fire, ArrowLeft, Users, Trophy, TrendUp, WarningCircle
 } from '@phosphor-icons/react';
 
 function getRivalryLabel(matchCount) {
-    if (matchCount >= 10) return { label: 'CONSOLIDADA', color: '#FF3333', icon: <Fire weight="fill" /> };
-    if (matchCount >= 6) return { label: 'NOVO CLÁSSICO', color: '#FFD700', icon: <TrendUp weight="bold" /> };
-    if (matchCount >= 3) return { label: 'CRESCENDO', color: '#FF8C00', icon: <Trophy weight="bold" /> };
-    return { label: 'INÍCIO', color: '#888', icon: <WarningCircle weight="bold" /> };
-}
-
-function getRivalryBorderColor(matchCount) {
-    if (matchCount >= 10) return '#FF3333';
-    if (matchCount >= 6) return '#FFD700';
-    if (matchCount >= 3) return '#FF8C00';
-    return '#2D3748'; // Default border color
+    if (matchCount >= 10) return { label: 'CONSOLIDADA', color: '#FF3333', icon: <Fire weight="fill" />, mod: 'consolidated' };
+    if (matchCount >= 6)  return { label: 'NOVO CLÁSSICO', color: '#FFD700', icon: <TrendUp weight="bold" />, mod: 'new-classic' };
+    if (matchCount >= 3)  return { label: 'CRESCENDO',     color: '#FF8C00', icon: <Trophy weight="bold" />, mod: 'growing' };
+    return { label: 'INÍCIO', color: '#888', icon: <WarningCircle weight="bold" />, mod: 'start' };
 }
 
 export function RivalriesView() {
     const { getEngine, changeView, getDashboardView } = useGame();
     const engine = getEngine();
 
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
-
     if (!engine) return (
-        <div style={{ padding: '24px', color: colors.text, fontFamily: 'var(--font-mono)' }}>
+        <div className="ef-mono ef-text-main" style={{ padding: '24px' }}>
             ENGINE NÃO INICIALIZADO.
         </div>
     );
@@ -77,40 +57,18 @@ export function RivalriesView() {
         .sort((x, y) => y.matches - x.matches);
 
     return (
-        <div className="ef-anim-fade-in" style={{
-            backgroundImage: `url(${bgNewspaper})`,
-            imageRendering: 'pixelated',
-            WebkitImageRendering: 'pixelated',
-            backgroundColor: colors.bg,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100dvh',
-            padding: '24px',
-            color: colors.text,
-            fontFamily: 'var(--font-sans)',
-            overflowY: 'auto'
-        }}>
-            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgNewspaper})` }}>
+            <div className="ef-view-container ef-view-container--narrow">
 
                 {/* HEADER */}
-                <EfPanel padding="lg" style={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    alignItems: 'center',
-                    borderBottom: `2px solid ${colors.warning}`
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <div style={{ width: '48px', height: '48px', backgroundColor: colors.panelElevated, display: 'flex', justifyContent: 'center', alignItems: 'center', border: `1px solid ${colors.border}` }}>
-                            <Fire size={28} color={colors.warning} weight="fill" />
+                <EfPanel padding="lg" className="ef-view-header" style={{ borderBottom: '2px solid #FFD700' }}>
+                    <div className="ef-view-header__identity">
+                        <div className="ef-view-header__icon-box">
+                            <Fire size={28} color="#FFD700" weight="fill" />
                         </div>
                         <div>
-                            <h2 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', fontFamily: 'var(--font-sans)', color: colors.text, fontWeight: 'bold' }}>
-                                RIVALIDADES
-                            </h2>
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: colors.textMuted }}>
-                                CONFRONTOS HISTÓRICOS E CLÁSSICOS
-                            </span>
+                            <h2 className="ef-view-header__title">RIVALIDADES</h2>
+                            <span className="ef-view-header__subtitle">CONFRONTOS HISTÓRICOS E CLÁSSICOS</span>
                         </div>
                     </div>
                     <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>
@@ -120,31 +78,12 @@ export function RivalriesView() {
 
                 {/* RIVALRIES LIST */}
                 <EfPanel padding="lg">
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        fontFamily: 'var(--font-mono)',
-                        color: colors.warning,
-                        fontSize: '0.9rem',
-                        marginBottom: '20px',
-                        fontWeight: 'bold',
-                        borderBottom: `1px solid ${colors.border}`,
-                        paddingBottom: '8px'
-                    }}>
+                    <div className="ef-panel-cat-header ef-panel-cat-header--accent">
                         <Users size={20} /> CONFRONTOS DIRETOS ({rivalries.length})
                     </div>
 
                     {rivalries.length === 0 ? (
-                        <div style={{
-                            backgroundColor: colors.panelElevated,
-                            padding: '32px',
-                            textAlign: 'center',
-                            border: `1px dashed ${colors.border}`,
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '0.9rem',
-                            color: colors.textMuted
-                        }}>
+                        <div className="ef-empty-dashed">
                             NENHUMA RIVALIDADE DETECTADA. JOGUE MAIS PARTIDAS.
                         </div>
                     ) : (
@@ -152,48 +91,27 @@ export function RivalriesView() {
                             {rivalries.map(r => {
                                 const label = getRivalryLabel(r.matches);
                                 const oppTeam = r.isA ? r.clubB : r.clubA;
-                                const borderColor = getRivalryBorderColor(r.matches);
                                 return (
-                                    <div key={r.key} style={{
-                                        backgroundColor: colors.panelElevated,
-                                        border: `1px solid ${colors.border}`,
-                                        borderLeftColor: borderColor,
-                                        borderLeftWidth: '6px',
-                                        padding: '16px',
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center'
-                                    }}>
-                                        <div style={{display:'flex',alignItems:'center',gap:'16px'}}>
+                                    <div key={r.key} className={`ef-rivalry-row ef-rivalry-row--${label.mod}`}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                                             {oppTeam?.name ? (
                                                 <EfClubBadge name={oppTeam.name} size="md" />
                                             ) : (
-                                                <div style={{ width: '48px', height: '48px', backgroundColor: colors.bg, }} />
+                                                <div style={{ width: '48px', height: '48px', backgroundColor: '#0D1117' }} />
                                             )}
                                             <div>
-                                                <div style={{fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1.1rem', color: colors.text, marginBottom: '4px'}}>
+                                                <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '4px' }}>
                                                     VS {(oppTeam?.name || '???')}
                                                 </div>
-                                                <div style={{fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: colors.textMuted, display: 'flex', alignItems: 'center', gap: '8px'}}>
+                                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                                     <span>{r.matches} JOGOS</span> •{' '}
-                                                    <span style={{color: colors.accent, fontWeight: 'bold'}}>{r.wins}V</span>{' '}
-                                                    <span style={{color: colors.warning, fontWeight: 'bold'}}>{r.draws}E</span>{' '}
-                                                    <span style={{color: colors.danger, fontWeight: 'bold'}}>{r.losses}D</span>
+                                                    <span className="ef-text-primary" style={{ fontWeight: 'bold' }}>{r.wins}V</span>{' '}
+                                                    <span className="ef-text-accent" style={{ fontWeight: 'bold' }}>{r.draws}E</span>{' '}
+                                                    <span className="ef-text-danger" style={{ fontWeight: 'bold' }}>{r.losses}D</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style={{
-                                            backgroundColor: colors.bg,
-                                            border: `1px solid ${borderColor}`,
-                                            padding: '6px 12px',
-                                            fontFamily: 'var(--font-mono)',
-                                            fontSize: '0.8rem',
-                                            fontWeight: 'bold',
-                                            color: label.color,
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '6px'
-                                        }}>
+                                        <div className="ef-pill-mono" style={{ color: label.color, borderColor: label.color }}>
                                             {label.icon} {label.label}
                                         </div>
                                     </div>
@@ -206,42 +124,24 @@ export function RivalriesView() {
                 {/* Former Companions (SPEC-081) */}
                 {(engine.formerCompanions?.length || 0) > 0 && (
                     <EfPanel padding="lg">
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            fontFamily: 'var(--font-mono)',
-                            color: colors.secondary,
-                            fontSize: '0.9rem',
-                            marginBottom: '20px',
-                            fontWeight: 'bold',
-                            borderBottom: `1px solid ${colors.border}`,
-                            paddingBottom: '8px'
-                        }}>
+                        <div className="ef-panel-cat-header ef-panel-cat-header--info">
                             <Users size={20} /> EX-COMPANHEIROS ({engine.formerCompanions.length})
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
                             {engine.formerCompanions.map((p, i) => (
                                 <div key={i} style={{
-                                    backgroundColor: colors.panelElevated,
-                                    border: `1px solid ${colors.border}`,
+                                    backgroundColor: '#1A1F24',
+                                    border: '1px solid #2D3748',
                                     padding: '16px',
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center'
                                 }}>
-                                    <div style={{fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', color: colors.text}}>
+                                    <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold', fontSize: '1rem' }}>
                                         {p.name}
-                                        <span style={{color: colors.secondary, marginLeft: '8px', fontSize: '0.85rem', fontFamily: 'var(--font-mono)'}}>({p.position})</span>
+                                        <span className="ef-mono ef-text-info" style={{ marginLeft: '8px', fontSize: '0.85rem' }}>({p.position})</span>
                                     </div>
-                                    <div style={{
-                                        backgroundColor: colors.bg,
-                                        padding: '4px 8px',
-                                        border: `1px solid ${colors.border}`,
-                                        fontFamily: 'var(--font-mono)', 
-                                        fontSize: '0.8rem', 
-                                        color: colors.textMuted
-                                    }}>
+                                    <div className="ef-pill-mono ef-text-muted">
                                         OVR {p.ovr} • TEMP {p.season || '?'}
                                     </div>
                                 </div>

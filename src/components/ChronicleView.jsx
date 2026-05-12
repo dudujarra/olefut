@@ -4,8 +4,8 @@ import { ChronicleService } from '../services/ChronicleService';
 import { EfPanel, EfButton } from './ui';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';
 
-import { 
-    Article, ArrowLeft, Image as ImageIcon, FileCode, 
+import {
+    Article, ArrowLeft, Image as ImageIcon, FileCode,
     CalendarBlank, Infinity as InfinityIcon
 } from '@phosphor-icons/react';
 
@@ -14,19 +14,6 @@ export function ChronicleView() {
     const engine = getEngine();
     const [view, setView] = useState('season'); // 'season' | 'lifetime'
     const [content, setContent] = useState('');
-
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
 
     // Fallback service for lifetime view
     const chronicle = new ChronicleService({
@@ -83,32 +70,32 @@ export function ChronicleView() {
             const ctx = canvas.getContext('2d');
 
             // Background — Bento Grid Theme
-            ctx.fillStyle = colors.panelBg;
+            ctx.fillStyle = '#161B22';
             ctx.fillRect(0, 0, width, height);
 
             // Border
-            ctx.strokeStyle = colors.border;
+            ctx.strokeStyle = '#2D3748';
             ctx.lineWidth = 2;
             ctx.strokeRect(1, 1, width - 2, height - 2);
 
             // Text
-            ctx.fillStyle = colors.text;
+            ctx.fillStyle = '#FDFBF7';
             ctx.font = '16px monospace';
             let y = 40;
             for (const line of lines) {
                 if (line.startsWith('# ')) {
-                    ctx.fillStyle = colors.warning;
+                    ctx.fillStyle = '#FFD700';
                     ctx.font = 'bold 24px sans-serif';
                     ctx.fillText(line.slice(2), 30, y);
                     ctx.font = '16px monospace';
-                    ctx.fillStyle = colors.text;
+                    ctx.fillStyle = '#FDFBF7';
                     y += 10;
                 } else if (line.startsWith('## ')) {
-                    ctx.fillStyle = colors.accent;
+                    ctx.fillStyle = '#39FF14';
                     ctx.font = 'bold 18px sans-serif';
                     ctx.fillText(line.slice(3), 30, y);
                     ctx.font = '16px monospace';
-                    ctx.fillStyle = colors.text;
+                    ctx.fillStyle = '#FDFBF7';
                 } else {
                     ctx.fillText(line, 30, y);
                 }
@@ -116,7 +103,7 @@ export function ChronicleView() {
             }
 
             // Footer
-            ctx.fillStyle = colors.textMuted;
+            ctx.fillStyle = '#8E9E94';
             ctx.font = '12px monospace';
             ctx.fillText(`ELIFOOT · gerado em ${new Date().toLocaleString('pt-BR')}`, 30, height - 20);
 
@@ -134,40 +121,18 @@ export function ChronicleView() {
     }
 
     return (
-        <div className="ef-anim-fade-in" style={{
-            backgroundImage: `url(${bgNewspaper})`,
-            imageRendering: 'pixelated',
-            WebkitImageRendering: 'pixelated',
-            backgroundColor: colors.bg,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100dvh',
-            padding: '24px',
-            color: colors.text,
-            fontFamily: 'var(--font-sans)',
-            overflowY: 'auto'
-        }}>
-            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgNewspaper})` }}>
+            <div className="ef-view-container">
 
                 {/* HEADER */}
-                <EfPanel padding="lg" style={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    alignItems: 'center',
-                    borderBottom: `2px solid ${colors.secondary}`
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <div style={{ width: '48px', height: '48px', backgroundColor: colors.panelElevated, display: 'flex', justifyContent: 'center', alignItems: 'center', border: `1px solid ${colors.border}` }}>
-                            <Article size={28} color={colors.secondary} />
+                <EfPanel padding="lg" className="ef-view-header" style={{ borderBottom: '2px solid #40BAF7' }}>
+                    <div className="ef-view-header__identity">
+                        <div className="ef-view-header__icon-box">
+                            <Article size={28} color="#40BAF7" />
                         </div>
                         <div>
-                            <h2 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', fontFamily: 'var(--font-sans)', color: colors.text, fontWeight: 'bold' }}>
-                                CRÔNICA DO SAVE
-                            </h2>
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: colors.textMuted }}>
-                                REGISTROS HISTÓRICOS DA CARREIRA
-                            </span>
+                            <h2 className="ef-view-header__title">CRÔNICA DO SAVE</h2>
+                            <span className="ef-view-header__subtitle">REGISTROS HISTÓRICOS DA CARREIRA</span>
                         </div>
                     </div>
                     <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>
@@ -184,16 +149,16 @@ export function ChronicleView() {
                     justifyContent: 'space-between'
                 }}>
                     <div style={{ display: 'flex', gap: '8px' }}>
-                        <EfButton 
+                        <EfButton
                             variant={view === 'season' ? 'primary' : 'secondary'}
                             onClick={() => setView('season')}
                         >
                             <CalendarBlank size={16} /> TEMPORADA
                         </EfButton>
-                        <EfButton 
+                        <EfButton
                             variant={view === 'lifetime' ? 'primary' : 'secondary'}
                             onClick={() => setView('lifetime')}
-                            style={view === 'lifetime' ? { backgroundColor: colors.warning, color: '#000', borderColor: colors.warning } : {}}
+                            style={view === 'lifetime' ? { backgroundColor: '#FFD700', color: '#000', borderColor: '#FFD700' } : {}}
                         >
                             <InfinityIcon size={16} /> SAVE INTEIRO
                         </EfButton>
@@ -203,14 +168,16 @@ export function ChronicleView() {
                         <EfButton
                             variant="secondary"
                             onClick={handleExportPNG}
-                            style={{ color: colors.accent, borderColor: colors.border }}
+                            className="ef-text-primary"
+                            style={{ borderColor: '#2D3748' }}
                         >
                             <ImageIcon size={16} /> EXPORTAR PNG
                         </EfButton>
                         <EfButton
                             variant="secondary"
                             onClick={handleExportJSON}
-                            style={{ color: colors.secondary, borderColor: colors.border }}
+                            className="ef-text-info"
+                            style={{ borderColor: '#2D3748' }}
                         >
                             <FileCode size={16} /> EXPORTAR JSON
                         </EfButton>
@@ -218,15 +185,11 @@ export function ChronicleView() {
                 </div>
 
                 {/* CHRONICLE CONTENT */}
-                <EfPanel padding="lg" className="ef-anim-slide-down" style={{ 
-                    minHeight: '400px'
-                }}>
-                    <div style={{
+                <EfPanel padding="lg" className="ef-anim-slide-down" style={{ minHeight: '400px' }}>
+                    <div className="ef-mono ef-text-main" style={{
                         whiteSpace: 'pre-wrap',
-                        fontFamily: 'var(--font-mono)',
                         fontSize: '0.9rem',
-                        lineHeight: 1.8,
-                        color: colors.text
+                        lineHeight: 1.8
                     }}>
                         {content || 'CARREGANDO CRÔNICA...'}
                     </div>

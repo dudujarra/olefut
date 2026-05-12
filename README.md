@@ -7,7 +7,7 @@
 
 [![CI](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/badge/tests-1108%2F1108-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
-[![Specs](https://img.shields.io/badge/specs-117-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
+[![Specs](https://img.shields.io/badge/specs-118-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
 [![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/elifoot-web/blob/main/specs/SPEC-RULES.md)
 [![Bugs Tracked](https://img.shields.io/badge/bugs%20regression-14-orange)](https://github.com/dudujarra/elifoot-web/blob/main/BUGS.md)
 [![Theme](https://img.shields.io/badge/theme-32bit%20SNES-yellow)](https://github.com/dudujarra/elifoot-web/blob/main/src/styles/animations.css)

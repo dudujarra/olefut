@@ -4,7 +4,7 @@ import { MonitorService, CATEGORIES } from '../services/MonitorService';
 import { EfPanel, EfButton } from './ui';
 import bgManagerOffice from '../assets/environments/bg_manager_office.png';
 
-import { 
+import {
     Bug, GameController, ChatCircleText, Note, ArrowLeft,
     WarningCircle, Info, DownloadSimple, Trash, ArrowsClockwise, HardDrives
 } from '@phosphor-icons/react';
@@ -37,19 +37,6 @@ export function MonitorView() {
     const [stats, setStats] = useState(null);
 
     const monitor = MonitorService.getInstance();
-
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
 
     function refresh() {
         const all = monitor.getAll();
@@ -88,40 +75,18 @@ export function MonitorView() {
     }
 
     return (
-        <div className="ef-anim-fade-in" style={{
-            backgroundImage: `url(${bgManagerOffice})`,
-            imageRendering: 'pixelated',
-            WebkitImageRendering: 'pixelated',
-            backgroundColor: colors.bg,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100dvh',
-            padding: '24px',
-            color: colors.text,
-            fontFamily: 'var(--font-sans)',
-            overflowY: 'auto'
-        }}>
-            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgManagerOffice})` }}>
+            <div className="ef-view-container">
 
                 {/* HEADER */}
-                <EfPanel padding="lg" style={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    alignItems: 'center',
-                    borderBottom: `2px solid ${colors.secondary}`
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <div style={{ width: '48px', height: '48px', backgroundColor: colors.panelElevated, display: 'flex', justifyContent: 'center', alignItems: 'center', border: `1px solid ${colors.border}` }}>
-                            <HardDrives size={28} color={colors.secondary} />
+                <EfPanel padding="lg" className="ef-view-header" style={{ borderBottom: '2px solid #40BAF7' }}>
+                    <div className="ef-view-header__identity">
+                        <div className="ef-view-header__icon-box">
+                            <HardDrives size={28} color="#40BAF7" />
                         </div>
                         <div>
-                            <h2 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', fontFamily: 'var(--font-sans)', color: colors.text, fontWeight: 'bold' }}>
-                                MONITOR DO SISTEMA
-                            </h2>
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: colors.textMuted }}>
-                                TELEMETRIA E DIAGNÓSTICO
-                            </span>
+                            <h2 className="ef-view-header__title">MONITOR DO SISTEMA</h2>
+                            <span className="ef-view-header__subtitle">TELEMETRIA E DIAGNÓSTICO</span>
                         </div>
                     </div>
                     <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>
@@ -133,24 +98,24 @@ export function MonitorView() {
                     <EfPanel padding="lg" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
                         <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
                             <div style={{ textAlign: 'center' }}>
-                                <div style={{ fontSize: '0.75rem', color: colors.textMuted, marginBottom: '4px', fontFamily: 'var(--font-mono)' }}>TOTAL</div>
-                                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', fontFamily: 'var(--font-mono)' }}>{stats.total}</div>
+                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.75rem', marginBottom: '4px' }}>TOTAL</div>
+                                <div className="ef-mono" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{stats.total}</div>
                             </div>
                             <div style={{ textAlign: 'center' }}>
-                                <div style={{ fontSize: '0.75rem', color: colors.textMuted, marginBottom: '4px', fontFamily: 'var(--font-mono)', display: 'flex', alignItems: 'center', gap: '4px' }}><Bug size={12} /> BUGS</div>
-                                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', fontFamily: 'var(--font-mono)', color: stats.bugs > 0 ? colors.danger : colors.text }}>{stats.bugs}</div>
+                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.75rem', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}><Bug size={12} /> BUGS</div>
+                                <div className="ef-mono" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: stats.bugs > 0 ? '#FF3333' : '#FDFBF7' }}>{stats.bugs}</div>
                             </div>
                             <div style={{ textAlign: 'center' }}>
-                                <div style={{ fontSize: '0.75rem', color: colors.textMuted, marginBottom: '4px', fontFamily: 'var(--font-mono)', display: 'flex', alignItems: 'center', gap: '4px' }}><GameController size={12} /> GAMEPLAY</div>
-                                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', fontFamily: 'var(--font-mono)' }}>{stats.gameplay}</div>
+                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.75rem', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}><GameController size={12} /> GAMEPLAY</div>
+                                <div className="ef-mono" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{stats.gameplay}</div>
                             </div>
                             <div style={{ textAlign: 'center' }}>
-                                <div style={{ fontSize: '0.75rem', color: colors.textMuted, marginBottom: '4px', fontFamily: 'var(--font-mono)', display: 'flex', alignItems: 'center', gap: '4px' }}><ChatCircleText size={12} /> FEEDBACK</div>
-                                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', fontFamily: 'var(--font-mono)' }}>{stats.feedback}</div>
+                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.75rem', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}><ChatCircleText size={12} /> FEEDBACK</div>
+                                <div className="ef-mono" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{stats.feedback}</div>
                             </div>
                         </div>
                         {stats.firstEntry && (
-                            <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: colors.textMuted }}>
+                            <div className="ef-mono ef-text-muted" style={{ display: 'flex', alignItems: 'center', fontSize: '0.8rem' }}>
                                 DESDE {formatTs(stats.firstEntry)}
                             </div>
                         )}
@@ -172,29 +137,29 @@ export function MonitorView() {
                             </EfButton>
                         ))}
                     </div>
-                    
+
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <EfButton variant="secondary" size="sm" onClick={refresh}>
                             <ArrowsClockwise size={16} /> ATUALIZAR
                         </EfButton>
-                        <EfButton variant="secondary" size="sm" onClick={handleExport} style={{ color: colors.secondary, borderColor: colors.secondary }}>
+                        <EfButton variant="secondary" size="sm" onClick={handleExport} className="ef-text-info" style={{ borderColor: '#40BAF7' }}>
                             <DownloadSimple size={16} /> EXPORTAR JSON
                         </EfButton>
-                        <EfButton variant="danger" size="sm" onClick={handleClear} style={{ color: colors.danger, borderColor: colors.danger }}>
+                        <EfButton variant="danger" size="sm" onClick={handleClear} className="ef-text-danger" style={{ borderColor: '#FF3333' }}>
                             <Trash size={16} /> LIMPAR
                         </EfButton>
                     </div>
                 </EfPanel>
 
                 {entries.length === 0 ? (
-                    <EfPanel padding="lg" style={{ textAlign: 'center', color: colors.textMuted, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+                    <EfPanel padding="lg" className="ef-text-muted" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
                         <Info size={48} />
                         <div>Nenhum registro encontrado. O sistema está limpo.</div>
                     </EfPanel>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         {entries.map(e => {
-                            const sevColor = SEVERITY_COLORS[e.severity] || colors.textMuted;
+                            const sevColor = SEVERITY_COLORS[e.severity] || '#8E9E94';
                             return (
                                 <EfPanel key={e.id} padding="lg" style={{
                                     borderLeft: `4px solid ${sevColor}`,
@@ -204,75 +169,40 @@ export function MonitorView() {
                                 }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <div style={{ 
-                                                backgroundColor: '#0E1F14', 
-                                                padding: '4px 8px', 
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '6px',
-                                                fontFamily: 'var(--font-mono)',
-                                                fontSize: '0.75rem',
-                                                color: colors.text
-                                            }}>
+                                            <div className="ef-mon-cat-tag">
                                                 {CATEGORY_ICONS[e.category]} {CATEGORY_LABELS[e.category] || e.category}
                                             </div>
-                                            <div style={{ 
-                                                color: sevColor, 
-                                                fontSize: '0.75rem', 
-                                                fontFamily: 'var(--font-mono)', 
-                                                fontWeight: 'bold',
-                                                textTransform: 'uppercase',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '4px'
-                                            }}>
+                                            <div className="ef-mon-sev" style={{ color: sevColor }}>
                                                 {e.severity === 'critical' || e.severity === 'error' ? <WarningCircle weight="fill" /> : <Info weight="fill" />}
                                                 {e.severity}
                                             </div>
                                         </div>
-                                        <span style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-mono)' }}>
+                                        <span className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem' }}>
                                             {formatTs(e.ts)}
                                         </span>
                                     </div>
-                                    
-                                    <div style={{ fontSize: '0.95rem', whiteSpace: 'pre-wrap', lineHeight: 1.5, color: colors.text }}>
+
+                                    <div className="ef-text-main" style={{ fontSize: '0.95rem', whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>
                                         {e.message || e.text || e.action || '(sem conteúdo)'}
                                     </div>
-                                    
+
                                     {e.action && e.ctx && (
-                                        <div style={{ 
-                                            backgroundColor: colors.bg, 
-                                            padding: '12px', 
-                                            fontSize: '0.8rem', 
-                                            color: colors.textMuted, 
-                                            fontFamily: 'var(--font-mono)', 
-                                            overflowX: 'auto',
-                                            border: `1px solid ${colors.border}`
-                                        }}>
+                                        <div className="ef-mon-codeblock">
                                             {JSON.stringify(e.ctx)}
                                         </div>
                                     )}
-                                    
+
                                     {e.stack && (
                                         <details style={{ marginTop: '4px' }}>
-                                            <summary style={{ cursor: 'pointer', fontSize: '0.8rem', color: colors.secondary, fontWeight: 'bold', outline: 'none' }}>Ver Stack Trace</summary>
-                                            <div style={{ 
-                                                backgroundColor: colors.bg, 
-                                                padding: '12px', 
-                                                fontSize: '0.75rem', 
-                                                color: colors.danger, 
-                                                fontFamily: 'var(--font-mono)', 
-                                                overflowX: 'auto',
-                                                marginTop: '8px',
-                                                border: `1px solid ${colors.border}`
-                                            }}>
+                                            <summary className="ef-text-info" style={{ cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold', outline: 'none' }}>Ver Stack Trace</summary>
+                                            <div className="ef-mon-codeblock ef-mon-codeblock--stack">
                                                 {e.stack}
                                             </div>
                                         </details>
                                     )}
-                                    
+
                                     {e.url && (
-                                        <div style={{ fontSize: '0.8rem', color: colors.secondary, fontFamily: 'var(--font-mono)' }}>
+                                        <div className="ef-mono ef-text-info" style={{ fontSize: '0.8rem' }}>
                                             URL: {e.url}
                                         </div>
                                     )}

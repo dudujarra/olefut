@@ -10,8 +10,8 @@ import { useGame } from '../context/GameContext';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgTutorial from '../assets/environments/bg_tutorial.png';
-import { 
-    SoccerBall, ChartBar, Strategy, Television, Medal, 
+import {
+    SoccerBall, ChartBar, Strategy, Television, Medal,
     ArrowRight, ArrowLeft, FastForward
 } from '@phosphor-icons/react';
 
@@ -48,19 +48,6 @@ const STORAGE_KEY = 'elifoot_tutorial_done';
 export function TutorialView() {
     const { changeView, getDashboardView } = useGame();
     const [step, setStep] = useState(0);
-
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
 
     // --- AUDIT-FIX #16: Tutorial Funnel Tracking for SPEC-113 ---
     const FUNNEL_KEY = 'elifoot_tutorial_funnel';
@@ -120,22 +107,10 @@ export function TutorialView() {
     const cur = STEPS[step];
 
     return (
-        <div className="ef-anim-fade-in" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '100dvh',
-            padding: '24px',
-            backgroundColor: colors.bg,
-            backgroundImage: `url(${bgTutorial})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            imageRendering: 'pixelated',
-            color: colors.text,
-            fontFamily: 'var(--font-sans)'
-        }}>
+        <div
+            className="ef-anim-fade-in ef-scene-shell ef-scene-shell--centered"
+            style={{ backgroundImage: `url(${bgTutorial})` }}
+        >
             <EfPanel padding="lg" style={{
                 maxWidth: '600px',
                 width: '100%',
@@ -144,50 +119,41 @@ export function TutorialView() {
                 alignItems: 'center',
                 textAlign: 'center',
                 gap: '24px',
-                borderTop: `4px solid ${colors.secondary}`
+                borderTop: '4px solid #40BAF7'
             }}>
-                <div className="ef-anim-pop-in" key={`icon-${step}`} style={{ 
-                    width: '120px', 
-                    height: '120px', 
-                    backgroundColor: colors.bg,
+                <div className="ef-anim-pop-in" key={`icon-${step}`} style={{
+                    width: '120px',
+                    height: '120px',
+                    backgroundColor: '#0D1117',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    border: `1px solid ${colors.border}`,
-                    boxShadow: `0 0 30px #111417`
+                    border: '1px solid #2D3748',
+                    boxShadow: '0 0 30px #111417'
                 }}>
                     {cur.icon}
                 </div>
-                
+
                 <div className="ef-anim-slide-up" key={`content-${step}`}>
-                    <h2 style={{ margin: '0 0 16px 0', fontSize: '1.5rem', color: colors.text, fontWeight: '900', fontFamily: 'var(--font-sans)' }}>
+                    <h2 className="ef-sans ef-text-main" style={{ margin: '0 0 16px 0', fontSize: '1.5rem', fontWeight: '900' }}>
                         {cur.title}
                     </h2>
-                    <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: colors.textMuted }}>
+                    <p className="ef-text-muted" style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6' }}>
                         {cur.body}
                     </p>
                 </div>
-                
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    width: '100%',
-                    margin: '8px 0'
-                }}>
-                    {STEPS.map((_, i) => (
-                        <div
-                            key={i}
-                            style={{
-                                flex: 1,
-                                height: '4px',
-                                backgroundColor: i === step ? colors.secondary : i < step ? colors.accent : colors.border,
-                                transition: 'background-color 300ms ease'
-                            }}
-                        />
-                    ))}
+
+                <div className="ef-stepbar">
+                    {STEPS.map((_, i) => {
+                        const cls = i === step
+                            ? 'ef-stepbar__pip ef-stepbar__pip--current'
+                            : i < step
+                                ? 'ef-stepbar__pip ef-stepbar__pip--past'
+                                : 'ef-stepbar__pip';
+                        return <div key={i} className={cls} />;
+                    })}
                 </div>
-                
+
                 <div style={{ display: 'flex', gap: '12px', width: '100%', marginTop: '8px' }}>
                     {step > 0 && (
                         <EfButton variant="secondary" size="lg" onClick={prev} style={{ flex: 1 }}>
@@ -202,23 +168,9 @@ export function TutorialView() {
                         )}
                     </EfButton>
                 </div>
-                
+
                 <div style={{ marginTop: '8px' }}>
-                    <button
-                        onClick={skip}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            color: colors.textMuted,
-                            cursor: 'pointer',
-                            fontSize: '0.8rem',
-                            fontFamily: 'var(--font-mono)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            padding: '8px'
-                        }}
-                    >
+                    <button onClick={skip} className="ef-skip-link">
                         <FastForward size={14} /> PULAR TUTORIAL
                     </button>
                 </div>
