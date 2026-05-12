@@ -4,13 +4,22 @@ import { Tooltip } from './Tooltip';
 import { Help } from './Help';
 import { EfClubBadge, EfPanel, EfButton, EfModal } from './ui';
 import bgLockerRoom from '../assets/environments/bg_locker_room.png';
-import { Sword, MapPin, Trophy, ShieldChevron, Warning, GameController } from '@phosphor-icons/react';
+import { Sword, MapPin, Trophy, ShieldChevron, Warning, GameController, Lightbulb } from '@phosphor-icons/react';
+import { suggestTactic } from '../engine/TacticSuggester';
 
 export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout }) {
     const [showFormationModal, setShowFormationModal] = useState(false);
 
     if (!team) return null;
     const opp = context?.opponent;
+
+    // SPEC-A3: forma WWLDD (últimos 5 do nosso time)
+    const ourForm = (engine?.managerStats?.rollingForm || []).slice(-5);
+
+    // SPEC-A3: sugestão tática auxiliar
+    const suggestion = (sectors && context?.oppSectors)
+        ? suggestTactic({ ourSectors: sectors, oppSectors: context.oppSectors, isHome: context?.isHome ?? true })
+        : null;
 
     // Detect derby
     const isDerby = context?.opponent?.zone === team.zone && context?.opponent?.division === team.division &&
@@ -96,6 +105,33 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                         <EfButton variant="secondary" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setShowFormationModal(true)}>
                             <ShieldChevron size={16} /> EDITAR POSIÇÕES
                         </EfButton>
+
+                        {/* SPEC-A3: forma WWLDD */}
+                        <div className="ef-prematch-form-row" style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ fontSize: '0.75rem', color: colors.textMuted, fontFamily: 'var(--font-sans)' }}>FORMA</span>
+                            {ourForm.length === 0 ? (
+                                <span style={{ fontSize: '0.75rem', color: colors.textMuted, fontFamily: 'var(--font-mono)' }}>—</span>
+                            ) : (
+                                <div style={{ display: 'flex', gap: '4px' }}>
+                                    {ourForm.map((r, i) => {
+                                        const isW = r === 'W';
+                                        const isD = r === 'D';
+                                        const bg = isW ? colors.accent : isD ? colors.warning : colors.danger;
+                                        const label = isW ? 'V' : isD ? 'E' : 'D';
+                                        return (
+                                            <div key={i} style={{
+                                                width: '20px', height: '20px',
+                                                backgroundColor: bg, color: '#000',
+                                                display: 'flex', justifyContent: 'center', alignItems: 'center',
+                                                fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 'bold'
+                                            }} aria-label={`Resultado ${label}`}>
+                                                {label}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {/* CENTER: VS */}
@@ -112,6 +148,28 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                                 SEMANA {context?.seasonWeek}/38
                             </div>
                         </div>
+
+                        {/* SPEC-A3: sugestão tática do auxiliar */}
+                        {suggestion && (
+                            <div className="ef-prematch-suggestion" style={{
+                                marginTop: '12px',
+                                padding: '10px',
+                                backgroundColor: colors.panelElevated,
+                                border: `1px solid ${colors.secondary}`,
+                                maxWidth: '220px',
+                            }} role="note" aria-label="Sugestão do auxiliar">
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+                                    <Lightbulb size={14} color={colors.secondary} weight="fill" />
+                                    <span style={{ fontSize: '0.7rem', color: colors.secondary, fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.05em' }}>AUXILIAR SUGERE</span>
+                                </div>
+                                <div style={{ fontSize: '0.85rem', color: colors.text, fontFamily: 'var(--font-sans)', fontWeight: 'bold', marginBottom: '4px' }}>
+                                    {suggestion.tactic}
+                                </div>
+                                <div style={{ fontSize: '0.7rem', color: colors.textMuted, fontFamily: 'var(--font-sans)', lineHeight: 1.3 }}>
+                                    {suggestion.rationale}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* RIGHT: Adversário */}
