@@ -10,11 +10,12 @@
  */
 
 import { useGame } from '../context/GameContext';
-import { 
-    House, Users, ShoppingCart, ListNumbers, Trophy, 
-    MicrophoneStage, Storefront, Sword, Scroll, FloppyDisk, Robot 
+import {
+    House, Users, ShoppingCart, ListNumbers, Trophy,
+    MicrophoneStage, Storefront, Sword, Scroll, FloppyDisk, Robot, GraduationCap
 } from '@phosphor-icons/react';
 
+// AKITA-234: Tutorial link adicionado pra replayability (audit gap fix).
 const NAV_ITEMS_MANAGER = [
     { view: 'dashboard',    icon: House, label: 'DASHBOARD' },
     { view: 'squad',        icon: Users, label: 'PLANTEL' },
@@ -26,14 +27,16 @@ const NAV_ITEMS_MANAGER = [
     { view: 'rivalries',    icon: Sword, label: 'RIVALIDADES' },
     { view: 'chronicle',    icon: Scroll, label: 'CRÔNICA' },
     { view: 'saves',        icon: FloppyDisk, label: 'SAVES' },
-    { view: 'autoplay',     icon: Robot, label: 'AUTOPLAY' }
+    { view: 'autoplay',     icon: Robot, label: 'AUTOPLAY' },
+    { view: 'tutorial',     icon: GraduationCap, label: 'TUTORIAL' }
 ];
 
 const NAV_ITEMS_PLAYER = [
     { view: 'player_dashboard', icon: House, label: 'DASHBOARD' },
     { view: 'standings',        icon: ListNumbers, label: 'TABELA' },
     { view: 'achievements',     icon: Trophy, label: 'CONQUISTAS' },
-    { view: 'saves',            icon: FloppyDisk, label: 'SAVES' }
+    { view: 'saves',            icon: FloppyDisk, label: 'SAVES' },
+    { view: 'tutorial',         icon: GraduationCap, label: 'TUTORIAL' }
 ];
 
 export function Sidebar() {
