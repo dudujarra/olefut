@@ -9,6 +9,7 @@ import { MatchPostMortem } from './MatchPostMortem';
 import { analyzeMatch } from '../engine/MatchAnalyst';
 import { MidMatchCardModal } from './MidMatchCardModal';
 import { shouldTriggerMidMatch, getMidMatchCard } from '../engine/MidMatchManagerDeck';
+import { MatchBallSprite } from './MatchBallSprite';
 import { EfClubBadge, EfBanner } from './ui';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
@@ -576,7 +577,9 @@ export function MatchView() {
             <div className="ef-view-container">
                 <Scoreboard half={half} />
 
-                <EfPanel padding="md" className="ef-match-pitch-bg" style={{ height: '400px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }} scrollRef={logRef}>
+                <EfPanel padding="md" className="ef-match-pitch-bg" style={{ height: '400px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px', position: 'relative' }} scrollRef={logRef}>
+                    {/* SPEC-B1.3: ball sprite traversing the pitch */}
+                    <MatchBallSprite intensity={goalBurstActive ? 'goal' : 'active'} />
                     {displayedEvents.map((n, i) => {
                         const isGoal = n.text?.includes('⚽');
                         const isCard = n.text?.includes('🟨') || n.text?.includes('🟥');
