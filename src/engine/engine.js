@@ -40,6 +40,7 @@ import { TransferService } from '../services/TransferService';
 import { ScoutingService } from '../services/ScoutingService';
 import { LoanService } from '../services/LoanService';
 import { FacilityService } from '../services/FacilityService';
+import { FormationService } from '../services/FormationService';
 import { apply as applyBoardTension } from './BoardTensionSystem';
 import { onBoardSellAttempt as checkStarProtection } from './StarProtectionSystem';
 
@@ -70,6 +71,8 @@ export class Engine {
         this._loanService = new LoanService();
         // RFCT-019.5: FacilityService — extracted academy/stadium upgrades + staff
         this._facilityService = new FacilityService();
+        // RFCT-019.6: FormationService — formation/tactic/training/teamtalk/sub + getMatchContext
+        this._formationService = new FormationService();
         // RFCT-007: MythService — Camada 5 (Mito) Hall de Lendas (stateless)
         this._mythService = new MythService();
         // RFCT-008/010: RelationshipService — Camada 3 (Relacional) (stateless)
@@ -485,153 +488,33 @@ export class Engine {
     }
 
     // === MANAGER ACTIONS ===
+    // === FORMATION/TACTIC/TRAINING/TALK (RFCT-019.6 delegators) ===
     setTactic(tacticId) {
-        if (TACTICS[tacticId]) {
-            this.currentTactic = tacticId;
-            // SPEC-070: track tactic usage for manager identity (style computation)
-            if (!this.manager.tacticHistory) this.manager.tacticHistory = {};
-            this.manager.tacticHistory[tacticId] = (this.manager.tacticHistory[tacticId] || 0) + 1;
-        }
+        return this._formationService.setTactic(this, tacticId);
     }
 
     setFormation(formationId) {
-        const team = this.getTeam(this.manager.teamId);
-        if (team && FORMATIONS[formationId]) team.formation = formationId;
+        return this._formationService.setFormation(this, formationId);
     }
 
-    /**
-     * A2 - Save formation layout (custom positions per slot)
-     * layout = { [slotIdx]: { playerId, x, y, role } }
-     */
-    saveFormationLayout({ formation, layout }) {
-        const team = this.getTeam(this.manager?.teamId);
-        if (!team) return { success: false };
-        if (formation) team.formation = formation;
-        team.formationLayout = layout;
-        return { success: true };
+    saveFormationLayout(opts) {
+        return this._formationService.saveFormationLayout(this, opts);
     }
 
-    /**
-     * A3 - Get pre-match context: opponent info, location, h2h
-     * Returns null if no upcoming match found.
-     */
     getMatchContext() {
-        const team = this.getTeam(this.manager?.teamId);
-        if (!team) return null;
-
-        // Find upcoming fixture this week
-        const upcoming = this.getUpcomingMatch ? this.getUpcomingMatch(team.id) : null;
-        let opponent = null;
-        let isHome = true;
-        let tournamentName = `Brasileirão Série ${['A','B','C','D'][team.division - 1] || 'A'}`;
-
-        if (upcoming) {
-            isHome = upcoming.home === team.id;
-            opponent = this.getTeam(isHome ? upcoming.away : upcoming.home);
-        } else {
-            // Fallback: find any team in same zone/division
-            const peers = (this.teams || []).filter(t =>
-                t.id !== team.id && t.zone === team.zone && t.division === team.division
-            );
-            opponent = peers[Math.floor(systemRng() * peers.length)] || null;
-        }
-
-        if (!opponent) return null;
-
-        // H2H from match history (if tracked)
-        let h2h = [];
-        if (this.matchHistory) {
-            h2h = this.matchHistory.filter(m =>
-                (m.home === team.id && m.away === opponent.id) ||
-                (m.home === opponent.id && m.away === team.id)
-            ).slice(-5);
-        }
-
-        // Opponent sectors + style
-        const oppSectors = this.getTeamSectors ? this.getTeamSectors(opponent.id) : null;
-        const oppTactic = opponent.preferredTactic || 'balanced';
-        const styleMap = {
-            'defensive': 'Defensivo',
-            'pressing': 'Pressão Alta',
-            'counter': 'Contra-Ataque',
-            'attacking': 'Ofensivo',
-            'balanced': 'Equilibrado',
-            'park_the_bus': 'Retranca'
-        };
-        const opponentStyle = styleMap[oppTactic] || 'Equilibrado';
-
-        return {
-            opponent,
-            isHome,
-            location: isHome ? 'CASA' : 'FORA',
-            tournament: tournamentName,
-            seasonWeek: ((this.currentWeek - 1) % 38) + 1,
-            h2h,
-            oppSectors,
-            opponentStyle,
-            oppTactic
-        };
+        return this._formationService.getMatchContext(this);
     }
 
-    /**
-     * A1 - Apply a live substitution during paused match
-     * Visual + state commit only (does not recalculate match result — engine sync limitation v1.0)
-     * @returns {{success, msg}}
-     */
     applyLiveSubstitution(outId, inId, currentMinute) {
-        const team = this.getTeam(this.manager?.teamId);
-        if (!team) return { success: false, msg: 'Time não encontrado' };
-
-        const out = team.squad.find(p => p.id === outId);
-        const inPlayer = team.squad.find(p => p.id === inId);
-        if (!out || !inPlayer) return { success: false, msg: 'Jogador não encontrado' };
-        if (!out.isTitular) return { success: false, msg: 'Só titulares podem sair' };
-        if (inPlayer.isTitular) return { success: false, msg: 'Reserva já está em campo' };
-        if (inPlayer.injury) return { success: false, msg: 'Jogador lesionado' };
-
-        // Flip titular flags
-        out.isTitular = false;
-        inPlayer.isTitular = true;
-        // Boost incoming, give outgoing rest floor
-        inPlayer.energy = Math.min(100, (inPlayer.energy || 70) + 10);
-        out.energy = Math.max(out.energy || 50, 30);
-
-        // Track live subs log
-        if (!this._liveSubsLog) this._liveSubsLog = [];
-        this._liveSubsLog.push({
-            minute: currentMinute,
-            outId,
-            inId,
-            outName: out.name,
-            inName: inPlayer.name
-        });
-        // BUG-091: cap to prevent unbounded growth in soak tests
-        if (this._liveSubsLog.length > 50) {
-            this._liveSubsLog = this._liveSubsLog.slice(-50);
-        }
-
-        return {
-            success: true,
-            msg: `🔄 ${currentMinute}': ${out.name} sai, ${inPlayer.name} entra.`
-        };
+        return this._formationService.applyLiveSubstitution(this, outId, inId, currentMinute);
     }
 
     doTeamTalk(talkId) {
-        const team = this.getTeam(this.manager.teamId);
-        if (!team) return null;
-        const result = applyTeamTalk(team, talkId);
-        if (result.success) {
-            this.lastTeamTalk = result.talk;
-            this.teamTalkModifiers = result.modifiers;
-        }
-        return result;
+        return this._formationService.doTeamTalk(this, talkId);
     }
 
     doTraining(trainingId) {
-        const team = this.getTeam(this.manager.teamId);
-        if (!team) return null;
-        this.currentTraining = trainingId;
-        return applyTraining(team, trainingId);
+        return this._formationService.doTraining(this, trainingId);
     }
 
     acceptTransferOffer(offerId) {
