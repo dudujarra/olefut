@@ -35,6 +35,7 @@ import { CareerService } from '../services/CareerService';
 import { InheritanceService } from '../services/InheritanceService';
 import { WeekProcessor } from '../services/WeekProcessor';
 import { SeasonProcessor } from '../services/SeasonProcessor';
+import { NpcWeekProcessor } from '../services/NpcWeekProcessor';
 import { apply as applyBoardTension } from './BoardTensionSystem';
 import { onBoardSellAttempt as checkStarProtection } from './StarProtectionSystem';
 
@@ -55,6 +56,8 @@ export class Engine {
         // RFCT-005: WeekProcessor + SeasonProcessor extracted from advanceWeek/startNewSeason
         this._weekProcessor = new WeekProcessor();
         this._seasonProcessor = new SeasonProcessor();
+        // RFCT-019.1: NpcWeekProcessor — extracted NPC management + AI Director from advanceWeek
+        this._npcWeekProcessor = new NpcWeekProcessor();
         // RFCT-007: MythService — Camada 5 (Mito) Hall de Lendas (stateless)
         this._mythService = new MythService();
         // RFCT-008/010: RelationshipService — Camada 3 (Relacional) (stateless)
@@ -1233,138 +1236,15 @@ export class Engine {
             this._weekProcessor.process(this, weekResults);
         }
 
-        // SPEC-131 + SPEC-132: NPC tactic pivot + squad emergency (todos os times NPC)
-        this.teams.forEach(t => {
-            if (t.id === this.manager.teamId) return; // skip player team
+        // RFCT-019.1: SPEC-131/132 NPC management + AI Director extracted to NpcWeekProcessor
+        this._npcWeekProcessor.process(this, weekResults);
 
-            // Squad health check for NPCs
-            const npcSquadAvail = t.squad.filter(p => !p.injury && !p._retired).length;
-            if (npcSquadAvail < 11) {
-                const npcHealth = checkSquadHealth({
-                    teamId: t.id,
-                    squadSize: npcSquadAvail,
-                    budget: t.balance,
-                    isPlayerManager: false,
-                    week: this.currentWeek,
-                    squadAvgOvr: Math.round(t.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (t.squad.length || 1)),
-                    marketPlayers: this.marketPlayers,
-                    _cooldowns: this._squadMonitorCooldowns,
-                });
-                if (npcHealth.triggered) {
-                    this._squadMonitorCooldowns[t.id] = this.currentWeek;
-                    // Apply purchased players to NPC squad
-                    npcHealth.playersBought?.forEach(bought => {
-                        const mkt = this.marketPlayers.find(p => p.id === bought.playerId);
-                        if (mkt) {
-                            mkt.contract = { weeksLeft: 26, salary: mkt.salary || 5000 };
-                            mkt.injury = null;
-                            mkt.moral = 50;
-                            mkt.isTitular = true;
-                            t.squad.push(mkt);
-                            t.balance -= bought.cost;
-                            this.marketPlayers = this.marketPlayers.filter(p => p.id !== bought.playerId);
-                        }
-                    });
-                }
-            }
-
-            // MARL Fase 6: NPC brain-driven tactic + emotional feed
-            if (!t.npcTacticState) t.npcTacticState = initNpcTacticState();
-            if (t.brain) {
-                // Brain-driven decision (replaces NpcTacticAdvisor)
-                const tacticResult = npcTacticDecision(t, this);
-                t.npcTacticState.currentTactic = tacticResult.tactic;
-                if (tacticResult.changed) t.npcTacticState.tacticAge = 0;
-                else t.npcTacticState.tacticAge = (t.npcTacticState.tacticAge || 0) + 1;
-
-                // NPC buy decisions every 4 weeks (only if near player's division for perf)
-                const playerDiv = this.getTeam(this.manager?.teamId)?.division || 1;
-                if (this.currentWeek % 4 === 0 && shouldUseFullBrain(t, playerDiv)) {
-                    try { npcBuyDecision(t, this); } catch { /* defensive */ }
-                }
-            } else {
-                // Legacy fallback: NpcTacticAdvisor
-                const oppId = this._lastNpcOpponent?.[t.id];
-                const oppTeam = oppId ? this.getTeam(oppId) : null;
-                const npcOvr = Math.round(t.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (t.squad.length || 1));
-                const oppOvr = oppTeam ? Math.round(oppTeam.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (oppTeam.squad.length || 1)) : npcOvr;
-                const advice = adviseTactic({
-                    currentTactic: t.npcTacticState.currentTactic,
-                    recentResults: t.npcTacticState.recentResults,
-                    squadOvr: npcOvr,
-                    opponentOvr: oppOvr,
-                    tacticAge: t.npcTacticState.tacticAge,
-                });
-                t.npcTacticState = applyNpcTacticAdvice(t.npcTacticState, advice);
-            }
-        });
-
-        // MARL Fase 6: AI Director tick — modulates NPC difficulty near player
-        if (this._aiDirector && this.mode === 'manager') {
-            try {
-                const playerTeam = this.getTeam(this.manager.teamId);
-                if (playerTeam) {
-                    const standings = this.getStandings(playerTeam.zone, playerTeam.division);
-                    const position = (standings.findIndex(s => s.teamId === playerTeam.id) + 1) || standings.length;
-                    const recentResults = (this.managerStats?.rollingForm || []).map(r =>
-                        r === 'W' ? 'W' : r === 'D' ? 'D' : 'L'
-                    );
-                    const dirMods = this._aiDirector.tick({
-                        recentResults,
-                        position,
-                        totalTeams: standings.length || 20,
-                        streak: this.managerStats?.streak || 0
-                    });
-                    // Apply aggression modifier to same-division NPC brains
-                    const playerDiv = playerTeam.division;
-                    for (const t of this.teams) {
-                        if (t.id === playerTeam.id || !t.brain || t.division !== playerDiv) continue;
-                        t.brain._aiDirectorMod = dirMods.aggressionMod;
-                    }
-                }
-            } catch { /* defensive — never break advanceWeek */ }
-        }
-
-        // Pagar Salários
+        // Pagar Salários (manager mode)
         if (this.mode === 'manager') this.manager.money += this.manager.salary;
+
+        // RFCT-019.1: player career week processing extracted to CareerService
         if (this.mode === 'player' && this.proPlayer) {
-            this.proPlayer.receiveWage();
-
-            // Check bench status
-            this.proPlayer.checkBenchStatus();
-
-            // Se o jogador não foi barrado, cobrar o preço do jogo
-            if (!this.proPlayer.isBenched) {
-                let matchWon = false;
-                for (const tId in weekResults) {
-                    const match = weekResults[tId].find(m => m.home === this.manager.teamId || m.away === this.manager.teamId);
-                    if (match && match.score) {
-                        if (match.home === this.manager.teamId && match.score.homeGoals > match.score.awayGoals) matchWon = true;
-                        if (match.away === this.manager.teamId && match.score.awayGoals > match.score.homeGoals) matchWon = true;
-                    }
-                }
-
-                const goalsScored = this.proPlayer.seasonGoals - (this.proPlayer.lastWeekGoals || 0);
-                this.proPlayer.lastWeekGoals = this.proPlayer.seasonGoals;
-                this.proPlayer.playMatch(90, goalsScored, matchWon);
-            } else {
-                this.proPlayer.playMatch(0, 0, false);
-            }
-
-            this.proPlayer.energy = Math.max(0, this.proPlayer.energy - this.proPlayer.energyDecayRate);
-
-            // SCHEMA-UNIFIED: Sync root-level stats from skills
-            this.proPlayer.attacking  = this.proPlayer.skills.pace;
-            this.proPlayer.defending  = this.proPlayer.skills.power;
-            this.proPlayer.creativity = this.proPlayer.skills.vision;
-            this.proPlayer.technical  = this.proPlayer.skills.technique;
-
-            // Reset weekly slots
-            this.proPlayer.resetWeeklySlots();
-
-            // Update renown
-            this.proPlayer.renown += this.proPlayer.seasonGoals > 0 ? 1 : 0;
-            this.proPlayer.updateStarRating();
+            this._careerService.processPlayerWeek(this, weekResults);
         }
 
         this.currentWeek++;
