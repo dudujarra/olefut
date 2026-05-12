@@ -15,6 +15,7 @@ import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import { EfModal } from './ui/EfModal';
 import { OnboardingCoach } from './OnboardingCoach';
+import { getUnifiedView } from '../engine/UnifiedModeBridge';
 import { 
   Users, ShoppingCart, ChartBar, SoccerBall, TrendUp, TrendDown, Heartbeat,
   Newspaper, Lightning, Envelope, Wallet, Bank, Building, GraduationCap, Binoculars, 
@@ -122,6 +123,33 @@ export function DashboardView() {
                     show={(engine?.seasonNumber || 1) === 1 && (engine?.currentWeek || 1) === 1}
                     onComplete={() => forceUpdate()}
                 />
+
+                {/* SPEC-C2.3: Unified Mode — Star Progress panel */}
+                {(() => {
+                    const view = getUnifiedView(engine);
+                    if (!view.isUnified || !view.star) return null;
+                    const s = view.star;
+                    return (
+                        <EfPanel padding="md" style={{ border: '1px solid #FFD700', backgroundColor: '#1A1408' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ fontSize: '0.7rem', color: '#FFD700', fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.1em', marginBottom: '4px' }}>
+                                        ESTRELA DO CLUBE
+                                    </div>
+                                    <div style={{ fontSize: '1.1rem', color: '#FDFBF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                                        {s.name} <span style={{ fontSize: '0.8rem', color: '#8E9E94' }}>({s.position} · {s.age}a · OVR {s.skills.technique})</span>
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '12px', marginTop: '8px', fontSize: '0.75rem', color: '#8E9E94', fontFamily: 'var(--font-mono)' }}>
+                                        <span>Carreira: {s.careerApps}j · {s.careerGoals}g</span>
+                                        <span style={{ color: '#39FF14' }}>Boss {s.relationships.boss}</span>
+                                        <span style={{ color: '#40BAF7' }}>Torcida {s.relationships.fans}</span>
+                                        <span style={{ color: '#FFD700' }}>Equipe {s.relationships.teammates}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </EfPanel>
+                    );
+                })()}
 
                 {/* === HEADER — LUXURY BENTO === */}
                 <EfPanel variant="hero" padding="lg" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

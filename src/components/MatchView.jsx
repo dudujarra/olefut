@@ -11,6 +11,7 @@ import { MidMatchCardModal } from './MidMatchCardModal';
 import { shouldTriggerMidMatch, getMidMatchCard } from '../engine/MidMatchManagerDeck';
 import { MatchBallSprite } from './MatchBallSprite';
 import { applyToStarPlayer } from '../engine/StarPlayerLink';
+import { isUnifiedMode, applyPlayerCardEffectToStar } from '../engine/UnifiedModeBridge';
 import { EfClubBadge, EfBanner } from './ui';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
@@ -122,9 +123,16 @@ export function MatchView() {
             if (engine.starPlayerId) {
                 const starAmplify = {
                     moralDelta: typeof opt.effect?.moralDelta === 'number' ? Math.round(opt.effect.moralDelta * 0.5) : 0,
-                    xpDelta: 5, // ganho de XP por participar de decisão
+                    xpDelta: 5,
                 };
                 applyToStarPlayer(engine, starAmplify);
+            }
+            // SPEC-C2.3: unified mode — aplica effects player-perspective também
+            if (isUnifiedMode(engine)) {
+                applyPlayerCardEffectToStar(engine, {
+                    boss: typeof opt.effect?.moralDelta === 'number' ? Math.round(opt.effect.moralDelta * 0.3) : 0,
+                    teammates: typeof opt.effect?.moralDelta === 'number' ? Math.round(opt.effect.moralDelta * 0.2) : 0,
+                });
             }
         } catch { /* defensive */ }
     };
