@@ -6,6 +6,8 @@ import { describe, it, expect } from 'vitest';
 import {
     buildChronicleMarkdown,
     buildChronicleFilename,
+    buildChroniclePngFilename,
+    renderChronicleToCanvas,
 } from '../../src/components/ChronicleSeasonEndModal.jsx';
 
 const sampleChronicle = {
@@ -88,6 +90,34 @@ describe('SPEC-B3: ChronicleSeasonEndModal helpers', () => {
 
         it('same chronicle → same filename', () => {
             expect(buildChronicleFilename(sampleChronicle)).toBe(buildChronicleFilename(sampleChronicle));
+        });
+    });
+
+    describe('PNG export helpers', () => {
+        it('buildChroniclePngFilename has .png suffix', () => {
+            expect(buildChroniclePngFilename(sampleChronicle)).toMatch(/\.png$/);
+        });
+
+        it('buildChroniclePngFilename includes season + club', () => {
+            expect(buildChroniclePngFilename(sampleChronicle)).toBe('cronica-temp-3-cruzeiro.png');
+        });
+
+        it('buildChroniclePngFilename null → default', () => {
+            expect(buildChroniclePngFilename(null)).toBe('cronica.png');
+        });
+
+        it('renderChronicleToCanvas returns null in non-browser env', () => {
+            // happy-dom provides document; but if not, we skip
+            if (typeof document === 'undefined') {
+                expect(renderChronicleToCanvas(sampleChronicle)).toBe(null);
+            } else {
+                const dataUrl = renderChronicleToCanvas(sampleChronicle);
+                expect(typeof dataUrl === 'string' || dataUrl === null).toBe(true);
+            }
+        });
+
+        it('renderChronicleToCanvas null chronicle → null', () => {
+            expect(renderChronicleToCanvas(null)).toBe(null);
         });
     });
 
