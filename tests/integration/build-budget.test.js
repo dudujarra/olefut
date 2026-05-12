@@ -1,23 +1,19 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { execSync } from 'node:child_process';
 
 // SPEC-159: build budget gate. Initial chunk ≤ 500KB, qualquer chunk ≤ 800KB, total ≤ 3MB.
+// PRECONDIÇÃO: `npm run build` deve rodar ANTES deste teste (CI workflow ordena Build → Unit tests).
+// Localmente: se dist/ ausente, teste no-op (skip via dist-check).
 
 const DIST = join(process.cwd(), 'dist', 'assets');
 const INITIAL_LIMIT = 500_000;
 const SINGLE_CHUNK_LIMIT = 800_000;
 const TOTAL_LIMIT = 3_000_000;
 
-describe('SPEC-159 build budget', () => {
-    beforeAll(() => {
-        if (!existsSync(DIST)) {
-            // Build não rodou ainda nesta sessão — roda agora
-            execSync('npm run build', { stdio: 'inherit', timeout: 120_000 });
-        }
-    }, 180_000);
+const distExists = existsSync(DIST);
 
+describe.skipIf(!distExists)('SPEC-159 build budget', () => {
     it('dist/assets/ existe', () => {
         expect(existsSync(DIST)).toBe(true);
     });

@@ -24,11 +24,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Unit tests
-        run: npm test
-
       - name: Build
         run: npm run build
+
+      - name: Unit tests
+        run: npm test
 
       - name: Spec validation
         run: |
