@@ -3,6 +3,7 @@ import { AnimatedStat } from '../hooks/useCountUp';
 import { Help } from './Help';
 import { useGame } from '../context/GameContext';
 import { FORMATIONS, TACTICS, TEAM_TALKS, TRAINING_TYPES } from '../engine/ManagerSystems';
+import { getTacticModifierParts } from '../engine/TacticFormatter';
 import { STAFF_ROLES, SCOUT_REGIONS, getStadiumInfo } from '../engine/StadiumSystem';
 import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
 import { ChallengesWidget } from './ChallengesWidget';
@@ -350,6 +351,16 @@ export function DashboardView() {
                                         ))}
                                     </div>
                                     <p style={{ color: '#8E9E94', fontSize: '0.85rem', marginTop: '16px', lineHeight: 1.5, fontFamily: 'var(--font-sans)' }}>{TACTICS[engine.currentTactic]?.description}</p>
+                                    {/* SPEC-B5: modifiers concretos para feedback de consequência */}
+                                    {(() => {
+                                        const parts = getTacticModifierParts(engine.currentTactic);
+                                        return (
+                                            <div style={{ marginTop: '8px', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
+                                                <span style={{ color: '#39FF14', marginRight: '12px' }}>ATA {parts.ata}</span>
+                                                <span style={{ color: '#40BAF7' }}>DEF {parts.def}</span>
+                                            </div>
+                                        );
+                                    })()}
                                 </EfPanel>
 
                                 <EfPanel padding="lg">
