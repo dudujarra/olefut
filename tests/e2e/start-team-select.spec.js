@@ -4,7 +4,8 @@
  * Verifica que a StartView renderiza, o seletor de time é populado a partir
  * de RealDB e que clicar "COMEÇAR CARREIRA" leva ao dashboard (top-bar visível).
  */
-import { test, expect } from '@playwright/test';
+// SPEC-176: shared fixture auto-fails on uncaught pageerror / console.error.
+import { test, expect } from './_fixtures.js';
 
 test.describe('SPEC-164 §1: Start → Team Select', () => {
 

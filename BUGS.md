@@ -29,6 +29,7 @@
 | `tests/regression/BUG-078.test.js` | BUG-078 | ✅ |
 | `tests/regression/BUG-079.test.js` | BUG-079 | ✅ |
 | `tests/regression/BUG-083-save-reload-error-boundary.test.js` | BUG-083 | ✅ (save→reload error boundary — `llmNarrative` + services RFCT-019.* faltavam em `ENGINE_CLASS_FIELDS`) |
+| `tests/regression/BUG-084-standings-hydration.test.js` | BUG-084 | ✅ (StandingsView `<Tooltip><th>` injetava `<span>` em `<tr>` — React hydration warning) |
 | `tests/regression/SPEC-117-skip-auto-restore.test.js` | AKITA-204 NPC brain bug (5 testes) | ✅ (Mandamento #6 — 3-artefact completo via SPEC-154) |
 
 **Bugs abertos (Akita 3-artefact pendente — Mandamento #6)**:
@@ -273,5 +274,18 @@ npm run test:ci    # roda testes + build (pipeline)
 - **Root cause:** `engine.llmNarrative` (LLMNarrativeService, SPEC-167) e os services `_npcWeekProcessor`, `_transferService`, `_scoutingService`, `_loanService`, `_facilityService`, `_formationService`, `_pressService`, `_sectorService`, `_gameInitializer` (RFCT-019.*) **não estavam** em `ENGINE_CLASS_FIELDS`. O JSON round-trip transformava as instâncias em plain objects (`{}` após serialização), perdendo métodos. Primeiro consumer (`DashboardView.handleAuxiliarAdvice` → `engine.llmNarrative.managerAdvice(...)`) crashava com `TypeError: ...is not a function`.
 - **Fix:** Adicionado todos esses fields à `ENGINE_CLASS_FIELDS`. Save os pula; constructor da Engine recria-os frescos no reload.
 - **Teste:** `tests/regression/BUG-083-save-reload-error-boundary.test.js` (6 testes — Mandamento #6 — 3-artefact completo). Inclui sentinel que detecta automaticamente qualquer nova class-instance field ausente do skip-list.
+- **Status:** CLOSED (2026-05-12)
+
+
+---
+
+### BUG-084 ✅ RESOLVIDO — StandingsView React hydration warning (`<span>` inside `<tr>`)
+- **Arquivo:** `src/components/StandingsView.jsx:189` (header `<tr>`)
+- **Branch:** `claude/fix-standings-hydration`
+- **Repro:** Abrir o jogo em produção → navegar para a tabela → console emite `Warning: validateDOMNesting(...): <span> cannot appear as a child of <tr>` e (em React 19 produção) erro de hydration mismatch.
+- **Root cause:** `<Tooltip>` (`src/components/Tooltip.jsx`) renderiza um `<span>` wrapper ao redor dos children. StandingsView envolvia cada `<th>` com `<Tooltip content="Pontos"><th>P</th></Tooltip>`, expandindo para `<span><th>P</th></span>` dentro de `<tr>` — HTML inválido.
+- **Fix:** Substituí cada `<Tooltip><th>...</th></Tooltip>` pelo atributo nativo `title=` no próprio `<th>`. Zero wrapper, zero JS extra, mesma UX (hover hint) e acessível via assistive tech sem ARIA custom. Import de `Tooltip` removido do arquivo.
+- **Teste:** `tests/regression/BUG-084-standings-hydration.test.js` (5 static checks). Falha se alguém re-introduzir `<Tooltip><th>`, `<Tooltip><td>`, `<Tooltip><tr>`, remover os `title=` de P/V/Saldo, ou re-importar `Tooltip` em StandingsView.
+- **Safety net:** SPEC-176 (`tests/e2e/_fixtures.js`) — todas as E2E specs agora capturam `pageerror` + `console.error` e falham se hydration warning (ou qualquer erro não-whitelist) ocorrer durante o flow. Esta classe inteira de bug não passa silenciosa de novo.
 - **Status:** CLOSED (2026-05-12)
 

@@ -4,7 +4,8 @@
  * Viewport 375x667. Confirma StartView e dashboard inicial não fazem overflow
  * horizontal, e que 3 itens do sidebar abrem sem crash.
  */
-import { test, expect } from '@playwright/test';
+// SPEC-176: shared fixture auto-fails on uncaught pageerror / console.error.
+import { test, expect } from './_fixtures.js';
 
 test.use({ viewport: { width: 375, height: 667 } });
 

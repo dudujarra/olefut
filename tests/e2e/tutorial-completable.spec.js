@@ -4,7 +4,8 @@
  * Limpa localStorage, abre o tutorial pelo botão da StartView e avança pelos
  * 5 steps. Espera-se sair para start view e ter `elifoot_tutorial_done` setado.
  */
-import { test, expect } from '@playwright/test';
+// SPEC-176: shared fixture auto-fails on uncaught pageerror / console.error.
+import { test, expect } from './_fixtures.js';
 
 test.describe('SPEC-164 §5: Tutorial Completable', () => {
 

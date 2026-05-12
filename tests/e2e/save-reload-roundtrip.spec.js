@@ -4,7 +4,8 @@
  * Inicia jogo, salva manualmente via botão 💾 do header e recarrega.
  * Espera-se que o manager name e o estado de "started" persistam.
  */
-import { test, expect } from '@playwright/test';
+// SPEC-176: shared fixture auto-fails on uncaught pageerror / console.error.
+import { test, expect } from './_fixtures.js';
 
 async function startCareer(page, managerName) {
     // Limpa antes de carregar (sem addInitScript, que reexecuta no reload).

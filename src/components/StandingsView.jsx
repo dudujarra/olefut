@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { useGame } from '../context/GameContext';
-import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
@@ -183,17 +182,20 @@ export function StandingsView() {
                 <div className="ef-panel ef-panel-default ef-panel-p-none" style={{ overflowX: 'auto', background: 'var(--bg-dark)' }}>
                     <table className="ef-table">
                         <thead style={{ background: 'var(--bg-panel)' }}>
+                            {/* BUG-084: <Tooltip> renders <span>; wrapping <th> emits <span> inside <tr>
+                                  which triggers a React hydration warning ("validateDOMNesting").
+                                  Replaced with native title= attribute — accessible, zero DOM noise. */}
                             <tr>
                                 <th style={{ textAlign:'center', width: '40px' }}>#</th>
                                 <th style={{ textAlign:'left' }}>TIME</th>
-                                <Tooltip content="Pontos"><th style={{ textAlign:'center', color: 'var(--accent)' }}>P</th></Tooltip>
-                                <Tooltip content="Jogos"><th style={{ textAlign:'center' }}>J</th></Tooltip>
-                                <Tooltip content="Vitórias"><th style={{ textAlign:'center', color: 'var(--primary)' }}>V</th></Tooltip>
-                                <Tooltip content="Empates"><th style={{ textAlign:'center', color: 'var(--accent)' }}>E</th></Tooltip>
-                                <Tooltip content="Derrotas"><th style={{ textAlign:'center', color: 'var(--danger)' }}>D</th></Tooltip>
-                                <Tooltip content="Gols Pró"><th style={{ textAlign:'center' }}>GP</th></Tooltip>
-                                <Tooltip content="Gols Contra"><th style={{ textAlign:'center' }}>GC</th></Tooltip>
-                                <Tooltip content="Saldo"><th style={{ textAlign:'center' }}>SG</th></Tooltip>
+                                <th title="Pontos" style={{ textAlign:'center', color: 'var(--accent)' }}>P</th>
+                                <th title="Jogos" style={{ textAlign:'center' }}>J</th>
+                                <th title="Vitórias" style={{ textAlign:'center', color: 'var(--primary)' }}>V</th>
+                                <th title="Empates" style={{ textAlign:'center', color: 'var(--accent)' }}>E</th>
+                                <th title="Derrotas" style={{ textAlign:'center', color: 'var(--danger)' }}>D</th>
+                                <th title="Gols Pró" style={{ textAlign:'center' }}>GP</th>
+                                <th title="Gols Contra" style={{ textAlign:'center' }}>GC</th>
+                                <th title="Saldo" style={{ textAlign:'center' }}>SG</th>
                             </tr>
                         </thead>
                         <tbody>

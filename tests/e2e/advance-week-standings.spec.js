@@ -7,7 +7,8 @@
  *
  * Cobre o gap "StandingsView never reached" do audit AKITA-233.
  */
-import { test, expect } from '@playwright/test';
+// SPEC-176: shared fixture auto-fails on uncaught pageerror / console.error.
+import { test, expect } from './_fixtures.js';
 
 async function startCareer(page) {
     await page.addInitScript(() => {

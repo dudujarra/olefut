@@ -7,7 +7,9 @@
  *
  * Cobre o gap "0/12 views com smoke test" do audit AKITA-233.
  */
-import { test, expect } from '@playwright/test';
+// SPEC-176: shared fixture auto-fails on uncaught pageerror / console.error.
+// (Below we still keep a local error[] inspection for noise-free debug output.)
+import { test, expect } from './_fixtures.js';
 
 const NAV_LABELS = [
     'DASHBOARD',
