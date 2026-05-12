@@ -23,6 +23,7 @@ import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/Pl
 import { getDifficulty, calcOpponentBoost } from '../engine/systems/DifficultyModes.js';
 import { getRookieHandicapFromEngine } from '../engine/RookieHandicap.js';
 import { getModifiersForMatch as getWinStreakBonus, recordResult as recordWinStreak } from '../engine/WinStreakModifierSystem.js';
+import { getAtmosphere } from '../engine/BrazilianAtmosphere.js';
 import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats, getGoalConversionBonus, getDefenseSectorBonus, getSetPieceBonus, getPenaltySaveBonus, getPenaltyConversionBonus } from '../engine/PlayerTraits';
 import { recordNpcResult } from '../engine/NpcTacticAdvisor';
 import { npcFeedMatchResult } from './learning/NpcManagerAI.js';
@@ -160,6 +161,14 @@ export class MatchSimulator {
         }
         if (isManagerHome || isManagerAway) {
             events.textLog.push({ minute: 0, text: `📋 Tática: ${tactic.name}` });
+        }
+        // SPEC-F2.4: atmosphere pre-match para Manager mode
+        if (isManagerHome || isManagerAway) {
+            const atmoSeed = (engine.currentWeek || 0) + (homeId || 0);
+            const preMatch = getAtmosphere('pre_match', atmoSeed);
+            if (preMatch.flavorString) {
+                events.textLog.push({ minute: 0, text: preMatch.flavorString });
+            }
         }
 
         // Performance tracker for MOTM

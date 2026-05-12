@@ -65,6 +65,94 @@ const ATMOSPHERE = {
         'Pressão final. Quem tiver coração maior vence.',
         'Acréscimos viraram batalha campal pela bola.',
         'Cronômetro corre contra um, voa contra outro.',
+        'Estádio em pé. Cada toque vale ouro.',
+        'Banco em pé desde os 80. Tensão pura.',
+    ],
+    // SPEC-F3.2: expansão pra 200+
+    pre_match: [
+        'Hino executado. Bandeirinhas hasteadas. Hora do jogo.',
+        'Aquecimento da torcida. Cantos ressoam pelo estádio.',
+        'Times entram em campo. Imprensa posicionada.',
+        'Capitães se cumprimentam no centro. Moeda no ar.',
+        'Atmosfera carregada de expectativa. Tudo pronto.',
+        'Tribuna lotada. Câmeras ligadas. Apito iminente.',
+    ],
+    corner: [
+        'Escanteio cobrado com perigo. Linha defensiva ajustando.',
+        'Bola na área, marcação por homem desorganizada.',
+        'Cruzamento com força, defesa afastou no susto.',
+        'Cobrança curta surpreende a marcação.',
+        'Atacante alto pulou primeiro, mas cabeceou pra fora.',
+    ],
+    freekick: [
+        'Falta perigosa. Especialista preparando a cobrança.',
+        'Barreira posicionada. Goleiro orientando.',
+        'Cobrança rasteira buscando o canto.',
+        'Bola na barreira. Rebote arriscado.',
+        'Falta na entrada da área. Tudo pode acontecer.',
+    ],
+    penalty: [
+        'Pênalti! Estádio inteiro em silêncio.',
+        'Bola no ponto de cal. Goleiro encarando o batedor.',
+        'Cobrança decisiva. Carreira pode mudar aqui.',
+        'Pernas tremem. Multidão sustenta a respiração.',
+    ],
+    injury: [
+        'Jogador caído. Médico entra apressado.',
+        'Lesão preocupante. Time pede substituição.',
+        'Maca chega ao gramado. Adversários respeitam.',
+        'Companheiros ajoelhados. Torcida aplaude na saída.',
+    ],
+    substitution: [
+        'Placa de substituição erguida. Mudança estratégica.',
+        'Reserva entra com aplausos. Titular sai cansado.',
+        'Comando faz alteração tática. Vamos ver o impacto.',
+        'Frescor novo no campo. Adversário precisa se reajustar.',
+    ],
+    halftime: [
+        'Intervalo no Brasileirão. Vestiários fervendo.',
+        'Times entram pro descanso. Treinadores no quadro tático.',
+        'Pausa curta. Repos imediato.',
+        '15 minutos pra ajustar. Segundo tempo decide.',
+    ],
+    final_whistle: [
+        'Apito final! Time da casa explode em festa.',
+        'Fim de jogo. Resultado consumado.',
+        'Cumprimentos finais. Torcida começa a deixar o estádio.',
+        'Imprensa corre pra entrevista pós-jogo.',
+        'Estádio aplaude a entrega. Resultado é justo.',
+    ],
+    season_end: [
+        'Fim de temporada. Brasileirão entra pra história.',
+        'Última rodada. Pódio definido.',
+        'Torcida canta o adeus a temporada.',
+        'Estatísticas finais sendo computadas pela imprensa.',
+    ],
+    // SPEC-F3.4: regional weather flavor
+    weather_north_hot: [
+        'Calor de 38° em Manaus. Time bebe água a cada parada.',
+        'Sol do norte castiga. Energia drena rápido.',
+        'Umidade alta da Amazônia. Bola pesa mais que normal.',
+    ],
+    weather_central_rain: [
+        'Lama em Cuiabá. Bola não rola, pula imprevisível.',
+        'Tempestade Centro-Oeste. Gramado virou poça.',
+        'Visibilidade ruim. Lances de surpresa em todo passe.',
+    ],
+    weather_south_cold: [
+        'Frio de Porto Alegre. Atletas vapor saindo da boca.',
+        'Vento sul cortante. Bola sofre desvios estranhos.',
+        'Gramado duro do inverno gaúcho. Cuidado nas divididas.',
+    ],
+    weather_se_classic: [
+        'Tarde ensolarada no Maracanã. Cenário perfeito pra clássico.',
+        'Chuva carioca de verão. Bola cortando água nas jogadas.',
+        'Sereno de inverno em São Paulo. Atmosfera densa.',
+    ],
+    weather_ne_warm: [
+        'Brisa litorânea em Recife. Calor abafado mas suportável.',
+        'Tarde quente em Salvador. Torcida só de bermuda.',
+        'Sol forte em Fortaleza. Hidratação obrigatória.',
     ],
 };
 
