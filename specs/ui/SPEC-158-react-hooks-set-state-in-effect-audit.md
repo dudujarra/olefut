@@ -1,7 +1,7 @@
 # SPEC-158: BUG-081 — Audit 14 warnings `react-hooks/set-state-in-effect`
 
 **Categoria**: ui
-**Status**: 📝 draft (auditoria pendente)
+**Status**: ✅ implementado 2026-05-12
 **Owner**: Dudu
 **Criada**: 2026-05-11
 
@@ -62,8 +62,45 @@ Repro: `npm run lint | grep set-state-in-effect | wc -l` → 14
 - ❌ Disable global da regra (perde sinal)
 - ❌ Silenciar todos sem leitura individual (vibe coding clássico)
 
-## 7. Resultado (preenche ao implementar)
+## 7. Resultado
 
-> **Status**: aberto
-> **PR**: pendente
-> **Bug count após audit**: —
+> **Status**: ✅ implementado
+> **PR**: AKITA-207 (este)
+> **Bug count após audit**: 0 warnings restantes (era 14)
+
+### Classificação completa (14 warnings)
+
+| # | File:Line | Categoria | Ação | Racional |
+|---|-----------|-----------|------|----------|
+| 1 | AutoPlayView.jsx:90 | aceitável | block disable + doc | event-subscriber engine.getPacingEvents + setTimeout |
+| 2 | ChronicleView.jsx:51 | aceitável | block disable + doc | derivado de external store (engine.chronicles) com side effects |
+| 3 | CosmeticShopView.jsx:38 | **bug real** | refactor useState initializer | points era setState em useEffect, mas mutado em handler → initializer |
+| 4 | DashboardView.jsx:52 | aceitável | block disable + doc | abre modal em resposta a engine.weekEvents |
+| 5 | FormationBoard.jsx:62 | aceitável | block disable + doc | setLayout + onChange callback ao pai |
+| 6 | MatchView.jsx:64 | aceitável | block disable + doc | banner detection em transição fulltime |
+| 7 | MonitorView.jsx:64 | aceitável | block disable + doc | snapshot de external monitor singleton |
+| 8 | PlayerDashboardView.jsx:49 | aceitável | block disable + doc | random event spawn (systemRng impuro) |
+| 9 | PlayerMatchView.jsx:61 | aceitável | block disable + doc | player.checkBenchStatus muta engine |
+| 10 | PressView.jsx:31 | **bug real** | refactor useState initializer | one-time question generation |
+| 11 | SaveSlotsView.jsx:30 | **bug real** | refactor useState initializer | listSaveSlots() em mount |
+| 12 | TrophyCeremony.jsx:50 | aceitável | block disable + doc | animation timeline com setTimeouts |
+| 13 | ui/EfTooltip.jsx:40 | aceitável | block disable + doc | useLayoutEffect mede DOM |
+| 14 | GameContext.jsx:244 | aceitável | block disable + doc | one-time mount restore engine |
+
+**Totais**:
+- Bugs reais refatorados: 3 (CosmeticShopView, PressView, SaveSlotsView)
+- Anti-patterns aceitáveis silenciados com documentação: 11
+- Falsos positivos: 0 (todos têm racional técnico)
+
+### Critério "respondida"
+- [x] 14/14 warnings classificados em tabela
+- [x] Bugs reais corrigidos (3 useState initializers; sem regression test necessário — refactor pure de pattern equivalente)
+- [x] Falsos positivos silenciados com comentário explicativo (block disable + 2-3 linhas de racional)
+- [x] Anti-patterns aceitos documentados nesta tabela (exceções vivem no código + spec)
+
+### Lint baseline antes/depois
+
+```
+Antes:  ✖ 130 problems (0 errors, 130 warnings) — 14 set-state-in-effect
+Depois: ✖ 115 problems (0 errors, 115 warnings) — 0 set-state-in-effect
+```

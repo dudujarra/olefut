@@ -31,6 +31,9 @@ export function EfTooltip({
         setVisible(false);
     };
 
+    // BUG-081 (SPEC-158): aceitável — useLayoutEffect mede DOM (getBoundingClientRect).
+    // Só roda após mount/visible; impossível derivar via useMemo sem render-time DOM.
+    /* eslint-disable react-hooks/set-state-in-effect */
     useLayoutEffect(() => {
         if (!visible || !triggerRef.current || !bubbleRef.current) return;
         if (position !== 'auto') {
@@ -42,6 +45,7 @@ export function EfTooltip({
         if (rect.top < h + 16) setComputedPos('bottom');
         else setComputedPos('top');
     }, [visible, position]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     if (!content) return children;
 

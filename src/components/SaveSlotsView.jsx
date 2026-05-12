@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import {
     listSaveSlots,
@@ -18,14 +18,11 @@ import {
 
 export function SaveSlotsView() {
     const { gameState, getEngine, changeView, getDashboardView } = useGame();
-    const [slots, setSlots] = useState([]);
+    // BUG-081 fix: useState initializer evita setState em useEffect com []
+    const [slots, setSlots] = useState(() => listSaveSlots());
     const [importingSlot, setImportingSlot] = useState(null);
 
     const refresh = () => setSlots(listSaveSlots());
-
-    useEffect(() => {
-        refresh();
-    }, []);
 
     const handleSave = (slotNum) => {
         const engine = getEngine();

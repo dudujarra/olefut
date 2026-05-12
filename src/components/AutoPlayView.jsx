@@ -80,6 +80,9 @@ export function AutoPlayView() {
     }, []);
 
     // Pacing Friction Auto-Resolution
+    // BUG-081 (SPEC-158): aceitável — UI sincroniza eventos externos da engine pra estado local.
+    // Padrão event-subscriber, não derivado puro. useMemo não aplicável (side-effect timeout).
+    /* eslint-disable react-hooks/set-state-in-effect */
     useEffect(() => {
         if (!engine) return;
         const events = engine.getPacingEvents?.() || [];
@@ -94,6 +97,7 @@ export function AutoPlayView() {
             setPacingQueue([]);
         }
     }, [stats?.weeksPlayed, engine]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     if (!engine || !engine.manager?.teamId) {
         const zones = [...new Set(allTeams.map(t => t.zone))].sort();

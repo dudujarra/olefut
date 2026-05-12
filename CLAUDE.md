@@ -4,7 +4,7 @@
 > Toda decisão arquitetural, comando, fluxo, dependência mora aqui.
 > README humano-amigável aponta pra cá.
 
-**Última atualização**: 2026-05-11
+**Última atualização**: 2026-05-12
 **Owner**: Dudu (Eduardo Jarra) — dudujarra@corapost.com
 **Repo público**: https://github.com/dudujarra/elifoot-web
 **Demo**: https://dudujarra.github.io/elifoot-web/
@@ -201,24 +201,28 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 
 | Métrica | Valor | Fonte |
 |---------|-------|-------|
-| Tests | **1044/1044** ✅ (0 failed suites após merge main + AKITA-204) | `vitest run` 2026-05-11 |
-| Test files | 87 | `find tests -name "*.test.js"` |
-| Specs totais | **97** | `find specs -name "SPEC-*.md"` |
-| Bugs com regression test | 13 arquivos em `tests/regression/` | — |
-| AKITA commits | **169** (sem contar PR) | `git log --grep AKITA` |
+| Tests | **1031/1031** ✅ default + **18/18** ✅ test:soak (deep-soak isolado) | `vitest run` 2026-05-12 |
+| Test files | 88 (incl. SPEC-159 build-budget) | `find tests -name "*.test.js"` |
+| Specs totais | **99** (+ SPEC-159 + AKITA-RFCT-000 master refresh) | `find specs -name "SPEC-*.md"` |
+| Bugs com regression test | 13 arquivos em `tests/regression/` (BUG-080/081 não precisaram — fix via config + lint disable docs) | — |
+| AKITA commits | ~170+ | `git log --grep AKITA` |
 | Clubes | 170 (BR + EU + SA) | `src/engine/db/` |
-| Build | ✅ limpo, ~1.3s, initial chunk **376KB** (gzip 110KB) | `vite build` |
-| Lint | ✅ 0 erros, 130 warnings cosméticos | `eslint .` |
+| Build | ✅ limpo, ~1.1s, initial chunk **376KB** (gzip 110KB) | `vite build` |
+| Build budget gate | ✅ 4/4 tests (initial ≤500KB, chunk ≤800KB, total ≤3MB) | `tests/integration/build-budget.test.js` |
+| Lint | ✅ 0 erros, 115 warnings cosméticos (era 130 — BUG-081 zerou 14 react-hooks) | `eslint .` |
 
-### ⚠️ Débitos atuais (2026-05-11)
+### ⚠️ Débitos atuais (2026-05-12)
 - ~~marl-e2e `NPC EmotionalEngine` failing em main~~ **resolvido AKITA-107**: `AdaptiveBrain` ctor aceita `{ skipAutoRestore }`; engine passa para NPCs (que compartilhavam STORAGE_KEY do autoplay = persona única em prod).
 - ~~Bundle 1.56MB sem code-split~~ **resolvido AKITA-108**: `index.js` 376KB (-76%), views via `React.lazy`. Isolamento de localStorage entre testes corrigido (`setupFiles` limpando state — root cause de flakies que main mitigava com `fileParallelism: false`).
 - ~~MarketView rules-of-hooks bugs (6)~~ **resolvido AKITA-108**: early-return movido para depois dos hooks.
 - ~~spec-check.sh local ausente~~ **resolvido AKITA-108**: `scripts/spec-check.sh` copiado de `~/bin/`.
 - ~~180+ lint warnings~~ → **130 warnings** (cosméticos: no-unused-vars de imports não-React). 0 errors. 47 `import React` mortos removidos via codemod (React 19 JSX runtime); main usava `/* eslint-disable no-unused-vars */` band-aid.
 - ~~Root clutter (4.5MB)~~ **resolvido AKITA-109**: screenshots, logs, vitest_report.json, audit HTMLs, 11 scripts órfãos deletados. `.gitignore` previne regressão.
-- **`deep-soak-100seasons.test.js`** flaky em suite-load — 9 tests skipped (30s timeout em beforeAll). Pré-existente em main. Bumped para 120s; ainda intermitente. Próximo passo: mover para `npm run test:soak` solo.
-- **`engine.js` 1522 linhas** — god-class. Refactor em 17 PRs documentado em `specs/refactor/AKITA-RFCT-000..017`. Pré-condições verdes. Release **v1.0.5**.
+- ~~**`deep-soak-100seasons.test.js`** flaky em suite-load~~ **resolvido AKITA-207** (SPEC-157/BUG-080): mov pra `npm run test:soak` solo via env-flag `SOAK=1` (vite.config exclude condicional). `npm test` 1031/1031 verde; `npm run test:soak` 18/18 verde isolado.
+- ~~**14 lint warnings `react-hooks/set-state-in-effect`**~~ **resolvido AKITA-207** (BUG-081/SPEC-158): 3 refactor reais (useState initializer em PressView/SaveSlotsView/CosmeticShopView), 11 silenciados com block disable + classification comment. 0 warnings restantes.
+- ~~**Build budget regression risk**~~ **resolvido AKITA-207** (SPEC-159): `tests/integration/build-budget.test.js` falha CI se initial >500KB, chunk individual >800KB, ou total >3MB. Snapshot atual: 376/652/~1900 KB ✅.
+- **`engine.js` 1524 linhas** — god-class. Refactor em 17 PRs documentado em `specs/refactor/AKITA-RFCT-000..017`. **AKITA-207 kickoff**: RFCT-001/002/003 verificadas done (characterization + save-roundtrip + stryker baseline). RFCT-004 (Extract MatchSimulator, ~10h) próximo. Release **v1.0.5**.
+- **EfButton chunk 652KB** — contém player DB inteiro (170 clubes × ~30 jogadores). Dentro do ceiling (800KB), mas candidato a SPEC-160 (code-split DB) se crescer.
 
 ---
 

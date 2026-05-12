@@ -57,10 +57,13 @@ export function MonitorView() {
         setStats(monitor.getStats());
     }
 
+    // BUG-081 (SPEC-158): aceitável — refresh lê de external monitor singleton.
+    // monitor.getAll() / getStats() são side-effectful (snapshot externo).
+    /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
     useEffect(() => {
         refresh();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
+    /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 
     function handleExport() {
         const json = monitor.exportJSON();

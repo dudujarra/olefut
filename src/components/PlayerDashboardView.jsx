@@ -35,6 +35,9 @@ export function PlayerDashboardView() {
     const prevRetiredRef = React.useRef(player?._retired ?? false);
     const prevMotmRef = React.useRef(player?.career?.seasonMotm ?? 0);
 
+    // BUG-081 (SPEC-158): aceitável — spawn aleatório de evento off-pitch por semana.
+    // systemRng() impuro; useMemo não aplicável.
+    /* eslint-disable react-hooks/set-state-in-effect */
     React.useEffect(() => {
         if (!player) return;
         const eligible = OffPitchEventsDeck.filter(e => {
@@ -46,6 +49,7 @@ export function PlayerDashboardView() {
             setOffPitchEvent(eligible[Math.floor(systemRng() * eligible.length)]);
         }
     }, [engine.currentWeek, player]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     React.useEffect(() => {
         if (!player) return;

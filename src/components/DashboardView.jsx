@@ -40,6 +40,9 @@ export function DashboardView() {
 
     useKeyboardNav({ changeView, currentView: gameState?.view || 'dashboard' });
 
+    // BUG-081 (SPEC-158): aceitável — abre modais em resposta a eventos da engine (unlock/achievement).
+    // Event-subscriber side-effect. setState dispara render que mostra modal.
+    /* eslint-disable react-hooks/set-state-in-effect */
     React.useEffect(() => {
         if (!team) return;
         if (!engine?.weekEvents) return;
@@ -53,6 +56,7 @@ export function DashboardView() {
             setPendingAchievement({ emoji: '🏅', name: 'Conquista Desbloqueada!', description: achieveEvent });
         }
     }, [engine?.currentWeek]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     if (!team) return <div className="main-content" style={{ padding: '24px', fontFamily: 'var(--font-mono)' }}>Time não encontrado.</div>;
 
