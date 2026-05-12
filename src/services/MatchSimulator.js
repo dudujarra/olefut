@@ -324,14 +324,29 @@ export class MatchSimulator {
                 }
             }
 
-            // Yellow card chance (~1.5% per minute)
-            if (systemRng() < 0.015) {
-                const team = systemRng() > 0.5 ? homeTeam : awayTeam;
-                const defenders = team === homeTeam ? homeDefenders : awayDefenders;
-                const offender = pickRandom(defenders);
-                if (offender) {
-                    events.cards.push({ minute, player: offender.name, team: team.name, type: 'yellow' });
-                    events.textLog.push({ minute, text: `🟨 Cartão amarelo para ${offender.name} (${team.name})!` });
+            // SPEC-148: Playstyle-driven Card System
+            // Sorteia um jogador em campo para uma potencial falta
+            const foulTeam = systemRng() > 0.5 ? homeTeam : awayTeam;
+            const foulCandidates = (foulTeam.squad || []).filter(p => p.isTitular && !p.injury);
+            const offender = pickRandom(foulCandidates);
+            
+            if (offender) {
+                // Base chance 1.5% - Ajustado com base no temperamento
+                let cardChance = 0.015;
+                const pStyle = offender.playstyle || '';
+                
+                if (['Caneleiro', 'Gladiador', 'Sanguíneo', 'Provocador', 'Raçudo', 'Catimbeiro', 'Cai-Cai'].includes(pStyle)) {
+                    cardChance = 0.035; // Alta chance de cartão
+                } else if (['Fairplay', 'Elegante', 'Maestro Frio', 'Discreto'].includes(pStyle)) {
+                    cardChance = 0.003; // Raramente toma cartão
+                }
+
+                // Defenders e Goleiros têm um multiplicador natural maior por causa de faltas táticas
+                if (offender.position === 'DEF') cardChance *= 1.3;
+
+                if (systemRng() < cardChance) {
+                    events.cards.push({ minute, player: offender.name, team: foulTeam.name, type: 'yellow' });
+                    events.textLog.push({ minute, text: `🟨 Falta dura de ${offender.name}! Cartão amarelo para o ${pStyle || 'jogador'} do ${foulTeam.name}!` });
                     performanceMap[offender.id] = (performanceMap[offender.id] || 0) - 1;
                 }
             }
@@ -379,11 +394,23 @@ export class MatchSimulator {
                 } else {
                     // RED CARD (~20% of surprise events)
                     const redTeam = systemRng() > 0.5 ? homeTeam : awayTeam;
-                    const redCandidates = redTeam === homeTeam ? homeDefenders : awayDefenders;
-                    const expelled = pickRandom(redCandidates);
+                    // Múltipla seleção para favorecer a expulsão de jogadores agressivos
+                    const redCandidates = (redTeam.squad || []).filter(p => p.isTitular && !p.injury);
+                    let expelled = pickRandom(redCandidates);
+                    
+                    // Reroll mechanics: se for um jogador "Fairplay", tenta sortear de novo (2x)
+                    for (let i=0; i<2; i++) {
+                        if (expelled && ['Fairplay', 'Elegante', 'Maestro Frio', 'Discreto'].includes(expelled.playstyle)) {
+                            expelled = pickRandom(redCandidates);
+                        } else {
+                            break;
+                        }
+                    }
+
                     if (expelled) {
                         events.cards.push({ minute, player: expelled.name, team: redTeam.name, type: 'red' });
-                        events.textLog.push({ minute, text: `🟥 EXPULSO! ${expelled.name} (${redTeam.name}) recebeu vermelho direto!` });
+                        const pStyle = expelled.playstyle ? ` (Conhecido por ser ${expelled.playstyle})` : '';
+                        events.textLog.push({ minute, text: `🟥 EXPULSO! ${expelled.name}${pStyle} do ${redTeam.name} recebeu vermelho direto por agressão!` });
                         performanceMap[expelled.id] = (performanceMap[expelled.id] || 0) - 4;
                     }
                 }
