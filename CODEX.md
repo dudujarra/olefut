@@ -5,14 +5,30 @@ Este arquivo existe para Codex/GPT ter o mesmo ponto de partida que Claude.
 
 ---
 
+## 🚨 FOUNDATION-FIRST ATIVO (desde 2026-05-12)
+
+**Status**: Bloco 1 (Fundação) em andamento. Foundation antes de qualquer feature.
+**Fonte estratégica única**: [`specs/MASTER-ROADMAP-FOUNDATION-FIRST.md`](specs/MASTER-ROADMAP-FOUNDATION-FIRST.md)
+
+**Os 10 mandamentos brutais** (sobrepõem-se temporariamente aos 7 Akita):
+- Zero feature nova até Bloco 1 done
+- Zero spec retroativa
+- Zero emoji em código novo
+- Zero inline style em código novo
+- README/CLAUDE.md auto-gen (não editar manual)
+- Playtest obrigatório por bloco
+- Máximo 2 PRs/semana
+- Domingo OFF
+
 ## Regras críticas (Protocolo AKITA)
 
 Antes de qualquer ação produtiva neste repo:
 
-1. Lê [`AKITA_RULES.md`](AKITA_RULES.md) — constituição (7 mandamentos).
-2. Lê [`CLAUDE.md`](CLAUDE.md) — arquitetura, comandos, stack.
-3. Lê [`specs/SPEC-RULES.md`](specs/SPEC-RULES.md) — governance SDD.
-4. Roda `spec-check.sh "<descrição do trabalho>"` antes de tocar código. Exit 1/2 bloqueia.
+1. Lê [`specs/MASTER-ROADMAP-FOUNDATION-FIRST.md`](specs/MASTER-ROADMAP-FOUNDATION-FIRST.md) — bloco atual + sub-tasks
+2. Lê [`AKITA_RULES.md`](AKITA_RULES.md) — constituição (7 mandamentos)
+3. Lê [`CLAUDE.md`](CLAUDE.md) — arquitetura, comandos, stack + 10 mandamentos brutais
+4. Lê [`specs/SPEC-RULES.md`](specs/SPEC-RULES.md) — governance SDD
+5. Roda `spec-check.sh "<descrição do trabalho>"` antes de tocar código. Exit 1/2 bloqueia.
 
 ## Resumo dos 7 mandamentos
 

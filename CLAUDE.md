@@ -11,6 +11,48 @@
 
 ---
 
+## 🚨 LEIA ANTES DE QUALQUER AÇÃO — FOUNDATION-FIRST ATIVO
+
+> **Status**: 🟢 Foundation-First Roadmap ATIVO desde 2026-05-12 (pós-análise brutal AKITA-207..214).
+> **Fonte estratégica única**: [`specs/MASTER-ROADMAP-FOUNDATION-FIRST.md`](specs/MASTER-ROADMAP-FOUNDATION-FIRST.md)
+
+### Os 10 mandamentos brutais (sobrepõem-se a qualquer outro plano)
+
+1. **Zero feature nova até BLOCO 1 (Fundação) terminar.** Engine refactor + AutoPlayService split + bundle optimization + doc auto-gen vêm primeiro. Qualquer feature nova é **REJEITADA** automaticamente.
+2. **Zero spec retroativa.** Feature sem spec PRÉ não entra no repo. Specs retroactivas pra cobrir vibe coding são proibidas a partir desta data.
+3. **Zero emoji em código novo.** Audit existente fica na lista B3.1 (UI consistency). Código novo: Phosphor icons apenas.
+4. **Zero inline style em código novo.** CSS classes (`.btn-primary`, `.card`, etc) per SPEC-163. Inline style em código novo = PR bloqueado.
+5. **Cada PR**: lint 0 errors + tests verdes + build ≤1.5s + CHANGELOG entry + SPEC linkada. Sem um destes = não merge.
+6. **README/CLAUDE.md auto-atualizados via script.** Métricas (test count, LOC, specs) **NÃO** devem ser editadas manualmente. Script CI atualiza.
+7. **Playtest obrigatório por bloco.** Bloco não termina sem 5 humanos brasileiros testarem.
+8. **Sem cascata AKITA-XXX frenética.** Máximo 2 PRs/semana, bem cozidos. Numbering rápido = sinal de vibe coding.
+9. **Sessões paralelas (Claude Code + Antigravity)** seguem mesma ordem de blocos. Coordenar via `MASTER-ROADMAP-FOUNDATION-FIRST.md` seção PROGRESSO.
+10. **Domingo OFF.** Burnout é o maior risco de morte do projeto.
+
+### Fluxo obrigatório no início de cada sessão (agentes)
+
+```
+1. Ler CLAUDE.md (este arquivo) — entender estado e regras
+2. Ler MASTER-ROADMAP-FOUNDATION-FIRST.md — entender bloco atual
+3. Rodar spec-check.sh "<descrição>" — validar SDD
+4. Se feature nova: REJEITAR se BLOCO 1 não tá done
+5. Se foundation work: confirmar qual sub-task do bloco atual
+6. Implementar contra spec + harness no mesmo PR
+7. Atualizar seção PROGRESSO do MASTER-ROADMAP
+```
+
+### Estado atual do roadmap (snapshot 2026-05-12)
+
+| Bloco | Status | Próximo passo |
+|-------|--------|---------------|
+| 1 Fundação | 🔵 em andamento (4/15 sub-tasks done) | RFCT-005 MythService skeleton + reads |
+| 2 Integração | ⏸️ bloqueado por Bloco 1 | — |
+| 3 Polish + Launch | ⏸️ bloqueado por Bloco 2 | — |
+
+**DoD do Bloco 1**: engine.js ≤400 LOC, AutoPlayService ≤400 LOC, bundle initial ≤300KB e total ≤2.5MB, README/CLAUDE.md auto-gen, golden master preservado.
+
+---
+
 ## 🥋 Constituição (não negociável)
 
 Antes de tocar em qualquer linha de código deste repo, leia [`AKITA_RULES.md`](AKITA_RULES.md). Resumo dos 7 mandamentos:
@@ -24,6 +66,8 @@ Antes de tocar em qualquer linha de código deste repo, leia [`AKITA_RULES.md`](
 7. **LLM local default. Haiku via Max20 fallback. API paga PROIBIDA.**
 
 Detalhes de isolamento de engine, OOP, padronização de dados, build validation e SDD vivo em [`AKITA_RULES.md`](AKITA_RULES.md).
+
+**Os 7 mandamentos Akita CONTINUAM válidos. Os 10 mandamentos brutais (acima) SOMAM com eles, não substituem. Em caso de conflito, mandamentos brutais vencem (são mais específicos pro momento atual).**
 
 ---
 
