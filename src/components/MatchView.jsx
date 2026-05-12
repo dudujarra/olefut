@@ -10,6 +10,7 @@ import { analyzeMatch } from '../engine/MatchAnalyst';
 import { MidMatchCardModal } from './MidMatchCardModal';
 import { shouldTriggerMidMatch, getMidMatchCard } from '../engine/MidMatchManagerDeck';
 import { MatchBallSprite } from './MatchBallSprite';
+import { applyToStarPlayer } from '../engine/StarPlayerLink';
 import { EfClubBadge, EfBanner } from './ui';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
@@ -116,6 +117,14 @@ export function MatchView() {
             }
             if (typeof opt.effect?.tacticShift === 'string' && engine.setTactic) {
                 engine.setTactic(opt.effect.tacticShift);
+            }
+            // SPEC-C2.2: amplify effect na estrela do clube (xp +moral extra)
+            if (engine.starPlayerId) {
+                const starAmplify = {
+                    moralDelta: typeof opt.effect?.moralDelta === 'number' ? Math.round(opt.effect.moralDelta * 0.5) : 0,
+                    xpDelta: 5, // ganho de XP por participar de decisão
+                };
+                applyToStarPlayer(engine, starAmplify);
             }
         } catch { /* defensive */ }
     };
