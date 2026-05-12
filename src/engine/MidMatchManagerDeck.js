@@ -88,6 +88,40 @@ export const MidMatchManagerDeck = [
             { label: 'Tocar curto pra construção', effect: { moralDelta: 0 }, resultText: 'Inteligente, cadenciado.' },
         ],
     },
+    // SPEC-C5.3: cards específicos para derby/clássico
+    {
+        id: 'mid_derby_pressure',
+        minuteRange: [15, 30],
+        text: 'Clássico tá pesado. Torcida adversária provocando teu camisa 10. Ele tá irritado.',
+        derby: true,
+        options: [
+            { label: 'Chamar pra conversar no banco', effect: { moralDelta: 4, energyDelta: -2 }, resultText: 'Capitão acalma. Camisa 10 volta focado.' },
+            { label: 'Deixar ele transformar raiva em jogo', effect: { moralDelta: 2 }, resultText: 'Ele canaliza a bronca, lance épico.' },
+            { label: 'Substituir preventivamente', effect: { moralDelta: -3, energyDelta: 5 }, resultText: 'Tira da reta. Time perde ofensividade.' },
+        ],
+    },
+    {
+        id: 'mid_derby_card_warning',
+        minuteRange: [30, 60],
+        text: 'Volante na bronca com adversário direto. Briga iminente. Juiz já avisou os dois.',
+        derby: true,
+        options: [
+            { label: 'Substituir antes da expulsão', effect: { moralDelta: 1, energyDelta: 3 }, resultText: 'Sai forte, evita vermelho. Decisão fria.' },
+            { label: 'Cobrar pulso firme do capitão', effect: { moralDelta: 3 }, resultText: 'Capitão chama pra ordem. Briga acabada.' },
+            { label: 'Deixar a paixão rolar', effect: { moralDelta: 5, energyDelta: -8 }, resultText: 'Volante joga com sangue nos olhos. Risco alto.' },
+        ],
+    },
+    {
+        id: 'mid_derby_decisive_minute',
+        minuteRange: [60, 90],
+        text: 'Últimos 30 do clássico. Empate no marcador. Torcida pede atitude.',
+        derby: true,
+        options: [
+            { label: 'All-in: ataque total', effect: { moralDelta: 6, energyDelta: -10, tacticShift: 'offensive' }, resultText: 'Time vai pra cima com tudo. Tudo ou nada.' },
+            { label: 'Jogar pelo empate', effect: { moralDelta: -2, tacticShift: 'defensive' }, resultText: 'Cautela. Torcida vaia mas segura.' },
+            { label: 'Bota o reserva especialista em derby', effect: { moralDelta: 4, energyDelta: 2 }, resultText: 'Veterano experiente entra. Ele já viveu isso.' },
+        ],
+    },
 ];
 
 const VALID_TRIGGER_MINUTES = new Set([15, 30, 45, 60, 75]);
@@ -122,6 +156,31 @@ export function getMidMatchCard(minute, seed = 0) {
     if (candidates.length === 0) return null;
     const idx = Math.abs(seed) % candidates.length;
     return candidates[idx];
+}
+
+/**
+ * SPEC-C5.3: variante derby-aware. Em contexto derby, prefere cards
+ * com flag derby=true (mas fall back para pool normal se nenhum match).
+ *
+ * @param {number} minute
+ * @param {boolean} isDerby
+ * @param {number} seed
+ * @returns {object|null}
+ */
+export function getMidMatchCardDerbyAware(minute, isDerby = false, seed = 0) {
+    if (!isDerby) return getMidMatchCard(minute, seed);
+
+    const derbyCards = MidMatchManagerDeck.filter(c => {
+        const [lo, hi] = c.minuteRange;
+        return c.derby === true && minute >= lo && minute <= hi;
+    });
+
+    if (derbyCards.length > 0) {
+        const idx = Math.abs(seed) % derbyCards.length;
+        return derbyCards[idx];
+    }
+    // Fallback pra deck normal
+    return getMidMatchCard(minute, seed);
 }
 
 export { VALID_TRIGGER_MINUTES };
