@@ -1,12 +1,16 @@
 /**
  * Club Colors — SPEC-060 Club Identity System
  *
- * Cores oficiais reais 80 clubes brasileiros (Série A/B/C/D).
+ * Cores oficiais reais 88 clubes brasileiros (Série A/B/C/D + MG/RS expansion).
  * primary/secondary/accent + nickname + initials + sprite coords.
  *
  * Sprite atlas:
  *   /sprites/clubs/spritesheet-serie-{a,b,c,d}.png
- *   Cada spritesheet 5 cols × 4 rows = 20 badges
+ *   Sheets a/b: 5 cols × 4 rows = 20 badges
+ *   Sheets c/d: 5 cols × 5 rows = 24 badges em uso (1 slot vazio em row 4)
+ *     — expansão MG/RS pós-AKITA (SPEC-168): row 4 contém os 4 novos clubes
+ *       adicionados em brazil.js para ativar Mineirão + Gauchão. Sprites
+ *       renderizam fallback (cor + iniciais) até PNG ser regerado.
  *   Cell ~102×96 px na imagem original
  *
  * IP-safe: cores autênticas + iniciais ≠ clonar logo.
@@ -20,8 +24,8 @@ export const SPRITE_SHEETS = {
     // Brasil 5x4 = 20 each (80 total)
     a:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-a.png',  cols: 5, rows: 4 },
     b:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-b.png',  cols: 5, rows: 4 },
-    c:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-c.png',  cols: 5, rows: 4 },
-    d:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-d.png',  cols: 5, rows: 4 },
+    c:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-c.png',  cols: 5, rows: 5 },
+    d:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-d.png',  cols: 5, rows: 5 },
     // Europe 5x2 = 10 each (50 total)
     eng: { url: '/elifoot-web/sprites/clubs/spritesheet-eng.png',      cols: 5, rows: 3 },
     esp: { url: '/elifoot-web/sprites/clubs/spritesheet-esp.png',      cols: 5, rows: 3 },
@@ -105,6 +109,11 @@ export const CLUB_SPRITES = {
     "Caxias":         { sheet: 'c', col: 2, row: 3 },
     "Athletic Club":  { sheet: 'c', col: 3, row: 3 },
     "Ferroviária":    { sheet: 'c', col: 4, row: 3 },
+    // Expansão MG/RS (SPEC-168) — fallback render até spritesheet regerado
+    "Pouso Alegre":      { sheet: 'c', col: 0, row: 4 },
+    "Villa Nova-MG":     { sheet: 'c', col: 1, row: 4 },
+    "Brasil de Pelotas": { sheet: 'c', col: 2, row: 4 },
+    "Esportivo":         { sheet: 'c', col: 3, row: 4 },
 
     // ── SÉRIE D (sheet d) ──
     "Santa Cruz":     { sheet: 'd', col: 0, row: 0 },
@@ -127,6 +136,11 @@ export const CLUB_SPRITES = {
     "Retrô":          { sheet: 'd', col: 2, row: 3 },
     "Iguatu":         { sheet: 'd', col: 3, row: 3 },
     "Sousa":          { sheet: 'd', col: 4, row: 3 },
+    // Expansão MG/RS (SPEC-168) — fallback render até spritesheet regerado
+    "Uberlândia":     { sheet: 'd', col: 0, row: 4 },
+    "Democrata-GV":   { sheet: 'd', col: 1, row: 4 },
+    "Pelotas":        { sheet: 'd', col: 2, row: 4 },
+    "Veranópolis":    { sheet: 'd', col: 3, row: 4 },
 
     // ── ENG (5x2) ──
     "Manchester City":   { sheet: 'eng', col: 0, row: 0 },
@@ -376,6 +390,11 @@ export const CLUB_COLORS = {
     "Ferroviário":    { primary: "#000000", secondary: "#DA020E", accent: "#FFFFFF", nickname: "Tubarão",       initials: "FER" },
     "Caxias":         { primary: "#FFD700", secondary: "#003F87", accent: "#FFFFFF", nickname: "Grená",         initials: "CAX" },
     "Athletic Club":  { primary: "#DA020E", secondary: "#000000", accent: "#FFFFFF", nickname: "Esquadrão",     initials: "ATH" },
+    // Expansão MG/RS (SPEC-168)
+    "Pouso Alegre":      { primary: "#DA020E", secondary: "#FFFFFF", accent: "#000000", nickname: "Dragão Sul-Mineiro", initials: "POU" },
+    "Villa Nova-MG":     { primary: "#FFFFFF", secondary: "#DA020E", accent: "#000000", nickname: "Leão do Bonfim",      initials: "VIL" },
+    "Brasil de Pelotas": { primary: "#FFFFFF", secondary: "#000000", accent: "#DA020E", nickname: "Xavante",              initials: "BPE" },
+    "Esportivo":         { primary: "#000000", secondary: "#FFD700", accent: "#FFFFFF", nickname: "Alvinegro",            initials: "ESP" },
     "Ferroviária":    { primary: "#FFD700", secondary: "#DA020E", accent: "#FFFFFF", nickname: "Locomotiva",    initials: "FRR" },
 
     // ── SÉRIE D ──
@@ -399,6 +418,11 @@ export const CLUB_COLORS = {
     "Retrô":          { primary: "#000000", secondary: "#FFFFFF", accent: "#FFD700", nickname: "Fênix",         initials: "RET" },
     "Iguatu":         { primary: "#DA020E", secondary: "#FFFFFF", accent: "#000000", nickname: "Azulão",        initials: "IGU" },
     "Sousa":          { primary: "#DA020E", secondary: "#000000", accent: "#FFFFFF", nickname: "Dinossauro",    initials: "SOU" },
+    // Expansão MG/RS (SPEC-168)
+    "Uberlândia":     { primary: "#006437", secondary: "#FFFFFF", accent: "#000000", nickname: "Verdão do Triângulo", initials: "UBE" },
+    "Democrata-GV":   { primary: "#DA020E", secondary: "#FFFFFF", accent: "#000000", nickname: "Pantera do Vale",      initials: "DEM" },
+    "Pelotas":        { primary: "#FFD700", secondary: "#003F87", accent: "#FFFFFF", nickname: "Lobo",                 initials: "PEL" },
+    "Veranópolis":    { primary: "#003F87", secondary: "#FFFFFF", accent: "#FFD700", nickname: "Veranista",            initials: "VER" },
 
     // ── ENG Premier League ──
     "Manchester City":   { primary: "#6CABDD", secondary: "#FFFFFF", accent: "#1C2C5B", nickname: "Citizens",      initials: "MCI" },

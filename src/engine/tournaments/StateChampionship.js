@@ -18,7 +18,7 @@ import { Tournament } from './Tournament';
 
 /**
  * SPEC-168: mapa estático clube→estado.
- * Cobre todos os 80 clubes brasileiros em src/engine/db/brazil.js.
+ * Cobre todos os 88 clubes brasileiros em src/engine/db/brazil.js.
  * Clube ausente do mapa = sem estadual (ignorado pelo GameInitializer).
  */
 export const CLUB_STATE_MAP = {
@@ -33,9 +33,13 @@ export const CLUB_STATE_MAP = {
     // MG
     'Atlético-MG': 'MG', 'Cruzeiro': 'MG', 'América-MG': 'MG',
     'Tombense': 'MG', 'Athletic Club': 'MG', 'Caldense': 'MG',
+    'Pouso Alegre': 'MG', 'Villa Nova-MG': 'MG',
+    'Uberlândia': 'MG', 'Democrata-GV': 'MG',
     // RS
     'Grêmio': 'RS', 'Internacional': 'RS', 'Juventude': 'RS',
     'Caxias': 'RS', 'São José-RS': 'RS', 'Ypiranga': 'RS',
+    'Brasil de Pelotas': 'RS', 'Esportivo': 'RS',
+    'Pelotas': 'RS', 'Veranópolis': 'RS',
     // PR
     'Athletico-PR': 'PR', 'Coritiba': 'PR', 'Operário-PR': 'PR',
     'Paraná Clube': 'PR', 'Londrina': 'PR', 'Cianorte': 'PR',
