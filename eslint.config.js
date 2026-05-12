@@ -26,6 +26,13 @@ export default defineConfig([
       'react-hooks/set-state-in-effect': 'warn',
       'react-hooks/purity': 'warn',
       'react-refresh/only-export-components': 'warn',
+      // SPEC-178: enforce Mandamento Brutal #4 (zero inline style em código novo).
+      // Warning level — débito existente grande. Reviewer detecta novos warnings.
+      // Exceção dynamic per-instance: /* eslint-disable-next-line no-restricted-syntax */
+      'no-restricted-syntax': ['warn', {
+        selector: "JSXAttribute[name.name='style']",
+        message: 'Mandamento Brutal #4 (SPEC-178): inline style proibido. Use CSS class de luxury-arcade.css. Exceção dynamic per-instance: /* eslint-disable-next-line no-restricted-syntax */ + comment.',
+      }],
     },
   },
 ])
