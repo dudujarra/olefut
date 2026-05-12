@@ -11,6 +11,7 @@ import { MidMatchCardModal } from './MidMatchCardModal';
 import { shouldTriggerMidMatch, getMidMatchCard } from '../engine/MidMatchManagerDeck';
 import { MatchBallSprite } from './MatchBallSprite';
 import { applyToStarPlayer } from '../engine/StarPlayerLink';
+import { MatchHighlightModal, extractHighlightContext } from './MatchHighlightModal';
 import { isUnifiedMode, applyPlayerCardEffectToStar } from '../engine/UnifiedModeBridge';
 import { EfClubBadge, EfBanner } from './ui';
 import { EfPanel } from './ui/EfPanel';
@@ -56,6 +57,10 @@ export function MatchView() {
     // SPEC-B2.2: mid-match card state
     const [midMatchCard, setMidMatchCard] = useState(null);
     const triggeredMinutesRef = useRef(new Set());
+
+    // SPEC-F1.1: highlight modal state
+    const [highlightContext, setHighlightContext] = useState(null);
+    const highlightedEventsRef = useRef(new Set());
 
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
@@ -136,6 +141,23 @@ export function MatchView() {
             }
         } catch { /* defensive */ }
     };
+
+    // SPEC-F1.1: detecta novos highlight events e dispara modal
+    /* eslint-disable react-hooks/set-state-in-effect */
+    useEffect(() => {
+        if (phase !== 'firsthalf' && phase !== 'secondhalf') return;
+        if (!Array.isArray(displayedEvents) || displayedEvents.length === 0) return;
+        const last = displayedEvents[displayedEvents.length - 1];
+        if (!last) return;
+        const eventKey = `${last.minute}_${(last.text || '').slice(0, 30)}`;
+        if (highlightedEventsRef.current.has(eventKey)) return;
+        const ctx = extractHighlightContext(last);
+        if (ctx) {
+            highlightedEventsRef.current.add(eventKey);
+            setHighlightContext(ctx);
+        }
+    }, [displayedEvents, phase]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     // Auto-scroll narration log
     useEffect(() => {
@@ -590,6 +612,12 @@ export function MatchView() {
                 card={midMatchCard}
                 onChoose={handleMidMatchChoose}
                 onClose={() => setMidMatchCard(null)}
+            />
+            {/* SPEC-F1.1: highlight pulse modal pra goal/red */}
+            <MatchHighlightModal
+                context={highlightContext}
+                onDismiss={() => setHighlightContext(null)}
+                autoDismissMs={2500}
             />
             <div className="ef-view-container">
                 <Scoreboard half={half} />
