@@ -292,9 +292,11 @@ export function SquadView() {
                                                                     {p.name}
                                                                 </div>
                                                                 <div style={{ display: 'flex', gap: '16px', color: '#8E9E94', fontSize: '0.85rem', fontFamily: 'var(--font-mono)' }}>
-                                                                    <span>IDADE: {p.age}</span>
-                                                                    <span>ALTURA: {p.height || '--'}cm</span>
-                                                                    <span>PÉ: {p.foot || p.preferredFoot || 'D'}</span>
+                                                                    {p.personality && (
+                                                                        <div style={{ color: 'var(--text-muted)' }}>
+                                                                            <Heartbeat weight="fill" /> {p.personality} • {p.playstyle || 'Caneleiro'}
+                                                                        </div>
+                                                                    )}
                                                                 </div>
                                                                 <div style={{ display: 'flex', gap: '24px', marginTop: '12px', fontFamily: 'var(--font-mono)' }}>
                                                                     <div style={{ background: '#1A1F24', padding: '12px 16px', borderLeft: '3px solid #39FF14' }}>

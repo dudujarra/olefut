@@ -83,6 +83,12 @@ const SPECIALTIES = {
 };
 
 const PERSONALITIES = ["Profissional", "Ambicioso", "Determinado", "Casual", "Preguiçoso", "Líder Nato", "Rebelde", "Tímido"];
+const PLAYSTYLES = [
+    // Sub-vertentes de comportamento em campo (Temperamento)
+    "Fairplay", "Caneleiro", "Catimbeiro", "Maestro Frio", "Gladiador", 
+    "Sanguíneo", "Motorzinho", "Elegante", "Cai-Cai", "Raçudo", 
+    "Provocador", "Discreto"
+];
 const FOOT = ["Destro", "Canhoto", "Ambidestro"];
 
 export const Data = {
@@ -208,6 +214,7 @@ export const Data = {
             weight: weightBase,
             foot: rng.pick(FOOT),
             personality: rng.pick(PERSONALITIES),
+            playstyle: rng.pick(PLAYSTYLES), // NOVO: Temperamento em campo
             energy: 100,
             moral: 60 + rng.int(-15, 25),
             salary,
