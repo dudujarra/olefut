@@ -21,6 +21,7 @@ import { TACTICS } from '../engine/ManagerSystems';
 import { drawCard } from '../engine/MatchEventsDeck.js';
 import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
 import { getDifficulty, calcOpponentBoost } from '../engine/systems/DifficultyModes.js';
+import { getRookieHandicapFromEngine } from '../engine/RookieHandicap.js';
 import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats, getGoalConversionBonus, getDefenseSectorBonus, getSetPieceBonus, getPenaltySaveBonus, getPenaltyConversionBonus } from '../engine/PlayerTraits';
 import { recordNpcResult } from '../engine/NpcTacticAdvisor';
 import { npcFeedMatchResult } from './learning/NpcManagerAI.js';
@@ -99,6 +100,14 @@ export class MatchSimulator {
             } else {
                 opponentBoost = calcOpponentBoost(streak);
             }
+        }
+
+        // SPEC-A5: Rookie Handicap — multiplica opponentBoost nas 3 primeiras
+        // partidas da 1ª temporada (decay 0.90 → 0.93 → 0.97 → 1.0).
+        // Só afeta o oponente do manager humano.
+        if (isManagerHome || isManagerAway) {
+            const rookieMult = getRookieHandicapFromEngine(engine);
+            opponentBoost *= rookieMult;
         }
 
         // Apply DDA physical sector boost (if applies)
