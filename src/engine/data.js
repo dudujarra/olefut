@@ -1,6 +1,21 @@
 import { rng } from './rng.js';
 import { calcMarketValue } from './MarketPricer.js';
-import realPlayers from '../data/realPlayers.json';
+
+// SPEC-177: realPlayers split into 4 regional JSON chunks for code-splitting.
+// Top-level await keeps Data API synchronous for 43 existing test call sites,
+// while Rolldown emits each `import()` as a separate chunk:
+//   - realPlayers_BRA.json (~320KB raw)
+//   - realPlayers_EUR.json (~156KB raw)
+//   - realPlayers_SAM.json (~144KB raw)
+//   - realPlayers_pool.json (~819KB raw, name pool + procedural fallback)
+// Parallel load via Promise.all keeps init time identical (HTTP/2 multiplexing).
+const [braMod, eurMod, samMod, poolMod] = await Promise.all([
+    import('../data/realPlayers_BRA.json'),
+    import('../data/realPlayers_EUR.json'),
+    import('../data/realPlayers_SAM.json'),
+    import('../data/realPlayers_pool.json'),
+]);
+const realPlayers = [...braMod.default, ...eurMod.default, ...samMod.default, ...poolMod.default];
 
 // SPEC-169 (Bloco 3.3): índices construídos lazy.
 // Antes esses dois forEachs rodavam no module-eval (~11k iterações × 2),

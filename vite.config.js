@@ -12,7 +12,16 @@ export default defineConfig({
       output: {
         // Vite 8 / Rolldown: manualChunks must be a function, not an object.
         manualChunks(id) {
-          // SPEC-159: realPlayers.json (2MB) must NOT be in the index chunk.
+          // SPEC-177: regional realPlayers JSON chunks (split from monolithic
+          // realPlayers.json via top-level await in src/engine/data.js).
+          // Each region becomes its own chunk; Rolldown infers names from the
+          // dynamic import path so we just keep them out of generic groupings.
+          if (id.includes('realPlayers_BRA.json')) return 'realPlayers_BRA';
+          if (id.includes('realPlayers_EUR.json')) return 'realPlayers_EUR';
+          if (id.includes('realPlayers_SAM.json')) return 'realPlayers_SAM';
+          if (id.includes('realPlayers_pool.json')) return 'realPlayers_pool';
+          // SPEC-159 legacy fallback (kept in case any code still references the
+          // monolithic JSON — it shouldn't, but we play defense).
           if (id.includes('realPlayers.json')) return 'player-data';
           // ML/learning subsystem — heavy, split into its own chunk
           if (id.includes('/services/learning/')) return 'ml-brain';
