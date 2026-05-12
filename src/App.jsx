@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useGame } from './context/GameContext';
 // Eager: rotas de entrada (StartView é a primeira tela; DashboardView é o hub
 // principal acessado em quase todo gameplay). Outras rotas viram chunks
@@ -10,6 +10,7 @@ import { FloatingBugButton } from './components/FloatingBugButton';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
 import { EfButton } from './components/ui/EfButton';
+import { Brain } from '@phosphor-icons/react';
 
 // AKITA-228: AudioController lazy — Tone.js (345KB) só carrega após primeira nav
 // de usuário (não bloqueia first paint). Suspense fallback é nulo (silent).
@@ -46,7 +47,25 @@ function App() {
     const { gameState, getEngine, saveGame, resetGame, changeView } = useGame();
     const [soundOn, setSoundOn] = useState(isSoundEnabled());
     const [savedToast, setSavedToast] = useState(false);
+    // SPEC-174: LLM toggle reflects the engine's LLMNarrativeService flag.
+    // Default OFF (template-only). Persists in localStorage `elifoot_llm_enabled`.
+    const [llmEnabled, setLlmEnabled] = useState(() => {
+        try {
+            const engine = getEngine?.();
+            return !!engine?.llmNarrative?.isLLMEnabled?.();
+        } catch { return false; }
+    });
+    const [llmLoading, setLlmLoading] = useState(false);
+    const [llmToast, setLlmToast] = useState(null); // { kind: 'loading'|'ok'|'err', text: string }
 
+    // SPEC-174: keep UI in sync if engine instance changes (load save, reset career).
+    useEffect(() => {
+        try {
+            const engine = getEngine?.();
+            if (!engine?.llmNarrative) return;
+            setLlmEnabled(!!engine.llmNarrative.isLLMEnabled?.());
+        } catch { /* engine not ready yet */ }
+    }, [gameState.started, gameState.view, getEngine]);
 
     const renderView = () => {
         switch (gameState.view) {
@@ -87,6 +106,41 @@ function App() {
         setSoundEnabled(next);
         setSoundOn(next);
         if (next) sfx.click();
+    };
+
+    // SPEC-174: opt-in / opt-out of real WebLLM narrativas.
+    // Toggle ON  → persists flag + lazy-loads bridge + downloads model (~500MB).
+    //              Until ready, services keep returning templates (non-blocking).
+    // Toggle OFF → instant; bridge stays cached for next opt-in.
+    const handleLLMToggle = async () => {
+        const engine = getEngine?.();
+        const svc = engine?.llmNarrative;
+        if (!svc) return;
+        if (llmEnabled) {
+            svc.disableLLM();
+            setLlmEnabled(false);
+            setLlmLoading(false);
+            setLlmToast({ kind: 'ok', text: 'Auxiliar IA desligado — voltando a usar templates.' });
+            setTimeout(() => setLlmToast(null), 2000);
+            return;
+        }
+        // Turning ON. Model download can take a while; show non-blocking toast.
+        setLlmEnabled(true);
+        setLlmLoading(true);
+        setLlmToast({ kind: 'loading', text: 'Auxiliar IA carregando modelo (~500MB)…' });
+        try {
+            const result = await svc.enableLLM();
+            if (result?.ok) {
+                setLlmToast({ kind: 'ok', text: 'Auxiliar IA pronto. Roda local, sem custo, sem API.' });
+            } else {
+                setLlmToast({ kind: 'err', text: `Auxiliar IA falhou: ${result?.error || 'erro desconhecido'}. Usando templates.` });
+            }
+        } catch (err) {
+            setLlmToast({ kind: 'err', text: `Auxiliar IA falhou: ${err?.message || err}. Usando templates.` });
+        } finally {
+            setLlmLoading(false);
+            setTimeout(() => setLlmToast(null), 3500);
+        }
     };
 
     const handleReset = () => {
@@ -131,6 +185,28 @@ function App() {
                             >
                                 {soundOn ? '🔊' : '🔇'}
                             </EfButton>
+                            {/* SPEC-174: WebLLM narrative toggle (opt-in, ~500MB download) */}
+                            <EfButton
+                                variant="secondary" size="sm"
+                                onClick={handleLLMToggle}
+                                disabled={llmLoading}
+                                title={
+                                    llmLoading
+                                        ? 'Auxiliar IA carregando…'
+                                        : llmEnabled
+                                            ? 'Auxiliar IA ON (clique pra usar só templates)'
+                                            : 'Auxiliar IA OFF — clique pra baixar modelo local (~500MB, opt-in)'
+                                }
+                                aria-pressed={llmEnabled}
+                                aria-label="Toggle Auxiliar IA"
+                                style={{
+                                    padding:'0.25rem 0.55rem',
+                                    opacity: llmLoading ? 0.6 : 1,
+                                    color: llmEnabled ? '#39FF14' : undefined,
+                                }}
+                            >
+                                <Brain size={16} weight={llmEnabled ? 'fill' : 'regular'} />
+                            </EfButton>
 
                             <EfButton
                                 variant="secondary" size="sm"
@@ -152,6 +228,30 @@ function App() {
                         {savedToast && (
                             <div style={{position:'fixed',top:'4rem',right:'1rem',background:'#39FF14',color:'#111417',padding:'0.5rem 1rem',borderRadius:'0',fontSize:'0.85rem',fontWeight:600,zIndex:1000,animation:'slideUp 0.3s',border:'2px solid #4A5059',fontFamily:"'Press Start 2P', monospace"}}>
                                 ✅ Salvo!
+                            </div>
+                        )}
+                        {/* SPEC-174: LLM toggle toast (loading / success / error) */}
+                        {llmToast && (
+                            <div
+                                role="status"
+                                style={{
+                                    position:'fixed',
+                                    top: savedToast ? '7rem' : '4rem',
+                                    right:'1rem',
+                                    background: llmToast.kind === 'err' ? '#FF3030' : llmToast.kind === 'loading' ? '#FFC400' : '#39FF14',
+                                    color:'#111417',
+                                    padding:'0.5rem 1rem',
+                                    borderRadius:'0',
+                                    fontSize:'0.75rem',
+                                    fontWeight:600,
+                                    zIndex:1000,
+                                    animation:'slideUp 0.3s',
+                                    border:'2px solid #4A5059',
+                                    fontFamily:"'JetBrains Mono', monospace",
+                                    maxWidth:'22rem',
+                                }}
+                            >
+                                {llmToast.text}
                             </div>
                         )}
                     </header>
