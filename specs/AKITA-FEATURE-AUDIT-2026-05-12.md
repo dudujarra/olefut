@@ -44,7 +44,7 @@
 | 15 | Scouting | ✅ `services/ScoutingService.js` + `engine.scoutLeague()` (engine.js:263) | partial — Market e Dashboard referenciam; sem view dedicada | hidden — não há "Scouting view"; jogador acessa indiretamente via Market | unit-only (`SPEC-012-scouting.test.js`) | Sem painel dedicado — scout é função utility chamada em outro view |
 | 16 | Market System | ✅ `services/TransferService.js` + `engine/MarketPricer.js` | ✅ `components/MarketView.jsx` | ✅ Sidebar → MERCADO | unit-only (`SPEC-133-market-pricer.test.js`, BUG-022, BUG-026) | OK; só falta playwright |
 | 17 | Contract System | ✅ `engine/ContractGoalSystem.js` + contratos em jogador (`p.contract`) | ✅ `SquadView.jsx:375-377` (mostra wage, weeks remaining, release clause) | ✅ Sidebar → PLANTEL | unit-only (`SPEC-071-contract-goal-system.test.js`) | OK; só falta playwright. Renegociação **não tem UI** — só visualização |
-| 18 | News System | 🔴 **NÃO EXISTE** — `grep newsFeed/seasonNews/breakingNews/HeadlineSystem` retorna 0 resultados na engine | n/a | n/a | n/a | Feature documentada mas **inexistente**. ChronicleSystem cobre narrativa pós-temporada mas não há "news semanal" |
+| 18 | ~~News System~~ | ⛔ **PURGED 2026-05-12** — feature nunca existiu no SDD nem no engine; menção no audit foi vibe-coding doc. Decisão Dudu pós-fix-docs: **não implementar, não monitorar**. ChronicleSystem (#28) cobre a narrativa pós-temporada e é considerado suficiente | n/a | n/a | n/a | **Removido do escopo do projeto.** Ver `CHANGELOG.md [Unreleased]` doc fix entry e `MASTER-ROADMAP-FOUNDATION-FIRST.md` § PROGRESSO |
 | 19 | Achievements | ✅ `engine/systems/AchievementsSystem.js` (30 achievements + 7 milestones) + `engine/MetaProgression.js` (`evaluateAchievements`) chamado em `SeasonProcessor.js:540-554` | ✅ `components/AchievementsView.jsx` (progress bars) | ✅ Sidebar → CONQUISTAS | unit-only (`SPEC-029-achievements.test.js`) | OK; só falta playwright |
 | 20 | Cosmetic Shop | ✅ `services/CosmeticShopService.js` | ✅ `components/CosmeticShopView.jsx` | ✅ Sidebar → LOJA | none direto (coberto via BUG-081 react-hooks fix) | Sem teste dedicado da feature |
 | 21 | Save Slots | ✅ `services/SaveSlotsService.js` | ✅ `components/SaveSlotsView.jsx` | ✅ Sidebar → SAVES | unit-only (`SaveSlotsService` testado indireto via characterization) | OK; falta save→reload Playwright (listado em B2.4 também) |
@@ -72,7 +72,9 @@
 
 ## Top 5 priority gaps para Bloco 2.2
 
-1. **News System (#18) — INEXISTENTE.** SDD lista, mas grep da engine retorna **zero**. Decisão necessária do Dudu: implementar feature (spec + harness + view) OU remover do SDD. Vibe coding documentado. **Estimativa**: 8h (criar `NewsSystem.js` + view + spec/test) ou 1h (purgar do SDD). **Por que crítico**: documentação mentirosa = Mandamento "Regra 0" violado.
+> **Update 2026-05-12 (pós-fix-docs)**: News System (#18) **PURGED** — confirmado que SDD nunca listou a feature; menção neste audit foi vibe-coding doc. Removido como gap. Item #1 abaixo segue numerado pra preservar referências cruzadas, mas é informativo (no-op).
+
+1. ~~**News System (#18) — INEXISTENTE.**~~ ⛔ **PURGED 2026-05-12.** SDD não menciona news; engine não tem; ninguém pediu. Sem implementação, sem monitoramento. ChronicleSystem (#28) é a narrativa pós-temporada canônica do projeto.
 
 2. **Heritage Traits (#29), Humiliation Cascade (#32), Growth Events (#35), Hall of Fame (#36) — engine sem UI.** 4 sistemas complexos com testes verdes em `tests/specs/` mas **invisíveis ao usuário**. Efeitos só aparecem como `weekEvents.push('🧬 ...')` no log. **Por que crítico**: features fantasmas que enchem o SDD mas não entregam value. **Estimativa**: 12h (criar painel "Linhagem & Legado" agregando os 4 sistemas em 1 view com sub-tabs).
 
@@ -113,7 +115,7 @@
 - **Para validar com humanos** (Dudu):
   1. Confirmar se modo jogador é "first-class" ou experimental. Decide o destino de features #2/3/5/6/7/10.
   2. Confirmar se LiveOps deve viver — purgar ou completar.
-  3. Confirmar se "News System" foi escrita por engano no SDD (vibe-coding doc) ou é débito real.
+  3. ~~Confirmar se "News System" foi escrita por engano no SDD (vibe-coding doc) ou é débito real.~~ **RESOLVIDO 2026-05-12**: vibe-coding doc — feature PURGED, não estava no SDD nem no engine.
   4. Playtest com 5 brasileiros (DoD Bloco 2) revelará quais "hidden" features realmente importam.
 
 **Estimativa total para Bloco 2.2 fechar gaps top-5**: 34-46h. Caber em 6 semanas mantendo ritmo "2 PRs/semana" do mandamento brutal #8.

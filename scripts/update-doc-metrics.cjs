@@ -146,10 +146,22 @@ function updateClaudeMd(metrics) {
         `| Bugs com regression test | ${metrics.bugRegressionCount} arquivos`
     );
 
-    // | AKITA commits | **NNN**
+    // | AKITA commits | **NNN** |  (also tolerates legacy "~170+" without bold)
     content = content.replace(
-        /\| AKITA commits \| \*\*~?\d+\*\*\+?( [^|]*)?\|/,
+        /\| AKITA commits \| (?:\*\*)?~?\d+\+?(?:\*\*)?( [^|]*)?\|/,
         `| AKITA commits | **${metrics.akitaCommitCount}** |`
+    );
+
+    // | Services criados | **NN** | (snapshot table)
+    content = content.replace(
+        /\| Services criados \| \*\*\d+\*\*( [^|]*)?\|/,
+        `| Services criados | **${metrics.serviceCount}** |`
+    );
+
+    // | RFCTs | **NN** | (snapshot table, if present)
+    content = content.replace(
+        /\| RFCTs \| \*\*\d+\*\*( [^|]*)?\|/,
+        `| RFCTs | **${metrics.rfctCount}** |`
     );
 
     // engine.js LOC mentions

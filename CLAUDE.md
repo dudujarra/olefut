@@ -249,7 +249,7 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 | Test files | 102 | `find tests -name "*.test.js"` |
 | Specs totais | **122** | `find specs -name "SPEC-*.md"` |
 | Bugs com regression test | 17 arquivos em `tests/regression/` (BUG-080/081 não precisaram — fix via config + lint disable docs) | — |
-| AKITA commits | ~170+ | `git log --grep AKITA` |
+| AKITA commits | **211** | `git log --grep AKITA` |
 | Clubes | 170 (BR + EU + SA) | `src/engine/db/` |
 | Build | ✅ limpo, ~1.1s, initial chunk **376KB** (gzip 110KB) | `vite build` |
 | Build budget gate | ✅ 4/4 tests (initial ≤500KB, chunk ≤800KB, total ≤3MB) | `tests/integration/build-budget.test.js` |

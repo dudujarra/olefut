@@ -122,7 +122,7 @@ Pra cada uma das **~40 features** documentadas em SDD_ELIFOOT_RPG.md:
 | Scouting | ? | ? | ? | ? | ? |
 | Market System | ? | ? | ? | ? | ? |
 | Contract System | ? | ? | ? | ? | ? |
-| News System | ? | ? | ? | ? | ? |
+| ~~News System~~ | ⛔ PURGED 2026-05-12 | — | — | — | Feature nunca foi do escopo (vibe-coding doc); ChronicleSystem cobre narrativa |
 | Achievements | ? | ? | ? | ? | ? |
 | Cosmetic Shop | ? | ? | ? | ? | ? |
 | Save Slots | ? | ? | ? | ? | ? |
@@ -349,7 +349,7 @@ Domingo:  OFF
 
 #### B2.2 Gap fixes (em andamento — quick wins done)
 - [x] AKITA-234 (PR #124) Quick wins: LiveOpsService DELETED (79 LOC dead code), Tutorial sidebar link (replayability)
-- [ ] News System (#18) — confirmado ausente do engine E do SDD; audit estava errado sobre ser referenciado
+- [x] ⛔ **News System (#18) PURGED 2026-05-12** — confirmado ausente do engine E do SDD; audit estava errado sobre ser referenciado. Decisão Dudu: **não implementar, não monitorar**. ChronicleSystem cobre narrativa. Row marcada como PURGED no `AKITA-FEATURE-AUDIT-2026-05-12.md` + nesta tabela acima.
 - [ ] Painel "Linhagem & Legado" (Heritage/Humiliation/Growth/HoF unificado) — pendente
 - [ ] StateChampionship wire-up (Paulistão/Carioca/Mineiro/Gaúcho órfãos) — pendente
 - [ ] Decisão player vs manager mode (6 features player-only sem descoberta) — pendente
