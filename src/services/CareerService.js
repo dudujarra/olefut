@@ -133,6 +133,33 @@ export class CareerService {
         proPlayer.retired = true;
         proPlayer.retiredAt = proPlayer.age || 35;
 
+        // SPEC-F2.2: push pra Legends Cross-Save Pool
+        try {
+            // Lazy import pra evitar cycle + permitir tree-shake em saves novos
+            // eslint-disable-next-line no-unused-vars
+            import('../engine/LegendsCrossSavePool.js').then(({ markRetired }) => {
+                markRetired({
+                    playerId: proPlayer.id || `pp-${proPlayer.name}`,
+                    saveId: engineOrSave.saveId || engineOrSave.manager?.name || 'unknown',
+                    retiredYear: engineOrSave.seasonNumber || 0,
+                    hallEntry: {
+                        slot: 'idoloEterno',
+                        slotLabel: 'Ídolo Eterno',
+                        playerName: proPlayer.name,
+                        stats: {
+                            apps: proPlayer.careerApps || proPlayer.seasonApps || 0,
+                            goals: proPlayer.careerGoals || proPlayer.seasonGoals || 0,
+                        },
+                    },
+                    finalAttrs: {
+                        leadership: proPlayer.relationships?.boss || 60,
+                        technique: proPlayer.skills?.technique || 60,
+                        charisma: proPlayer.relationships?.fans || 60,
+                    },
+                });
+            }).catch(() => { /* defensive */ });
+        } catch { /* defensive */ }
+
         // Transition to manager mode
         engineOrSave.mode = 'manager';
         engineOrSave.manager = engineOrSave.manager || {};

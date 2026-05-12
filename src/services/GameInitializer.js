@@ -64,6 +64,46 @@ export class GameInitializer {
         if (mode === 'player') {
             this._initializePlayerMode(engine, name, playerPosition);
         }
+
+        // SPEC-F2.3: auto-load mods se manifest existir
+        this._loadMods(engine);
+    }
+
+    /**
+     * SPEC-F2.3: tenta carregar /mods/cards/manifest.json e merge nos decks.
+     * Fail-safe: erro de fetch / parse não bloqueia initGame.
+     */
+    _loadMods(engine) {
+        if (typeof fetch === 'undefined') return;
+        // Background fetch — não bloqueia init
+        fetch('/mods/cards/manifest.json')
+            .then(r => r.ok ? r.json() : null)
+            .then(async manifest => {
+                if (!manifest || !Array.isArray(manifest.packs)) return;
+                const { load, mergeWithDeck } = await import('../engine/ModLoader.js');
+                const { MidMatchManagerDeck } = await import('../engine/MidMatchManagerDeck.js');
+                let totalCards = 0;
+                for (const packPath of manifest.packs) {
+                    try {
+                        const res = await fetch(`/mods/cards/${packPath}`);
+                        if (!res.ok) continue;
+                        const text = await res.text();
+                        const result = load(text);
+                        totalCards += result.valid.length;
+                        // Mutate deck reference (semi-acceptable: cards são pures sem state)
+                        const merged = mergeWithDeck(MidMatchManagerDeck, result.valid);
+                        merged.forEach(c => {
+                            if (!MidMatchManagerDeck.find(x => x.id === c.id)) {
+                                MidMatchManagerDeck.push(c);
+                            }
+                        });
+                    } catch { /* defensive */ }
+                }
+                if (totalCards > 0 && typeof console !== 'undefined') {
+                    console.info(`[ModLoader] Carregou ${totalCards} cards custom de ${manifest.packs.length} packs`);
+                }
+            })
+            .catch(() => { /* fail silent */ });
     }
 
     _initializeTeams(engine) {

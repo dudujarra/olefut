@@ -22,6 +22,7 @@ import { drawCard } from '../engine/MatchEventsDeck.js';
 import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
 import { getDifficulty, calcOpponentBoost } from '../engine/systems/DifficultyModes.js';
 import { getRookieHandicapFromEngine } from '../engine/RookieHandicap.js';
+import { getModifiersForMatch as getWinStreakBonus, recordResult as recordWinStreak } from '../engine/WinStreakModifierSystem.js';
 import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats, getGoalConversionBonus, getDefenseSectorBonus, getSetPieceBonus, getPenaltySaveBonus, getPenaltyConversionBonus } from '../engine/PlayerTraits';
 import { recordNpcResult } from '../engine/NpcTacticAdvisor';
 import { npcFeedMatchResult } from './learning/NpcManagerAI.js';
@@ -108,6 +109,22 @@ export class MatchSimulator {
         if (isManagerHome || isManagerAway) {
             const rookieMult = getRookieHandicapFromEngine(engine);
             opponentBoost *= rookieMult;
+        }
+
+        // SPEC-F2.1: Win Streak Bonus — aplica attrBonus aos sectors do manager
+        // se feature flag ENABLE_WIN_STREAK ativa.
+        if (isManagerHome) {
+            const bonus = getWinStreakBonus(engine.manager?.teamId || 0);
+            if (bonus.attrBonus > 0) {
+                homeSectors.attack = Math.floor(homeSectors.attack + bonus.attrBonus);
+                homeSectors.defense = Math.floor(homeSectors.defense + bonus.attrBonus);
+            }
+        } else if (isManagerAway) {
+            const bonus = getWinStreakBonus(engine.manager?.teamId || 0);
+            if (bonus.attrBonus > 0) {
+                awaySectors.attack = Math.floor(awaySectors.attack + bonus.attrBonus);
+                awaySectors.defense = Math.floor(awaySectors.defense + bonus.attrBonus);
+            }
         }
 
         // Apply DDA physical sector boost (if applies)

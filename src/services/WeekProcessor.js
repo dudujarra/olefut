@@ -27,6 +27,7 @@ import { processMoraleEvents, processMentoring } from '../engine/PlayerTraits';
 import { processLoans } from '../engine/YouthAcademy';
 import { getCalendarEvent } from '../engine/SeasonSystem';
 import { getSeasonalEvent } from '../engine/SeasonalBREvents';
+import { recordResult as recordWinStreak } from '../engine/WinStreakModifierSystem';
 import { apply as applyBoardTension } from '../engine/BoardTensionSystem';
 import { evaluate as evaluateHumiliation } from '../engine/HumiliationCascadeSystem';
 import { evaluate as evaluateLossStreak, recordResult as recordStreakResult } from '../engine/LossStreakResponseSystem';
@@ -353,6 +354,7 @@ export class WeekProcessor {
                     engine.managerStats.rollingForm.push('W');
                     if (engine.managerStats.rollingForm.length > 10) engine.managerStats.rollingForm.shift();
                     recordStreakResult({ teamId: team.id, result: 'W' });
+                    recordWinStreak({ teamId: team.id, result: 'W' });
                     team.squad.forEach(p => {
                         p.moral = Math.min(100, (p.moral || 50) + 3);
                         if (p.isTitular) updateForm(p, 1);
@@ -371,6 +373,7 @@ export class WeekProcessor {
                     engine.managerStats.lossStreak = (engine.managerStats.lossStreak || 0) + 1;
                     if (!engine.managerStats.rollingForm) engine.managerStats.rollingForm = [];
                     engine.managerStats.rollingForm.push('L');
+                    recordWinStreak({ teamId: team.id, result: 'L' });
                     if (engine.managerStats.rollingForm.length > 10) engine.managerStats.rollingForm.shift();
                     recordStreakResult({ teamId: team.id, result: 'L' });
                     team.squad.forEach(p => {
@@ -439,6 +442,7 @@ export class WeekProcessor {
                     engine.managerStats.streak = 0;
                     if (!engine.managerStats.rollingForm) engine.managerStats.rollingForm = [];
                     engine.managerStats.rollingForm.push('D');
+                    recordWinStreak({ teamId: team.id, result: 'D' });
                     if (engine.managerStats.rollingForm.length > 10) engine.managerStats.rollingForm.shift();
                     recordStreakResult({ teamId: team.id, result: 'D' });
                     team.squad.filter(p => p.isTitular).forEach(p => updateForm(p, 0));

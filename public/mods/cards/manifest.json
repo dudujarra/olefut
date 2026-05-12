@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "name": "ELIFOOT Community Mods",
+  "packs": [
+    "sample-pack-br/midmatch-extras.json"
+  ]
+}
