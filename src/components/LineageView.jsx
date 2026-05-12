@@ -12,6 +12,9 @@
  * engine.weekEvents[].
  *
  * Audit gap fix: AKITA-233 + Bloco 2.2 do Foundation-First Roadmap.
+ *
+ * UI consistency: refactor pra utility classes em luxury-arcade.css
+ * (pattern SPEC-170/172/173/175). Era omissão do batch B3.1.
  */
 
 import { useState } from 'react';
@@ -69,24 +72,9 @@ export function LineageView() {
     const engine = getEngine();
     const [tab, setTab] = useState('hall');
 
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
-
-    const fontMono = { fontFamily: 'var(--font-mono)' };
-
     if (!engine) {
         return (
-            <div style={{ padding: '24px', color: colors.text, fontFamily: 'var(--font-mono)' }}>
+            <div className="ef-mono ef-text-main" style={{ padding: '24px' }}>
                 ENGINE NÃO INICIALIZADO.
             </div>
         );
@@ -114,43 +102,18 @@ export function LineageView() {
     ];
 
     return (
-        <div className="ef-anim-fade-in" style={{
-            backgroundImage: `url(${bgNewspaper})`,
-            imageRendering: 'pixelated',
-            WebkitImageRendering: 'pixelated',
-            backgroundColor: colors.bg,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100dvh',
-            padding: '24px',
-            color: colors.text,
-            fontFamily: 'var(--font-sans)',
-            overflowY: 'auto'
-        }}>
-            <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgNewspaper})` }}>
+            <div className="ef-view-container">
 
                 {/* HEADER */}
-                <EfPanel padding="lg" style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    borderBottom: `2px solid ${colors.warning}`
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <div style={{
-                            width: '48px', height: '48px',
-                            backgroundColor: colors.panelElevated,
-                            display: 'flex', justifyContent: 'center', alignItems: 'center',
-                            border: `1px solid ${colors.border}`
-                        }}>
-                            <TreeStructure size={28} color={colors.warning} />
+                <EfPanel padding="lg" className="ef-view-header" style={{ borderBottom: '2px solid #FFD700' }}>
+                    <div className="ef-view-header__identity">
+                        <div className="ef-view-header__icon-box">
+                            <TreeStructure size={28} color="#FFD700" />
                         </div>
                         <div>
-                            <h2 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', fontFamily: 'var(--font-sans)', color: colors.text, fontWeight: 'bold' }}>
-                                LINHAGEM &amp; LEGADO
-                            </h2>
-                            <span style={{ ...fontMono, fontSize: '0.8rem', color: colors.textMuted }}>
+                            <h2 className="ef-view-header__title">LINHAGEM &amp; LEGADO</h2>
+                            <span className="ef-view-header__subtitle">
                                 MITOS, HERANÇAS, VEXAMES E EVOLUÇÕES DE {(team?.name || 'SEU CLUBE').toUpperCase()}
                             </span>
                         </div>
@@ -161,7 +124,7 @@ export function LineageView() {
                 </EfPanel>
 
                 {/* TABS */}
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <div className="ef-lineage-tabs">
                     {tabs.map(t => {
                         const Icon = t.icon;
                         const active = tab === t.id;
@@ -174,15 +137,7 @@ export function LineageView() {
                             >
                                 <Icon size={16} /> {t.label}
                                 {t.count > 0 && (
-                                    <span style={{
-                                        marginLeft: '8px',
-                                        backgroundColor: active ? '#000' : colors.panelElevated,
-                                        color: active ? colors.accent : colors.text,
-                                        padding: '2px 8px',
-                                        ...fontMono,
-                                        fontSize: '0.7rem',
-                                        border: `1px solid ${colors.border}`
-                                    }}>
+                                    <span className={`ef-tab-badge${active ? ' ef-tab-badge--active' : ''}`}>
                                         {t.count}
                                     </span>
                                 )}
@@ -192,10 +147,10 @@ export function LineageView() {
                 </div>
 
                 {/* TAB CONTENT */}
-                {tab === 'hall' && <HallTab hall={hall} colors={colors} fontMono={fontMono} />}
-                {tab === 'heritage' && <HeritageTab players={heritagePlayers} hasHall={filledCount > 0} colors={colors} fontMono={fontMono} />}
-                {tab === 'humiliation' && <HumiliationTab events={humiliationEvents} colors={colors} fontMono={fontMono} week={engine.currentWeek} />}
-                {tab === 'growth' && <GrowthTab events={growthEvents} colors={colors} fontMono={fontMono} week={engine.currentWeek} />}
+                {tab === 'hall' && <HallTab hall={hall} />}
+                {tab === 'heritage' && <HeritageTab players={heritagePlayers} hasHall={filledCount > 0} />}
+                {tab === 'humiliation' && <HumiliationTab events={humiliationEvents} week={engine.currentWeek} />}
+                {tab === 'growth' && <GrowthTab events={growthEvents} week={engine.currentWeek} />}
             </div>
         </div>
     );
@@ -203,21 +158,15 @@ export function LineageView() {
 
 // ─── Tab: Hall ──────────────────────────────────────────────────────────
 
-function HallTab({ hall, colors, fontMono }) {
+function HallTab({ hall }) {
     return (
         <EfPanel padding="lg" className="ef-anim-slide-down">
-            <h3 style={{ margin: '0 0 16px 0', fontSize: '0.95rem', color: colors.warning, ...fontMono }}>
-                6 SLOTS PERMANENTES POR CLUBE
-            </h3>
-            <p style={{ margin: '0 0 24px 0', fontSize: '0.8rem', color: colors.textMuted, ...fontMono, lineHeight: 1.6 }}>
+            <h3 className="ef-panel-subhead">6 SLOTS PERMANENTES POR CLUBE</h3>
+            <p className="ef-panel-intro">
                 Slots recomputados ao fim de cada temporada com base em apps, gols, base, transferências.
                 Quando preenchidos, viram fonte de DNA pra novos regens (ver aba HERANÇA).
             </p>
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                gap: '12px'
-            }}>
+            <div className="ef-hall-grid">
                 {SLOT_ORDER.map(slotKey => {
                     const meta = SLOT_META[slotKey];
                     const Icon = meta.icon;
@@ -225,46 +174,21 @@ function HallTab({ hall, colors, fontMono }) {
                     return (
                         <div
                             key={slotKey}
-                            style={{
-                                padding: '14px',
-                                backgroundColor: colors.panelElevated,
-                                border: filled ? `2px solid ${meta.accent}` : `1px dashed ${colors.border}`,
-                                opacity: filled ? 1 : 0.65,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '8px'
-                            }}
+                            className={`ef-hall-slot${filled ? ' ef-hall-slot--filled' : ''}`}
+                            style={filled ? { borderColor: meta.accent } : undefined}
                         >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <Icon size={20} color={filled ? meta.accent : colors.textMuted} weight={filled ? 'fill' : 'regular'} />
-                                <h3 style={{
-                                    margin: 0,
-                                    fontSize: '0.85rem',
-                                    color: filled ? colors.text : colors.textMuted,
-                                    fontFamily: 'var(--font-sans)',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '0.05em'
-                                }}>
+                            <div className="ef-hall-slot__header">
+                                <Icon size={20} color={filled ? meta.accent : '#8E9E94'} weight={filled ? 'fill' : 'regular'} />
+                                <h3 className="ef-hall-slot__title">
                                     {meta.label.toUpperCase()}
                                 </h3>
                             </div>
                             {filled ? (
                                 <>
-                                    <div style={{
-                                        fontSize: '1rem',
-                                        color: meta.accent,
-                                        ...fontMono,
-                                        fontWeight: 'bold'
-                                    }}>
+                                    <div className="ef-hall-slot__name" style={{ color: meta.accent }}>
                                         {filled.playerName}
                                     </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        gap: '12px',
-                                        fontSize: '0.7rem',
-                                        color: colors.textMuted,
-                                        ...fontMono
-                                    }}>
+                                    <div className="ef-hall-slot__stats">
                                         <span>JOGOS: {filled.stats?.apps ?? 0}</span>
                                         <span>GOLS: {filled.stats?.goals ?? 0}</span>
                                         {slotKey === 'carrasco' && (
@@ -274,8 +198,8 @@ function HallTab({ hall, colors, fontMono }) {
                                 </>
                             ) : (
                                 <>
-                                    <div style={{ fontSize: '1.4rem', color: colors.textMuted, ...fontMono }}>—</div>
-                                    <div style={{ fontSize: '0.7rem', color: colors.textMuted, ...fontMono, lineHeight: 1.5 }}>
+                                    <div className="ef-hall-slot__placeholder">—</div>
+                                    <div className="ef-hall-slot__criteria">
                                         {meta.criteria}
                                     </div>
                                 </>
@@ -290,29 +214,22 @@ function HallTab({ hall, colors, fontMono }) {
 
 // ─── Tab: Heritage ──────────────────────────────────────────────────────
 
-function HeritageTab({ players, hasHall, colors, fontMono }) {
+function HeritageTab({ players, hasHall }) {
     if (players.length === 0) {
         return (
             <EfPanel padding="lg" className="ef-anim-slide-down">
-                <div style={{
-                    padding: '32px',
-                    textAlign: 'center',
-                    color: colors.textMuted,
-                    ...fontMono,
-                    fontSize: '0.85rem',
-                    lineHeight: 1.8
-                }}>
-                    <Dna size={48} color={colors.textMuted} style={{ marginBottom: '16px' }} />
-                    <p style={{ margin: '0 0 8px 0', color: colors.text, fontSize: '0.95rem', fontWeight: 'bold' }}>
+                <div className="ef-empty-state">
+                    <Dna size={48} color="#8E9E94" className="ef-empty-state__icon" />
+                    <p className="ef-empty-state__title">
                         AGUARDANDO PRÓXIMA GERAÇÃO
                     </p>
                     {hasHall ? (
-                        <p style={{ margin: 0 }}>
+                        <p className="ef-empty-state__p ef-empty-state__p--last">
                             Hall preenchido. Quando a base trouxer regens (idade ≤ 18) ao fim da temporada,
                             o DNA das lendas será aplicado automaticamente.
                         </p>
                     ) : (
-                        <p style={{ margin: 0 }}>
+                        <p className="ef-empty-state__p ef-empty-state__p--last">
                             O Hall de Lendas ainda está vazio. Conquiste títulos, mantenha jogadores no
                             clube por muitas temporadas, e o sistema canonizará os mitos. Aí os jovens
                             começam a herdar traços.
@@ -325,81 +242,41 @@ function HeritageTab({ players, hasHall, colors, fontMono }) {
 
     return (
         <EfPanel padding="lg" className="ef-anim-slide-down">
-            <h3 style={{ margin: '0 0 16px 0', fontSize: '0.95rem', color: colors.warning, ...fontMono }}>
+            <h3 className="ef-panel-subhead">
                 {players.length} REGEN{players.length > 1 ? 'S' : ''} COM DNA DE LENDA
             </h3>
-            <p style={{ margin: '0 0 24px 0', fontSize: '0.8rem', color: colors.textMuted, ...fontMono, lineHeight: 1.6 }}>
+            <p className="ef-panel-intro">
                 Traits base 30. Slots preenchidos no Hall contribuem bônus +20 a +40 (60% chance por slot).
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div className="ef-heritage-list">
                 {players.map(p => (
-                    <div
-                        key={p.id}
-                        style={{
-                            padding: '14px',
-                            backgroundColor: colors.panelElevated,
-                            border: `1px solid ${colors.border}`,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '10px'
-                        }}
-                    >
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <Dna size={18} color={colors.accent} weight="fill" />
-                                <span style={{
-                                    fontSize: '0.95rem',
-                                    color: colors.text,
-                                    fontWeight: 'bold',
-                                    ...fontMono
-                                }}>
-                                    {p.name}
-                                </span>
+                    <div key={p.id} className="ef-heritage-card">
+                        <div className="ef-heritage-card__row">
+                            <div className="ef-heritage-card__identity">
+                                <Dna size={18} color="#39FF14" weight="fill" />
+                                <span className="ef-heritage-card__name">{p.name}</span>
                             </div>
-                            <div style={{
-                                display: 'flex',
-                                gap: '12px',
-                                fontSize: '0.7rem',
-                                color: colors.textMuted,
-                                ...fontMono
-                            }}>
+                            <div className="ef-heritage-card__meta">
                                 <span>{p.age} anos</span>
                                 <span>OVR {p.ovr}</span>
                                 {p.position && <span>{p.position}</span>}
                             </div>
                         </div>
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-                            gap: '10px'
-                        }}>
+                        <div className="ef-heritage-traits">
                             {Object.entries(TRAIT_META).map(([traitKey, traitMeta]) => {
                                 const value = p.heritageTraits?.[traitKey] ?? 30;
                                 const pct = Math.max(0, Math.min(100, value));
                                 return (
-                                    <div key={traitKey} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                        <div style={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            fontSize: '0.7rem',
-                                            color: colors.textMuted,
-                                            ...fontMono
-                                        }}>
+                                    <div key={traitKey} className="ef-heritage-trait">
+                                        <div className="ef-heritage-trait__label">
                                             <span>{traitMeta.label.toUpperCase()}</span>
-                                            <span style={{ color: traitMeta.color, fontWeight: 'bold' }}>{value}</span>
+                                            <span className="ef-heritage-trait__value" style={{ color: traitMeta.color }}>{value}</span>
                                         </div>
-                                        <div style={{
-                                            height: '6px',
-                                            backgroundColor: colors.bg,
-                                            border: `1px solid ${colors.border}`,
-                                            position: 'relative'
-                                        }}>
-                                            <div style={{
-                                                width: `${pct}%`,
-                                                height: '100%',
-                                                backgroundColor: traitMeta.color,
-                                                transition: 'width 0.3s ease'
-                                            }} />
+                                        <div className="ef-heritage-bar">
+                                            <div
+                                                className="ef-heritage-bar__fill"
+                                                style={{ width: `${pct}%`, backgroundColor: traitMeta.color }}
+                                            />
                                         </div>
                                     </div>
                                 );
@@ -414,27 +291,20 @@ function HeritageTab({ players, hasHall, colors, fontMono }) {
 
 // ─── Tab: Humiliation ───────────────────────────────────────────────────
 
-function HumiliationTab({ events, colors, fontMono, week }) {
+function HumiliationTab({ events, week }) {
     if (events.length === 0) {
         return (
             <EfPanel padding="lg" className="ef-anim-slide-down">
-                <div style={{
-                    padding: '32px',
-                    textAlign: 'center',
-                    color: colors.textMuted,
-                    ...fontMono,
-                    fontSize: '0.85rem',
-                    lineHeight: 1.8
-                }}>
-                    <Shield size={48} color={colors.accent} style={{ marginBottom: '16px' }} />
-                    <p style={{ margin: '0 0 8px 0', color: colors.text, fontSize: '0.95rem', fontWeight: 'bold' }}>
+                <div className="ef-empty-state">
+                    <Shield size={48} color="#39FF14" className="ef-empty-state__icon" />
+                    <p className="ef-empty-state__title">
                         SEM VEXAMES NA SEMANA {week ?? '—'}
                     </p>
-                    <p style={{ margin: '0 0 8px 0' }}>
+                    <p className="ef-empty-state__p">
                         Eventos de humilhação aparecem aqui quando o time leva goleada
                         (diferença ≥ 4 gols). Vai da cascata leve até ultimato presidencial.
                     </p>
-                    <p style={{ margin: 0, fontSize: '0.75rem' }}>
+                    <p className="ef-empty-state__p ef-empty-state__p--last ef-empty-state__p--small">
                         Eventos são efêmeros — só visíveis na semana que ocorrem.
                         Resumo de temporada fica na CRÔNICA.
                     </p>
@@ -445,29 +315,20 @@ function HumiliationTab({ events, colors, fontMono, week }) {
 
     return (
         <EfPanel padding="lg" className="ef-anim-slide-down">
-            <h3 style={{ margin: '0 0 16px 0', fontSize: '0.95rem', color: colors.danger, ...fontMono }}>
+            <h3 className="ef-panel-subhead ef-panel-subhead--danger">
                 {events.length} EVENTO{events.length > 1 ? 'S' : ''} NA SEMANA {week ?? '—'}
             </h3>
-            <p style={{ margin: '0 0 24px 0', fontSize: '0.8rem', color: colors.textMuted, ...fontMono, lineHeight: 1.6 }}>
+            <p className="ef-panel-intro">
                 Cascata disparada por goleada (diff ≥ 4). Severidade: nível 1 (moral + imprensa),
                 nível 2 (presidente + protesto), nível 3 (transfer requests + ultimato).
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div className="ef-event-list">
                 {events.map((evt, idx) => {
                     const isSurvival = evt.startsWith('🛡️');
-                    const accent = isSurvival ? colors.accent : colors.danger;
                     return (
                         <div
                             key={idx}
-                            style={{
-                                padding: '12px 14px',
-                                backgroundColor: colors.panelElevated,
-                                borderLeft: `4px solid ${accent}`,
-                                fontSize: '0.85rem',
-                                color: colors.text,
-                                ...fontMono,
-                                lineHeight: 1.5
-                            }}
+                            className={`ef-event-row ${isSurvival ? 'ef-event-row--primary' : 'ef-event-row--danger'}`}
                         >
                             {evt}
                         </div>
@@ -480,27 +341,23 @@ function HumiliationTab({ events, colors, fontMono, week }) {
 
 // ─── Tab: Growth ────────────────────────────────────────────────────────
 
-function GrowthTab({ events, colors, fontMono, week }) {
+function GrowthTab({ events, week }) {
     if (events.length === 0) {
         return (
             <EfPanel padding="lg" className="ef-anim-slide-down">
-                <div style={{
-                    padding: '32px',
-                    textAlign: 'center',
-                    color: colors.textMuted,
-                    ...fontMono,
-                    fontSize: '0.85rem',
-                    lineHeight: 1.8
-                }}>
-                    <Star size={48} color={colors.textMuted} style={{ marginBottom: '16px' }} />
-                    <p style={{ margin: '0 0 8px 0', color: colors.text, fontSize: '0.95rem', fontWeight: 'bold' }}>
+                <div className="ef-empty-state">
+                    <Star size={48} color="#8E9E94" className="ef-empty-state__icon" />
+                    <p className="ef-empty-state__title">
                         SEM EVOLUÇÕES NA SEMANA {week ?? '—'}
                     </p>
-                    <p style={{ margin: '0 0 8px 0' }}>
+                    <p className="ef-empty-state__p">
                         Eventos de crescimento (breakthrough, hot streak, peak season) aparecem
                         aqui quando ocorrem. Chance por semana:
                     </p>
-                    <p style={{ margin: 0, fontSize: '0.75rem', textAlign: 'left', display: 'inline-block' }}>
+                    <p
+                        className="ef-empty-state__p ef-empty-state__p--last ef-empty-state__p--small"
+                        style={{ textAlign: 'left', display: 'inline-block' }}
+                    >
                         • Jovens (&lt;21): 4% por semana<br/>
                         • Peak (23-27, &gt;15 jogos): 8%<br/>
                         • Treino intenso: 12% (≥4 treinos recentes)<br/>
@@ -513,28 +370,19 @@ function GrowthTab({ events, colors, fontMono, week }) {
 
     return (
         <EfPanel padding="lg" className="ef-anim-slide-down">
-            <h3 style={{ margin: '0 0 16px 0', fontSize: '0.95rem', color: colors.accent, ...fontMono }}>
+            <h3 className="ef-panel-subhead ef-panel-subhead--primary">
                 {events.length} EVOLUÇÃO{events.length > 1 ? 'ÕES' : ''} NA SEMANA {week ?? '—'}
             </h3>
-            <p style={{ margin: '0 0 24px 0', fontSize: '0.8rem', color: colors.textMuted, ...fontMono, lineHeight: 1.6 }}>
+            <p className="ef-panel-intro">
                 ⭐ youth_breakthrough · 🔥 hot_streak · 📈 peak_season · 💪 training_breakthrough · 🧬 heritage
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div className="ef-event-list">
                 {events.map((evt, idx) => {
                     const isNegative = evt.includes('-') && !evt.includes('+');
-                    const accent = isNegative ? colors.warning : colors.accent;
                     return (
                         <div
                             key={idx}
-                            style={{
-                                padding: '12px 14px',
-                                backgroundColor: colors.panelElevated,
-                                borderLeft: `4px solid ${accent}`,
-                                fontSize: '0.85rem',
-                                color: colors.text,
-                                ...fontMono,
-                                lineHeight: 1.5
-                            }}
+                            className={`ef-event-row ${isNegative ? 'ef-event-row--accent' : 'ef-event-row--primary'}`}
                         >
                             {evt}
                         </div>
