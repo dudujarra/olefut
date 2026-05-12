@@ -1103,3 +1103,373 @@ h1, h2, h3, h4 {
 }
 .ef-step--active .ef-step__bubble { background-color: #40BAF7; }
 .ef-step--done   .ef-step__bubble { background-color: var(--primary, #39FF14); color: var(--bg-dark, #0D1117); }
+
+/* ==========================================================================
+   B3.1 UI Consistency Batch 2 Utilities (SPEC-173)
+   Extracted from Achievements / CosmeticShop / Chronicle / Rivalries /
+   AutoPlay / Monitor / SaveSlots / Tutorial inline styles.
+   ========================================================================== */
+
+/* --- Scene shell (background image + scroll boilerplate) ----------------- */
+
+.ef-scene-shell {
+  background-color: var(--bg-dark, #0D1117);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100dvh;
+  padding: 24px;
+  color: var(--text-main, #FDFBF7);
+  font-family: 'Satoshi', 'Outfit', system-ui, sans-serif;
+  overflow-y: auto;
+  image-rendering: pixelated;
+  -webkit-image-rendering: pixelated;
+}
+.ef-scene-shell--centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- View header (icon box + title + subtitle + back button) ------------- */
+/* Recurring pattern across 6 views (Achievements/CosmeticShop/Chronicle/
+   Rivalries/Monitor/SaveSlots): EfPanel containing left identity cluster
+   (48x48 icon box, title, subtitle) and right exit button. */
+
+.ef-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ef-view-header__identity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ef-view-header__icon-box {
+  width: 48px;
+  height: 48px;
+  background-color: #1A1F24;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #2D3748;
+}
+.ef-view-header__title {
+  margin: 0 0 4px 0;
+  font-size: 1.2rem;
+  font-family: 'Satoshi', 'Outfit', system-ui, sans-serif;
+  color: var(--text-main, #FDFBF7);
+  font-weight: bold;
+}
+.ef-view-header__subtitle {
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted, #8E9E94);
+}
+
+/* --- Dashed empty state ---------------------------------------------------- */
+
+.ef-empty-dashed {
+  background-color: #1A1F24;
+  padding: 32px;
+  text-align: center;
+  border: 1px dashed #2D3748;
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--text-muted, #8E9E94);
+}
+
+/* --- Section heading inside an EfPanel (icon + uppercase label) ---------- */
+/* Variant of .ef-section-header but designed for the small mono category */
+/* headers in CosmeticShop/Rivalries/Monitor. */
+
+.ef-panel-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #2D3748;
+  margin-bottom: 20px;
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  color: #40BAF7;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.ef-panel-cat-header--accent  { color: var(--accent, #FFD700); border-bottom-color: #2D3748; }
+.ef-panel-cat-header--primary { color: var(--primary, #39FF14); }
+.ef-panel-cat-header--info    { color: #40BAF7; }
+.ef-panel-cat-header--danger  { color: var(--danger, #FF3333); }
+
+/* --- Pill / badge cluster (small mono uppercase) ------------------------- */
+
+.ef-pill-mono {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--bg-dark, #0D1117);
+  padding: 6px 12px;
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: 1px solid #2D3748;
+}
+
+/* --- Generic horizontal progress (replaces ad-hoc inline progress bars) -- */
+/* Bigger than .ef-progress (which is 4-6px). 8px / 12px for visible
+   progress bars on Achievement / overall progress / RelBar. */
+
+.ef-pbar {
+  background-color: var(--bg-dark, #0D1117);
+  border: 1px solid #2D3748;
+  overflow: hidden;
+}
+.ef-pbar--sm { height: 8px; }
+.ef-pbar--md { height: 12px; }
+.ef-pbar__fill {
+  height: 100%;
+  transition: width 300ms ease-out;
+}
+
+/* --- Step progress bar (Tutorial dots) ----------------------------------- */
+
+.ef-stepbar {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin: 8px 0;
+}
+.ef-stepbar__pip {
+  flex: 1;
+  height: 4px;
+  background-color: #2D3748;
+  transition: background-color 300ms ease;
+}
+.ef-stepbar__pip--current { background-color: #40BAF7; }
+.ef-stepbar__pip--past    { background-color: var(--primary, #39FF14); }
+
+/* --- Skip button (Tutorial low-emphasis link button) --------------------- */
+
+.ef-skip-link {
+  background: none;
+  border: none;
+  color: var(--text-muted, #8E9E94);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+}
+
+/* --- Rivalry row (decorative left border by intensity) ------------------- */
+
+.ef-rivalry-row {
+  background-color: #1A1F24;
+  border: 1px solid #2D3748;
+  border-left-width: 6px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ef-rivalry-row--start       { border-left-color: #2D3748; }
+.ef-rivalry-row--growing     { border-left-color: #FF8C00; }
+.ef-rivalry-row--new-classic { border-left-color: var(--accent, #FFD700); }
+.ef-rivalry-row--consolidated{ border-left-color: var(--danger, #FF3333); }
+
+/* --- Saveslot card highlight --------------------------------------------- */
+
+.ef-slot-card { /* EfPanel inner card layout helpers */ }
+.ef-slot-card__mc {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+}
+.ef-slot-card__mc--empty {
+  background-color: var(--bg-dark, #0D1117);
+  border-color: #2D3748;
+  color: #2D3748;
+}
+.ef-slot-card__mc--filled {
+  background-color: var(--primary, #39FF14);
+  color: #000;
+}
+
+/* --- Cosmetic shop item card --------------------------------------------- */
+
+.ef-cosmetic-card {
+  background-color: #1A1F24;
+  padding: 20px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #2D3748;
+}
+.ef-cosmetic-card--owned    { border-color: #40BAF7; }
+.ef-cosmetic-card--equipped { border-color: var(--primary, #39FF14); }
+.ef-cosmetic-card__equipped-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--primary, #39FF14);
+  color: #000;
+  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  font-weight: bold;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+.ef-cosmetic-card__icon {
+  width: 64px;
+  height: 64px;
+  margin: 16px auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  background-color: var(--bg-dark, #0D1117);
+  color: var(--text-muted, #8E9E94);
+  border: 2px solid #2D3748;
+}
+.ef-cosmetic-card--owned .ef-cosmetic-card__icon {
+  background-color: #40BAF7;
+  color: #000;
+  border-color: transparent;
+}
+.ef-cosmetic-card--equipped .ef-cosmetic-card__icon {
+  background-color: var(--primary, #39FF14);
+  color: #000;
+  border-color: transparent;
+}
+.ef-cosmetic-card__name {
+  font-family: 'Satoshi', 'Outfit', system-ui, sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-main, #FDFBF7);
+  margin-bottom: 8px;
+  font-weight: bold;
+  flex: 1;
+}
+.ef-cosmetic-card__price {
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--accent, #FFD700);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-weight: bold;
+}
+
+/* --- Achievement card pieces --------------------------------------------- */
+
+.ef-ach-badge {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border: 2px solid #2D3748;
+  background-color: var(--bg-dark, #0D1117);
+  color: var(--text-muted, #8E9E94);
+}
+
+/* --- Monitor entry pieces ------------------------------------------------- */
+
+.ef-mon-cat-tag {
+  background-color: #0E1F14;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-main, #FDFBF7);
+}
+.ef-mon-sev {
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ef-mon-codeblock {
+  background-color: var(--bg-dark, #0D1117);
+  padding: 12px;
+  font-size: 0.8rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  overflow-x: auto;
+  border: 1px solid #2D3748;
+}
+.ef-mon-codeblock--stack {
+  font-size: 0.75rem;
+  color: var(--danger, #FF3333);
+  margin-top: 8px;
+}
+
+/* --- Arcade typography helpers (AutoPlayView Press Start 2P theme) ------- */
+
+.ef-arcade-h {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--accent, #FFD700);
+  text-shadow: 2px 2px 0 #000;
+  margin: 0;
+}
+.ef-arcade-h--xs { font-size: 0.4rem; }
+.ef-arcade-h--sm { font-size: 0.5rem; }
+.ef-arcade-h--md { font-size: 0.55rem; text-shadow: 2px 2px 0 #000; }
+.ef-arcade-h--lg { font-size: 0.6rem; text-shadow: 2px 2px 0 #000; }
+.ef-arcade-h--xl { font-size: 0.7rem; text-shadow: 3px 3px 0 #000; }
+.ef-arcade-h--xxl{ font-size: 0.8rem; text-shadow: 3px 3px 0 #000; }
+.ef-arcade-h--primary { color: var(--primary, #39FF14); }
+.ef-arcade-h--danger  { color: var(--danger, #FF3333); }
+.ef-arcade-h--info    { color: #40BAF7; }
+
+.ef-arcade-stat {
+  padding: 8px;
+  background-color: #1E2124;
+  border: 3px solid #000;
+  text-align: center;
+}
+.ef-arcade-stat__label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: var(--text-muted, #888);
+  text-transform: uppercase;
+}
+.ef-arcade-stat__value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #E2E8F0;
+  margin-top: 4px;
+}
+.ef-arcade-cell {
+  padding: 6px 10px;
+  background-color: #111417;
+  border: 3px solid #FF3333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.ef-arcade-cell--fired { background-color: #111417; border-color: var(--primary, #39FF14); }
+

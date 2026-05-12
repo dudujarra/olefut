@@ -27,11 +27,12 @@ test.describe('SPEC-164 §5: Tutorial Completable', () => {
             await page.getByRole('button', { name: /próximo/i }).click();
             // Wait small content shift
             await page.waitForFunction(
-                (idx) => {
-                    const dots = document.querySelectorAll('div[style*="height: 4px"]');
+                () => {
+                    // SPEC-173: stepbar usa CSS class .ef-stepbar__pip (era inline style height:4px)
+                    const dots = document.querySelectorAll('.ef-stepbar__pip, div[style*="height: 4px"]');
                     return dots.length >= 5;
                 },
-                i,
+                undefined,
                 { timeout: 5_000 }
             );
         }

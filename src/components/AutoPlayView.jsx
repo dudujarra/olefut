@@ -120,21 +120,18 @@ export function AutoPlayView() {
         };
 
         return (
-            <div className="ef-anim-fade-in" style={{
-                backgroundImage: `url(${bgSoakTest})`,
-            imageRendering: 'pixelated',
-            WebkitImageRendering: 'pixelated',
-            backgroundColor: '#0A130E',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundAttachment: 'fixed',
-                minHeight: '100dvh',
-                padding: '16px',
-                color: '#E2E8F0'
-            }}>
+            <div
+                className="ef-anim-fade-in ef-scene-shell"
+                style={{
+                    backgroundImage: `url(${bgSoakTest})`,
+                    backgroundColor: '#0A130E',
+                    padding: '16px',
+                    color: '#E2E8F0'
+                }}
+            >
                 <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h2 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.8rem', margin: 0, color: '#FFD700', textShadow: '3px 3px 0 #000' }}>🤖 AUTOPLAY SETUP</h2>
+                        <h2 className="ef-arcade-h ef-arcade-h--xxl">🤖 AUTOPLAY SETUP</h2>
                         <EfButton variant="secondary" size="sm" onClick={() => changeView('start')}>← VOLTAR</EfButton>
                     </EfPanel>
                     <EfPanel variant="elev" padding="md">
@@ -380,21 +377,18 @@ export function AutoPlayView() {
     }, {}) || {};
 
     return (
-        <div className="ef-anim-fade-in" style={{
-            backgroundImage: `url(${bgSoakTest})`,
-            imageRendering: 'pixelated',
-            WebkitImageRendering: 'pixelated',
-            backgroundColor: '#0A130E',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100dvh',
-            padding: '16px',
-            color: '#E2E8F0'
-        }}>
+        <div
+            className="ef-anim-fade-in ef-scene-shell"
+            style={{
+                backgroundImage: `url(${bgSoakTest})`,
+                backgroundColor: '#0A130E',
+                padding: '16px',
+                color: '#E2E8F0'
+            }}
+        >
             <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <EfPanel variant="elev" padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h2 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.7rem', margin: 0, color: '#FFD700', textShadow: '3px 3px 0 #000' }}>🤖 SOAK TEST DASHBOARD</h2>
+                    <h2 className="ef-arcade-h ef-arcade-h--xl">🤖 SOAK TEST DASHBOARD</h2>
                     <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
                 </EfPanel>
 
@@ -500,7 +494,7 @@ export function AutoPlayView() {
                         background: '#1B4332',
                         border: '1px solid #FFD700',
                     }}>
-                        <div style={{ marginBottom: '6px', fontWeight: 700, color: '#FFD700', fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem' }}>
+                        <div className="ef-arcade-h ef-arcade-h--md" style={{ marginBottom: '6px', fontWeight: 700 }}>
                             🧠 BRAIN (SPEC-115/116/117)
                         </div>
                         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '4px' }}>
@@ -531,7 +525,7 @@ export function AutoPlayView() {
                 {/* ML Brain Dashboard — visual Q-learning status */}
                 <BrainDashboard controllerRef={controllerRef} />
 
-                <div style={{ color: '#888', marginBottom: '4px', fontFamily: "'Press Start 2P', monospace", fontSize: '0.5rem' }}>
+                <div className="ef-arcade-h ef-arcade-h--sm" style={{ color: '#888', marginBottom: '4px' }}>
                     VELOCIDADE: {speed}ms/week
                 </div>
                 <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
@@ -556,7 +550,7 @@ export function AutoPlayView() {
             {/* Live stats grid */}
             {stats && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem', marginBottom: '8px', color: '#FFD700', textShadow: '2px 2px 0 #000' }}>📊 ESTATÍSTICAS LIVE</h3>
+                    <h3 className="ef-arcade-h ef-arcade-h--lg" style={{ marginBottom: '8px' }}>📊 ESTATÍSTICAS LIVE</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
                         <Stat label="Status" value={stats.running ? '🟢 Rodando' : '⏸️ Pausado'} />
                         <Stat label="Semanas" value={stats.weeksPlayed} />
@@ -577,7 +571,7 @@ export function AutoPlayView() {
             {/* Insights summary */}
             {stats?.insights && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.6rem', marginBottom: '8px', color: '#FFD700', textShadow: '2px 2px 0 #000' }}>📈 INSIGHTS DA CARREIRA</h3>
+                    <h3 className="ef-arcade-h ef-arcade-h--lg" style={{ marginBottom: '8px' }}>📈 INSIGHTS DA CARREIRA</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px', fontSize: '0.78rem' }}>
                         <Stat label="Títulos" value={stats.insights.titlesWon} color="#FFD700" />
                         <Stat label="Promoções" value={stats.insights.promotionsWon} color="#39FF14" />
@@ -598,7 +592,7 @@ export function AutoPlayView() {
             {/* §23: GDD Systems Status — LIVE PROOF */}
             {stats && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', marginBottom: '8px', color: '#FFD700', textShadow: '2px 2px 0 #000' }}>
+                    <h3 className="ef-arcade-h ef-arcade-h--md" style={{ marginBottom: '8px' }}>
                         🎯 GDD SYSTEMS STATUS — LIVE
                     </h3>
                     <div style={{
@@ -744,7 +738,7 @@ export function AutoPlayView() {
                             userSelect: 'none'
                         }}
                     >
-                        <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', margin: 0, color: '#FFD700', textShadow: '2px 2px 0 #000' }}>
+                        <h3 className="ef-arcade-h ef-arcade-h--md">
                             📊 Telemetria ({Object.keys(stats.telemetry.results).length} detectores)
                             <span style={{ marginLeft: '8px', fontSize: '0.75rem', color: scoreColor(stats.telemetry.overallScore) }}>
                                 Score Geral: {stats.telemetry.overallScore}
@@ -807,7 +801,7 @@ export function AutoPlayView() {
             {/* Successes catalog */}
             {stats?.successes && stats.successes.length > 0 && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', marginBottom: '8px', color: '#39FF14', textShadow: '2px 2px 0 #000' }}>✅ SUCCESSES ({stats.successes.length})</h3>
+                    <h3 className="ef-arcade-h ef-arcade-h--md ef-arcade-h--primary" style={{ marginBottom: '8px' }}>✅ SUCCESSES ({stats.successes.length})</h3>
                     <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '6px' }}>
                         Por tipo: {Object.entries(successTypes).map(([t, n]) => `${t}(${n})`).join(' • ')}
                     </div>
@@ -840,7 +834,7 @@ export function AutoPlayView() {
             {stats?.anomalies && stats.anomalies.length > 0 && (
                 <EfPanel variant="elev" padding="md" style={{ marginBottom: '0.75rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                        <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', margin: 0, color: '#FF3333', textShadow: '2px 2px 0 #000' }}>⚠️ ANOMALIES ({stats.anomalies.length})</h3>
+                        <h3 className="ef-arcade-h ef-arcade-h--md ef-arcade-h--danger">⚠️ ANOMALIES ({stats.anomalies.length})</h3>
                         <select
                             value={anomalyFilter}
                             onChange={e => setAnomalyFilter(e.target.value)}
@@ -886,8 +880,8 @@ export function AutoPlayView() {
             {/* Recent decisions */}
             {stats?.decisions && stats.decisions.length > 0 && (
                 <EfPanel variant="elev" padding="md">
-                    <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', marginBottom: '8px', color: '#FFD700', textShadow: '2px 2px 0 #000' }}>📋 ÚLTIMAS DECISÕES (20)</h3>
-                    <div style={{ maxHeight: '200px', overflowY: 'auto', fontSize: '0.7rem', fontFamily: 'monospace' }}>
+                    <h3 className="ef-arcade-h ef-arcade-h--md" style={{ marginBottom: '8px' }}>📋 ÚLTIMAS DECISÕES (20)</h3>
+                    <div className="ef-mono" style={{ maxHeight: '200px', overflowY: 'auto', fontSize: '0.7rem' }}>
                         {stats.decisions.slice(-20).reverse().map((d, i) => (
                             <div key={i} style={{ padding: '2px 4px', borderBottom: '1px solid #111417' }}>
                                 <span style={{ color: '#888' }}>W{d.week}</span>{' '}
@@ -909,7 +903,7 @@ export function AutoPlayView() {
                 return (
                     <EfModal title={evt.title} onClose={() => {}}>
                         <div style={{ borderLeft: `4px solid ${borderColor}`, paddingLeft: '16px', marginBottom: '24px' }}>
-                            <p style={{ margin: 0, fontSize: '1rem', lineHeight: 1.6, fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>{evt.body}</p>
+                            <p className="ef-sans ef-text-main" style={{ margin: 0, fontSize: '1rem', lineHeight: 1.6 }}>{evt.body}</p>
                         </div>
                         <div style={{ display: 'flex', gap: '12px' }}>
                             <div style={{ width: '100%', textAlign: 'center', fontSize: '0.8rem', color: '#888', fontStyle: 'italic', padding: '8px' }}>
@@ -925,16 +919,11 @@ export function AutoPlayView() {
 
 function Stat({ label, value, color }) {
     return (
-        <div style={{
-            padding: '8px',
-            background: '#1E2124',
-            border: '3px solid #000',
-            textAlign: 'center'
-        }}>
-            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.4rem', color: '#888', textTransform: 'uppercase' }}>
+        <div className="ef-arcade-stat">
+            <div className="ef-arcade-stat__label">
                 {label}
             </div>
-            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.7rem', fontWeight: 700, color: color || '#E2E8F0', marginTop: '4px' }}>
+            <div className="ef-arcade-stat__value" style={color ? { color } : undefined}>
                 {value}
             </div>
         </div>
@@ -944,15 +933,7 @@ function Stat({ label, value, color }) {
 function GDDStatus({ label, emoji, count }) {
     const fired = count > 0;
     return (
-        <div style={{
-            padding: '6px 10px',
-            background: fired ? '#111417' : '#1A0A0A',
-            border: `3px solid ${fired ? '#39FF14' : '#FF3333'}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '6px'
-        }}>
+        <div className={`ef-arcade-cell${fired ? ' ef-arcade-cell--fired' : ''}`} style={!fired ? { background: '#1A0A0A' } : undefined}>
             <span>
                 {fired ? '✅' : '❌'} {emoji} {label}
             </span>
