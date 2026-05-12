@@ -787,6 +787,21 @@ export function MatchView() {
                     />
                 )}
 
+                {/* SPEC-C1.2: LLM post-match narrative surface */}
+                {engine?.lastMatchNarrative && (
+                    <EfPanel padding="md" style={{ border: '1px solid #40BAF7', backgroundColor: '#0E1418' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                            <MicrophoneStage size={18} color="#40BAF7" weight="fill" />
+                            <span style={{ fontSize: '0.75rem', color: '#40BAF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.05em' }}>
+                                ANÁLISE PÓS-JOGO
+                            </span>
+                        </div>
+                        <div style={{ fontSize: '0.9rem', color: '#FDFBF7', fontFamily: 'var(--font-sans)', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
+                            {engine.lastMatchNarrative}
+                        </div>
+                    </EfPanel>
+                )}
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
                     <EfPanel padding="md">
                         <div className="ef-section-header">
