@@ -34,8 +34,8 @@
 
 | BUG | Issue | Spec | Status |
 |-----|-------|------|--------|
-| BUG-080 | deep-soak-100seasons flaky em suite-load | SPEC-157 | 📝 ticket aberto, fix pendente (mover pra `npm run test:soak`) |
-| BUG-081 | 14 react-hooks/set-state-in-effect warnings | SPEC-158 | 📝 audit pendente |
+| BUG-080 | deep-soak-100seasons flaky em suite-load | SPEC-157 | ✅ resolvido AKITA-207 (mov pra `npm run test:soak`) |
+| BUG-081 | 14 react-hooks/set-state-in-effect warnings | SPEC-158 | ✅ resolvido AKITA-207 (3 refactor + 11 doc/silence) |
 
 **Regressões em SPECs (mesmo arquivo de regression cobre):**
 - `tests/regression/SPEC-060-club-identity.test.js` — ✅ (AKITA-104: Proxy alias 88 DB→canonical)

@@ -235,13 +235,16 @@ export const GameProvider = ({ children }) => {
         }
     );
 
+    // BUG-081 (SPEC-158): aceitável — one-time mount restore da engine via localStorage.
+    // restoreEngine muta engineRef e força re-render. Não cabe initializer (depende de Mount).
+    /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
     useEffect(() => {
         if (restored?.engine) {
             restoreEngine(engineRef.current, restored.engine);
             forceUpdate();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 
     // Auto-save em mudança gameState
     useEffect(() => {

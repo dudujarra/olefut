@@ -7,6 +7,7 @@
 - **Escopo:** criar `tests/characterization/engine-golden.test.js` com seed determinístico + 5 temporadas snapshot
 - **Fase:** 1 de 17 (PR-0.1)
 - **PR pré-requisitos:** nenhum
+- **Status:** ✅ implementado (verificado 2026-05-12 via AKITA-207 kickoff)
 
 ## 2. Motivação
 

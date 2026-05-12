@@ -43,6 +43,9 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
         danger: '#FF3333'
     };
 
+    // BUG-081 (SPEC-158): aceitável — animation timeline com setTimeouts encadeados.
+    // Phase progression é side effect temporal puro; useMemo não modela tempo.
+    /* eslint-disable react-hooks/set-state-in-effect */
     useEffect(() => {
         if (!visible) { setPhase(0); return; }
         // Phase progression: 0→1 (500ms) → 2 (2000ms) → 3 (4000ms)
@@ -51,6 +54,7 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
         const t3 = setTimeout(() => setPhase(3), 5000);
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
     }, [visible]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     if (!visible || !trophy) return null;
 

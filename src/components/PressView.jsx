@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { generateQuestion, shouldTriggerPress } from '../engine/PressConference';
 import { EfPanel, EfButton } from './ui';
@@ -14,19 +14,18 @@ export function PressView() {
     const engine = getEngine();
     const team = engine?.getTeam(engine?.manager?.teamId);
 
-    const [question, setQuestion] = useState(null);
     const [answered, setAnswered] = useState(null);
 
-    useEffect(() => {
-        if (!engine || !team) return;
+    // BUG-081 fix: useState initializer ao invés de setState em useEffect com []
+    const [question] = useState(() => {
+        if (!engine || !team) return null;
         const standings = engine.getStandings(team.zone, team.division);
         const pos = standings.findIndex(s => s.teamId === team.id) + 1;
         const total = standings.length;
         const streak = engine.managerStats?.streak || 0;
         const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / team.squad.length;
-        const q = generateQuestion(streak, pos, total, avgMorale);
-        setQuestion(q);
-    }, []);
+        return generateQuestion(streak, pos, total, avgMorale);
+    });
 
     const colors = {
         bg: '#0D1117',

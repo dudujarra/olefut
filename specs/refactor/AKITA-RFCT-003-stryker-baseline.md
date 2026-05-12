@@ -7,6 +7,7 @@
 - **Escopo:** configurar `@stryker-mutator/vitest-runner` + rodar em engine.js + salvar baseline
 - **Fase:** 3 de 17 (PR-0.3)
 - **PR pré-requisitos:** AKITA-RFCT-001
+- **Status:** ✅ implementado (verificado 2026-05-12 via AKITA-207 kickoff)
 
 ## 2. Motivação
 
