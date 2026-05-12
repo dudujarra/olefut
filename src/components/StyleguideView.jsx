@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { EfButton, EfCardPlayer, EfTooltip, EfModal, EfInput } from './ui';
 import { EfPanel } from './ui/EfPanel';

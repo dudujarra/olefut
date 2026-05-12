@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { rng as systemRng } from '../../engine/rng.js';
 import { ARCHETYPES, generatePersonality, generateRandomPersonality, checkIsTilted, deriveTraits } from './Archetypes.js';
 import { EmotionalEngine } from './EmotionalEngine.js';
@@ -237,8 +236,11 @@ export function computeReward({
 export class AdaptiveBrain {
     /**
      * @param {string|null} personalityId — archetype seed (e.g. 'GUARDIOLA')
+     * @param {{ skipAutoRestore?: boolean }} [opts] — pass skipAutoRestore=true
+     *   for NPC brains so they don't all hydrate from the shared STORAGE_KEY.
      */
-    constructor(personalityId = null) {
+    constructor(personalityId = null, opts = {}) {
+        this._skipAutoRestore = !!opts.skipAutoRestore;
         this.qTable = {};
         this.visitCount = {};
         this.totalUpdates = 0;
@@ -338,6 +340,12 @@ export class AdaptiveBrain {
     _restore() {
         try {
             if (typeof localStorage === 'undefined') return;
+            // Caller can opt out of constructor auto-restore. Engine uses this
+            // for NPC brains, which share STORAGE_KEY and would otherwise all
+            // hydrate from the same persisted payload (breaks unique-OCEAN
+            // contract in SPEC-117 and golden-master determinism). NPC brains
+            // are loaded explicitly via BrainPersistence.js using per-team keys.
+            if (this._skipAutoRestore) return;
             const raw = localStorage.getItem(STORAGE_KEY);
             if (!raw) return;
             const parsed = JSON.parse(raw);

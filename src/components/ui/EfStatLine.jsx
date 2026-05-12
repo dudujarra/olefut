@@ -1,11 +1,8 @@
-/* eslint-disable no-unused-vars */
 /**
  * EfStatLine — inline stat com label + value + optional bar.
  *
  * Used em painéis denso (Dashboard ISS-style).
  */
-
-import React from 'react';
 
 export function EfStatLine({
     label,

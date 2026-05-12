@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Data } from './data';
 import { RealDB } from './db/index';
 import { League } from './tournaments/League';
@@ -176,7 +175,7 @@ export class Engine {
                 division: team.division || 4,
                 reputation: team.stadium?.capacity > 40000 ? 80 : team.division <= 2 ? 60 : 30
             });
-            team.brain = new AdaptiveBrain(archetype);
+            team.brain = new AdaptiveBrain(archetype, { skipAutoRestore: true });
         }
 
         // MARL Fase 6: AI Director for player experience management

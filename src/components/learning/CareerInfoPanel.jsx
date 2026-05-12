@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * CareerInfoPanel — SPEC-124
  *
@@ -10,7 +9,7 @@
  * - Promoções/rebaixamentos timeline
  * - Milestones career
  */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
 import { HexagonChart } from '../HexagonChart';
 

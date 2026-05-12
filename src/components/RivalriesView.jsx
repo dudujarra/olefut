@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
 import { useGame } from '../context/GameContext';
 import { EfButton, EfPanel, EfClubBadge } from './ui';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';

@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
 /**
  * DashboardHeader — Stitch refactor (zero inline styles funcionais).
  *
  * Substitui linhas 38-63 de DashboardView legacy.
  */
 
-import React from 'react';
 import { EfPanel, EfTooltip, EfClubBadge } from '../ui';
 import { getClubColors } from '../../data/clubColors';
 import './dashboard.css';

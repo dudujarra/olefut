@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { TACTICS, FORMATIONS, TEAM_TALKS } from '../engine/ManagerSystems';
 import { getFormEmoji } from '../engine/PlayerDevelopment';

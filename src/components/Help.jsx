@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
 import { EfTooltip } from './ui';
 import { getTooltip } from '../data/tooltipsLoader';
 

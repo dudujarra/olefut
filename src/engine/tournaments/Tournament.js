@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 export class Tournament {
     constructor(id, name) {
         this.id = id;

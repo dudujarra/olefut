@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 /**
  * Tooltip — Simple hover tooltip component.
  * Created as a lightweight replacement to fix build (no external dep).
  */
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export function Tooltip({ content, children }) {
     const [show, setShow] = useState(false);

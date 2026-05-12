@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * Sidebar — SPEC-099 Persistent Nav
  *
@@ -10,7 +9,6 @@
  * [SQUAD] [TACTICS] [TEAM] [GAME] [EXIT]
  */
 
-import React from 'react';
 import { useGame } from '../context/GameContext';
 import { 
     House, Users, ShoppingCart, ListNumbers, Trophy, 

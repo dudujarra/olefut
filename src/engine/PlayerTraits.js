@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { rng as systemRng } from './rng.js';
 /**
  * PlayerTraits.js — Habilidades especiais, Career Stats, Mentoring, Morale Events

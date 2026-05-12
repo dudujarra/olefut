@@ -4,6 +4,71 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### [feat] AKITA-204 — Bundle code-split + lint + isolation + skipAutoRestore + cleanup (2026-05-11)
+
+PR único consolidando múltiplas frentes (commit `4b54cd4`).
+
+**Fix de bug latente em prod — NPC brain unique persona**:
+
+Todos NPCs criados pelo engine compartilhavam `STORAGE_KEY = 'elifoot_autoplay_brain'` via `AdaptiveBrain._restore()` no constructor. Convergiam para uma única persona (a do último autoplay save). Quebrava SPEC-117 (unique OCEAN) e marl-e2e test silenciosamente em prod.
+
+- `AdaptiveBrain` constructor agora aceita `{ skipAutoRestore }`. Engine passa `true` para NPC brains; NPCs hidratam via `BrainPersistence.js` com per-team keys.
+- Regression test: `tests/regression/SPEC-117-skip-auto-restore.test.js` (5 testes — Mandamento #6 — 3-artefact).
+- Test `tests/integration/marl-e2e.test.js > NPC brains have EmotionalEngine attached` agora passa.
+
+**Bundle code-split**:
+
+- `index.js` 1.56MB → **376KB** (-76%, gzip 110KB). 16 views via `React.lazy()` + `Suspense` fallback.
+- Eager mantido: `StartView`, `DashboardView`, `Sidebar`, `FloatingBugButton`, `AudioController`, `EfButton`.
+- Inline `isTutorialDone` em `StartView.jsx` elimina `INEFFECTIVE_DYNAMIC_IMPORT`.
+
+**Lint cleanup** (180+ → 130 warnings, 0 errors):
+
+- 6 `react-hooks/rules-of-hooks` (bugs reais) corrigidos em `MarketView.jsx` (early-return movido para depois dos `useState`).
+- 47 imports `React` mortos removidos via codemod (React 19 JSX runtime — main usava `/* eslint-disable no-unused-vars */` band-aid).
+- `TutorialView.jsx`: `backgroundColor` duplicado removido (lint error blocker).
+
+**Isolation de testes**:
+
+- `tests/_setup-isolate-localstorage.js` + `setupFiles` no `vite.config.js` limpam `localStorage` no início de cada suite. Resolve root cause de flakies order-dependent (`.vitest-localstorage*` persistia state entre runs). Mais granular que `fileParallelism: false` que main usava como mitigação.
+
+**SDD enforcement local**:
+
+- `scripts/spec-check.sh` copiado de `~/bin/`. CI workflow já referenciava com fallback.
+
+**Root cleanup** (4.5MB de artefatos transientes deletados):
+
+- 3× screenshots, `vitest_report.json`, `test_output.txt`, `build_errors.log`, `audit-escudos.html`, `shield-audit.html`, `fifa_sample.csv` stub, `lint_output.txt`, `lint_json.json`.
+- 11 scripts ad-hoc órfãos: `audit_ui.cjs`, `check_teams.{cjs,js}`, `fix_*.{py,cjs,js}`, `test_{squad,ui,localstorage}*`, `screenshot*.js`. Nenhum referenciado em `package.json`/CI.
+- `.gitignore` patterns previnem regressão.
+
+**Débitos restantes** (documentados para próximo PR):
+
+- `tests/integration/deep-soak-100seasons.test.js` flaky em suite-load (main bumped pra 600s + inline clear; ainda intermitente — débito para `npm run test:soak` solo).
+- 14 `react-hooks/set-state-in-effect` warnings — anti-pattern, sem mudança comportamental urgente.
+- SPEC formal para code-split + skipAutoRestore (escopo de pre-implementação não documentado — débito SDD).
+
+### [docs] AKITA-203 — Documentação canônica Akita (2026-05-11)
+
+Mandamento #4 (CLAUDE.md fonte única técnica) e #5 (GitHub público dia 1) tinham gaps no repo.
+
+Criados:
+
+- `CLAUDE.md` (raiz — fonte única técnica)
+- `LICENSE` MIT (README anunciava sem arquivo)
+- `CONTRIBUTING.md` (workflow Akita para contribuidores)
+- `GEMINI.md`, `CODEX.md` (espelhos slim multi-IA partindo do mesmo ponto)
+- `specs/generators/{code,research,pipeline,decision}.md` (templates SDD)
+- `.github/ISSUE_TEMPLATE/feature_request.md` (SPEC-first)
+
+Atualizados:
+
+- `AKITA_RULES.md` → 7 mandamentos globais (SDD, Regra 0, anti-vibe, fonte única, GitHub público, 3-artefact, LLM local) + arquitetura como restrições.
+- `README.md` → badges e tabela Numbers corrigidos (1035/1035, 97 specs, 169 commits). Aviso topo apontando docs canônicas.
+- `BUGS.md` → inventário real de `tests/regression/`.
+- `SPECS-MASTER-GUIDE.md` → 30→97 specs.
+- `.github/PULL_REQUEST_TEMPLATE.md` + `bug_report.md` → Regra 0 explícita.
+
 ### [feat] v2.0.0 — SNES Pacaembu Edition (2026-05-08)
 
 Massive 6-sprint cohesive design + motion overhaul. Estética 32-bit SNES ISS Deluxe / PS1-era, paleta Pacaembu (grass green #2D5A3D, gold #FFD700, leather brown #6B3D1F), narrative event banners, atmospheric backdrops, animation strips e cleanup legacy.

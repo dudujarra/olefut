@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * FloatingBugButton — v1.6
  *
@@ -6,7 +5,7 @@
  * Click abre prompt + screenshot opcional via canvas.
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MonitorService } from '../services/MonitorService';
 import { useGame } from '../context/GameContext';
 import { EfModal } from './ui/EfModal';

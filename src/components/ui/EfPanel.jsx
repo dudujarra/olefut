@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
 /**
  * EfPanel — SNES 16-bit Brutalist Arcade Container
  *
  * Heavy metal beveled container with zero transparency.
  * Variants: default | elev | sunk | hero | warning | danger
  */
-
-import React from 'react';
 
 export function EfPanel({
     variant = 'default',

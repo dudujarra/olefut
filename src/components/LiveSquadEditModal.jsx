@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TACTICS } from '../engine/ManagerSystems';
 import { Help } from './Help';
 import { EfTooltip, EfModal, EfButton } from './ui';

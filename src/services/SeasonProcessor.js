@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * SeasonProcessor — Extracted from engine.startNewSeason() (AKITA-RFCT-005)
  *

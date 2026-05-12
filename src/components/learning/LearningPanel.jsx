@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * LearningPanel — SPEC-123
  *
@@ -11,7 +10,7 @@
  * - Win rate sparkline per season
  * - Brain stats (states, updates, total memory)
  */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
 
 function Sparkline({ data, width = 200, height = 40, color = '#6ABC3A' }) {

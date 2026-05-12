@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { rng as systemRng } from './rng.js';
 /**
  * HeritageTraitSystem — SPEC-079: Traits Herdáveis de Lendas

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * EfClubBadge v3 — pixel-art sprite-based club shield (SPEC-060).
  *
@@ -16,7 +15,6 @@
  * Sizes: sm 24, md 48, lg 96, xl 128 (8px grid)
  */
 
-import React from 'react';
 import { HIGH_END_SHIELDS } from '../../assets/shields/high_end';
 
 const SIZE_PX = {

@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui/EfClubBadge';

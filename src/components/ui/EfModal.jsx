@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * EfModal — Stitch component
  *
@@ -6,7 +5,7 @@
  * Sizes: sm | md | lg | fullscreen
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const SIZE_MAP = {
     sm: '320px',

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { rng as systemRng } from './rng.js';
 /**
  * GrowthEventSystem — SPEC-134: Progression Growth Events

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * EfTooltip — Stitch component (refactor de Tooltip.jsx legacy)
  *
@@ -6,7 +5,7 @@
  * 16-bit Brutalist Arcade edition.
  */
 
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 
 export function EfTooltip({
     content,

@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
 /**
  * ChallengesWidget — SPEC-103
  *
  * Dashboard widget mostrando 3 desafios ativos da semana.
  */
 
-import React from 'react';
 import { useGame } from '../context/GameContext';
 import { getActiveChallenges, claimChallenge } from '../services/ChallengesService';
 import { EfPanel, EfButton } from './ui';

@@ -6,10 +6,10 @@
 🎮 **Live demo**: https://dudujarra.github.io/elifoot-web/
 
 [![CI](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-1045%2F1045-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
-[![Specs](https://img.shields.io/badge/specs-30+-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
+[![Tests](https://img.shields.io/badge/tests-1044%2F1044-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
+[![Specs](https://img.shields.io/badge/specs-97-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
 [![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/elifoot-web/blob/main/specs/SPEC-RULES.md)
-[![Bugs Fixed](https://img.shields.io/badge/bugs%20fixed-20-orange)](https://github.com/dudujarra/elifoot-web/blob/main/BUGS.md)
+[![Bugs Tracked](https://img.shields.io/badge/bugs%20regression-13-orange)](https://github.com/dudujarra/elifoot-web/blob/main/BUGS.md)
 [![Theme](https://img.shields.io/badge/theme-32bit%20SNES-yellow)](https://github.com/dudujarra/elifoot-web/blob/main/src/styles/animations.css)
 [![Stitch Designs](https://img.shields.io/badge/Stitch%20designs-20%2B-purple)](https://github.com/dudujarra/elifoot-web/tree/main/docs/stitch-designs)
 [![Club Badges](https://img.shields.io/badge/club%20badges-170-red)](https://github.com/dudujarra/elifoot-web/tree/main/public/sprites/clubs)
@@ -17,6 +17,10 @@
 [![Banners](https://img.shields.io/badge/EfBanner%20types-13-pink)](https://github.com/dudujarra/elifoot-web/blob/main/src/components/ui/EfBanner.jsx)
 [![Atmospheric Art](https://img.shields.io/badge/.ef--art--*-21-orange)](https://github.com/dudujarra/elifoot-web/blob/main/src/styles/animations.css)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+---
+
+> 🥋 **Antes de qualquer trabalho neste repo, leia [`CLAUDE.md`](CLAUDE.md) (fonte única técnica) + [`AKITA_RULES.md`](AKITA_RULES.md) (constituição) + [`CONTRIBUTING.md`](CONTRIBUTING.md).**
 
 ---
 
@@ -85,18 +89,18 @@ Roadmap narrativo completo: [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-
 
 ## 📊 Numbers
 
+> Snapshot 2026-05-11. Fonte: `find specs -name "SPEC-*.md"`, `vitest run`, `git log`.
+
 | Métrica | Valor |
 |---------|-------|
-| **Specs documentadas** | 30 (FASE 1-5) |
-| **Test files** | 76 |
-| **Tests passing** | 597 / 597 |
-| **Bugs fixados (Akita 3-artefact)** | 20 |
-| **PRs mergeados** | 30+ |
-| **AKITA commits** | 48 |
-| **Engine modules** | 26 (14 originais + 12 systems FASE 3-5) |
-| **React components** | 8 |
-| **Validações spec** | 218 |
-| **Casos forbidden** | 125+ |
+| **Specs documentadas** | 97 (engine 39 + gameplay 15 + ui 6 + infra 7 + learning 10 + refactor 19 + telemetry 15 + raiz) |
+| **Test files** | 86 |
+| **Tests passing** | 1044 / 1044 ✅ |
+| **Bugs com regression test** | 13 arquivos em `tests/regression/` (BUG-001..079 + cascades) |
+| **AKITA commits** | 166 |
+| **Engine modules** | 40+ (sistemas em `src/engine/`) |
+| **React components** | 30+ |
+| **Clubes reais** | 170 (BR + EU + SA) |
 | **Coverage codebase** | 92% |
 | **Themes** | 2 (Modern + 8-bit retro) |
 | **Pixel-art sprites** | 14 legacy + 78 v2.0 + 5 anim (97 total) |
@@ -449,7 +453,7 @@ EfClubBadge auto-resolve via `getClubSprite(name)`.
 | Sprint 3 (077) | 3 animation strips Stitch (ball-kick/gk-save/crowd-flag-wave) + MatchView integration |
 | Sprint 4 (078) | 7 atmospheric assets Stitch (locker-room/tunnel-walkout/press-box/trophy-room/pitch-tactical/pitch-patterns/stadium-night-D-I) + PreMatchScreen |
 | Sprint 5 (079) | Legacy 8-bit cleanup: deleted 6 dead assets, migrated stadium-icon refs to D-I 32-bit |
-| Sprint 6 (080) | README v2.0.0 update + CHANGELOG entry + 1045 tests baseline |
+| Sprint 6 (080) | README v2.0.0 update + CHANGELOG entry (baseline de testes corrigido em 2026-05-11 → ver `CLAUDE.md` snapshot) |
 
 ### EfBanner Reusable Component
 

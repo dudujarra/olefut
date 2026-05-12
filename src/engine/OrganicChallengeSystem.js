@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * OrganicChallengeSystem — SPEC-074: Desafios e Missões Espontâneos
  *

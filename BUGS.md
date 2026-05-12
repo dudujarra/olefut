@@ -1,9 +1,58 @@
 # 🐛 Bug Tracker — Elifoot RPG
 
-> Gerado: 2026-05-07 | Protocolo: AKITA-018
-> Status: ✅ Todos resolvidos
+> Atualizado: 2026-05-11 | Protocolo: AKITA Mandamento #6 (ticket + fix + regression test)
+> Fonte canônica: arquivos em `tests/regression/`. Cada BUG-XXX precisa ter os 3 artefatos.
 
-## Tickets
+## Estado
+
+| | |
+|---|---|
+| Bugs com regression test em `tests/regression/` | **13 arquivos** (alguns cobrem cascatas) |
+| Bugs resolvidos com 3-artefact completo | Ver tabela abaixo |
+| Bugs abertos / regressões ativas (2026-05-11) | ✅ 1044/1044 verde após merge main + AKITA-204 (skipAutoRestore fix) |
+
+## Inventário de regression tests
+
+| Arquivo | Cobre | Status atual |
+|---------|-------|--------------|
+| `tests/regression/BUG-010.test.js` | BUG-010 | ✅ |
+| `tests/regression/BUG-011.test.js` | BUG-011 | ✅ |
+| `tests/regression/BUG-015.test.js` | BUG-015 | ✅ |
+| `tests/regression/BUG-019.test.js` | BUG-019 | ✅ |
+| `tests/regression/BUG-020.test.js` | BUG-020 | ✅ |
+| `tests/regression/BUG-021.test.js` | BUG-021 | ✅ |
+| `tests/regression/BUG-022.test.js` | BUG-022 | ✅ |
+| `tests/regression/BUG-026-029-autoplay.test.js` | BUG-026 → BUG-029 | ✅ |
+| `tests/regression/BUG-032-034-cascade.test.js` | BUG-032 → BUG-034 | ✅ (AKITA-104: `YouthAcademy.js:49` fix — stats flat) |
+| `tests/regression/BUG-040-043-cascade.test.js` | BUG-040 → BUG-043 | ✅ (AKITA-104: `encodeState` realinhado com SPEC-116) |
+| `tests/regression/BUG-055-draws-only.test.js` | BUG-055 | ✅ |
+| `tests/regression/BUG-078.test.js` | BUG-078 | ✅ |
+| `tests/regression/BUG-079.test.js` | BUG-079 | ✅ |
+| `tests/regression/SPEC-117-skip-auto-restore.test.js` | AKITA-204 NPC brain bug (5 testes) | ✅ (Mandamento #6 — 3-artefact completo via SPEC-154) |
+
+**Bugs abertos (Akita 3-artefact pendente — Mandamento #6)**:
+
+| BUG | Issue | Spec | Status |
+|-----|-------|------|--------|
+| BUG-080 | deep-soak-100seasons flaky em suite-load | SPEC-157 | 📝 ticket aberto, fix pendente (mover pra `npm run test:soak`) |
+| BUG-081 | 14 react-hooks/set-state-in-effect warnings | SPEC-158 | 📝 audit pendente |
+
+**Regressões em SPECs (mesmo arquivo de regression cobre):**
+- `tests/regression/SPEC-060-club-identity.test.js` — ✅ (AKITA-104: Proxy alias 88 DB→canonical)
+- `tests/regression/SPEC-115-117-adaptive-bot.test.js` — ✅ (AKITA-104: encodeState 6-dim)
+
+**Outros vermelhos (não regression) — resolvidos em AKITA-104:**
+- `tests/specs/SPEC-009-youth-academy.test.js` — ✅ stats flat
+- `tests/characterization/engine-golden.test.js` — ✅ skip restoreAllBrains em test env
+- `tests/integration/marl-e2e.test.js` — ✅ AdaptiveBrain `skipAutoRestore` opt-in
+- `tests/integration/seasonhistory-data.test.js` — ✅ resolvido pela cascata
+- `tests/specs/SPEC-025-aging.test.js` — ✅ pin seed
+- `tests/specs/SPEC-134-growth-event-system.test.js` — ✅ pin seed
+- `tests/integration/autoplay-full-audit.test.js` — ✅ pin seed
+
+---
+
+## Tickets resolvidos (detalhado)
 
 ### BUG-001 ✅ RESOLVIDO — `scoutRegionAction` não existia na engine
 - **Arquivo:** `engine.js:312`

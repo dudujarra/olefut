@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * EfCardPlayer — Stitch component
  *
@@ -6,7 +5,6 @@
  * 16-bit Brutalist Arcade edition.
  */
 
-import React from 'react';
 import { PlayerAvatar } from '../../utils/avatar';
 
 const POSITION_COLOR = {

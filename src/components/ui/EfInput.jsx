@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
 /**
  * EfInput — Stitch component
  *
  * Beveled inverso (sunk), focus ring info, error state.
  * 16-bit Brutalist Arcade edition.
  */
-
-import React from 'react';
 
 import { rng as systemRng } from '../../engine/rng.js';
 

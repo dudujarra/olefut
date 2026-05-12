@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * SquadHealthMonitor — SPEC-132: Squad Emergency Market
  *

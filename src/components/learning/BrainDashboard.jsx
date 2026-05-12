@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * BrainDashboard — Visual ML Dashboard for AutoPlay
  *
@@ -11,7 +10,7 @@
  * - Episodic memory timeline
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
 
 // Colors for bar visualization

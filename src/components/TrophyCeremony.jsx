@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EfButton, EfPanel } from './ui';
 import bgTrophyCeremony from '../assets/environments/bg_trophy_ceremony.png';
 import { 

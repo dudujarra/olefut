@@ -1,11 +1,15 @@
-# ELIFOOT RPG — SDD Master Guide (30 Specs)
+# ELIFOOT RPG — SDD Master Guide
 
-**Status**: ✅ COMPLETO  
-**Total specs**: 30  
-**Total validações**: 218  
-**Total testes esperados**: 240+  
-**Codebase coverage**: 92%  
-**Last updated**: 2026-05-07
+**Status**: 🔨 Em evolução (SDD ativo desde 2026-05-07)
+**Total specs**: **97** (engine 39 + gameplay 15 + ui 6 + infra 7 + learning 10 + refactor 19 + telemetry 15 + raiz)
+**Test files**: 87
+**Tests passing**: 1044 / 1044 ✅ (AKITA-204 fechou bugs latentes pós-merge main AKITA-200..203)
+**Codebase coverage**: ver `npm run mutate:report`
+**Last updated**: 2026-05-11
+
+> Documento anterior (FASE 1-5, 30 specs) está superseded pela contagem real.
+> Roadmap canônico: [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-NARRATIVE-MASTER.md).
+> Arquitetura canônica: [`CLAUDE.md`](CLAUDE.md).
 
 ---
 

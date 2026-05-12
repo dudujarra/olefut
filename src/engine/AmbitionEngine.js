@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * AmbitionEngine.js — SPEC-200: Player Ambition & Club Prestige System
  *

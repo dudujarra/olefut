@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * SPEC-150: Season Story Engine — gera resumo narrativo de cada temporada.
  * AUDIT-FIX #G: Adicionado sistema de arcos inter-temporada.

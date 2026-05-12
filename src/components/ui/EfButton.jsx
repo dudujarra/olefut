@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * EfButton — SNES 16-bit Brutalist Arcade
  *
@@ -8,8 +7,6 @@
  * Heavy 4px bevel borders, pixel-perfect press feedback,
  * Press Start 2P for labels, zero border-radius.
  */
-
-import React from 'react';
 
 export function EfButton({
     variant = 'primary',

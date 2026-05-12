@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * EfBanner — full-screen narrative moment overlay.
  *
@@ -9,7 +8,7 @@
  * Usa pixel-art sprites + ef-pop-in + ef-anim-pulse-glow.
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const BANNER_CONFIG = {
     champion: {

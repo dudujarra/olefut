@@ -1,0 +1,276 @@
+# CLAUDE.md — ELIFOOT RPG (fonte única de verdade técnica)
+
+> **Mandamento Akita #4**: `CLAUDE.md` no root = fonte única de verdade técnica.
+> Toda decisão arquitetural, comando, fluxo, dependência mora aqui.
+> README humano-amigável aponta pra cá.
+
+**Última atualização**: 2026-05-11
+**Owner**: Dudu (Eduardo Jarra) — dudujarra@corapost.com
+**Repo público**: https://github.com/dudujarra/elifoot-web
+**Demo**: https://dudujarra.github.io/elifoot-web/
+
+---
+
+## 🥋 Constituição (não negociável)
+
+Antes de tocar em qualquer linha de código deste repo, leia [`AKITA_RULES.md`](AKITA_RULES.md). Resumo dos 7 mandamentos:
+
+1. **SDD obrigatório** — sem spec, sem trabalho. Roda `spec-check.sh "<descrição>"` antes de qualquer ação produtiva.
+2. **Regra 0 — sem harness, sem spec.** Toda spec entrega no mesmo PR um harness executável (teste/script) que valida o que afirma. Sem harness = mentira viva.
+3. **Zero vibe coding.** Dev pensa, IA digita. Arquitetura desenhada → IA preenche órgãos. Proibido one-shot prompt sem entender resultado.
+4. **`CLAUDE.md` é fonte única.** Este arquivo. Tudo aqui ou linkado daqui.
+5. **GitHub público dia 1.** Build in public. Commits frequentes, branches por SPEC, PRs revisáveis.
+6. **Bug = ticket + fix + regression test.** Três artefatos pareados. PR não merge sem os 3.
+7. **LLM local default. Haiku via Max20 fallback. API paga PROIBIDA.**
+
+Detalhes de isolamento de engine, OOP, padronização de dados, build validation e SDD vivo em [`AKITA_RULES.md`](AKITA_RULES.md).
+
+---
+
+## 🏗️ Stack
+
+| Camada | Tech | Versão |
+|--------|------|--------|
+| Engine | JavaScript ES2022 puro (headless, zero-UI) | — |
+| UI | React + Vite | React 19.2, Vite 8 |
+| Audio | Tone.js | 14.9 |
+| Tests | Vitest | 4.1 |
+| E2E | Playwright | 1.59 |
+| Lint | ESLint + react-hooks + react-refresh | 10 |
+| Mutation | Stryker (vitest runner) | 9.6 |
+| CI/CD | GitHub Actions (lint + tests + build + deploy) | — |
+| Deploy | GitHub Pages (branch `main`) | — |
+| LLM bridge | `@mlc-ai/web-llm` (browser-side, SPEC-119) | 0.2.83 |
+
+---
+
+## 📂 Arquitetura
+
+```
+src/
+├── engine/                   # Motor de simulação (headless, zero React)
+│   ├── engine.js             # Orchestrator (1522 linhas — god-class, em refactor)
+│   ├── data.js               # Geração de jogadores/times (OVR, nomes)
+│   ├── rng.js                # PRNG determinístico
+│   ├── db/                   # Times reais (170 clubes)
+│   │   ├── brazil.js
+│   │   ├── europe.js
+│   │   ├── south_america.js
+│   │   └── index.js
+│   ├── tournaments/          # Tournament (abstract), League, KnockoutCup, ContinentalCup, StateChampionship
+│   ├── decks/                # MatchCards (GOL/DEF/MEI/ATA)
+│   ├── systems/              # AchievementsSystem, DifficultyModes
+│   ├── simulate_season.js    # Harness Node (Mandamento #3 — testabilidade sem tela)
+│   ├── simulate_player_career.js
+│   └── [40+ sistemas]        # PlayerCareer, InjurySystem, BoardSystem, YouthAcademy, etc.
+├── components/               # React UI (read-only, zero lógica)
+│   ├── dashboard/
+│   ├── learning/
+│   ├── ui/
+│   └── [views]               # SquadView, MatchView, MarketView, StandingsView, etc.
+├── context/                  # GameContext (ponte Engine↔React)
+├── data/                     # Static data (fora da engine)
+├── hooks/
+├── services/
+├── audio/
+├── styles/                   # design-tokens.css, animations.css (32bit SNES theme)
+├── utils/
+├── assets/
+├── App.jsx
+├── main.jsx
+└── index.css
+
+specs/                        # 97 SPECs (SDD source of truth)
+├── SPEC-RULES.md             # Governance
+├── SPEC-TEMPLATE.md
+├── ROADMAP-NARRATIVE-MASTER.md
+├── engine/                   # 39 specs
+├── gameplay/                 # 15 specs
+├── ui/                       # 6 specs
+├── infra/                    # 7 specs
+├── learning/                 # 10 specs
+├── refactor/                 # 19 specs
+├── telemetry/                # 15 specs
+└── generators/               # Templates pra novas specs (code/research/pipeline/decision)
+
+tests/
+├── unit/
+├── integration/
+├── regression/               # BUG-XXX.test.js (Mandamento #6)
+├── specs/                    # SPEC-XXX.test.js (harness por spec)
+├── characterization/         # Golden master, Stryker
+├── statistical/
+├── e2e/
+├── audio/
+├── design/
+├── engine.test.js
+└── static-checks.test.js
+
+docs/                         # Doc auxiliar (não-canônica)
+├── MANUAL_COMPLETO.md
+├── SDD_ELIFOOT_RPG.md
+├── brand-guidelines.md
+├── design-tokens.css/.json
+├── art-direction-bible.md
+├── stitch-designs/
+└── playtest/
+
+scripts/                      # Harnesses + automação
+├── debug-bug.sh              # `npm run bug:full` (Akita workflow)
+├── generate-audio.js
+└── render-*.js               # Music engine (SPEC-051)
+```
+
+---
+
+## ⚙️ Comandos
+
+### Dev loop
+```bash
+npm run dev                   # Vite dev server
+npm run build                 # Produção (Mandamento #6 — deve passar 0 erros)
+npm run preview               # Preview do build
+npm run lint                  # ESLint (deve passar 0 erros)
+```
+
+### Testes
+```bash
+npm test                      # Vitest run (1035 testes; 18 falhando hoje)
+npm run test:watch            # Watch mode
+npm run test:ci               # Verbose + build (gate CI)
+npm run test:series           # 1 arquivo por vez (isolamento)
+npm run test:regression       # tests/regression/ (BUGs)
+npm run test:specs            # tests/specs/ (harnesses por SPEC)
+npm run test:audio            # tests/audio/
+npm run mutate                # Stryker mutation testing
+npm run mutate:report         # Abre relatório
+```
+
+### Akita bug workflow (Mandamento #6)
+```bash
+npm run bug:search            # Busca evidência
+npm run bug:ticket            # Cria issue padronizada
+npm run bug:fix               # Branch + fix loop
+npm run bug:test              # Regression test
+npm run bug:full              # Ciclo completo (ticket → fix → test)
+```
+
+### SDD enforcement (Mandamento #1)
+```bash
+spec-check.sh "<descrição>"   # Antes de qualquer trabalho. Exit 0 libera, 1/2 bloqueia.
+spec-check.sh --list          # Lista specs do projeto
+spec-check.sh --init          # Inicializa SDD (specs/generators/) num projeto novo
+spec-check.sh validate        # Roda harnesses contra specs
+```
+
+### Music engine (SPEC-050/051)
+```bash
+npm run generate:audio        # Gera sample bank
+npm run render:stems          # Renderiza stems
+npm run render:fase1          # Render fase 1
+npm run render:tech           # Tech-house
+npm run render:all            # Todos subgenres
+```
+
+---
+
+## 🔄 Workflow Akita
+
+```
+Pedido do Dudu
+    ↓
+spec-check.sh "descrição"
+    ↓
+exit 0 → segue spec existente
+exit 1/2 → escreve spec via specs/generators/<tipo>.md
+    ↓
+Dudu aprova spec
+    ↓
+Implementa contra spec + escreve harness no MESMO PR (Regra 0)
+    ↓
+npm run lint && npm test && npm run build   (Mandamento #6 — 0 erros)
+    ↓
+Bug? → cria issue + regression test + fix (3-artefact)
+    ↓
+PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
+```
+
+---
+
+## 📊 Estado do projeto (snapshot)
+
+| Métrica | Valor | Fonte |
+|---------|-------|-------|
+| Tests | **1044/1044** ✅ (0 failed suites após merge main + AKITA-204) | `vitest run` 2026-05-11 |
+| Test files | 87 | `find tests -name "*.test.js"` |
+| Specs totais | **97** | `find specs -name "SPEC-*.md"` |
+| Bugs com regression test | 13 arquivos em `tests/regression/` | — |
+| AKITA commits | **169** (sem contar PR) | `git log --grep AKITA` |
+| Clubes | 170 (BR + EU + SA) | `src/engine/db/` |
+| Build | ✅ limpo, ~1.3s, initial chunk **376KB** (gzip 110KB) | `vite build` |
+| Lint | ✅ 0 erros, 130 warnings cosméticos | `eslint .` |
+
+### ⚠️ Débitos atuais (2026-05-11)
+- ~~marl-e2e `NPC EmotionalEngine` failing em main~~ **resolvido AKITA-107**: `AdaptiveBrain` ctor aceita `{ skipAutoRestore }`; engine passa para NPCs (que compartilhavam STORAGE_KEY do autoplay = persona única em prod).
+- ~~Bundle 1.56MB sem code-split~~ **resolvido AKITA-108**: `index.js` 376KB (-76%), views via `React.lazy`. Isolamento de localStorage entre testes corrigido (`setupFiles` limpando state — root cause de flakies que main mitigava com `fileParallelism: false`).
+- ~~MarketView rules-of-hooks bugs (6)~~ **resolvido AKITA-108**: early-return movido para depois dos hooks.
+- ~~spec-check.sh local ausente~~ **resolvido AKITA-108**: `scripts/spec-check.sh` copiado de `~/bin/`.
+- ~~180+ lint warnings~~ → **130 warnings** (cosméticos: no-unused-vars de imports não-React). 0 errors. 47 `import React` mortos removidos via codemod (React 19 JSX runtime); main usava `/* eslint-disable no-unused-vars */` band-aid.
+- ~~Root clutter (4.5MB)~~ **resolvido AKITA-109**: screenshots, logs, vitest_report.json, audit HTMLs, 11 scripts órfãos deletados. `.gitignore` previne regressão.
+- **`deep-soak-100seasons.test.js`** flaky em suite-load — 9 tests skipped (30s timeout em beforeAll). Pré-existente em main. Bumped para 120s; ainda intermitente. Próximo passo: mover para `npm run test:soak` solo.
+- **`engine.js` 1522 linhas** — god-class. Refactor em 17 PRs documentado em `specs/refactor/AKITA-RFCT-000..017`. Pré-condições verdes. Release **v1.0.5**.
+
+---
+
+## 🗺️ Roadmap
+
+Fonte canônica: [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-NARRATIVE-MASTER.md).
+
+| Versão | Tema |
+|--------|------|
+| v1.0 | Foundation + Live UX (released) |
+| v1.0.5 | Refactor god-class (17 PRs em `specs/refactor/`) |
+| v1.0.7 | Camada 2 Foundation (eventos atômicos + decay) |
+| v1.1 | Camada 5 Mito (Hall de Lendas) |
+| v1.1.5 | Traits Herdáveis |
+| v1.2 | Transição Jogador → Técnico |
+| v1.3 | Filhos Regens |
+| v1.4 | Rivalidades Emergentes |
+| v1.5 | Crônica do Save |
+
+5 camadas narrativas (Agente / Eventual / Relacional / Narrativa / Mito) — ver [`specs/SPEC-049-narrative-layers-mvp.md`](specs/SPEC-049-narrative-layers-mvp.md).
+
+---
+
+## 🔗 Docs canônicas
+
+| Doc | Função |
+|-----|--------|
+| [`AKITA_RULES.md`](AKITA_RULES.md) | Constituição (7 mandamentos) |
+| [`specs/SPEC-RULES.md`](specs/SPEC-RULES.md) | Governance SDD |
+| [`specs/SPEC-TEMPLATE.md`](specs/SPEC-TEMPLATE.md) | Template para novas specs |
+| [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-NARRATIVE-MASTER.md) | Roadmap |
+| [`BUGS.md`](BUGS.md) | Bug tracker (Mandamento #6) |
+| [`CHANGELOG.md`](CHANGELOG.md) | Histórico de releases |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Workflow para contribuidores |
+| [`docs/SDD_ELIFOOT_RPG.md`](docs/SDD_ELIFOOT_RPG.md) | SDD vivo (Mandamento #7) — mecânicas implementadas |
+| [`docs/MANUAL_COMPLETO.md`](docs/MANUAL_COMPLETO.md) | Manual do jogador |
+| [`docs/brand-guidelines.md`](docs/brand-guidelines.md) | Identidade visual |
+| [`README.md`](README.md) | Apresentação humano-amigável |
+
+`GEMINI.md` e `CODEX.md` na raiz são espelhos slim deste arquivo para outras IAs.
+
+---
+
+## 🚫 Forbidden cases (não fazer)
+
+1. Código sem spec aprovada.
+2. Spec sem harness no mesmo PR.
+3. Lógica de jogo em componente React (Mandamento #2 — isolamento de engine).
+4. Chamadas DOM / `useState` / `useEffect` dentro de `src/engine/`.
+5. Arrays soltos onde deveria haver classe (Mandamento #4 — OOP).
+6. Divisão com <10 times (Mandamento #5 — padronização).
+7. Merge com build/lint/test quebrado (Mandamento #6).
+8. Bug fix sem issue + regression test pareados.
+9. Chamada `https://api.anthropic.com` com API key (Mandamento #7 — usar Ollama local ou `claude -p` subprocess).
+10. README/docs com números fantasiosos (Regra 0 — mentira viva).

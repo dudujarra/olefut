@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
 /**
  * HexagonChart — SPEC-080
  *
  * Radar chart 6 attrs (FIN/TEC/CRI/TAC/DEF/FIS or GOL variants).
  * SVG-based, sem libs externas.
  */
-
-import React from 'react';
 
 export function HexagonChart({ player, size = 200, showLabels = true }) {
     const cx = size / 2;

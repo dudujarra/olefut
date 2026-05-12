@@ -9,7 +9,7 @@
  * - Renders nothing — hooks only
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../context/GameContext.jsx';
 
 // Map game views → subgenre per manual seção 3.3

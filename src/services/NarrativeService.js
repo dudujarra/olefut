@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * NarrativeService — Camadas 1 (Agente), 2 (Eventual), 3-4 (Relacional/Narrativa), 5 (Mito integration)
  *

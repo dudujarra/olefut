@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { MatchCardsATA } from './decks/MatchCardsATA';
 import { MatchCardsMEI } from './decks/MatchCardsMEI';
 import { MatchCardsDEF } from './decks/MatchCardsDEF';

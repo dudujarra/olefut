@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { rng as systemRng } from './rng.js';
 /**
  * LossStreakResponseSystem — SPEC-077: Resposta a Sequência de Derrotas

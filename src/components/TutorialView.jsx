@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * TutorialView — SPEC-072
  *
@@ -6,7 +5,7 @@
  * State persisted in localStorage 'elifoot_tutorial_done'.
  */
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';

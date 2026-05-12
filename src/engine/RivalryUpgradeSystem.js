@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * RivalryUpgradeSystem — SPEC-080: Rivalidades com Peso Narrativo Real
  *

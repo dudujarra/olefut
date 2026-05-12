@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * SmartMarketEngine — ML-Driven Transfer Decisions
  *

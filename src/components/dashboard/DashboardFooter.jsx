@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
 /**
  * DashboardFooter — status bar Stitch refactor.
  *
  * Substitui legacy `.status-footer` inline styles.
  */
 
-import React from 'react';
 import './dashboard.css';
 
 const BUILD = '2.0.0';

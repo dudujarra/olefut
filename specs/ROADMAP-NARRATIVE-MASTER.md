@@ -68,6 +68,26 @@
 
 ---
 
+### FASE -1 — v1.0.4 Infraestrutura + Schema Unification (CONCLUÍDA 2026-05-11)
+
+| Commit | Entrega |
+|--------|---------|
+| AKITA-200 | Ambition Engine + Schema Unification — player reactions to relegation, prestige, transfer requests, similarity-based buyer matching |
+| AKITA-201 | Complete schema purge + NPC economy + contextual buyers |
+| AKITA-202 | Systematic debugging — creativity decline bug + migrate 5 test files to unified schema |
+| AKITA-203 (main) | Fix cross-test localStorage leak deep-soak + correct 100-season timeout |
+| AKITA-203 (PR #105) | Doc canônica Akita — CLAUDE.md root, LICENSE MIT, CONTRIBUTING, GEMINI/CODEX espelhos, specs/generators (code/research/pipeline/decision), feature_request template |
+| AKITA-204 (PR #105) | Bundle code-split 1.56MB→376KB (SPEC-153), NPC brain skipAutoRestore (SPEC-154), test localStorage isolation setupFile (SPEC-155), ADR numbering (SPEC-156), lint cleanup 180→130 warnings + 6 real bugs fix, root cleanup 4.5MB |
+| AKITA-205 (PR #105) | Regression test SPEC-117 skipAutoRestore (5 testes), docs sync 1035→1049 |
+
+**SPECs adicionadas**: SPEC-153 (code-split), SPEC-154 (NPC brain), SPEC-155 (test isolation), SPEC-156 (ADR numbering), SPEC-157 (BUG-080 deep-soak isolation), SPEC-158 (BUG-081 set-state-in-effect audit).
+
+**Estado pós-fase**: 1049/1049 tests verde, initial bundle 376KB, 0 lint errors, docs canônicas 100%.
+
+**Débitos para próxima fase**: BUG-080 (deep-soak suite separada), BUG-081 (set-state-in-effect audit), build budget CI gate.
+
+---
+
 ### FASE 0 — v1.0.8 Gameplay Fix (estimado 2-3 semanas)
 *Resolve scores críticos de playtest ANTES do refactor. Sem narrativa, só mecânica.*
 

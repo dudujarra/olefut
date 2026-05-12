@@ -1,9 +1,7 @@
-/* eslint-disable no-unused-vars */
 /**
  * DashboardAlerts — alert strip Stitch refactor.
  */
 
-import React from 'react';
 import './dashboard.css';
 
 export function DashboardAlerts({ injured, expiringContracts, avgEnergy, transferOffersCount, onOpenTransfers }) {
