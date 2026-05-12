@@ -84,9 +84,47 @@ export function generate({ season = 1, clubName = 'Clube', managerName = 'Técni
         mood = 'neutral';
     }
 
-    const chronicle = interpolate(template, vars);
+    let chronicle = interpolate(template, vars);
 
-    return { season, chronicle, mood };
+    // SPEC-F4.1: enriquecer com referências reais (top scorer, key derby, star player)
+    chronicle = enrichWithRealData(chronicle, seasonData);
+
+    return { season, chronicle, mood, clubName, managerName, seasonData };
+}
+
+/**
+ * SPEC-F4.1: enriquecer chronicle com dados reais agregados.
+ * Append parágrafos com nomes de jogadores, eventos específicos.
+ *
+ * @param {string} baseChronicle
+ * @param {object} seasonData
+ * @returns {string}
+ */
+export function enrichWithRealData(baseChronicle, seasonData = {}) {
+    const parts = [baseChronicle];
+
+    if (seasonData.topScorer) {
+        const ts = seasonData.topScorer;
+        parts.push(`Artilheiro: ${ts.name} com ${ts.goals} gols. Ele carregou o ataque.`);
+    }
+
+    if (seasonData.keyDerby) {
+        const kd = seasonData.keyDerby;
+        const verbo = kd.result === 'W' ? 'venceu' : kd.result === 'L' ? 'perdeu pra' : 'empatou com';
+        parts.push(`Clássico decisivo: ${verbo} ${kd.opponent} por ${kd.score}.`);
+    }
+
+    if (seasonData.starPlayer && seasonData.starPlayer.name) {
+        const sp = seasonData.starPlayer;
+        parts.push(`A estrela ${sp.name} contribuiu ${sp.goals || 0} gols em ${sp.apps || 0} jogos.`);
+    }
+
+    if (seasonData.biggestWin) {
+        const bw = seasonData.biggestWin;
+        parts.push(`Maior vitória: ${bw.score} contra ${bw.opponent}. Festa na arquibancada.`);
+    }
+
+    return parts.join(' ');
 }
 
 // ─── helpers ────────────────────────────────────────────────
