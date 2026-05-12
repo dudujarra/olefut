@@ -13,6 +13,7 @@
  */
 
 import { useGame } from '../context/GameContext';
+import { isRookie, canAccessRookie } from '../engine/ViewUnlockSystem';
 import {
     House, Users, ShoppingCart, ListNumbers, Trophy,
     MicrophoneStage, Storefront, Sword, Scroll, FloppyDisk, Robot, GraduationCap,
@@ -46,13 +47,31 @@ const NAV_ITEMS_PLAYER = [
 ];
 
 export function Sidebar() {
-    const { gameState, changeView } = useGame();
+    const { gameState, changeView, getEngine } = useGame();
 
     if (!gameState.started) return null;
     if (gameState.view === 'start' || gameState.view === 'tutorial') return null;
 
-    const items = gameState.mode === 'player' ? NAV_ITEMS_PLAYER : NAV_ITEMS_MANAGER;
+    const rawItems = gameState.mode === 'player' ? NAV_ITEMS_PLAYER : NAV_ITEMS_MANAGER;
     const currentView = gameState.view;
+
+    // SPEC-A1: rookie sidebar filter (manager mode only — player mode já é minimal)
+    let items = rawItems;
+    if (gameState.mode !== 'player') {
+        const engine = (typeof getEngine === 'function') ? getEngine() : null;
+        const saveState = engine ? {
+            seasonsCompleted: engine.viewUnlockState?.seasonsCompleted || 0,
+            titlesWon:        engine.viewUnlockState?.titlesWon || 0,
+            totalTransfers:   engine.viewUnlockState?.totalTransfers || 0,
+            managerReputation: engine.viewUnlockState?.managerReputation || 0,
+            unlockedViews:    engine.viewUnlockState?.unlockedViews || [],
+            wins:             engine.managerStats?.wins || 0,
+            weekNumber:       engine.weekNumber || 1,
+        } : {};
+        if (isRookie(saveState)) {
+            items = rawItems.filter(it => canAccessRookie(it.view, saveState).unlocked);
+        }
+    }
 
     // Mode label — semantic icon (Phosphor) replacing emoji decoration
     const ModeIcon = gameState.mode === 'player' ? SoccerBall : IdentificationBadge;

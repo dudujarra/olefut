@@ -134,4 +134,65 @@ export function evaluateNewUnlocks(saveState) {
     return newlyUnlocked;
 }
 
-export { CORE_VIEWS, UNLOCK_CONDITIONS };
+// ─── SPEC-A1: Rookie Sidebar (1ª Temporada) ──────────────────
+
+const ROOKIE_CORE_VIEWS = new Set(['dashboard', 'squad', 'standings']);
+
+const ROOKIE_UNLOCK_CONDITIONS = {
+    press:        { check: (s) => (s.wins || 0) >= 1,             description: 'Vença 1 partida' },
+    market:       { check: (s) => (s.weekNumber || 1) >= 3,       description: 'Jogue até semana 3' },
+    achievements: { check: (s) => (s.wins || 0) >= 3,             description: 'Vença 3 partidas' },
+    chronicle:    { check: (s) => (s.seasonsCompleted || 0) >= 1, description: 'Complete 1 temporada' },
+    rivalries:    { check: (s) => (s.seasonsCompleted || 0) >= 1, description: 'Complete 1 temporada' },
+    saves:        { check: (s) => (s.seasonsCompleted || 0) >= 1 || (s.wins || 0) >= 5, description: 'Avance no jogo' },
+    autoplay:     { check: (s) => (s.seasonsCompleted || 0) >= 1, description: 'Complete 1 temporada' },
+    shop:         { check: (s) => (s.titlesWon || 0) >= 1,        description: 'Conquiste 1 título' },
+    lineage:      { check: (s) => (s.seasonsCompleted || 0) >= 2, description: 'Complete 2 temporadas' },
+};
+
+/**
+ * Define se o save está em "fase rookie" (1ª temporada, pré-5 vitórias).
+ * Rookie = sidebar reduzida para reduzir overload UX.
+ *
+ * @param {object} saveState — { seasonsCompleted, wins }
+ * @returns {boolean}
+ */
+export function isRookie(saveState = {}) {
+    const seasons = saveState.seasonsCompleted || 0;
+    const wins = saveState.wins || 0;
+    return seasons < 1 && wins < 5;
+}
+
+/**
+ * Variante de canAccess que aplica filtro rookie.
+ * Se não-rookie, delega para canAccess (SPEC-135 untouched).
+ *
+ * @param {string} viewId
+ * @param {object} saveState
+ * @returns {{ unlocked: boolean, reason?: string, unlockCondition?: object }}
+ */
+export function canAccessRookie(viewId, saveState = {}) {
+    // Tutorial é escape hatch — sempre disponível
+    if (viewId === 'tutorial') return { unlocked: true, reason: 'tutorial_always' };
+
+    // Não-rookie: fall-through para sistema padrão
+    if (!isRookie(saveState)) return canAccess(viewId, saveState);
+
+    // Rookie core
+    if (ROOKIE_CORE_VIEWS.has(viewId)) return { unlocked: true, reason: 'rookie_core' };
+
+    // Rookie milestones
+    const cond = ROOKIE_UNLOCK_CONDITIONS[viewId];
+    if (cond) {
+        if (cond.check(saveState)) return { unlocked: true, reason: 'rookie_milestone' };
+        return {
+            unlocked: false,
+            unlockCondition: { description: cond.description, requirement: viewId },
+        };
+    }
+
+    // View desconhecida em rookie: fall-through (default-deny via canAccess)
+    return canAccess(viewId, saveState);
+}
+
+export { CORE_VIEWS, UNLOCK_CONDITIONS, ROOKIE_CORE_VIEWS, ROOKIE_UNLOCK_CONDITIONS };
