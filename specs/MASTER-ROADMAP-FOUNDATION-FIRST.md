@@ -2,8 +2,26 @@
 
 **Criado**: 2026-05-12
 **Owner**: Dudu (Eduardo Jarra)
-**Status**: 🟢 ATIVO (sobrepõe-se a qualquer plano anterior)
+**Status**: 🟡 PARCIALMENTE SUPERSEDED por [`GAME-DESIGN-ROADMAP-2026-05-12.md`](GAME-DESIGN-ROADMAP-2026-05-12.md) (após audit round 2)
 **Trigger**: análise brutal pós-AKITA-207..214 detectou dívida estrutural insustentável
+
+---
+
+## ⚠️ UPDATE PÓS-AUDIT ROUND 2 (2026-05-12)
+
+Após 37 PRs (#110-#145) + brutal audit round 2:
+- engine.js 437 LOC (DoD ≤400, achieved)
+- AutoPlayService 490 LOC (DoD ≤400, close)
+- Bloco 1 técnico DONE
+- **Audit revelou**: jogo tem infra AAA + conteúdo demo
+
+Próximo gargalo NÃO é fundação técnica. É **game design**. Ver [`GAME-DESIGN-ROADMAP-2026-05-12.md`](GAME-DESIGN-ROADMAP-2026-05-12.md):
+- Fase A (15h): Tornar jogável (sidebar reduzida, onboarding, PreMatch, PostMortem)
+- Fase B (35h): Tornar prazeroso (match dramatization, decisões mid-match, Crônica payoff)
+- Fase C (60h): Tornar memorável (LLM real, modo unificado, StateChamp wire, mod hooks)
+- Fase D (ongoing): Lançamento + crescimento
+
+**Nova regra**: interleave 1 PR refactor : 2 PRs gameplay. Não bloquear gameplay esperando "BLOCO 1 inteiro".
 
 ---
 
