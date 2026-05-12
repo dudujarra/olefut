@@ -1,3 +1,10 @@
+/**
+ * Bench Events Deck — 12 cartas
+ *
+ * PLAYER MODE ONLY — see SPEC-179
+ * Decision B (Hide as Player-Only). Only surfaced via ProPlayer.weekEvents.
+ * Manager Mode does NOT render these events. Do not promote without spec update.
+ */
 // Bench Events — 12 cartas (expandido de 6)
 export const BenchEventsDeck = [
   {id:"bench_warm_up",text:"O técnico olha para o banco. Seus olhos param em você.",options:[

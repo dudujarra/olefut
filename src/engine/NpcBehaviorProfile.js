@@ -1,6 +1,12 @@
 /**
  * SPEC-137: NPC Behavior Profiles — 4 levels de dificuldade.
  *
+ * PLAYER MODE ONLY (today) — see SPEC-179
+ * Decision A (Promote parcial). Currently consumed by NpcTacticAdvisor for AI
+ * tactic pivots; named NPCs aparecem nos decks de Player Career.
+ * Future plan: surface NPC names + behavior labels in Manager Mode dialogs
+ * (TransferOffer rival manager, PressConference). High ROI — names already exist.
+ *
  * Perfis extraídos diretamente de dados de deep soak (5 runs, 104-216 temporadas):
  *   Level 1 (Noob)     — run-1 (1778458660022): defensiva, crashes, DREAD alto
  *   Level 2 (Amador)   — run-2 (1778459078831): ofensiva rígida, instável

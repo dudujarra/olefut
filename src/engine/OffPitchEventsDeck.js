@@ -1,3 +1,14 @@
+/**
+ * OffPitch Events Deck — 20 cartas
+ *
+ * PLAYER MODE ONLY — see SPEC-179
+ * Decision B (Hide as Player-Only). Only surfaced via ProPlayer.weekEvents.
+ * Manager Mode does NOT render these events. Do not promote without spec update.
+ *
+ * NPCs nomeados aqui (Marcos Oliveira, Patrícia Lemos, Tio Dinho, Rafael Monteiro
+ * etc.) são Decision A (Promote parcial) — reaproveitar nos diálogos manager
+ * (TransferOffer / PressConference) em SPEC futura.
+ */
 // OffPitch Events — 20 cartas com triggers contextuais e NPCs nomeados
 export const OffPitchEventsDeck = [
   // === SEMPRE DISPONÍVEIS ===
