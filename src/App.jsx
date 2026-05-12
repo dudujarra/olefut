@@ -9,8 +9,11 @@ import { Sidebar } from './components/Sidebar';
 import { FloatingBugButton } from './components/FloatingBugButton';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
-import { AudioController } from './audio/AudioController.jsx';
 import { EfButton } from './components/ui/EfButton';
+
+// AKITA-228: AudioController lazy — Tone.js (345KB) só carrega após primeira nav
+// de usuário (não bloqueia first paint). Suspense fallback é nulo (silent).
+const AudioController = lazy(() => import('./audio/AudioController.jsx').then(m => ({ default: m.AudioController })));
 
 const PlayerDashboardView = lazy(() => import('./components/PlayerDashboardView').then(m => ({ default: m.PlayerDashboardView })));
 const PlayerMatchView = lazy(() => import('./components/PlayerMatchView').then(m => ({ default: m.PlayerMatchView })));
@@ -159,7 +162,9 @@ function App() {
                 </main>
                 
                 <FloatingBugButton />
-                <AudioController />
+                <Suspense fallback={null}>
+                    <AudioController />
+                </Suspense>
             </div>
         </div>
     );
