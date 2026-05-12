@@ -18,6 +18,28 @@
 const DEFAULT_TIMEOUT_MS = 3000;
 const CACHE_MAX = 100;
 
+// SPEC-174: localStorage key for persisted user toggle.
+const LLM_TOGGLE_STORAGE_KEY = 'elifoot_llm_enabled';
+
+function readPersistedToggle() {
+    try {
+        if (typeof localStorage === 'undefined') return false;
+        return localStorage.getItem(LLM_TOGGLE_STORAGE_KEY) === '1';
+    } catch {
+        return false;
+    }
+}
+
+function writePersistedToggle(enabled) {
+    try {
+        if (typeof localStorage === 'undefined') return;
+        if (enabled) localStorage.setItem(LLM_TOGGLE_STORAGE_KEY, '1');
+        else localStorage.removeItem(LLM_TOGGLE_STORAGE_KEY);
+    } catch {
+        // Storage may be blocked (private mode, quota); ignore — runtime flag still works.
+    }
+}
+
 /**
  * Hash determinístico simples (FNV-1a). Usado para escolha de template
  * sem Math.random — mesmo input → mesma frase.
@@ -283,14 +305,28 @@ export class LLMNarrativeService {
      * @param {object} opts
      * @param {object} [opts.bridge] — instance with .status() and .decide(prompt). Defaults to null (template-only).
      * @param {number} [opts.timeoutMs=3000]
-     * @param {boolean} [opts.enableLLM=false] — explicit opt-in for real LLM
+     * @param {boolean} [opts.enableLLM] — explicit opt-in for real LLM. If omitted,
+     *   reads persisted toggle from localStorage (`elifoot_llm_enabled`).
+     * @param {boolean} [opts.skipPersistence=false] — disable localStorage reads/writes (for tests).
      */
     constructor(opts = {}) {
         this._bridge = opts.bridge || null;
         this._timeoutMs = Number.isFinite(opts.timeoutMs) ? opts.timeoutMs : DEFAULT_TIMEOUT_MS;
-        this._enableLLM = !!opts.enableLLM;
+        this._skipPersistence = !!opts.skipPersistence;
+        // SPEC-174: explicit opt allows test injection; otherwise read from localStorage.
+        // Default is OFF (template-only) — user must opt in to download WebLLM model.
+        if (typeof opts.enableLLM === 'boolean') {
+            this._enableLLM = opts.enableLLM;
+        } else if (!this._skipPersistence) {
+            this._enableLLM = readPersistedToggle();
+        } else {
+            this._enableLLM = false;
+        }
         this._cache = new Map(); // key → { text, source }
         this._lastMeta = null;
+        // SPEC-174: lazy bridge bootstrap state — flips to a Promise while WebLLM
+        // module + model are downloading, resolves to the bridge instance.
+        this._bridgeBootstrap = null;
     }
 
     /**
@@ -298,6 +334,88 @@ export class LLMNarrativeService {
      */
     getLastMeta() {
         return this._lastMeta;
+    }
+
+    /**
+     * SPEC-174: current state of the user-facing LLM toggle.
+     * Templates are ALWAYS available — this flag only controls whether we try
+     * to ask the WebLLM bridge before falling back.
+     */
+    isLLMEnabled() {
+        return !!this._enableLLM;
+    }
+
+    /**
+     * SPEC-174: opt-in to real WebLLM. Persists to localStorage, then lazy-loads
+     * the bridge and triggers model download in the background. The download is
+     * non-blocking — until it finishes, calls keep falling back to templates.
+     *
+     * @param {object} [opts]
+     * @param {() => Promise<{ AutoPlayLLMBridge: any }>} [opts.bridgeLoader] — test hook
+     *   for injecting a mock dynamic import. In prod, defaults to importing
+     *   `./AutoPlayLLMBridge.js`.
+     * @returns {Promise<{ ok: boolean, status?: string, error?: string }>}
+     */
+    async enableLLM(opts = {}) {
+        this._enableLLM = true;
+        if (!this._skipPersistence) writePersistedToggle(true);
+
+        // Already have a ready bridge — nothing to load.
+        if (this._bridge && this._isBridgeReady()) {
+            return { ok: true, status: 'ready' };
+        }
+        // Already loading — caller awaits the same promise.
+        if (this._bridgeBootstrap) {
+            return this._bridgeBootstrap;
+        }
+
+        const loader = opts.bridgeLoader || (() => import('./AutoPlayLLMBridge.js'));
+        this._bridgeBootstrap = (async () => {
+            try {
+                const mod = await loader();
+                const BridgeCtor = mod.AutoPlayLLMBridge || mod.default;
+                if (typeof BridgeCtor !== 'function') {
+                    throw new Error('AutoPlayLLMBridge export not found');
+                }
+                const bridge = new BridgeCtor();
+                bridge.setMode('webllm');
+                this._bridge = bridge;
+                // init() downloads the model — can take seconds. Run it but do not
+                // re-throw so the toggle never crashes the caller; status() exposes errors.
+                await bridge.init();
+                return { ok: true, status: bridge.status().loadStatus };
+            } catch (err) {
+                this._bridgeBootstrap = null;
+                return { ok: false, error: err && err.message ? err.message : String(err) };
+            }
+        })();
+        return this._bridgeBootstrap;
+    }
+
+    /**
+     * SPEC-174: opt-out. Instant — runtime flag flips, future calls skip the bridge
+     * and go straight to templates. The cached bridge (if any) is kept around so a
+     * subsequent enableLLM() doesn't re-download the model.
+     */
+    disableLLM() {
+        this._enableLLM = false;
+        if (!this._skipPersistence) writePersistedToggle(false);
+    }
+
+    /**
+     * SPEC-174: bridge bootstrap state, for UI to show "loading…" while WebLLM downloads.
+     * @returns {{ enabled: boolean, bridgeReady: boolean, bridgeStatus: object | null }}
+     */
+    getLLMStatus() {
+        let bridgeStatus = null;
+        if (this._bridge && typeof this._bridge.status === 'function') {
+            try { bridgeStatus = this._bridge.status(); } catch { bridgeStatus = null; }
+        }
+        return {
+            enabled: !!this._enableLLM,
+            bridgeReady: this._isBridgeReady(),
+            bridgeStatus,
+        };
     }
 
     /**
@@ -441,4 +559,5 @@ export const __internals = {
     POST_MATCH_TEMPLATES,
     MANAGER_ADVICE_TEMPLATES,
     BOARD_REACTION_TEMPLATES,
+    LLM_TOGGLE_STORAGE_KEY,
 };
