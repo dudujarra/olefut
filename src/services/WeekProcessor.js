@@ -330,6 +330,9 @@ export class WeekProcessor {
                 const isHome = myMatch.home === team.id;
                 const myGoals = isHome ? myMatch.score.homeGoals : myMatch.score.awayGoals;
                 const theirGoals = isHome ? myMatch.score.awayGoals : myMatch.score.homeGoals;
+
+                // SPEC-167: post-match narrative (non-blocking, fallback safe).
+                this._populateMatchNarrative(engine, team, myMatch, isHome, myGoals, theirGoals);
                 engine.managerStats.goalsFor = (engine.managerStats.goalsFor || 0) + myGoals;
                 engine.managerStats.goalsAgainst = (engine.managerStats.goalsAgainst || 0) + theirGoals;
                 if (myGoals > theirGoals) {
@@ -452,6 +455,58 @@ export class WeekProcessor {
 
                 break;
             }
+        }
+    }
+
+    /**
+     * SPEC-167: populate engine.lastMatchNarrative + board reaction on humiliation.
+     *
+     * Non-blocking. LLMNarrativeService returns a Promise; we fire-and-forget
+     * but still set the value synchronously via the template fallback so the UI
+     * always has something to show without a render race.
+     * @private
+     */
+    _populateMatchNarrative(engine, team, myMatch, isHome, myGoals, theirGoals) {
+        if (!engine.llmNarrative) return;
+        const oppId = isHome ? myMatch.away : myMatch.home;
+        const oppTeam = engine.getTeam ? engine.getTeam(oppId) : null;
+        const homeName = isHome ? (team.name || 'Sua equipe') : (oppTeam?.name || 'Adversário');
+        const awayName = isHome ? (oppTeam?.name || 'Adversário') : (team.name || 'Sua equipe');
+        const matchData = {
+            homeTeam: homeName,
+            awayTeam: awayName,
+            homeGoals: isHome ? myGoals : theirGoals,
+            awayGoals: isHome ? theirGoals : myGoals,
+            managerSide: isHome ? 'home' : 'away',
+            week: engine.currentWeek,
+        };
+
+        // Set template-only narrative synchronously so the UI always has something.
+        try {
+            const syncText = engine.llmNarrative.postMatchAnalysisSync(matchData);
+            if (syncText) engine.lastMatchNarrative = syncText;
+        } catch { /* defensive */ }
+        // Fire async upgrade attempt (LLM if enabled). Never blocks.
+        try {
+            engine.llmNarrative.postMatchAnalysis(matchData)
+                .then((text) => { if (text) engine.lastMatchNarrative = text; })
+                .catch(() => { /* defensive */ });
+        } catch { /* defensive */ }
+
+        // Humiliation board reaction: score diff >= 4 against manager.
+        // Sync template push so the message is visible in the same advance-week tick.
+        const scoreDiff = theirGoals - myGoals;
+        if (scoreDiff >= 4) {
+            try {
+                const text = engine.llmNarrative.boardReactionSync({
+                    type: 'humiliation',
+                    scoreDiff,
+                    managerStats: engine.managerStats,
+                });
+                if (text && Array.isArray(engine.weekEvents)) {
+                    engine.weekEvents.push(`🏛️ Diretoria: ${text}`);
+                }
+            } catch { /* defensive */ }
         }
     }
 }

@@ -3,6 +3,7 @@ import { compute as computeManagerIdentity } from './ManagerIdentitySystem';
 import { StaffManager } from './StadiumSystem';
 
 import { MatchSimulator } from '../services/MatchSimulator';
+import { LLMNarrativeService } from '../services/LLMNarrativeService';
 import { MythService } from '../services/MythService';
 import { RelationshipService } from '../services/RelationshipService';
 import { NarrativeService } from '../services/NarrativeService';
@@ -32,6 +33,11 @@ export class Engine {
 
         // RFCT-004: MatchSimulator extracted from playMatch (ver src/services/MatchSimulator.js)
         this._matchSimulator = new MatchSimulator();
+        // SPEC-167: LLMNarrativeService — narrativa pós-jogo, conselho do auxiliar, reação da diretoria.
+        // Por padrão usa templates determinísticos (LLM opt-in via setMode('webllm')).
+        this.llmNarrative = new LLMNarrativeService();
+        // SPEC-167: última narrativa pós-jogo gerada (string ou null).
+        this.lastMatchNarrative = null;
         // RFCT-005: WeekProcessor + SeasonProcessor extracted from advanceWeek/startNewSeason
         this._weekProcessor = new WeekProcessor();
         this._seasonProcessor = new SeasonProcessor();

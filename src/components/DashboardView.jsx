@@ -37,6 +37,8 @@ export function DashboardView() {
         try { return !localStorage.getItem('elifoot_tutorial_done') && (engine?.seasonNumber || 1) === 1; }
         catch { return false; }
     });
+    // SPEC-167: manager advice panel state
+    const [advicePanel, setAdvicePanel] = useState({ open: false, loading: false, text: '' });
 
     useKeyboardNav({ changeView, currentView: gameState?.view || 'dashboard' });
 
@@ -57,6 +59,36 @@ export function DashboardView() {
         }
     }, [engine?.currentWeek]);
     /* eslint-enable react-hooks/set-state-in-effect */
+
+    // SPEC-167: triggers the LLM-or-template manager advice.
+    // Declared before early return to keep React hook ordering stable (BUG-021).
+    const handleAuxiliarAdvice = useCallback(async () => {
+        if (!engine?.llmNarrative || !team) return;
+        setAdvicePanel({ open: true, loading: true, text: '' });
+        const standings = engine.getStandings ? engine.getStandings(team.zone, team.division) : [];
+        const myPos = standings.findIndex(s => s.teamId === team.id) + 1;
+        const avgOvr = team.squad?.length
+            ? Math.round(team.squad.reduce((s, p) => s + (p.ovr || 50), 0) / team.squad.length)
+            : 50;
+        const divisionAvg = standings.length
+            ? Math.round(standings.reduce((s, row) => {
+                const t = engine.getTeam ? engine.getTeam(row.teamId) : null;
+                if (!t || !t.squad) return s;
+                return s + Math.round(t.squad.reduce((ss, p) => ss + (p.ovr || 50), 0) / t.squad.length);
+            }, 0) / standings.length)
+            : 50;
+        try {
+            const text = await engine.llmNarrative.managerAdvice({
+                ownTeam: { name: team.name, avgOvr, formation: team.formation, currentTactic: engine.currentTactic },
+                opponent: { name: 'Próximo adversário', avgOvr: divisionAvg, recentForm: engine.managerStats?.rollingForm?.slice(-5) || [] },
+                position: myPos || 0,
+                totalTeams: standings.length || 20,
+            });
+            setAdvicePanel({ open: true, loading: false, text });
+        } catch {
+            setAdvicePanel({ open: true, loading: false, text: 'Auxiliar indisponível no momento.' });
+        }
+    }, [engine, team]);
 
     if (!team) return <div className="main-content" style={{ padding: '24px', fontFamily: 'var(--font-mono)' }}>Time não encontrado.</div>;
 
@@ -140,7 +172,11 @@ export function DashboardView() {
                             ))}
                         </EfPanel>
 
-                        <div style={{ marginTop: 'auto' }}>
+                        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {/* SPEC-167: Conselho do Auxiliar */}
+                            <EfButton variant="secondary" size="md" title="Sugestão tática do auxiliar técnico baseada no adversário" style={{ width: '100%', justifyContent: 'center', fontFamily: 'var(--font-sans)', fontWeight: '600', gap: '8px' }} onClick={handleAuxiliarAdvice}>
+                                <GraduationCap weight="bold" /> Conselho do Auxiliar
+                            </EfButton>
                             <EfButton variant="primary" size="lg" title="Joga a próxima partida e avança 1 semana (processa treino, finanças, lesões, eventos)" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '24px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', gap: '8px' }} onClick={() => {
                                 // AUDIT-FIX #17: Check pacing friction before match
                                 const events = engine.getPacingEvents?.() || [];
@@ -479,6 +515,33 @@ export function DashboardView() {
                 {pendingUnlock && <UnlockTooltip viewId={pendingUnlock} onDismiss={() => setPendingUnlock(null)} />}
                 {pendingAchievement && <AchievementPopup achievement={pendingAchievement} onDismiss={() => setPendingAchievement(null)} />}
                 <TutorialOverlay visible={showTutorial} onDismiss={() => setShowTutorial(false)} />
+
+                {/* SPEC-167: Auxiliar advice modal */}
+                {advicePanel.open && (
+                    <EfModal title="Conselho do Auxiliar" onClose={() => setAdvicePanel({ open: false, loading: false, text: '' })}>
+                        <div style={{ borderLeft: '4px solid #40BAF7', paddingLeft: '16px', marginBottom: '24px', minHeight: '60px' }}>
+                            {advicePanel.loading
+                                ? <p style={{ margin: 0, fontSize: '0.95rem', color: '#8E9E94', fontFamily: 'var(--font-sans)', fontStyle: 'italic' }}>Analisando...</p>
+                                : <p style={{ margin: 0, fontSize: '1rem', lineHeight: 1.6, fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>{advicePanel.text}</p>
+                            }
+                        </div>
+                        <EfButton variant="primary" size="md" onClick={() => setAdvicePanel({ open: false, loading: false, text: '' })} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                            FECHAR
+                        </EfButton>
+                    </EfModal>
+                )}
+
+                {/* SPEC-167: Última narrativa pós-jogo */}
+                {engine.lastMatchNarrative && (
+                    <div style={{ marginTop: '24px' }}>
+                        <EfPanel padding="md" style={{ borderColor: '#40BAF7', background: '#0D1A24' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#40BAF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold', marginBottom: '8px' }}>
+                                <Newspaper weight="fill" /> CRÔNICA DA PARTIDA
+                            </div>
+                            <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: 1.6, fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>{engine.lastMatchNarrative}</p>
+                        </EfPanel>
+                    </div>
+                )}
 
                 {/* AUDIT-FIX #17: Pacing Friction Modal */}
                 {pacingQueue.length > 0 && (() => {

@@ -245,9 +245,9 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 
 | Métrica | Valor | Fonte |
 |---------|-------|-------|
-| Tests | **1055/1055** ✅ default + **18/18** ✅ test:soak (deep-soak isolado) | `vitest run` 2026-05-12 |
-| Test files | 92 | `find tests -name "*.test.js"` |
-| Specs totais | **111** | `find specs -name "SPEC-*.md"` |
+| Tests | **1080/1080** ✅ default + **18/18** ✅ test:soak (deep-soak isolado) | `vitest run` 2026-05-12 |
+| Test files | 93 | `find tests -name "*.test.js"` |
+| Specs totais | **112** | `find specs -name "SPEC-*.md"` |
 | Bugs com regression test | 13 arquivos em `tests/regression/` (BUG-080/081 não precisaram — fix via config + lint disable docs) | — |
 | AKITA commits | ~170+ | `git log --grep AKITA` |
 | Clubes | 170 (BR + EU + SA) | `src/engine/db/` |
@@ -265,7 +265,7 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 - ~~**`deep-soak-100seasons.test.js`** flaky em suite-load~~ **resolvido AKITA-207** (SPEC-157/BUG-080): mov pra `npm run test:soak` solo via env-flag `SOAK=1` (vite.config exclude condicional). `npm test` 1031/1031 verde; `npm run test:soak` 18/18 verde isolado.
 - ~~**14 lint warnings `react-hooks/set-state-in-effect`**~~ **resolvido AKITA-207** (BUG-081/SPEC-158): 3 refactor reais (useState initializer em PressView/SaveSlotsView/CosmeticShopView), 11 silenciados com block disable + classification comment. 0 warnings restantes.
 - ~~**Build budget regression risk**~~ **resolvido AKITA-207** (SPEC-159): `tests/integration/build-budget.test.js` falha CI se initial >500KB, chunk individual >800KB, ou total >3MB. Snapshot atual: 376/652/~1900 KB ✅.
-- **`engine.js` 431 linhas** — god-class. Refactor em 17 PRs documentado em `specs/refactor/AKITA-RFCT-000..017`. **AKITA-207 kickoff**: RFCT-001/002/003 verificadas done (characterization + save-roundtrip + stryker baseline). RFCT-004 (Extract MatchSimulator, ~10h) próximo. Release **v1.0.5**.
+- **`engine.js` 437 linhas** — god-class. Refactor em 17 PRs documentado em `specs/refactor/AKITA-RFCT-000..017`. **AKITA-207 kickoff**: RFCT-001/002/003 verificadas done (characterization + save-roundtrip + stryker baseline). RFCT-004 (Extract MatchSimulator, ~10h) próximo. Release **v1.0.5**.
 - **EfButton chunk 652KB** — contém player DB inteiro (170 clubes × ~30 jogadores). Dentro do ceiling (800KB), mas candidato a SPEC-160 (code-split DB) se crescer.
 
 ---
