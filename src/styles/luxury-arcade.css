@@ -2311,3 +2311,84 @@ h1, h2, h3, h4 {
   margin-bottom: 16px;
 }
 
+
+/* ─── SPEC-A2: OnboardingCoach ─── */
+.ef-onboarding-coach {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 320px;
+  max-width: calc(100vw - 48px);
+  background: #0E1418;
+  border: 2px solid #C7A75D;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  padding: 16px;
+  z-index: 200;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-main, #FDFBF7);
+}
+.ef-onboarding-coach__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.ef-onboarding-coach__icon {
+  color: #C7A75D;
+  display: inline-flex;
+}
+.ef-onboarding-coach__title {
+  flex: 1;
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #C7A75D;
+}
+.ef-onboarding-coach__close {
+  background: transparent;
+  border: 1px solid #2D3748;
+  color: #FDFBF7;
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ef-onboarding-coach__close:hover {
+  background: #2D3748;
+}
+.ef-onboarding-coach__body {
+  margin: 0 0 16px 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+.ef-onboarding-coach__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.ef-onboarding-coach__progress {
+  font-size: 0.7rem;
+  color: #8A9099;
+  letter-spacing: 0.05em;
+}
+.ef-onboarding-coach__next {
+  background: #C7A75D;
+  color: #0E1418;
+  border: none;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.ef-onboarding-coach__next:hover {
+  background: #D9BB75;
+}

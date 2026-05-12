@@ -13,6 +13,7 @@ import { ScarcityBanner, DreadIndicator, useKeyboardNav, TutorialOverlay, Ironma
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import { EfModal } from './ui/EfModal';
+import { OnboardingCoach } from './OnboardingCoach';
 import { 
   Users, ShoppingCart, ChartBar, SoccerBall, TrendUp, TrendDown, Heartbeat,
   Newspaper, Lightning, Envelope, Wallet, Bank, Building, GraduationCap, Binoculars, 
@@ -114,6 +115,12 @@ export function DashboardView() {
         <div style={{ padding: '24px', width: '100%', height: '100%', overflowY: 'auto', backgroundColor: 'var(--bg-dark, #0D1117)' }}>
             <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <TrophyCeremony trophy={engine.trophyCeremony?.trophy} season={engine.trophyCeremony?.season} visible={!!engine.trophyCeremony} onDismiss={() => { engine.trophyCeremony = null; forceUpdate(); }} />
+
+                {/* SPEC-A2: Onboarding Coach — semana 1 da 1ª temporada apenas */}
+                <OnboardingCoach
+                    show={(engine?.seasonNumber || 1) === 1 && (engine?.currentWeek || 1) === 1}
+                    onComplete={() => forceUpdate()}
+                />
 
                 {/* === HEADER — LUXURY BENTO === */}
                 <EfPanel variant="hero" padding="lg" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
