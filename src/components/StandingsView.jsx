@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useGame } from '../context/GameContext';
+import { ViewOnboarding } from './ViewOnboarding';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
@@ -71,6 +72,7 @@ export function StandingsView() {
 
     return (
         <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgOffice})` }}>
+            <ViewOnboarding viewId="standings" />
             <div className="ef-layout-container" style={{ maxWidth: '1000px' }}>
 
                 {/* HERO PANEL */}

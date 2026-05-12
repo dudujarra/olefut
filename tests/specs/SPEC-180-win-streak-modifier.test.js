@@ -20,8 +20,9 @@ describe('SPEC-180: WinStreakModifierSystem', () => {
 
     beforeEach(() => {
         resetAll();
+        // Gap fix #5: default ON agora — explicit set per-test pra clareza
         if (typeof globalThis !== 'undefined') {
-            globalThis[FEATURE_FLAG] = false;
+            globalThis[FEATURE_FLAG] = false; // default test mode: off pra isolar
         }
     });
 
@@ -172,14 +173,14 @@ describe('SPEC-180: WinStreakModifierSystem', () => {
             expect(SEVERITY_THRESHOLDS.phenom).toBe(7);
         });
 
-        it('isFeatureEnabled default false', () => {
-            globalThis[FEATURE_FLAG] = false;
-            expect(isFeatureEnabled()).toBe(false);
+        it('isFeatureEnabled default true (post Gap fix #5)', () => {
+            delete globalThis[FEATURE_FLAG];
+            expect(isFeatureEnabled()).toBe(true);
         });
 
-        it('isFeatureEnabled true when global flag set', () => {
-            globalThis[FEATURE_FLAG] = true;
-            expect(isFeatureEnabled()).toBe(true);
+        it('isFeatureEnabled false when explicitly off', () => {
+            globalThis[FEATURE_FLAG] = false;
+            expect(isFeatureEnabled()).toBe(false);
         });
     });
 

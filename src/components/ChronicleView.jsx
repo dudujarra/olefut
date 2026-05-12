@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
+import { ViewOnboarding } from './ViewOnboarding';
 import { ChronicleService } from '../services/ChronicleService';
 import { EfPanel, EfButton } from './ui';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';
@@ -122,6 +123,7 @@ export function ChronicleView() {
 
     return (
         <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgNewspaper})` }}>
+            <ViewOnboarding viewId="chronicle" />
             <div className="ef-view-container">
 
                 {/* HEADER */}

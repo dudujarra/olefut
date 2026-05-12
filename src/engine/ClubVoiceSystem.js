@@ -41,7 +41,7 @@ export const ClubVoices = {
             rival_match: ['Fla-Flu. Maior clássico do Brasil. Sangue na bola.'],
         },
     },
-    'Vasco': {
+    'Vasco da Gama': {
         city: 'Rio de Janeiro', region: 'SE', stadium: 'São Januário',
         voices: {
             stadium_entry: ['São Januário, casa da Cruz de Malta. Vasco em campo.', 'Colina histórica recebe seu manto preto-e-branco.'],
@@ -153,7 +153,7 @@ export const ClubVoices = {
             rival_match: ['Ba-Vi. Clássico baiano. Sangue na bola.'],
         },
     },
-    'Sport': {
+    'Sport Recife': {
         city: 'Recife', region: 'NE', stadium: 'Ilha do Retiro',
         voices: {
             stadium_entry: ['Ilha do Retiro. Leão da Ilha em campo.', 'Sport Club Recife. Rubro-negro pernambucano.'],

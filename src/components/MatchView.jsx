@@ -8,7 +8,7 @@ import { PreMatchScreen } from './PreMatchScreen';
 import { MatchPostMortem } from './MatchPostMortem';
 import { analyzeMatch } from '../engine/MatchAnalyst';
 import { MidMatchCardModal } from './MidMatchCardModal';
-import { shouldTriggerMidMatch, getMidMatchCard } from '../engine/MidMatchManagerDeck';
+import { shouldTriggerMidMatch, getMidMatchCard, getReactiveCard } from '../engine/MidMatchManagerDeck';
 import { MatchBallSprite } from './MatchBallSprite';
 import { applyToStarPlayer, getStarPlayer } from '../engine/StarPlayerLink';
 import { MatchHighlightModal, extractHighlightContext } from './MatchHighlightModal';
@@ -166,8 +166,22 @@ export function MatchView() {
         if (ctx) {
             highlightedEventsRef.current.add(eventKey);
             setHighlightContext(ctx);
+            // Gap fix #1: pausa ticker durante modal pra player ver o lance
+            pausedRef.current = true;
+            setPaused(true);
+
+            // Gap fix #4: dispara reactive card pra opponent_goal se for gol contra
+            if (ctx.type === 'goal' && !midMatchCard) {
+                const ownTeam = engine.getTeam(gameState.teamId);
+                const isAgainstUs = ownTeam && last.text && !last.text.includes(ownTeam.name);
+                if (isAgainstUs) {
+                    const seed = (last.minute || 0) + (gameState.teamId || 0);
+                    const reactive = getReactiveCard('opponent_goal', seed);
+                    if (reactive) setTimeout(() => setMidMatchCard(reactive), 2600);
+                }
+            }
         }
-    }, [displayedEvents, phase]);
+    }, [displayedEvents, phase, midMatchCard, gameState.teamId, engine]);
     /* eslint-enable react-hooks/set-state-in-effect */
 
     // Auto-scroll narration log
@@ -624,10 +638,14 @@ export function MatchView() {
                 onChoose={handleMidMatchChoose}
                 onClose={() => setMidMatchCard(null)}
             />
-            {/* SPEC-F1.1: highlight pulse modal pra goal/red */}
+            {/* SPEC-F1.1: highlight pulse modal pra goal/red — pausa+resume ticker */}
             <MatchHighlightModal
                 context={highlightContext}
-                onDismiss={() => setHighlightContext(null)}
+                onDismiss={() => {
+                    setHighlightContext(null);
+                    pausedRef.current = false;
+                    setPaused(false);
+                }}
                 autoDismissMs={2500}
             />
             {/* SPEC-F1.3: star impact toast */}

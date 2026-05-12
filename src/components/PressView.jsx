@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGame } from '../context/GameContext';
+import { ViewOnboarding } from './ViewOnboarding';
 import { generateQuestion, shouldTriggerPress } from '../engine/PressConference';
 import { EfPanel, EfButton } from './ui';
 import bgPressConference from '../assets/environments/bg_press_conference.png';
@@ -68,6 +69,7 @@ export function PressView() {
                 overflowY: 'auto'
             }}
         >
+            <ViewOnboarding viewId="press" />
             <div className="ef-view-container ef-view-container--narrow">
 
                 {/* HEADER */}

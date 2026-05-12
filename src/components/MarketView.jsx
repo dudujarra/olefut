@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useGame } from '../context/GameContext';
+import { ViewOnboarding } from './ViewOnboarding';
 import { SCOUT_REGIONS } from '../engine/StadiumSystem';
 import { PlayerAvatar } from '../utils/avatar';
 import { Tooltip } from './Tooltip';
@@ -97,6 +98,7 @@ export function MarketView() {
 
     return (
         <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgOffice})` }}>
+            <ViewOnboarding viewId="market" />
             <div className="ef-layout-container" style={{ maxWidth: '1100px' }}>
 
                 {/* HEADER HERO */}

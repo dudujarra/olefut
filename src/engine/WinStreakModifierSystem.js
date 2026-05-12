@@ -31,9 +31,10 @@ const MODIFIERS = {
 const FEATURE_FLAG = 'ENABLE_WIN_STREAK';
 
 function isFeatureEnabled() {
-    // Default OFF — gated via globalThis ou import.meta.env futuro
-    if (typeof globalThis !== 'undefined' && globalThis[FEATURE_FLAG] === true) return true;
-    return false;
+    // Gap fix #5: default ON após baseline review (AKITA-288 showed +variance OK).
+    // Override via globalThis[FEATURE_FLAG] = false em testes que precisam off.
+    if (typeof globalThis !== 'undefined' && globalThis[FEATURE_FLAG] === false) return false;
+    return true;
 }
 
 /**

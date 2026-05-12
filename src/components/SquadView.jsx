@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
+import { ViewOnboarding } from './ViewOnboarding';
 import { electStarPlayer } from '../engine/StarPlayerLink';
 import { Help } from './Help';
 import { EfClubBadge } from './ui/EfClubBadge';
@@ -112,6 +113,7 @@ export function SquadView() {
 
     return (
         <div className="ef-view-shell ef-view-shell--fixed">
+            <ViewOnboarding viewId="squad" />
             <div className="ef-view-container ef-view-container--wide">
 
                 {/* === HEADER — LUXURY BENTO === */}
