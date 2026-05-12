@@ -52,7 +52,7 @@ export class WeekProcessor {
             const seasonalEvent = getSeasonalEvent(engine.currentWeek);
             if (seasonalEvent) {
                 engine.pendingSeasonalEvent = seasonalEvent;
-                engine.weekEvents.push(`🇧🇷 ${seasonalEvent.title}: ${seasonalEvent.text}`);
+                engine.weekEvents.push(`[Evento BR] ${seasonalEvent.title}: ${seasonalEvent.text}`);
             }
         } catch { /* defensive */ }
 
