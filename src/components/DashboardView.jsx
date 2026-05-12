@@ -16,7 +16,7 @@ import { EfModal } from './ui/EfModal';
 import { 
   Users, ShoppingCart, ChartBar, SoccerBall, TrendUp, TrendDown, Heartbeat,
   Newspaper, Lightning, Envelope, Wallet, Bank, Building, GraduationCap, Binoculars, 
-  Megaphone, Microphone, Lightbulb, WarningCircle, ChartLineUp
+  Megaphone, Microphone, MicrophoneStage, Lightbulb, WarningCircle, ChartLineUp
 } from '@phosphor-icons/react';
 
 import '../styles/trophy-ceremony.css';
@@ -458,7 +458,7 @@ export function DashboardView() {
 
                 {/* Modals */}
                 {engine.pressQuestion && (
-                    <EfModal title="🎙️ Coletiva de Imprensa" onClose={() => {}}>
+                    <EfModal title={<><MicrophoneStage size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} /> Coletiva de Imprensa</>} onClose={() => {}}>
                         <p style={{ marginBottom: '24px', fontSize: '1rem', lineHeight: 1.5, fontFamily: 'var(--font-sans)' }}>{engine.pressQuestion.text}</p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                             {engine.pressQuestion.options.map(opt => (
