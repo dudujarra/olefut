@@ -141,7 +141,7 @@ export function DashboardView() {
                         </EfPanel>
 
                         <div style={{ marginTop: 'auto' }}>
-                            <EfButton variant="primary" size="lg" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '24px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', gap: '8px' }} onClick={() => {
+                            <EfButton variant="primary" size="lg" title="Joga a próxima partida e avança 1 semana (processa treino, finanças, lesões, eventos)" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '24px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', gap: '8px' }} onClick={() => {
                                 // AUDIT-FIX #17: Check pacing friction before match
                                 const events = engine.getPacingEvents?.() || [];
                                 if (events.length > 0) {
@@ -317,11 +317,17 @@ export function DashboardView() {
                                 <EfPanel padding="lg">
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '24px', color: '#FDFBF7' }}><Megaphone weight="fill" /> PRELEÇÃO</div>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                        {TEAM_TALKS.map(t => (
-                                            <EfButton key={t.id} variant="secondary" size="md" style={{ justifyContent: 'flex-start', padding: '16px', fontFamily: 'var(--font-sans)', fontWeight: '600' }} onClick={() => handleTeamTalk(t.id)}>
+                                        {TEAM_TALKS.map(t => {
+                                            const moral = t.effect?.moralBoost ?? 0;
+                                            const energy = t.effect?.energyCost ?? 0;
+                                            const moralTxt = moral > 0 ? `moral +${moral}` : moral < 0 ? `moral ${moral}` : 'moral neutra';
+                                            const energyTxt = energy > 0 ? `, custa ${energy} energia` : energy < 0 ? `, recupera energia` : '';
+                                            return (
+                                            <EfButton key={t.id} variant="secondary" size="md" title={`${t.name}: ${moralTxt}${energyTxt}. "${t.text}"`} style={{ justifyContent: 'flex-start', padding: '16px', fontFamily: 'var(--font-sans)', fontWeight: '600' }} onClick={() => handleTeamTalk(t.id)}>
                                                 {t.name}
                                             </EfButton>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </EfPanel>
                             </div>
@@ -332,7 +338,7 @@ export function DashboardView() {
                                 <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '24px', color: '#FDFBF7' }}>TREINO SEMANAL</div>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
                                     {TRAINING_TYPES.map(t => (
-                                        <EfButton key={t.id} variant={engine.currentTraining === t.id ? 'primary' : 'secondary'} size="lg" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '24px', gap: '12px' }} onClick={() => handleTrain(t.id)}>
+                                        <EfButton key={t.id} variant={engine.currentTraining === t.id ? 'primary' : 'secondary'} size="lg" title={`Treino ${t.name}: ${t.description} (drena energia do plantel)`} style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '24px', gap: '12px' }} onClick={() => handleTrain(t.id)}>
                                             <span style={{ fontSize: '0.9rem', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>{t.name}</span>
                                             <span style={{ fontSize: '0.75rem', color: engine.currentTraining === t.id ? '#1A8A0A' : '#8E9E94', whiteSpace: 'normal', textAlign: 'left', lineHeight: 1.4, fontFamily: 'var(--font-sans)', fontWeight: 'normal' }}>{t.description}</span>
                                         </EfButton>
@@ -353,7 +359,7 @@ export function DashboardView() {
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: '#8E9E94' }}>NÍVEL {engine.stadiumLevel}/5</span>
                                             {engine.stadiumLevel < 5 && (
-                                                <EfButton variant="primary" size="sm" onClick={() => { const r = engine.upgradeStadium(); setLog(r.msg); forceUpdate(); }} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>UPGRADE</EfButton>
+                                                <EfButton variant="primary" size="sm" title="Aumenta capacidade do estádio (mais bilheteria por jogo). Consome do caixa." onClick={() => { const r = engine.upgradeStadium(); setLog(r.msg); forceUpdate(); }} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>UPGRADE</EfButton>
                                             )}
                                         </div>
                                     </EfPanel>
@@ -367,7 +373,7 @@ export function DashboardView() {
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: '#8E9E94' }}>NÍVEL {engine.academyLevel}/5</span>
                                             {engine.academyLevel < 5 && (
-                                                <EfButton variant="primary" size="sm" onClick={() => { const r = engine.upgradeAcademy(); setLog(r.msg); forceUpdate(); }} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>UPGRADE</EfButton>
+                                                <EfButton variant="primary" size="sm" title="Melhora a base — produz mais e melhores jovens por temporada. Consome do caixa." onClick={() => { const r = engine.upgradeAcademy(); setLog(r.msg); forceUpdate(); }} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>UPGRADE</EfButton>
                                             )}
                                         </div>
                                     </EfPanel>
@@ -383,7 +389,7 @@ export function DashboardView() {
                                                         <tr key={role.id} style={{ borderBottom: '1px solid #1A1F24' }}>
                                                             <td style={{ padding: '12px 0', color: '#8E9E94' }}>{role.name}</td>
                                                             <td style={{ textAlign: 'right', padding: '12px 0' }}>
-                                                                {member ? <strong style={{ color: '#39FF14' }}>{member.name}</strong> : <EfButton variant="secondary" size="sm" onClick={() => { const r = engine.hireStaff(role.id); setLog(r.msg); forceUpdate(); }} style={{ fontWeight: 'bold' }}>Contratar</EfButton>}
+                                                                {member ? <strong style={{ color: '#39FF14' }}>{member.name}</strong> : <EfButton variant="secondary" size="sm" title={`Contrata ${role.name} (paga salário semanal; ativa o bônus do cargo)`} onClick={() => { const r = engine.hireStaff(role.id); setLog(r.msg); forceUpdate(); }} style={{ fontWeight: 'bold' }}>Contratar</EfButton>}
                                                             </td>
                                                         </tr>
                                                     );
@@ -431,8 +437,8 @@ export function DashboardView() {
                                                 </td>
                                                 <td style={{ textAlign: 'right', verticalAlign: 'middle', padding: '16px 0' }}>
                                                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-                                                        <EfButton variant="primary" size="sm" onClick={() => handleAcceptOffer(offer.playerId)} style={{ fontWeight: 'bold' }}>ACEITAR</EfButton>
-                                                        <EfButton variant="danger" size="sm" onClick={() => handleRejectOffer(offer.playerId)} style={{ fontWeight: 'bold' }}>RECUSAR</EfButton>
+                                                        <EfButton variant="primary" size="sm" title="Aceitar oferta (irreversível: jogador sai do plantel imediatamente)" onClick={() => handleAcceptOffer(offer.playerId)} style={{ fontWeight: 'bold' }}>ACEITAR</EfButton>
+                                                        <EfButton variant="danger" size="sm" title="Recusar oferta (cuidado: jogador pode ficar insatisfeito e pedir saída)" onClick={() => handleRejectOffer(offer.playerId)} style={{ fontWeight: 'bold' }}>RECUSAR</EfButton>
                                                     </div>
                                                 </td>
                                             </tr>

@@ -230,7 +230,7 @@ export function MarketView() {
                                                         <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary)', ...fontMono }}>
                                                             R$ {(p.value / 1000000).toFixed(1)}M
                                                         </span>
-                                                        <EfButton variant="primary" size="md" onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
+                                                        <EfButton variant="primary" size="md" title={`Compra ${p.name} por R$ ${(p.value / 1000000).toFixed(1)}M (debita do caixa, gera salário semanal)`} onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
                                                             COMPRAR
                                                         </EfButton>
                                                     </div>
@@ -280,7 +280,7 @@ export function MarketView() {
                                             <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary)', ...fontMono }}>
                                                 ~R$ {((p.ovr * 100000) / 1000000).toFixed(1)}M
                                             </span>
-                                            <EfButton variant="danger" size="md" onClick={() => handleSell(p)}>VENDER</EfButton>
+                                            <EfButton variant="danger" size="md" title="Inicia negociação de venda (3 rodadas; comprador pode pedir desconto, jogador sai do plantel se fechar)" onClick={() => handleSell(p)}>VENDER</EfButton>
                                         </div>
                                     </div>
                                 ))}
@@ -299,8 +299,8 @@ export function MarketView() {
                                     R$ {(negotiation.counterAmount / 1000000).toFixed(1)}M
                                 </div>
                                 <div style={{ display:'flex', gap:'8px' }}>
-                                    <EfButton variant="primary" size="md" onClick={confirmSell}>ACEITAR</EfButton>
-                                    <EfButton variant="secondary" size="md" onClick={() => {
+                                    <EfButton variant="primary" size="md" title="Aceitar valor atual e fechar venda (irreversível)" onClick={confirmSell}>ACEITAR</EfButton>
+                                    <EfButton variant="secondary" size="md" title="Pedir contra-proposta +15% (máximo 3 tentativas, encerra negociação após)" onClick={() => {
                                         const newAmount = Math.floor(negotiation.counterAmount * 1.15);
                                         if (negotiation.round >= 2) {
                                             setLog(`❌ NEGOCIAÇÃO ENCERRADA.`);
@@ -329,7 +329,7 @@ export function MarketView() {
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
                             {SCOUT_REGIONS.map(r => (
-                                <EfButton key={r.id} variant="secondary" size="lg" onClick={() => handleScout(r.id)} style={{ justifyContent: 'flex-start', padding: '16px', height: 'auto' }}>
+                                <EfButton key={r.id} variant="secondary" size="lg" title={`Manda olheiro para ${r.name} (custo R$ ${(r.cost/1000).toFixed(0)}K, debita do caixa, retorna lista de jogadores)`} onClick={() => handleScout(r.id)} style={{ justifyContent: 'flex-start', padding: '16px', height: 'auto' }}>
                                     <span style={{ fontSize: '2rem', marginRight: '16px' }}>{r.emoji}</span>
                                     <div style={{ textAlign: 'left' }}>
                                         <div style={{ fontWeight: 'bold', color: 'var(--text-main)', marginBottom: '4px', fontFamily: 'Satoshi, sans-serif' }}>{r.name.toUpperCase()}</div>
@@ -365,7 +365,7 @@ export function MarketView() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <EfButton variant="primary" size="md" onClick={() => {
+                                            <EfButton variant="primary" size="md" title={`Assina ${p.name} direto (debita valor do caixa e gera salário semanal)`} onClick={() => {
                                                 const result = engine.signScoutedPlayer(i);
                                                 setLog(result?.msg.toUpperCase() || 'CONTRATADO!');
                                                 forceUpdate();

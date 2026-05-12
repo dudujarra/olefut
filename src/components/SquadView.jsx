@@ -129,7 +129,7 @@ export function SquadView() {
                     <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
                         <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
                             <EfButton variant="secondary" size="md" onClick={() => changeView(back)} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>VOLTAR</EfButton>
-                            <EfButton variant="primary" size="md" onClick={handleLoadRealSquad} disabled={loadingReal} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                            <EfButton variant="primary" size="md" title="Carrega o plantel real do clube via dataset pre-bake (substitui jogadores gerados)" onClick={handleLoadRealSquad} disabled={loadingReal} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
                                 {loadingReal ? 'CARREGANDO...' : 'PLANTEL REAL'}
                             </EfButton>
                         </div>
@@ -221,7 +221,7 @@ export function SquadView() {
                                                             border: `1px solid ${isSelected ? '#39FF14' : '#4A5059'}`,
                                                             cursor: p.injury ? 'not-allowed' : 'pointer'
                                                         }}
-                                                        title={p.injury ? 'Lesionado' : 'Alternar Titular'}
+                                                        title={p.injury ? 'Lesionado — fora da escalação até recuperar' : 'Alternar Titular/Reserva (titular ganha XP em jogo; reserva acumula desmotivação se não for usado)'}
                                                     >
                                                         {isSelected && <CheckCircle weight="bold" color="#39FF14" size={16} />}
                                                     </div>
@@ -268,12 +268,12 @@ export function SquadView() {
                                                 <td style={{ textAlign:'center', padding: '12px' }}>
                                                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                                                         {!p.isTitular && !p.injury && p.age <= 23 && (
-                                                            <button onClick={(e) => { e.stopPropagation(); handleLoan(p.id); }} style={{ background: '#16242D', border: '1px solid #40BAF7', color: '#40BAF7', padding: '6px 8px', cursor: 'pointer', }}>
+                                                            <button title="Emprestar (jovem ganha minutos em outro clube; volta com XP)" onClick={(e) => { e.stopPropagation(); handleLoan(p.id); }} style={{ background: '#16242D', border: '1px solid #40BAF7', color: '#40BAF7', padding: '6px 8px', cursor: 'pointer', }}>
                                                                 <PaperPlaneRight size={16} weight="bold" />
                                                             </button>
                                                         )}
                                                         {!p.isTitular && (
-                                                            <button onClick={(e) => { e.stopPropagation(); handleSell(p); }} style={{ background: '#2D1616', border: '1px solid #FF3333', color: '#FF3333', padding: '6px 8px', cursor: 'pointer', }}>
+                                                            <button title="Vender jogador direto (sem negociação, valor de mercado fixo)" onClick={(e) => { e.stopPropagation(); handleSell(p); }} style={{ background: '#2D1616', border: '1px solid #FF3333', color: '#FF3333', padding: '6px 8px', cursor: 'pointer', }}>
                                                                 <UserMinus size={16} weight="bold" />
                                                             </button>
                                                         )}
