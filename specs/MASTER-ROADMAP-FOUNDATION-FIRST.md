@@ -278,20 +278,44 @@ Domingo:  OFF
 
 ## 🔁 PROGRESSO (atualizar a cada commit relevante)
 
-### Bloco 1 — Fundação
+### Bloco 1 — Fundação (atualizado 2026-05-12 23:30)
 
-- [x] RFCT-004 MatchSimulator extracted (AKITA-126, Antigravity)
-- [x] AutoPlayLLMBridge extracted (AKITA-213, Antigravity)
-- [x] AutoPlayPersistence extracted (AKITA-213, Antigravity)
+#### RFCT-004 — MatchSimulator extract
+- [x] AKITA-126 (Antigravity) — `src/services/MatchSimulator.js` 545 LOC
+
+#### RFCT-005..016 — Services skeletons + reads
+- [x] MythService 348 LOC + tests (RFCT-005/6/7 — Antigravity AKITA-211ish)
+- [x] RelationshipService 267 LOC + tests (RFCT-008/9/10)
+- [x] NarrativeService 304 LOC + tests (RFCT-011/12/13)
+- [x] CareerService 231 LOC + tests (RFCT-014/15/16)
+- [x] WeekProcessor + SeasonProcessor (delegators)
+
+> **Atenção**: Skeletons existem e engine instancia. **Mas engine.js continua 1525 LOC**. Skeleton extract ≠ logic move. Real shrink ainda pendente.
+
+#### RFCT-017 — UI hooks-fachada migration + SAVE_VERSION 2→3
+- [ ] Pendente
+
+#### RFCT-018 — AutoPlayService split (1905 → ≤400 LOC, atual 1280)
+- [x] Phase 1: AutoPlayLLMBridge + AutoPlayPersistence (AKITA-213)
+- [x] Phase 2: AutoPlayPacing 323 LOC (Antigravity AKITA-215)
+- [x] Phase 3: AutoPlaySimulator 396 LOC (Antigravity AKITA-216)
+- [ ] Phase 4: AutoPlayService orchestrator slim ≤400 LOC (atual 1280)
+
+#### RFCT-019 — engine.js real shrink (NOVO — bloqueante crítico)
+- [ ] Audit 47 métodos engine.js (já tem mapa)
+- [ ] Identificar métodos a mover pra cada service
+- [ ] advanceWeek 160 LOC → extract NPC logic + AI Director + player career
+- [ ] Engine final ≤400 LOC com só orchestration
+
+#### Bundle optimization
 - [x] Player-data chunk separado (AKITA-213, Antigravity)
-- [ ] RFCT-005 MythService skeleton + reads
-- [ ] RFCT-006 Move read methods
-- [ ] RFCT-007 Move writes + saveSerializer
-- [ ] RFCT-008..017 (12 PRs restantes)
-- [ ] RFCT-018 phase 2-3 (AutoPlaySimulator + Pacing extract)
-- [ ] EfButton 637KB audit
+- [ ] EfButton 637KB audit (qual dep tá puxando)
 - [ ] Tone.js lazy load
-- [ ] README/CLAUDE.md auto-gen script
+
+#### Doc auto-gen
+- [ ] README badges via CI script (auto-gera test count, LOC, specs)
+- [ ] CLAUDE.md métricas geradas, não manuais
+- [ ] Pre-commit hook valida CLAUDE.md vs estado real
 
 ### Bloco 2 — Integração
 
