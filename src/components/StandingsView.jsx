@@ -130,7 +130,7 @@ export function StandingsView() {
                 {activeZone === 'BRA' && stateTournaments.length > 0 && (
                     <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap" style={{ gap: '8px', alignItems: 'center' }}>
                         <Trophy size={16} color="var(--text-muted)" />
-                        <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', ...fontMono }}>ESTADUAIS</span>
+                        <span className="ef-mono ef-text-muted" style={{ fontSize: '0.75rem' }}>ESTADUAIS</span>
                         {stateTournaments.map(st => (
                             <EfButton
                                 key={st.id}
@@ -148,9 +148,9 @@ export function StandingsView() {
                 {/* LEGEND BENTO */}
                 <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap" style={{ justifyContent: 'center', gap: '16px' }}>
                     {activeState && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', ...fontMono }}>
+                        <div className="ef-legend-chip">
                             <Trophy size={14} color="var(--accent)" weight="fill" />
-                            <span style={{ color: 'var(--text-muted)' }}>TOP 4 → SEMIFINAIS</span>
+                            <span className="ef-text-muted">TOP 4 → SEMIFINAIS</span>
                         </div>
                     )}
                     {!activeState && activeDiv === 1 && (
