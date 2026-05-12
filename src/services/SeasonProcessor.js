@@ -36,6 +36,9 @@ import { evaluate as evaluateRivalry } from '../engine/RivalryUpgradeSystem';
 import { evaluate as evaluateFilhosRegen } from '../engine/FilhosRegenSystem';
 import { evaluateAchievements } from '../engine/MetaProgression';
 import { generateSeasonStory } from '../engine/SeasonStoryEngine.js';
+import { Data } from '../engine/data';
+import { rng as systemRng } from '../engine/rng.js';
+import { saveAllBrains } from './learning/BrainPersistence';
 
 export class SeasonProcessor {
     /**
@@ -590,6 +593,136 @@ export class SeasonProcessor {
                 team.balance += prize;
                 engine.weekEvents.push(`💰 Prêmio ${label}: R$ ${(prize / 1_000_000).toFixed(1)}M`);
             });
+        } catch { /* defensive */ }
+    }
+
+    // ========================================================================
+    // RFCT-019.8: Full season rollover (extracted from engine.startNewSeason)
+    // ========================================================================
+
+    /**
+     * Full season rollover: chama process() + emergency squad replenish +
+     * re-init leagues + re-qualify continental cups + brain persistence + week reset.
+     *
+     * Extraído de engine.startNewSeason (135 LOC).
+     */
+    rolloverSeason(engine) {
+        // Season-end processing (parte central — já existe via process)
+        try {
+            this.process(engine);
+        } catch { /* defensive — never break rollover */ }
+
+        // MARL Fase 6: Persist all NPC brains at season end
+        try { saveAllBrains(engine.teams); } catch { /* defensive */ }
+
+        engine.currentWeek = 0;
+        engine.seasonNumber++;
+        // SPEC-135: seasonsCompleted view unlock
+        engine.viewUnlockState.seasonsCompleted = engine.seasonNumber - 1;
+        if (engine.managerStats) {
+            engine.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0 };
+        }
+
+        // BUG-040: emergency squad replenish if critically short (<11) — ALL teams
+        try {
+            engine.teams.forEach(t => {
+                if (t?.squad && t.squad.length < 11) {
+                    const tier = t.division || 3;
+                    const needed = 11 - t.squad.length;
+                    const positions = ['GOL', 'DEF', 'DEF', 'DEF', 'MEI', 'MEI', 'MEI', 'ATA', 'ATA', 'ATA', 'ATA'];
+                    for (let i = 0; i < needed && i < positions.length; i++) {
+                        const p = Data.generatePlayer(positions[i], tier + 1, {});
+                        p.age = systemRng.int(18, 22);
+                        p.potential = Math.min(99, p.ovr + systemRng.int(10, 25));
+                        p.isYouth = true;
+                        p.contract = { weeksLeft: 76, salary: 5000 };
+                        p.energy = 100;
+                        p.isTitular = t.squad.filter(x => x.position === positions[i] && x.isTitular).length < 1;
+                        t.squad.push(p);
+                    }
+                }
+            });
+        } catch { /* defensive — never crash rollover */ }
+
+        // Capture final Série A standings BEFORE league re-init
+        const finalDiv1Standings = {};
+        try {
+            const zones = [...new Set(engine.teams.map(t => t.zone))];
+            zones.forEach(z => {
+                const st = engine.getStandings(z, 1);
+                if (st.length > 0) finalDiv1Standings[z] = st.map(s => s.teamId);
+            });
+        } catch { /* defensive */ }
+
+        // Copa do Brasil winner → Libertadores spot
+        let copaBrWinnerId = null;
+        try {
+            const copa = engine.getTournament('COPA_BR');
+            if (copa?.winner) copaBrWinnerId = copa.winner;
+        } catch { /* defensive */ }
+
+        // BUG-076: Re-init leagues by current team.division
+        engine.tournaments.forEach(t => {
+            try {
+                if (typeof t.init === 'function') {
+                    let teamIds;
+                    if (t.id && /_\d+$/.test(t.id)) {
+                        const lastUnder = t.id.lastIndexOf('_');
+                        const zone = t.id.substring(0, lastUnder);
+                        const div = parseInt(t.id.substring(lastUnder + 1));
+                        if (zone && !isNaN(div) && div >= 1 && div <= 4) {
+                            teamIds = engine.teams
+                                .filter(tm => tm.zone === zone && tm.division === div)
+                                .map(tm => tm.id);
+                        }
+                    }
+                    // Skip continental cups — re-qualified separately below
+                    if (['LIBERTADORES', 'SULA', 'CHAMPIONS'].includes(t.id)) return;
+                    if (!teamIds || teamIds.length === 0) {
+                        teamIds = (t.standings || []).map(s => s.teamId).filter(Boolean);
+                    }
+                    if (teamIds.length > 0) t.init(teamIds);
+                }
+            } catch { /* defensive */ }
+        });
+
+        // Re-qualify continental cups from final div 1 standings
+        try {
+            const saZones = ['BRA', 'ARG', 'URU', 'CHI', 'COL'];
+            const libTeams = [];
+            const sulaTeams = [];
+
+            saZones.forEach(z => {
+                const st = finalDiv1Standings[z] || [];
+                if (z === 'BRA') {
+                    const top4 = st.slice(0, 4);
+                    if (copaBrWinnerId && !top4.includes(copaBrWinnerId)) {
+                        const displaced = top4[3];
+                        top4[3] = copaBrWinnerId;
+                        sulaTeams.push(displaced);
+                    }
+                    libTeams.push(...top4);
+                    sulaTeams.push(...st.slice(4, 8));
+                } else {
+                    libTeams.push(...st.slice(0, 4));
+                    sulaTeams.push(...st.slice(4, 6));
+                }
+            });
+
+            const lib = engine.getTournament('LIBERTADORES');
+            if (lib && libTeams.length >= 4) lib.init(libTeams);
+
+            const sula = engine.getTournament('SULA');
+            if (sula && sulaTeams.length >= 4) sula.init(sulaTeams);
+
+            const euZones = ['ENG', 'ESP', 'ITA', 'GER', 'FRA'];
+            const clTeams = [];
+            euZones.forEach(z => {
+                const st = finalDiv1Standings[z] || [];
+                clTeams.push(...st.slice(0, 4));
+            });
+            const cl = engine.getTournament('CHAMPIONS');
+            if (cl && clTeams.length >= 4) cl.init(clTeams);
         } catch { /* defensive */ }
     }
 }
