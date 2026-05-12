@@ -1473,3 +1473,614 @@ h1, h2, h3, h4 {
 }
 .ef-arcade-cell--fired { background-color: #111417; border-color: var(--primary, #39FF14); }
 
+/* =========================================================================
+   B3.1 UI Consistency Final Utilities (SPEC-175)
+   Extracted from StartView / StyleguideView / PlayerMatchView /
+   ChallengesWidget / TrophyCeremony / FloatingBugButton inline styles.
+   ========================================================================== */
+
+/* --- Centered start/launch shell (boot screen scene) --------------------- */
+
+.ef-start-shell {
+  background-color: var(--bg-dark, #0D1117);
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+.ef-start-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+}
+.ef-start-logo-wrap {
+  text-align: center;
+  margin-bottom: 8px;
+}
+.ef-start-logo {
+  width: 200px;
+  height: 200px;
+  box-shadow: 0 0 0 4px #2D3748;
+  image-rendering: pixelated;
+  background: #1A1F24;
+  margin-bottom: 16px;
+}
+.ef-start-title {
+  margin: 0 0 8px 0;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-main, #FDFBF7);
+  font-family: var(--font-sans);
+  font-weight: 800;
+}
+.ef-start-subtitle {
+  margin: 0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary, #39FF14);
+  font-size: 0.85rem;
+  font-weight: bold;
+  font-family: var(--font-mono);
+}
+.ef-start-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: #1A1F24;
+  border: 1px solid #2D3748;
+  color: var(--text-main, #FDFBF7);
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  outline: none;
+}
+.ef-start-select {
+  width: 100%;
+  padding: 14px 16px;
+  background: #1A1F24;
+  color: var(--text-main, #FDFBF7);
+  border: 1px solid #2D3748;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  font-size: 1rem;
+  outline: none;
+}
+.ef-start-team-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #1A1F24;
+  padding: 12px 16px;
+  border: 1px solid #2D3748;
+}
+.ef-start-team-row select {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-main, #FDFBF7);
+  outline: none;
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  appearance: none;
+  cursor: pointer;
+}
+.ef-start-team-badge {
+  flex-shrink: 0;
+  padding-left: 12px;
+  border-left: 1px solid #2D3748;
+}
+.ef-start-field-label {
+  font-size: 0.8rem;
+  color: var(--text-muted, #8E9E94);
+  margin-bottom: 8px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+}
+
+/* --- Section header inside panel (icon + uppercase label) ---------------- */
+/* Used in StyleguideView panel sections — variant of ef-panel-cat-header
+   but with secondary (blue) color by default and no border-bottom. */
+
+.ef-panel-section-icon-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: #40BAF7;
+  font-weight: bold;
+}
+
+/* --- Styleguide swatches ------------------------------------------------- */
+
+.ef-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 80px;
+}
+.ef-swatch__chip {
+  width: 100%;
+  height: 60px;
+  border: 1px solid #2D3748;
+}
+.ef-swatch__name {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: var(--text-main, #FDFBF7);
+}
+.ef-swatch__hex {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted, #8E9E94);
+}
+.ef-typo-sample {
+  border-bottom: 1px solid #2D3748;
+  padding-bottom: 12px;
+}
+.ef-typo-sample__label {
+  color: var(--text-muted, #8E9E94);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+}
+
+/* --- PlayerMatchView (live match player-mode HUD) ------------------------ */
+
+.ef-bench-banner {
+  background-color: var(--bg-dark, #0D1117);
+  color: var(--danger, #FF3333);
+  padding: 16px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid var(--danger, #FF3333);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.ef-match-scoreboard {
+  text-align: center;
+  position: relative;
+}
+.ef-match-scoreboard__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+.ef-match-scoreboard__team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+.ef-match-scoreboard__name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-main, #FDFBF7);
+  font-family: var(--font-sans);
+}
+.ef-match-scoreboard__placeholder {
+  width: 64px;
+  height: 64px;
+  background-color: var(--bg-dark, #0D1117);
+}
+.ef-match-scoreboard__score {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--primary, #39FF14);
+  font-family: var(--font-mono);
+  padding: 0 32px;
+  background-color: var(--bg-dark, #0D1117);
+  border: 2px solid #2D3748;
+}
+.ef-match-scoreboard__dash { color: #2D3748; }
+.ef-match-clock {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.ef-match-clock__time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #40BAF7;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: var(--font-mono);
+}
+.ef-match-clock__track {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--bg-dark, #0D1117);
+  height: 8px;
+  border: 1px solid #2D3748;
+  overflow: hidden;
+}
+.ef-match-clock__fill {
+  height: 100%;
+  background-color: #40BAF7;
+  transition: width 0.3s ease;
+}
+.ef-match-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #111417;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 24px;
+}
+.ef-match-event-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.ef-match-event-title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+}
+.ef-match-event-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-main, #FDFBF7);
+  margin-bottom: 24px;
+}
+.ef-match-narration {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+.ef-match-narration-empty {
+  color: var(--text-muted, #8E9E94);
+  font-style: italic;
+  padding: 12px;
+  text-align: center;
+}
+.ef-match-narration-row {
+  padding: 12px 16px;
+  border-left: 4px solid #2D3748;
+  background-color: #1A1F24;
+  color: var(--text-main, #FDFBF7);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ef-match-narration-row--goal {
+  border-left-color: var(--primary, #39FF14);
+  background-color: var(--bg-dark, #0D1117);
+}
+.ef-match-narration-row__min {
+  font-family: var(--font-mono);
+  font-weight: bold;
+  color: #40BAF7;
+  width: 32px;
+}
+.ef-match-narration-row--goal .ef-match-narration-row__min {
+  color: var(--primary, #39FF14);
+}
+
+/* --- Challenges widget --------------------------------------------------- */
+
+.ef-challenge-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #1A1F24;
+  border: 1px solid #2D3748;
+  transition: all 0.2s ease;
+}
+.ef-challenge-card--completed {
+  background-color: #1B4332;
+  border-color: var(--primary, #39FF14);
+  opacity: 0.7;
+}
+.ef-challenge-card--claimable {
+  border-color: var(--accent, #FFD700);
+}
+.ef-challenge-card__body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ef-challenge-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted, #8E9E94);
+}
+.ef-challenge-card--completed .ef-challenge-card__icon { color: var(--primary, #39FF14); }
+.ef-challenge-card--claimable .ef-challenge-card__icon { color: var(--accent, #FFD700); }
+.ef-challenge-card__title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  color: var(--text-main, #FDFBF7);
+}
+.ef-challenge-card--completed .ef-challenge-card__title { color: var(--text-muted, #8E9E94); }
+.ef-challenge-card__desc {
+  font-size: 0.7rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+.ef-challenge-card__aside {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.ef-challenge-card__reward {
+  font-size: 0.7rem;
+  color: var(--accent, #FFD700);
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #1B4332;
+  padding: 2px 6px;
+}
+.ef-widget-title {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 12px 0;
+  font-family: var(--font-mono);
+  color: #40BAF7;
+}
+.ef-widget-title__hint {
+  font-size: 0.7rem;
+  color: var(--text-muted, #8E9E94);
+  font-weight: 400;
+  margin-left: auto;
+}
+
+/* --- Trophy ceremony ----------------------------------------------------- */
+
+.ef-trophy-shell {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  font-family: var(--font-sans);
+  color: var(--text-main, #FDFBF7);
+  background-color: #111417;
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+}
+.ef-trophy-reveal-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.ef-trophy-pulse-bg {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: #1B4332;
+  z-index: -1;
+  animation: pulse-glow-trophy 2s infinite alternate;
+}
+.ef-trophy-image {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 10px 20px #1B4332);
+}
+.ef-trophy-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background-color: #111417;
+  padding: 16px 32px;
+  border: 1px solid var(--accent, #FFD700);
+}
+.ef-trophy-banner__title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ef-trophy-banner__title {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--accent, #FFD700);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.ef-trophy-banner__sub {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--text-main, #FDFBF7);
+  font-weight: bold;
+}
+.ef-trophy-stats {
+  margin-top: 32px;
+  width: 100%;
+  max-width: 600px;
+}
+.ef-trophy-stats__panel {
+  background-color: #111417;
+}
+.ef-trophy-stats__header {
+  text-align: center;
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  color: #40BAF7;
+  font-weight: bold;
+}
+.ef-trophy-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.ef-trophy-stat-cell {
+  background-color: var(--bg-dark, #0D1117);
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #2D3748;
+}
+.ef-trophy-stat-cell__label {
+  font-size: 0.8rem;
+  color: var(--text-muted, #8E9E94);
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+}
+.ef-trophy-stat-cell__value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: var(--font-mono);
+}
+.ef-trophy-stat-cell__value--primary { color: var(--primary, #39FF14); }
+.ef-trophy-stat-cell__value--accent  { color: var(--accent, #FFD700); }
+.ef-trophy-stat-cell__value--danger  { color: var(--danger, #FF3333); }
+.ef-trophy-stat-cell__goals {
+  font-size: 1.2rem;
+  color: var(--text-main, #FDFBF7);
+  font-weight: bold;
+  font-family: var(--font-mono);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+}
+.ef-trophy-stat-cell__goals-sep {
+  margin: 0 4px;
+  color: #2D3748;
+}
+.ef-trophy-topscorer {
+  margin-top: 16px;
+  background-color: #1B4332;
+  border: 1px dashed var(--accent, #FFD700);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--accent, #FFD700);
+  font-weight: bold;
+}
+.ef-trophy-hall {
+  margin-top: 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.ef-trophy-hall__badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  color: var(--accent, #FFD700);
+  font-size: 0.9rem;
+  background-color: #040805;
+  padding: 8px 16px;
+}
+.ef-trophy-crowd {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  gap: 48px;
+  pointer-events: none;
+}
+@keyframes pulse-glow-trophy {
+  0%   { transform: scale(0.9); }
+  100% { transform: scale(1.1); }
+}
+
+/* --- Floating bug report button ----------------------------------------- */
+
+.ef-fab-bug {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--accent, #FFD700);
+  color: #000;
+  border: 2px solid #000;
+  cursor: pointer;
+  box-shadow: 0 4px 20px #1B4332;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9000;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.ef-fab-bug:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 24px #1B4332;
+}
+.ef-fab-confirm {
+  padding: 32px;
+  text-align: center;
+  color: var(--primary, #39FF14);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+}
+.ef-fab-textarea {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--bg-dark, #0D1117);
+  color: var(--text-main, #FDFBF7);
+  border: 1px solid #2D3748;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.ef-fab-textarea:focus {
+  border-color: #40BAF7;
+}
+.ef-fab-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted, #8E9E94);
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  background-color: #0E1F14;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+

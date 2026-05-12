@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { EfButton, EfPanel } from './ui';
 import bgTrophyCeremony from '../assets/environments/bg_trophy_ceremony.png';
-import { 
-    Trophy, Medal, SoccerBall, Check, HandsClapping, ArrowRight
+import {
+    Trophy, Medal, SoccerBall, HandsClapping, ArrowRight
 } from '@phosphor-icons/react';
 
 import imgWorldCup from '../assets/trophies/continental.png'; // world cup uses continental as placeholder until dedicated asset
@@ -30,19 +30,6 @@ import imgManager from '../assets/trophies/best_manager.png';
 export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
     const [phase, setPhase] = useState(0); // 0=enter, 1=trophy, 2=stats, 3=hall
 
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
-
     // BUG-081 (SPEC-158): aceitável — animation timeline com setTimeouts encadeados.
     // Phase progression é side effect temporal puro; useMemo não modela tempo.
     /* eslint-disable react-hooks/set-state-in-effect */
@@ -66,7 +53,7 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
 
         if (name.includes('mundial') || type === 'world') return imgWorldCup;
         if (name.includes('continental') || name.includes('libertadores') || type === 'continental') return imgContinentalCup;
-        
+
         if (type === 'cup') {
             return tier === 1 ? imgGoldCup : imgSilverCup;
         }
@@ -85,73 +72,30 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
     };
 
     return (
-        <div className="trophy-ceremony-overlay ef-art-champion-celebration"
+        <div className="trophy-ceremony-overlay ef-art-champion-celebration ef-trophy-shell"
              role="dialog" aria-label="Cerimônia de troféu"
-             style={{ 
-                 background: `url(${bgTrophyCeremony})`,
-                 backgroundColor: '#111417',
-                 backgroundSize: 'cover',
-                 backgroundPosition: 'center',
-                 imageRendering: 'pixelated',
-                 position: 'fixed',
-                 top: 0, left: 0, right: 0, bottom: 0,
-                 zIndex: 9999,
-                 display: 'flex',
-                 flexDirection: 'column',
-                 alignItems: 'center',
-                 justifyContent: 'center',
-                 padding: '24px',
-                 fontFamily: 'var(--font-sans)',
-                 color: colors.text
-             }}>
+             style={{ backgroundImage: `url(${bgTrophyCeremony})` }}>
             {/* Phase 0-1: Trophy reveal */}
             {phase >= 1 && (
                 <div className="trophy-reveal ef-anim-pop-in" aria-live="polite" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <div style={{
-                        position: 'relative',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginBottom: '32px'
-                    }}>
-                        <div style={{
-                            position: 'absolute',
-                            width: '300px', height: '300px',
-                            background: '#1B4332',
-                            zIndex: -1,
-                            animation: 'pulse-glow 2s infinite alternate'
-                        }} />
-                        <img 
-                            src={getTrophyImage(trophy)} 
+                    <div className="ef-trophy-reveal-wrap">
+                        <div className="ef-trophy-pulse-bg" />
+                        <img
+                            src={getTrophyImage(trophy)}
                             alt={trophy.name}
-                            className="ef-anim-shake"
-                            style={{ 
-                                width: '240px', 
-                                height: '240px', 
-                                objectFit: 'contain', 
-                                imageRendering: 'pixelated',
-                                filter: 'drop-shadow(0 10px 20px #1B4332)'
-                            }} 
+                            className="ef-anim-shake ef-trophy-image"
                         />
                     </div>
-                    
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        gap: '8px',
-                        backgroundColor: '#111417',
-                        padding: '16px 32px',
-                        border: `1px solid ${colors.warning}`,
-                        }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <Trophy size={32} color={colors.warning} weight="fill" />
-                            <h1 style={{ margin: 0, fontSize: '2rem', color: colors.warning, fontWeight: '900', textTransform: 'uppercase' }}>
+
+                    <div className="ef-trophy-banner">
+                        <div className="ef-trophy-banner__title-row">
+                            <Trophy size={32} color="#FFD700" weight="fill" />
+                            <h1 className="ef-trophy-banner__title">
                                 {trophy.name}
                             </h1>
-                            <Trophy size={32} color={colors.warning} weight="fill" />
+                            <Trophy size={32} color="#FFD700" weight="fill" />
                         </div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', color: colors.text, fontWeight: 'bold' }}>
+                        <div className="ef-trophy-banner__sub">
                             CAMPEÃO — TEMPORADA {season?.year || '—'}
                         </div>
                     </div>
@@ -160,51 +104,37 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
 
             {/* Phase 2: Season stats */}
             {phase >= 2 && season && (
-                <div className="trophy-stats ef-anim-slide-up" style={{ marginTop: '32px', width: '100%', maxWidth: '600px' }}>
-                    <EfPanel padding="lg" style={{ 
-                        border: `1px solid ${colors.border}`,
-                        backgroundColor: '#111417',
-                        }}>
-                        <div style={{ textAlign: 'center', marginBottom: '16px', fontFamily: 'var(--font-mono)', color: colors.secondary, fontWeight: 'bold' }}>
+                <div className="trophy-stats ef-anim-slide-up ef-trophy-stats">
+                    <EfPanel padding="lg" className="ef-trophy-stats__panel">
+                        <div className="ef-trophy-stats__header">
                             ESTATÍSTICAS DA CAMPANHA
                         </div>
-                        
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
-                            <div style={{ backgroundColor: colors.bg, padding: '12px', textAlign: 'center', border: `1px solid ${colors.border}` }}>
-                                <div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-mono)', marginBottom: '4px' }}>VITÓRIAS</div>
-                                <div style={{ fontSize: '1.5rem', color: colors.accent, fontWeight: 'bold', fontFamily: 'var(--font-mono)' }}>{season.wins || 0}</div>
+
+                        <div className="ef-trophy-stats__grid">
+                            <div className="ef-trophy-stat-cell">
+                                <div className="ef-trophy-stat-cell__label">VITÓRIAS</div>
+                                <div className="ef-trophy-stat-cell__value ef-trophy-stat-cell__value--primary">{season.wins || 0}</div>
                             </div>
-                            <div style={{ backgroundColor: colors.bg, padding: '12px', textAlign: 'center', border: `1px solid ${colors.border}` }}>
-                                <div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-mono)', marginBottom: '4px' }}>EMPATES</div>
-                                <div style={{ fontSize: '1.5rem', color: colors.warning, fontWeight: 'bold', fontFamily: 'var(--font-mono)' }}>{season.draws || 0}</div>
+                            <div className="ef-trophy-stat-cell">
+                                <div className="ef-trophy-stat-cell__label">EMPATES</div>
+                                <div className="ef-trophy-stat-cell__value ef-trophy-stat-cell__value--accent">{season.draws || 0}</div>
                             </div>
-                            <div style={{ backgroundColor: colors.bg, padding: '12px', textAlign: 'center', border: `1px solid ${colors.border}` }}>
-                                <div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-mono)', marginBottom: '4px' }}>DERROTAS</div>
-                                <div style={{ fontSize: '1.5rem', color: colors.danger, fontWeight: 'bold', fontFamily: 'var(--font-mono)' }}>{season.losses || 0}</div>
+                            <div className="ef-trophy-stat-cell">
+                                <div className="ef-trophy-stat-cell__label">DERROTAS</div>
+                                <div className="ef-trophy-stat-cell__value ef-trophy-stat-cell__value--danger">{season.losses || 0}</div>
                             </div>
-                            <div style={{ backgroundColor: colors.bg, padding: '12px', textAlign: 'center', border: `1px solid ${colors.border}` }}>
-                                <div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-mono)', marginBottom: '4px' }}>GOLS</div>
-                                <div style={{ fontSize: '1.2rem', color: colors.text, fontWeight: 'bold', fontFamily: 'var(--font-mono)', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '36px' }}>
-                                    <span style={{ color: colors.accent }}>{season.goalsFor || 0}</span>
-                                    <span style={{ margin: '0 4px', color: colors.border }}>:</span>
-                                    <span style={{ color: colors.danger }}>{season.goalsAgainst || 0}</span>
+                            <div className="ef-trophy-stat-cell">
+                                <div className="ef-trophy-stat-cell__label">GOLS</div>
+                                <div className="ef-trophy-stat-cell__goals">
+                                    <span style={{ color: '#39FF14' }}>{season.goalsFor || 0}</span>
+                                    <span className="ef-trophy-stat-cell__goals-sep">:</span>
+                                    <span style={{ color: '#FF3333' }}>{season.goalsAgainst || 0}</span>
                                 </div>
                             </div>
                         </div>
-                        
+
                         {season.topScorer && (
-                            <div style={{ 
-                                marginTop: '16px', 
-                                backgroundColor: '#1B4332', 
-                                border: `1px dashed ${colors.warning}`, 
-                                padding: '12px', 
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: '8px',
-                                color: colors.warning,
-                                fontWeight: 'bold'
-                            }}>
+                            <div className="ef-trophy-topscorer">
                                 <SoccerBall size={20} weight="fill" /> ARTILHEIRO DO TIME: {season.topScorer.name} ({season.topScorer.goals} GOLS)
                             </div>
                         )}
@@ -214,17 +144,8 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
 
             {/* Phase 3: Hall of Fame entry + dismiss */}
             {phase >= 3 && (
-                <div className="trophy-hall ef-anim-fade-in" style={{ marginTop: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
-                    <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '8px', 
-                        fontFamily: 'var(--font-mono)', 
-                        color: colors.warning, 
-                        fontSize: '0.9rem',
-                        backgroundColor: '#040805',
-                        padding: '8px 16px',
-                        }}>
+                <div className="trophy-hall ef-anim-fade-in ef-trophy-hall">
+                    <div className="ef-trophy-hall__badge">
                         <Medal size={20} weight="fill" /> REGISTRADO NO HALL DA FAMA DA SUA CARREIRA
                     </div>
                     <EfButton
@@ -240,19 +161,12 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
             )}
 
             {/* Crowd atmosphere */}
-            <div className="trophy-crowd" style={{ position: 'absolute', bottom: '20px', display: 'flex', gap: '48px', pointerEvents: 'none' }}>
-                <HandsClapping size={64} weight="duotone" color={colors.text} className="ef-anim-crowd-wave" />
-                <HandsClapping size={64} weight="duotone" color={colors.text} className="ef-anim-crowd-flag-wave" style={{ animationDelay: '0.5s' }} />
-                <HandsClapping size={64} weight="duotone" color={colors.text} className="ef-anim-crowd-wave" style={{ animationDelay: '0.2s' }} />
-                <HandsClapping size={64} weight="duotone" color={colors.text} className="ef-anim-crowd-flag-wave" style={{ animationDelay: '0.7s' }} />
+            <div className="trophy-crowd ef-trophy-crowd">
+                <HandsClapping size={64} weight="duotone" color="#FDFBF7" className="ef-anim-crowd-wave" />
+                <HandsClapping size={64} weight="duotone" color="#FDFBF7" className="ef-anim-crowd-flag-wave" style={{ animationDelay: '0.5s' }} />
+                <HandsClapping size={64} weight="duotone" color="#FDFBF7" className="ef-anim-crowd-wave" style={{ animationDelay: '0.2s' }} />
+                <HandsClapping size={64} weight="duotone" color="#FDFBF7" className="ef-anim-crowd-flag-wave" style={{ animationDelay: '0.7s' }} />
             </div>
-            
-            <style dangerouslySetInnerHTML={{__html: `
-                @keyframes pulse-glow {
-                    0% { transform: scale(0.9); ; }
-                    100% { transform: scale(1.1); ; }
-                }
-            `}} />
         </div>
     );
 }
