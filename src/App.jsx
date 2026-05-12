@@ -8,6 +8,7 @@ import { DashboardView } from './components/DashboardView';
 import { Sidebar } from './components/Sidebar';
 import { FloatingBugButton } from './components/FloatingBugButton';
 import { ChronicleSeasonEndModal } from './components/ChronicleSeasonEndModal';
+import { SeasonalEventModal } from './components/SeasonalEventModal';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
 import { EfButton } from './components/ui/EfButton';
@@ -154,6 +155,9 @@ function App() {
         <div style={{ display: 'flex', minHeight: '100dvh', backgroundColor: '#000' }}>
             {/* SPEC-B3: Chronicle full-screen ao fim de temporada (auto-trigger) */}
             <ChronicleSeasonEndModal />
+
+            {/* SPEC-C6: Evento sazonal BR (weeks 1/13/26/38 — auto-trigger) */}
+            <SeasonalEventModal />
 
             {gameState.started && gameState.view !== 'start' && gameState.view !== 'tutorial' && (
                 <Sidebar />
