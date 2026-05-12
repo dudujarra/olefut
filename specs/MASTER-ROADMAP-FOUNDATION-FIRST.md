@@ -341,13 +341,32 @@ Domingo:  OFF
 
 **Decisão de Bloco**: Embora 4 itens estejam em "close" (8-25% overshoot), todos os marcos arquiteturais críticos (engine refactor, service extractions, doc auto-gen, golden master) foram atingidos. Otimizar os últimos 10-25% requer mudanças invasivas (modificar AutoPlayPacing/Simulator pra remover delegators, splitar GameContext, splitar player-data por região) que seriam Bloco 2/3 work. **Bloco 1 declarado funcionalmente completo.**
 
-### Bloco 2 — Integração (próximo)
+### Bloco 2 — Integração (em andamento)
 
-- [ ] Feature audit planilha preenchida (40 features × 5 colunas)
-- [ ] Gap fixes (estimativa: 20-30 features funcionando 100%)
-- [ ] LLM bridge 3 use cases reais
-- [ ] 10+ E2E tests Playwright
-- [ ] Tutorial 5min completável
+#### B2.1 Feature audit (DONE)
+- [x] AKITA-233 (PR #123) — `specs/AKITA-FEATURE-AUDIT-2026-05-12.md` produzido (119 LOC matrix completa)
+- **Resumo**: 0/40 features com Playwright E2E real, 11 funcionam decentemente, 18 com gaps de 1-2 colunas, 11 quebradas/órfãs
+
+#### B2.2 Gap fixes (em andamento — quick wins done)
+- [x] AKITA-234 (PR #124) Quick wins: LiveOpsService DELETED (79 LOC dead code), Tutorial sidebar link (replayability)
+- [ ] News System (#18) — confirmado ausente do engine E do SDD; audit estava errado sobre ser referenciado
+- [ ] Painel "Linhagem & Legado" (Heritage/Humiliation/Growth/HoF unificado) — pendente
+- [ ] StateChampionship wire-up (Paulistão/Carioca/Mineiro/Gaúcho órfãos) — pendente
+- [ ] Decisão player vs manager mode (6 features player-only sem descoberta) — pendente
+
+#### B2.3 LLM bridge real
+- [ ] 3 use cases concretos (post-match analysis, manager advice, player chat)
+- [ ] Graceful degradation sem LLM
+
+#### B2.4 Integration tests E2E
+- [ ] Setup `test:e2e` npm script + CI workflow
+- [ ] 10+ Playwright flows (primeira temporada, save/reload, paths obscuros)
+
+#### B2.5 Tutorial decente
+- [x] Sidebar replay link (AKITA-234)
+- [ ] Tooltips contextuais em ~10 botões críticos
+- [ ] "Aha moments" cards estratégicos
+- [ ] Funil tracking (já tem AUDIT-FIX #16)
 
 ### Bloco 3 — Polish + Launch
 
