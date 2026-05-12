@@ -2429,3 +2429,22 @@ h1, h2, h3, h4 {
   padding-left: 12px;
   opacity: 0.85;
 }
+
+/* ─── SPEC-B1.3: Match ball sprite animation ─── */
+@keyframes ef-ball-travel {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(40vw) translateY(-20px);
+  }
+  50% {
+    transform: translateX(70vw) translateY(0);
+  }
+  75% {
+    transform: translateX(40vw) translateY(-15px);
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
