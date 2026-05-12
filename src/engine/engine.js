@@ -131,6 +131,9 @@ export class Engine {
         // Loan system: allows managers to take emergency loans with interest
         // Each loan: { principal, interestRate, weeklyPayment, weeksRemaining, totalOwed }
         this.activeLoan = null;
+
+        // SPEC-C2: optional star player link (modo unificado groundwork)
+        this.starPlayerId = null;
     }
 
     initGame(name, teamId, mode = 'manager', scenario = 'livre', playerPosition = 'ATA') {
