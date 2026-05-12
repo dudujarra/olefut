@@ -7,6 +7,8 @@ import { LiveSquadEditModal } from './LiveSquadEditModal';
 import { PreMatchScreen } from './PreMatchScreen';
 import { MatchPostMortem } from './MatchPostMortem';
 import { analyzeMatch } from '../engine/MatchAnalyst';
+import { MidMatchCardModal } from './MidMatchCardModal';
+import { shouldTriggerMidMatch, getMidMatchCard } from '../engine/MidMatchManagerDeck';
 import { EfClubBadge, EfBanner } from './ui';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
@@ -48,6 +50,10 @@ export function MatchView() {
     const speedRef = useRef(200);
     const pausedRef = useRef(false);
 
+    // SPEC-B2.2: mid-match card state
+    const [midMatchCard, setMidMatchCard] = useState(null);
+    const triggeredMinutesRef = useRef(new Set());
+
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
 
@@ -71,6 +77,47 @@ export function MatchView() {
         if (oppGoals === 0 && myGoals > 0) setBanner('cleanSheet');
     }, [phase, narration, result, team.name]);
     /* eslint-enable react-hooks/set-state-in-effect */
+
+    // SPEC-B2.2: trigger mid-match decision card at minutes 15/30/45/60/75 (30% chance)
+    /* eslint-disable react-hooks/set-state-in-effect */
+    useEffect(() => {
+        if (phase !== 'firsthalf' && phase !== 'secondhalf') return;
+        if (midMatchCard) return; // already showing one
+        if (!shouldTriggerMidMatch(currentMinute, triggeredMinutesRef.current)) return;
+        // 30% chance (deterministic via minute+matchId hash if available)
+        const seed = (currentMinute * 7) + (result?.homeTeamId || 0);
+        const roll = (Math.abs(seed) % 100);
+        if (roll < 30) {
+            const card = getMidMatchCard(currentMinute, seed);
+            if (card) {
+                setMidMatchCard(card);
+                triggeredMinutesRef.current.add(currentMinute);
+            }
+        } else {
+            triggeredMinutesRef.current.add(currentMinute);
+        }
+    }, [currentMinute, phase, midMatchCard, result]);
+    /* eslint-enable react-hooks/set-state-in-effect */
+
+    const handleMidMatchChoose = (opt) => {
+        if (!opt) return;
+        try {
+            const t = engine.getTeam(gameState.teamId);
+            if (t && typeof opt.effect?.moralDelta === 'number') {
+                t.moral = Math.max(0, Math.min(100, (t.moral ?? 50) + opt.effect.moralDelta));
+            }
+            if (t && typeof opt.effect?.energyDelta === 'number' && Array.isArray(t.squad)) {
+                t.squad.forEach(p => {
+                    if (typeof p.energy === 'number') {
+                        p.energy = Math.max(0, Math.min(100, p.energy + opt.effect.energyDelta));
+                    }
+                });
+            }
+            if (typeof opt.effect?.tacticShift === 'string' && engine.setTactic) {
+                engine.setTactic(opt.effect.tacticShift);
+            }
+        } catch { /* defensive */ }
+    };
 
     // Auto-scroll narration log
     useEffect(() => {
@@ -520,6 +567,12 @@ export function MatchView() {
     // === LIVE MATCH RENDERER ===
     const renderLiveMatch = (half) => (
         <div className="ef-view-shell">
+            {/* SPEC-B2.2: mid-match decision overlay */}
+            <MidMatchCardModal
+                card={midMatchCard}
+                onChoose={handleMidMatchChoose}
+                onClose={() => setMidMatchCard(null)}
+            />
             <div className="ef-view-container">
                 <Scoreboard half={half} />
 
