@@ -1,5 +1,6 @@
 // Regression / harness for SPEC-060 — Club Identity System
-// Validates: 170 clubes mapped (80 BR + 50 EU + 40 SA), defaults fallback, sprite coords.
+// Validates: 178 clubes mapped (88 BR + 50 EU + 40 SA), defaults fallback, sprite coords.
+// SPEC-168 expansion: BR aumentou de 80 → 88 (4 MG + 4 RS adicionados pra ativar Mineirão + Gauchão).
 import { describe, test, expect } from 'vitest';
 import { CLUB_COLORS, DEFAULT_COLORS, getClubColors, deriveInitials, CLUB_COUNT, CLUB_SPRITES, getClubSprite, SPRITE_SHEETS, normalizeClubName } from '../../src/data/clubColors.js';
 import { BrazilDB } from '../../src/engine/db/brazil.js';
@@ -24,13 +25,13 @@ const allClubs = [
     ...flattenDB(SouthAmericaDB)
 ];
 
-describe('SPEC-060: Club Identity System (170 clubes BR+EU+SA)', () => {
-    test('CLUB_COLORS has 170 entries', () => {
-        expect(CLUB_COUNT).toBe(170);
+describe('SPEC-060: Club Identity System (178 clubes BR+EU+SA, pós-SPEC-168 expansion)', () => {
+    test('CLUB_COLORS has 178 entries', () => {
+        expect(CLUB_COUNT).toBe(178);
     });
 
-    test('Total clubs in DBs is 170', () => {
-        expect(allClubs).toHaveLength(170);
+    test('Total clubs in DBs is 178', () => {
+        expect(allClubs).toHaveLength(178);
     });
 
     test('getClubColors returns mapped colors for Flamengo', () => {
@@ -45,12 +46,12 @@ describe('SPEC-060: Club Identity System (170 clubes BR+EU+SA)', () => {
         expect(c.initials).toBe('INE');
     });
 
-    test('All 170 clubs from DBs are mapped in CLUB_COLORS', () => {
+    test('All 178 clubs from DBs are mapped in CLUB_COLORS', () => {
         const unmapped = allClubs.filter(c => !CLUB_COLORS[normalizeClubName(c.name)]);
         expect(unmapped.map(c => c.name)).toEqual([]);
     });
 
-    test('All 170 clubs have sprite coords', () => {
+    test('All 178 clubs have sprite coords', () => {
         const unmapped = allClubs.filter(c => !CLUB_SPRITES[normalizeClubName(c.name)]);
         expect(unmapped.map(c => c.name)).toEqual([]);
     });
@@ -83,15 +84,19 @@ describe('SPEC-060: Club Identity System (170 clubes BR+EU+SA)', () => {
         });
     });
 
-    test('Sheet sprite counts match expected: BR 4×20, EU 5×10, SA 4×10', () => {
+    test('Sheet sprite counts match expected: BR a/b=20, c/d=24, EU 5×10, SA 4×10', () => {
+        // SPEC-168 expansion: sheets c (Série C) e d (Série D) cresceram de 20 → 24
+        // pra acomodar 4 clubes MG + 4 clubes RS (Pouso Alegre, Villa Nova-MG,
+        // Brasil de Pelotas, Esportivo em c; Uberlândia, Democrata-GV, Pelotas,
+        // Veranópolis em d). PNGs ainda 5x4 — sprites novos renderizam fallback.
         const counts = {};
         Object.values(CLUB_SPRITES).forEach(s => {
             counts[s.sheet] = (counts[s.sheet] || 0) + 1;
         });
         expect(counts.a).toBe(20);
         expect(counts.b).toBe(20);
-        expect(counts.c).toBe(20);
-        expect(counts.d).toBe(20);
+        expect(counts.c).toBe(24);
+        expect(counts.d).toBe(24);
         expect(counts.eng).toBe(10);
         expect(counts.esp).toBe(10);
         expect(counts.ita).toBe(10);

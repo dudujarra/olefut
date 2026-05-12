@@ -63,7 +63,11 @@ export const BrazilDB = {
         { name: "Ferroviário", budget: 6000000, stadium: 8000 },
         { name: "Caxias", budget: 10000000, stadium: 30000 },
         { name: "Athletic Club", budget: 12000000, stadium: 3000 },
-        { name: "Ferroviária", budget: 15000000, stadium: 20000 }
+        { name: "Ferroviária", budget: 15000000, stadium: 20000 },
+        { name: "Pouso Alegre", budget: 8000000, stadium: 10000 },
+        { name: "Villa Nova-MG", budget: 7000000, stadium: 6000 },
+        { name: "Brasil de Pelotas", budget: 9000000, stadium: 18000 },
+        { name: "Esportivo", budget: 5000000, stadium: 6000 }
     ],
     4: [
         { name: "Santa Cruz", budget: 8000000, stadium: 60000 },
@@ -85,6 +89,10 @@ export const BrazilDB = {
         { name: "Portuguesa-RJ", budget: 4000000, stadium: 5000 },
         { name: "Retrô", budget: 15000000, stadium: 42000 },
         { name: "Iguatu", budget: 1000000, stadium: 3000 },
-        { name: "Sousa", budget: 1000000, stadium: 10000 }
+        { name: "Sousa", budget: 1000000, stadium: 10000 },
+        { name: "Uberlândia", budget: 3000000, stadium: 50000 },
+        { name: "Democrata-GV", budget: 1500000, stadium: 18000 },
+        { name: "Pelotas", budget: 2500000, stadium: 25000 },
+        { name: "Veranópolis", budget: 1500000, stadium: 5000 }
     ]
 };

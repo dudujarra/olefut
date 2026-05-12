@@ -5,7 +5,7 @@
 **Status**: Implementada (este PR)
 **Owner**: Dudu (Eduardo Jarra)
 **Spec linkada ao código**: `src/services/GameInitializer.js`, `src/engine/tournaments/StateChampionship.js`, `src/components/StandingsView.jsx`
-**Harness**: `tests/integration/state-championship-init.test.js`
+**Harness**: `tests/integration/state-championship-init.test.js`, `tests/integration/state-championship-mg-rs.test.js` (post-expansion MG/RS)
 
 ---
 
@@ -80,18 +80,25 @@ Após `engine.initGame(...)`:
 
 ---
 
-## States wired (snapshot atual)
+## States wired (snapshot atual — pós-expansion 2026-05-12)
 
 | Estadual    | Estado | Size config | Pool real (BR DB) | Wired? |
 |-------------|--------|-------------|-------------------|--------|
 | Paulistão   | SP     | 16          | 13                | ✅ (truncado a 13) |
 | Carioca     | RJ     | 12          | 8                 | ✅ (truncado a 8)  |
-| Mineiro     | MG     | 12          | 6                 | ❌ < 8 clubes      |
-| Gaúcho      | RS     | 16          | 6                 | ❌ < 8 clubes      |
+| Mineiro     | MG     | 12          | **10**            | ✅ ATIVO (truncado a 10) |
+| Gaúcho      | RS     | 16          | **10**            | ✅ ATIVO (truncado a 10) |
+
+**Expansion (2026-05-12, ramo `claude/brazil-clubs-expand`)**: brazil.js cresceu
+de 80 → 88 clubes. Foram adicionados 4 clubes MG (Pouso Alegre, Villa Nova-MG
+em Série C; Uberlândia, Democrata-GV em Série D) e 4 clubes RS (Brasil de
+Pelotas, Esportivo em Série C; Pelotas, Veranópolis em Série D). Pools MG/RS
+subiram de 6 → 10, ultrapassando o threshold de 8 clubes mínimos no
+`GameInitializer._initializeStateChampionships`. Resultado: os 4 estaduais
+brasileiros estão ATIVOS desde a primeira temporada. Harness adicional em
+`tests/integration/state-championship-mg-rs.test.js`.
 
 **Quando estados crescem (mais clubes adicionados a brazil.js)**, automaticamente entram no wire-up sem mudar GameInitializer.
-
-> Nota: o número de clubes por estado depende do que existe em `brazil.js`. Mineiro e Gaúcho ficam dormentes até preenchermos as divisões 3/4 com mais MG/RS.
 
 ---
 
