@@ -1,32 +1,7 @@
-import { Data } from './data';
-import { RealDB } from './db/index';
-import { League } from './tournaments/League';
-import { ContinentalCup } from './tournaments/ContinentalCup';
-import { KnockoutCup } from './tournaments/KnockoutCup';
-import { ProPlayer } from './PlayerCareer';
-import { FORMATIONS, TACTICS, applyTraining, applyTeamTalk } from './ManagerSystems';
-import { adviseTactic, initNpcTacticState, applyNpcTacticAdvice } from './NpcTacticAdvisor';
-import { checkSquadHealth } from './SquadHealthMonitor';
-
-// MARL Fase 6: Multi-Agent imports
-import { AdaptiveBrain } from '../services/learning/AdaptiveBrain.js';
-import { suggestArchetypeForClub } from '../services/learning/Archetypes.js';
-import { npcTacticDecision, npcBuyDecision, shouldUseFullBrain } from '../services/learning/NpcManagerAI.js';
-import { saveAllBrains, restoreAllBrains } from '../services/learning/BrainPersistence.js';
-import { AIDirector } from '../services/learning/AIDirector.js';
-
-
 import { canAccess } from './ViewUnlockSystem';
 import { compute as computeManagerIdentity } from './ManagerIdentitySystem';
-import { generate as generateContract } from './ContractGoalSystem';
-import { BoardSystem } from './BoardSystem';
+import { StaffManager } from './StadiumSystem';
 
-import { generateYouthIntake, getAcademyUpgradeCost, loanPlayerOut } from './YouthAcademy';
-import { shouldTriggerPress, generateQuestion, applyPressEffect } from './PressConference';
-import { StaffManager, getStadiumInfo, SCOUT_REGIONS, scoutRegion } from './StadiumSystem';
-import { evaluateSponsor, ManagerLegacy } from './SeasonSystem';
-import { generateRenewalOffer, acceptRenewal } from './PlayerDevelopment';
-import { rollTraits, initCareerStats } from './PlayerTraits';
 import { MatchSimulator } from '../services/MatchSimulator';
 import { MythService } from '../services/MythService';
 import { RelationshipService } from '../services/RelationshipService';
@@ -43,10 +18,7 @@ import { FacilityService } from '../services/FacilityService';
 import { FormationService } from '../services/FormationService';
 import { PressService } from '../services/PressService';
 import { SectorService } from '../services/SectorService';
-import { apply as applyBoardTension } from './BoardTensionSystem';
-import { onBoardSellAttempt as checkStarProtection } from './StarProtectionSystem';
-
-import { rng as systemRng } from './rng.js';
+import { GameInitializer } from '../services/GameInitializer';
 
 export class Engine {
     constructor() {
@@ -79,6 +51,8 @@ export class Engine {
         this._pressService = new PressService();
         // RFCT-019.9: SectorService — getTeamSectors + getPacingEvents
         this._sectorService = new SectorService();
+        // RFCT-019.10: GameInitializer — initGame heavy logic extracted
+        this._gameInitializer = new GameInitializer();
         // RFCT-007: MythService — Camada 5 (Mito) Hall de Lendas (stateless)
         this._mythService = new MythService();
         // RFCT-008/010: RelationshipService — Camada 3 (Relacional) (stateless)
@@ -154,168 +128,7 @@ export class Engine {
     }
 
     initGame(name, teamId, mode = 'manager', scenario = 'livre', playerPosition = 'ATA') {
-        this.manager.name = name;
-        this.manager.teamId = parseInt(teamId);
-        this.mode = mode;
-
-        // Create all teams from RealDB
-        let idCounter = 1;
-        for (const zone of Object.keys(RealDB)) {
-            for (const divStr of Object.keys(RealDB[zone])) {
-                const div = parseInt(divStr);
-                RealDB[zone][div].forEach(club => {
-                    const tier = zone === 'BRA' ? div : (zone === 'ARG' || zone === 'COL' ? 1.5 : 2);
-                    const squad = Data.generateSquad(tier, club.budget, club.name);
-                    // Add contracts to each player
-                    squad.forEach(p => {
-                        p.contract = { weeksLeft: 38 + Math.floor(systemRng() * 76), salary: p.salary || 5000 };
-                        p.injury = null;
-                        p.moral = 50 + Math.floor(systemRng() * 20);
-                        rollTraits(p);
-                        initCareerStats(p);
-                    });
-                    this.teams.push({
-                        id: idCounter++,
-                        name: club.name,
-                        zone,
-                        division: div,
-                        squad,
-                        formation: "4-3-3",
-                        balance: club.budget,
-                        stadium: club.stadium,
-                        npcTacticState: initNpcTacticState(), // SPEC-131
-                        brain: null, // MARL Fase 6: will be assigned below for NPCs
-                    });
-                });
-            }
-        }
-
-        // MARL Fase 6: Assign AdaptiveBrain + personality to each NPC team
-        const playerTeamId = parseInt(teamId);
-        for (const team of this.teams) {
-            if (team.id === playerTeamId) continue;
-            const archetype = suggestArchetypeForClub({
-                budget: team.balance || 0,
-                division: team.division || 4,
-                reputation: team.stadium?.capacity > 40000 ? 80 : team.division <= 2 ? 60 : 30
-            });
-            team.brain = new AdaptiveBrain(archetype, { skipAutoRestore: true });
-        }
-
-        // MARL Fase 6: AI Director for player experience management
-        this._aiDirector = new AIDirector();
-
-        // MARL Fase 6: Restore persisted NPC brains
-        try { restoreAllBrains(this.teams); } catch { /* ignore */ }
-
-        // Apply scenario modifiers
-        if (scenario === 'fallen') {
-            const team = this.getTeam(this.manager.teamId);
-            if (team) team.balance = Math.floor(team.balance * 0.1);
-        }
-
-        // Init Board System + Legacy + Sponsor + Contract Goals
-        if (mode === 'manager') {
-            const team = this.getTeam(this.manager.teamId);
-            if (team) {
-                this.board = new BoardSystem(team.division, team.balance);
-                this.legacy = new ManagerLegacy(name);
-                this.currentSponsor = evaluateSponsor(team.division, 10);
-                // SPEC-071: generate initial contract for new manager
-                const clubTier = team.division === 1 ? 'big' : team.division === 2 ? 'mid' : 'small';
-                this.managerContract = generateContract({
-                    managerId: this.manager.teamId,
-                    clubId: team.id,
-                    clubTier,
-                    managerReputation: this.manager.reputation || 10,
-                    contractType: 'new_hire',
-                    clubDivision: team.division,
-                });
-            }
-        }
-
-        // Create leagues for each zone/division
-        for (const zone of Object.keys(RealDB)) {
-            for (const divStr of Object.keys(RealDB[zone])) {
-                const div = parseInt(divStr);
-                const leagueTeams = this.teams.filter(t => t.zone === zone && t.division === div).map(t => t.id);
-                const league = new League(`${zone}_${div}`, `Liga ${zone} - Div ${div}`, div);
-                league.init(leagueTeams);
-                this.tournaments.push(league);
-            }
-        }
-
-        // Create Copa do Brasil (knockout with all BRA teams)
-        const braTeams = this.teams.filter(t => t.zone === 'BRA').map(t => t.id);
-        const copaBrasil = new KnockoutCup('COPA_BR', 'Copa do Brasil', [4, 8, 12, 16, 20, 24, 28]);
-        copaBrasil.init(braTeams);
-        this.tournaments.push(copaBrasil);
-
-        // Libertadores (top 4 BRA div1 + top 2-4 each SA country)
-        const libTeams = [];
-        libTeams.push(...this.teams.filter(t => t.zone === 'BRA' && t.division === 1).slice(0, 4).map(t => t.id));
-        if (RealDB.ARG) libTeams.push(...this.teams.filter(t => t.zone === 'ARG' && t.division === 1).slice(0, 4).map(t => t.id));
-        if (RealDB.URU) libTeams.push(...this.teams.filter(t => t.zone === 'URU' && t.division === 1).slice(0, 2).map(t => t.id));
-        if (RealDB.CHI) libTeams.push(...this.teams.filter(t => t.zone === 'CHI' && t.division === 1).slice(0, 2).map(t => t.id));
-        if (RealDB.COL) libTeams.push(...this.teams.filter(t => t.zone === 'COL' && t.division === 1).slice(0, 4).map(t => t.id));
-
-        const libertadores = new ContinentalCup('LIBERTADORES', 'Copa Libertadores',
-            [5, 9, 13], [17, 21, 25]);
-        libertadores.init(libTeams);
-        this.tournaments.push(libertadores);
-
-        // Copa Sul-Americana (positions 5-8 BRA div1 + 3-4 each SA country)
-        const sulaTeams = [];
-        sulaTeams.push(...this.teams.filter(t => t.zone === 'BRA' && t.division === 1).slice(4, 8).map(t => t.id));
-        if (RealDB.ARG) sulaTeams.push(...this.teams.filter(t => t.zone === 'ARG' && t.division === 1).slice(4, 6).map(t => t.id));
-        if (RealDB.URU) sulaTeams.push(...this.teams.filter(t => t.zone === 'URU' && t.division === 1).slice(2, 4).map(t => t.id));
-        if (RealDB.CHI) sulaTeams.push(...this.teams.filter(t => t.zone === 'CHI' && t.division === 1).slice(2, 4).map(t => t.id));
-        if (RealDB.COL) sulaTeams.push(...this.teams.filter(t => t.zone === 'COL' && t.division === 1).slice(4, 6).map(t => t.id));
-
-        const sulAmericana = new ContinentalCup('SULA', 'Copa Sul-Americana',
-            [7, 11, 15], [19, 23, 27]);
-        sulAmericana.init(sulaTeams.length >= 4 ? sulaTeams : libTeams.slice(4, 12));
-        this.tournaments.push(sulAmericana);
-
-        // Champions League (top 4 from each EU league)
-        const clTeams = [];
-        for (const z of ['ENG', 'ESP', 'ITA', 'GER', 'FRA']) {
-            if (RealDB[z]) clTeams.push(...this.teams.filter(t => t.zone === z && t.division === 1).slice(0, 4).map(t => t.id));
-        }
-        const champions = new ContinentalCup('CHAMPIONS', 'Champions League',
-            [6, 10, 14], [18, 22, 26]);
-        champions.init(clTeams);
-        this.tournaments.push(champions);
-
-        // Generate market
-        this.generateMarket();
-
-        // Player mode setup
-        if (mode === 'player') {
-            const team = this.getTeam(this.manager.teamId);
-            this.proPlayer = new ProPlayer(9999, name, playerPosition);
-            // Inject into squad
-            if (team) {
-                const playerInSquad = {
-                    id: 'pro_player',
-                    name: name,
-                    position: playerPosition,
-                    attacking: this.proPlayer.attacking,
-                    technical: this.proPlayer.technical,
-                    tactical: this.proPlayer.tactical,
-                    defending: this.proPlayer.defending,
-                    creativity: this.proPlayer.creativity,
-                    ovr: 50,
-                    age: 17,
-                    energy: 100,
-                    moral: 80,
-                    salary: this.proPlayer.wage,
-                    value: 1000000,
-                    isTitular: true
-                };
-                team.squad.push(playerInSquad);
-            }
-        }
+        return this._gameInitializer.init(this, name, teamId, mode, scenario, playerPosition);
     }
 
     getTeam(id) {
