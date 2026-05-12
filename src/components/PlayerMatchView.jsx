@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
-import { drawCard } from '../engine/MatchEventsDeck';
+import { drawCard, enrichCardWithAtmosphere } from '../engine/MatchEventsDeck';
 import { BenchEventsDeck } from '../engine/BenchEventsDeck';
 import { EfClubBadge, EfPanel, EfButton } from './ui';
 import bgMatchStadium from '../assets/environments/bg_match_stadium.png';
@@ -86,11 +86,20 @@ export function PlayerMatchView() {
                     }
                 }
 
-                // Player events
+                // Player events (SPEC-B6.3 — enriquece com atmosfera BR)
                 if (!isBenched && !activeEvent && next % 20 === 0 && next < 90 && systemRng() < 0.6) {
                     clearInterval(timerRef.current);
                     const card = drawCard(player.position);
-                    if (card) setActiveEvent(card);
+                    if (card) {
+                        // Map position → atmosphere eventType (50% chance prefix)
+                        const seed = next + (player.id || 0);
+                        const enrichEvtType = (player.position === 'ATA' && systemRng() < 0.4) ? 'goal'
+                            : (player.position === 'GOL' && systemRng() < 0.4) ? 'save'
+                            : (player.position === 'DEF' && systemRng() < 0.3) ? 'card'
+                            : null;
+                        const enriched = enrichEvtType ? enrichCardWithAtmosphere(card, enrichEvtType, seed) : card;
+                        setActiveEvent(enriched);
+                    }
                 }
 
                 // Bench events
