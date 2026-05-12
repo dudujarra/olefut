@@ -14,8 +14,8 @@ import { EfButton } from './ui/EfButton';
 
 import gameLogo from '../assets/shields/olefut_main_logo.png';
 
-import { 
-    User, SoccerBall, Globe, ChartLineDown, MapPin, 
+import {
+    User, SoccerBall, Globe, ChartLineDown, MapPin,
     Lightning, GraduationCap, Robot
 } from '@phosphor-icons/react';
 
@@ -51,87 +51,32 @@ export function StartView() {
 
     const selectedTeamName = allTeams.find(t => t.id === parseInt(teamId))?.name;
 
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
-
     return (
-        <div style={{
-            backgroundColor: colors.bg,
-            minHeight: '100dvh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '24px',
-            overflowY: 'auto'
-        }}>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '24px',
-                maxWidth: '500px',
-                width: '100%',
-                margin: '0 auto'
-            }}>
-                <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-                    <img 
-                        src={gameLogo} 
-                        alt="OléFUT Logo" 
-                        style={{
-                            width: '200px', 
-                            height: '200px', 
-                            boxShadow: `0 0 0 4px ${colors.border}`,
-                            imageRendering: 'pixelated',
-                            background: colors.panelElevated,
-                            marginBottom: '16px'
-                        }} 
+        <div className="ef-start-shell">
+            <div className="ef-start-stack">
+                <div className="ef-start-logo-wrap">
+                    <img
+                        src={gameLogo}
+                        alt="OléFUT Logo"
+                        className="ef-start-logo"
                     />
-                    <h1 style={{
-                        margin: '0 0 8px 0',
-                        fontSize: '2rem',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                        color: colors.text,
-                        fontFamily: 'var(--font-sans)',
-                        fontWeight: '800'
-                    }}>
-                        OléFUT
-                    </h1>
-                    <p style={{
-                        margin: 0,
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        color: colors.accent,
-                        fontSize: '0.85rem',
-                        fontWeight: 'bold',
-                        fontFamily: 'var(--font-mono)'
-                    }}>
-                        Arcade Manager RPG
-                    </p>
+                    <h1 className="ef-start-title">OléFUT</h1>
+                    <p className="ef-start-subtitle">Arcade Manager RPG</p>
                 </div>
 
                 <EfPanel padding="lg" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    
+
                     {/* Modo de Jogo */}
                     <div style={{ display: 'flex', gap: '12px' }}>
-                        <EfButton 
-                            variant={mode === 'manager' ? 'primary' : 'secondary'} 
+                        <EfButton
+                            variant={mode === 'manager' ? 'primary' : 'secondary'}
                             onClick={() => setMode('manager')}
                             style={{ flex: 1, justifyContent: 'center' }}
                         >
                             <User size={20} weight={mode === 'manager' ? 'fill' : 'regular'} /> TREINADOR
                         </EfButton>
-                        <EfButton 
-                            variant={mode === 'player' ? 'primary' : 'secondary'} 
+                        <EfButton
+                            variant={mode === 'player' ? 'primary' : 'secondary'}
                             onClick={() => setMode('player')}
                             style={{ flex: 1, justifyContent: 'center' }}
                         >
@@ -141,51 +86,38 @@ export function StartView() {
 
                     {/* Nome */}
                     <div>
-                        <input 
-                            id="input-name" 
-                            type="text" 
-                            placeholder={mode === 'manager' ? "NOME DO TREINADOR" : "NOME DO JOGADOR"} 
-                            value={name} 
-                            onChange={e => setName(e.target.value)} 
-                            style={{
-                                width: '100%',
-                                padding: '14px 16px',
-                                background: colors.panelElevated,
-                                border: `1px solid ${colors.border}`,
-                                color: colors.text,
-                                fontSize: '1rem',
-                                fontFamily: 'var(--font-sans)',
-                                fontWeight: 'bold',
-                                outline: 'none'
-                            }}
+                        <input
+                            id="input-name"
+                            type="text"
+                            placeholder={mode === 'manager' ? "NOME DO TREINADOR" : "NOME DO JOGADOR"}
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                            className="ef-start-input"
                         />
                     </div>
 
                     {mode === 'player' && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            <select 
-                                id="select-position" 
-                                value={position} 
+                            <select
+                                id="select-position"
+                                value={position}
                                 onChange={e => setPosition(e.target.value)}
-                                style={{
-                                    width: '100%', padding: '14px 16px', background: colors.panelElevated,
-                                    color: colors.text, border: `1px solid ${colors.border}`, fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', outline: 'none'
-                                }}
+                                className="ef-start-select"
                             >
                                 <option value="GOL">Goleiro (GOL)</option>
                                 <option value="DEF">Zagueiro (DEF)</option>
                                 <option value="MEI">Meio-Campista (MEI)</option>
                                 <option value="ATA">Atacante (ATA)</option>
                             </select>
-                            
+
                             <div>
-                                <div style={{ fontSize: '0.8rem', color: colors.textMuted, marginBottom: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>PERSONALIDADE:</div>
+                                <div className="ef-start-field-label">PERSONALIDADE:</div>
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                                     {Object.entries(PERSONALITIES).map(([key, p]) => (
-                                        <EfButton 
-                                            key={key} 
+                                        <EfButton
+                                            key={key}
                                             size="sm"
-                                            variant={personality === key ? 'primary' : 'secondary'} 
+                                            variant={personality === key ? 'primary' : 'secondary'}
                                             onClick={() => setPersonality(key)}
                                             title={p.description}
                                             style={{ justifyContent: 'center', fontSize: '0.85rem' }}
@@ -200,14 +132,11 @@ export function StartView() {
 
                     {mode === 'manager' && (
                         <div>
-                            <select 
-                                id="select-scenario" 
-                                value={scenario} 
+                            <select
+                                id="select-scenario"
+                                value={scenario}
                                 onChange={e => setScenario(e.target.value)}
-                                style={{
-                                    width: '100%', padding: '14px 16px', background: colors.panelElevated,
-                                    color: colors.text, border: `1px solid ${colors.border}`, fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', outline: 'none'
-                                }}
+                                className="ef-start-select"
                             >
                                 <option value="livre">Sandbox (Livre)</option>
                                 <option value="fallen">Gigante Caído (Orçamento -90%)</option>
@@ -216,20 +145,12 @@ export function StartView() {
                     )}
 
                     {/* Seleção de Time */}
-                    <div style={{ 
-                        display: 'flex', alignItems: 'center', gap: '12px', 
-                        background: colors.panelElevated, padding: '12px 16px', 
-                        border: `1px solid ${colors.border}`, }}>
-                        <MapPin size={24} color={colors.secondary} />
-                        <select 
-                            id="select-team" 
-                            value={teamId} 
-                            onChange={e => setTeamId(e.target.value)} 
-                            style={{ 
-                                flex: 1, background: 'transparent', border: 'none', color: colors.text,
-                                outline: 'none', fontSize: '1rem', fontFamily: 'var(--font-sans)', fontWeight: 'bold',
-                                appearance: 'none', cursor: 'pointer'
-                            }}
+                    <div className="ef-start-team-row">
+                        <MapPin size={24} color="#40BAF7" />
+                        <select
+                            id="select-team"
+                            value={teamId}
+                            onChange={e => setTeamId(e.target.value)}
                         >
                             <option value="" disabled>SELECIONE O CLUBE...</option>
                             {allTeams.map(t => (
@@ -237,7 +158,7 @@ export function StartView() {
                             ))}
                         </select>
                         {selectedTeamName && (
-                            <div style={{ flexShrink: 0, paddingLeft: '12px', borderLeft: `1px solid ${colors.border}` }}>
+                            <div className="ef-start-team-badge">
                                 <EfClubBadge name={selectedTeamName} size="md" />
                             </div>
                         )}
@@ -245,7 +166,7 @@ export function StartView() {
 
                     {/* Dificuldade */}
                     <div>
-                        <div style={{ fontSize: '0.8rem', color: colors.textMuted, marginBottom: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                        <div className="ef-start-field-label">
                             DIFICULDADE DO MOTOR SIMULADOR:
                         </div>
                         <div style={{ display: 'flex', gap: '8px' }}>
@@ -266,17 +187,17 @@ export function StartView() {
 
                     {/* Ações */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '8px' }}>
-                        <EfButton 
-                            id="btn-start" 
-                            variant="primary" 
+                        <EfButton
+                            id="btn-start"
+                            variant="primary"
                             size="lg"
-                            onClick={handleStart} 
+                            onClick={handleStart}
                             disabled={!name.trim() || !teamId}
                             style={{ width: '100%', justifyContent: 'center', padding: '16px' }}
                         >
                             <Lightning size={24} weight="fill" /> COMEÇAR CARREIRA
                         </EfButton>
-                        
+
                         <div style={{ display: 'flex', gap: '12px' }}>
                             {!isTutorialDone() && (
                                 <EfButton
@@ -292,7 +213,7 @@ export function StartView() {
                                 variant="secondary"
                                 size="md"
                                 onClick={handleAutoPlay}
-                                style={{ flex: 1, justifyContent: 'center', color: colors.danger, borderColor: colors.danger }}
+                                style={{ flex: 1, justifyContent: 'center', color: '#FF3333', borderColor: '#FF3333' }}
                                 title="Inicia bot AutoPlay"
                             >
                                 <Robot size={20} /> AUTOPLAY
