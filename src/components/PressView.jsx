@@ -4,7 +4,7 @@ import { generateQuestion, shouldTriggerPress } from '../engine/PressConference'
 import { EfPanel, EfButton } from './ui';
 import bgPressConference from '../assets/environments/bg_press_conference.png';
 
-import { 
+import {
     MicrophoneStage, Info, ArrowLeft, CheckCircle, ChartLineUp,
     Warning
 } from '@phosphor-icons/react';
@@ -27,26 +27,13 @@ export function PressView() {
         return generateQuestion(streak, pos, total, avgMorale);
     });
 
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
-
     if (!engine || !team) return (
-        <div style={{ padding: '24px', color: colors.text, fontFamily: 'var(--font-mono)' }}>
-            <Warning size={32} color={colors.danger} /> ERRO: JOGO NÃO INICIADO.
+        <div className="ef-mono ef-text-main" style={{ padding: '24px' }}>
+            <Warning size={32} className="ef-text-danger" /> ERRO: JOGO NÃO INICIADO.
         </div>
     );
     if (!question) return (
-        <div style={{ padding: '24px', color: colors.text, fontFamily: 'var(--font-mono)' }}>
+        <div className="ef-mono ef-text-main" style={{ padding: '24px' }}>
             CARREGANDO COLETIVA...
         </div>
     );
@@ -66,38 +53,34 @@ export function PressView() {
     };
 
     return (
-        <div className="ef-anim-fade-in" style={{
-            backgroundImage: `url(${bgPressConference})`,
-            imageRendering: 'pixelated',
-            WebkitImageRendering: 'pixelated',
-            backgroundColor: colors.bg,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100dvh',
-            padding: '24px',
-            color: colors.text,
-            fontFamily: 'var(--font-sans)',
-            overflowY: 'auto'
-        }}>
-            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div
+            className="ef-anim-fade-in ef-sans ef-text-main"
+            style={{
+                backgroundImage: `url(${bgPressConference})`,
+                imageRendering: 'pixelated',
+                WebkitImageRendering: 'pixelated',
+                backgroundColor: 'var(--bg-dark, #0D1117)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed',
+                minHeight: '100dvh',
+                padding: '24px',
+                overflowY: 'auto'
+            }}
+        >
+            <div className="ef-view-container ef-view-container--narrow">
 
                 {/* HEADER */}
-                <EfPanel padding="lg" style={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    alignItems: 'center',
-                    borderBottom: `2px solid ${colors.secondary}`
-                }}>
+                <EfPanel padding="lg" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #40BAF7' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <div style={{ width: '48px', height: '48px', backgroundColor: colors.panelElevated, display: 'flex', justifyContent: 'center', alignItems: 'center', border: `1px solid ${colors.border}` }}>
-                            <MicrophoneStage size={28} color={colors.secondary} />
+                        <div style={{ width: '48px', height: '48px', backgroundColor: '#1A1F24', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px solid #2D3748' }}>
+                            <MicrophoneStage size={28} className="ef-text-info" />
                         </div>
                         <div>
-                            <h2 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', fontFamily: 'var(--font-sans)', color: colors.text, fontWeight: 'bold' }}>
+                            <h2 className="ef-sans ef-text-main" style={{ margin: '0 0 4px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>
                                 COLETIVA DE IMPRENSA
                             </h2>
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: colors.textMuted }}>
+                            <span className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem' }}>
                                 SALA DE CONFERÊNCIA — TREINADOR {engine?.manager?.name.toUpperCase()}
                             </span>
                         </div>
@@ -108,20 +91,16 @@ export function PressView() {
                 </EfPanel>
 
                 {/* QUESTION CARD */}
-                <EfPanel padding="lg" className="ef-anim-pop-in" style={{
-                    borderLeft: `4px solid ${colors.warning}`
-                }}>
+                <EfPanel padding="lg" className="ef-anim-pop-in" style={{ borderLeft: '4px solid var(--accent, #FFD700)' }}>
                     {/* Context tag */}
-                    <div style={{
+                    <div className="ef-mono ef-text-accent" style={{
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
-                        backgroundColor: colors.bg,
-                        border: `1px solid ${colors.warning}`,
+                        backgroundColor: 'var(--bg-dark, #0D1117)',
+                        border: '1px solid var(--accent, #FFD700)',
                         padding: '6px 12px',
-                        fontFamily: 'var(--font-mono)',
                         fontSize: '0.8rem',
-                        color: colors.warning,
                         marginBottom: '20px',
                         fontWeight: 'bold'
                     }}>
@@ -129,18 +108,17 @@ export function PressView() {
                     </div>
 
                     <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-                        <div style={{
+                        <div className="ef-text-muted" style={{
                             width: '40px', height: '40px', minWidth: '40px',
-                            backgroundColor: colors.bg, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            border: `1px solid ${colors.border}`, color: colors.textMuted
+                            backgroundColor: 'var(--bg-dark, #0D1117)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            border: '1px solid #2D3748'
                         }}>
                             <MicrophoneStage size={20} />
                         </div>
-                        <p style={{
-                            fontFamily: 'var(--font-sans)',
+                        <p className="ef-sans ef-text-main" style={{
                             fontSize: '1.1rem',
                             lineHeight: '1.6',
-                            color: colors.text,
                             margin: 0,
                             fontWeight: '500',
                             fontStyle: 'italic'
@@ -153,13 +131,11 @@ export function PressView() {
                 {/* ANSWER OPTIONS */}
                 {!answered ? (
                     <EfPanel padding="lg">
-                        <div style={{
-                            fontFamily: 'var(--font-mono)',
-                            color: colors.textMuted,
+                        <div className="ef-mono ef-text-muted" style={{
                             fontSize: '0.9rem',
                             marginBottom: '20px',
                             fontWeight: 'bold',
-                            borderBottom: `1px solid ${colors.border}`,
+                            borderBottom: '1px solid #2D3748',
                             paddingBottom: '8px'
                         }}>
                             SUA RESPOSTA:
@@ -169,42 +145,12 @@ export function PressView() {
                                 <button
                                     key={opt.id}
                                     onClick={() => handleAnswer(opt)}
-                                    style={{
-                                        backgroundColor: colors.panelElevated,
-                                        border: `1px solid ${colors.border}`,
-                                        padding: '16px 20px',
-                                        cursor: 'pointer',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '20px',
-                                        transition: 'all 0.2s ease',
-                                        textAlign: 'left'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.borderColor = colors.secondary;
-                                        e.currentTarget.style.backgroundColor = colors.panelBg;
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.borderColor = colors.border;
-                                        e.currentTarget.style.backgroundColor = colors.panelElevated;
-                                    }}
+                                    className="ef-press-option"
                                 >
-                                    <span style={{
-                                        fontFamily: 'var(--font-mono)',
-                                        fontSize: '1.2rem',
-                                        color: colors.secondary,
-                                        minWidth: '24px',
-                                        fontWeight: 'bold'
-                                    }}>
+                                    <span className="ef-press-option__letter">
                                         {String.fromCharCode(65 + idx)}
                                     </span>
-                                    <span style={{
-                                        fontFamily: 'var(--font-sans)',
-                                        fontSize: '1rem',
-                                        lineHeight: '1.5',
-                                        color: colors.text,
-                                        fontWeight: '500'
-                                    }}>
+                                    <span className="ef-press-option__text">
                                         {opt.text}
                                     </span>
                                 </button>
@@ -212,16 +158,12 @@ export function PressView() {
                         </div>
                     </EfPanel>
                 ) : (
-                    <EfPanel padding="lg" className="ef-anim-slide-down" style={{
-                        borderLeft: `4px solid ${colors.accent}`
-                    }}>
-                        <div style={{
+                    <EfPanel padding="lg" className="ef-anim-slide-down" style={{ borderLeft: '4px solid var(--primary, #39FF14)' }}>
+                        <div className="ef-sans ef-text-primary" style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '8px',
-                            fontFamily: 'var(--font-sans)',
                             fontSize: '1.1rem',
-                            color: colors.accent,
                             marginBottom: '20px',
                             fontWeight: 'bold'
                         }}>
@@ -229,16 +171,14 @@ export function PressView() {
                         </div>
 
                         <div style={{
-                            backgroundColor: colors.panelElevated,
-                            border: `1px solid ${colors.border}`,
+                            backgroundColor: '#1A1F24',
+                            border: '1px solid #2D3748',
                             padding: '20px',
                             marginBottom: '24px'
                         }}>
-                            <p style={{
-                                fontFamily: 'var(--font-sans)',
+                            <p className="ef-sans ef-text-main" style={{
                                 fontSize: '1rem',
                                 lineHeight: '1.6',
-                                color: colors.text,
                                 margin: 0
                             }}>
                                 "{answered.text}"
@@ -247,32 +187,30 @@ export function PressView() {
 
                         {/* EFFECTS */}
                         <div style={{
-                            backgroundColor: colors.bg,
-                            border: `1px solid ${colors.accent}`,
+                            backgroundColor: 'var(--bg-dark, #0D1117)',
+                            border: '1px solid var(--primary, #39FF14)',
                             padding: '16px',
                             marginBottom: '24px',
                             display: 'flex',
                             flexDirection: 'column',
                             gap: '12px'
                         }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: colors.textMuted, fontWeight: 'bold' }}>
+                            <div className="ef-mono ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: 'bold' }}>
                                 <ChartLineUp size={16} /> REPERCUSSÃO (EFEITOS):
                             </div>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
                                 {Object.entries(answered.effect).map(([k, v]) => (
-                                    <div key={k} style={{
-                                        backgroundColor: colors.panelElevated,
+                                    <div key={k} className="ef-sans ef-text-main" style={{
+                                        backgroundColor: '#1A1F24',
                                         padding: '8px 12px',
-                                        fontFamily: 'var(--font-sans)',
                                         fontSize: '0.9rem',
-                                        color: colors.text,
                                         display: 'flex',
                                         alignItems: 'center',
                                         gap: '8px',
-                                        border: `1px solid ${colors.border}`
+                                        border: '1px solid #2D3748'
                                     }}>
-                                        <span style={{ color: colors.textMuted, textTransform: 'uppercase' }}>{k}</span>
-                                        <strong style={{ color: v > 0 ? colors.accent : colors.danger }}>{v > 0 ? '+' : ''}{v}</strong>
+                                        <span className="ef-text-muted" style={{ textTransform: 'uppercase' }}>{k}</span>
+                                        <strong className={v > 0 ? 'ef-text-primary' : 'ef-text-danger'}>{v > 0 ? '+' : ''}{v}</strong>
                                     </div>
                                 ))}
                             </div>

@@ -267,9 +267,9 @@ export function MatchView() {
         const matchContext = engine.getMatchContext ? engine.getMatchContext() : null;
 
         return (
-            <div style={{ padding: '24px', width: '100%', minHeight: '100dvh', backgroundColor: colors.bg, overflowY: 'auto' }}>
-                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                    
+            <div className="ef-view-shell">
+                <div className="ef-view-container">
+
                     {matchContext && (
                         <PreMatchScreen
                             team={team}
@@ -285,54 +285,51 @@ export function MatchView() {
                             { step: 1, label: 'ESCALAÇÃO', icon: <UserList size={20} /> },
                             { step: 2, label: 'TÁTICA', icon: <Strategy size={20} /> },
                             { step: 3, label: 'CONFIRMAÇÃO', icon: <CheckCircle size={20} /> }
-                        ].map(({ step, label, icon }) => (
-                            <div key={step} style={{ 
-                                display: 'flex', alignItems: 'center', gap: '8px', 
-                                color: preStep >= step ? colors.text : colors.textMuted,
-                                fontWeight: preStep >= step ? 'bold' : 'normal',
-                                fontFamily: 'var(--font-sans)',
-                                opacity: preStep >= step ? 1 : 0.5
-                            }}>
-                                <div style={{ 
-                                    width: '32px', height: '32px', backgroundColor: preStep > step ? colors.accent : preStep === step ? colors.secondary : colors.border,
-                                    color: preStep > step ? colors.bg : colors.text,
-                                    display: 'flex', justifyContent: 'center', alignItems: 'center'
-                                }}>
-                                    {preStep > step ? <CheckCircle weight="fill" /> : icon}
+                        ].map(({ step, label, icon }) => {
+                            const stepClass = preStep > step
+                                ? 'ef-step ef-step--done'
+                                : preStep === step
+                                    ? 'ef-step ef-step--active'
+                                    : 'ef-step';
+                            return (
+                                <div key={step} className={stepClass}>
+                                    <div className="ef-step__bubble">
+                                        {preStep > step ? <CheckCircle weight="fill" /> : icon}
+                                    </div>
+                                    {label}
                                 </div>
-                                {label}
-                            </div>
-                        ))}
+                            );
+                        })}
                     </EfPanel>
 
                     {preStep === 1 && (
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
                             <EfPanel padding="md">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <div className="ef-section-header">
                                     <ListNumbers size={24} color={colors.warning} />
-                                    <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>SETORES DO PLANTEL</h3>
+                                    <h3>SETORES DO PLANTEL</h3>
                                 </div>
-                                <div style={{ display: 'flex', justifyContent: 'space-around', backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}>
-                                    <div style={{ textAlign: 'center' }}><div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: colors.warning, fontFamily: 'var(--font-mono)' }}>{sectors.goalkeeper}</div><div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>GOL</div></div>
-                                    <div style={{ textAlign: 'center' }}><div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: colors.secondary, fontFamily: 'var(--font-mono)' }}>{sectors.defense}</div><div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>DEF</div></div>
-                                    <div style={{ textAlign: 'center' }}><div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: colors.accent, fontFamily: 'var(--font-mono)' }}>{sectors.midfield}</div><div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>MEI</div></div>
-                                    <div style={{ textAlign: 'center' }}><div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: colors.danger, fontFamily: 'var(--font-mono)' }}>{sectors.attack}</div><div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>ATA</div></div>
+                                <div className="ef-sector-grid">
+                                    <div className="ef-sector-cell"><div className="ef-sector-cell__value ef-text-accent">{sectors.goalkeeper}</div><div className="ef-sector-cell__label">GOL</div></div>
+                                    <div className="ef-sector-cell"><div className="ef-sector-cell__value ef-text-info">{sectors.defense}</div><div className="ef-sector-cell__label">DEF</div></div>
+                                    <div className="ef-sector-cell"><div className="ef-sector-cell__value ef-text-primary">{sectors.midfield}</div><div className="ef-sector-cell__label">MEI</div></div>
+                                    <div className="ef-sector-cell"><div className="ef-sector-cell__value ef-text-danger">{sectors.attack}</div><div className="ef-sector-cell__label">ATA</div></div>
                                 </div>
                             </EfPanel>
 
                             <EfPanel padding="md">
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <div className="ef-section-header" style={{ marginBottom: 0 }}>
                                         <UserList size={24} color={colors.secondary} />
-                                        <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>TITULARES ({titulares.length})</h3>
+                                        <h3>TITULARES ({titulares.length})</h3>
                                     </div>
                                     {lowEnergy.length > 0 && (
-                                        <div style={{ backgroundColor: '#8B0000', color: colors.danger, padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                        <div className="ef-text-danger" style={{ backgroundColor: '#8B0000', padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
                                             <Warning /> {lowEnergy.length} COM ENERGIA BAIXA
                                         </div>
                                     )}
                                 </div>
-                                
+
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                     {titulares.map(p => (
                                         <div key={p.id} style={{
@@ -341,15 +338,15 @@ export function MatchView() {
                                             backgroundColor: p.energy < 40 ? '#2D1616' : colors.panelElevated,
                                         }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                <div style={{ width: '40px', textAlign: 'center', backgroundColor: colors.bg, padding: '4px', color: colors.textMuted, fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 'bold' }}>
+                                                <div className="ef-mono ef-text-muted" style={{ width: '40px', textAlign: 'center', backgroundColor: colors.bg, padding: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>
                                                     {p.position}
                                                 </div>
-                                                <div style={{ color: colors.text, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                                                <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold' }}>
                                                     {p.name} {p._isCaptain && '©️'} {getFormEmoji(p.form?.trend)}
                                                 </div>
                                             </div>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontFamily: 'var(--font-mono)', fontWeight: 'bold' }}>
-                                                <div style={{ color: colors.text }}>OVR: {p.ovr}</div>
+                                            <div className="ef-mono" style={{ display: 'flex', alignItems: 'center', gap: '16px', fontWeight: 'bold' }}>
+                                                <div className="ef-text-main">OVR: {p.ovr}</div>
                                                 <div style={{ color: getEnergyColor(p.energy), minWidth: '80px', textAlign: 'right' }}>COND: {p.energy}%</div>
                                             </div>
                                         </div>
@@ -371,9 +368,9 @@ export function MatchView() {
                     {preStep === 2 && (
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
                             <EfPanel padding="md">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <div className="ef-section-header">
                                     <Strategy size={24} color={colors.secondary} />
-                                    <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>FORMAÇÃO</h3>
+                                    <h3>FORMAÇÃO</h3>
                                 </div>
                                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '32px' }}>
                                     {Object.keys(FORMATIONS).map(f => (
@@ -382,9 +379,9 @@ export function MatchView() {
                                     ))}
                                 </div>
 
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <div className="ef-section-header">
                                     <Shield size={24} color={colors.accent} />
-                                    <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>ESTILO TÁTICO</h3>
+                                    <h3>ESTILO TÁTICO</h3>
                                 </div>
                                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                                     {Object.entries(TACTICS).map(([k, v]) => (
@@ -392,18 +389,18 @@ export function MatchView() {
                                             onClick={() => { engine.setTactic(k); forceUpdate(); }}>{v.name}</EfButton>
                                     ))}
                                 </div>
-                                <p style={{ fontSize: '0.85rem', color: colors.textMuted, marginTop: '12px', fontFamily: 'var(--font-sans)', backgroundColor: colors.panelElevated, padding: '12px', borderLeft: `4px solid ${colors.secondary}` }}>
+                                <p className="ef-sans ef-text-muted" style={{ fontSize: '0.85rem', marginTop: '12px', backgroundColor: colors.panelElevated, padding: '12px', borderLeft: `4px solid ${colors.secondary}` }}>
                                     {TACTICS[engine.currentTactic]?.description}
                                 </p>
                             </EfPanel>
 
                             <EfPanel padding="md">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <div className="ef-section-header">
                                     <Megaphone size={24} color={colors.warning} />
-                                    <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>PRELEÇÃO</h3>
+                                    <h3>PRELEÇÃO</h3>
                                 </div>
                                 {talkDone ? (
-                                    <div style={{ backgroundColor: '#1B4332', color: colors.accent, padding: '16px', border: `1px solid ${colors.accent}`, fontWeight: 'bold', fontFamily: 'var(--font-sans)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <div className="ef-sans ef-text-primary" style={{ backgroundColor: '#1B4332', padding: '16px', border: `1px solid ${colors.accent}`, fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                         <CheckCircle size={24} /> PRELEÇÃO REALIZADA COM SUCESSO!
                                     </div>
                                 ) : (
@@ -432,22 +429,22 @@ export function MatchView() {
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
                             <EfPanel padding="lg" style={{ textAlign: 'center', border: `2px solid ${colors.secondary}` }}>
                                 <EfClubBadge name={team.name} size="xl" style={{ margin: '0 auto 16px' }} />
-                                <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.8rem', color: colors.text, margin: '0 0 8px 0' }}>{team.name}</h2>
-                                <div style={{ display: 'inline-flex', gap: '12px', marginBottom: '24px', fontFamily: 'var(--font-mono)' }}>
-                                    <span style={{ backgroundColor: colors.panelElevated, padding: '6px 16px', border: `1px solid ${colors.border}`, color: colors.accent }}>{team.formation}</span>
-                                    <span style={{ backgroundColor: colors.panelElevated, padding: '6px 16px', border: `1px solid ${colors.border}`, color: colors.secondary }}>{tactic?.name}</span>
+                                <h2 className="ef-sans ef-text-main" style={{ fontSize: '1.8rem', margin: '0 0 8px 0' }}>{team.name}</h2>
+                                <div className="ef-mono" style={{ display: 'inline-flex', gap: '12px', marginBottom: '24px' }}>
+                                    <span className="ef-text-primary" style={{ backgroundColor: colors.panelElevated, padding: '6px 16px', border: `1px solid ${colors.border}` }}>{team.formation}</span>
+                                    <span className="ef-text-info" style={{ backgroundColor: colors.panelElevated, padding: '6px 16px', border: `1px solid ${colors.border}` }}>{tactic?.name}</span>
                                 </div>
-                                
-                                {cond && <div style={{ display: 'inline-block', backgroundColor: '#111417', border: `1px solid ${colors.secondary}`, padding: '8px 16px', fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: colors.secondary, marginBottom: '24px', fontWeight: 'bold' }}>CONDIÇÃO: {cond.name}</div>}
-                                
+
+                                {cond && <div className="ef-sans ef-text-info" style={{ display: 'inline-block', backgroundColor: '#111417', border: `1px solid ${colors.secondary}`, padding: '8px 16px', fontSize: '0.9rem', marginBottom: '24px', fontWeight: 'bold' }}>CONDIÇÃO: {cond.name}</div>}
+
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', justifyContent: 'center', maxWidth: '600px', margin: '0 auto 24px' }}>
-                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: colors.warning, fontFamily: 'var(--font-mono)' }}>{sectors.goalkeeper}</div><div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>GOL</div></div>
-                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: colors.secondary, fontFamily: 'var(--font-mono)' }}>{sectors.defense}</div><div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>DEF</div></div>
-                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: colors.accent, fontFamily: 'var(--font-mono)' }}>{sectors.midfield}</div><div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>MEI</div></div>
-                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: colors.danger, fontFamily: 'var(--font-mono)' }}>{sectors.attack}</div><div style={{ fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>ATA</div></div>
+                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-accent">{sectors.goalkeeper}</div><div className="ef-sector-cell__label">GOL</div></div>
+                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-info">{sectors.defense}</div><div className="ef-sector-cell__label">DEF</div></div>
+                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-primary">{sectors.midfield}</div><div className="ef-sector-cell__label">MEI</div></div>
+                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-danger">{sectors.attack}</div><div className="ef-sector-cell__label">ATA</div></div>
                                 </div>
-                                
-                                <div style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', fontWeight: 'bold', color: talkDone ? colors.accent : colors.warning, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+
+                                <div className={`ef-sans ${talkDone ? 'ef-text-primary' : 'ef-text-accent'}`} style={{ fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
                                     {talkDone ? <><CheckCircle size={20} /> PRELEÇÃO CONFIRMADA</> : <><Warning size={20} /> ATENÇÃO: SEM PRELEÇÃO REALIZADA</>}
                                 </div>
                             </EfPanel>
@@ -480,10 +477,10 @@ export function MatchView() {
             {goalBurstActive && (
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#1B4332', animation: 'pulse 1s infinite', pointerEvents: 'none', zIndex: 1 }} />
             )}
-            
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '24px', marginBottom: '16px', fontFamily: 'var(--font-sans)', fontSize: '0.85rem', fontWeight: 'bold', color: colors.warning, position: 'relative', zIndex: 2 }}>
+
+            <div className="ef-sans ef-text-accent" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '24px', marginBottom: '16px', fontSize: '0.85rem', fontWeight: 'bold', position: 'relative', zIndex: 2 }}>
                 <div style={{ flex: 1, textAlign: 'right', letterSpacing: '0.1em' }}>MANDANTE</div>
-                <div style={{ backgroundColor: colors.bg, padding: '6px 12px', border: `1px solid ${colors.border}`, color: colors.accent, fontFamily: 'var(--font-mono)' }}>
+                <div className="ef-mono ef-text-primary" style={{ backgroundColor: colors.bg, padding: '6px 12px', border: `1px solid ${colors.border}` }}>
                     {half}
                 </div>
                 <div style={{ flex: 1, textAlign: 'left', letterSpacing: '0.1em' }}>VISITANTE</div>
@@ -492,27 +489,27 @@ export function MatchView() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px', position: 'relative', zIndex: 2 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', flex: 1 }}>
                     <EfClubBadge name={result.home} size="xl" />
-                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: 'bold', color: colors.text, textAlign: 'center' }}>{result.home}</span>
+                    <span className="ef-sans ef-text-main" style={{ fontSize: '1rem', fontWeight: 'bold', textAlign: 'center' }}>{result.home}</span>
                 </div>
-                
+
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-                    <div style={{ display: 'flex', gap: '16px', backgroundColor: colors.bg, padding: '16px 32px', border: `1px solid ${colors.border}`, alignItems: 'center' }}>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '3.5rem', color: colors.text, lineHeight: 1 }}>{runningScore.home}</div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '2rem', color: colors.border, lineHeight: 1 }}>-</div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '3.5rem', color: colors.text, lineHeight: 1 }}>{runningScore.away}</div>
+                    <div className="ef-score-box">
+                        <div className="ef-score-box__num">{runningScore.home}</div>
+                        <div className="ef-score-box__sep">-</div>
+                        <div className="ef-score-box__num">{runningScore.away}</div>
                     </div>
-                    
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', backgroundColor: colors.bg, padding: '8px 24px', border: `1px solid ${colors.border}` }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', color: isPlaying ? colors.accent : colors.textMuted, fontWeight: 'bold' }}>
+
+                    <div className="ef-clock">
+                        <span className={`ef-clock__time${isPlaying ? ' ef-clock__time--playing' : ''}`}>
                             {String(currentMinute).padStart(2, '0')}:00
                         </span>
-                        {isPlaying && <div style={{ width: '8px', height: '8px', backgroundColor: colors.danger, animation: 'pulse 1s infinite' }} />}
+                        {isPlaying && <div className="ef-clock__dot" />}
                     </div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', flex: 1 }}>
                     <EfClubBadge name={result.away} size="xl" />
-                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: 'bold', color: colors.text, textAlign: 'center' }}>{result.away}</span>
+                    <span className="ef-sans ef-text-main" style={{ fontSize: '1rem', fontWeight: 'bold', textAlign: 'center' }}>{result.away}</span>
                 </div>
             </div>
         </EfPanel>
@@ -520,8 +517,8 @@ export function MatchView() {
 
     // === LIVE MATCH RENDERER ===
     const renderLiveMatch = (half) => (
-        <div style={{ padding: '24px', width: '100%', minHeight: '100dvh', backgroundColor: colors.bg, overflowY: 'auto' }}>
-            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="ef-view-shell">
+            <div className="ef-view-container">
                 <Scoreboard half={half} />
 
                 <EfPanel padding="md" style={{ height: '400px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }} scrollRef={logRef}>
@@ -530,17 +527,16 @@ export function MatchView() {
                         const isCard = n.text?.includes('🟨') || n.text?.includes('🟥');
                         const isSub = n.text?.includes('🔄');
                         const isInjury = n.text?.includes('🤕');
-                        
-                        let bgColor = colors.panelElevated;
-                        let borderColor = 'transparent';
-                        if (isGoal) { bgColor = '#1B4332'; borderColor = colors.accent; }
-                        else if (isCard) { bgColor = '#1B4332'; borderColor = colors.warning; }
-                        else if (isSub) { bgColor = '#111417'; borderColor = colors.secondary; }
-                        else if (isInjury) { bgColor = '#8B0000'; borderColor = colors.danger; }
+
+                        let rowMod = '';
+                        if (isGoal) rowMod = ' ef-match-log-row--goal';
+                        else if (isCard) rowMod = ' ef-match-log-row--card';
+                        else if (isSub) rowMod = ' ef-match-log-row--sub';
+                        else if (isInjury) rowMod = ' ef-match-log-row--injury';
 
                         return (
-                            <div key={i} style={{ display: 'flex', gap: '16px', padding: '12px 16px', backgroundColor: bgColor, borderLeft: `4px solid ${borderColor}`, fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: colors.text, alignItems: 'center' }}>
-                                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', color: colors.textMuted, minWidth: '40px' }}>{n.minute}'</div>
+                            <div key={i} className={`ef-match-log-row${rowMod}`}>
+                                <div className="ef-match-log-row__min">{n.minute}'</div>
                                 <div style={{ flex: 1 }}>{n.text}</div>
                             </div>
                         );
@@ -594,26 +590,26 @@ export function MatchView() {
         const tiredPlayers = team.squad.filter(p => p.isTitular && p.energy < 50);
 
         return (
-            <div style={{ padding: '24px', width: '100%', minHeight: '100dvh', backgroundColor: colors.bg, overflowY: 'auto' }}>
-                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div className="ef-view-shell">
+                <div className="ef-view-container">
                     <EfPanel padding="lg" style={{ textAlign: 'center', border: `2px solid ${colors.secondary}` }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '24px' }}>
                             <Pause size={32} color={colors.warning} weight="fill" />
-                            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.8rem', color: colors.text, margin: 0 }}>INTERVALO</h2>
+                            <h2 className="ef-sans ef-text-main" style={{ fontSize: '1.8rem', margin: 0 }}>INTERVALO</h2>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                                 <EfClubBadge name={result.home} size="lg" />
-                                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: 'bold', color: colors.text }}>{result.home}</span>
+                                <span className="ef-sans ef-text-main" style={{ fontSize: '1rem', fontWeight: 'bold' }}>{result.home}</span>
                             </div>
-                            <div style={{ display: 'flex', gap: '16px', backgroundColor: colors.panelElevated, padding: '12px 24px', border: `1px solid ${colors.border}`, alignItems: 'center' }}>
-                                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '2.5rem', color: colors.text, lineHeight: 1 }}>{halfTimeData?.homeGoals ?? 0}</div>
-                                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '1.5rem', color: colors.border, lineHeight: 1 }}>-</div>
-                                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '2.5rem', color: colors.text, lineHeight: 1 }}>{halfTimeData?.awayGoals ?? 0}</div>
+                            <div className="ef-score-box ef-score-box--sm" style={{ backgroundColor: colors.panelElevated }}>
+                                <div className="ef-score-box__num ef-score-box__num--md">{halfTimeData?.homeGoals ?? 0}</div>
+                                <div className="ef-score-box__sep ef-score-box__sep--sm">-</div>
+                                <div className="ef-score-box__num ef-score-box__num--md">{halfTimeData?.awayGoals ?? 0}</div>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                                 <EfClubBadge name={result.away} size="lg" />
-                                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: 'bold', color: colors.text }}>{result.away}</span>
+                                <span className="ef-sans ef-text-main" style={{ fontSize: '1rem', fontWeight: 'bold' }}>{result.away}</span>
                             </div>
                         </div>
                     </EfPanel>
@@ -621,9 +617,9 @@ export function MatchView() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
                         {!tacticChanged && (
                             <EfPanel padding="md">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <div className="ef-section-header">
                                     <Strategy size={24} color={colors.secondary} />
-                                    <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>AJUSTE TÁTICO</h3>
+                                    <h3>AJUSTE TÁTICO</h3>
                                 </div>
                                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                                     {Object.entries(TACTICS).map(([k, v]) => (
@@ -638,16 +634,16 @@ export function MatchView() {
 
                         {!subUsed && tiredPlayers.length > 0 && subs.length > 0 && (
                             <EfPanel padding="md">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <div className="ef-section-header">
                                     <ArrowsLeftRight size={24} color={colors.warning} />
-                                    <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>SUBSTITUIÇÃO (CANSAÇO)</h3>
+                                    <h3>SUBSTITUIÇÃO (CANSAÇO)</h3>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                     {tiredPlayers.slice(0, 3).map(p => (
                                         <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', backgroundColor: colors.panelElevated, border: `1px solid ${colors.border}` }}>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                                <div style={{ color: colors.text, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>{p.name} <span style={{ color: colors.textMuted, fontSize: '0.8rem' }}>({p.position})</span></div>
-                                                <div style={{ color: getEnergyColor(p.energy), fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>COND: {p.energy}%</div>
+                                                <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold' }}>{p.name} <span className="ef-text-muted" style={{ fontSize: '0.8rem' }}>({p.position})</span></div>
+                                                <div className="ef-mono" style={{ color: getEnergyColor(p.energy), fontSize: '0.85rem' }}>COND: {p.energy}%</div>
                                             </div>
                                             <EfButton variant="primary" size="sm" onClick={() => {
                                                 const sub = subs[0];
@@ -685,32 +681,32 @@ export function MatchView() {
     const motmEntry = narration.find(n => n.text?.includes('⭐ Craque'));
 
     return (
-        <div style={{ padding: '24px', width: '100%', minHeight: '100dvh', backgroundColor: colors.bg, overflowY: 'auto' }}>
-            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="ef-view-shell">
+            <div className="ef-view-container">
                 {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
-                
+
                 <EfPanel padding="lg" style={{ textAlign: 'center', border: `2px solid ${colors.secondary}` }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '24px' }}>
                         <CheckCircle size={32} color={colors.accent} weight="fill" />
-                        <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.8rem', color: colors.text, margin: 0 }}>FIM DE JOGO</h2>
+                        <h2 className="ef-sans ef-text-main" style={{ fontSize: '1.8rem', margin: 0 }}>FIM DE JOGO</h2>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px', marginBottom: '24px' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                             <EfClubBadge name={result?.home} size="xl" />
-                            <span style={{ fontFamily: 'var(--font-sans)', fontSize: '1.2rem', fontWeight: 'bold', color: colors.text }}>{result?.home}</span>
+                            <span className="ef-sans ef-text-main" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{result?.home}</span>
                         </div>
-                        <div style={{ display: 'flex', gap: '16px', backgroundColor: colors.panelElevated, padding: '16px 32px', border: `1px solid ${colors.border}`, alignItems: 'center' }}>
-                            <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '3.5rem', color: colors.text, lineHeight: 1 }}>{result?.homeGoals}</div>
-                            <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '2rem', color: colors.border, lineHeight: 1 }}>-</div>
-                            <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '3.5rem', color: colors.text, lineHeight: 1 }}>{result?.awayGoals}</div>
+                        <div className="ef-score-box" style={{ backgroundColor: colors.panelElevated }}>
+                            <div className="ef-score-box__num">{result?.homeGoals}</div>
+                            <div className="ef-score-box__sep">-</div>
+                            <div className="ef-score-box__num">{result?.awayGoals}</div>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                             <EfClubBadge name={result?.away} size="xl" />
-                            <span style={{ fontFamily: 'var(--font-sans)', fontSize: '1.2rem', fontWeight: 'bold', color: colors.text }}>{result?.away}</span>
+                            <span className="ef-sans ef-text-main" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{result?.away}</span>
                         </div>
                     </div>
                     {motmEntry && (
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', backgroundColor: '#1B4332', padding: '12px 24px', border: `1px solid ${colors.warning}`, color: colors.warning, fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                        <div className="ef-sans ef-text-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', backgroundColor: '#1B4332', padding: '12px 24px', border: `1px solid ${colors.warning}`, fontWeight: 'bold' }}>
                             <ChartBar size={20} weight="fill" /> {motmEntry.text}
                         </div>
                     )}
@@ -718,63 +714,63 @@ export function MatchView() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
                     <EfPanel padding="md">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        <div className="ef-section-header">
                             <SoccerBall size={24} color={colors.text} />
-                            <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>GOLS & EVENTOS</h3>
+                            <h3>GOLS & EVENTOS</h3>
                         </div>
                         {lastMatchScorers.length > 0 ? (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 {lastMatchScorers.map((s, i) => (
                                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', backgroundColor: colors.panelElevated, border: `1px solid ${colors.border}` }}>
-                                        <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', color: colors.accent, minWidth: '40px' }}>{s.minute}'</div>
-                                        <div style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: colors.text }}>{s.text}</div>
+                                        <div className="ef-mono ef-text-primary" style={{ fontWeight: 'bold', minWidth: '40px' }}>{s.minute}'</div>
+                                        <div className="ef-sans ef-text-main" style={{ fontSize: '0.9rem' }}>{s.text}</div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <div style={{ color: colors.textMuted, fontFamily: 'var(--font-sans)', fontSize: '0.9rem', padding: '12px', textAlign: 'center', backgroundColor: colors.panelElevated, }}>
+                            <div className="ef-sans ef-text-muted" style={{ fontSize: '0.9rem', padding: '12px', textAlign: 'center', backgroundColor: colors.panelElevated }}>
                                 Nenhum gol na partida.
                             </div>
                         )}
                     </EfPanel>
 
                     <EfPanel padding="md">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        <div className="ef-section-header">
                             <ChartBar size={24} color={colors.secondary} />
-                            <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>ESTATÍSTICAS DA PARTIDA</h3>
+                            <h3>ESTATÍSTICAS DA PARTIDA</h3>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', backgroundColor: colors.panelElevated, border: `1px solid ${colors.border}` }}>
-                                <span style={{ color: colors.textMuted, fontFamily: 'var(--font-sans)' }}>Finalizações</span>
-                                <strong style={{ color: colors.text, fontFamily: 'var(--font-mono)' }}>{matchStats?.totalChances || 0}</strong>
+                            <div className="ef-stat-line">
+                                <span className="ef-stat-line__label">Finalizações</span>
+                                <strong className="ef-stat-line__value">{matchStats?.totalChances || 0}</strong>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', backgroundColor: colors.panelElevated, border: `1px solid ${colors.border}` }}>
-                                <span style={{ color: colors.textMuted, fontFamily: 'var(--font-sans)' }}>Tática Utilizada</span>
-                                <strong style={{ color: colors.text, fontFamily: 'var(--font-sans)' }}>{TACTICS[engine.currentTactic]?.name}</strong>
+                            <div className="ef-stat-line">
+                                <span className="ef-stat-line__label">Tática Utilizada</span>
+                                <strong className="ef-sans ef-text-main">{TACTICS[engine.currentTactic]?.name}</strong>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', backgroundColor: colors.panelElevated, border: `1px solid ${colors.border}` }}>
-                                <span style={{ color: colors.textMuted, fontFamily: 'var(--font-sans)', display: 'flex', alignItems: 'center', gap: '6px' }}><Cardholder color={colors.warning} weight="fill" /> Cartões</span>
-                                <strong style={{ color: colors.text, fontFamily: 'var(--font-mono)' }}>{lastMatchCards.length}</strong>
+                            <div className="ef-stat-line">
+                                <span className="ef-stat-line__label"><Cardholder color={colors.warning} weight="fill" /> Cartões</span>
+                                <strong className="ef-stat-line__value">{lastMatchCards.length}</strong>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', backgroundColor: colors.panelElevated, border: `1px solid ${colors.border}` }}>
-                                <span style={{ color: colors.textMuted, fontFamily: 'var(--font-sans)', display: 'flex', alignItems: 'center', gap: '6px' }}><FirstAid color={colors.danger} weight="fill" /> Lesões</span>
-                                <strong style={{ color: colors.text, fontFamily: 'var(--font-mono)' }}>{matchStats?.injuries || 0}</strong>
+                            <div className="ef-stat-line">
+                                <span className="ef-stat-line__label"><FirstAid color={colors.danger} weight="fill" /> Lesões</span>
+                                <strong className="ef-stat-line__value">{matchStats?.injuries || 0}</strong>
                             </div>
                         </div>
                     </EfPanel>
 
                     {engine.board && (
                         <EfPanel padding="md">
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <div className="ef-section-header">
                                 <Shield size={24} color={engine.board.getStatus().color} />
-                                <h3 style={{ margin: 0, fontFamily: 'var(--font-sans)', color: colors.text }}>STATUS DA DIRETORIA</h3>
+                                <h3>STATUS DA DIRETORIA</h3>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', backgroundColor: colors.panelElevated, border: `1px solid ${engine.board.getStatus().color}` }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                    <div style={{ color: colors.textMuted, fontFamily: 'var(--font-sans)', fontSize: '0.85rem' }}>Confiança</div>
-                                    <div style={{ color: engine.board.getStatus().color, fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1.1rem' }}>{engine.board.getStatus().label}</div>
+                                    <div className="ef-sans ef-text-muted" style={{ fontSize: '0.85rem' }}>Confiança</div>
+                                    <div className="ef-sans" style={{ color: engine.board.getStatus().color, fontWeight: 'bold', fontSize: '1.1rem' }}>{engine.board.getStatus().label}</div>
                                 </div>
-                                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 'bold', color: engine.board.getStatus().color }}>
+                                <div className="ef-mono" style={{ fontSize: '2rem', fontWeight: 'bold', color: engine.board.getStatus().color }}>
                                     {engine.board.confidence}%
                                 </div>
                             </div>

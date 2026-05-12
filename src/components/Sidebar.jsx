@@ -3,17 +3,20 @@
  *
  * Always visible nav. Reduces 30-40 cliques/session.
  * Mobile: collapses to burger menu.
- * 
+ *
  * 16-BIT BRUTALIST ARCADE AESTHETIC
  * Resembles the bottom nav bar from SNES football games:
  * [SQUAD] [TACTICS] [TEAM] [GAME] [EXIT]
+ *
+ * SPEC-172: inline styles → .ef-sidebar* classes; hover state via CSS :hover
+ * (no more onMouseEnter/onMouseLeave JS handlers).
  */
 
 import { useGame } from '../context/GameContext';
 import {
     House, Users, ShoppingCart, ListNumbers, Trophy,
     MicrophoneStage, Storefront, Sword, Scroll, FloppyDisk, Robot, GraduationCap,
-    TreeStructure
+    TreeStructure, SoccerBall, IdentificationBadge
 } from '@phosphor-icons/react';
 
 // AKITA-234: Tutorial link adicionado pra replayability (audit gap fix).
@@ -51,103 +54,35 @@ export function Sidebar() {
     const items = gameState.mode === 'player' ? NAV_ITEMS_PLAYER : NAV_ITEMS_MANAGER;
     const currentView = gameState.view;
 
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
+    // Mode label — semantic icon (Phosphor) replacing emoji decoration
+    const ModeIcon = gameState.mode === 'player' ? SoccerBall : IdentificationBadge;
+    const modeLabel = gameState.mode === 'player' ? 'MODO JOGADOR' : 'MODO TÉCNICO';
 
     return (
-        <aside
-            className="elifoot-sidebar"
-            style={{
-                width: '180px',
-                minWidth: '180px',
-                background: colors.bg,
-                borderRight: `2px solid ${colors.border}`,
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100dvh',
-                position: 'sticky',
-                top: 0,
-                zIndex: 998,
-                overflowY: 'auto',
-                boxShadow: `4px 0 20px #040805`
-            }}
-        >
-            <div style={{
-                padding: '24px 8px 16px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px'
-            }}>
+        <aside className="elifoot-sidebar ef-sidebar">
+            <div className="ef-sidebar__inner">
                 {/* Mode label */}
-                <div style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.65rem',
-                    color: colors.textMuted,
-                    padding: '0 8px 12px',
-                    borderBottom: `1px solid ${colors.border}`,
-                    marginBottom: '12px',
-                    textAlign: 'center',
-                    letterSpacing: '0.05em',
-                    fontWeight: 'bold'
-                }}>
-                    {gameState.mode === 'player' ? '⚽ MODO JOGADOR' : '🧑‍💼 MODO TÉCNICO'}
+                <div className="ef-sidebar__mode">
+                    <ModeIcon size={12} weight="fill" style={{ verticalAlign: 'middle', marginRight: '4px' }} aria-hidden />
+                    {modeLabel}
                 </div>
 
                 {items.map(item => {
                     const isActive = currentView === item.view;
                     const IconComponent = item.icon;
+                    const itemClass = isActive
+                        ? 'ef-sidebar__item ef-sidebar__item--active'
+                        : 'ef-sidebar__item';
                     return (
                         <div
                             key={item.view}
+                            className={itemClass}
                             onClick={() => changeView(item.view)}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                width: '100%',
-                                padding: '12px 10px',
-                                cursor: 'pointer',
-                                backgroundColor: isActive ? colors.panelBg : 'transparent',
-                                borderLeft: isActive ? `4px solid ${colors.accent}` : '4px solid transparent',
-                                boxSizing: 'border-box',
-                                transition: 'all 0.15s ease'
-                            }}
-                            onMouseEnter={(e) => {
-                                if (!isActive) {
-                                    e.currentTarget.style.backgroundColor = '#0E1F14';
-                                    e.currentTarget.style.borderLeftColor = colors.border;
-                                }
-                            }}
-                            onMouseLeave={(e) => {
-                                if (!isActive) {
-                                    e.currentTarget.style.backgroundColor = 'transparent';
-                                    e.currentTarget.style.borderLeftColor = 'transparent';
-                                }
-                            }}
                         >
-                            <span style={{ 
-                                color: isActive ? colors.accent : colors.textMuted,
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}>
+                            <span className="ef-sidebar__icon">
                                 <IconComponent size={20} weight={isActive ? "fill" : "regular"} />
                             </span>
-                            <span style={{
-                                fontFamily: 'var(--font-mono)',
-                                fontSize: '0.75rem',
-                                color: isActive ? colors.text : colors.textMuted,
-                                fontWeight: isActive ? 'bold' : 'normal'
-                            }}>
+                            <span className="ef-sidebar__label">
                                 {item.label}
                             </span>
                         </div>

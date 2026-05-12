@@ -83,10 +83,10 @@ export function SquadView() {
                 color = energy > 60 ? '#39FF14' : energy > 30 ? '#FFD700' : '#FF3333';
             }
             blocks.push(
-                <div key={i} style={{ width: '8px', height: '14px', backgroundColor: color, }} />
+                <div key={i} className="ef-health-pip" style={{ backgroundColor: color }} />
             );
         }
-        return <div style={{ display: 'flex', gap: '3px', alignItems: 'center', justifyContent: 'center' }}>{blocks}</div>;
+        return <div className="ef-health-row">{blocks}</div>;
     };
 
     const getMoralIcon = (m) => {
@@ -110,37 +110,37 @@ export function SquadView() {
     };
 
     return (
-        <div style={{ padding: '24px', width: '100%', height: '100%', overflowY: 'auto', backgroundColor: '#0D1117' }}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                
+        <div className="ef-view-shell ef-view-shell--fixed">
+            <div className="ef-view-container ef-view-container--wide">
+
                 {/* === HEADER — LUXURY BENTO === */}
                 <EfPanel variant="hero" padding="lg" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                         <EfClubBadge name={team.name} size="lg" />
                         <div>
-                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#1A1F24', color: '#8E9E94', padding: '4px 12px', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.05em', marginBottom: '12px' }}>
+                            <div className="ef-tag-mono" style={{ marginBottom: '12px' }}>
                                 <Users weight="fill" /> {sorted.length}/{team.squad.length} JOGADORES NO PLANTEL
                             </div>
-                            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '2rem', fontWeight: '800', margin: '0 0 8px 0', color: '#FDFBF7' }}>
+                            <h2 className="ef-heading-xl">
                                 {team.name}
                             </h2>
                         </div>
                     </div>
                     <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
                         <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
-                            <EfButton variant="secondary" size="md" onClick={() => changeView(back)} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>VOLTAR</EfButton>
-                            <EfButton variant="primary" size="md" title="Carrega o plantel real do clube via dataset pre-bake (substitui jogadores gerados)" onClick={handleLoadRealSquad} disabled={loadingReal} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                            <EfButton variant="secondary" size="md" onClick={() => changeView(back)} className="ef-sans" style={{ fontWeight: 'bold' }}>VOLTAR</EfButton>
+                            <EfButton variant="primary" size="md" title="Carrega o plantel real do clube via dataset pre-bake (substitui jogadores gerados)" onClick={handleLoadRealSquad} disabled={loadingReal} className="ef-sans" style={{ fontWeight: 'bold' }}>
                                 {loadingReal ? 'CARREGANDO...' : 'PLANTEL REAL'}
                             </EfButton>
                         </div>
                         {team.manager && team.manager.name && (
-                            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#40BAF7', background: '#16242D', padding: '6px 12px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                            <div className="ef-tag-mono ef-tag-mono--info">
                                 <User weight="fill" /> TREINADOR: {team.manager.name.toUpperCase()}
                             </div>
                         )}
                         {team.manager?.stats && (
-                            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#8E9E94', marginTop: '4px' }}>
-                                {team.manager.stats.wins || 0}V <span style={{color:'#FFD700'}}>{team.manager.stats.draws || 0}E</span> <span style={{color:'#FF3333'}}>{team.manager.stats.losses || 0}D</span>
+                            <div className="ef-mono ef-text-muted" style={{ fontSize: '0.85rem', marginTop: '4px' }}>
+                                {team.manager.stats.wins || 0}V <span className="ef-text-accent">{team.manager.stats.draws || 0}E</span> <span className="ef-text-danger">{team.manager.stats.losses || 0}D</span>
                             </div>
                         )}
                     </div>
@@ -154,25 +154,25 @@ export function SquadView() {
                             { id: 'stats', label: 'ANÁLISE TÁTICA', icon: <ChartBar size={16} /> },
                             { id: 'contratos', label: 'FINANÇAS', icon: <IdentificationCard size={16} /> }
                         ].map(t => (
-                            <EfButton key={t.id} onClick={() => setTab(t.id)} variant={tab === t.id ? 'primary' : 'secondary'} size="md" style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold', gap: '8px' }}>
+                            <EfButton key={t.id} onClick={() => setTab(t.id)} variant={tab === t.id ? 'primary' : 'secondary'} size="md" className="ef-sans" style={{ fontWeight: 'bold', gap: '8px' }}>
                                 {t.icon} {t.label}
                             </EfButton>
                         ))}
                     </div>
 
                     <div style={{ display: 'flex', gap: '8px' }}>
-                        <div style={{ position: 'relative' }}>
-                            <MagnifyingGlass size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#8E9E94' }} />
-                            <input type="text" placeholder="Buscar jogador..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ padding: '8px 12px 8px 36px', background: '#1A1F24', border: '1px solid #2D3748', color: '#FDFBF7', fontFamily: 'var(--font-sans)', fontSize: '0.85rem', outline: 'none', width: '200px' }} />
+                        <div className="ef-search-wrap">
+                            <MagnifyingGlass size={16} className="ef-search-wrap__icon" />
+                            <input type="text" placeholder="Buscar jogador..." value={search} onChange={(e) => setSearch(e.target.value)} className="ef-input ef-input--search" />
                         </div>
-                        <select value={filterPos} onChange={(e) => setFilterPos(e.target.value)} style={{ padding: '8px 12px', background: '#1A1F24', border: '1px solid #2D3748', color: '#FDFBF7', fontFamily: 'var(--font-sans)', fontSize: '0.85rem', outline: 'none' }}>
+                        <select value={filterPos} onChange={(e) => setFilterPos(e.target.value)} className="ef-select">
                             <option value="all">Todas as posições</option>
                             <option value="GOL">GOL</option>
                             <option value="DEF">DEF</option>
                             <option value="MEI">MEI</option>
                             <option value="ATA">ATA</option>
                         </select>
-                        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{ padding: '8px 12px', background: '#1A1F24', border: '1px solid #2D3748', color: '#FDFBF7', fontFamily: 'var(--font-sans)', fontSize: '0.85rem', outline: 'none' }}>
+                        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="ef-select">
                             <option value="position">Ordenação: POS</option>
                             <option value="ovr">Ordenação: OVR ↓</option>
                             <option value="age">Ordenação: IDADE</option>
@@ -184,16 +184,16 @@ export function SquadView() {
                 {/* Main Content Area */}
                 {tab === 'plantel' && (
                     <EfPanel padding="none" style={{ overflowX: 'auto', background: '#161B22', border: '1px solid #1A1F24' }}>
-                        <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)' }}>
+                        <table className="ef-sans" style={{ width: '100%', borderCollapse: 'collapse' }}>
                             <thead style={{ background: '#1A1F24', borderBottom: '2px solid #2D3748' }}>
                                 <tr>
-                                    <th style={{ textAlign:'center', width: '60px', padding: '16px', color: '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold' }}>ST</th>
-                                    <th onClick={() => handleSort('position')} style={{ textAlign:'center', width: '70px', padding: '16px', color: sortBy === 'position' ? '#39FF14' : '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>POS</th>
-                                    <th onClick={() => handleSort('name')} style={{ textAlign:'left', padding: '16px', color: sortBy === 'name' ? '#39FF14' : '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>JOGADOR</th>
-                                    <th onClick={() => handleSort('ovr')} style={{ textAlign:'center', width: '70px', padding: '16px', color: sortBy === 'ovr' ? '#39FF14' : '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>OVR</th>
-                                    <th onClick={() => handleSort('energy')} style={{ textAlign:'center', width: '120px', padding: '16px', color: sortBy === 'energy' ? '#39FF14' : '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>COND</th>
-                                    <th onClick={() => handleSort('moral')} style={{ textAlign:'center', width: '80px', padding: '16px', color: sortBy === 'moral' ? '#39FF14' : '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>MOR</th>
-                                    <th style={{ textAlign:'center', width: '100px', padding: '16px', color: '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold' }}>AÇÃO</th>
+                                    <th className="ef-text-muted" style={{ textAlign:'center', width: '60px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>ST</th>
+                                    <th onClick={() => handleSort('position')} className={sortBy === 'position' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'center', width: '70px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>POS</th>
+                                    <th onClick={() => handleSort('name')} className={sortBy === 'name' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'left', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>JOGADOR</th>
+                                    <th onClick={() => handleSort('ovr')} className={sortBy === 'ovr' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'center', width: '70px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>OVR</th>
+                                    <th onClick={() => handleSort('energy')} className={sortBy === 'energy' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'center', width: '120px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>COND</th>
+                                    <th onClick={() => handleSort('moral')} className={sortBy === 'moral' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'center', width: '80px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>MOR</th>
+                                    <th className="ef-text-muted" style={{ textAlign:'center', width: '100px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>AÇÃO</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -214,33 +214,26 @@ export function SquadView() {
                                                 <td style={{ textAlign:'center', padding: '12px' }}>
                                                     <div
                                                         onClick={(e) => { e.stopPropagation(); toggleTitular(p.id); }}
-                                                        style={{
-                                                            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                                                            width: '24px', height: '24px',
-                                                            background: isSelected ? '#162D1C' : '#2D3748',
-                                                            border: `1px solid ${isSelected ? '#39FF14' : '#4A5059'}`,
-                                                            cursor: p.injury ? 'not-allowed' : 'pointer'
-                                                        }}
+                                                        className={`ef-st-toggle${isSelected ? ' ef-st-toggle--active' : ''}${p.injury ? ' ef-st-toggle--disabled' : ''}`}
                                                         title={p.injury ? 'Lesionado — fora da escalação até recuperar' : 'Alternar Titular/Reserva (titular ganha XP em jogo; reserva acumula desmotivação se não for usado)'}
                                                     >
                                                         {isSelected && <CheckCircle weight="bold" color="#39FF14" size={16} />}
                                                     </div>
                                                 </td>
                                                 <td style={{ textAlign:'center', padding: '12px' }}>
-                                                    <span style={{
+                                                    <span className="ef-mono" style={{
                                                         color: '#0D1117',
                                                         background: getPosColor(p.position),
                                                         padding: '4px 8px',
                                                         fontSize: '0.75rem',
-                                                        fontWeight: 700,
-                                                        fontFamily: 'var(--font-mono)'
+                                                        fontWeight: 700
                                                     }}>
                                                         {p.naturalPosition || p.position}
                                                     </span>
                                                 </td>
                                                 <td style={{ textAlign:'left', padding: '12px' }}>
                                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 'bold', color: '#FDFBF7', fontSize: '0.9rem' }}>
+                                                        <div className="ef-text-main" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 'bold', fontSize: '0.9rem' }}>
                                                             {p.isSuper && <Star weight="fill" color="#FFD700" size={14} />}
                                                             {p.isWonderkid && <Sparkle weight="fill" color="#C084FC" size={14} />}
                                                             {p.nickname ? `"${p.nickname}" ${p.name.split(' ').pop()}` : p.name}
@@ -248,13 +241,13 @@ export function SquadView() {
                                                             {p.injury && <FirstAid weight="fill" color="#FF3333" size={16} style={{ marginLeft: '4px' }}/>}
                                                         </div>
                                                         {p.specialty && (
-                                                            <div style={{ fontSize: '0.7rem', color: '#8E9E94', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
+                                                            <div className="ef-mono ef-text-muted" style={{ fontSize: '0.7rem', textTransform: 'uppercase' }}>
                                                                 {p.specialty}
                                                             </div>
                                                         )}
                                                     </div>
                                                 </td>
-                                                <td style={{ textAlign:'center', fontWeight: 'bold', color: '#FDFBF7', fontFamily: 'var(--font-mono)', fontSize: '1.1rem', padding: '12px' }}>
+                                                <td className="ef-mono ef-text-main" style={{ textAlign:'center', fontWeight: 'bold', fontSize: '1.1rem', padding: '12px' }}>
                                                     {p.ovr}
                                                 </td>
                                                 <td style={{ textAlign:'center', padding: '12px' }}>
@@ -268,12 +261,12 @@ export function SquadView() {
                                                 <td style={{ textAlign:'center', padding: '12px' }}>
                                                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                                                         {!p.isTitular && !p.injury && p.age <= 23 && (
-                                                            <button title="Emprestar (jovem ganha minutos em outro clube; volta com XP)" onClick={(e) => { e.stopPropagation(); handleLoan(p.id); }} style={{ background: '#16242D', border: '1px solid #40BAF7', color: '#40BAF7', padding: '6px 8px', cursor: 'pointer', }}>
+                                                            <button title="Emprestar (jovem ganha minutos em outro clube; volta com XP)" onClick={(e) => { e.stopPropagation(); handleLoan(p.id); }} className="ef-icon-btn ef-icon-btn--info">
                                                                 <PaperPlaneRight size={16} weight="bold" />
                                                             </button>
                                                         )}
                                                         {!p.isTitular && (
-                                                            <button title="Vender jogador direto (sem negociação, valor de mercado fixo)" onClick={(e) => { e.stopPropagation(); handleSell(p); }} style={{ background: '#2D1616', border: '1px solid #FF3333', color: '#FF3333', padding: '6px 8px', cursor: 'pointer', }}>
+                                                            <button title="Vender jogador direto (sem negociação, valor de mercado fixo)" onClick={(e) => { e.stopPropagation(); handleSell(p); }} className="ef-icon-btn ef-icon-btn--danger">
                                                                 <UserMinus size={16} weight="bold" />
                                                             </button>
                                                         )}
@@ -288,32 +281,32 @@ export function SquadView() {
                                                                 <HexagonChart player={p} size={180} />
                                                             </div>
                                                             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                                                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#FDFBF7', fontFamily: 'var(--font-sans)' }}>
+                                                                <div className="ef-sans ef-text-main" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
                                                                     {p.name}
                                                                 </div>
-                                                                <div style={{ display: 'flex', gap: '16px', color: '#8E9E94', fontSize: '0.85rem', fontFamily: 'var(--font-mono)' }}>
+                                                                <div className="ef-mono ef-text-muted" style={{ display: 'flex', gap: '16px', fontSize: '0.85rem' }}>
                                                                     {p.personality && (
-                                                                        <div style={{ color: 'var(--text-muted)' }}>
+                                                                        <div>
                                                                             <Heartbeat weight="fill" /> {p.personality} • {p.playstyle || 'Caneleiro'}
                                                                         </div>
                                                                     )}
                                                                 </div>
-                                                                <div style={{ display: 'flex', gap: '24px', marginTop: '12px', fontFamily: 'var(--font-mono)' }}>
+                                                                <div className="ef-mono" style={{ display: 'flex', gap: '24px', marginTop: '12px' }}>
                                                                     <div style={{ background: '#1A1F24', padding: '12px 16px', borderLeft: '3px solid #39FF14' }}>
-                                                                        <div style={{ fontSize: '0.7rem', color: '#8E9E94', marginBottom: '4px' }}>OVR / POT</div>
-                                                                        <div style={{ fontSize: '1.2rem', color: '#FDFBF7', fontWeight: 'bold' }}>{p.ovr} <span style={{ color: '#4A5059', fontSize: '1rem', fontWeight: 'normal' }}>/</span> <span style={{ color: p.potential > p.ovr + 5 ? '#39FF14' : '#8E9E94' }}>{p.potential || p.ovr}</span></div>
+                                                                        <div className="ef-text-muted" style={{ fontSize: '0.7rem', marginBottom: '4px' }}>OVR / POT</div>
+                                                                        <div className="ef-text-main" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{p.ovr} <span style={{ color: '#4A5059', fontSize: '1rem', fontWeight: 'normal' }}>/</span> <span className={p.potential > p.ovr + 5 ? 'ef-text-primary' : 'ef-text-muted'}>{p.potential || p.ovr}</span></div>
                                                                     </div>
                                                                     <div style={{ background: '#1A1F24', padding: '12px 16px', borderLeft: '3px solid #FFD700' }}>
-                                                                        <div style={{ fontSize: '0.7rem', color: '#8E9E94', marginBottom: '4px' }}>VALOR DE MERCADO</div>
-                                                                        <div style={{ fontSize: '1.2rem', color: '#FFD700', fontWeight: 'bold' }}>R$ {((p.marketValue || p.value) / 1e6).toFixed(1)}M</div>
+                                                                        <div className="ef-text-muted" style={{ fontSize: '0.7rem', marginBottom: '4px' }}>VALOR DE MERCADO</div>
+                                                                        <div className="ef-text-accent" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>R$ {((p.marketValue || p.value) / 1e6).toFixed(1)}M</div>
                                                                     </div>
                                                                     <div style={{ background: '#1A1F24', padding: '12px 16px', borderLeft: '3px solid #40BAF7' }}>
-                                                                        <div style={{ fontSize: '0.7rem', color: '#8E9E94', marginBottom: '4px' }}>RATING (POS)</div>
-                                                                        <div style={{ fontSize: '1.2rem', color: '#40BAF7', fontWeight: 'bold' }}>{p.attacking ? calculateRatingForPosition(p, p.naturalPosition || 'MEC') : p.ovr}</div>
+                                                                        <div className="ef-text-muted" style={{ fontSize: '0.7rem', marginBottom: '4px' }}>RATING (POS)</div>
+                                                                        <div className="ef-text-info" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{p.attacking ? calculateRatingForPosition(p, p.naturalPosition || 'MEC') : p.ovr}</div>
                                                                     </div>
                                                                 </div>
                                                                 {p.personality && (
-                                                                    <div style={{ marginTop: '12px', display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#2D162D', padding: '6px 12px', border: '1px solid #C084FC', color: '#C084FC', fontSize: '0.8rem', fontWeight: 'bold', fontFamily: 'var(--font-sans)' }}>
+                                                                    <div className="ef-sans" style={{ marginTop: '12px', display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#2D162D', padding: '6px 12px', border: '1px solid #C084FC', color: '#C084FC', fontSize: '0.8rem', fontWeight: 'bold' }}>
                                                                         <Heartbeat weight="fill" /> PERFIL: {p.personality}
                                                                     </div>
                                                                 )}
@@ -332,15 +325,15 @@ export function SquadView() {
 
                 {tab === 'stats' && (
                     <EfPanel padding="md">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>
+                        <div className="ef-section-header" style={{ marginBottom: '24px' }}>
                             <ChartBar size={24} color="#39FF14" weight="fill" />
-                            <h3 style={{ margin: 0, fontSize: '1.1rem' }}>ANÁLISE TITULARES (TOP 11)</h3>
+                            <h3>ANÁLISE TITULARES (TOP 11)</h3>
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
                             {sorted.filter(p => p.isTitular).slice(0, 11).map(p => (
                                 <div key={p.id} style={{ background: '#1A1F24', border: '1px solid #2D3748', padding: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <div style={{ fontWeight: 'bold', fontSize: '1rem', color: '#FDFBF7', fontFamily: 'var(--font-sans)', marginBottom: '8px', textAlign: 'center' }}>{p.name}</div>
-                                    <div style={{ fontSize: '0.8rem', color: getPosColor(p.position), fontWeight: 'bold', fontFamily: 'var(--font-mono)', marginBottom: '16px', background: '#0D1117', padding: '4px 12px', }}>{p.naturalPosition || p.position}</div>
+                                    <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold', fontSize: '1rem', marginBottom: '8px', textAlign: 'center' }}>{p.name}</div>
+                                    <div className="ef-mono" style={{ fontSize: '0.8rem', color: getPosColor(p.position), fontWeight: 'bold', marginBottom: '16px', background: '#0D1117', padding: '4px 12px' }}>{p.naturalPosition || p.position}</div>
                                     <HexagonChart player={p} size={160} />
                                 </div>
                             ))}
@@ -350,32 +343,32 @@ export function SquadView() {
 
                 {tab === 'contratos' && (
                     <EfPanel padding="none" style={{ overflowX: 'auto', background: '#161B22', border: '1px solid #1A1F24' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '24px', borderBottom: '2px solid #2D3748', fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>
+                        <div className="ef-section-header" style={{ padding: '24px', marginBottom: 0, borderBottom: '2px solid #2D3748' }}>
                             <IdentificationCard size={24} color="#FFD700" weight="fill" />
-                            <h3 style={{ margin: 0, fontSize: '1.1rem' }}>GESTÃO DE CONTRATOS</h3>
+                            <h3>GESTÃO DE CONTRATOS</h3>
                         </div>
-                        <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)' }}>
+                        <table className="ef-sans" style={{ width: '100%', borderCollapse: 'collapse' }}>
                             <thead style={{ background: '#1A1F24', borderBottom: '2px solid #2D3748' }}>
                                 <tr>
-                                    <th style={{ textAlign:'left', padding: '16px', color: '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold' }}>JOGADOR</th>
-                                    <th style={{ textAlign:'center', padding: '16px', color: '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold' }}>POS</th>
-                                    <th style={{ textAlign:'center', padding: '16px', color: '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold' }}>IDADE</th>
-                                    <th style={{ textAlign:'right', padding: '16px', color: '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold' }}>WAGE/SEM</th>
-                                    <th style={{ textAlign:'right', padding: '16px', color: '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold' }}>RESTANTE</th>
-                                    <th style={{ textAlign:'right', padding: '16px', color: '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold' }}>CLÁUSULA</th>
-                                    <th style={{ textAlign:'right', padding: '16px', color: '#8E9E94', fontSize: '0.75rem', fontWeight: 'bold' }}>VALOR</th>
+                                    <th className="ef-text-muted" style={{ textAlign:'left', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>JOGADOR</th>
+                                    <th className="ef-text-muted" style={{ textAlign:'center', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>POS</th>
+                                    <th className="ef-text-muted" style={{ textAlign:'center', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>IDADE</th>
+                                    <th className="ef-text-muted" style={{ textAlign:'right', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>WAGE/SEM</th>
+                                    <th className="ef-text-muted" style={{ textAlign:'right', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>RESTANTE</th>
+                                    <th className="ef-text-muted" style={{ textAlign:'right', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>CLÁUSULA</th>
+                                    <th className="ef-text-muted" style={{ textAlign:'right', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>VALOR</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {sorted.map((p, i) => (
                                     <tr key={p.id} style={{ background: i % 2 === 0 ? '#161B22' : '#1A1F24', borderBottom: '1px solid #1A1F24' }}>
-                                        <td style={{ fontWeight: 'bold', color: '#FDFBF7', padding: '16px' }}>{p.name}</td>
-                                        <td style={{ textAlign:'center', color: getPosColor(p.position), fontSize: '0.8rem', fontWeight: 'bold', padding: '16px', fontFamily: 'var(--font-mono)' }}>{p.naturalPosition || p.position}</td>
-                                        <td style={{ textAlign:'center', fontFamily: 'var(--font-mono)', color: '#8E9E94', padding: '16px' }}>{p.age}</td>
-                                        <td style={{ textAlign:'right', color: '#FF3333', fontFamily: 'var(--font-mono)', padding: '16px' }}>R$ {(p.contract?.weeklyWage || 0).toLocaleString('pt-BR')}</td>
-                                        <td style={{ textAlign:'right', color: '#8E9E94', fontFamily: 'var(--font-mono)', padding: '16px' }}>{p.contract?.weeksRemaining || p.contract?.weeksLeft || '-'} sem</td>
-                                        <td style={{ textAlign:'right', color: '#40BAF7', fontFamily: 'var(--font-mono)', padding: '16px' }}>{p.contract?.releaseClause ? `R$ ${(p.contract.releaseClause / 1e6).toFixed(1)}M` : '-'}</td>
-                                        <td style={{ textAlign:'right', color: '#FFD700', fontFamily: 'var(--font-mono)', padding: '16px' }}>{p.marketValue ? `R$ ${(p.marketValue / 1e6).toFixed(1)}M` : '-'}</td>
+                                        <td className="ef-text-main" style={{ fontWeight: 'bold', padding: '16px' }}>{p.name}</td>
+                                        <td className="ef-mono" style={{ textAlign:'center', color: getPosColor(p.position), fontSize: '0.8rem', fontWeight: 'bold', padding: '16px' }}>{p.naturalPosition || p.position}</td>
+                                        <td className="ef-mono ef-text-muted" style={{ textAlign:'center', padding: '16px' }}>{p.age}</td>
+                                        <td className="ef-mono ef-text-danger" style={{ textAlign:'right', padding: '16px' }}>R$ {(p.contract?.weeklyWage || 0).toLocaleString('pt-BR')}</td>
+                                        <td className="ef-mono ef-text-muted" style={{ textAlign:'right', padding: '16px' }}>{p.contract?.weeksRemaining || p.contract?.weeksLeft || '-'} sem</td>
+                                        <td className="ef-mono ef-text-info" style={{ textAlign:'right', padding: '16px' }}>{p.contract?.releaseClause ? `R$ ${(p.contract.releaseClause / 1e6).toFixed(1)}M` : '-'}</td>
+                                        <td className="ef-mono ef-text-accent" style={{ textAlign:'right', padding: '16px' }}>{p.marketValue ? `R$ ${(p.marketValue / 1e6).toFixed(1)}M` : '-'}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -385,17 +378,17 @@ export function SquadView() {
 
                 {loanedOut.length > 0 && (
                     <EfPanel padding="md" style={{ background: '#2D2916', borderColor: '#FFD700' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', fontFamily: 'var(--font-sans)' }}>
+                        <div className="ef-section-header" style={{ color: '#FFD700' }}>
                             <PaperPlaneRight size={24} color="#FFD700" weight="fill" />
-                            <h3 style={{ margin: 0, color: '#FFD700', fontSize: '1.1rem' }}>JOGADORES EMPRESTADOS ({loanedOut.length})</h3>
+                            <h3 style={{ color: '#FFD700' }}>JOGADORES EMPRESTADOS ({loanedOut.length})</h3>
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
                             {loanedOut.map((l, i) => (
                                 <div key={i} style={{ background: '#1A1F24', padding: '16px', border: '1px solid #4A5059', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <div style={{ fontWeight: 'bold', color: '#FDFBF7', fontSize: '0.9rem', fontFamily: 'var(--font-sans)' }}>
-                                        {l.playerName} <span style={{ color: '#8E9E94', fontWeight: 'normal', display: 'block', marginTop: '4px', fontSize: '0.8rem' }}>→ {l.destination}</span>
+                                    <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>
+                                        {l.playerName} <span className="ef-text-muted" style={{ fontWeight: 'normal', display: 'block', marginTop: '4px', fontSize: '0.8rem' }}>→ {l.destination}</span>
                                     </div>
-                                    <div style={{ fontFamily: 'var(--font-mono)', color: '#FFD700', fontSize: '0.85rem', background: '#0D1117', padding: '6px 12px', }}>
+                                    <div className="ef-mono ef-text-accent" style={{ fontSize: '0.85rem', background: '#0D1117', padding: '6px 12px' }}>
                                         {l.weeksLeft}/{l.totalWeeks} sem
                                     </div>
                                 </div>

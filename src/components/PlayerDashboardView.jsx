@@ -7,10 +7,10 @@ import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import { EfModal } from './ui/EfModal';
 
-import { 
-    User, Heartbeat, SoccerBall, Lightning, Brain, ShoppingCart, Target, 
+import {
+    User, Heartbeat, SoccerBall, Lightning, Brain, ShoppingCart, Target,
     TrendUp, HandsClapping, House, Car, Heart, Coins, Storefront, Backpack,
-    WarningCircle, Smiley, Handshake, ChartBar, Star
+    WarningCircle, Smiley, Handshake, ChartBar, Star, CheckCircle
 } from '@phosphor-icons/react';
 
 import { rng as systemRng } from '../engine/rng.js';
@@ -70,7 +70,7 @@ export function PlayerDashboardView() {
         prevMotmRef.current = motm;
     });
 
-    if (!player || !team) return <div style={{padding:'24px',color:'#FDFBF7', fontFamily: 'var(--font-mono)'}}>Erro: jogador não encontrado.</div>;
+    if (!player || !team) return <div className="ef-mono ef-text-main" style={{padding:'24px'}}>Erro: jogador não encontrado.</div>;
 
     const handleTrain = (skill) => { const result = player.train(skill); setLog(result.msg); forceUpdate(); };
     const handleRest = () => { const result = player.rest(); setLog(result.msg); forceUpdate(); };
@@ -109,61 +109,70 @@ export function PlayerDashboardView() {
         forceUpdate();
     };
 
-    const RelBar = ({ label, value, type, icon }) => (
-        <div style={{ marginBottom: '12px' }}>
-            <label style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '6px', color: '#8E9E94', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>{icon} {label}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', color: '#FDFBF7' }}>{value}%</span>
-            </label>
-            <div style={{ height: '6px', background: '#1A1F24', overflow: 'hidden' }}>
-                <div style={{ height: '100%', width: `${value}%`, background: type === 'boss' ? '#FF3333' : type === 'fans' ? '#39FF14' : type === 'teammates' ? '#FFD700' : '#40BAF7', transition: 'width 200ms ease-out' }} />
+    const RelBar = ({ label, value, type, icon }) => {
+        const fillMod = type === 'boss'
+            ? 'ef-bar__fill--danger'
+            : type === 'fans'
+                ? ''
+                : type === 'teammates'
+                    ? 'ef-bar__fill--accent'
+                    : 'ef-bar__fill--info';
+        return (
+            <div style={{ marginBottom: '12px' }}>
+                <label className="ef-sans ef-text-muted" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '6px', fontWeight: 'bold' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>{icon} {label}</span>
+                    <span className="ef-mono ef-text-main">{value}%</span>
+                </label>
+                <div className="ef-bar">
+                    <div className={`ef-bar__fill ${fillMod}`} style={{ width: `${value}%` }} />
+                </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     const starStr = Array(player.starRating).fill(<Star weight="fill" color="#FFD700" size={16} />).concat(Array(5 - player.starRating).fill(<Star color="#4A5059" size={16} />));
     const pers = PERSONALITIES[player.personality] || PERSONALITIES.maverick;
     const stressColor = player.stress >= 75 ? '#FF3333' : player.stress >= 50 ? '#FFD700' : '#8E9E94';
 
     return (
-        <div style={{ padding: '24px', width: '100%', height: '100%', overflowY: 'auto', backgroundColor: 'var(--bg-dark, #0D1117)' }}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="ef-view-shell ef-view-shell--fixed">
+            <div className="ef-view-container ef-view-container--wide">
                 {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
-                
+
                 {/* === HEADER — LUXURY BENTO === */}
                 <EfPanel variant="hero" padding="lg" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                         {team?.name && <EfClubBadge name={team.name} size="lg" />}
                         <div>
-                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#1A1F24', color: '#8E9E94', padding: '4px 12px', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.05em', marginBottom: '12px' }}>
-                                <span>{pers.emoji}</span> {pers.name.toUpperCase()} • SÉRIE {['A','B','C','D'][team.division - 1]}
+                            <div className="ef-tag-mono" style={{ marginBottom: '12px' }}>
+                                <span aria-hidden>{pers.emoji}</span> {pers.name.toUpperCase()} • SÉRIE {['A','B','C','D'][team.division - 1]}
                             </div>
-                            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '2rem', fontWeight: '800', margin: '0 0 8px 0', color: '#FDFBF7' }}>
+                            <h2 className="ef-heading-xl">
                                 {player.name}
                             </h2>
                             <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
                                 {starStr.map((s, i) => <React.Fragment key={i}>{s}</React.Fragment>)}
-                                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#8E9E94', marginLeft: '12px' }}>
+                                <span className="ef-mono ef-text-muted" style={{ fontSize: '0.85rem', marginLeft: '12px' }}>
                                     {player.position} • {team.name}
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 'bold', color: '#39FF14' }}>
+                        <div className="ef-mono ef-text-primary" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
                             R$ {(player.money).toLocaleString('pt-BR')}
                         </div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#FFD700', background: '#2D2916', padding: '6px 12px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                        <div className="ef-tag-mono ef-tag-mono--accent">
                             <SoccerBall weight="fill" /> {player.seasonGoals} GOLS NA TEMPORADA
                         </div>
                         <div style={{ marginTop: '12px', width: '200px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#8E9E94', marginBottom: '6px' }}>
+                            <div className="ef-mono ef-text-muted" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', marginBottom: '6px' }}>
                                 <span>SEM {engine.currentWeek}/38</span>
                                 <span>AÇÕES</span>
                             </div>
                             <div style={{ display: 'flex', gap: '4px', justifyContent: 'flex-end' }}>
                                 {Array.from({ length: player.maxActionSlots }).map((_, i) => (
-                                    <div key={i} style={{ width: '24px', height: '6px', background: i < player.actionSlots ? '#39FF14' : '#1A1F24' }} />
+                                    <div key={i} className={`ef-action-slot${i < player.actionSlots ? ' ef-action-slot--filled' : ''}`} />
                                 ))}
                             </div>
                         </div>
@@ -173,9 +182,9 @@ export function PlayerDashboardView() {
                 {/* === ALERTS === */}
                 {(player.isBenched || player.stress >= 75 || player.energy < 30) && (
                     <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                        {player.isBenched && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><WarningCircle color="#FF3333" weight="fill" /><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#FF3333', fontWeight: 'bold' }}>VOCÊ ESTÁ NO BANCO!</span></EfPanel>}
-                        {player.stress >= 75 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><Brain color="#FF3333" weight="fill" /><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#FF3333', fontWeight: 'bold' }}>STRESS CRÍTICO ({player.stress}%)</span></EfPanel>}
-                        {player.energy < 30 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><Lightning color="#FF3333" weight="fill" /><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#FF3333', fontWeight: 'bold' }}>EXAUSTÃO ({player.energy}%)</span></EfPanel>}
+                        {player.isBenched && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><WarningCircle color="#FF3333" weight="fill" /><span className="ef-mono ef-text-danger" style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>VOCÊ ESTÁ NO BANCO!</span></EfPanel>}
+                        {player.stress >= 75 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><Brain color="#FF3333" weight="fill" /><span className="ef-mono ef-text-danger" style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>STRESS CRÍTICO ({player.stress}%)</span></EfPanel>}
+                        {player.energy < 30 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><Lightning color="#FF3333" weight="fill" /><span className="ef-mono ef-text-danger" style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>EXAUSTÃO ({player.energy}%)</span></EfPanel>}
                     </div>
                 )}
 
@@ -185,14 +194,14 @@ export function PlayerDashboardView() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         <EfPanel padding="md" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             {[{id:'overview',label:'Visão Geral'},{id:'skills',label:'Treinamento'},{id:'store',label:'Loja de Traits'},{id:'lifestyle',label:'Lifestyle'}].map(t => (
-                                <EfButton key={t.id} variant={tab === t.id ? 'primary' : 'secondary'} size="md" onClick={() => setTab(t.id)} style={{ width: '100%', justifyContent: 'flex-start', fontFamily: 'var(--font-sans)', fontWeight: '600' }}>
+                                <EfButton key={t.id} variant={tab === t.id ? 'primary' : 'secondary'} size="md" onClick={() => setTab(t.id)} className="ef-sans" style={{ width: '100%', justifyContent: 'flex-start', fontWeight: '600' }}>
                                     {t.label}
                                 </EfButton>
                             ))}
                         </EfPanel>
 
                         <div style={{ marginTop: 'auto' }}>
-                            <EfButton variant="primary" size="lg" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '24px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', gap: '8px' }} onClick={handleAdvance}>
+                            <EfButton variant="primary" size="lg" className="ef-sans" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '24px', fontWeight: 'bold', gap: '8px' }} onClick={handleAdvance}>
                                 <SoccerBall weight="fill" /> AVANÇAR SEMANA
                             </EfButton>
                         </div>
@@ -200,21 +209,21 @@ export function PlayerDashboardView() {
 
                     {/* RIGHT COLUMN: Content Area */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                        
+
                         {/* GLOBAL STATUS BAR */}
                         <EfPanel padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#161B22' }}>
                             <div style={{ display: 'flex', gap: '32px' }}>
-                                <div style={{ textAlign: 'center' }}>
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 'bold', color: player.energy < 30 ? '#FF3333' : '#39FF14', display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}><Lightning weight="fill" /> {player.energy}%</span>
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#8E9E94' }}>ENERGIA</span>
+                                <div className="ef-overview-cell">
+                                    <span className="ef-overview-cell__value" style={{ color: player.energy < 30 ? '#FF3333' : '#39FF14' }}><Lightning weight="fill" /> {player.energy}%</span>
+                                    <span className="ef-overview-cell__label">ENERGIA</span>
                                 </div>
-                                <div style={{ textAlign: 'center' }}>
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 'bold', color: stressColor, display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}><Brain weight="fill" /> {player.stress}%</span>
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#8E9E94' }}>STRESS</span>
+                                <div className="ef-overview-cell">
+                                    <span className="ef-overview-cell__value" style={{ color: stressColor }}><Brain weight="fill" /> {player.stress}%</span>
+                                    <span className="ef-overview-cell__label">STRESS</span>
                                 </div>
-                                <div style={{ textAlign: 'center' }}>
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 'bold', color: '#40BAF7', display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}><Storefront weight="fill" /> {player.energyDrinks}</span>
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#8E9E94' }}>ENERGÉTICOS</span>
+                                <div className="ef-overview-cell">
+                                    <span className="ef-overview-cell__value ef-text-info"><Storefront weight="fill" /> {player.energyDrinks}</span>
+                                    <span className="ef-overview-cell__label">ENERGÉTICOS</span>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', gap: '8px' }}>
@@ -229,7 +238,7 @@ export function PlayerDashboardView() {
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                                     <EfPanel padding="md">
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px', color: '#8E9E94' }}><Handshake weight="fill" /> RELACIONAMENTOS</div>
+                                        <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px' }}><Handshake weight="fill" /> RELACIONAMENTOS</div>
                                         <RelBar label="Treinador" value={player.relationships.boss} type="boss" icon={<User weight="fill" />} />
                                         <RelBar label="Torcida" value={player.relationships.fans} type="fans" icon={<HandsClapping weight="fill" />} />
                                         <RelBar label="Companheiros" value={player.relationships.teammates} type="teammates" icon={<User weight="fill" />} />
@@ -239,7 +248,7 @@ export function PlayerDashboardView() {
 
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                                     <EfPanel padding="md">
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px', color: '#8E9E94' }}><Target weight="fill" /> ATRIBUTOS PRINCIPAIS</div>
+                                        <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px' }}><Target weight="fill" /> ATRIBUTOS PRINCIPAIS</div>
                                         {[
                                             { key: 'technique', label: 'Técnica', color: '#40BAF7' },
                                             { key: 'pace',      label: 'Velocidade', color: '#39FF14' },
@@ -250,12 +259,12 @@ export function PlayerDashboardView() {
                                             const prog = player.skillProgress?.[s.key] ?? 0;
                                             return (
                                                 <div key={s.key} style={{ marginBottom: '12px' }}>
-                                                    <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.85rem', fontFamily: 'var(--font-sans)', fontWeight: 'bold', color: '#FDFBF7', marginBottom: '6px' }}>
+                                                    <div className="ef-sans ef-text-main" style={{ display:'flex', justifyContent:'space-between', fontSize:'0.85rem', fontWeight: 'bold', marginBottom: '6px' }}>
                                                         <span>{s.label}</span>
-                                                        <span style={{ fontFamily: 'var(--font-mono)' }}>{lvl} <span style={{ color: '#8E9E94', fontSize: '0.75rem' }}>({prog}/100 XP)</span></span>
+                                                        <span className="ef-mono">{lvl} <span className="ef-text-muted" style={{ fontSize: '0.75rem' }}>({prog}/100 XP)</span></span>
                                                     </div>
-                                                    <div style={{ height: '6px', background: '#1A1F24', overflow: 'hidden' }}>
-                                                        <div style={{ height: '100%', width: `${prog}%`, background: s.color, transition: 'width 200ms ease-out' }} />
+                                                    <div className="ef-bar">
+                                                        <div className="ef-bar__fill" style={{ width: `${prog}%`, background: s.color }} />
                                                     </div>
                                                 </div>
                                             );
@@ -264,8 +273,8 @@ export function PlayerDashboardView() {
 
                                     {offPitchResult && (
                                         <EfPanel padding="md" style={{ borderColor: '#FFD700', background: '#2D2916' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '8px', color: '#FFD700' }}><WarningCircle weight="fill" /> ÚLTIMO EVENTO</div>
-                                            <p style={{ color: '#FDFBF7', fontSize: '0.85rem', fontFamily: 'var(--font-sans)', lineHeight: 1.5 }}>{offPitchResult}</p>
+                                            <div className="ef-sans ef-text-accent" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '8px' }}><WarningCircle weight="fill" /> ÚLTIMO EVENTO</div>
+                                            <p className="ef-sans ef-text-main" style={{ fontSize: '0.85rem', lineHeight: 1.5 }}>{offPitchResult}</p>
                                         </EfPanel>
                                     )}
                                 </div>
@@ -275,7 +284,7 @@ export function PlayerDashboardView() {
                         {tab === 'skills' && (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                                 <EfPanel padding="md">
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px', color: '#8E9E94' }}><TrendUp weight="fill" /> TREINAMENTO PRINCIPAL</div>
+                                    <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px' }}><TrendUp weight="fill" /> TREINAMENTO PRINCIPAL</div>
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
                                         <EfButton variant="primary" size="lg" onClick={() => handleTrain('technique')} disabled={!player.canAct} style={{ flexDirection: 'column', padding: '16px', gap: '8px' }}>
                                             <Target size={24} /> <span>TÉCNICA</span>
@@ -294,25 +303,25 @@ export function PlayerDashboardView() {
 
                                 <EfPanel padding="md">
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', color: '#8E9E94' }}><ChartBar weight="fill" /> SUB-ATRIBUTOS ESPECÍFICOS</div>
+                                        <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem' }}><ChartBar weight="fill" /> SUB-ATRIBUTOS ESPECÍFICOS</div>
                                         <EfButton size="sm" variant="secondary" onClick={() => setShowSubAttrs(!showSubAttrs)}>{showSubAttrs ? 'OCULTAR' : 'MOSTRAR'}</EfButton>
                                     </div>
                                     {showSubAttrs && player.subAttrs && (
                                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
                                             {Object.entries(SUB_ATTRIBUTES).map(([base, subs]) => (
                                                 <div key={base} style={{ background: '#1A1F24', padding: '12px' }}>
-                                                    <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#FFD700', marginBottom: '12px', textTransform: 'uppercase', fontFamily: 'var(--font-sans)' }}>{base}</div>
+                                                    <div className="ef-sans ef-text-accent" style={{ fontSize: '0.75rem', fontWeight: 'bold', marginBottom: '12px', textTransform: 'uppercase' }}>{base}</div>
                                                     {subs.map(sub => {
                                                         const lvl = player.subAttrs[sub] ?? 0;
                                                         const prog = player.subAttrProgress?.[sub] ?? 0;
                                                         return (
                                                             <div key={sub} style={{ marginBottom: '12px' }}>
-                                                                <div style={{ display:'flex', justifyContent:'space-between', alignItems: 'center', fontSize:'0.75rem', marginBottom: '6px', fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>
-                                                                    <span>{sub} <strong style={{ fontFamily: 'var(--font-mono)', color: '#40BAF7' }}>{lvl}</strong></span>
+                                                                <div className="ef-sans ef-text-main" style={{ display:'flex', justifyContent:'space-between', alignItems: 'center', fontSize:'0.75rem', marginBottom: '6px' }}>
+                                                                    <span>{sub} <strong className="ef-mono ef-text-info">{lvl}</strong></span>
                                                                     <EfButton size="sm" variant="secondary" onClick={() => handleTrainSubAttr(sub)} disabled={!player.canAct} style={{ padding: '4px 8px', fontSize: '0.65rem' }}>TREINAR</EfButton>
                                                                 </div>
-                                                                <div style={{ height:'4px', background:'#0D1117', overflow:'hidden' }}>
-                                                                    <div style={{ height:'100%', width:`${prog}%`, background:'#39FF14' }} />
+                                                                <div className="ef-bar ef-bar--xs">
+                                                                    <div className="ef-bar__fill" style={{ width: `${prog}%` }} />
                                                                 </div>
                                                             </div>
                                                         );
@@ -327,20 +336,24 @@ export function PlayerDashboardView() {
 
                         {tab === 'store' && (
                             <EfPanel padding="md">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '24px', color: '#8E9E94' }}><Storefront weight="fill" /> TRAITS ESPECIAIS</div>
+                                <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '24px' }}><Storefront weight="fill" /> TRAITS ESPECIAIS</div>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
                                     {Object.entries(TRAITS_CATALOG).map(([id, t]) => {
                                         const owned = player.traits?.includes(id);
                                         const canAfford = player.money >= t.cost;
                                         const bossOk = player.relationships.boss >= t.requiredBoss;
                                         const disabled = owned || !canAfford || !bossOk;
+                                        const cardClass = `ef-shop-card${owned ? ' ef-shop-card--owned' : ''}${disabled && !owned ? ' ef-shop-card--disabled' : ''}`;
                                         return (
-                                            <div key={id} style={{ background: owned ? '#162D1C' : '#1A1F24', border: `1px solid ${owned ? '#39FF14' : '#2D3748'}`, padding: '16px', display: 'flex', flexDirection: 'column', opacity: disabled && !owned ? 0.5 : 1 }}>
-                                                <div style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#FDFBF7', fontFamily: 'var(--font-sans)', marginBottom: '8px' }}>{owned ? '✓ ' : ''}{t.name}</div>
-                                                <div style={{ fontSize: '0.75rem', color: '#8E9E94', fontFamily: 'var(--font-sans)', marginBottom: '16px', flex: 1, lineHeight: 1.4 }}>{t.description}</div>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>
-                                                    <span style={{ color: canAfford ? '#39FF14' : '#FF3333' }}>R$ {t.cost.toLocaleString('pt-BR')}</span>
-                                                    <span style={{ color: bossOk ? '#40BAF7' : '#FF3333', display: 'flex', alignItems: 'center', gap: '4px' }}><User /> {t.requiredBoss}%</span>
+                                            <div key={id} className={cardClass}>
+                                                <div className="ef-sans ef-text-main" style={{ fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    {owned && <CheckCircle weight="fill" size={14} className="ef-text-primary" />}
+                                                    {t.name}
+                                                </div>
+                                                <div className="ef-sans ef-text-muted" style={{ fontSize: '0.75rem', marginBottom: '16px', flex: 1, lineHeight: 1.4 }}>{t.description}</div>
+                                                <div className="ef-mono" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '0.8rem' }}>
+                                                    <span className={canAfford ? 'ef-text-primary' : 'ef-text-danger'}>R$ {t.cost.toLocaleString('pt-BR')}</span>
+                                                    <span className={bossOk ? 'ef-text-info' : 'ef-text-danger'} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><User /> {t.requiredBoss}%</span>
                                                 </div>
                                                 <EfButton size="sm" variant={owned ? 'secondary' : 'primary'} onClick={() => handleBuyTrait(id)} disabled={disabled} style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold' }}>
                                                     {owned ? 'ADQUIRIDO' : !canAfford ? 'SEM DINHEIRO' : !bossOk ? 'CONFIANÇA BAIXA' : 'COMPRAR'}
@@ -354,8 +367,8 @@ export function PlayerDashboardView() {
 
                         {tab === 'lifestyle' && (
                             <EfPanel padding="md">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px', color: '#8E9E94' }}><House weight="fill" /> LIFESTYLE & BENS</div>
-                                <div style={{ display: 'flex', gap: '16px', marginBottom: '24px', fontFamily: 'var(--font-sans)', fontSize: '0.85rem', color: '#FDFBF7', background: '#1A1F24', padding: '12px', }}>
+                                <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px' }}><House weight="fill" /> LIFESTYLE & BENS</div>
+                                <div className="ef-sans ef-text-main" style={{ display: 'flex', gap: '16px', marginBottom: '24px', fontSize: '0.85rem', background: '#1A1F24', padding: '12px' }}>
                                     <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><House color="#40BAF7" weight="fill" /> {player.lifestyle?.ownedHouse ? LIFESTYLE_CATALOG[player.lifestyle.ownedHouse]?.name : 'Sem casa'}</span>
                                     <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Car color="#FFD700" weight="fill" /> {player.lifestyle?.ownedCar ? LIFESTYLE_CATALOG[player.lifestyle.ownedCar]?.name : 'Sem carro'}</span>
                                     <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Heart color="#FF3333" weight="fill" /> {player.lifestyle?.isMarried ? 'Casado' : 'Solteiro'}</span>
@@ -368,10 +381,15 @@ export function PlayerDashboardView() {
                                                       (it.type === 'event' && id === 'wedding' && player.lifestyle?.isMarried);
                                         const canAfford = player.money >= it.cost;
                                         const disabled = owned || !canAfford;
+                                        const cardClass = `ef-shop-card${owned ? ' ef-shop-card--owned' : ''}${disabled && !owned ? ' ef-shop-card--disabled' : ''}`;
                                         return (
-                                            <div key={id} style={{ background: owned ? '#162D1C' : '#1A1F24', border: `1px solid ${owned ? '#39FF14' : '#2D3748'}`, padding: '16px', opacity: disabled && !owned ? 0.5 : 1 }}>
-                                                <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#FDFBF7', fontFamily: 'var(--font-sans)', marginBottom: '8px' }}>{it.emoji} {owned ? '✓ ' : ''}{it.name}</div>
-                                                <div style={{ fontSize: '0.8rem', color: canAfford ? '#39FF14' : '#FF3333', fontFamily: 'var(--font-mono)', marginBottom: '16px' }}>R$ {it.cost.toLocaleString('pt-BR')}</div>
+                                            <div key={id} className={cardClass}>
+                                                <div className="ef-sans ef-text-main" style={{ fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    <span aria-hidden>{it.emoji}</span>
+                                                    {owned && <CheckCircle weight="fill" size={14} className="ef-text-primary" />}
+                                                    {it.name}
+                                                </div>
+                                                <div className={`ef-mono ${canAfford ? 'ef-text-primary' : 'ef-text-danger'}`} style={{ fontSize: '0.8rem', marginBottom: '16px' }}>R$ {it.cost.toLocaleString('pt-BR')}</div>
                                                 <EfButton size="sm" variant={owned ? 'secondary' : 'primary'} onClick={() => handleBuyLifestyle(id)} disabled={disabled} style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold' }}>
                                                     {owned ? 'ADQUIRIDO' : !canAfford ? 'SEM DINHEIRO' : it.oneShot ? 'FAZER' : 'COMPRAR'}
                                                 </EfButton>
@@ -387,7 +405,7 @@ export function PlayerDashboardView() {
                 {/* BOTTOM NAVIGATION */}
                 <div style={{ display: 'flex', gap: '16px', marginTop: 'auto', paddingTop: '24px' }}>
                     {[{view:'standings',icon:<ChartBar weight="fill"/>,label:'Tabela'},{view:'achievements',icon:<Target weight="fill"/>,label:'Conquistas'}].map(n => (
-                        <EfButton key={n.view} variant="secondary" size="lg" className="ef-flex-1" style={{ justifyContent: 'center', padding: '24px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', gap: '8px' }} onClick={() => changeView(n.view)}>
+                        <EfButton key={n.view} variant="secondary" size="lg" className="ef-flex-1 ef-sans" style={{ justifyContent: 'center', padding: '24px', fontWeight: 'bold', fontSize: '1rem', gap: '8px' }} onClick={() => changeView(n.view)}>
                             {n.icon} {n.label}
                         </EfButton>
                     ))}
@@ -398,10 +416,10 @@ export function PlayerDashboardView() {
 
                 {offPitchEvent && (
                     <EfModal title="📰 Evento da Semana" onClose={() => setOffPitchEvent(null)}>
-                        <p style={{ marginBottom: '24px', fontSize: '1rem', lineHeight: 1.5, fontFamily: 'var(--font-sans)' }}>{offPitchEvent.text}</p>
+                        <p className="ef-sans" style={{ marginBottom: '24px', fontSize: '1rem', lineHeight: 1.5 }}>{offPitchEvent.text}</p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                             {offPitchEvent.options.map((opt, i) => (
-                                <EfButton key={i} variant="secondary" onClick={() => handleOffPitchChoice(opt)} style={{ justifyContent: 'flex-start', padding: '16px', fontFamily: 'var(--font-sans)' }}>{opt.label}</EfButton>
+                                <EfButton key={i} variant="secondary" onClick={() => handleOffPitchChoice(opt)} className="ef-sans" style={{ justifyContent: 'flex-start', padding: '16px' }}>{opt.label}</EfButton>
                             ))}
                         </div>
                     </EfModal>
@@ -409,8 +427,8 @@ export function PlayerDashboardView() {
 
                 {mentalBreakModal && (
                     <EfModal title="🧠 CRISE MENTAL" onClose={() => {}}>
-                        <p style={{ color: '#FF3333', fontWeight: 'bold', marginBottom: '8px', fontFamily: 'var(--font-sans)' }}>Stress em {player.stress}%</p>
-                        <p style={{ marginBottom: '24px', fontSize: '0.9rem', lineHeight: 1.5, fontFamily: 'var(--font-sans)' }}>Você não aguenta mais a pressão. Precisa de uma válvula de escape.</p>
+                        <p className="ef-sans ef-text-danger" style={{ fontWeight: 'bold', marginBottom: '8px' }}>Stress em {player.stress}%</p>
+                        <p className="ef-sans" style={{ marginBottom: '24px', fontSize: '0.9rem', lineHeight: 1.5 }}>Você não aguenta mais a pressão. Precisa de uma válvula de escape.</p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                             <EfButton variant="secondary" onClick={() => handleMentalBreak('party')} style={{ justifyContent: 'flex-start' }}>🎉 Sair pra festa (Stress -40, Treinador -10)</EfButton>
                             <EfButton variant="secondary" onClick={() => handleMentalBreak('isolation')} style={{ justifyContent: 'flex-start' }}>🏠 Isolamento total (Stress -30, Time -8)</EfButton>
