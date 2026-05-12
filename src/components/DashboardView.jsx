@@ -16,6 +16,7 @@ import { EfButton } from './ui/EfButton';
 import { EfModal } from './ui/EfModal';
 import { OnboardingCoach } from './OnboardingCoach';
 import { getUnifiedView } from '../engine/UnifiedModeBridge';
+import { getWeeklyQuote } from '../engine/StarPlayerNarrative';
 import { 
   Users, ShoppingCart, ChartBar, SoccerBall, TrendUp, TrendDown, Heartbeat,
   Newspaper, Lightning, Envelope, Wallet, Bank, Building, GraduationCap, Binoculars, 
@@ -124,11 +125,14 @@ export function DashboardView() {
                     onComplete={() => forceUpdate()}
                 />
 
-                {/* SPEC-C2.3: Unified Mode — Star Progress panel */}
+                {/* SPEC-C2.3 + F4.2: Unified Mode — Star Progress panel com frase semanal */}
                 {(() => {
                     const view = getUnifiedView(engine);
                     if (!view.isUnified || !view.star) return null;
                     const s = view.star;
+                    // SPEC-F4.2: frase semanal rotativa
+                    const quoteSeed = (engine?.currentWeek || 0) + Math.floor((engine?.currentWeek || 0) / 4) + (s.id || 0);
+                    const weeklyQuote = getWeeklyQuote({ name: s.name }, quoteSeed);
                     return (
                         <EfPanel padding="md" style={{ border: '1px solid #FFD700', backgroundColor: '#1A1408' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -145,6 +149,11 @@ export function DashboardView() {
                                         <span style={{ color: '#40BAF7' }}>Torcida {s.relationships.fans}</span>
                                         <span style={{ color: '#FFD700' }}>Equipe {s.relationships.teammates}</span>
                                     </div>
+                                    {weeklyQuote && (
+                                        <div style={{ marginTop: '10px', fontSize: '0.8rem', color: '#C7A75D', fontFamily: 'var(--font-sans)', fontStyle: 'italic', borderLeft: '2px solid #C7A75D', paddingLeft: '10px' }}>
+                                            "{weeklyQuote}"
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </EfPanel>
