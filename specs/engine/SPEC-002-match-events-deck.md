@@ -179,7 +179,7 @@ interface EventCard {
 - `src/engine/decks/MatchCardsATA.js` — 8-10 cartas ATA
 
 ### Referência
-Manual ELIFOOT, Parte 3.4 (Match Events) — tipos de evento
+Manual OléFUT, Parte 3.4 (Match Events) — tipos de evento
 
 ---
 

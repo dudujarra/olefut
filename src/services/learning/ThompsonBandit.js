@@ -26,7 +26,7 @@
 
 import { rng as systemRng } from '../../engine/rng.js';
 
-const STORAGE_KEY_PREFIX = 'elifoot_bandit_';
+const STORAGE_KEY_PREFIX = 'olefut_bandit_';
 const MAX_CONTEXTS = 100; // bound per-bandit context table
 const PRIOR_ALPHA = 1;    // uniform prior
 const PRIOR_BETA = 1;     // uniform prior

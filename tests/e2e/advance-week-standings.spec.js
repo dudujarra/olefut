@@ -14,7 +14,7 @@ async function startCareer(page) {
     await page.addInitScript(() => {
         try {
             localStorage.clear();
-            localStorage.setItem('elifoot_tutorial_done', 'true');
+            localStorage.setItem('olefut_tutorial_done', 'true');
         } catch { /* ignore */ }
     });
     await page.goto('/');
@@ -32,7 +32,7 @@ test.describe('SPEC-164 §3: Standings reachable', () => {
         await startCareer(page);
 
         // Sidebar item "TABELA"
-        const tabelaItem = page.locator('aside.elifoot-sidebar').getByText('TABELA');
+        const tabelaItem = page.locator('aside.olefut-sidebar').getByText('TABELA');
         await expect(tabelaItem).toBeVisible();
         await tabelaItem.click();
 

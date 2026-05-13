@@ -105,12 +105,12 @@ export function AutoPlayView() {
 
         const handleSetupStart = () => {
             if (!setupTeamId) return;
-            // Clear all existing elifoot saves to start fresh
+            // Clear all existing olefut saves to start fresh
             try {
                 if (typeof localStorage !== 'undefined') {
                     for (let i = localStorage.length - 1; i >= 0; i--) {
                         const k = localStorage.key(i);
-                        if (k && k.startsWith('elifoot_')) localStorage.removeItem(k);
+                        if (k && k.startsWith('olefut_')) localStorage.removeItem(k);
                     }
                 }
             } catch { /* ignore */ }
@@ -267,9 +267,9 @@ export function AutoPlayView() {
         try {
             if (typeof localStorage !== 'undefined') {
                 // Clear brain entirely
-                localStorage.removeItem('elifoot_autoplay_brain');
+                localStorage.removeItem('olefut_autoplay_brain');
                 // Surgically clear log arrays in stats but preserve counters
-                const raw = localStorage.getItem('elifoot_autoplay_state');
+                const raw = localStorage.getItem('olefut_autoplay_state');
                 if (raw) {
                     const stats = JSON.parse(raw);
                     if (stats && typeof stats === 'object') {
@@ -277,7 +277,7 @@ export function AutoPlayView() {
                         stats.successes = [];
                         stats.decisions = [];
                         stats.seasonHistory = [];
-                        localStorage.setItem('elifoot_autoplay_state', JSON.stringify(stats));
+                        localStorage.setItem('olefut_autoplay_state', JSON.stringify(stats));
                     }
                 }
             }
@@ -320,17 +320,17 @@ export function AutoPlayView() {
         try { controllerRef.current.pause(); } catch { /* ignore */ }
         try {
             if (typeof localStorage !== 'undefined') {
-                // BUG-074: também limpar main save (elifoot_save_v1) — antes ficava
+                // BUG-074: também limpar main save (olefut_save_v1) — antes ficava
                 // game state Flamengo persistido após Reset Tudo.
-                localStorage.removeItem('elifoot_autoplay_brain');
-                localStorage.removeItem('elifoot_autoplay_state');
-                localStorage.removeItem('elifoot_llm_mode');
-                localStorage.removeItem('elifoot_save_v1');
-                localStorage.removeItem('elifoot_genetic_state');
-                // Sweep any other elifoot_* keys defensively
+                localStorage.removeItem('olefut_autoplay_brain');
+                localStorage.removeItem('olefut_autoplay_state');
+                localStorage.removeItem('olefut_llm_mode');
+                localStorage.removeItem('olefut_save_v1');
+                localStorage.removeItem('olefut_genetic_state');
+                // Sweep any other olefut_* keys defensively
                 for (let i = localStorage.length - 1; i >= 0; i--) {
                     const k = localStorage.key(i);
-                    if (k && k.startsWith('elifoot_')) localStorage.removeItem(k);
+                    if (k && k.startsWith('olefut_')) localStorage.removeItem(k);
                 }
             }
         } catch { /* ignore */ }

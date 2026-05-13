@@ -10,12 +10,12 @@ import { rng as systemRng } from '../engine/rng.js';
  * - feedback: relato manual via FloatingBugButton
  * - note: observação livre user
  *
- * Storage: localStorage 'elifoot_monitor' separado do save game.
+ * Storage: localStorage 'olefut_monitor' separado do save game.
  * Cap: 500 entries (FIFO descarte oldest).
  * Export: JSON download.
  */
 
-const STORAGE_KEY = 'elifoot_monitor';
+const STORAGE_KEY = 'olefut_monitor';
 const MAX_ENTRIES = 500;
 
 const CATEGORIES = Object.freeze({

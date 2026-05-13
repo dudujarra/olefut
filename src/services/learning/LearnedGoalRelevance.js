@@ -26,7 +26,7 @@
 
 import { rng as systemRng } from '../../engine/rng.js';
 
-const STORAGE_KEY = 'elifoot_goal_relevance';
+const STORAGE_KEY = 'olefut_goal_relevance';
 
 // ─── HARDCODED PRIORS (from AdaptiveBrain.js GOAL_RELEVANCE) ─────
 // These become the warm-start priors for the learned matrix.

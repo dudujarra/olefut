@@ -1,7 +1,7 @@
 // Regression test for BUG-020
 // App não persistia state (refresh = volta tela inicial, perde carreira)
 // Fix: GameContext usa localStorage auto-save em mudança gameState
-// Issue: https://github.com/dudujarra/elifoot-web/issues/18
+// Issue: https://github.com/dudujarra/olefut/issues/18
 import { describe, test, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
@@ -25,7 +25,7 @@ describe('BUG-020 regression: localStorage auto-save', () => {
     test('SAVE_KEY constant defined', () => {
         const content = fs.readFileSync(ctxFile, 'utf-8');
         expect(content).toMatch(/SAVE_KEY/);
-        expect(content).toMatch(/elifoot_save/);
+        expect(content).toMatch(/olefut_save/);
     });
 
     test('saveToStorage function exists', () => {

@@ -11,7 +11,7 @@ Bot AutoPlay aprende quais ações historicamente trouxeram resultado positivo, 
 ## Outputs
 - Per-action win-rate Bayesian estimate (Beta distribution α/β)
 - Action picker: highest expected reward + epsilon-greedy explore
-- Persistence: localStorage `elifoot_autoplay_brain`
+- Persistence: localStorage `olefut_autoplay_brain`
 
 ## Verification
 - Após 200 weeks, bot deve preferir ação com maior win-rate em ≥70% das vezes

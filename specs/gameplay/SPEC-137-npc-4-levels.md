@@ -199,7 +199,7 @@ describe('SPEC-137: NPC 4 Levels', () => {
 ```bash
 #!/bin/bash
 # harness/SPEC-137-validate.sh
-cd /Users/dudujarra/Documents/ELIFOOT
+cd /Users/dudujarra/Documents/OléFUT
 npm test -- --testNamePattern="SPEC-137" 2>&1
 exit $?
 ```

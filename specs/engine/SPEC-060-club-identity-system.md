@@ -7,7 +7,7 @@
 
 ## Contexto
 
-ELIFOOT v2.0 SNES tem 80 clubes em `src/engine/db/brazil.js` (Série A/B/C/D). Cada clube só tem `{name, budget, stadium}` — zero identidade visual. Dashboard genérico, Hall de Lendas sem cores clube, Match scoreboard sem branding. Sem identidade = sem nostalgia.
+OléFUT v2.0 SNES tem 80 clubes em `src/engine/db/brazil.js` (Série A/B/C/D). Cada clube só tem `{name, budget, stadium}` — zero identidade visual. Dashboard genérico, Hall de Lendas sem cores clube, Match scoreboard sem branding. Sem identidade = sem nostalgia.
 
 ## Objetivo
 

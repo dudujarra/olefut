@@ -1,6 +1,6 @@
 // Regression test for BUG-021
 // Generated: 2026-05-08
-// Issue: https://github.com/dudujarra/elifoot-web/issues/60
+// Issue: https://github.com/dudujarra/olefut/issues/60
 //
 // Bug: React error #310 ("Rendered more hooks than during the previous render")
 // caused by early return BETWEEN hooks in DashboardView + PlayerDashboardView.

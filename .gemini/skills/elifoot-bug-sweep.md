@@ -1,4 +1,4 @@
-# Skill: Elifoot Bug Sweep (Caça Bug)
+# Skill: OléFUT Bug Sweep (Caça Bug)
 
 ## Triggers
 Quando o usuário disser qualquer uma dessas frases (ou variações):
@@ -11,11 +11,11 @@ Quando o usuário disser qualquer uma dessas frases (ou variações):
 - "QA"
 
 ## Ação
-Executar automaticamente o workflow completo de QA do Elifoot, **sem pedir confirmação**:
+Executar automaticamente o workflow completo de QA do OléFUT, **sem pedir confirmação**:
 
 ### Passo 1: Rodar o Bug Sweep Script
 ```bash
-cd /Users/dudujarra/Documents/ELIFOOT && ./scripts/elifoot-bug-sweep.sh all 2>&1
+cd /Users/dudujarra/Documents/OléFUT && ./scripts/olefut-bug-sweep.sh all 2>&1
 ```
 
 ### Passo 2: Interpretar resultado
@@ -42,7 +42,7 @@ Corrigindo...
 ```
 
 ## Notas
-- O script está em `/Users/dudujarra/Documents/ELIFOOT/scripts/elifoot-bug-sweep.sh`
-- Testes em `/Users/dudujarra/Documents/ELIFOOT/tests/`
-- Tracker em `/Users/dudujarra/Documents/ELIFOOT/BUGS.md`
-- Relatório em `/Users/dudujarra/Documents/ELIFOOT/docs/qa-report.md`
+- O script está em `/Users/dudujarra/Documents/OléFUT/scripts/olefut-bug-sweep.sh`
+- Testes em `/Users/dudujarra/Documents/OléFUT/tests/`
+- Tracker em `/Users/dudujarra/Documents/OléFUT/BUGS.md`
+- Relatório em `/Users/dudujarra/Documents/OléFUT/docs/qa-report.md`

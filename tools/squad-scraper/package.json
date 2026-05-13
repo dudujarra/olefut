@@ -1,7 +1,7 @@
 {
-  "name": "elifoot-squad-scraper",
+  "name": "olefut-squad-scraper",
   "version": "1.0.0",
-  "description": "Ferramenta de extração de elencos reais do Sofascore para a engine do Elifoot.",
+  "description": "Ferramenta de extração de elencos reais do Sofascore para a engine do OléFUT.",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "elifoot",
+    "olefut",
     "scraper",
     "sofascore"
   ],

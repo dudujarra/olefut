@@ -2,7 +2,7 @@
 
 **Project ID:** `5927806759385939253`
 **Design System:** `assets/9225466913965936462`
-**Theme:** ELIFOOT v2.0 SNES Soccer Brasileiro Moderno
+**Theme:** OléFUT v2.0 SNES Soccer Brasileiro Moderno
 **Generated:** 2026-05-08
 
 ## Screens
@@ -31,7 +31,7 @@ Stitch correctly rendered:
 ## Design System Tokens
 
 ```
-displayName: ELIFOOT SNES v2.0
+displayName: OléFUT SNES v2.0
 colorMode: DARK
 colorVariant: VIBRANT
 customColor: #2D5A3D (Pacaembu)
@@ -51,7 +51,7 @@ roundness: ROUND_TWO (2px borders)
 - **Squad**: tabela jogadores + formação preview left panel. Reference for SquadView tabs+list.
 - **Hall de Lendas**: 6 cards lendas grid + faces ASCII + categorias (Idolo/Carrasco/Cria). Reference for SPEC-052 myth layer UI.
 - **Crônica**: parchment central com chapters + pixel icons + grid 4x3 conquistas + 3 export buttons. Reference for SPEC-057 chronicle export.
-- **StartView**: ELIFOOT Press Start 2P logo + 4 menu buttons (NOVO JOGO/CARREGAR SAVE/MODO JOGADOR/OPCOES) + version footer.
+- **StartView**: OléFUT Press Start 2P logo + 4 menu buttons (NOVO JOGO/CARREGAR SAVE/MODO JOGADOR/OPCOES) + version footer.
 
 ## Próximos passos
 

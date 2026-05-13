@@ -5,7 +5,7 @@
  * Reward: prestige + small money + cosmetic unlock.
  */
 
-const STORAGE_KEY = 'elifoot_challenges';
+const STORAGE_KEY = 'olefut_challenges';
 
 export const WEEKLY_CHALLENGES = [
     {

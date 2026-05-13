@@ -84,8 +84,8 @@ Running 6 tests using 1 worker
 - [ ] Após iniciar carreira, top-bar mostra o nome do manager
 - [ ] Botão de save (💾) está visível e clicável
 - [ ] Toast "Salvo!" aparece
-- [ ] Payload `elifoot_save_v1` contém `gameState.started=true`, `manager`, `version`, `checksum`, `engine.teams`
-- [ ] Após reload, a chave `elifoot_save_v1` continua intacta com o mesmo manager
+- [ ] Payload `olefut_save_v1` contém `gameState.started=true`, `manager`, `version`, `checksum`, `engine.teams`
+- [ ] Após reload, a chave `olefut_save_v1` continua intacta com o mesmo manager
 - [ ] **GAP DOCUMENTADO**: a renderização do `<DashboardView>` após reload dispara erro de error-boundary (bug existente fora do escopo desta SPEC; ticket criado em sessão separada via spawn_task). Por isso o teste isola o contrato de persistência e deixa o render-restore para o ticket dedicado.
 
 ### 3. Advance Week → Standings (`advance-week-standings.spec.js`)
@@ -104,7 +104,7 @@ Running 6 tests using 1 worker
 - [ ] localStorage começa limpo
 - [ ] Tutorial avança pelos 5 passos com botão PRÓXIMO
 - [ ] No último passo o botão vira "INICIAR CARREIRA"
-- [ ] Após finalizar, `elifoot_tutorial_done` está em localStorage
+- [ ] Após finalizar, `olefut_tutorial_done` está em localStorage
 
 ### 6. Responsive Mobile (`responsive-mobile.spec.js`)
 - [ ] Em viewport 375x667 não há overflow horizontal além de 10px

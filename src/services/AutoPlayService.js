@@ -408,7 +408,7 @@ export class AutoPlayController {
      *   3. Zera stats, insights, decisions, anomalies, seasonHistory
      *   4. Reseta telemetry aggregator
      *   5. Limpa transfer tracking interno
-     *   6. Remove save de gameplay (elifoot_autoplay_state, elifoot_save_v1)
+     *   6. Remove save de gameplay (olefut_autoplay_state, olefut_save_v1)
      *   7. Retorna snapshot do brain salvo para confirmação
      * 
      * @returns {{ brainStates: number, totalUpdates: number, personality: string, savedAt: number }}
@@ -444,10 +444,10 @@ export class AutoPlayController {
         // 6. Limpa saves de gameplay (mas NÃO o brain!)
         try {
             if (typeof localStorage !== 'undefined') {
-                localStorage.removeItem('elifoot_autoplay_state');
-                localStorage.removeItem('elifoot_save_v1');
-                localStorage.removeItem('elifoot_genetic_state');
-                // NÃO remove 'elifoot_autoplay_brain' — esse é o ponto!
+                localStorage.removeItem('olefut_autoplay_state');
+                localStorage.removeItem('olefut_save_v1');
+                localStorage.removeItem('olefut_genetic_state');
+                // NÃO remove 'olefut_autoplay_brain' — esse é o ponto!
             }
         } catch { /* ignore */ }
 
@@ -461,7 +461,7 @@ export class AutoPlayController {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `elifoot-autoplay-${Date.now()}.json`;
+        a.download = `olefut-autoplay-${Date.now()}.json`;
         a.click();
         URL.revokeObjectURL(url);
     }
@@ -472,7 +472,7 @@ export class AutoPlayController {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `elifoot-telemetry-${Date.now()}.json`;
+        a.download = `olefut-telemetry-${Date.now()}.json`;
         a.click();
         URL.revokeObjectURL(url);
     }

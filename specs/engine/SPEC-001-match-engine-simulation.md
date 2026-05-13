@@ -330,7 +330,7 @@ Casos **explicitamente proibidos**. Se acontecer, spec falhou.
 - `src/engine/BoardSystem.js` — registra resultado
 
 ### Referência manual
-Manual ELIFOOT, Parte 3 (Partida ao Vivo) — descrição de fluxo
+Manual OléFUT, Parte 3 (Partida ao Vivo) — descrição de fluxo
 
 ---
 

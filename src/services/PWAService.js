@@ -58,7 +58,7 @@ export function showLocalNotification(title, opts = {}) {
     swRegistration.showNotification(title, {
         body: opts.body || '',
         icon: '/olefut/favicon.svg',
-        tag: opts.tag || 'elifoot-event',
+        tag: opts.tag || 'olefut-event',
         data: { url: opts.url || '/' },
         silent: false,
     });

@@ -19,7 +19,7 @@ Automated deploy p/ GitHub Pages. Build → push → live em main commit. Versio
 | Build | Commit main | `npm run build` | `/dist/` |
 | Version | Tag (v*.*.*)| Semver bump | `package.json` |
 | Push | CI success | Git push dist/ | GitHub Pages |
-| Live | Pages build | Publish | `https://elifoot.app/` |
+| Live | Pages build | Publish | `https://olefut.app/` |
 | Artifact | After deploy | Save build | Release notes |
 
 ---
@@ -68,7 +68,7 @@ git push origin dist/:gh-pages
   deployment: {
     version: string,  // v1.0.0
     timestamp: string,
-    url: string,  // https://elifoot.app/
+    url: string,  // https://olefut.app/
     buildSize: number,  // MB
     buildTime: number,  // seconds
     changelog: string
@@ -134,7 +134,7 @@ test('Version semver auto-bumped', async () => {
 test('GitHub Pages ativo', async () => {
   const pages = await github.repos.getPages();
   expect(pages.status).toBe('built');
-  expect(pages.cname).toContain('elifoot');
+  expect(pages.cname olefut');
 });
 
 test('Release notes auto-gerado', async () => {
@@ -182,7 +182,7 @@ Build and deployment:
   Branch: main
   Path: dist/
 
-Custom domain: elifoot.app  (if DNS configured)
+Custom domain: olefut.app  (if DNS configured)
 ```
 
 ---

@@ -8,7 +8,7 @@
  * Pure module. Headless (localStorage é I/O isolado, OK em engine).
  */
 
-const STORAGE_KEY = 'elifoot_legends_pool';
+const STORAGE_KEY = 'olefut_legends_pool';
 const SCHEMA_VERSION = 1;
 const MAX_POOL_SIZE = 200;
 

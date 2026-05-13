@@ -29,17 +29,17 @@ Chrome MCP roda em sandbox isolado. Downloads:
 
 ## Esta sessão
 8 assets chegaram via clicks `Tamanho original` no Flow UI:
-- logo-elifoot-8bit.jpeg (1.9MB)
+- logo-olefut-8bit.jpeg (1.9MB)
 - weather.jpeg (533KB)
 - icons-football.jpeg (452KB) — **paleta futebol**
 - stadium-bg.jpeg (640KB) — **16:9 paleta futebol**
-- scoreboard.jpeg (504KB) — **ELIFOOT scoreboard**
+- scoreboard.jpeg (504KB) — **OléFUT scoreboard**
 - players.jpeg — **8 jerseys numerados**
 - 2 weather/icons variantes paleta antiga
 
 Não chegaram (mesmo após click):
 - Stadium evolution chart 5 levels
-- ELIFOOT THE MANAGER GAME cinematic
+- OléFUT THE MANAGER GAME cinematic
 - Match scene wide
 - Variantes adicionais
 

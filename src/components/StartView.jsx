@@ -5,7 +5,7 @@ import { PERSONALITIES } from '../engine/PlayerCareer';
 // AKITA-105: inline para evitar puxar TutorialView (heavy) ao chunk inicial
 // via StartView (eager). Vite emitia INEFFECTIVE_DYNAMIC_IMPORT.
 const isTutorialDone = () => {
-    try { return localStorage.getItem('elifoot_tutorial_done') !== null; } catch { return false; }
+    try { return localStorage.getItem('olefut_tutorial_done') !== null; } catch { return false; }
 };
 import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
 import { EfClubBadge } from './ui/EfClubBadge';

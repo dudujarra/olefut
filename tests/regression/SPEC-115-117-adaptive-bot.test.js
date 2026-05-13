@@ -249,11 +249,11 @@ describe('New Game+ — Brain persists, gameplay resets', () => {
         expect(Object.keys(bot.brain.qTable).length).toBe(qStatesBefore);
 
         // ASSERT: brain was saved to localStorage
-        const savedBrain = JSON.parse(store['elifoot_autoplay_brain'] || 'null');
+        const savedBrain = JSON.parse(store['olefut_autoplay_brain'] || 'null');
         expect(savedBrain).not.toBeNull();
         expect(savedBrain.totalUpdates).toBe(brainUpdatesBefore);
 
         // ASSERT: gameplay state was removed from localStorage
-        expect(store['elifoot_autoplay_state']).toBeUndefined();
+        expect(store['olefut_autoplay_state']).toBeUndefined();
     });
 });

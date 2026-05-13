@@ -66,7 +66,7 @@ const AHA_TEMPLATES = [
     },
 ];
 
-const STORAGE_KEY = 'elifoot_aha_seen';
+const STORAGE_KEY = 'olefut_aha_seen';
 
 /**
  * Carrega set de IDs já vistos do localStorage.

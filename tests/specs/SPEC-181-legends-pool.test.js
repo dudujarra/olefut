@@ -208,7 +208,7 @@ describe('SPEC-181: LegendsCrossSavePool', () => {
     describe('graceful degradation', () => {
         it('corrupt localStorage → returns empty pool', () => {
             if (typeof localStorage !== 'undefined') {
-                localStorage.setItem('elifoot_legends_pool', '{invalid');
+                localStorage.setItem('olefut_legends_pool', '{invalid');
                 const data = loadPool();
                 expect(data.pool).toEqual([]);
             }

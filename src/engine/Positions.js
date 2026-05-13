@@ -2,7 +2,7 @@ import { rng as systemRng } from './rng.js';
 /**
  * Positions.js — SPEC-080
  *
- * 18 posições granulares ELIFOOT (BR Portuguese primary, FIFA EN alias).
+ * 18 posições granulares OléFUT (BR Portuguese primary, FIFA EN alias).
  * Cobre todo futebol moderno: 1 GK + 7 DEF + 7 MID + 3 ATA.
  *
  * Códigos PRIMÁRIOS = BR Portuguese (3 chars consistente).
@@ -386,9 +386,9 @@ export const EN_TO_BR = {
 export const BR_TO_EN = Object.fromEntries(Object.entries(EN_TO_BR).map(([en, br]) => [br, en]));
 
 /**
- * SofaScore code → ELIFOOT BR position.
+ * SofaScore code → OléFUT BR position.
  */
-export const SOFASCORE_TO_ELIFOOT = {
+export const SOFASCORE_TO_OléFUT = {
     'G': 'GOL',
     'GK': 'GOL',
     'D': 'ZAG',
@@ -424,5 +424,5 @@ export const SOFASCORE_TO_ELIFOOT = {
 };
 
 export function mapSofaScorePosition(sofaScoreCode) {
-    return SOFASCORE_TO_ELIFOOT[sofaScoreCode] || 'MEC';
+    return SOFASCORE_TO_OléFUT[sofaScoreCode] || 'MEC';
 }

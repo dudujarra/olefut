@@ -143,5 +143,5 @@ describe('SPEC-140: Transfer Price Rescale', () => {
 
 ## Harness
 ```bash
-cd /Users/dudujarra/Documents/ELIFOOT && npm test -- --reporter=verbose 2>&1 | grep "SPEC-140"
+cd /Users/dudujarra/Documents/OléFUT && npm test -- --reporter=verbose 2>&1 | grep "SPEC-140"
 ```

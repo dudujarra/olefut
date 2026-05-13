@@ -5,7 +5,7 @@
  * No gameplay impact, only visual.
  */
 
-const STORAGE_KEY = 'elifoot_cosmetics';
+const STORAGE_KEY = 'olefut_cosmetics';
 
 export const COSMETICS = [
     { id: 'kit_classic',  type: 'kit',     name: 'Kit Clássico SNES',  cost: 50,  emoji: '👕' },

@@ -119,7 +119,7 @@ Cada bloco BLOQUEIA o seguinte. Não pode pular ordem.
 
 #### B2.1 Feature audit completo (15h)
 
-Pra cada uma das **~40 features** documentadas em SDD_ELIFOOT_RPG.md:
+Pra cada uma das **~40 features** documentadas em SDD_OléFUT_RPG.md:
 
 | Feature | Engine OK | UI OK | Reachable | E2E Test | Gap |
 |---------|-----------|-------|-----------|----------|-----|

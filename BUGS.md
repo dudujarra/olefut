@@ -1,4 +1,4 @@
-# 🐛 Bug Tracker — Elifoot RPG
+# 🐛 Bug Tracker — OléFUT RPG
 
 > Atualizado: 2026-05-11 | Protocolo: AKITA Mandamento #6 (ticket + fix + regression test)
 > Fonte canônica: arquivos em `tests/regression/`. Cada BUG-XXX precisa ter os 3 artefatos.
@@ -120,7 +120,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-007 ✅ RESOLVIDO — Statistics topScorer ownerTeam sempre homeTeam (bug logic)
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/2
+- **Issue:** https://github.com/dudujarra/olefut/issues/2
 - **Branch:** `bug/BUG-007`
 - **Fix:** Aplicado (ver tests/regression/)
 - **Teste:** `tests/regression/BUG-007.test.js`
@@ -130,7 +130,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-008 ✅ RESOLVIDO — MarketSystem makeOffer aceita oferta sem listing existir
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/3
+- **Issue:** https://github.com/dudujarra/olefut/issues/3
 - **Branch:** `bug/BUG-008`
 - **Fix:** Aplicado (ver tests/regression/)
 - **Teste:** `tests/regression/BUG-008.test.js`
@@ -140,7 +140,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-009 ✅ RESOLVIDO — ContractSystem bonus duplicado se goalNumber distinto
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/4
+- **Issue:** https://github.com/dudujarra/olefut/issues/4
 - **Branch:** `bug/BUG-009`
 - **Fix:** Aplicado (ver tests/regression/)
 - **Teste:** `tests/regression/BUG-009.test.js`
@@ -150,7 +150,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-010 ✅ RESOLVIDO — Script debug-bug.sh octal error em BUG-008+
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/5
+- **Issue:** https://github.com/dudujarra/olefut/issues/5
 - **Branch:** `bug/BUG-010`
 - **Fix:** Aplicado (ver tests/regression/)
 - **Teste:** `tests/regression/BUG-010.test.js`
@@ -160,7 +160,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-011 ✅ RESOLVIDO — regression.yml falta pull-requests write permission (403 comment)
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/7
+- **Issue:** https://github.com/dudujarra/olefut/issues/7
 - **Branch:** `bug/BUG-011`
 - **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-011.test.js`
@@ -170,7 +170,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-012 ✅ RESOLVIDO — PrestigeSystem decay Math.floor zera valores < 20 permanente
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/8
+- **Issue:** https://github.com/dudujarra/olefut/issues/8
 - **Branch:** `bug/BUG-012`
 - **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-012.test.js`
@@ -180,7 +180,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-013 ✅ RESOLVIDO — NPCAISystem rngState global compartilhado entre instances
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/9
+- **Issue:** https://github.com/dudujarra/olefut/issues/9
 - **Branch:** `bug/BUG-013`
 - **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-013.test.js`
@@ -190,7 +190,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-014 ✅ RESOLVIDO — NewsSystem news array unbounded memory leak
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/10
+- **Issue:** https://github.com/dudujarra/olefut/issues/10
 - **Branch:** `bug/BUG-014`
 - **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-014.test.js`
@@ -200,7 +200,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-015 ✅ RESOLVIDO — MatchView crash TypeError minute undefined em filter
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/12
+- **Issue:** https://github.com/dudujarra/olefut/issues/12
 - **Branch:** `bug/BUG-015`
 - **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-015.test.js`
@@ -210,7 +210,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-019 ✅ RESOLVIDO — Tab Clube crash - StaffManager falta getStaff method
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/17
+- **Issue:** https://github.com/dudujarra/olefut/issues/17
 - **Branch:** `bug/BUG-016`
 - **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-016.test.js`
@@ -220,7 +220,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-020 ✅ RESOLVIDO — App não persiste state (sem auto-save)
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/18
+- **Issue:** https://github.com/dudujarra/olefut/issues/18
 - **Branch:** `bug/BUG-017`
 - **Fix:** Aplicado
 - **Teste:** `tests/regression/BUG-017.test.js`
@@ -230,7 +230,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-021 ⏳ ABERTO — React error #310 — early return between hooks (DashboardView + PlayerDashboardView)
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/60
+- **Issue:** https://github.com/dudujarra/olefut/issues/60
 - **Branch:** `bug/BUG-021`
 - **Fix:** TODO
 - **Teste:** `tests/regression/BUG-021.test.js`
@@ -240,7 +240,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-022 ⏳ ABERTO — BUG-077 Série B encolhe: processPromoRelegation só roda pra divisão do bot
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/93
+- **Issue:** https://github.com/dudujarra/olefut/issues/93
 - **Branch:** `bug/BUG-022`
 - **Fix:** TODO
 - **Teste:** `tests/regression/BUG-022.test.js`
@@ -250,7 +250,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-078 ⏳ ABERTO — SPEC-111 market offers not tracked — buy offers never reach history.offers (only MARKET_INQUIRY probes do)
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/94
+- **Issue:** https://github.com/dudujarra/olefut/issues/94
 - **Branch:** `bug/BUG-078`
 - **Fix:** TODO
 - **Teste:** `tests/regression/BUG-078.test.js`
@@ -260,7 +260,7 @@ npm run test:ci    # roda testes + build (pipeline)
 ---
 
 ### BUG-079 ⏳ ABERTO — Player immortality — high-OVR titular players accumulate totalGoals indefinitely (7269 in 203 seasons) because age/retirement system fails for long-lived squad members
-- **Issue:** https://github.com/dudujarra/elifoot-web/issues/95
+- **Issue:** https://github.com/dudujarra/olefut/issues/95
 - **Branch:** `bug/BUG-079`
 - **Fix:** TODO
 - **Teste:** `tests/regression/BUG-079.test.js`

@@ -55,7 +55,7 @@ export async function loadSquad(clubName) {
 }
 
 /**
- * Map raw SofaScore-style JSON → ELIFOOT player schema.
+ * Map raw SofaScore-style JSON → OléFUT player schema.
  */
 export function mapPlayer(raw) {
     const naturalPos = raw.positionsDetailed?.length

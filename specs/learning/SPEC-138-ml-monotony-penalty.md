@@ -213,7 +213,7 @@ describe('SPEC-138: ML Monotony Penalty', () => {
 ```bash
 #!/bin/bash
 # harness/SPEC-138-validate.sh
-cd /Users/dudujarra/Documents/ELIFOOT
+cd /Users/dudujarra/Documents/OléFUT
 npm test -- --testNamePattern="SPEC-138" 2>&1
 exit $?
 ```

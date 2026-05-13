@@ -1,4 +1,4 @@
-# SPEC-TEMPLATE.md — Template padrão para specs ELIFOOT
+# SPEC-TEMPLATE.md — Template padrão para specs OléFUT
 
 Use este template para criar novas specs. As 5 primeiras seções (O que é, Input, Output, Validação, Forbidden) são **obrigatórias**. As demais são opcionais.
 

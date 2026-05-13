@@ -1,4 +1,4 @@
-# ELIFOOT WEB — Roadmap Integrado v2.0
+# OléFUT WEB — Roadmap Integrado v2.0
 *Atualizado com dados de playtest (pasta 12) + game design insights (técnico como personagem)*
 
 **Estado atual:** AKITA-139 — Fase 3-6 engine complete  
@@ -280,7 +280,7 @@ Pare e revise se:
 
 ## Diferenciais Competitivos Consolidados
 
-| Feature | ELIFOOT Web | FM26 | Brasfoot | Top Eleven |
+| Feature | OléFUT Web | FM26 | Brasfoot | Top Eleven |
 |---------|-------------|------|----------|------------|
 | Transição contínua jogador→técnico mesmo save | ✅ Fase 3 | ❌ | ❌ | ❌ |
 | Técnico com identidade, reputação, estilo | ✅ SPEC-070 | ⚠️ parcial | ❌ | ❌ |

@@ -7,8 +7,8 @@
  * Pure module via storage I/O. Headless.
  */
 
-const STORAGE_KEY = 'elifoot_telemetry';
-const OPT_IN_KEY = 'elifoot_telemetry_opt_in';
+const STORAGE_KEY = 'olefut_telemetry';
+const OPT_IN_KEY = 'olefut_telemetry_opt_in';
 const MAX_EVENTS = 1000;
 
 /**

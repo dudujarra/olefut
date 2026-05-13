@@ -1,4 +1,4 @@
-# ELIFOOT — Gameplay Deep Research V3
+# OléFUT — Gameplay Deep Research V3
 
 **Data**: 2026-05-09
 **Escopo**: Análise minuciosa gameplay loops, decision density, friction, dead time, action economy, meta-progression
@@ -9,7 +9,7 @@
 
 ## TL;DR
 
-ELIFOOT v3.1 tem **dados ricos** (2394 jogadores reais, 75 managers, pentagon stats, 18 posições) e **sistemas implementados** (lifestyle, achievements, traits, eventos, narrativa) — mas **gameplay continua raso**: user clica "advance week" 38× por temporada com **<5 decisões reais** entre matches.
+OléFUT v3.1 tem **dados ricos** (2394 jogadores reais, 75 managers, pentagon stats, 18 posições) e **sistemas implementados** (lifestyle, achievements, traits, eventos, narrativa) — mas **gameplay continua raso**: user clica "advance week" 38× por temporada com **<5 decisões reais** entre matches.
 
 Diagnóstico raiz: **passive simulation, not active management**. Matches são assistidos (não jogados), training é click-pick (não decisão), transferências são auto-generated offers (não scout active).
 
@@ -110,7 +110,7 @@ Ambos loops são **>80% navegação/passivos** vs **<20% decisão estratégica**
 Comparação:
 - FM: ~30 decisões/match (instructions, subs, tone, motivation)
 - CM 01-02: ~15 decisões/match
-- ELIFOOT: ~3 decisões/match (formation pre, sub mid, talk pos)
+- OléFUT: ~3 decisões/match (formation pre, sub mid, talk pos)
 
 ---
 
@@ -450,8 +450,8 @@ Market:
 | CM 01/02 | 3-5 | 6-8 |
 | Top Eleven | 2-3 | 4-5 |
 | Brasfoot | 1-2 | 3-4 |
-| **ELIFOOT v3.1** | **0.5-1** | **2-3** |
-| Target ELIFOOT v4.0 | 3-5 | 6-8 |
+| **OléFUT v3.1** | **0.5-1** | **2-3** |
+| Target OléFUT v4.0 | 3-5 | 6-8 |
 
 ### 9.2 Match interactivity benchmark
 
@@ -461,7 +461,7 @@ Market:
 | FIFA Manager | 20+ |
 | CM | 15+ |
 | Top Eleven | 5 (auto + boost) |
-| **ELIFOOT** | **3 (sub + speed + pause)** |
+| **OléFUT** | **3 (sub + speed + pause)** |
 
 ### 9.3 Off-match content density
 
@@ -469,7 +469,7 @@ Market:
 |---|---|
 | FM | 12+ (training, scout, press, board, staff, finance, youth, U21, B-team, tactics, set pieces, transfer) |
 | Brasfoot | 6 |
-| **ELIFOOT** | **5 (train, talk, scout, transfer, advance)** |
+| **OléFUT** | **5 (train, talk, scout, transfer, advance)** |
 
 ---
 
@@ -726,7 +726,7 @@ Proposed: 1-level modal max + toast feedback
 
 ## Conclusões
 
-ELIFOOT v3.1 = **dados ricos + sistemas profundos + gameplay raso**.
+OléFUT v3.1 = **dados ricos + sistemas profundos + gameplay raso**.
 
 Engine simula competentemente, dados reais SofaScore integrated, mas **user experience é 80% navegação passiva, 20% decisão real**.
 
@@ -739,7 +739,7 @@ Engine simula competentemente, dados reais SofaScore integrated, mas **user expe
 4. Engagement loops (daily/weekly/live-ops)
 5. UI friction reduction (sidebar, fewer clicks)
 
-**Timeline**: 6-8 meses part-time → ELIFOOT v4.0 com gameplay competitive vs FM/CM.
+**Timeline**: 6-8 meses part-time → OléFUT v4.0 com gameplay competitive vs FM/CM.
 
 **Mantra v4.0**: *"Toda semana, 5 decisões reais. Todo match, 10 momentos de agency."*
 

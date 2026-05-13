@@ -145,11 +145,11 @@ export class TelemetryAggregator {
      */
     _loadTutorialFunnel() {
         try {
-            const raw = localStorage.getItem('elifoot_tutorial_funnel');
+            const raw = localStorage.getItem('olefut_tutorial_funnel');
             if (raw) {
                 this.history.tutorialSteps = JSON.parse(raw);
             }
-            const origin = localStorage.getItem('elifoot_tutorial_origin');
+            const origin = localStorage.getItem('olefut_tutorial_origin');
             if (origin === 'completed') {
                 this.history.startedFromTutorial = 1;
                 this.history.startedFromSkip = 0;

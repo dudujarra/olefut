@@ -56,15 +56,15 @@ function writeFile(filename, header, lines) {
 }
 
 // Generate per-category files
-writeFile('colors.css', 'ELIFOOT Color Tokens', toKebab(tokens.color, 'color'));
-writeFile('spacing.css', 'ELIFOOT Spacing Tokens', toKebab(tokens.space, 'space'));
-writeFile('typography.css', 'ELIFOOT Typography Tokens', toKebab(tokens.font, 'font'));
-writeFile('shadows.css', 'ELIFOOT Shadow Tokens', toKebab(tokens.shadow, 'shadow'));
-writeFile('motion.css', 'ELIFOOT Motion Tokens', [
+writeFile('colors.css', 'OléFUT Color Tokens', toKebab(tokens.color, 'color'));
+writeFile('spacing.css', 'OléFUT Spacing Tokens', toKebab(tokens.space, 'space'));
+writeFile('typography.css', 'OléFUT Typography Tokens', toKebab(tokens.font, 'font'));
+writeFile('shadows.css', 'OléFUT Shadow Tokens', toKebab(tokens.shadow, 'shadow'));
+writeFile('motion.css', 'OléFUT Motion Tokens', [
     ...toKebab(tokens.duration, 'dur'),
     ...toKebab(tokens.easing, 'ease')
 ]);
-writeFile('radius.css', 'ELIFOOT Radius Tokens', toKebab(tokens.radius, 'radius'));
+writeFile('radius.css', 'OléFUT Radius Tokens', toKebab(tokens.radius, 'radius'));
 
 // Bundle index
 const indexContent = [
@@ -83,7 +83,7 @@ console.log('✓ index.css (bundle)');
 // Aliases for backward compat (bevel-light/dark sem prefixo color-neutral-)
 const aliasContent = [
     '/**',
-    ' * ELIFOOT Token Aliases — atalhos pra tokens commumente usados.',
+    ' * OléFUT Token Aliases — atalhos pra tokens commumente usados.',
     ' * AUTO-GERADO por scripts/tokens-to-css.js.',
     ' */',
     ':root {',

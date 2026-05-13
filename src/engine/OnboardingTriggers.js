@@ -7,7 +7,7 @@
  * Pure module + localStorage seen tracking.
  */
 
-const STORAGE_PREFIX = 'elifoot_onboarding_seen_';
+const STORAGE_PREFIX = 'olefut_onboarding_seen_';
 
 export const ONBOARDING_BY_VIEW = {
     market: {
@@ -124,8 +124,8 @@ export function resetAllOnboarding() {
             localStorage.removeItem(STORAGE_PREFIX + viewId);
         });
         // also reset main onboarding
-        localStorage.removeItem('elifoot_onboarding_done');
-        localStorage.removeItem('elifoot_onboarding_step');
+        localStorage.removeItem('olefut_onboarding_done');
+        localStorage.removeItem('olefut_onboarding_step');
     } catch { /* noop */ }
 }
 
