@@ -16,6 +16,7 @@ import {
 import { rng as systemRng } from '../engine/rng.js';
 
 import '../styles/gdd-systems.css';
+import '../styles/player-dashboard-view.css';
 
 export function PlayerDashboardView() {
     const { getEngine, changeView, forceUpdate } = useGame();
@@ -70,7 +71,7 @@ export function PlayerDashboardView() {
         prevMotmRef.current = motm;
     });
 
-    if (!player || !team) return <div className="ef-mono ef-text-main" style={{padding:'24px'}}>Erro: jogador não encontrado.</div>;
+    if (!player || !team) return <div className="ef-player-dashboard__error ef-mono ef-text-main">Erro: jogador não encontrado.</div>;
 
     const handleTrain = (skill) => { const result = player.train(skill); setLog(result.msg); forceUpdate(); };
     const handleRest = () => { const result = player.rest(); setLog(result.msg); forceUpdate(); };
@@ -111,20 +112,20 @@ export function PlayerDashboardView() {
 
     const RelBar = ({ label, value, type, icon }) => {
         const fillMod = type === 'boss'
-            ? 'ef-bar__fill--danger'
+            ? 'ef-player-dashboard__bar-fill--danger'
             : type === 'fans'
                 ? ''
                 : type === 'teammates'
-                    ? 'ef-bar__fill--accent'
-                    : 'ef-bar__fill--info';
+                    ? 'ef-player-dashboard__bar-fill--accent'
+                    : 'ef-player-dashboard__bar-fill--info';
         return (
-            <div style={{ marginBottom: '12px' }}>
-                <label className="ef-sans ef-text-muted" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '6px', fontWeight: 'bold' }}>
+            <div className="ef-player-dashboard__rel-bar">
+                <label className="ef-player-dashboard__rel-label ef-sans ef-text-muted">
                     <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>{icon} {label}</span>
-                    <span className="ef-mono ef-text-main">{value}%</span>
+                    <span className="ef-player-dashboard__rel-value ef-mono">{value}%</span>
                 </label>
-                <div className="ef-bar">
-                    <div className={`ef-bar__fill ${fillMod}`} style={{ width: `${value}%` }} />
+                <div className="ef-player-dashboard__bar">
+                    <div className={`ef-player-dashboard__bar-fill ${fillMod}`} style={{ width: `${value}%` }} />
                 </div>
             </div>
         );
@@ -140,37 +141,37 @@ export function PlayerDashboardView() {
                 {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
 
                 {/* === HEADER — LUXURY BENTO === */}
-                <EfPanel variant="hero" padding="lg" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                <EfPanel variant="hero" padding="lg" className="ef-player-dashboard__header">
+                    <div className="ef-player-dashboard__header-left">
                         {team?.name && <EfClubBadge name={team.name} size="lg" />}
-                        <div>
-                            <div className="ef-tag-mono" style={{ marginBottom: '12px' }}>
+                        <div className="ef-player-dashboard__player-info">
+                            <div className="ef-tag-mono">
                                 <span aria-hidden>{pers.emoji}</span> {pers.name.toUpperCase()} • SÉRIE {['A','B','C','D'][team.division - 1]}
                             </div>
-                            <h2 className="ef-heading-xl">
+                            <h2 className="ef-heading-xl ef-player-dashboard__player-name">
                                 {player.name}
                             </h2>
-                            <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                            <div className="ef-player-dashboard__player-meta">
                                 {starStr.map((s, i) => <React.Fragment key={i}>{s}</React.Fragment>)}
-                                <span className="ef-mono ef-text-muted" style={{ fontSize: '0.85rem', marginLeft: '12px' }}>
+                                <span className="ef-mono ef-text-muted">
                                     {player.position} • {team.name}
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
-                        <div className="ef-mono ef-text-primary" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
+                    <div className="ef-player-dashboard__header-right">
+                        <div className="ef-player-dashboard__money ef-mono">
                             R$ {(player.money).toLocaleString('pt-BR')}
                         </div>
                         <div className="ef-tag-mono ef-tag-mono--accent">
                             <SoccerBall weight="fill" /> {player.seasonGoals} GOLS NA TEMPORADA
                         </div>
-                        <div style={{ marginTop: '12px', width: '200px' }}>
-                            <div className="ef-mono ef-text-muted" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', marginBottom: '6px' }}>
+                        <div className="ef-player-dashboard__action-slots">
+                            <div className="ef-player-dashboard__action-slots-label ef-mono">
                                 <span>SEM {engine.currentWeek}/38</span>
                                 <span>AÇÕES</span>
                             </div>
-                            <div style={{ display: 'flex', gap: '4px', justifyContent: 'flex-end' }}>
+                            <div className="ef-player-dashboard__action-slots-bar">
                                 {Array.from({ length: player.maxActionSlots }).map((_, i) => (
                                     <div key={i} className={`ef-action-slot${i < player.actionSlots ? ' ef-action-slot--filled' : ''}`} />
                                 ))}
@@ -181,18 +182,18 @@ export function PlayerDashboardView() {
 
                 {/* === ALERTS === */}
                 {(player.isBenched || player.stress >= 75 || player.energy < 30) && (
-                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                        {player.isBenched && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><WarningCircle color="#FF3333" weight="fill" /><span className="ef-mono ef-text-danger" style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>VOCÊ ESTÁ NO BANCO!</span></EfPanel>}
-                        {player.stress >= 75 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><Brain color="#FF3333" weight="fill" /><span className="ef-mono ef-text-danger" style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>STRESS CRÍTICO ({player.stress}%)</span></EfPanel>}
-                        {player.energy < 30 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><Lightning color="#FF3333" weight="fill" /><span className="ef-mono ef-text-danger" style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>EXAUSTÃO ({player.energy}%)</span></EfPanel>}
+                    <div className="ef-player-dashboard__alerts">
+                        {player.isBenched && <EfPanel padding="sm" className="ef-player-dashboard__alert-panel"><WarningCircle color="var(--color-danger)" weight="fill" /><span className="ef-player-dashboard__alert-text ef-mono">VOCÊ ESTÁ NO BANCO!</span></EfPanel>}
+                        {player.stress >= 75 && <EfPanel padding="sm" className="ef-player-dashboard__alert-panel"><Brain color="var(--color-danger)" weight="fill" /><span className="ef-player-dashboard__alert-text ef-mono">STRESS CRÍTICO ({player.stress}%)</span></EfPanel>}
+                        {player.energy < 30 && <EfPanel padding="sm" className="ef-player-dashboard__alert-panel"><Lightning color="var(--color-danger)" weight="fill" /><span className="ef-player-dashboard__alert-text ef-mono">EXAUSTÃO ({player.energy}%)</span></EfPanel>}
                     </div>
                 )}
 
                 {/* === BENTO GRID LAYOUT === */}
-                <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '24px', alignItems: 'start' }}>
+                <div className="ef-player-dashboard__container">
                     {/* LEFT COLUMN: Navigation & Actions */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        <EfPanel padding="md" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div className="ef-player-dashboard__sidebar">
+                        <EfPanel padding="md" className="ef-player-dashboard__nav-panel">
                             {[{id:'overview',label:'Visão Geral'},{id:'skills',label:'Treinamento'},{id:'store',label:'Loja de Traits'},{id:'lifestyle',label:'Lifestyle'}].map(t => (
                                 <EfButton key={t.id} variant={tab === t.id ? 'primary' : 'secondary'} size="md" onClick={() => setTab(t.id)} className="ef-sans" style={{ width: '100%', justifyContent: 'flex-start', fontWeight: '600' }}>
                                     {t.label}
@@ -200,33 +201,31 @@ export function PlayerDashboardView() {
                             ))}
                         </EfPanel>
 
-                        <div style={{ marginTop: 'auto' }}>
-                            <EfButton variant="primary" size="lg" className="ef-sans" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '24px', fontWeight: 'bold', gap: '8px' }} onClick={handleAdvance}>
-                                <SoccerBall weight="fill" /> AVANÇAR SEMANA
-                            </EfButton>
-                        </div>
+                        <EfButton variant="primary" size="lg" className="ef-sans ef-player-dashboard__advance-button" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '24px', fontWeight: 'bold', gap: '8px' }} onClick={handleAdvance}>
+                            <SoccerBall weight="fill" /> AVANÇAR SEMANA
+                        </EfButton>
                     </div>
 
                     {/* RIGHT COLUMN: Content Area */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                    <div className="ef-player-dashboard__content">
 
                         {/* GLOBAL STATUS BAR */}
-                        <EfPanel padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#161B22' }}>
-                            <div style={{ display: 'flex', gap: '32px' }}>
-                                <div className="ef-overview-cell">
-                                    <span className="ef-overview-cell__value" style={{ color: player.energy < 30 ? '#FF3333' : '#39FF14' }}><Lightning weight="fill" /> {player.energy}%</span>
-                                    <span className="ef-overview-cell__label">ENERGIA</span>
+                        <EfPanel padding="md" className="ef-player-dashboard__status-bar">
+                            <div className="ef-player-dashboard__status-cells">
+                                <div className="ef-player-dashboard__overview-cell">
+                                    <span className={`ef-player-dashboard__cell-value ${player.energy < 30 ? 'ef-player-dashboard__cell-value--critical' : 'ef-player-dashboard__cell-value--healthy'}`}><Lightning weight="fill" /> {player.energy}%</span>
+                                    <span className="ef-player-dashboard__cell-label">ENERGIA</span>
                                 </div>
-                                <div className="ef-overview-cell">
-                                    <span className="ef-overview-cell__value" style={{ color: stressColor }}><Brain weight="fill" /> {player.stress}%</span>
-                                    <span className="ef-overview-cell__label">STRESS</span>
+                                <div className="ef-player-dashboard__overview-cell">
+                                    <span className="ef-player-dashboard__cell-value" style={{ color: stressColor }}><Brain weight="fill" /> {player.stress}%</span>
+                                    <span className="ef-player-dashboard__cell-label">STRESS</span>
                                 </div>
-                                <div className="ef-overview-cell">
-                                    <span className="ef-overview-cell__value ef-text-info"><Storefront weight="fill" /> {player.energyDrinks}</span>
-                                    <span className="ef-overview-cell__label">ENERGÉTICOS</span>
+                                <div className="ef-player-dashboard__overview-cell">
+                                    <span className="ef-player-dashboard__cell-value ef-text-info"><Storefront weight="fill" /> {player.energyDrinks}</span>
+                                    <span className="ef-player-dashboard__cell-label">ENERGÉTICOS</span>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', gap: '8px' }}>
+                            <div className="ef-player-dashboard__status-actions">
                                 <EfButton variant="secondary" size="sm" onClick={handleRest} disabled={!player.canAct}><Lightning /> DESCANSAR</EfButton>
                                 <EfButton variant="secondary" size="sm" onClick={handleBuyDrink}><ShoppingCart /> COMPRAR (R$100)</EfButton>
                                 <EfButton variant="secondary" size="sm" onClick={handleUseDrink} disabled={player.energyDrinks <= 0}><Storefront /> USAR BEBIDA</EfButton>
@@ -235,10 +234,10 @@ export function PlayerDashboardView() {
 
                         {/* TAB CONTENTS */}
                         {tab === 'overview' && (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                            <div className="ef-player-dashboard__overview-grid">
+                                <div className="ef-player-dashboard__overview-column">
                                     <EfPanel padding="md">
-                                        <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px' }}><Handshake weight="fill" /> RELACIONAMENTOS</div>
+                                        <div className="ef-player-dashboard__panel-title ef-sans ef-text-muted"><Handshake weight="fill" /> RELACIONAMENTOS</div>
                                         <RelBar label="Treinador" value={player.relationships.boss} type="boss" icon={<User weight="fill" />} />
                                         <RelBar label="Torcida" value={player.relationships.fans} type="fans" icon={<HandsClapping weight="fill" />} />
                                         <RelBar label="Companheiros" value={player.relationships.teammates} type="teammates" icon={<User weight="fill" />} />

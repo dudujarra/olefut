@@ -5,16 +5,6 @@ import { getFormEmoji } from '../engine/PlayerDevelopment';
 import { sfx } from '../utils/sound';
 import { LiveSquadEditModal } from './LiveSquadEditModal';
 import { PreMatchScreen } from './PreMatchScreen';
-import { MatchPostMortem } from './MatchPostMortem';
-import { analyzeMatch } from '../engine/MatchAnalyst';
-import { MidMatchCardModal } from './MidMatchCardModal';
-import { shouldTriggerMidMatch, getMidMatchCard, getReactiveCard } from '../engine/MidMatchManagerDeck';
-import { MatchBallSprite } from './MatchBallSprite';
-import { applyToStarPlayer, getStarPlayer } from '../engine/StarPlayerLink';
-import { MatchHighlightModal, extractHighlightContext } from './MatchHighlightModal';
-import { isUnifiedMode, applyPlayerCardEffectToStar } from '../engine/UnifiedModeBridge';
-import { StarImpactToast } from './StarImpactToast';
-import { MatchScoreboard } from './MatchScoreboard';
 import { EfClubBadge, EfBanner } from './ui';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
@@ -56,17 +46,6 @@ export function MatchView() {
     const speedRef = useRef(200);
     const pausedRef = useRef(false);
 
-    // SPEC-B2.2: mid-match card state
-    const [midMatchCard, setMidMatchCard] = useState(null);
-    const triggeredMinutesRef = useRef(new Set());
-
-    // SPEC-F1.1: highlight modal state
-    const [highlightContext, setHighlightContext] = useState(null);
-    const highlightedEventsRef = useRef(new Set());
-
-    // SPEC-F1.3: star impact toast state
-    const [starToast, setStarToast] = useState(null);
-
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
 
@@ -91,99 +70,11 @@ export function MatchView() {
     }, [phase, narration, result, team.name]);
     /* eslint-enable react-hooks/set-state-in-effect */
 
-    // SPEC-B2.2: trigger mid-match decision card at minutes 15/30/45/60/75 (30% chance)
-    /* eslint-disable react-hooks/set-state-in-effect */
-    useEffect(() => {
-        if (phase !== 'firsthalf' && phase !== 'secondhalf') return;
-        if (midMatchCard) return; // already showing one
-        if (!shouldTriggerMidMatch(currentMinute, triggeredMinutesRef.current)) return;
-        // 30% chance (deterministic via minute+matchId hash if available)
-        const seed = (currentMinute * 7) + (result?.homeTeamId || 0);
-        const roll = (Math.abs(seed) % 100);
-        if (roll < 30) {
-            const card = getMidMatchCard(currentMinute, seed);
-            if (card) {
-                setMidMatchCard(card);
-                triggeredMinutesRef.current.add(currentMinute);
-            }
-        } else {
-            triggeredMinutesRef.current.add(currentMinute);
-        }
-    }, [currentMinute, phase, midMatchCard, result]);
-    /* eslint-enable react-hooks/set-state-in-effect */
-
-    const handleMidMatchChoose = (opt) => {
-        if (!opt) return;
-        try {
-            const t = engine.getTeam(gameState.teamId);
-            if (t && typeof opt.effect?.moralDelta === 'number') {
-                t.moral = Math.max(0, Math.min(100, (t.moral ?? 50) + opt.effect.moralDelta));
-            }
-            if (t && typeof opt.effect?.energyDelta === 'number' && Array.isArray(t.squad)) {
-                t.squad.forEach(p => {
-                    if (typeof p.energy === 'number') {
-                        p.energy = Math.max(0, Math.min(100, p.energy + opt.effect.energyDelta));
-                    }
-                });
-            }
-            if (typeof opt.effect?.tacticShift === 'string' && engine.setTactic) {
-                engine.setTactic(opt.effect.tacticShift);
-            }
-            // SPEC-C2.2: amplify effect na estrela do clube (xp +moral extra)
-            if (engine.starPlayerId) {
-                const starAmplify = {
-                    moralDelta: typeof opt.effect?.moralDelta === 'number' ? Math.round(opt.effect.moralDelta * 0.5) : 0,
-                    xpDelta: 5,
-                };
-                const r = applyToStarPlayer(engine, starAmplify);
-                // SPEC-F1.3: surface toast
-                if (r.applied) {
-                    const star = getStarPlayer(engine);
-                    if (star) {
-                        setStarToast({ starName: star.name, changes: r.changes });
-                    }
-                }
-            }
-            // SPEC-C2.3: unified mode — aplica effects player-perspective também
-            if (isUnifiedMode(engine)) {
-                applyPlayerCardEffectToStar(engine, {
-                    boss: typeof opt.effect?.moralDelta === 'number' ? Math.round(opt.effect.moralDelta * 0.3) : 0,
-                    teammates: typeof opt.effect?.moralDelta === 'number' ? Math.round(opt.effect.moralDelta * 0.2) : 0,
-                });
-            }
-        } catch { /* defensive */ }
+    const getEnergyColor = (e) => {
+        if (e < 40) return 'var(--color-danger)';
+        if (e < 70) return 'var(--color-secondary)';
+        return 'var(--color-primary)';
     };
-
-    // SPEC-F1.1: detecta novos highlight events e dispara modal
-    /* eslint-disable react-hooks/set-state-in-effect */
-    useEffect(() => {
-        if (phase !== 'firsthalf' && phase !== 'secondhalf') return;
-        if (!Array.isArray(displayedEvents) || displayedEvents.length === 0) return;
-        const last = displayedEvents[displayedEvents.length - 1];
-        if (!last) return;
-        const eventKey = `${last.minute}_${(last.text || '').slice(0, 30)}`;
-        if (highlightedEventsRef.current.has(eventKey)) return;
-        const ctx = extractHighlightContext(last);
-        if (ctx) {
-            highlightedEventsRef.current.add(eventKey);
-            setHighlightContext(ctx);
-            // Gap fix #1: pausa ticker durante modal pra player ver o lance
-            pausedRef.current = true;
-            setPaused(true);
-
-            // Gap fix #4: dispara reactive card pra opponent_goal se for gol contra
-            if (ctx.type === 'goal' && !midMatchCard) {
-                const ownTeam = engine.getTeam(gameState.teamId);
-                const isAgainstUs = ownTeam && last.text && !last.text.includes(ownTeam.name);
-                if (isAgainstUs) {
-                    const seed = (last.minute || 0) + (gameState.teamId || 0);
-                    const reactive = getReactiveCard('opponent_goal', seed);
-                    if (reactive) setTimeout(() => setMidMatchCard(reactive), 2600);
-                }
-            }
-        }
-    }, [displayedEvents, phase, midMatchCard, gameState.teamId, engine]);
-    /* eslint-enable react-hooks/set-state-in-effect */
 
     // Auto-scroll narration log
     useEffect(() => {
@@ -315,21 +206,6 @@ export function MatchView() {
         return { home: h, away: a };
     };
 
-    // Color definitions
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
-
-    const getEnergyColor = (e) => e < 40 ? colors.danger : e < 70 ? colors.warning : colors.accent;
 
     // === PRE-MATCH ===
     if (phase === 'prematch') {
@@ -395,7 +271,7 @@ export function MatchView() {
                         />
                     )}
 
-                    <EfPanel padding="md" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '32px' }}>
+                    <EfPanel className="ef-match-prematch__steps" padding="md">
                         {[
                             { step: 1, label: 'ESCALAÇÃO', icon: <UserList size={20} /> },
                             { step: 2, label: 'TÁTICA', icon: <Strategy size={20} /> },
@@ -418,10 +294,10 @@ export function MatchView() {
                     </EfPanel>
 
                     {preStep === 1 && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
+                        <div className="ef-match-prematch__step1">
                             <EfPanel padding="md">
                                 <div className="ef-section-header">
-                                    <ListNumbers size={24} color={colors.warning} />
+                                    <ListNumbers size={24} style={{ color: 'var(--color-secondary)' }} />
                                     <h3>SETORES DO PLANTEL</h3>
                                 </div>
                                 <div className="ef-sector-grid">
@@ -433,43 +309,39 @@ export function MatchView() {
                             </EfPanel>
 
                             <EfPanel padding="md">
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                                    <div className="ef-section-header" style={{ marginBottom: 0 }}>
-                                        <UserList size={24} color={colors.secondary} />
+                                <div className="ef-match-prematch__starters-header">
+                                    <div className="ef-section-header">
+                                        <UserList size={24} style={{ color: 'var(--notification-info-border)' }} />
                                         <h3>TITULARES ({titulares.length})</h3>
                                     </div>
                                     {lowEnergy.length > 0 && (
-                                        <div className="ef-text-danger" style={{ backgroundColor: '#8B0000', padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                        <div className="ef-match-prematch__low-energy">
                                             <Warning /> {lowEnergy.length} COM ENERGIA BAIXA
                                         </div>
                                     )}
                                 </div>
 
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <div className="ef-match-prematch__starters-list">
                                     {titulares.map(p => (
-                                        <div key={p.id} style={{
-                                            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                                            padding: '12px', border: `1px solid ${colors.border}`,
-                                            backgroundColor: p.energy < 40 ? '#2D1616' : colors.panelElevated,
-                                        }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                <div className="ef-mono ef-text-muted" style={{ width: '40px', textAlign: 'center', backgroundColor: colors.bg, padding: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>
+                                        <div key={p.id} className={`ef-match-prematch__starter${p.energy < 40 ? ' ef-match-prematch__starter--low-energy' : ''}`}>
+                                            <div className="ef-match-prematch__starter-left">
+                                                <div className="ef-match-prematch__starter-pos">
                                                     {p.position}
                                                 </div>
-                                                <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold' }}>
+                                                <div className="ef-match-prematch__starter-name">
                                                     {p.name} {p._isCaptain && '©️'} {getFormEmoji(p.form?.trend)}
                                                 </div>
                                             </div>
-                                            <div className="ef-mono" style={{ display: 'flex', alignItems: 'center', gap: '16px', fontWeight: 'bold' }}>
+                                            <div className="ef-match-prematch__starter-right">
                                                 <div className="ef-text-main">OVR: {p.ovr}</div>
-                                                <div style={{ color: getEnergyColor(p.energy), minWidth: '80px', textAlign: 'right' }}>COND: {p.energy}%</div>
+                                                <div className="ef-match-prematch__starter-energy" style={{ color: getEnergyColor(p.energy) }}>COND: {p.energy}%</div>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             </EfPanel>
-                            
-                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '16px' }}>
+
+                            <div className="ef-match-prematch__actions">
                                 <EfButton variant="secondary" onClick={() => changeView(getDashboardView())}>
                                     <ArrowLeft size={16} /> VOLTAR AO DASHBOARD
                                 </EfButton>
@@ -481,13 +353,13 @@ export function MatchView() {
                     )}
 
                     {preStep === 2 && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
+                        <div className="ef-match-prematch__step2">
                             <EfPanel padding="md">
                                 <div className="ef-section-header">
-                                    <Strategy size={24} color={colors.secondary} />
+                                    <Strategy size={24} style={{ color: 'var(--notification-info-border)' }} />
                                     <h3>FORMAÇÃO</h3>
                                 </div>
-                                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '32px' }}>
+                                <div className="ef-match-prematch__formation-buttons">
                                     {Object.keys(FORMATIONS).map(f => (
                                         <EfButton key={f} variant={team.formation === f ? 'primary' : 'secondary'}
                                             onClick={() => { engine.setFormation(f); forceUpdate(); }}>{f}</EfButton>
@@ -495,31 +367,31 @@ export function MatchView() {
                                 </div>
 
                                 <div className="ef-section-header">
-                                    <Shield size={24} color={colors.accent} />
+                                    <Shield size={24} style={{ color: 'var(--color-primary)' }} />
                                     <h3>ESTILO TÁTICO</h3>
                                 </div>
-                                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                                <div className="ef-match-prematch__tactic-buttons">
                                     {Object.entries(TACTICS).map(([k, v]) => (
                                         <EfButton key={k} variant={engine.currentTactic === k ? 'primary' : 'secondary'}
                                             onClick={() => { engine.setTactic(k); forceUpdate(); }}>{v.name}</EfButton>
                                     ))}
                                 </div>
-                                <p className="ef-sans ef-text-muted" style={{ fontSize: '0.85rem', marginTop: '12px', backgroundColor: colors.panelElevated, padding: '12px', borderLeft: `4px solid ${colors.secondary}` }}>
+                                <p className="ef-match-prematch__tactic-desc">
                                     {TACTICS[engine.currentTactic]?.description}
                                 </p>
                             </EfPanel>
 
                             <EfPanel padding="md">
                                 <div className="ef-section-header">
-                                    <Megaphone size={24} color={colors.warning} />
+                                    <Megaphone size={24} style={{ color: 'var(--color-secondary)' }} />
                                     <h3>PRELEÇÃO</h3>
                                 </div>
                                 {talkDone ? (
-                                    <div className="ef-sans ef-text-primary" style={{ backgroundColor: '#1B4332', padding: '16px', border: `1px solid ${colors.accent}`, fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <div className="ef-match-prematch__talk-done">
                                         <CheckCircle size={24} /> PRELEÇÃO REALIZADA COM SUCESSO!
                                     </div>
                                 ) : (
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+                                    <div className="ef-match-prematch__talk-buttons">
                                         {TEAM_TALKS.map(t => (
                                             <EfButton key={t.id} variant="secondary" onClick={() => { engine.doTeamTalk(t.id); setTalkDone(true); forceUpdate(); }}>
                                                 {t.name}
@@ -529,7 +401,7 @@ export function MatchView() {
                                 )}
                             </EfPanel>
 
-                            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
+                            <div className="ef-match-prematch__actions">
                                 <EfButton variant="secondary" onClick={() => setPreStep(1)}>
                                     <ArrowLeft size={16} /> VOLTAR: ESCALAÇÃO
                                 </EfButton>
@@ -541,38 +413,38 @@ export function MatchView() {
                     )}
 
                     {preStep === 3 && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
-                            <EfPanel padding="lg" style={{ textAlign: 'center', border: `2px solid ${colors.secondary}` }}>
+                        <div className="ef-match-prematch__step3">
+                            <EfPanel className="ef-match-prematch__confirm-panel" padding="lg">
                                 <EfClubBadge name={team.name} size="xl" style={{ margin: '0 auto 16px' }} />
-                                <h2 className="ef-sans ef-text-main" style={{ fontSize: '1.8rem', margin: '0 0 8px 0' }}>{team.name}</h2>
-                                <div className="ef-mono" style={{ display: 'inline-flex', gap: '12px', marginBottom: '24px' }}>
-                                    <span className="ef-text-primary" style={{ backgroundColor: colors.panelElevated, padding: '6px 16px', border: `1px solid ${colors.border}` }}>{team.formation}</span>
-                                    <span className="ef-text-info" style={{ backgroundColor: colors.panelElevated, padding: '6px 16px', border: `1px solid ${colors.border}` }}>{tactic?.name}</span>
+                                <h2 className="ef-match-prematch__team-name">{team.name}</h2>
+                                <div className="ef-match-prematch__confirm-info">
+                                    <span className="ef-text-primary">{team.formation}</span>
+                                    <span className="ef-text-info">{tactic?.name}</span>
                                 </div>
 
-                                {cond && <div className="ef-sans ef-text-info" style={{ display: 'inline-block', backgroundColor: '#111417', border: `1px solid ${colors.secondary}`, padding: '8px 16px', fontSize: '0.9rem', marginBottom: '24px', fontWeight: 'bold' }}>CONDIÇÃO: {cond.name}</div>}
+                                {cond && <div className="ef-match-prematch__condition">CONDIÇÃO: {cond.name}</div>}
 
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', justifyContent: 'center', maxWidth: '600px', margin: '0 auto 24px' }}>
-                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-accent">{sectors.goalkeeper}</div><div className="ef-sector-cell__label">GOL</div></div>
-                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-info">{sectors.defense}</div><div className="ef-sector-cell__label">DEF</div></div>
-                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-primary">{sectors.midfield}</div><div className="ef-sector-cell__label">MEI</div></div>
-                                    <div style={{ backgroundColor: colors.panelElevated, padding: '16px', border: `1px solid ${colors.border}` }}><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-danger">{sectors.attack}</div><div className="ef-sector-cell__label">ATA</div></div>
+                                <div className="ef-match-prematch__sectors-grid">
+                                    <div className="ef-match-prematch__sector"><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-accent">{sectors.goalkeeper}</div><div className="ef-sector-cell__label">GOL</div></div>
+                                    <div className="ef-match-prematch__sector"><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-info">{sectors.defense}</div><div className="ef-sector-cell__label">DEF</div></div>
+                                    <div className="ef-match-prematch__sector"><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-primary">{sectors.midfield}</div><div className="ef-sector-cell__label">MEI</div></div>
+                                    <div className="ef-match-prematch__sector"><div className="ef-sector-cell__value ef-sector-cell__value--lg ef-text-danger">{sectors.attack}</div><div className="ef-sector-cell__label">ATA</div></div>
                                 </div>
 
-                                <div className={`ef-sans ${talkDone ? 'ef-text-primary' : 'ef-text-accent'}`} style={{ fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+                                <div className={`ef-match-prematch__talk-status${talkDone ? ' ef-match-prematch__talk-status--done' : ''}`}>
                                     {talkDone ? <><CheckCircle size={20} /> PRELEÇÃO CONFIRMADA</> : <><Warning size={20} /> ATENÇÃO: SEM PRELEÇÃO REALIZADA</>}
                                 </div>
                             </EfPanel>
-                            
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+
+                            <div className="ef-match-prematch__launch-buttons">
                                 <EfButton variant="primary" style={{ padding: '20px', fontSize: '1.2rem', justifyContent: 'center' }} onClick={launchMatch}>
                                     <SoccerBall size={24} weight="fill" /> INICIAR PARTIDA
                                 </EfButton>
-                                <div style={{ display: 'flex', gap: '12px' }}>
-                                    <EfButton variant="secondary" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setPreStep(2)}>
+                                <div className="ef-match-prematch__launch-actions">
+                                    <EfButton variant="secondary" onClick={() => setPreStep(2)}>
                                         <ArrowLeft size={16} /> VOLTAR: TÁTICA
                                     </EfButton>
-                                    <EfButton variant="secondary" style={{ flex: 1, justifyContent: 'center' }} onClick={() => changeView(getDashboardView())}>
+                                    <EfButton variant="secondary" onClick={() => changeView(getDashboardView())}>
                                         CANCELAR E VOLTAR
                                     </EfButton>
                                 </div>
@@ -587,51 +459,56 @@ export function MatchView() {
     const runningScore = getDisplayScore();
 
     // === SCOREBOARD ===
-    // AKITA-319 F1.4: extraído pra ./MatchScoreboard.jsx (pure presentational)
     const Scoreboard = ({ half }) => (
-        <MatchScoreboard
-            half={half}
-            result={result}
-            runningScore={runningScore}
-            currentMinute={currentMinute}
-            isPlaying={isPlaying}
-            goalBurstActive={goalBurstActive}
-            colors={colors}
-        />
+        <EfPanel className="ef-match-scoreboard" padding="md">
+            {goalBurstActive && (
+                <div className="ef-match-scoreboard__goal-burst" />
+            )}
+
+            <div className="ef-match-scoreboard__header">
+                <div>MANDANTE</div>
+                <div className="ef-mono ef-text-primary">
+                    {half}
+                </div>
+                <div>VISITANTE</div>
+            </div>
+
+            <div className="ef-match-scoreboard__content">
+                <div className="ef-match-scoreboard__team">
+                    <EfClubBadge name={result.home} size="xl" />
+                    <span className="ef-match-scoreboard__team-name">{result.home}</span>
+                </div>
+
+                <div className="ef-match-scoreboard__center">
+                    <div className="ef-score-box">
+                        <div className="ef-score-box__num">{runningScore.home}</div>
+                        <div className="ef-score-box__sep">-</div>
+                        <div className="ef-score-box__num">{runningScore.away}</div>
+                    </div>
+
+                    <div className="ef-clock">
+                        <span className={`ef-clock__time${isPlaying ? ' ef-clock__time--playing' : ''}`}>
+                            {String(currentMinute).padStart(2, '0')}:00
+                        </span>
+                        {isPlaying && <div className="ef-clock__dot" />}
+                    </div>
+                </div>
+
+                <div className="ef-match-scoreboard__team">
+                    <EfClubBadge name={result.away} size="xl" />
+                    <span className="ef-match-scoreboard__team-name">{result.away}</span>
+                </div>
+            </div>
+        </EfPanel>
     );
 
     // === LIVE MATCH RENDERER ===
     const renderLiveMatch = (half) => (
         <div className="ef-view-shell">
-            {/* SPEC-B2.2: mid-match decision overlay */}
-            <MidMatchCardModal
-                card={midMatchCard}
-                onChoose={handleMidMatchChoose}
-                onClose={() => setMidMatchCard(null)}
-            />
-            {/* SPEC-F1.1: highlight pulse modal pra goal/red — pausa+resume ticker */}
-            <MatchHighlightModal
-                context={highlightContext}
-                onDismiss={() => {
-                    setHighlightContext(null);
-                    pausedRef.current = false;
-                    setPaused(false);
-                }}
-                autoDismissMs={2500}
-            />
-            {/* SPEC-F1.3: star impact toast */}
-            <StarImpactToast
-                starName={starToast?.starName}
-                changes={starToast?.changes}
-                visible={!!starToast}
-                onDismiss={() => setStarToast(null)}
-            />
             <div className="ef-view-container">
                 <Scoreboard half={half} />
 
-                <EfPanel padding="md" className="ef-match-pitch-bg" style={{ height: '400px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px', position: 'relative' }} scrollRef={logRef}>
-                    {/* SPEC-B1.3: ball sprite traversing the pitch */}
-                    <MatchBallSprite intensity={goalBurstActive ? 'goal' : 'active'} />
+                <EfPanel className="ef-match-live__log" padding="md" scrollRef={logRef}>
                     {displayedEvents.map((n, i) => {
                         const isGoal = n.text?.includes('⚽');
                         const isCard = n.text?.includes('🟨') || n.text?.includes('🟥');
@@ -647,14 +524,14 @@ export function MatchView() {
                         return (
                             <div key={i} className={`ef-match-log-row${rowMod}`}>
                                 <div className="ef-match-log-row__min">{n.minute}'</div>
-                                <div style={{ flex: 1 }}>{n.text}</div>
+                                <div className="ef-match-log-row__text">{n.text}</div>
                             </div>
                         );
                     })}
                 </EfPanel>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
-                    <div style={{ display: 'flex', gap: '8px', backgroundColor: colors.panelElevated, padding: '8px', border: `1px solid ${colors.border}` }}>
+                <div className="ef-match-live__controls">
+                    <div className="ef-match-live__speed-controls">
                         <EfButton size="md" variant={!paused && speed === 400 ? 'primary' : 'secondary'} onClick={() => { setSpeed(400); setPaused(false); pausedRef.current = false; }}>1x</EfButton>
                         <EfButton size="md" variant={!paused && speed === 200 ? 'primary' : 'secondary'} onClick={() => { setSpeed(200); setPaused(false); pausedRef.current = false; }}>2x</EfButton>
                         <EfButton size="md" variant={!paused && speed === 80 ? 'primary' : 'secondary'} onClick={() => { setSpeed(80); setPaused(false); pausedRef.current = false; }}>5x</EfButton>
@@ -668,11 +545,11 @@ export function MatchView() {
                 </div>
 
                 {half === '1º TEMPO' ? (
-                    <EfButton variant="primary" style={{ padding: '16px', fontSize: '1.1rem', justifyContent: 'center' }} disabled={isPlaying} onClick={() => setPhase('halftime')}>
+                    <EfButton variant="primary" className="ef-match-live__phase-btn" disabled={isPlaying} onClick={() => setPhase('halftime')}>
                         <Pause weight="fill" /> INTERVALO
                     </EfButton>
                 ) : (
-                    <EfButton variant="primary" style={{ padding: '16px', fontSize: '1.1rem', justifyContent: 'center' }} disabled={isPlaying} onClick={() => setPhase('fulltime')}>
+                    <EfButton variant="primary" className="ef-match-live__phase-btn" disabled={isPlaying} onClick={() => setPhase('fulltime')}>
                         <CheckCircle weight="fill" /> FIM DE JOGO
                     </EfButton>
                 )}
@@ -702,36 +579,36 @@ export function MatchView() {
         return (
             <div className="ef-view-shell">
                 <div className="ef-view-container">
-                    <EfPanel padding="lg" style={{ textAlign: 'center', border: `2px solid ${colors.secondary}` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '24px' }}>
-                            <Pause size={32} color={colors.warning} weight="fill" />
-                            <h2 className="ef-sans ef-text-main" style={{ fontSize: '1.8rem', margin: 0 }}>INTERVALO</h2>
+                    <EfPanel padding="lg" className="ef-match-halftime__header">
+                        <div className="ef-match-halftime__title-box">
+                            <Pause size={32} weight="fill" className="ef-match-halftime__title-icon" />
+                            <h2 className="ef-sans ef-text-main ef-match-halftime__title">INTERVALO</h2>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                        <div className="ef-match-halftime__scoreboard">
+                            <div className="ef-match-halftime__team">
                                 <EfClubBadge name={result.home} size="lg" />
-                                <span className="ef-sans ef-text-main" style={{ fontSize: '1rem', fontWeight: 'bold' }}>{result.home}</span>
+                                <span className="ef-sans ef-text-main ef-match-halftime__team-name">{result.home}</span>
                             </div>
-                            <div className="ef-score-box ef-score-box--sm" style={{ backgroundColor: colors.panelElevated }}>
+                            <div className="ef-score-box ef-score-box--sm ef-match-halftime__score-box">
                                 <div className="ef-score-box__num ef-score-box__num--md">{halfTimeData?.homeGoals ?? 0}</div>
                                 <div className="ef-score-box__sep ef-score-box__sep--sm">-</div>
                                 <div className="ef-score-box__num ef-score-box__num--md">{halfTimeData?.awayGoals ?? 0}</div>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                            <div className="ef-match-halftime__team">
                                 <EfClubBadge name={result.away} size="lg" />
-                                <span className="ef-sans ef-text-main" style={{ fontSize: '1rem', fontWeight: 'bold' }}>{result.away}</span>
+                                <span className="ef-sans ef-text-main ef-match-halftime__team-name">{result.away}</span>
                             </div>
                         </div>
                     </EfPanel>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+                    <div className="ef-match-halftime__grid">
                         {!tacticChanged && (
-                            <EfPanel padding="md">
+                            <EfPanel padding="md" className="ef-match-halftime__tactics-panel">
                                 <div className="ef-section-header">
-                                    <Strategy size={24} color={colors.secondary} />
+                                    <Strategy size={24} className="ef-match-halftime__section-icon" />
                                     <h3>AJUSTE TÁTICO</h3>
                                 </div>
-                                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                                <div className="ef-match-halftime__tactics-buttons">
                                     {Object.entries(TACTICS).map(([k, v]) => (
                                         <EfButton key={k} variant={engine.currentTactic === k ? 'primary' : 'secondary'}
                                             onClick={() => { engine.setTactic(k); setTacticChanged(true); forceUpdate(); }}>
@@ -743,17 +620,17 @@ export function MatchView() {
                         )}
 
                         {!subUsed && tiredPlayers.length > 0 && subs.length > 0 && (
-                            <EfPanel padding="md">
+                            <EfPanel padding="md" className="ef-match-halftime__subs-panel">
                                 <div className="ef-section-header">
-                                    <ArrowsLeftRight size={24} color={colors.warning} />
+                                    <ArrowsLeftRight size={24} className="ef-match-halftime__warning-icon" />
                                     <h3>SUBSTITUIÇÃO (CANSAÇO)</h3>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                <div className="ef-match-halftime__subs-list">
                                     {tiredPlayers.slice(0, 3).map(p => (
-                                        <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', backgroundColor: colors.panelElevated, border: `1px solid ${colors.border}` }}>
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                                <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold' }}>{p.name} <span className="ef-text-muted" style={{ fontSize: '0.8rem' }}>({p.position})</span></div>
-                                                <div className="ef-mono" style={{ color: getEnergyColor(p.energy), fontSize: '0.85rem' }}>COND: {p.energy}%</div>
+                                        <div key={p.id} className="ef-match-halftime__player-row">
+                                            <div className="ef-match-halftime__player-info">
+                                                <div className="ef-sans ef-text-main ef-match-halftime__player-name">{p.name} <span className="ef-text-muted ef-match-halftime__player-pos">({p.position})</span></div>
+                                                <div className="ef-mono ef-match-halftime__player-energy" style={{ color: getEnergyColor(p.energy) }}>COND: {p.energy}%</div>
                                             </div>
                                             <EfButton variant="primary" size="sm" onClick={() => {
                                                 const sub = subs[0];
@@ -774,7 +651,7 @@ export function MatchView() {
                         )}
                     </div>
 
-                    <EfButton variant="primary" style={{ padding: '20px', fontSize: '1.2rem', justifyContent: 'center' }} onClick={() => {
+                    <EfButton variant="primary" className="ef-match-halftime__resume-btn" onClick={() => {
                         setPhase('secondhalf');
                         setTimeout(() => startLiveTicker(narration, 46, 90, null), 300);
                     }}>
@@ -795,96 +672,61 @@ export function MatchView() {
             <div className="ef-view-container">
                 {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
 
-                <EfPanel padding="lg" style={{ textAlign: 'center', border: `2px solid ${colors.secondary}` }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '24px' }}>
-                        <CheckCircle size={32} color={colors.accent} weight="fill" />
-                        <h2 className="ef-sans ef-text-main" style={{ fontSize: '1.8rem', margin: 0 }}>FIM DE JOGO</h2>
+                <EfPanel padding="lg" className="ef-match-fulltime__header">
+                    <div className="ef-match-fulltime__title-box">
+                        <CheckCircle size={32} weight="fill" className="ef-match-fulltime__title-icon" />
+                        <h2 className="ef-sans ef-text-main ef-match-fulltime__title">FIM DE JOGO</h2>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px', marginBottom: '24px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                    <div className="ef-match-fulltime__scoreboard">
+                        <div className="ef-match-fulltime__team">
                             <EfClubBadge name={result?.home} size="xl" />
-                            <span className="ef-sans ef-text-main" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{result?.home}</span>
+                            <span className="ef-sans ef-text-main ef-match-fulltime__team-name">{result?.home}</span>
                         </div>
-                        <div className="ef-score-box" style={{ backgroundColor: colors.panelElevated }}>
+                        <div className="ef-score-box ef-match-fulltime__score-box">
                             <div className="ef-score-box__num">{result?.homeGoals}</div>
                             <div className="ef-score-box__sep">-</div>
                             <div className="ef-score-box__num">{result?.awayGoals}</div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                        <div className="ef-match-fulltime__team">
                             <EfClubBadge name={result?.away} size="xl" />
-                            <span className="ef-sans ef-text-main" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{result?.away}</span>
+                            <span className="ef-sans ef-text-main ef-match-fulltime__team-name">{result?.away}</span>
                         </div>
                     </div>
                     {motmEntry && (
-                        <div className="ef-sans ef-text-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', backgroundColor: '#1B4332', padding: '12px 24px', border: `1px solid ${colors.warning}`, fontWeight: 'bold' }}>
+                        <div className="ef-sans ef-match-fulltime__motm ef-text-accent">
                             <ChartBar size={20} weight="fill" /> {motmEntry.text}
                         </div>
                     )}
                 </EfPanel>
 
-                {/* SPEC-A4: Match Post-Mortem painel decisão */}
-                {result && (
-                    <MatchPostMortem
-                        analysis={analyzeMatch({
-                            result: {
-                                home: result.home,
-                                away: result.away,
-                                homeGoals: result.homeGoals,
-                                awayGoals: result.awayGoals,
-                                isHomeTeam: engine.getTeam(gameState.teamId)?.name === result.home,
-                            },
-                            tacticUsed: engine.tactic || 'Normal',
-                            formationUsed: engine.getTeam(gameState.teamId)?.formation || '4-3-3',
-                            opponentStyle: result.opponentStyle || 'Normal',
-                            recentForm: engine.managerStats?.rollingForm?.slice(-5) || [],
-                            subsUsed: result.subsUsed || 0,
-                        })}
-                    />
-                )}
-
-                {/* SPEC-C1.2: LLM post-match narrative surface */}
-                {engine?.lastMatchNarrative && (
-                    <EfPanel padding="md" style={{ border: '1px solid #40BAF7', backgroundColor: '#0E1418' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                            <MicrophoneStage size={18} color="#40BAF7" weight="fill" />
-                            <span style={{ fontSize: '0.75rem', color: '#40BAF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.05em' }}>
-                                ANÁLISE PÓS-JOGO
-                            </span>
-                        </div>
-                        <div style={{ fontSize: '0.9rem', color: '#FDFBF7', fontFamily: 'var(--font-sans)', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
-                            {engine.lastMatchNarrative}
-                        </div>
-                    </EfPanel>
-                )}
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
-                    <EfPanel padding="md">
+                <div className="ef-match-fulltime__grid">
+                    <EfPanel padding="md" className="ef-match-fulltime__goals-panel">
                         <div className="ef-section-header">
-                            <SoccerBall size={24} color={colors.text} />
+                            <SoccerBall size={24} className="ef-match-fulltime__goals-icon" />
                             <h3>GOLS & EVENTOS</h3>
                         </div>
                         {lastMatchScorers.length > 0 ? (
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            <div className="ef-match-fulltime__goals-list">
                                 {lastMatchScorers.map((s, i) => (
-                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', backgroundColor: colors.panelElevated, border: `1px solid ${colors.border}` }}>
-                                        <div className="ef-mono ef-text-primary" style={{ fontWeight: 'bold', minWidth: '40px' }}>{s.minute}'</div>
-                                        <div className="ef-sans ef-text-main" style={{ fontSize: '0.9rem' }}>{s.text}</div>
+                                    <div key={i} className="ef-match-fulltime__goal-row">
+                                        <div className="ef-mono ef-text-primary ef-match-fulltime__goal-minute">{s.minute}'</div>
+                                        <div className="ef-sans ef-text-main ef-match-fulltime__goal-text">{s.text}</div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <div className="ef-sans ef-text-muted" style={{ fontSize: '0.9rem', padding: '12px', textAlign: 'center', backgroundColor: colors.panelElevated }}>
+                            <div className="ef-sans ef-text-muted ef-match-fulltime__no-goals">
                                 Nenhum gol na partida.
                             </div>
                         )}
                     </EfPanel>
 
-                    <EfPanel padding="md">
+                    <EfPanel padding="md" className="ef-match-fulltime__stats-panel">
                         <div className="ef-section-header">
-                            <ChartBar size={24} color={colors.secondary} />
+                            <ChartBar size={24} className="ef-match-fulltime__stats-icon" />
                             <h3>ESTATÍSTICAS DA PARTIDA</h3>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div className="ef-match-fulltime__stats-list">
                             <div className="ef-stat-line">
                                 <span className="ef-stat-line__label">Finalizações</span>
                                 <strong className="ef-stat-line__value">{matchStats?.totalChances || 0}</strong>
@@ -894,28 +736,28 @@ export function MatchView() {
                                 <strong className="ef-sans ef-text-main">{TACTICS[engine.currentTactic]?.name}</strong>
                             </div>
                             <div className="ef-stat-line">
-                                <span className="ef-stat-line__label"><Cardholder color={colors.warning} weight="fill" /> Cartões</span>
+                                <span className="ef-stat-line__label"><Cardholder weight="fill" /> Cartões</span>
                                 <strong className="ef-stat-line__value">{lastMatchCards.length}</strong>
                             </div>
                             <div className="ef-stat-line">
-                                <span className="ef-stat-line__label"><FirstAid color={colors.danger} weight="fill" /> Lesões</span>
+                                <span className="ef-stat-line__label"><FirstAid weight="fill" /> Lesões</span>
                                 <strong className="ef-stat-line__value">{matchStats?.injuries || 0}</strong>
                             </div>
                         </div>
                     </EfPanel>
 
                     {engine.board && (
-                        <EfPanel padding="md">
+                        <EfPanel padding="md" className="ef-match-fulltime__board-panel">
                             <div className="ef-section-header">
-                                <Shield size={24} color={engine.board.getStatus().color} />
+                                <Shield size={24} />
                                 <h3>STATUS DA DIRETORIA</h3>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', backgroundColor: colors.panelElevated, border: `1px solid ${engine.board.getStatus().color}` }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                    <div className="ef-sans ef-text-muted" style={{ fontSize: '0.85rem' }}>Confiança</div>
-                                    <div className="ef-sans" style={{ color: engine.board.getStatus().color, fontWeight: 'bold', fontSize: '1.1rem' }}>{engine.board.getStatus().label}</div>
+                            <div className="ef-match-fulltime__board-status" style={{ borderColor: engine.board.getStatus().color }}>
+                                <div className="ef-match-fulltime__board-info">
+                                    <div className="ef-sans ef-text-muted ef-match-fulltime__board-label">Confiança</div>
+                                    <div className="ef-sans ef-match-fulltime__board-value" style={{ color: engine.board.getStatus().color }}>{engine.board.getStatus().label}</div>
                                 </div>
-                                <div className="ef-mono" style={{ fontSize: '2rem', fontWeight: 'bold', color: engine.board.getStatus().color }}>
+                                <div className="ef-mono ef-match-fulltime__board-percent" style={{ color: engine.board.getStatus().color }}>
                                     {engine.board.confidence}%
                                 </div>
                             </div>
@@ -923,11 +765,11 @@ export function MatchView() {
                     )}
                 </div>
 
-                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                    <EfButton variant="primary" style={{ justifyContent: 'center', flex: 1, padding: '16px', fontSize: '1.1rem' }} onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView(getDashboardView()); }}>
+                <div className="ef-match-fulltime__actions">
+                    <EfButton variant="primary" className="ef-match-fulltime__action-btn" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView(getDashboardView()); }}>
                         <ChartBar size={20} /> VOLTAR AO DASHBOARD
                     </EfButton>
-                    <EfButton variant="secondary" style={{ justifyContent: 'center', flex: 1, padding: '16px', fontSize: '1.1rem' }} onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView('press'); }}>
+                    <EfButton variant="secondary" className="ef-match-fulltime__action-btn" onClick={() => { setPhase('prematch'); setResult(null); setNarration([]); setDisplayedEvents([]); setCurrentMinute(0); setSubUsed(false); setTacticChanged(false); setPreStep(1); setTalkDone(false); changeView('press'); }}>
                         <MicrophoneStage size={20} /> COLETIVA PÓS-JOGO
                     </EfButton>
                 </div>

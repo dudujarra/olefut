@@ -1,0 +1,316 @@
+/**
+ * OléFUT ISSSD-Premium 32-bit Design Tokens
+ *
+ * Three-layer architecture:
+ * 1. PRIMITIVE — raw values (colors, fonts, spacing)
+ * 2. SEMANTIC — purpose-driven aliases (primary, success, text-primary)
+ * 3. COMPONENT — component-specific tokens (button-bg, card-border)
+ *
+ * Source: docs/brand-guidelines.md v1.1
+ * Last updated: 2026-05-13
+ *
+ * Usage:
+ *   @import 'assets/design-tokens.css';
+ *   background: var(--color-primary);
+ *   font-family: var(--font-display);
+ */
+
+:root {
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* LAYER 1: PRIMITIVE TOKENS                        */
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  /* Primitive Colors */
+  --primitive-color-green-neon: #39FF14;
+  --primitive-color-green-pitch: #52B788;
+  --primitive-color-green-forest: #1B4332;
+  --primitive-color-green-forest-dark: #0E1F14;
+
+  --primitive-color-gold-trophy: #FFD700;
+  --primitive-color-gold-amber: #FBBF24;
+
+  --primitive-color-red-danger: #FF3333;
+  --primitive-color-red-dark-danger: #8B0000;
+
+  --primitive-color-neutral-crt-black: #111417;
+  --primitive-color-neutral-abyss: #040805;
+  --primitive-color-neutral-midnight-green: #0E1F14;
+  --primitive-color-neutral-smoke: #a0baae;
+  --primitive-color-neutral-parchment: #F1FAEE;
+
+  /* Primitive Typography — Font Families */
+  --primitive-font-display: 'Press Start 2P', monospace;
+  --primitive-font-body: 'Pixelify Sans', system-ui, sans-serif;
+  --primitive-font-mono: 'IBM Plex Mono', monospace;
+
+  /* Primitive Typography — Font Sizes */
+  --primitive-font-size-h1-desktop: 1.2rem;
+  --primitive-font-size-h1-mobile: 0.9rem;
+  --primitive-font-size-h2-desktop: 0.85rem;
+  --primitive-font-size-h2-mobile: 0.7rem;
+  --primitive-font-size-h3-desktop: 1.1rem;
+  --primitive-font-size-h3-mobile: 1rem;
+  --primitive-font-size-body-desktop: 0.85rem;
+  --primitive-font-size-body-mobile: 0.8rem;
+  --primitive-font-size-stat-desktop: 1rem;
+  --primitive-font-size-stat-mobile: 0.9rem;
+  --primitive-font-size-caption-desktop: 0.7rem;
+  --primitive-font-size-caption-mobile: 0.65rem;
+  --primitive-font-size-badge-desktop: 0.45rem;
+  --primitive-font-size-badge-mobile: 0.4rem;
+
+  /* Primitive Typography — Font Weights */
+  --primitive-font-weight-normal: 400;
+  --primitive-font-weight-semibold: 600;
+  --primitive-font-weight-bold: 700;
+
+  /* Primitive Typography — Line Heights */
+  --primitive-line-height-tight: 1.0;
+  --primitive-line-height-close: 1.2;
+  --primitive-line-height-normal: 1.25;
+  --primitive-line-height-relaxed: 1.3;
+  --primitive-line-height-loose: 1.4;
+  --primitive-line-height-spacious: 1.5;
+
+  /* Primitive Typography — Letter Spacing */
+  --primitive-letter-spacing-tighter: -0.02em;
+  --primitive-letter-spacing-tight: -0.01em;
+  --primitive-letter-spacing-normal: 0;
+  --primitive-letter-spacing-press-start: 0.5px;
+
+  /* Primitive Spacing */
+  --primitive-spacing-xs: 0.25rem;
+  --primitive-spacing-sm: 0.5rem;
+  --primitive-spacing-md: 1rem;
+  --primitive-spacing-lg: 1.5rem;
+  --primitive-spacing-xl: 2rem;
+  --primitive-spacing-2xl: 3rem;
+
+  /* Primitive Borders */
+  --primitive-border-hairline: 1px;
+  --primitive-border-thin: 2px;
+  --primitive-border-thick: 4px;
+
+  --primitive-border-style-solid: solid;
+  --primitive-border-style-inset: inset;
+  --primitive-border-style-outset: outset;
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* LAYER 2: SEMANTIC TOKENS                         */
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  /* Semantic Colors — Purpose-driven */
+  --color-primary: var(--primitive-color-green-neon); /* #39FF14 */
+  --color-secondary: var(--primitive-color-gold-trophy); /* #FFD700 */
+  --color-tertiary: var(--primitive-color-green-pitch); /* #52B788 */
+  --color-danger: var(--primitive-color-red-danger); /* #FF3333 */
+  --color-warning: var(--primitive-color-gold-amber); /* #FBBF24 */
+  --color-success: var(--primitive-color-green-neon); /* #39FF14 */
+
+  /* Semantic Colors — Backgrounds */
+  --color-bg: var(--primitive-color-neutral-crt-black); /* #111417 */
+  --color-bg-secondary: var(--primitive-color-neutral-midnight-green); /* #0E1F14 */
+  --color-bg-tertiary: var(--primitive-color-neutral-abyss); /* #040805 */
+
+  /* Semantic Colors — Text */
+  --color-text-primary: var(--primitive-color-neutral-parchment); /* #F1FAEE */
+  --color-text-secondary: var(--primitive-color-neutral-smoke); /* #a0baae */
+  --color-text-muted: #555555;
+
+  /* Semantic Colors — Borders */
+  --color-border: var(--primitive-color-green-forest); /* #1B4332 → deep forest */
+  --color-border-highlight: var(--primitive-color-green-neon); /* #39FF14 */
+  --color-border-disabled: #333333;
+
+  /* Semantic Typography */
+  --font-display: var(--primitive-font-display);
+  --font-body: var(--primitive-font-body);
+  --font-mono: var(--primitive-font-mono);
+
+  --font-weight-normal: var(--primitive-font-weight-normal);
+  --font-weight-semibold: var(--primitive-font-weight-semibold);
+  --font-weight-bold: var(--primitive-font-weight-bold);
+
+  /* Semantic Sizing */
+  --content-width-mobile: 100%;
+  --content-width-tablet: 768px;
+  --content-width-desktop: 1024px;
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* LAYER 3: COMPONENT TOKENS                        */
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  /* Button Component */
+  --button-bg-default: #1B4332;
+  --button-border-default: 2px solid #2D6A4F;
+  --button-color-default: var(--color-text-primary);
+
+  --button-bg-hover: #2D6A4F;
+  --button-border-hover: 2px solid var(--color-primary);
+  --button-color-hover: var(--color-primary);
+
+  --button-bg-active: #0E1F14;
+  --button-border-active: 2px inset var(--color-primary);
+  --button-color-active: var(--color-secondary);
+
+  --button-bg-disabled: var(--color-bg);
+  --button-border-disabled: var(--color-border-disabled);
+  --button-color-disabled: var(--color-text-muted);
+
+  --button-bg-danger: #8B0000;
+  --button-border-danger: 2px solid var(--color-danger);
+  --button-color-danger: var(--color-danger);
+
+  /* Panel Component */
+  --panel-bg: var(--color-bg-secondary);
+  --panel-border: 2px solid #2D6A4F;
+  --panel-color: var(--color-text-primary);
+
+  /* Card Component (ISSSD Collectible Frame Pattern) */
+  --card-bg: var(--color-bg-secondary);
+  --card-border: 2px solid #2D6A4F;
+  --card-border-highlight: 1px solid rgba(57, 255, 20, 0.2);
+  --card-color: var(--color-text-primary);
+
+  /* Fixed Frame Pattern (SPEC-177) */
+  --ef-card-frame-border: 2px solid var(--color-border);
+  --ef-card-frame-bg: var(--color-bg-secondary);
+  --ef-card-content-bg: #111417; /* Solid CRT Black — works in any context */
+  --ef-card-content-padding: 1.5rem;
+  --ef-card-content-color: var(--color-text-primary);
+
+  /* Input Component */
+  --input-bg: var(--color-bg-secondary);
+  --input-border: 2px solid #2D6A4F;
+  --input-color: var(--color-text-primary);
+  --input-placeholder-color: var(--color-text-secondary);
+
+  /* Notification Component */
+  --notification-success-border: var(--color-primary);
+  --notification-success-bg: rgba(57, 255, 20, 0.05);
+  --notification-success-color: var(--color-primary);
+
+  --notification-warning-border: var(--color-warning);
+  --notification-warning-bg: rgba(251, 191, 36, 0.05);
+  --notification-warning-color: var(--color-warning);
+
+  --notification-danger-border: var(--color-danger);
+  --notification-danger-bg: rgba(255, 51, 51, 0.05);
+  --notification-danger-color: var(--color-danger);
+
+  --notification-info-border: #4A90E2;
+  --notification-info-bg: rgba(74, 144, 226, 0.05);
+  --notification-info-color: #4A90E2;
+
+  /* Badge Component */
+  --badge-success-bg: var(--color-primary);
+  --badge-success-color: var(--color-bg);
+
+  --badge-warning-bg: var(--color-warning);
+  --badge-warning-color: var(--color-bg);
+
+  --badge-danger-bg: var(--color-danger);
+  --badge-danger-color: var(--color-text-primary);
+
+  /* Frame Effects (ISSSD Aesthetic) */
+  --frame-bevel-highlight: #2D6A4F;
+  --frame-bevel-shadow: #040805;
+
+  --frame-metallic-base: var(--color-secondary);
+  --frame-metallic-highlight: #FFFFFF;
+  --frame-metallic-shadow: #8B7500;
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ACCESSIBILITY & RESPONSIVE                       */
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  /* WCAG Contrast Ratios (informational) */
+  --contrast-parchment-on-crt: 15.2:1; /* AAA */
+  --contrast-neon-on-crt: 11.8:1; /* AAA */
+  --contrast-gold-on-crt: 12.6:1; /* AAA */
+  --contrast-danger-on-crt: 5.1:1; /* AA */
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* MOBILE OVERRIDES (optional — adjust as needed)  */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (max-width: 768px) {
+  :root {
+    /* Font sizes scale down on mobile */
+    --font-size-h1: var(--primitive-font-size-h1-mobile);
+    --font-size-h2: var(--primitive-font-size-h2-mobile);
+    --font-size-h3: var(--primitive-font-size-h3-mobile);
+    --font-size-body: var(--primitive-font-size-body-mobile);
+    --font-size-stat: var(--primitive-font-size-stat-mobile);
+    --font-size-caption: var(--primitive-font-size-caption-mobile);
+    --font-size-badge: var(--primitive-font-size-badge-mobile);
+  }
+}
+
+@media (min-width: 769px) {
+  :root {
+    /* Desktop font sizes */
+    --font-size-h1: var(--primitive-font-size-h1-desktop);
+    --font-size-h2: var(--primitive-font-size-h2-desktop);
+    --font-size-h3: var(--primitive-font-size-h3-desktop);
+    --font-size-body: var(--primitive-font-size-body-desktop);
+    --font-size-stat: var(--primitive-font-size-stat-desktop);
+    --font-size-caption: var(--primitive-font-size-caption-desktop);
+    --font-size-badge: var(--primitive-font-size-badge-desktop);
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* UTILITY CLASSES (optional — convenience)         */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.text-danger {
+  color: var(--color-danger);
+}
+
+.text-warning {
+  color: var(--color-warning);
+}
+
+.bg-primary {
+  background: var(--color-bg);
+}
+
+.bg-secondary {
+  background: var(--color-bg-secondary);
+}
+
+.border-default {
+  border: var(--panel-border);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--primitive-letter-spacing-press-start);
+}
+
+.font-body {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--primitive-letter-spacing-normal);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--primitive-letter-spacing-normal);
+}

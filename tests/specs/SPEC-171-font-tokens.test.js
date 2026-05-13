@@ -14,43 +14,43 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '../..');
-const luxuryArcadeCss = path.join(projectRoot, 'src/styles/luxury-arcade.css');
+const isssdPremiumCss = path.join(projectRoot, 'src/styles/isssd-premium.css');
 
 describe('SPEC-171 — font CSS tokens definidos em :root', () => {
     let css;
-    test('luxury-arcade.css existe', () => {
-        expect(fs.existsSync(luxuryArcadeCss)).toBe(true);
-        css = fs.readFileSync(luxuryArcadeCss, 'utf-8');
+    test('isssd-premium.css existe', () => {
+        expect(fs.existsSync(isssdPremiumCss)).toBe(true);
+        css = fs.readFileSync(isssdPremiumCss, 'utf-8');
         expect(css.length).toBeGreaterThan(0);
     });
 
     test('--font-mono está declarada em :root', () => {
-        const content = fs.readFileSync(luxuryArcadeCss, 'utf-8');
+        const content = fs.readFileSync(isssdPremiumCss, 'utf-8');
         // Match a declaration like `--font-mono: ...;` (multi-line tolerant).
         expect(content).toMatch(/--font-mono\s*:\s*[^;]+;/);
     });
 
     test('--font-sans está declarada em :root', () => {
-        const content = fs.readFileSync(luxuryArcadeCss, 'utf-8');
+        const content = fs.readFileSync(isssdPremiumCss, 'utf-8');
         expect(content).toMatch(/--font-sans\s*:\s*[^;]+;/);
     });
 
     test('--font-mono inclui fallback de monospace genérico (degradação graciosa)', () => {
-        const content = fs.readFileSync(luxuryArcadeCss, 'utf-8');
+        const content = fs.readFileSync(isssdPremiumCss, 'utf-8');
         const match = content.match(/--font-mono\s*:\s*([^;]+);/);
         expect(match).toBeTruthy();
         expect(match[1].toLowerCase()).toMatch(/monospace/);
     });
 
     test('--font-sans inclui fallback de sans-serif genérico (degradação graciosa)', () => {
-        const content = fs.readFileSync(luxuryArcadeCss, 'utf-8');
+        const content = fs.readFileSync(isssdPremiumCss, 'utf-8');
         const match = content.match(/--font-sans\s*:\s*([^;]+);/);
         expect(match).toBeTruthy();
         expect(match[1].toLowerCase()).toMatch(/sans-serif/);
     });
 
     test('declarações ficam dentro de um bloco :root (não soltas)', () => {
-        const content = fs.readFileSync(luxuryArcadeCss, 'utf-8');
+        const content = fs.readFileSync(isssdPremiumCss, 'utf-8');
         // Find the index of the first :root { and walk to its matching close
         // (cannot use non-greedy regex because inner content has braces in
         // backticks/template-strings... actually no — CSS has no braces here.

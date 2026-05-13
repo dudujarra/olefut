@@ -1,7 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap');
-@import './styles/luxury-arcade.css';
+@import './styles/isssd-premium.css';
 @import './styles/animations.css';
 @import './styles/mobile.css';
+@import './styles/match-view.css';
+@import './styles/market-view.css';
+@import './styles/cosmetic-shop-view.css';
+@import './styles/save-slots-view.css';
+@import './styles/trophy-ceremony.css';
+@import './styles/standings-view.css';
+@import './styles/press-view.css';
+@import './styles/achievements-view.css';
 
 /* SPEC-A11y Focus visible (WCAG 2.1 AA) */
 *:focus-visible {

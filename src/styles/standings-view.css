@@ -1,0 +1,216 @@
+/* StandingsView — semantic CSS + design tokens */
+
+/* === COMPONENT TOKENS === */
+
+.ef-standings {
+  --ef-zone-libertadores: var(--primary);
+  --ef-zone-suda: var(--accent);
+  --ef-zone-promotion: #40BAF7;
+  --ef-zone-rebaixamento: var(--danger);
+  --ef-zone-default: transparent;
+  --ef-user-row-bg: #102A10;
+}
+
+/* === CONTAINER === */
+
+.ef-standings__container {
+  max-width: 1000px;
+}
+
+/* === HERO PANEL === */
+
+.ef-standings__hero-panel {
+  justify-content: space-between;
+}
+
+.ef-standings__hero-title {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--text-main);
+}
+
+.ef-standings__hero-meta {
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* === CONTROLS === */
+
+.ef-standings__controls {
+  gap: 12px;
+}
+
+.ef-standings__control-group {
+  display: flex;
+  gap: 8px;
+  flex: 1 1 auto;
+  align-items: center;
+}
+
+.ef-standings__control-group--divs {
+  border-left: 2px solid var(--border-panel);
+  padding-left: 12px;
+}
+
+.ef-standings__btn-zone {
+  flex: 1;
+  min-width: 60px;
+}
+
+.ef-standings__btn-div {
+  flex: 1;
+}
+
+.ef-standings__btn-state {
+  flex: 1 1 auto;
+}
+
+/* === STATE TOURNAMENTS BAR === */
+
+.ef-standings__states {
+  gap: 8px;
+  align-items: center;
+}
+
+.ef-standings__states-label {
+  font-size: 0.75rem;
+}
+
+/* === LEGEND === */
+
+.ef-standings__legend {
+  justify-content: center;
+  gap: 16px;
+}
+
+.ef-standings__legend-icon--libertadores {
+  color: var(--ef-zone-libertadores);
+}
+
+.ef-standings__legend-icon--suda {
+  color: var(--ef-zone-suda);
+}
+
+.ef-standings__legend-icon--promotion {
+  color: var(--ef-zone-promotion);
+}
+
+.ef-standings__legend-icon--rebaixamento {
+  color: var(--ef-zone-rebaixamento);
+}
+
+/* === TABLE === */
+
+.ef-standings__table-wrap {
+  overflow-x: auto;
+  background: var(--bg-dark);
+}
+
+.ef-standings__table-head {
+  background: var(--bg-panel);
+}
+
+.ef-standings__th--pos {
+  text-align: center;
+  width: 40px;
+}
+
+.ef-standings__th--team {
+  text-align: left;
+}
+
+.ef-standings__th {
+  text-align: center;
+}
+
+.ef-standings__th--points {
+  color: var(--accent);
+}
+
+.ef-standings__th--wins {
+  color: var(--primary);
+}
+
+.ef-standings__th--draws {
+  color: var(--accent);
+}
+
+.ef-standings__th--losses {
+  color: var(--danger);
+}
+
+/* === ROWS === */
+
+.ef-standings__row {
+  border-bottom: 1px solid var(--border-panel);
+}
+
+.ef-standings__row--even {
+  background: var(--bg-dark);
+}
+
+.ef-standings__row--odd {
+  background: var(--bg-panel);
+}
+
+.ef-standings__row--user {
+  background: var(--ef-user-row-bg);
+}
+
+.ef-standings__row--zone-libertadores {
+  border-left: 4px solid var(--ef-zone-libertadores);
+}
+
+.ef-standings__row--zone-suda {
+  border-left: 4px solid var(--ef-zone-suda);
+}
+
+.ef-standings__row--zone-promotion {
+  border-left: 4px solid var(--ef-zone-promotion);
+}
+
+.ef-standings__row--zone-rebaixamento {
+  border-left: 4px solid var(--ef-zone-rebaixamento);
+}
+
+.ef-standings__row--zone-default {
+  border-left: 4px solid var(--ef-zone-default);
+}
+
+/* === CELLS === */
+
+.ef-standings__cell {
+  padding: 12px 6px;
+  text-align: center;
+}
+
+.ef-standings__cell--team {
+  padding: 12px 6px;
+  text-align: left;
+}
+
+.ef-standings__team-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-standings__team-name {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.ef-standings__team-name--user {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.ef-standings__cell--points {
+  font-weight: bold;
+}
+
+.ef-standings__cell--diff {
+  font-weight: 600;
+}
