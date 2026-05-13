@@ -13,7 +13,7 @@
 import { useState, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
 
-function Sparkline({ data, width = 200, height = 40, color = '#6ABC3A' }) {
+function Sparkline({ data, width = 200, height = 40, color = 'var(--color-success-mid)' }) {
     if (!Array.isArray(data) || data.length < 2) {
         return <div style={{ fontSize: '0.7rem', color: '#888' }}>need ≥2 data points</div>;
     }
@@ -59,14 +59,14 @@ function ActionBar({ action, q, max }) {
                 <div style={{
                     width: `${widthPct}%`,
                     height: '100%',
-                    background: positive ? '#6ABC3A' : '#c44',
+                    background: positive ? 'var(--color-success-mid)' : '#c44',
                     transition: 'width 300ms'
                 }} />
             </div>
             <div style={{
                 minWidth: '50px',
                 textAlign: 'right',
-                color: positive ? '#6ABC3A' : '#c44',
+                color: positive ? 'var(--color-success-mid)' : '#c44',
                 fontFamily: 'monospace'
             }}>
                 {positive ? '+' : ''}{q.toFixed(1)}
@@ -77,14 +77,14 @@ function ActionBar({ action, q, max }) {
 
 function MemoryEntry({ entry }) {
     const reward = entry.reward;
-    const color = reward > 0 ? '#6ABC3A' : reward < 0 ? '#c44' : '#888';
+    const color = reward > 0 ? 'var(--color-success-mid)' : reward < 0 ? '#c44' : '#888';
     return (
         <div style={{
             display: 'flex',
             justifyContent: 'space-between',
             fontSize: '0.7rem',
             padding: '2px 4px',
-            borderBottom: '1px solid #0E1F14',
+            borderBottom: '1px solid var(--color-bg-deep)',
             fontFamily: 'monospace'
         }}>
             <span>
@@ -133,15 +133,15 @@ export default function LearningPanel({ controllerRef }) {
     return (
         <EfPanel variant="sunk" padding="md" style={{
             marginTop: '0.5rem',
-            background: '#1B4332',
-            border: '1px solid #6ABC3A',
+            background: 'var(--color-forest-pulse)',
+            border: '1px solid var(--color-success-mid)',
         }}>
             <div
                 onClick={() => setOpen(o => !o)}
                 style={{
                     cursor: 'pointer',
                     fontWeight: 700,
-                    color: '#6ABC3A',
+                    color: 'var(--color-success-mid)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
@@ -164,7 +164,7 @@ export default function LearningPanel({ controllerRef }) {
                                 <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '2px' }}>
                                     Wins per season ({seasonHistory.length} samples)
                                 </div>
-                                <Sparkline data={winSeries} color="#6ABC3A" />
+                                <Sparkline data={winSeries} color="var(--color-success-mid)" />
                             </div>
                             <div>
                                 <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '2px' }}>

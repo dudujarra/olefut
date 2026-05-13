@@ -44,6 +44,21 @@
   --color-yellow-warn-bg: #2D2916;
   --color-emerald-confirm: #10B981;
   --color-forest-pulse: #1B4332;
+  --color-learning-teal: #14b8a6;
+  --color-learning-blue: #3b82f6;
+  --color-learning-blue-dark: #2563eb;
+  --color-learning-violet: #a78bfa;
+  --color-learning-pink: #ec4899;
+  --color-learning-lime: #84cc16;
+  --color-learning-orange: #f97316;
+  --color-learning-red-dark: #dc2626;
+  --color-learning-amber-bright: #FFA500;
+  --color-learning-bronze-stat: #CD7F32;
+  --color-learning-silver-stat: #C0C0C0;
+  --color-learning-skyblue: #87CEEB;
+  --color-learning-lightgreen: #90EE90;
+  --color-learning-leather: #8B7355;
+  --color-learning-cyan: #22d3ee;
   --text-inverse: #040805;
 
   /* Borders & Shadows */
