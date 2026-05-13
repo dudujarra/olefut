@@ -1,43 +1,64 @@
-/* StandingsView — semantic CSS + design tokens */
+/* StandingsView — Premium 32-bit (Stitch v1.1) port
+ * Match: docs/stitch-designs/v1.1-all/55-classifica-o-20-clubes-premium-32-bit.html
+ * AKITA-384 — brand-locked, tokens-only (zero raw hex).
+ */
 
-/* === COMPONENT TOKENS === */
-
+/* === COMPONENT TOKENS ===
+ * Aliases para semantic tokens canônicos (var(--primary), var(--accent), etc).
+ * Cores das zonas mapeiam diretamente para tokens existentes em isssd-premium.css.
+ */
 .ef-standings {
   --ef-zone-libertadores: var(--primary);
-  --ef-zone-suda: var(--accent);
-  --ef-zone-promotion: #40BAF7;
+  --ef-zone-suda:         var(--accent);
+  --ef-zone-promotion:    var(--primary);
   --ef-zone-rebaixamento: var(--danger);
-  --ef-zone-default: transparent;
-  --ef-user-row-bg: #102A10;
+  --ef-zone-default:      transparent;
+
+  /* Stitch palette — user-row tint = primary @ low alpha sobre bg-panel */
+  --ef-user-row-bg:        color-mix(in srgb, var(--primary) 12%, var(--bg-panel));
+  --ef-user-row-bg-strong: color-mix(in srgb, var(--primary) 20%, var(--bg-panel));
+  --ef-danger-row-bg:      color-mix(in srgb, var(--danger) 10%, var(--bg-panel));
+
+  /* CRT bevel ring (Stitch "pixel-border") usa pitch-green;
+   * traduzido para var(--primary) escuro para v1.1 */
+  --ef-pixel-bevel: var(--primary-dark, var(--primary));
 }
 
 /* === CONTAINER === */
-
 .ef-standings__container {
-  max-width: 1000px;
+  max-width: 1080px;
 }
 
 /* === HERO PANEL === */
-
 .ef-standings__hero-panel {
   justify-content: space-between;
+  border-bottom: 4px solid var(--ef-pixel-bevel);
 }
 
 .ef-standings__hero-title {
   margin: 0;
-  font-size: 1.4rem;
-  color: var(--text-main);
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  color: var(--primary);
+  text-transform: uppercase;
 }
 
 .ef-standings__hero-meta {
-  font-size: 0.85rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 0;
+  text-transform: uppercase;
+}
+
+.ef-standings__hero-week {
+  white-space: pre;
 }
 
 /* === CONTROLS === */
-
 .ef-standings__controls {
   gap: 12px;
 }
@@ -54,144 +75,150 @@
   padding-left: 12px;
 }
 
-.ef-standings__btn-zone {
-  flex: 1;
-  min-width: 60px;
-}
-
-.ef-standings__btn-div {
-  flex: 1;
-}
-
-.ef-standings__btn-state {
-  flex: 1 1 auto;
-}
+.ef-standings__btn-zone { flex: 1; min-width: 60px; }
+.ef-standings__btn-div  { flex: 1; }
+.ef-standings__btn-state { flex: 1 1 auto; }
 
 /* === STATE TOURNAMENTS BAR === */
-
 .ef-standings__states {
   gap: 8px;
   align-items: center;
 }
 
 .ef-standings__states-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+/* === TABLE FRAME — Stitch "pixel-border" + forest-dark bg === */
+.ef-standings__table-frame {
+  background: var(--bg-panel-sunk, var(--bg-dark));
+  border: 4px solid var(--ef-pixel-bevel);
+  overflow-x: auto;
+  /* Stitch CRT pixel-bevel — outer ring via box-shadow */
+  box-shadow:
+    0 -4px 0 -2px var(--ef-pixel-bevel),
+    0 4px 0 -2px var(--ef-pixel-bevel),
+    -4px 0 0 -2px var(--ef-pixel-bevel),
+    4px 0 0 -2px var(--ef-pixel-bevel);
+}
+
+.ef-standings__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
   font-size: 0.75rem;
 }
 
-/* === LEGEND === */
-
-.ef-standings__legend {
-  justify-content: center;
-  gap: 16px;
-}
-
-.ef-standings__legend-icon--libertadores {
-  color: var(--ef-zone-libertadores);
-}
-
-.ef-standings__legend-icon--suda {
-  color: var(--ef-zone-suda);
-}
-
-.ef-standings__legend-icon--promotion {
-  color: var(--ef-zone-promotion);
-}
-
-.ef-standings__legend-icon--rebaixamento {
-  color: var(--ef-zone-rebaixamento);
-}
-
-/* === TABLE === */
-
-.ef-standings__table-wrap {
-  overflow-x: auto;
-  background: var(--bg-dark);
-}
-
+/* === TABLE HEAD — green pitch stripe with dark text === */
 .ef-standings__table-head {
-  background: var(--bg-panel);
+  background: var(--primary-dark, var(--primary));
+}
+
+.ef-standings__table-head th {
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  padding: 12px 8px;
+  color: var(--bg-dark);
+  border-bottom: 4px solid var(--ef-pixel-bevel);
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .ef-standings__th--pos {
-  text-align: center;
+  text-align: left;
+  width: 56px;
+  padding-left: 16px;
+}
+
+.ef-standings__th--badge {
   width: 40px;
+  padding: 0;
 }
 
 .ef-standings__th--team {
   text-align: left;
 }
 
-.ef-standings__th {
-  text-align: center;
-}
-
-.ef-standings__th--points {
-  color: var(--accent);
-}
-
-.ef-standings__th--wins {
-  color: var(--primary);
-}
-
-.ef-standings__th--draws {
-  color: var(--accent);
-}
-
+.ef-standings__th--points,
+.ef-standings__th--wins,
+.ef-standings__th--draws,
 .ef-standings__th--losses {
-  color: var(--danger);
+  color: var(--bg-dark);
 }
 
 /* === ROWS === */
-
 .ef-standings__row {
   border-bottom: 1px solid var(--border-panel);
+  transition: background-color 120ms ease;
 }
 
-.ef-standings__row--even {
-  background: var(--bg-dark);
+.ef-standings__row--even { background: transparent; }
+.ef-standings__row--odd  { background: color-mix(in srgb, var(--primary) 4%, transparent); }
+
+.ef-standings__row:hover {
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
-.ef-standings__row--odd {
-  background: var(--bg-panel);
-}
-
+/* User-managed row — neon glow per Stitch row 3 highlight */
 .ef-standings__row--user {
-  background: var(--ef-user-row-bg);
+  background: var(--ef-user-row-bg) !important;
+  border-top: 2px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--primary) 40%, transparent);
 }
 
-.ef-standings__row--zone-libertadores {
-  border-left: 4px solid var(--ef-zone-libertadores);
+.ef-standings__row--user:hover {
+  background: var(--ef-user-row-bg-strong) !important;
 }
 
-.ef-standings__row--zone-suda {
-  border-left: 4px solid var(--ef-zone-suda);
-}
-
-.ef-standings__row--zone-promotion {
-  border-left: 4px solid var(--ef-zone-promotion);
-}
-
+/* Zone-stripe accents (left border) */
+.ef-standings__row--zone-libertadores { border-left: 4px solid var(--ef-zone-libertadores); }
+.ef-standings__row--zone-suda         { border-left: 4px solid var(--ef-zone-suda); }
+.ef-standings__row--zone-promotion    { border-left: 4px solid var(--ef-zone-promotion); }
 .ef-standings__row--zone-rebaixamento {
   border-left: 4px solid var(--ef-zone-rebaixamento);
+  background: var(--ef-danger-row-bg);
 }
-
-.ef-standings__row--zone-default {
-  border-left: 4px solid var(--ef-zone-default);
+.ef-standings__row--zone-rebaixamento.ef-standings__row--odd {
+  background: var(--ef-danger-row-bg);
 }
+.ef-standings__row--zone-default      { border-left: 4px solid var(--ef-zone-default); }
 
 /* === CELLS === */
-
 .ef-standings__cell {
-  padding: 12px 6px;
+  padding: 10px 6px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ef-standings__cell--pos {
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.7rem;
+  text-align: left;
+  padding-left: 16px;
+  letter-spacing: 0.05em;
+}
+
+.ef-standings__cell--pos-leader  { color: var(--accent); }
+.ef-standings__cell--pos-user    { color: var(--primary); }
+.ef-standings__cell--pos-default { color: var(--text-main); }
+
+.ef-standings__row--zone-rebaixamento .ef-standings__cell--pos {
+  color: var(--danger);
+}
+
+.ef-standings__cell--badge {
+  width: 36px;
+  padding: 6px 2px;
   text-align: center;
 }
 
 .ef-standings__cell--team {
-  padding: 12px 6px;
+  padding: 10px 6px;
   text-align: left;
-}
-
-.ef-standings__team-wrap {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -205,12 +232,66 @@
 .ef-standings__team-name--user {
   color: var(--primary);
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.ef-standings__row--zone-rebaixamento .ef-standings__team-name {
+  color: var(--danger);
+}
+
+.ef-standings__you-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
 }
 
 .ef-standings__cell--points {
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 0.8rem;
 }
 
 .ef-standings__cell--diff {
   font-weight: 600;
 }
+
+.ef-standings__row--zone-rebaixamento .ef-standings__cell {
+  color: var(--danger);
+}
+
+/* === LEGEND ROW — Stitch footer chips === */
+.ef-standings__legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px 4px;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ef-standings__legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-standings__legend-swatch {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border: 1px solid var(--bg-dark);
+}
+
+.ef-standings__legend-swatch--promotion { background: var(--primary); }
+
+.ef-standings__legend-icon--libertadores { color: var(--ef-zone-libertadores); }
+.ef-standings__legend-icon--suda         { color: var(--ef-zone-suda); }
+.ef-standings__legend-icon--promotion    { color: var(--ef-zone-promotion); }
+.ef-standings__legend-icon--rebaixamento { color: var(--ef-zone-rebaixamento); }
+.ef-standings__legend-icon--user         { color: var(--accent); }
