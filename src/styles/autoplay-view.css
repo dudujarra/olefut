@@ -1,0 +1,19 @@
+/* AutoPlayView — semantic CSS + design tokens (token mapping; structural refactor minimal) */
+
+.ef-ap {
+  --ef-ap-success-green: #6ABC3A;
+  --ef-ap-warn-amber: #f59e0b;
+  --ef-ap-err-red: #ef4444;
+  --ef-ap-fail-red: #c44;
+  --ef-ap-info-grey: #888;
+  --ef-ap-info-grey-2: #FF6666;
+  --ef-ap-soft-text: #E2E8F0;
+  --ef-ap-deep-line: #111417;
+  --ef-ap-deep-line-2: #0E1F14;
+  --ef-ap-panel-tone: #1E2124;
+  --ef-ap-forest-success: #1B4332;
+  --ef-ap-stripe-text: #0F1A14;
+  --ef-ap-bg-deep: #0A130E;
+  --ef-ap-bg-danger-deep: #1A0A0A;
+  --ef-ap-info: #40BAF7;
+}
