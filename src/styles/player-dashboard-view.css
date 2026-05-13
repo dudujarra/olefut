@@ -1,6 +1,136 @@
-/* PlayerDashboardView — comprehensive semantic CSS */
+/* PlayerDashboardView — comprehensive semantic CSS
+ * Stitch v1.1 alignment (AKITA-398): match docs/stitch-designs/v1.1-all/74-painel-do-jogador-ol-fut-dashboard.html
+ * Tokens-only (zero raw hex). Press Start 2P + Pixelify Sans + IBM Plex Mono via tokens.
+ */
 
-/* === HEADER SECTION === */
+/* ============================================================ */
+/* === STITCH HERO HEADER (Player Profile Card) === */
+/* ============================================================ */
+
+.ef-player-dashboard__hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 32px;
+  margin-bottom: 24px;
+  background: var(--color-bg-secondary);
+  border: 4px solid var(--color-tertiary);
+  overflow: hidden;
+}
+
+.ef-player-dashboard__hero-watermark {
+  position: absolute;
+  top: -16px;
+  right: 16px;
+  font-family: var(--font-display);
+  font-size: 7rem;
+  line-height: 1;
+  color: var(--color-primary);
+  opacity: 0.12;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+
+.ef-player-dashboard__portrait {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  background: var(--color-bg);
+  border: 4px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.ef-player-dashboard__hero-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ef-player-dashboard__profile-tag {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 4px 8px;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ef-player-dashboard__player-name {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.ef-player-dashboard__player-stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.ef-player-dashboard__info-cells {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.ef-player-dashboard__info-cell {
+  border-left: 3px solid var(--color-primary);
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ef-player-dashboard__info-cell--trophy {
+  border-left-color: var(--accent);
+}
+
+.ef-player-dashboard__info-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ef-player-dashboard__info-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.04em;
+}
+
+.ef-player-dashboard__info-value--trophy {
+  color: var(--accent);
+}
+
+.ef-player-dashboard__hero-meta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 200px;
+}
+
+/* === Legacy header (kept for backward compat — not used in Stitch hero) === */
 
 .ef-player-dashboard__header {
   display: flex;
@@ -784,3 +914,172 @@
 .ef-player-dashboard__break-option {
   justify-content: flex-start;
 }
+
+/* ============================================================ */
+/* === STITCH v1.1 (AKITA-398) — radar, career, retro bars === */
+/* ============================================================ */
+
+/* Overview grid swaps to two-col + full-width skill row */
+.ef-player-dashboard__overview-grid {
+  grid-template-columns: minmax(280px, 0.9fr) 1.1fr;
+}
+
+.ef-player-dashboard__skillxp-panel {
+  grid-column: 1 / -1;
+}
+
+.ef-player-dashboard__skillxp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+/* === Hexagon radar chart === */
+.ef-player-dashboard__radar-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.ef-player-dashboard__radar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-tertiary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+}
+
+.ef-player-dashboard__radar {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1 / 1;
+  margin: 24px auto 16px auto;
+}
+
+.ef-player-dashboard__radar-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ef-player-dashboard__radar-ring {
+  fill: none;
+  stroke: var(--color-tertiary);
+  stroke-width: 0.4;
+  opacity: 0.45;
+}
+
+.ef-player-dashboard__radar-axis {
+  stroke: var(--color-tertiary);
+  stroke-width: 0.35;
+  opacity: 0.35;
+}
+
+.ef-player-dashboard__radar-data {
+  fill: var(--color-primary);
+  fill-opacity: 0.22;
+  stroke: var(--color-primary);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+.ef-player-dashboard__radar-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ef-player-dashboard__radar-label {
+  position: absolute;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+/* Six axes (clockwise from top): ATK / TEC / CRI / TAC / DEF / OVR */
+.ef-player-dashboard__radar-label--p0 { top: -18px; left: 50%; transform: translateX(-50%); }
+.ef-player-dashboard__radar-label--p1 { top: 18%; right: -8px; transform: translateX(100%); }
+.ef-player-dashboard__radar-label--p2 { bottom: 18%; right: -8px; transform: translateX(100%); }
+.ef-player-dashboard__radar-label--p3 { bottom: -18px; left: 50%; transform: translateX(-50%); }
+.ef-player-dashboard__radar-label--p4 { bottom: 18%; left: -8px; transform: translateX(-100%); }
+.ef-player-dashboard__radar-label--p5 { top: 18%; left: -8px; transform: translateX(-100%); }
+
+/* === Career performance table === */
+.ef-player-dashboard__career-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--color-tertiary);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+}
+
+.ef-player-dashboard__career-tablewrap {
+  overflow-x: auto;
+}
+
+.ef-player-dashboard__career-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ef-player-dashboard__career-table th,
+.ef-player-dashboard__career-table td {
+  padding: 10px 12px;
+  border: 1px solid var(--color-tertiary);
+  text-align: left;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.ef-player-dashboard__career-table th {
+  background: var(--color-bg);
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.ef-player-dashboard__career-table tbody tr:hover td {
+  background: var(--color-bg);
+}
+
+/* === Retro loading-block relationship bar (Stitch effect) === */
+.ef-player-dashboard__bar--retro {
+  height: 18px;
+  padding: 2px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-text-secondary);
+  position: relative;
+}
+
+.ef-player-dashboard__bar--retro .ef-player-dashboard__bar-fill {
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+
+.ef-player-dashboard__bar-blocks {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  gap: 0;
+  opacity: 0.35;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent 14px,
+    var(--color-bg) 14px,
+    var(--color-bg) 16px
+  );
+  pointer-events: none;
+}
+

@@ -1,3 +1,23 @@
+/**
+ * PlayerDashboardView — Painel do Jogador (Player Career Mode)
+ * Stitch v1.1 port (AKITA-398): match docs/stitch-designs/v1.1-all/74-painel-do-jogador-ol-fut-dashboard.html
+ *
+ * Visual alignment:
+ *   - Hero header: bordered card, portrait, "PLAYER PROFILE" tag, position watermark, 4 info cells (CLUB/AGE/POSITION/OVERALL).
+ *   - Attribute Matrix: SVG hexagon radar chart (6 axes derived from existing skills).
+ *   - Career Performance: tabular season summary (uses live seasonGoals; older seasons archive placeholder).
+ *   - Locker Room Standing: relationship bars with retro loading-block fill effect.
+ *
+ * Engine contract — UNCHANGED:
+ *   - Reads engine.proPlayer / engine.manager / engine.getTeam(teamId).
+ *   - Calls player.train / rest / buyEnergyDrink / consumeEnergyDrink / trainSubAttr / buyTrait / buyLifestyle.
+ *   - OffPitchEventsDeck event-spawn logic preserved.
+ *   - All four tabs (overview / skills / store / lifestyle) preserved.
+ *   - Banner / mental-break / off-pitch modals preserved.
+ *
+ * SPEC-184 ceiling: inline style count ≤ 4 (dynamic width/color only).
+ */
+
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { OffPitchEventsDeck } from '../engine/OffPitchEventsDeck';
@@ -9,7 +29,7 @@ import { EfModal } from './ui/EfModal';
 
 import {
     User, Heartbeat, SoccerBall, Lightning, Brain, ShoppingCart, Target,
-    TrendUp, HandsClapping, House, Car, Heart, Coins, Storefront, Backpack,
+    TrendUp, HandsClapping, House, Car, Heart, Coins, Storefront,
     WarningCircle, Smiley, Handshake, ChartBar, Star, CheckCircle
 } from '@phosphor-icons/react';
 
@@ -18,12 +38,31 @@ import { rng as systemRng } from '../engine/rng.js';
 import '../styles/gdd-systems.css';
 import '../styles/player-dashboard-view.css';
 
+// Hexagon radar geometry — six axes, 360° / 6 = 60° apart, start at top (270°).
+// Returns array of {x, y} on a 100x100 viewBox centered at (50,50) with given radius.
+function hexPoint(idx, valuePct) {
+    const angle = (-90 + idx * 60) * (Math.PI / 180);
+    const r = 44 * (valuePct / 100); // 44 = max radius (leaves room for labels)
+    return {
+        x: 50 + r * Math.cos(angle),
+        y: 50 + r * Math.sin(angle)
+    };
+}
+
+function hexRing(scale) {
+    return Array.from({ length: 6 }, (_, i) => {
+        const angle = (-90 + i * 60) * (Math.PI / 180);
+        const r = 44 * scale;
+        return `${50 + r * Math.cos(angle)},${50 + r * Math.sin(angle)}`;
+    }).join(' ');
+}
+
 export function PlayerDashboardView() {
     const { getEngine, changeView, forceUpdate } = useGame();
     const engine = getEngine();
     const player = engine.proPlayer;
     const team = engine.getTeam(engine.manager.teamId);
-    
+
     const [log, setLog] = useState('');
     const [offPitchEvent, setOffPitchEvent] = useState(null);
     const [offPitchResult, setOffPitchResult] = useState(null);
@@ -93,10 +132,10 @@ export function PlayerDashboardView() {
         if (eff.actionSlots) player.actionSlots = Math.max(0, player.actionSlots + eff.actionSlots);
         if (eff.wage_multiplier) player.wage = Math.floor(player.wage * eff.wage_multiplier);
         if (eff.stress) player.addStress(eff.stress, 'evento');
-        
+
         if (option.flags?.set) player.setFlag(option.flags.set);
         if (option.flags?.clear) player.clearFlag(option.flags.clear);
-        
+
         if (player.mentalBreakActive) setMentalBreakModal(true);
         setOffPitchResult(option.resultText);
         setOffPitchEvent(null);
@@ -110,6 +149,7 @@ export function PlayerDashboardView() {
         forceUpdate();
     };
 
+    // Retro "loading-block" relationship bar — Stitch v1.1 aesthetic.
     const RelBar = ({ label, value, type, icon }) => {
         const fillMod = type === 'boss'
             ? 'ef-player-dashboard__bar-fill--danger'
@@ -124,8 +164,10 @@ export function PlayerDashboardView() {
                     <span className="ef-player-dashboard__rel-icon">{icon} {label}</span>
                     <span className="ef-player-dashboard__rel-value ef-mono">{value}%</span>
                 </label>
-                <div className="ef-player-dashboard__bar">
-                    <div className={`ef-player-dashboard__bar-fill ${fillMod}`} style={{ width: `${value}%` }} />
+                <div className="ef-player-dashboard__bar ef-player-dashboard__bar--retro">
+                    <div className={`ef-player-dashboard__bar-fill ${fillMod}`} style={{ width: `${value}%` }}>
+                        <div className="ef-player-dashboard__bar-blocks" aria-hidden />
+                    </div>
                 </div>
             </div>
         );
@@ -135,36 +177,75 @@ export function PlayerDashboardView() {
     const pers = PERSONALITIES[player.personality] || PERSONALITIES.maverick;
     const stressColor = player.stress >= 75 ? 'var(--danger)' : player.stress >= 50 ? 'var(--accent)' : 'var(--text-muted)';
 
+    // === Stitch hexagon radar — six axes derived from skills + computed ===
+    // Order (clockwise from top): ATK, TEC, CRI, TAC, DEF, OVR
+    const ovr = Math.round(
+        (player.skills.technique + player.skills.pace + player.skills.power + player.skills.vision) / 4
+    );
+    const radarAxes = [
+        { key: 'ATK', label: 'ATK', value: player.skills.pace },
+        { key: 'TEC', label: 'TEC', value: player.skills.technique },
+        { key: 'CRI', label: 'CRI', value: player.skills.vision },
+        { key: 'TAC', label: 'TAC', value: Math.round((player.skills.power + player.skills.vision) / 2) },
+        { key: 'DEF', label: 'DEF', value: player.skills.power },
+        { key: 'OVR', label: 'OVR', value: ovr }
+    ];
+    const radarPoints = radarAxes.map((a, i) => {
+        const p = hexPoint(i, a.value);
+        return `${p.x},${p.y}`;
+    }).join(' ');
+
+    // Position watermark (big letters behind portrait)
+    const positionWatermark = (player.position || 'ATA').toUpperCase().slice(0, 3);
+
     return (
         <div className="ef-view-shell ef-view-shell--fixed">
             <div className="ef-view-container ef-view-container--wide">
                 {banner && <EfBanner type={banner} onDismiss={() => setBanner(null)} />}
 
-                {/* === HEADER — LUXURY BENTO === */}
-                <EfPanel variant="hero" padding="lg" className="ef-player-dashboard__header">
-                    <div className="ef-player-dashboard__header-left">
+                {/* === STITCH HERO HEADER — Player Profile Card === */}
+                <section className="ef-player-dashboard__hero">
+                    <div className="ef-player-dashboard__hero-watermark" aria-hidden>{positionWatermark}</div>
+
+                    <div className="ef-player-dashboard__portrait">
                         {team?.name && <EfClubBadge name={team.name} size="lg" />}
-                        <div className="ef-player-dashboard__player-info">
-                            <div className="ef-tag-mono">
-                                <span aria-hidden>{pers.emoji}</span> {pers.name.toUpperCase()} • SÉRIE {['A','B','C','D'][team.division - 1]}
+                    </div>
+
+                    <div className="ef-player-dashboard__hero-body">
+                        <div className="ef-player-dashboard__profile-tag ef-mono">
+                            <span aria-hidden>{pers.emoji}</span> PLAYER PROFILE • {pers.name.toUpperCase()}
+                        </div>
+                        <h1 className="ef-player-dashboard__player-name ef-heading-xl">{player.name}</h1>
+                        <div className="ef-player-dashboard__player-stars">
+                            {starStr.map((s, i) => <React.Fragment key={i}>{s}</React.Fragment>)}
+                        </div>
+
+                        <div className="ef-player-dashboard__info-cells">
+                            <div className="ef-player-dashboard__info-cell">
+                                <p className="ef-player-dashboard__info-label ef-mono ef-text-muted">CLUB</p>
+                                <p className="ef-player-dashboard__info-value ef-mono">{team.name}</p>
                             </div>
-                            <h2 className="ef-heading-xl ef-player-dashboard__player-name">
-                                {player.name}
-                            </h2>
-                            <div className="ef-player-dashboard__player-meta">
-                                {starStr.map((s, i) => <React.Fragment key={i}>{s}</React.Fragment>)}
-                                <span className="ef-mono ef-text-muted">
-                                    {player.position} • {team.name}
-                                </span>
+                            <div className="ef-player-dashboard__info-cell">
+                                <p className="ef-player-dashboard__info-label ef-mono ef-text-muted">AGE</p>
+                                <p className="ef-player-dashboard__info-value ef-mono">{player.age} ANOS</p>
+                            </div>
+                            <div className="ef-player-dashboard__info-cell">
+                                <p className="ef-player-dashboard__info-label ef-mono ef-text-muted">POSITION</p>
+                                <p className="ef-player-dashboard__info-value ef-mono">{player.position}</p>
+                            </div>
+                            <div className="ef-player-dashboard__info-cell ef-player-dashboard__info-cell--trophy">
+                                <p className="ef-player-dashboard__info-label ef-mono ef-text-muted">OVERALL</p>
+                                <p className="ef-player-dashboard__info-value ef-player-dashboard__info-value--trophy ef-mono">{ovr} OVR</p>
                             </div>
                         </div>
                     </div>
-                    <div className="ef-player-dashboard__header-right">
+
+                    <div className="ef-player-dashboard__hero-meta">
                         <div className="ef-player-dashboard__money ef-mono">
                             R$ {(player.money).toLocaleString('pt-BR')}
                         </div>
                         <div className="ef-tag-mono ef-tag-mono--accent">
-                            <SoccerBall weight="fill" /> {player.seasonGoals} GOLS NA TEMPORADA
+                            <SoccerBall weight="fill" /> {player.seasonGoals} GOLS
                         </div>
                         <div className="ef-player-dashboard__action-slots">
                             <div className="ef-player-dashboard__action-slots-label ef-mono">
@@ -178,7 +259,7 @@ export function PlayerDashboardView() {
                             </div>
                         </div>
                     </div>
-                </EfPanel>
+                </section>
 
                 {/* === ALERTS === */}
                 {(player.isBenched || player.stress >= 75 || player.energy < 30) && (
@@ -235,19 +316,96 @@ export function PlayerDashboardView() {
                         {/* TAB CONTENTS */}
                         {tab === 'overview' && (
                             <div className="ef-player-dashboard__overview-grid">
-                                <div className="ef-player-dashboard__overview-column">
+                                {/* Attribute Matrix Hexagon Radar */}
+                                <EfPanel padding="md" className="ef-player-dashboard__radar-panel">
+                                    <div className="ef-player-dashboard__radar-head">
+                                        <span className="ef-sans ef-text-accent">ATTRIBUTE MATRIX</span>
+                                        <ChartBar weight="fill" />
+                                    </div>
+                                    <div className="ef-player-dashboard__radar">
+                                        <svg viewBox="0 0 100 100" className="ef-player-dashboard__radar-svg" aria-label="Hexagon attribute radar chart">
+                                            <polygon className="ef-player-dashboard__radar-ring" points={hexRing(1.0)} />
+                                            <polygon className="ef-player-dashboard__radar-ring" points={hexRing(0.75)} />
+                                            <polygon className="ef-player-dashboard__radar-ring" points={hexRing(0.5)} />
+                                            <polygon className="ef-player-dashboard__radar-ring" points={hexRing(0.25)} />
+                                            {radarAxes.map((_, i) => {
+                                                const angle = (-90 + i * 60) * (Math.PI / 180);
+                                                const x2 = 50 + 44 * Math.cos(angle);
+                                                const y2 = 50 + 44 * Math.sin(angle);
+                                                return (
+                                                    <line
+                                                        key={i}
+                                                        className="ef-player-dashboard__radar-axis"
+                                                        x1="50" y1="50" x2={x2} y2={y2}
+                                                    />
+                                                );
+                                            })}
+                                            <polygon className="ef-player-dashboard__radar-data" points={radarPoints} />
+                                        </svg>
+                                        <div className="ef-player-dashboard__radar-labels">
+                                            {radarAxes.map((a, i) => (
+                                                <span
+                                                    key={a.key}
+                                                    className={`ef-player-dashboard__radar-label ef-player-dashboard__radar-label--p${i} ef-mono`}
+                                                >
+                                                    {a.label} ({a.value})
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </EfPanel>
+
+                                {/* Career Performance Table + Locker Room Standing */}
+                                <div className="ef-player-dashboard__col-stack">
                                     <EfPanel padding="md">
-                                        <div className="ef-player-dashboard__panel-title ef-sans ef-text-muted"><Handshake weight="fill" /> RELACIONAMENTOS</div>
+                                        <div className="ef-player-dashboard__career-head">
+                                            <span className="ef-sans ef-text-accent">CAREER PERFORMANCE</span>
+                                            <span className="ef-mono ef-text-muted">SEM {engine.currentWeek}/38</span>
+                                        </div>
+                                        <div className="ef-player-dashboard__career-tablewrap">
+                                            <table className="ef-player-dashboard__career-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th className="ef-mono ef-text-muted">SEASON</th>
+                                                        <th className="ef-mono ef-text-muted">JOGOS</th>
+                                                        <th className="ef-mono ef-text-muted">GOLS</th>
+                                                        <th className="ef-mono ef-text-muted">ASSISTS</th>
+                                                        <th className="ef-mono ef-text-muted">MOTM</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td className="ef-mono ef-text-main">{engine.currentSeason ?? '95/96'}</td>
+                                                        <td className="ef-mono ef-text-main">{engine.currentWeek}</td>
+                                                        <td className="ef-mono ef-text-accent">{player.seasonGoals}</td>
+                                                        <td className="ef-mono ef-text-main">{player.career?.seasonAssists ?? 0}</td>
+                                                        <td className="ef-mono ef-text-warn">{player.career?.seasonMotm ?? 0}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </EfPanel>
+
+                                    <EfPanel padding="md">
+                                        <div className="ef-player-dashboard__panel-title ef-sans ef-text-accent"><Handshake weight="fill" /> LOCKER ROOM STANDING</div>
                                         <RelBar label="Treinador" value={player.relationships.boss} type="boss" icon={<User weight="fill" />} />
                                         <RelBar label="Torcida" value={player.relationships.fans} type="fans" icon={<HandsClapping weight="fill" />} />
                                         <RelBar label="Companheiros" value={player.relationships.teammates} type="teammates" icon={<User weight="fill" />} />
                                         <RelBar label="Patrocinadores" value={player.relationships.sponsors} type="sponsors" icon={<Coins weight="fill" />} />
                                     </EfPanel>
+
+                                    {offPitchResult && (
+                                        <EfPanel padding="md" className="ef-player-dashboard__event-panel-inline">
+                                            <div className="ef-sans ef-text-accent ef-player-dashboard__event-title-row"><WarningCircle weight="fill" /> ÚLTIMO EVENTO</div>
+                                            <p className="ef-sans ef-text-main ef-player-dashboard__event-body-text">{offPitchResult}</p>
+                                        </EfPanel>
+                                    )}
                                 </div>
 
-                                <div className="ef-player-dashboard__col-stack">
-                                    <EfPanel padding="md">
-                                        <div className="ef-sans ef-text-muted ef-player-dashboard__panel-title-row"><Target weight="fill" /> ATRIBUTOS PRINCIPAIS</div>
+                                {/* SKILL XP BARS — full-width row below the radar/career grid */}
+                                <EfPanel padding="md" className="ef-player-dashboard__skillxp-panel">
+                                    <div className="ef-sans ef-text-accent ef-player-dashboard__panel-title-row"><Target weight="fill" /> ATRIBUTOS PRINCIPAIS</div>
+                                    <div className="ef-player-dashboard__skillxp-grid">
                                         {[
                                             { key: 'technique', label: 'Técnica', color: 'var(--info)' },
                                             { key: 'pace',      label: 'Velocidade', color: 'var(--primary)' },
@@ -268,15 +426,8 @@ export function PlayerDashboardView() {
                                                 </div>
                                             );
                                         })}
-                                    </EfPanel>
-
-                                    {offPitchResult && (
-                                        <EfPanel padding="md" className="ef-player-dashboard__event-panel-inline">
-                                            <div className="ef-sans ef-text-accent ef-player-dashboard__event-title-row"><WarningCircle weight="fill" /> ÚLTIMO EVENTO</div>
-                                            <p className="ef-sans ef-text-main ef-player-dashboard__event-body-text">{offPitchResult}</p>
-                                        </EfPanel>
-                                    )}
-                                </div>
+                                    </div>
+                                </EfPanel>
                             </div>
                         )}
 
