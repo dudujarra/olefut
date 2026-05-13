@@ -816,6 +816,852 @@ export const ClubVoices = {
             rival_match: ['Briga serrana gaúcha.'],
         },
     },
+
+    // ============================================================
+    // INGLATERRA — 10 clubes (AKITA-321 F3.1 internacional)
+    // ============================================================
+    'Manchester City': {
+        city: 'Manchester', region: 'ENG', stadium: 'Etihad',
+        voices: {
+            stadium_entry: ['Etihad celeste. Sky Blues em casa.'],
+            goal_home: ['CITYYY! Etihad em festa azul!'],
+            goal_away: ['City silenciou rival.'],
+            rival_match: ['Derby de Manchester. City x United.'],
+        },
+    },
+    'Arsenal': {
+        city: 'Londres', region: 'ENG', stadium: 'Emirates',
+        voices: {
+            stadium_entry: ['Emirates vermelho. Gunners em casa.'],
+            goal_home: ['ARSENAL! Norte de Londres ruge!'],
+            goal_away: ['Arsenal calou rival.'],
+            rival_match: ['Derby do Norte de Londres. Arsenal x Tottenham.'],
+        },
+    },
+    'Liverpool': {
+        city: 'Liverpool', region: 'ENG', stadium: 'Anfield',
+        voices: {
+            stadium_entry: ['Anfield vermelho. You\'ll Never Walk Alone ecoa.'],
+            goal_home: ['LIVERPOOL! The Kop explode!'],
+            goal_away: ['Reds silenciaram rival.'],
+            rival_match: ['North West Derby. Liverpool x United.'],
+        },
+    },
+    'Manchester United': {
+        city: 'Manchester', region: 'ENG', stadium: 'Old Trafford',
+        voices: {
+            stadium_entry: ['Old Trafford vermelho. Theatre of Dreams.'],
+            goal_home: ['UNITED! Devils marcam!'],
+            goal_away: ['United calou rival.'],
+            rival_match: ['Derby de Manchester. Vermelho x Azul.'],
+        },
+    },
+    'Chelsea': {
+        city: 'Londres', region: 'ENG', stadium: 'Stamford Bridge',
+        voices: {
+            stadium_entry: ['Stamford Bridge azul. Blues em casa.'],
+            goal_home: ['CHELSEA! Pensioners marcam!'],
+            goal_away: ['Chelsea silenciou rival.'],
+            rival_match: ['Derby de Londres Oeste.'],
+        },
+    },
+    'Tottenham': {
+        city: 'Londres', region: 'ENG', stadium: 'Tottenham Hotspur Stadium',
+        voices: {
+            stadium_entry: ['New White Hart Lane branco-navy. Spurs em casa.'],
+            goal_home: ['SPURS! Lilywhites marcam!'],
+            goal_away: ['Tottenham calou rival.'],
+            rival_match: ['North London Derby. Spurs x Arsenal.'],
+        },
+    },
+    'Newcastle': {
+        city: 'Newcastle', region: 'ENG', stadium: 'St James\' Park',
+        voices: {
+            stadium_entry: ['St James\' Park preto-branco. Magpies em casa.'],
+            goal_home: ['NEWCASTLE! Toon Army ruge!'],
+            goal_away: ['Magpies silenciaram rival.'],
+            rival_match: ['Tyne-Wear Derby.'],
+        },
+    },
+    'Aston Villa': {
+        city: 'Birmingham', region: 'ENG', stadium: 'Villa Park',
+        voices: {
+            stadium_entry: ['Villa Park vinho-azul. Villans em casa.'],
+            goal_home: ['VILLA! Birmingham vibra!'],
+            goal_away: ['Villa calou rival.'],
+            rival_match: ['Second City Derby.'],
+        },
+    },
+    'West Ham': {
+        city: 'Londres', region: 'ENG', stadium: 'London Stadium',
+        voices: {
+            stadium_entry: ['London Stadium claret-azul. Hammers em casa.'],
+            goal_home: ['WEST HAM! I\'m Forever Blowing Bubbles!'],
+            goal_away: ['Hammers silenciaram rival.'],
+            rival_match: ['Derby de Londres Leste.'],
+        },
+    },
+    'Brighton': {
+        city: 'Brighton', region: 'ENG', stadium: 'Amex',
+        voices: {
+            stadium_entry: ['Amex Stadium azul-branco. Seagulls em casa.'],
+            goal_home: ['SEAGULLS! Brighton marca!'],
+            goal_away: ['Brighton calou rival.'],
+            rival_match: ['M23 Derby. Brighton x Crystal Palace.'],
+        },
+    },
+
+    // ============================================================
+    // ESPANHA — 10 clubes
+    // ============================================================
+    'Real Madrid': {
+        city: 'Madrid', region: 'ESP', stadium: 'Santiago Bernabéu',
+        voices: {
+            stadium_entry: ['Bernabéu branco. Hala Madrid ecoa.'],
+            goal_home: ['MADRIIID! Merengues marcam!'],
+            goal_away: ['Real silenciou rival.'],
+            rival_match: ['El Clásico. Real x Barça. História.'],
+        },
+    },
+    'Barcelona': {
+        city: 'Barcelona', region: 'ESP', stadium: 'Spotify Camp Nou',
+        voices: {
+            stadium_entry: ['Camp Nou blaugrana. Més que un club.'],
+            goal_home: ['BARÇA! Catalunya vibra!'],
+            goal_away: ['Blaugrana silenciaram rival.'],
+            rival_match: ['El Clásico. Barça x Real. Eternidade.'],
+        },
+    },
+    'Atlético de Madrid': {
+        city: 'Madrid', region: 'ESP', stadium: 'Metropolitano',
+        voices: {
+            stadium_entry: ['Metropolitano rojiblanco. Colchoneros em casa.'],
+            goal_home: ['ATLETI! Vamos Atleti!'],
+            goal_away: ['Atlético calou rival.'],
+            rival_match: ['Derby Madrileño. Atleti x Real.'],
+        },
+    },
+    'Sevilla': {
+        city: 'Sevilha', region: 'ESP', stadium: 'Sánchez-Pizjuán',
+        voices: {
+            stadium_entry: ['Sánchez-Pizjuán rojiblanco. Andaluzes em casa.'],
+            goal_home: ['SEVILLA! Andaluzia vibra!'],
+            goal_away: ['Sevilla silenciou rival.'],
+            rival_match: ['Derby Sevillano. Sevilla x Betis.'],
+        },
+    },
+    'Real Sociedad': {
+        city: 'San Sebastián', region: 'ESP', stadium: 'Anoeta',
+        voices: {
+            stadium_entry: ['Anoeta txuri-urdin. Basque pride.'],
+            goal_home: ['LA REAL! Donostia vibra!'],
+            goal_away: ['Real Sociedad calou rival.'],
+            rival_match: ['Derby Basco. Real x Athletic.'],
+        },
+    },
+    'Real Betis': {
+        city: 'Sevilha', region: 'ESP', stadium: 'Benito Villamarín',
+        voices: {
+            stadium_entry: ['Benito Villamarín verde-branco. Manque pierda.'],
+            goal_home: ['BETIS! Verdiblancos marcam!'],
+            goal_away: ['Bético silenciou rival.'],
+            rival_match: ['Derby Sevillano. Betis x Sevilla.'],
+        },
+    },
+    'Villarreal': {
+        city: 'Villarreal', region: 'ESP', stadium: 'La Cerámica',
+        voices: {
+            stadium_entry: ['La Cerámica amarelo. Yellow Submarine.'],
+            goal_home: ['VILLARREAL! Submarino Amarelo marca!'],
+            goal_away: ['Villarreal calou rival.'],
+            rival_match: ['Derby Valenciano.'],
+        },
+    },
+    'Athletic Bilbao': {
+        city: 'Bilbao', region: 'ESP', stadium: 'San Mamés',
+        voices: {
+            stadium_entry: ['San Mamés rojiblanco. Solo bascos.'],
+            goal_home: ['ATHLETIC! Leones marcam!'],
+            goal_away: ['Athletic silenciou rival.'],
+            rival_match: ['Derby Basco. Athletic x Real Sociedad.'],
+        },
+    },
+    'Valencia': {
+        city: 'Valência', region: 'ESP', stadium: 'Mestalla',
+        voices: {
+            stadium_entry: ['Mestalla branco-laranja. Che!'],
+            goal_home: ['VALENCIA! Murciélagos marcam!'],
+            goal_away: ['Valencia calou rival.'],
+            rival_match: ['Derby Valenciano.'],
+        },
+    },
+    'Osasuna': {
+        city: 'Pamplona', region: 'ESP', stadium: 'El Sadar',
+        voices: {
+            stadium_entry: ['El Sadar rojillo. Navarrese pride.'],
+            goal_home: ['OSASUNA! Pamplona vibra!'],
+            goal_away: ['Osasuna silenciou rival.'],
+            rival_match: ['Briga navarra.'],
+        },
+    },
+
+    // ============================================================
+    // ITÁLIA — 10 clubes
+    // ============================================================
+    'Inter de Milão': {
+        city: 'Milão', region: 'ITA', stadium: 'San Siro',
+        voices: {
+            stadium_entry: ['San Siro nerazzurro. Forza Inter.'],
+            goal_home: ['INTER! Pazza Inter Amala!'],
+            goal_away: ['Inter calou rival.'],
+            rival_match: ['Derby della Madonnina. Inter x Milan.'],
+        },
+    },
+    'Milan': {
+        city: 'Milão', region: 'ITA', stadium: 'San Siro',
+        voices: {
+            stadium_entry: ['San Siro rossonero. Forza Milan.'],
+            goal_home: ['MILAN! Rossoneri marcam!'],
+            goal_away: ['Milan silenciou rival.'],
+            rival_match: ['Derby della Madonnina.'],
+        },
+    },
+    'Juventus': {
+        city: 'Turim', region: 'ITA', stadium: 'Allianz Stadium',
+        voices: {
+            stadium_entry: ['Allianz Stadium bianconero. La Vecchia Signora.'],
+            goal_home: ['JUVE! Bianconeri marcam!'],
+            goal_away: ['Juventus calou rival.'],
+            rival_match: ['Derby d\'Italia. Juve x Inter.'],
+        },
+    },
+    'Napoli': {
+        city: 'Nápoles', region: 'ITA', stadium: 'Diego Maradona',
+        voices: {
+            stadium_entry: ['Diego Maradona azzurro. Napoli em casa.'],
+            goal_home: ['NAPOOOLI! Maradona vive!'],
+            goal_away: ['Napoli silenciou rival.'],
+            rival_match: ['Derby del Sole.'],
+        },
+    },
+    'Roma': {
+        city: 'Roma', region: 'ITA', stadium: 'Olimpico',
+        voices: {
+            stadium_entry: ['Olimpico giallorosso. Forza Roma.'],
+            goal_home: ['ROMA! Giallorossi marcam!'],
+            goal_away: ['Roma calou rival.'],
+            rival_match: ['Derby della Capitale.'],
+        },
+    },
+    'Lazio': {
+        city: 'Roma', region: 'ITA', stadium: 'Olimpico',
+        voices: {
+            stadium_entry: ['Olimpico biancoceleste. Aquile em casa.'],
+            goal_home: ['LAZIO! Águias marcam!'],
+            goal_away: ['Lazio silenciou rival.'],
+            rival_match: ['Derby della Capitale.'],
+        },
+    },
+    'Atalanta': {
+        city: 'Bérgamo', region: 'ITA', stadium: 'Gewiss Stadium',
+        voices: {
+            stadium_entry: ['Gewiss nerazzurro. Dea de Bergamo.'],
+            goal_home: ['ATALANTA! Dea marca!'],
+            goal_away: ['Atalanta calou rival.'],
+            rival_match: ['Derby lombardo.'],
+        },
+    },
+    'Fiorentina': {
+        city: 'Florença', region: 'ITA', stadium: 'Artemio Franchi',
+        voices: {
+            stadium_entry: ['Artemio Franchi viola. Forza Viola.'],
+            goal_home: ['FIORENTINA! Viola marcam!'],
+            goal_away: ['Viola silenciaram rival.'],
+            rival_match: ['Derby toscano.'],
+        },
+    },
+    'Bologna': {
+        city: 'Bolonha', region: 'ITA', stadium: 'Renato Dall\'Ara',
+        voices: {
+            stadium_entry: ['Renato Dall\'Ara rossoblu. Felsina em casa.'],
+            goal_home: ['BOLOGNA! Rossoblu marcam!'],
+            goal_away: ['Bologna calou rival.'],
+            rival_match: ['Briga emiliana.'],
+        },
+    },
+    'Torino': {
+        city: 'Turim', region: 'ITA', stadium: 'Olimpico Grande Torino',
+        voices: {
+            stadium_entry: ['Grande Torino granata. Toro em casa.'],
+            goal_home: ['TORO! Granata marcam!'],
+            goal_away: ['Torino silenciou rival.'],
+            rival_match: ['Derby della Mole. Toro x Juve.'],
+        },
+    },
+
+    // ============================================================
+    // ALEMANHA — 10 clubes
+    // ============================================================
+    'Bayern de Munique': {
+        city: 'Munique', region: 'GER', stadium: 'Allianz Arena',
+        voices: {
+            stadium_entry: ['Allianz Arena vermelha. Mia san mia.'],
+            goal_home: ['BAYERN! Rekordmeister marca!'],
+            goal_away: ['Bayern calou rival.'],
+            rival_match: ['Der Klassiker. Bayern x Dortmund.'],
+        },
+    },
+    'Borussia Dortmund': {
+        city: 'Dortmund', region: 'GER', stadium: 'Signal Iduna Park',
+        voices: {
+            stadium_entry: ['Yellow Wall ruge. Echte Liebe.'],
+            goal_home: ['BVB! Muralha Amarela explode!'],
+            goal_away: ['Dortmund silenciou rival.'],
+            rival_match: ['Revierderby. BVB x Schalke.'],
+        },
+    },
+    'RB Leipzig': {
+        city: 'Leipzig', region: 'GER', stadium: 'Red Bull Arena',
+        voices: {
+            stadium_entry: ['Red Bull Arena vermelha. Die Roten Bullen.'],
+            goal_home: ['LEIPZIG! Touros marcam!'],
+            goal_away: ['Leipzig calou rival.'],
+            rival_match: ['Briga saxônica.'],
+        },
+    },
+    'Bayer Leverkusen': {
+        city: 'Leverkusen', region: 'GER', stadium: 'BayArena',
+        voices: {
+            stadium_entry: ['BayArena vermelha-preta. Werkself.'],
+            goal_home: ['LEVERKUSEN! Bayer marca!'],
+            goal_away: ['Leverkusen silenciou rival.'],
+            rival_match: ['Briga renana.'],
+        },
+    },
+    'Eintracht Frankfurt': {
+        city: 'Frankfurt', region: 'GER', stadium: 'Deutsche Bank Park',
+        voices: {
+            stadium_entry: ['Deutsche Bank Park preto-vermelho. Adler em casa.'],
+            goal_home: ['EINTRACHT! Águias de Frankfurt marcam!'],
+            goal_away: ['Eintracht calou rival.'],
+            rival_match: ['Briga hessiana.'],
+        },
+    },
+    'Wolfsburg': {
+        city: 'Wolfsburg', region: 'GER', stadium: 'Volkswagen Arena',
+        voices: {
+            stadium_entry: ['Volkswagen Arena verde. Lobos em casa.'],
+            goal_home: ['WOLFSBURG! Wölfe marcam!'],
+            goal_away: ['Wolfsburg silenciou rival.'],
+            rival_match: ['Briga da Baixa Saxônia.'],
+        },
+    },
+    'Borussia M\'gladbach': {
+        city: 'Mönchengladbach', region: 'GER', stadium: 'Borussia-Park',
+        voices: {
+            stadium_entry: ['Borussia-Park branco-verde-preto. Fohlenelf.'],
+            goal_home: ['BORUSSIA! Potros marcam!'],
+            goal_away: ['Gladbach calou rival.'],
+            rival_match: ['Briga renana.'],
+        },
+    },
+    'Freiburg': {
+        city: 'Freiburg', region: 'GER', stadium: 'Europa-Park Stadion',
+        voices: {
+            stadium_entry: ['Europa-Park Stadion vermelho-branco. Breisgau-Brasilianer.'],
+            goal_home: ['FREIBURG! SC marca!'],
+            goal_away: ['Freiburg silenciou rival.'],
+            rival_match: ['Briga do sul.'],
+        },
+    },
+    'Hoffenheim': {
+        city: 'Sinsheim', region: 'GER', stadium: 'PreZero Arena',
+        voices: {
+            stadium_entry: ['PreZero Arena azul. TSG em casa.'],
+            goal_home: ['HOFFENHEIM! TSG marca!'],
+            goal_away: ['Hoffenheim calou rival.'],
+            rival_match: ['Briga de Baden-Württemberg.'],
+        },
+    },
+    'Stuttgart': {
+        city: 'Stuttgart', region: 'GER', stadium: 'MHPArena',
+        voices: {
+            stadium_entry: ['MHPArena vermelha-branca. Schwaben em casa.'],
+            goal_home: ['STUTTGART! Schwaben marcam!'],
+            goal_away: ['Stuttgart silenciou rival.'],
+            rival_match: ['Derby do Sul.'],
+        },
+    },
+
+    // ============================================================
+    // FRANÇA — 10 clubes
+    // ============================================================
+    'Paris Saint-Germain': {
+        city: 'Paris', region: 'FRA', stadium: 'Parc des Princes',
+        voices: {
+            stadium_entry: ['Parc des Princes azul-vermelho. Ici c\'est Paris.'],
+            goal_home: ['PSG! Allez Paris!'],
+            goal_away: ['PSG calou rival.'],
+            rival_match: ['Le Classique. PSG x Marseille.'],
+        },
+    },
+    'Marseille': {
+        city: 'Marselha', region: 'FRA', stadium: 'Stade Vélodrome',
+        voices: {
+            stadium_entry: ['Vélodrome azul-branco. Droit au but.'],
+            goal_home: ['OM! Marseille vibra!'],
+            goal_away: ['OM silenciou rival.'],
+            rival_match: ['Le Classique. OM x PSG.'],
+        },
+    },
+    'Lyon': {
+        city: 'Lyon', region: 'FRA', stadium: 'Groupama Stadium',
+        voices: {
+            stadium_entry: ['Groupama Stadium branco-vermelho-azul. Allez les Gones.'],
+            goal_home: ['OL! Lyon marca!'],
+            goal_away: ['Lyon calou rival.'],
+            rival_match: ['Derby Rhône-Alpes.'],
+        },
+    },
+    'Monaco': {
+        city: 'Mônaco', region: 'FRA', stadium: 'Stade Louis II',
+        voices: {
+            stadium_entry: ['Louis II vermelho-branco. Daghe Munegu.'],
+            goal_home: ['MONACO! Rouge et Blanc marca!'],
+            goal_away: ['Monaco silenciou rival.'],
+            rival_match: ['Derby da Côte d\'Azur.'],
+        },
+    },
+    'Lille': {
+        city: 'Lille', region: 'FRA', stadium: 'Stade Pierre-Mauroy',
+        voices: {
+            stadium_entry: ['Pierre-Mauroy vermelho-branco. Allez Lille.'],
+            goal_home: ['LILLE! LOSC marca!'],
+            goal_away: ['Lille calou rival.'],
+            rival_match: ['Derby do Norte.'],
+        },
+    },
+    'Nice': {
+        city: 'Nice', region: 'FRA', stadium: 'Allianz Riviera',
+        voices: {
+            stadium_entry: ['Allianz Riviera vermelho-preto. Aiglons em casa.'],
+            goal_home: ['NICE! Aiglons marcam!'],
+            goal_away: ['Nice silenciou rival.'],
+            rival_match: ['Derby da Côte d\'Azur.'],
+        },
+    },
+    'Rennes': {
+        city: 'Rennes', region: 'FRA', stadium: 'Roazhon Park',
+        voices: {
+            stadium_entry: ['Roazhon Park vermelho-preto. Stade Rennais.'],
+            goal_home: ['RENNES! Rouge et Noir marca!'],
+            goal_away: ['Rennes calou rival.'],
+            rival_match: ['Derby Bretão.'],
+        },
+    },
+    'Lens': {
+        city: 'Lens', region: 'FRA', stadium: 'Stade Bollaert-Delelis',
+        voices: {
+            stadium_entry: ['Bollaert-Delelis amarelo-vermelho. Sang et Or.'],
+            goal_home: ['LENS! Sangue e Ouro marca!'],
+            goal_away: ['Lens silenciou rival.'],
+            rival_match: ['Derby do Norte. Lens x Lille.'],
+        },
+    },
+    'Strasbourg': {
+        city: 'Estrasburgo', region: 'FRA', stadium: 'Stade de la Meinau',
+        voices: {
+            stadium_entry: ['Meinau azul-branco. Racing em casa.'],
+            goal_home: ['STRASBOURG! Racing marca!'],
+            goal_away: ['Strasbourg calou rival.'],
+            rival_match: ['Derby alsaciano.'],
+        },
+    },
+    'Montpellier': {
+        city: 'Montpellier', region: 'FRA', stadium: 'Stade de la Mosson',
+        voices: {
+            stadium_entry: ['Mosson laranja-azul. MHSC em casa.'],
+            goal_home: ['MONTPELLIER! La Paillade marca!'],
+            goal_away: ['Montpellier silenciou rival.'],
+            rival_match: ['Derby do Sul.'],
+        },
+    },
+
+    // ============================================================
+    // ARGENTINA — 10 clubes
+    // ============================================================
+    'Boca Juniors': {
+        city: 'Buenos Aires', region: 'ARG', stadium: 'La Bombonera',
+        voices: {
+            stadium_entry: ['La Bombonera azul-amarela. La Doce ruge.'],
+            goal_home: ['BOOOCA! Xeneizes marcam!'],
+            goal_away: ['Boca calou rival.'],
+            rival_match: ['Superclásico. Boca x River. Vida o muerte.'],
+        },
+    },
+    'River Plate': {
+        city: 'Buenos Aires', region: 'ARG', stadium: 'Monumental',
+        voices: {
+            stadium_entry: ['Monumental branco-vermelho. Millonarios em casa.'],
+            goal_home: ['RIVEEER! Millonarios marcam!'],
+            goal_away: ['River silenciou rival.'],
+            rival_match: ['Superclásico. River x Boca.'],
+        },
+    },
+    'Racing': {
+        city: 'Avellaneda', region: 'ARG', stadium: 'Cilindro',
+        voices: {
+            stadium_entry: ['Cilindro celeste-branco. Academia em casa.'],
+            goal_home: ['RACING! Academia marca!'],
+            goal_away: ['Racing calou rival.'],
+            rival_match: ['Clásico de Avellaneda. Racing x Independiente.'],
+        },
+    },
+    'Independiente': {
+        city: 'Avellaneda', region: 'ARG', stadium: 'Libertadores de América',
+        voices: {
+            stadium_entry: ['Libertadores de América vermelho. Diablos Rojos.'],
+            goal_home: ['INDEPENDIENTE! Rey de Copas marca!'],
+            goal_away: ['Independiente silenciou rival.'],
+            rival_match: ['Clásico de Avellaneda.'],
+        },
+    },
+    'San Lorenzo': {
+        city: 'Buenos Aires', region: 'ARG', stadium: 'Pedro Bidegain',
+        voices: {
+            stadium_entry: ['Pedro Bidegain azulgrana. Ciclón em casa.'],
+            goal_home: ['SAN LORENZO! Cuervo marca!'],
+            goal_away: ['San Lorenzo calou rival.'],
+            rival_match: ['Clásico Porteño.'],
+        },
+    },
+    'Vélez Sársfield': {
+        city: 'Buenos Aires', region: 'ARG', stadium: 'José Amalfitani',
+        voices: {
+            stadium_entry: ['Amalfitani branco-azul. Fortín em casa.'],
+            goal_home: ['VÉLEZ! Fortín marca!'],
+            goal_away: ['Vélez silenciou rival.'],
+            rival_match: ['Briga porteña.'],
+        },
+    },
+    'Estudiantes': {
+        city: 'La Plata', region: 'ARG', stadium: 'Jorge Luis Hirschi',
+        voices: {
+            stadium_entry: ['Jorge Luis Hirschi vermelho-branco. Pincha em casa.'],
+            goal_home: ['ESTUDIANTES! Pincharratas marca!'],
+            goal_away: ['Estudiantes calou rival.'],
+            rival_match: ['Clásico Platense. Estudiantes x Gimnasia.'],
+        },
+    },
+    'Talleres': {
+        city: 'Córdoba', region: 'ARG', stadium: 'Mario Alberto Kempes',
+        voices: {
+            stadium_entry: ['Kempes azul-branco. Matador em casa.'],
+            goal_home: ['TALLERES! Matador marca!'],
+            goal_away: ['Talleres silenciou rival.'],
+            rival_match: ['Clásico Cordobés.'],
+        },
+    },
+    'Argentinos Juniors': {
+        city: 'Buenos Aires', region: 'ARG', stadium: 'Diego Armando Maradona',
+        voices: {
+            stadium_entry: ['Diego Maradona vermelho-branco. Bichitos em casa.'],
+            goal_home: ['ARGENTINOS! Bichos colorados marcam!'],
+            goal_away: ['Argentinos calou rival.'],
+            rival_match: ['Briga porteña.'],
+        },
+    },
+    'Lanús': {
+        city: 'Lanús', region: 'ARG', stadium: 'La Fortaleza',
+        voices: {
+            stadium_entry: ['La Fortaleza granate-branca. Granate em casa.'],
+            goal_home: ['LANÚS! Granate marca!'],
+            goal_away: ['Lanús silenciou rival.'],
+            rival_match: ['Clásico del Sur. Lanús x Banfield.'],
+        },
+    },
+
+    // ============================================================
+    // URUGUAI — 10 clubes
+    // ============================================================
+    'Peñarol': {
+        city: 'Montevidéu', region: 'URU', stadium: 'Campeón del Siglo',
+        voices: {
+            stadium_entry: ['Campeón del Siglo aurinegro. Manyas em casa.'],
+            goal_home: ['PEÑAROOOL! Carbonero marca!'],
+            goal_away: ['Peñarol calou rival.'],
+            rival_match: ['Clásico del Río de la Plata. Peñarol x Nacional.'],
+        },
+    },
+    'Nacional-URU': {
+        city: 'Montevidéu', region: 'URU', stadium: 'Gran Parque Central',
+        voices: {
+            stadium_entry: ['Gran Parque Central tricolor. Bolso em casa.'],
+            goal_home: ['NACIONAL! Bolso marca!'],
+            goal_away: ['Nacional silenciou rival.'],
+            rival_match: ['Clásico uruguayo. Nacional x Peñarol.'],
+        },
+    },
+    'Defensor': {
+        city: 'Montevidéu', region: 'URU', stadium: 'Luis Franzini',
+        voices: {
+            stadium_entry: ['Luis Franzini violeta. Defensor em casa.'],
+            goal_home: ['DEFENSOR! Violeta marca!'],
+            goal_away: ['Defensor calou rival.'],
+            rival_match: ['Briga montevideana.'],
+        },
+    },
+    'Danubio': {
+        city: 'Montevidéu', region: 'URU', stadium: 'Jardines del Hipódromo',
+        voices: {
+            stadium_entry: ['Jardines del Hipódromo franjeado. Franja em casa.'],
+            goal_home: ['DANUBIO! Franja marca!'],
+            goal_away: ['Danubio silenciou rival.'],
+            rival_match: ['Briga charrúa.'],
+        },
+    },
+    'Wanderers': {
+        city: 'Montevidéu', region: 'URU', stadium: 'Parque Viera',
+        voices: {
+            stadium_entry: ['Parque Viera negro-blanco. Bohemios em casa.'],
+            goal_home: ['WANDERERS! Bohemio marca!'],
+            goal_away: ['Wanderers calou rival.'],
+            rival_match: ['Briga uruguaia.'],
+        },
+    },
+    'Liverpool-URU': {
+        city: 'Montevidéu', region: 'URU', stadium: 'Belvedere',
+        voices: {
+            stadium_entry: ['Belvedere negro-azul. Negriazules em casa.'],
+            goal_home: ['LIVERPOOL! Negriazul marca!'],
+            goal_away: ['Liverpool calou rival.'],
+            rival_match: ['Briga uruguaia.'],
+        },
+    },
+    'Plaza Colonia': {
+        city: 'Colonia', region: 'URU', stadium: 'Alberto Suppici',
+        voices: {
+            stadium_entry: ['Alberto Suppici verde-branco. Plaza em casa.'],
+            goal_home: ['PLAZA! Patriotas marcam!'],
+            goal_away: ['Plaza Colonia silenciou rival.'],
+            rival_match: ['Briga uruguaia interior.'],
+        },
+    },
+    'Fénix': {
+        city: 'Montevidéu', region: 'URU', stadium: 'Capurro',
+        voices: {
+            stadium_entry: ['Capurro violeta-branco. Fénix em casa.'],
+            goal_home: ['FÉNIX! Albivioleta marca!'],
+            goal_away: ['Fénix calou rival.'],
+            rival_match: ['Briga charrúa.'],
+        },
+    },
+    'Cerro Largo': {
+        city: 'Melo', region: 'URU', stadium: 'Arquitecto Antonio Eleuterio Ubilla',
+        voices: {
+            stadium_entry: ['Ubilla verde-vermelho. Arachán em casa.'],
+            goal_home: ['CERRO LARGO! Arachán marca!'],
+            goal_away: ['Cerro Largo silenciou rival.'],
+            rival_match: ['Briga uruguaia leste.'],
+        },
+    },
+    'Boston River': {
+        city: 'Montevidéu', region: 'URU', stadium: 'Charrúa',
+        voices: {
+            stadium_entry: ['Charrúa branco-azul. Sastre em casa.'],
+            goal_home: ['BOSTON RIVER! Sastre marca!'],
+            goal_away: ['Boston River calou rival.'],
+            rival_match: ['Briga uruguaia.'],
+        },
+    },
+
+    // ============================================================
+    // CHILE — 10 clubes
+    // ============================================================
+    'Colo-Colo': {
+        city: 'Santiago', region: 'CHI', stadium: 'Monumental David Arellano',
+        voices: {
+            stadium_entry: ['Monumental branco-preto. Cacique em casa.'],
+            goal_home: ['COLOOOO COLO! Albo marca!'],
+            goal_away: ['Colo-Colo calou rival.'],
+            rival_match: ['Superclásico chileno. Colo-Colo x U de Chile.'],
+        },
+    },
+    'Universidad de Chile': {
+        city: 'Santiago', region: 'CHI', stadium: 'Nacional',
+        voices: {
+            stadium_entry: ['Nacional azul. La U em casa.'],
+            goal_home: ['LA U! Bulla marca!'],
+            goal_away: ['U de Chile silenciou rival.'],
+            rival_match: ['Superclásico chileno.'],
+        },
+    },
+    'Universidad Católica': {
+        city: 'Santiago', region: 'CHI', stadium: 'San Carlos de Apoquindo',
+        voices: {
+            stadium_entry: ['San Carlos de Apoquindo branco-azul. Cruzados em casa.'],
+            goal_home: ['CATOLICA! Cruzados marcam!'],
+            goal_away: ['Católica calou rival.'],
+            rival_match: ['Clásico Universitario.'],
+        },
+    },
+    'Cobreloa': {
+        city: 'Calama', region: 'CHI', stadium: 'Zorros del Desierto',
+        voices: {
+            stadium_entry: ['Zorros del Desierto laranja-vermelho. Loínos em casa.'],
+            goal_home: ['COBRELOA! Loínos marcam!'],
+            goal_away: ['Cobreloa silenciou rival.'],
+            rival_match: ['Briga do norte chileno.'],
+        },
+    },
+    'Huachipato': {
+        city: 'Talcahuano', region: 'CHI', stadium: 'CAP',
+        voices: {
+            stadium_entry: ['CAP preto-amarelo. Acereros em casa.'],
+            goal_home: ['HUACHIPATO! Acereros marcam!'],
+            goal_away: ['Huachipato calou rival.'],
+            rival_match: ['Briga sul chilena.'],
+        },
+    },
+    'O\'Higgins': {
+        city: 'Rancagua', region: 'CHI', stadium: 'El Teniente',
+        voices: {
+            stadium_entry: ['El Teniente celeste. Capo em casa.'],
+            goal_home: ['O\'HIGGINS! Celeste marca!'],
+            goal_away: ['O\'Higgins silenciou rival.'],
+            rival_match: ['Briga chilena.'],
+        },
+    },
+    'Unión Española': {
+        city: 'Santiago', region: 'CHI', stadium: 'Santa Laura',
+        voices: {
+            stadium_entry: ['Santa Laura vermelho. Hispanos em casa.'],
+            goal_home: ['UNIÓN! Hispanos marcam!'],
+            goal_away: ['Unión Española calou rival.'],
+            rival_match: ['Briga santiaguina.'],
+        },
+    },
+    'Palestino': {
+        city: 'Santiago', region: 'CHI', stadium: 'Municipal de La Cisterna',
+        voices: {
+            stadium_entry: ['La Cisterna verde-vermelho-branco. Árabes em casa.'],
+            goal_home: ['PALESTINO! Tetracolor marca!'],
+            goal_away: ['Palestino silenciou rival.'],
+            rival_match: ['Briga santiaguina.'],
+        },
+    },
+    'Audax Italiano': {
+        city: 'Santiago', region: 'CHI', stadium: 'Bicentenario de La Florida',
+        voices: {
+            stadium_entry: ['La Florida verde-branco. Itálicos em casa.'],
+            goal_home: ['AUDAX! Itálicos marcam!'],
+            goal_away: ['Audax calou rival.'],
+            rival_match: ['Briga chilena.'],
+        },
+    },
+    'Everton-CHI': {
+        city: 'Viña del Mar', region: 'CHI', stadium: 'Sausalito',
+        voices: {
+            stadium_entry: ['Sausalito azul-amarelo. Ruleteros em casa.'],
+            goal_home: ['EVERTON! Ruleteros marcam!'],
+            goal_away: ['Everton silenciou rival.'],
+            rival_match: ['Clásico Porteño. Everton x Wanderers.'],
+        },
+    },
+
+    // ============================================================
+    // COLÔMBIA — 10 clubes
+    // ============================================================
+    'Atlético Nacional': {
+        city: 'Medellín', region: 'COL', stadium: 'Atanasio Girardot',
+        voices: {
+            stadium_entry: ['Atanasio Girardot verde-branco. Verdolaga em casa.'],
+            goal_home: ['NACIONAL! Verdolaga marca!'],
+            goal_away: ['Nacional calou rival.'],
+            rival_match: ['Clásico Paisa. Nacional x Medellín.'],
+        },
+    },
+    'Millonarios': {
+        city: 'Bogotá', region: 'COL', stadium: 'El Campín',
+        voices: {
+            stadium_entry: ['El Campín azul. Embajadores em casa.'],
+            goal_home: ['MILLOS! Embajadores marcam!'],
+            goal_away: ['Millonarios silenciou rival.'],
+            rival_match: ['Clásico Capitalino. Millos x Santa Fe.'],
+        },
+    },
+    'Junior': {
+        city: 'Barranquilla', region: 'COL', stadium: 'Metropolitano',
+        voices: {
+            stadium_entry: ['Metropolitano vermelho-branco. Tiburones em casa.'],
+            goal_home: ['JUNIOR! Tiburones marcam!'],
+            goal_away: ['Junior calou rival.'],
+            rival_match: ['Clásico costeño.'],
+        },
+    },
+    'América de Cali': {
+        city: 'Cali', region: 'COL', stadium: 'Pascual Guerrero',
+        voices: {
+            stadium_entry: ['Pascual Guerrero vermelho. Diablos Rojos em casa.'],
+            goal_home: ['AMÉRICA! Escarlatas marcam!'],
+            goal_away: ['América silenciou rival.'],
+            rival_match: ['Clásico Vallecaucano. América x Deportivo.'],
+        },
+    },
+    'Deportivo Cali': {
+        city: 'Cali', region: 'COL', stadium: 'Deportivo Cali',
+        voices: {
+            stadium_entry: ['Deportivo Cali verde-branco. Azucareros em casa.'],
+            goal_home: ['DEPORTIVO! Verdiblanco marca!'],
+            goal_away: ['Deportivo Cali calou rival.'],
+            rival_match: ['Clásico Vallecaucano.'],
+        },
+    },
+    'Santa Fe': {
+        city: 'Bogotá', region: 'COL', stadium: 'El Campín',
+        voices: {
+            stadium_entry: ['El Campín vermelho-branco. Cardenales em casa.'],
+            goal_home: ['SANTA FE! Cardenales marcam!'],
+            goal_away: ['Santa Fe silenciou rival.'],
+            rival_match: ['Clásico Capitalino.'],
+        },
+    },
+    'Once Caldas': {
+        city: 'Manizales', region: 'COL', stadium: 'Palogrande',
+        voices: {
+            stadium_entry: ['Palogrande branco. Blanco-blanco em casa.'],
+            goal_home: ['ONCE! Blanco marca!'],
+            goal_away: ['Once Caldas calou rival.'],
+            rival_match: ['Briga colombiana cafetera.'],
+        },
+    },
+    'Tolima': {
+        city: 'Ibagué', region: 'COL', stadium: 'Manuel Murillo Toro',
+        voices: {
+            stadium_entry: ['Manuel Murillo Toro vermelho-amarelo. Vinotinto em casa.'],
+            goal_home: ['TOLIMA! Vinotinto marca!'],
+            goal_away: ['Tolima silenciou rival.'],
+            rival_match: ['Briga colombiana centro.'],
+        },
+    },
+    'Bucaramanga': {
+        city: 'Bucaramanga', region: 'COL', stadium: 'Alfonso López',
+        voices: {
+            stadium_entry: ['Alfonso López amarelo-verde. Leopardos em casa.'],
+            goal_home: ['BUCARAMANGA! Leopardos marcam!'],
+            goal_away: ['Bucaramanga calou rival.'],
+            rival_match: ['Briga santanderiana.'],
+        },
+    },
+    'Medellín': {
+        city: 'Medellín', region: 'COL', stadium: 'Atanasio Girardot',
+        voices: {
+            stadium_entry: ['Atanasio Girardot vermelho-azul. Poderoso em casa.'],
+            goal_home: ['MEDELLÍN! Poderoso marca!'],
+            goal_away: ['Medellín silenciou rival.'],
+            rival_match: ['Clásico Paisa. Medellín x Nacional.'],
+        },
+    },
 };
 
 /**
