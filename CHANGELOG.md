@@ -4,6 +4,61 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### [feat] AutoPlayLab platform — AKITA-310..312 (2026-05-12)
+
+Plataforma headless de simulação batch pra validar engine/balance/IA/conteúdo:
+- F1 SnapshotAPI: `captureSnapshot(engine)` extrai estado JSON
+- F2 BatchRunner: `runBatch({seeds, weeks, onProgress})` headless
+- F3 DiffEngine: aggregateStat / diffBatches / histogram / extractCrashes / groupCrashesByStack
+- F4 Exporter: toCSV / toJSON / downloadFile / timestampedFilename
+- 46 presets em 9 categorias (balance, IA, conteúdo, performance, crash hunting, etc)
+- AutoPlayLabView UI single-view com dropdown preset + config + RUN + results + export
+
+### [chore] Systematic debugging audit — AKITA-313 (2026-05-12)
+
+12 viewpoints aplicados em 50+ PRs da sessão. Detectados + fixados 2 bugs latentes:
+- ModLoader fetch storm em BatchRunner (V11 #1) — _modsLoaded module flag
+- setState após unmount em AutoPlayLabView (V11 #2) — mountedRef pattern
+
+### [breaking-rename] Rebrand ELIFOOT → OléFUT — AKITA-314..317 (2026-05-12/13)
+
+Mudança identidade visual + repositório:
+- AKITA-314: README + UI strings + manifest + package.json + CSS comments
+- AKITA-315: Repo renomeado `elifoot-web` → `olefut`. vite base path `/olefut/`,
+  asset URLs em sw.js, PWAService, clubColors (13 spritesheets), manifest.
+- AKITA-316: Merge resolve README conflict
+- AKITA-317: Mass sweep 176 arquivos. Storage migration shim em main.jsx
+  (idempotente via __olefut_migrated_v1 sentinel) — saves usuários preservados.
+
+Preservado: "Elifoot 98" (tributo Miguel Vasconcelos), "Elifoot classic" /
+"Modo Elifoot" (refs game mechanic). sw.js URL check aceita ambos.
+
+URL antigo `dudujarra.github.io/elifoot-web/` redirect auto via GitHub rename.
+
+### [docs] Roadmap GitHub atualizado — AKITA-318 (2026-05-13)
+
+- MASTER-ROADMAP-FOUNDATION-FIRST: status TODOS BLOCOS DONE
+- Snapshot 2026-05-13 com tabela 7 fases
+- CLAUDE.md state table sincronizado
+- Nova seção "Pós-Foundation" cobre V1, V2, AutoPlayLab, debug audit, rebrand
+
+### [feat] Roadmap leftover items — AKITA-319..321 (2026-05-13)
+
+Fechamento itens deixados pra trás do V2 roadmap:
+
+**AKITA-319 F3.1 + F3.4 + F1.4:**
+- ClubVoice 20 → 86 BR clubs (Série A/B/C/D)
+- BrazilianAtmosphere regional weather 5 → 16 categorias (~48 strings)
+- MatchView Scoreboard extract (968→939 LOC)
+
+**AKITA-320 — F1.4 partial:** MatchScoreboard.jsx (65 LOC pure component)
+
+**AKITA-321 F3.1 internacional:** ClubVoice 86 → **174 clubes** (target 170 batido)
+- ENG 10 + ESP 10 + ITA 10 + GER 10 + FRA 10 = 50 EU
+- ARG 10 + URU 10 + CHI 10 + COL 10 = 40 SA
+- Clássicos icônicos referenciados: El Clásico, Superclásico, Derby
+  Madonnina, Klassiker, Le Classique, Derby Paisa, etc.
+
 ### [feat] V2 GAME-DESIGN delivery — AKITA-298..308 (2026-05-12)
 
 V2 do roadmap entregue após análise brutal #1. 11 PRs cobrindo Fases F1-F6

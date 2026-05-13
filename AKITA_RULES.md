@@ -198,4 +198,4 @@ gh repo create <org>/<nome> --public --clone   # GitHub público
 ---
 
 *Assinado: O Arquiteto (Modo Akita Ativado).*
-*Última revisão: 2026-05-11 — alinhado com regras globais do Dudu.*
+*Última revisão: 2026-05-13 — alinhado com regras globais do Dudu.*

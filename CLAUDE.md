@@ -4,7 +4,7 @@
 > Toda decisão arquitetural, comando, fluxo, dependência mora aqui.
 > README humano-amigável aponta pra cá.
 
-**Última atualização**: 2026-05-12
+**Última atualização**: 2026-05-13
 **Owner**: Dudu (Eduardo Jarra) — dudujarra@corapost.com
 **Repo público**: https://github.com/dudujarra/olefut
 **Demo**: https://dudujarra.github.io/olefut/
@@ -251,11 +251,11 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 
 | Métrica | Valor | Fonte |
 |---------|-------|-------|
-| Tests | **1157/1157** ✅ default + **18/18** ✅ test:soak (deep-soak isolado) | `vitest run` 2026-05-12 |
-| Test files | 104 | `find tests -name "*.test.js"` |
-| Specs totais | **124** | `find specs -name "SPEC-*.md"` |
+| Tests | **1619/1619** ✅ default + **18/18** ✅ test:soak (deep-soak isolado) | `vitest run` 2026-05-12 |
+| Test files | 136 | `find tests -name "*.test.js"` |
+| Specs totais | **141** | `find specs -name "SPEC-*.md"` |
 | Bugs com regression test | 17 arquivos em `tests/regression/` (BUG-080/081 não precisaram — fix via config + lint disable docs) | — |
-| AKITA commits | **214** | `git log --grep AKITA` |
+| AKITA commits | **274** | `git log --grep AKITA` |
 | Clubes | 170 (BR + EU + SA) | `src/engine/db/` |
 | Build | ✅ limpo, ~1.1s, initial chunk **376KB** (gzip 110KB) | `vite build` |
 | Build budget gate | ✅ 4/4 tests (initial ≤500KB, chunk ≤800KB, total ≤3MB) | `tests/integration/build-budget.test.js` |
@@ -271,7 +271,7 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 - ~~**`deep-soak-100seasons.test.js`** flaky em suite-load~~ **resolvido AKITA-207** (SPEC-157/BUG-080): mov pra `npm run test:soak` solo via env-flag `SOAK=1` (vite.config exclude condicional). `npm test` 1031/1031 verde; `npm run test:soak` 18/18 verde isolado.
 - ~~**14 lint warnings `react-hooks/set-state-in-effect`**~~ **resolvido AKITA-207** (BUG-081/SPEC-158): 3 refactor reais (useState initializer em PressView/SaveSlotsView/CosmeticShopView), 11 silenciados com block disable + classification comment. 0 warnings restantes.
 - ~~**Build budget regression risk**~~ **resolvido AKITA-207** (SPEC-159): `tests/integration/build-budget.test.js` falha CI se initial >500KB, chunk individual >800KB, ou total >3MB. Snapshot atual: 376/652/~1900 KB ✅.
-- **`engine.js` 437 linhas** — god-class. Refactor em 17 PRs documentado em `specs/refactor/AKITA-RFCT-000..017`. **AKITA-207 kickoff**: RFCT-001/002/003 verificadas done (characterization + save-roundtrip + stryker baseline). RFCT-004 (Extract MatchSimulator, ~10h) próximo. Release **v1.0.5**.
+- **`engine.js` 440 linhas** — god-class. Refactor em 17 PRs documentado em `specs/refactor/AKITA-RFCT-000..017`. **AKITA-207 kickoff**: RFCT-001/002/003 verificadas done (characterization + save-roundtrip + stryker baseline). RFCT-004 (Extract MatchSimulator, ~10h) próximo. Release **v1.0.5**.
 - **EfButton chunk 652KB** — contém player DB inteiro (170 clubes × ~30 jogadores). Dentro do ceiling (800KB), mas candidato a SPEC-160 (code-split DB) se crescer.
 
 ---
