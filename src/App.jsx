@@ -35,6 +35,7 @@ const SaveSlotsView = lazy(() => import('./components/SaveSlotsView').then(m => 
 const RivalriesView = lazy(() => import('./components/RivalriesView').then(m => ({ default: m.RivalriesView })));
 const ChronicleView = lazy(() => import('./components/ChronicleView').then(m => ({ default: m.ChronicleView })));
 const LineageView = lazy(() => import('./components/LineageView').then(m => ({ default: m.LineageView })));
+const AutoPlayLabView = lazy(() => import('./components/AutoPlayLabView').then(m => ({ default: m.AutoPlayLabView })));
 
 const Fallback = () => (
     <div style={{ padding: '24px', color: 'var(--text-muted)', fontFamily: "'JetBrains Mono', monospace" }}>
@@ -90,6 +91,7 @@ function App() {
             case 'rivalries': return <RivalriesView />;
             case 'chronicle': return <ChronicleView />;
             case 'lineage': return <LineageView />;
+            case 'autoplaylab': return <AutoPlayLabView />;
             default: return <StartView />;
         }
     };

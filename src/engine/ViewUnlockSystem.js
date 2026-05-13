@@ -146,6 +146,7 @@ const ROOKIE_UNLOCK_CONDITIONS = {
     rivalries:    { check: (s) => (s.seasonsCompleted || 0) >= 1, description: 'Complete 1 temporada' },
     saves:        { check: (s) => (s.seasonsCompleted || 0) >= 1 || (s.wins || 0) >= 5, description: 'Avance no jogo' },
     autoplay:     { check: (s) => (s.seasonsCompleted || 0) >= 1, description: 'Complete 1 temporada' },
+    autoplaylab:  { check: () => true, description: 'Disponível sempre (dev tool)' },
     shop:         { check: (s) => (s.titlesWon || 0) >= 1,        description: 'Conquiste 1 título' },
     lineage:      { check: (s) => (s.seasonsCompleted || 0) >= 2, description: 'Complete 2 temporadas' },
 };
