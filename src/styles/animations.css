@@ -1,5 +1,5 @@
 /**
- * ELIFOOT v2.0 — Pixel-Art Animations
+ * OléFUT v2.0 — Pixel-Art Animations
  *
  * Sprite-frame animations via background-position + steps() pra preservar pixel-art crispness.
  * Easing curves smooth quebram aesthetic SNES — usar steps() ou linear sempre.
