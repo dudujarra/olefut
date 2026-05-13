@@ -1,10 +1,21 @@
+/**
+ * StandingsView — Premium 32-bit table (Stitch v1.1)
+ *
+ * Match reference: docs/stitch-designs/v1.1-all/55-classifica-o-20-clubes-premium-32-bit.html
+ * Brand-locked: Press Start 2P (display) + Pixelify Sans (sans) + IBM Plex Mono (mono).
+ *
+ * AKITA-384 (port-only): zero changes to engine, hooks, business logic.
+ * Preserves: getStandings(zone, division), state-championship branch,
+ * zone classification (libertadores/suda/promotion/rebaixamento), user-row
+ * highlight, regression-test invariants (BUG-084: no <Tooltip> wrapping <th>).
+ */
 import { useState, useMemo } from 'react';
 import { useGame } from '../context/GameContext';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgOffice from '../assets/environments/bg_league_table.png';
-import { Trophy, CaretUp, CaretDown, AirplaneTilt, MapPin } from '@phosphor-icons/react';
+import { Trophy, CaretUp, CaretDown, AirplaneTilt, MapPin, Star } from '@phosphor-icons/react';
 import '../styles/standings-view.css';
 
 function getZoneClass(position, totalTeams, division) {
@@ -70,6 +81,12 @@ export function StandingsView() {
 
     const back = gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
 
+    const competitionLabel = activeState
+        ? (stateTournaments.find(t => t.id === activeState)?.name || activeState.toUpperCase())
+        : `${activeZone} • ${SERIE_NAMES[activeDiv] || `DIV ${activeDiv}`}`;
+    const matchweek = engine.currentWeek ?? engine.week ?? null;
+    const seasonYear = engine.season ?? engine.currentSeason ?? null;
+
     return (
         <div className="ef-anim-fade-in ef-layout-pitch ef-standings" style={{ backgroundImage: `url(${bgOffice})` }}>
             <div className="ef-layout-container ef-standings__container">
@@ -77,15 +94,23 @@ export function StandingsView() {
                 {/* HERO PANEL */}
                 <EfPanel variant="elev" padding="md" className="ef-flex-row ef-standings__hero-panel">
                     <div className="ef-flex-row">
-                        <Trophy size={32} color="var(--primary)" weight="duotone" />
+                        <Trophy size={32} color="var(--accent)" weight="duotone" />
                         <div>
                             <h2 className="ef-sans ef-standings__hero-title">
                                 Classificação
                             </h2>
                             <div className="ef-mono ef-text-muted ef-standings__hero-meta">
-                                {activeState
-                                    ? (stateTournaments.find(t => t.id === activeState)?.name || activeState.toUpperCase())
-                                    : `${activeZone} / ${SERIE_NAMES[activeDiv] || `DIV ${activeDiv}`}`}
+                                {competitionLabel}
+                                {matchweek !== null && (
+                                    <span className="ef-standings__hero-week">
+                                        {' • RODADA '}{String(matchweek).padStart(2, '0')}
+                                    </span>
+                                )}
+                                {seasonYear !== null && (
+                                    <span className="ef-standings__hero-week">
+                                        {' • TEMPORADA '}{seasonYear}
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -145,47 +170,14 @@ export function StandingsView() {
                     </EfPanel>
                 )}
 
-                {/* LEGEND BENTO */}
-                <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap ef-standings__legend">
-                    {activeState && (
-                        <div className="ef-legend-chip">
-                            <Trophy size={14} color="var(--accent)" weight="fill" />
-                            <span className="ef-text-muted">TOP 4 → SEMIFINAIS</span>
-                        </div>
-                    )}
-                    {!activeState && activeDiv === 1 && (
-                        <>
-                            <div className="ef-legend-chip">
-                                <AirplaneTilt size={14} weight="fill" className="ef-standings__legend-icon--libertadores" />
-                                <span className="ef-text-muted">LIBERTADORES</span>
-                            </div>
-                            <div className="ef-legend-chip">
-                                <AirplaneTilt size={14} weight="fill" className="ef-standings__legend-icon--suda" />
-                                <span className="ef-text-muted">SUL-AMERICANA</span>
-                            </div>
-                        </>
-                    )}
-                    {!activeState && activeDiv > 1 && activeDiv <= 4 && (
-                        <div className="ef-legend-chip">
-                            <CaretUp size={16} weight="bold" className="ef-standings__legend-icon--promotion" />
-                            <span className="ef-text-muted">ACESSO</span>
-                        </div>
-                    )}
-                    {!activeState && activeDiv < 4 && (
-                        <div className="ef-legend-chip">
-                            <CaretDown size={16} weight="bold" className="ef-standings__legend-icon--rebaixamento" />
-                            <span className="ef-text-muted">REBAIXAMENTO</span>
-                        </div>
-                    )}
-                </EfPanel>
-
-                {/* TABLE */}
-                <div className="ef-panel ef-panel-default ef-panel-p-none ef-standings__table-wrap">
-                    <table className="ef-table">
+                {/* TABLE — Stitch Premium 32-bit */}
+                <div className="ef-standings__table-frame">
+                    <table className="ef-table ef-standings__table">
                         <thead className="ef-standings__table-head">
                             <tr>
-                                <th className="ef-standings__th--pos">#</th>
-                                <th className="ef-standings__th--team">TIME</th>
+                                <th className="ef-standings__th--pos">POS</th>
+                                <th className="ef-standings__th--badge" aria-hidden="true"></th>
+                                <th className="ef-standings__th--team">CLUBE</th>
                                 <th title="Pontos" className="ef-standings__th ef-standings__th--points">P</th>
                                 <th title="Jogos" className="ef-standings__th">J</th>
                                 <th title="Vitórias" className="ef-standings__th ef-standings__th--wins">V</th>
@@ -211,20 +203,30 @@ export function StandingsView() {
                                     : (i % 2 === 0 ? 'ef-standings__row--even' : 'ef-standings__row--odd');
 
                                 const sg = s.goalsFor - s.goalsAgainst;
+                                const posClass = pos === 1
+                                    ? 'ef-standings__cell--pos-leader'
+                                    : (isUser
+                                        ? 'ef-standings__cell--pos-user'
+                                        : 'ef-standings__cell--pos-default');
                                 return (
                                     <tr key={s.teamId} className={`ef-standings__row ${zoneRowClass} ${stripeClass}`}>
-                                        <td className={`ef-mono ef-standings__cell ${pos <= 4 ? 'ef-text-accent' : 'ef-text-muted'}`}>
-                                            {pos}
+                                        <td className={`ef-standings__cell ef-standings__cell--pos ${posClass}`}>
+                                            {String(pos).padStart(2, '0')}
+                                        </td>
+                                        <td className="ef-standings__cell--badge">
+                                            {t?.name && <EfClubBadge name={t.name} size="sm" />}
                                         </td>
                                         <td className="ef-standings__cell--team">
-                                            <div className="ef-standings__team-wrap">
-                                                {t?.name && <EfClubBadge name={t.name} size="sm" />}
-                                                <span className={`ef-sans ${isUser ? 'ef-standings__team-name--user' : 'ef-standings__team-name'}`}>
-                                                    {t?.name || `TIME ${s.teamId}`}
+                                            <span className={`ef-sans ${isUser ? 'ef-standings__team-name--user' : 'ef-standings__team-name'}`}>
+                                                {t?.name || `TIME ${s.teamId}`}
+                                            </span>
+                                            {isUser && (
+                                                <span className="ef-standings__you-tag">
+                                                    <Star size={10} weight="fill" /> VOCÊ
                                                 </span>
-                                            </div>
+                                            )}
                                         </td>
-                                        <td className="ef-mono ef-text-accent ef-standings__cell ef-standings__cell--points">{s.points}</td>
+                                        <td className={`ef-mono ef-standings__cell ef-standings__cell--points ${pos <= 4 ? 'ef-text-primary' : 'ef-text-accent'}`}>{s.points}</td>
                                         <td className="ef-mono ef-text-muted ef-standings__cell">{s.played}</td>
                                         <td className="ef-mono ef-text-primary ef-standings__cell">{s.won}</td>
                                         <td className="ef-mono ef-text-accent ef-standings__cell">{s.drawn}</td>
@@ -239,6 +241,44 @@ export function StandingsView() {
                             })}
                         </tbody>
                     </table>
+                </div>
+
+                {/* LEGEND — Stitch footer chips */}
+                <div className="ef-standings__legend-row">
+                    {activeState && (
+                        <div className="ef-legend-chip ef-standings__legend-chip">
+                            <span className="ef-standings__legend-swatch ef-standings__legend-swatch--promotion" />
+                            <span className="ef-text-muted">TOP 4 → SEMIFINAIS</span>
+                        </div>
+                    )}
+                    {!activeState && activeDiv === 1 && (
+                        <>
+                            <div className="ef-legend-chip ef-standings__legend-chip">
+                                <AirplaneTilt size={14} weight="fill" className="ef-standings__legend-icon--libertadores" />
+                                <span className="ef-text-muted">LIBERTADORES</span>
+                            </div>
+                            <div className="ef-legend-chip ef-standings__legend-chip">
+                                <AirplaneTilt size={14} weight="fill" className="ef-standings__legend-icon--suda" />
+                                <span className="ef-text-muted">SUL-AMERICANA</span>
+                            </div>
+                        </>
+                    )}
+                    {!activeState && activeDiv > 1 && activeDiv <= 4 && (
+                        <div className="ef-legend-chip ef-standings__legend-chip">
+                            <CaretUp size={16} weight="bold" className="ef-standings__legend-icon--promotion" />
+                            <span className="ef-text-muted">ACESSO</span>
+                        </div>
+                    )}
+                    {!activeState && activeDiv < 4 && (
+                        <div className="ef-legend-chip ef-standings__legend-chip">
+                            <CaretDown size={16} weight="bold" className="ef-standings__legend-icon--rebaixamento" />
+                            <span className="ef-text-muted">REBAIXAMENTO</span>
+                        </div>
+                    )}
+                    <div className="ef-legend-chip ef-standings__legend-chip">
+                        <Star size={12} weight="fill" className="ef-standings__legend-icon--user" />
+                        <span className="ef-text-muted">SEU CLUBE</span>
+                    </div>
                 </div>
             </div>
         </div>
