@@ -6,7 +6,7 @@ import bgTrophyRoom from '../assets/environments/bg_trophy_room.png';
 import '../styles/achievements-view.css';
 
 import {
-    Trophy, ArrowLeft, Star, LockKey, CheckCircle
+    Trophy, ArrowLeft, Star, LockKey, CheckCircle, Clock
 } from '@phosphor-icons/react';
 
 const RARITY_ORDER = { Common: 0, Uncommon: 1, Rare: 2, Legendary: 3 };
@@ -16,6 +16,9 @@ const RARITY_META = {
     Rare:      { key: 'gold',     label: 'OURO' },
     Legendary: { key: 'platinum', label: 'PLATINA' }
 };
+
+// Stitch reference (83) uses subtle badge rotations for unlocked variety
+const BADGE_ROTATIONS = ['rot3', 'rot-neg3', 'rot6', 'rot0'];
 
 function computeProgress(id, engine) {
     if (!engine) return 0;
@@ -46,6 +49,24 @@ function computeProgress(id, engine) {
     }
 }
 
+/**
+ * Renders blocky 20-segment progress matching Stitch v1.1 reference (83).
+ */
+function BlockyProgress({ percent }) {
+    const totalBlocks = 20;
+    const filled = Math.round((percent / 100) * totalBlocks);
+    return (
+        <div className="ef-ach__blocky-track">
+            {Array.from({ length: totalBlocks }, (_, i) => (
+                <span
+                    key={i}
+                    className={i < filled ? 'ef-ach__blocky-cell' : 'ef-ach__blocky-cell ef-ach__blocky-cell--empty'}
+                />
+            ))}
+        </div>
+    );
+}
+
 export function AchievementsView() {
     const { changeView, getEngine, getDashboardView } = useGame();
     const engine = getEngine();
@@ -71,14 +92,12 @@ export function AchievementsView() {
         return { total, unlocked, percent: Math.round((unlocked / total) * 100), totalReward };
     }, [sorted]);
 
-    const renderProgressBar = (percent, rarityKey) => (
-        <div className="ef-pbar ef-pbar--sm ef-ach__progress-bar">
-            <div className={`ef-pbar__fill ef-ach__progress-fill--${rarityKey}`} style={{ width: `${percent}%` }} />
-        </div>
-    );
-
     return (
-        <div className="ef-anim-fade-in ef-scene-shell ef-ach" style={{ backgroundImage: `url(${bgTrophyRoom})` }}>
+        <div
+            className="ef-anim-fade-in ef-scene-shell ef-ach"
+            /* eslint-disable-next-line no-restricted-syntax -- dynamic per-instance bg image */
+            style={{ backgroundImage: `url(${bgTrophyRoom})` }}
+        >
             <div className="ef-view-container">
 
                 {/* HEADER */}
@@ -88,8 +107,8 @@ export function AchievementsView() {
                             <Trophy size={28} className="ef-ach__header-icon" />
                         </div>
                         <div>
-                            <h2 className="ef-view-header__title">CONQUISTAS</h2>
-                            <span className="ef-view-header__subtitle">DESAFIOS E MARCOS DA CARREIRA</span>
+                            <h2 className="ef-view-header__title">HALL OF FAME</h2>
+                            <span className="ef-view-header__subtitle">CONQUISTAS DA CARREIRA</span>
                         </div>
                     </div>
                     <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>
@@ -97,88 +116,118 @@ export function AchievementsView() {
                     </EfButton>
                 </EfPanel>
 
-                {/* OVERALL PROGRESS */}
-                <EfPanel padding="lg" className="ef-ach__overall">
-                    <div className="ef-ach__overall-col">
-                        <span className="ef-mono ef-text-muted ef-ach__overall-label">PONTOS</span>
-                        <div className="ef-mono ef-text-accent ef-ach__overall-points">
-                            <Star weight="fill" /> {stats.totalReward}
+                {/* HALL OF FAME DASHBOARD — points + blocky completion */}
+                <EfPanel padding="lg" className="ef-ach__dashboard">
+                    <div className="ef-ach__dashboard-points">
+                        <h3 className="ef-ach__dashboard-title">HALL OF FAME</h3>
+                        <div className="ef-ach__dashboard-score">
+                            <span className="ef-ach__dashboard-points-num">{stats.totalReward.toLocaleString()}</span>
+                            <span className="ef-mono ef-text-muted ef-ach__dashboard-points-label">
+                                TOTAL CAREER POINTS
+                            </span>
                         </div>
                     </div>
-
-                    <div className="ef-ach__overall-bar-wrap">
-                        <div className="ef-mono ef-ach__overall-bar-header">
-                            <span className="ef-text-muted"><strong>PROGRESSO GERAL</strong></span>
-                            <span className="ef-text-info"><strong>{stats.unlocked} / {stats.total}</strong></span>
+                    <div className="ef-ach__dashboard-progress">
+                        <div className="ef-ach__dashboard-progress-header">
+                            <span>COMPLETION</span>
+                            <span>{stats.percent}%</span>
                         </div>
-                        <div className="ef-pbar ef-pbar--md">
-                            <div className="ef-pbar__fill ef-ach__pbar-fill--info" style={{ width: `${stats.percent}%` }} />
+                        <BlockyProgress percent={stats.percent} />
+                        <div className="ef-ach__dashboard-progress-footer">
+                            <span className="ef-mono ef-text-muted">
+                                {stats.unlocked} / {stats.total} DESBLOQUEADAS
+                            </span>
                         </div>
-                    </div>
-
-                    <div className="ef-ach__overall-col">
-                        <span className="ef-mono ef-text-muted ef-ach__overall-label">COMPLETO</span>
-                        <span className="ef-mono ef-text-primary ef-ach__overall-percent">
-                            {stats.percent}%
-                        </span>
                     </div>
                 </EfPanel>
 
-                {/* ACHIEVEMENT CARDS */}
+                {/* ACHIEVEMENT CARDS GRID */}
                 <div className="ef-ach__grid">
-                    {sorted.map(ach => {
+                    {sorted.map((ach, idx) => {
                         const rarity = RARITY_META[ach.rarity];
+                        const isInProgress = !ach.unlocked && ach.progress > 0;
+                        const isLocked = !ach.unlocked && ach.progress === 0;
+
                         const cardClasses = [
                             'ef-ach__card',
                             `ef-ach__card--${rarity.key}`,
                             ach.unlocked ? 'ef-ach__card--unlocked' : '',
+                            isLocked ? 'ef-ach__card--locked' : '',
+                            isInProgress ? 'ef-ach__card--progress' : '',
                             ach.unlocked ? 'ef-anim-fade-in' : ''
                         ].filter(Boolean).join(' ');
+
                         const badgeClasses = [
                             'ef-ach-badge',
                             `ef-ach__badge--${rarity.key}`,
+                            `ef-ach__badge--${BADGE_ROTATIONS[idx % BADGE_ROTATIONS.length]}`,
                             ach.unlocked ? 'ef-ach__card--unlocked-badge' : ''
                         ].filter(Boolean).join(' ');
 
                         return (
                             <EfPanel key={ach.id} className={cardClasses}>
-                                <div className="ef-ach__card-header">
+                                <div className="ef-ach__card-top">
                                     <div className={badgeClasses}>
-                                        {ach.badge}
+                                        <span className="ef-ach__badge-emoji">{ach.badge}</span>
                                     </div>
-                                    <div className="ef-ach__card-body">
-                                        <div className="ef-sans ef-text-main ef-ach__card-name">
-                                            {ach.name}
-                                        </div>
-                                        <div className="ef-mono ef-ach__card-meta">
-                                            <span>{rarity.label}</span>
-                                            <span className="ef-ach__card-meta-sep">•</span>
-                                            <span className="ef-ach__card-reward">
-                                                <Star weight="fill" /> {ach.reward} PTS
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        {ach.unlocked ? (
-                                            <CheckCircle size={24} weight="fill" className="ef-ach__check-icon" />
-                                        ) : (
-                                            <LockKey size={24} className="ef-ach__lock-icon" />
+                                    <div className="ef-ach__card-status">
+                                        {ach.unlocked && (
+                                            <CheckCircle size={28} weight="fill" className="ef-ach__check-icon" />
+                                        )}
+                                        {isInProgress && (
+                                            <Clock size={28} className="ef-ach__pending-icon" />
+                                        )}
+                                        {isLocked && (
+                                            <LockKey size={28} className="ef-ach__lock-icon" />
                                         )}
                                     </div>
                                 </div>
 
-                                <div className="ef-sans ef-text-muted ef-ach__card-desc">
-                                    {ach.desc}
+                                <div className="ef-ach__card-body">
+                                    <h3 className={`ef-ach__card-name ef-ach__card-name--${rarity.key}`}>
+                                        {ach.name}
+                                    </h3>
+                                    <p className="ef-sans ef-ach__card-desc">
+                                        {ach.desc}
+                                    </p>
                                 </div>
 
-                                {!ach.unlocked && ach.progress > 0 && (
-                                    <div className="ef-ach__progress-row">
-                                        {renderProgressBar(ach.progress, rarity.key)}
-                                        <span className={`ef-mono ef-ach__progress-percent ef-ach__progress-percent--${rarity.key}`}>
-                                            {Math.round(ach.progress)}%
+                                <div className="ef-ach__card-footer">
+                                    <div className="ef-mono ef-ach__reward-row">
+                                        <span className="ef-ach__reward-label">REWARD</span>
+                                        <span className="ef-ach__reward-value">
+                                            <Star size={12} weight="fill" /> {ach.reward} PTS
                                         </span>
                                     </div>
-                                )}
+
+                                    {ach.unlocked && (
+                                        <div className="ef-ach__status-banner ef-ach__status-banner--completed">
+                                            COMPLETED 100%
+                                        </div>
+                                    )}
+
+                                    {isInProgress && (
+                                        <div className="ef-ach__progress-block">
+                                            <div className="ef-mono ef-ach__progress-meta">
+                                                <span>PROGRESS</span>
+                                                <span>{Math.round(ach.progress)}%</span>
+                                            </div>
+                                            <div className="ef-ach__progress-bar">
+                                                <div
+                                                    className={`ef-ach__progress-fill ef-ach__progress-fill--${rarity.key}`}
+                                                    /* eslint-disable-next-line no-restricted-syntax -- dynamic per-instance progress width */
+                                                    style={{ width: `${ach.progress}%` }}
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {isLocked && (
+                                        <div className="ef-ach__status-banner ef-ach__status-banner--locked">
+                                            LOCKED 0%
+                                        </div>
+                                    )}
+                                </div>
                             </EfPanel>
                         );
                     })}

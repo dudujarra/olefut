@@ -1,4 +1,8 @@
-/* AchievementsView — semantic CSS + design tokens */
+/* AchievementsView — semantic CSS + design tokens (v1.1 Stitch port)
+ * Source: docs/stitch-designs/v1.1-all/83-achievements-ol-fut-manager.html
+ * SPEC-176/183 — Press Start 2P + Pixelify Sans + IBM Plex Mono.
+ * Tokens-only (raw hex restricted to component-local rarity vars).
+ */
 
 /* === COMPONENT TOKENS === */
 
@@ -19,252 +23,411 @@
 /* === HEADER === */
 
 .ef-ach__header {
-  border-bottom: 2px solid var(--ef-ach-info);
+  border-bottom: var(--primitive-border-thin) solid var(--color-primary);
 }
 
 .ef-ach__header-icon {
-  color: var(--ef-ach-info);
+  color: var(--color-secondary);
 }
 
-/* === OVERALL PROGRESS PANEL === */
+/* === HALL OF FAME DASHBOARD PANEL — Stitch beveled hero === */
 
-.ef-ach__overall {
+.ef-ach__dashboard {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   gap: 24px;
+  border: var(--primitive-border-thick) solid var(--color-tertiary);
+  background: var(--color-bg-secondary);
+  box-shadow:
+    inset -4px -4px 0 0 var(--primitive-color-green-forest-dark),
+    inset 4px 4px 0 0 var(--color-primary);
+  margin-bottom: 32px;
 }
 
-.ef-ach__overall-col {
-  text-align: center;
-  min-width: 100px;
+@media (min-width: 768px) {
+  .ef-ach__dashboard {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+  }
 }
 
-.ef-ach__overall-label {
-  display: block;
-  font-size: 0.8rem;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.ef-ach__overall-points {
+.ef-ach__dashboard-points {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-size: 1.5rem;
-  font-weight: 800;
-}
-
-.ef-ach__overall-bar-wrap {
+  flex-direction: column;
+  gap: 12px;
   flex: 1;
 }
 
-.ef-ach__overall-bar-header {
+.ef-ach__dashboard-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.45);
+}
+
+.ef-ach__dashboard-score {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ef-ach__dashboard-points-num {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(57, 255, 20, 0.35);
+}
+
+.ef-ach__dashboard-points-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding-bottom: 4px;
+}
+
+.ef-ach__dashboard-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .ef-ach__dashboard-progress {
+    width: 40%;
+  }
+}
+
+.ef-ach__dashboard-progress-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 0.8rem;
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+  text-transform: uppercase;
 }
 
-.ef-ach__overall-bar-header strong {
-  font-weight: bold;
+.ef-ach__dashboard-progress-footer {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.ef-ach__overall-percent {
-  font-size: 1.5rem;
-  font-weight: 800;
+/* === BLOCKY PROGRESS — Stitch inset bevel container === */
+
+.ef-ach__blocky-track {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--color-bg-tertiary);
+  border: var(--primitive-border-thick) solid var(--primitive-color-green-forest-dark);
+  box-shadow:
+    inset 4px 4px 0 0 var(--color-bg-tertiary),
+    inset -2px -2px 0 0 var(--color-tertiary);
+  min-height: 32px;
 }
 
-.ef-ach__pbar-fill--info {
-  background-color: var(--ef-ach-info);
+.ef-ach__blocky-cell {
+  flex: 1;
+  height: 22px;
+  min-width: 8px;
+  background: var(--color-primary);
+  box-shadow: 0 0 4px rgba(57, 255, 20, 0.5);
+}
+
+.ef-ach__blocky-cell--empty {
+  background: var(--primitive-color-green-forest);
+  box-shadow: none;
+  opacity: 0.5;
 }
 
 /* === CARDS GRID === */
 
 .ef-ach__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
 }
 
-/* === CARD === */
+/* === CARD — Stitch beveled tile === */
 
 .ef-ach__card {
-  border-left: 4px solid var(--ef-ach-border-soft);
   position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  opacity: 0.6;
-}
-
-.ef-ach__card--unlocked {
-  opacity: 1;
-}
-
-.ef-ach__card--bronze.ef-ach__card--unlocked {
-  border-left-color: var(--ef-ach-bronze);
-}
-
-.ef-ach__card--silver.ef-ach__card--unlocked {
-  border-left-color: var(--ef-ach-silver);
-}
-
-.ef-ach__card--gold.ef-ach__card--unlocked {
-  border-left-color: var(--ef-ach-gold);
-}
-
-.ef-ach__card--platinum.ef-ach__card--unlocked {
-  border-left-color: var(--ef-ach-platinum);
-}
-
-/* === CARD HEADER === */
-
-.ef-ach__card-header {
-  display: flex;
-  align-items: flex-start;
   gap: 16px;
-  margin-bottom: 12px;
+  padding: 24px;
+  border: var(--primitive-border-thick) solid var(--color-tertiary);
+  background: var(--color-bg-secondary);
+  box-shadow:
+    inset -4px -4px 0 0 var(--primitive-color-green-forest-dark),
+    inset 4px 4px 0 0 var(--color-primary);
+  transition: transform 0.15s ease;
 }
+
+.ef-ach__card--unlocked:hover {
+  transform: translateY(-4px);
+}
+
+.ef-ach__card--locked {
+  opacity: 0.6;
+  filter: grayscale(1);
+  border-color: var(--color-text-secondary);
+  box-shadow: none;
+  background: var(--color-bg);
+}
+
+.ef-ach__card--progress {
+  border-color: var(--color-tertiary);
+}
+
+/* === CARD TOP — badge + status icon row === */
+
+.ef-ach__card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ef-ach-badge {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-text-secondary);
+  border: var(--primitive-border-thin) solid var(--color-bg-tertiary);
+  transition: transform 0.2s ease;
+}
+
+.ef-ach__badge-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.ef-ach__badge--rot3 { transform: rotate(3deg); }
+.ef-ach__badge--rot-neg3 { transform: rotate(-3deg); }
+.ef-ach__badge--rot6 { transform: rotate(6deg); }
+.ef-ach__badge--rot0 { transform: rotate(0deg); }
+
+.ef-ach__card--unlocked:hover .ef-ach__badge--rot3 { transform: rotate(6deg); }
+.ef-ach__card--unlocked:hover .ef-ach__badge--rot-neg3 { transform: rotate(-6deg); }
+.ef-ach__card--unlocked:hover .ef-ach__badge--rot6 { transform: rotate(9deg); }
 
 .ef-ach__badge--bronze.ef-ach__card--unlocked-badge {
   background-color: var(--ef-ach-bronze);
-  color: #FFF;
+  color: var(--color-text-primary);
   border-color: var(--ef-ach-bronze-border);
 }
 
 .ef-ach__badge--silver.ef-ach__card--unlocked-badge {
   background-color: var(--ef-ach-silver);
-  color: #000;
+  color: var(--color-bg);
   border-color: var(--ef-ach-silver-border);
 }
 
 .ef-ach__badge--gold.ef-ach__card--unlocked-badge {
-  background-color: var(--ef-ach-gold);
-  color: #000;
+  background-color: var(--color-secondary);
+  color: var(--color-bg);
   border-color: var(--ef-ach-gold-border);
 }
 
 .ef-ach__badge--platinum.ef-ach__card--unlocked-badge {
   background-color: var(--ef-ach-platinum);
-  color: #FFF;
+  color: var(--color-text-primary);
   border-color: var(--ef-ach-platinum-border);
 }
 
-.ef-ach__card-body {
-  flex: 1;
-}
-
-.ef-ach__card-name {
-  font-size: 1rem;
-  margin-bottom: 4px;
-  font-weight: bold;
-}
-
-.ef-ach__card-meta {
-  font-size: 0.75rem;
-  color: var(--ef-ach-muted);
-  font-weight: bold;
+.ef-ach__card-status {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.ef-ach__card--bronze.ef-ach__card--unlocked .ef-ach__card-meta {
-  color: var(--ef-ach-bronze);
-}
-
-.ef-ach__card--silver.ef-ach__card--unlocked .ef-ach__card-meta {
-  color: var(--ef-ach-silver);
-}
-
-.ef-ach__card--gold.ef-ach__card--unlocked .ef-ach__card-meta {
-  color: var(--ef-ach-gold);
-}
-
-.ef-ach__card--platinum.ef-ach__card--unlocked .ef-ach__card-meta {
-  color: var(--ef-ach-platinum);
-}
-
-.ef-ach__card-meta-sep {
-  color: var(--ef-ach-border-soft);
-}
-
-.ef-ach__card-reward {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  color: var(--ef-ach-muted);
-}
-
-.ef-ach__card--unlocked .ef-ach__card-reward {
-  color: var(--ef-ach-gold);
-}
-
-.ef-ach__lock-icon {
-  color: var(--ef-ach-border-soft);
+  justify-content: center;
 }
 
 .ef-ach__check-icon {
-  color: var(--primary);
+  color: var(--color-primary);
+  filter: drop-shadow(0 0 4px rgba(57, 255, 20, 0.5));
 }
 
-/* === DESC === */
+.ef-ach__lock-icon {
+  color: var(--color-text-secondary);
+}
+
+.ef-ach__pending-icon {
+  color: var(--color-text-secondary);
+}
+
+/* === CARD BODY === */
+
+.ef-ach__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  margin-top: 16px;
+}
+
+.ef-ach__card-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.ef-ach__card-name--bronze { color: var(--ef-ach-bronze); }
+.ef-ach__card-name--silver { color: var(--ef-ach-silver); }
+.ef-ach__card-name--gold   { color: var(--color-secondary); }
+.ef-ach__card-name--platinum { color: var(--ef-ach-platinum); }
+
+.ef-ach__card--locked .ef-ach__card-name {
+  color: var(--color-text-secondary);
+}
+
+.ef-ach__card--unlocked .ef-ach__card-name {
+  color: var(--color-primary);
+  text-shadow: 0 0 6px rgba(57, 255, 20, 0.3);
+}
 
 .ef-ach__card-desc {
+  margin: 0;
+  font-family: var(--font-body);
   font-size: 0.85rem;
-  margin-bottom: 16px;
+  color: var(--color-text-primary);
   line-height: 1.5;
-  flex: 1;
 }
 
-/* === PROGRESS BAR === */
+.ef-ach__card--locked .ef-ach__card-desc {
+  color: var(--color-text-secondary);
+}
 
-.ef-ach__progress-row {
+/* === CARD FOOTER === */
+
+.ef-ach__card-footer {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 12px;
   margin-top: auto;
 }
 
+.ef-ach__reward-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ef-ach__reward-label {
+  color: var(--color-primary);
+}
+
+.ef-ach__card--locked .ef-ach__reward-label {
+  color: var(--color-text-secondary);
+}
+
+.ef-ach__reward-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-secondary);
+  font-weight: 700;
+}
+
+.ef-ach__card--locked .ef-ach__reward-value {
+  color: var(--color-text-secondary);
+}
+
+/* === STATUS BANNERS — Stitch CTA-like rows === */
+
+.ef-ach__status-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background: var(--color-bg-tertiary);
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ef-ach__status-banner--completed {
+  border: var(--primitive-border-thin) solid var(--color-primary);
+  color: var(--color-primary);
+  text-shadow: 0 0 4px rgba(57, 255, 20, 0.4);
+}
+
+.ef-ach__status-banner--locked {
+  border: var(--primitive-border-thin) solid var(--color-text-secondary);
+  color: var(--color-text-secondary);
+}
+
+/* === IN-PROGRESS BAR === */
+
+.ef-ach__progress-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ef-ach__progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
 .ef-ach__progress-bar {
-  flex: 1;
+  background: var(--color-bg-tertiary);
+  border: var(--primitive-border-thin) solid var(--primitive-color-green-forest-dark);
+  box-shadow:
+    inset 2px 2px 0 0 var(--color-bg-tertiary),
+    inset -1px -1px 0 0 var(--primitive-color-green-forest);
+  height: 14px;
+  padding: 2px;
+  overflow: hidden;
 }
 
-.ef-ach__progress-fill--bronze {
-  background-color: var(--ef-ach-bronze);
+.ef-ach__progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
 }
 
-.ef-ach__progress-fill--silver {
-  background-color: var(--ef-ach-silver);
-}
+.ef-ach__progress-fill--bronze   { background: var(--ef-ach-bronze); }
+.ef-ach__progress-fill--silver   { background: var(--ef-ach-silver); }
+.ef-ach__progress-fill--gold     { background: var(--color-secondary); }
+.ef-ach__progress-fill--platinum { background: var(--ef-ach-platinum); }
 
-.ef-ach__progress-fill--gold {
-  background-color: var(--ef-ach-gold);
-}
-
+.ef-ach__progress-fill--bronze,
+.ef-ach__progress-fill--silver,
+.ef-ach__progress-fill--gold,
 .ef-ach__progress-fill--platinum {
-  background-color: var(--ef-ach-platinum);
+  box-shadow: 0 0 4px currentColor;
 }
 
-.ef-ach__progress-percent {
-  font-size: 0.8rem;
-  font-weight: bold;
-}
+/* === LEGACY back-compat selectors === */
 
-.ef-ach__progress-percent--bronze {
-  color: var(--ef-ach-bronze);
-}
-
-.ef-ach__progress-percent--silver {
-  color: var(--ef-ach-silver);
-}
-
-.ef-ach__progress-percent--gold {
-  color: var(--ef-ach-gold);
-}
-
-.ef-ach__progress-percent--platinum {
-  color: var(--ef-ach-platinum);
+.ef-ach__overall {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
 }
