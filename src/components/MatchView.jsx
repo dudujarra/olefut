@@ -458,90 +458,134 @@ export function MatchView() {
 
     const runningScore = getDisplayScore();
 
-    // === SCOREBOARD ===
-    const Scoreboard = ({ half }) => (
-        <EfPanel className="ef-match-scoreboard" padding="md">
-            {goalBurstActive && (
-                <div className="ef-match-scoreboard__goal-burst" />
-            )}
+    // === SCOREBOARD === (Stitch v1.1: top scoreboard w/ progress bar)
+    const Scoreboard = ({ half }) => {
+        // Match progress: 0-90' linear (45' = halftime marker)
+        const progressPct = Math.min(100, Math.round((currentMinute / 90) * 100));
+        return (
+            <EfPanel className="ef-match-scoreboard" padding="md">
+                {goalBurstActive && (
+                    <div className="ef-match-scoreboard__goal-burst" />
+                )}
 
-            <div className="ef-match-scoreboard__header">
-                <div>MANDANTE</div>
-                <div className="ef-mono ef-text-primary">
-                    {half}
-                </div>
-                <div>VISITANTE</div>
-            </div>
-
-            <div className="ef-match-scoreboard__content">
-                <div className="ef-match-scoreboard__team">
-                    <EfClubBadge name={result.home} size="xl" />
-                    <span className="ef-match-scoreboard__team-name">{result.home}</span>
+                <div className="ef-match-scoreboard__header">
+                    <div>MANDANTE</div>
+                    <div className="ef-mono ef-text-primary">
+                        {half}
+                    </div>
+                    <div>VISITANTE</div>
                 </div>
 
-                <div className="ef-match-scoreboard__center">
-                    <div className="ef-score-box">
-                        <div className="ef-score-box__num">{runningScore.home}</div>
-                        <div className="ef-score-box__sep">-</div>
-                        <div className="ef-score-box__num">{runningScore.away}</div>
+                <div className="ef-match-scoreboard__content">
+                    <div className="ef-match-scoreboard__team">
+                        <EfClubBadge name={result.home} size="xl" />
+                        <span className="ef-match-scoreboard__team-name">{result.home}</span>
                     </div>
 
-                    <div className="ef-clock">
-                        <span className={`ef-clock__time${isPlaying ? ' ef-clock__time--playing' : ''}`}>
-                            {String(currentMinute).padStart(2, '0')}:00
-                        </span>
-                        {isPlaying && <div className="ef-clock__dot" />}
+                    <div className="ef-match-scoreboard__center">
+                        <div className="ef-clock">
+                            <span className={`ef-clock__time${isPlaying ? ' ef-clock__time--playing' : ''}`}>
+                                {String(currentMinute).padStart(2, '0')}'
+                            </span>
+                            {isPlaying && <div className="ef-clock__dot" />}
+                        </div>
+                        <div className="ef-score-box ef-score-box--hero">
+                            <div className="ef-score-box__num">{runningScore.home}</div>
+                            <div className="ef-score-box__sep">-</div>
+                            <div className="ef-score-box__num">{runningScore.away}</div>
+                        </div>
+                    </div>
+
+                    <div className="ef-match-scoreboard__team">
+                        <EfClubBadge name={result.away} size="xl" />
+                        <span className="ef-match-scoreboard__team-name">{result.away}</span>
                     </div>
                 </div>
 
-                <div className="ef-match-scoreboard__team">
-                    <EfClubBadge name={result.away} size="xl" />
-                    <span className="ef-match-scoreboard__team-name">{result.away}</span>
+                <div className="ef-match-progress">
+                    <div className="ef-match-progress__bar" data-pct={progressPct} />
+                    <div className="ef-match-progress__markers">
+                        <span>0'</span>
+                        <span>45'</span>
+                        <span>90'</span>
+                    </div>
                 </div>
-            </div>
-        </EfPanel>
-    );
+            </EfPanel>
+        );
+    };
 
-    // === LIVE MATCH RENDERER ===
+    // === LIVE MATCH RENDERER === (Stitch v1.1: feed + sidebar split)
+    const MAX_SUBS = 5;
     const renderLiveMatch = (half) => (
         <div className="ef-view-shell">
             <div className="ef-view-container">
                 <Scoreboard half={half} />
 
-                <EfPanel className="ef-match-live__log" padding="md" scrollRef={logRef}>
-                    {displayedEvents.map((n, i) => {
-                        const isGoal = n.text?.includes('⚽');
-                        const isCard = n.text?.includes('🟨') || n.text?.includes('🟥');
-                        const isSub = n.text?.includes('🔄');
-                        const isInjury = n.text?.includes('🤕');
+                <div className="ef-match-live__layout">
+                    <section className="ef-match-feed">
+                        <header className="ef-match-feed__header">
+                            <span className="ef-match-feed__title">MATCH FEED</span>
+                            <span className="ef-match-feed__icon" aria-hidden="true">~</span>
+                        </header>
+                        <div className="ef-match-feed__body" ref={logRef}>
+                            {displayedEvents.map((n, i) => {
+                                const isGoal = n.text?.includes('⚽');
+                                const isCard = n.text?.includes('🟨') || n.text?.includes('🟥');
+                                const isSub = n.text?.includes('🔄');
+                                const isInjury = n.text?.includes('🤕');
 
-                        let rowMod = '';
-                        if (isGoal) rowMod = ' ef-match-log-row--goal';
-                        else if (isCard) rowMod = ' ef-match-log-row--card';
-                        else if (isSub) rowMod = ' ef-match-log-row--sub';
-                        else if (isInjury) rowMod = ' ef-match-log-row--injury';
+                                let rowMod = '';
+                                if (isGoal) rowMod = ' ef-match-log-row--goal';
+                                else if (isCard) rowMod = ' ef-match-log-row--card';
+                                else if (isSub) rowMod = ' ef-match-log-row--sub';
+                                else if (isInjury) rowMod = ' ef-match-log-row--injury';
 
-                        return (
-                            <div key={i} className={`ef-match-log-row${rowMod}`}>
-                                <div className="ef-match-log-row__min">{n.minute}'</div>
-                                <div className="ef-match-log-row__text">{n.text}</div>
+                                return (
+                                    <div key={i} className={`ef-match-log-row${rowMod}`}>
+                                        <div className="ef-match-log-row__min">{n.minute}'</div>
+                                        <div className="ef-match-log-row__text">{n.text}</div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </section>
+
+                    <aside className="ef-match-sidebar">
+                        <div className="ef-match-sidebar__panel">
+                            <h3 className="ef-match-sidebar__title">SUBSTITUIÇÕES</h3>
+                            <div className="ef-match-sidebar__subs">
+                                <div className="ef-match-sidebar__sub-segments">
+                                    {Array.from({ length: MAX_SUBS }).map((_, i) => (
+                                        <div
+                                            key={i}
+                                            className={`ef-match-sidebar__sub-segment${i < liveSubsCount ? ' ef-match-sidebar__sub-segment--used' : ''}`}
+                                        />
+                                    ))}
+                                </div>
+                                <span className="ef-match-sidebar__sub-count">{liveSubsCount}/{MAX_SUBS}</span>
                             </div>
-                        );
-                    })}
-                </EfPanel>
+                        </div>
 
-                <div className="ef-match-live__controls">
-                    <div className="ef-match-live__speed-controls">
-                        <EfButton size="md" variant={!paused && speed === 400 ? 'primary' : 'secondary'} onClick={() => { setSpeed(400); setPaused(false); pausedRef.current = false; }}>1x</EfButton>
-                        <EfButton size="md" variant={!paused && speed === 200 ? 'primary' : 'secondary'} onClick={() => { setSpeed(200); setPaused(false); pausedRef.current = false; }}>2x</EfButton>
-                        <EfButton size="md" variant={!paused && speed === 80 ? 'primary' : 'secondary'} onClick={() => { setSpeed(80); setPaused(false); pausedRef.current = false; }}>5x</EfButton>
-                        <EfButton size="md" variant={paused ? 'primary' : 'secondary'} onClick={() => { const next = !paused; setPaused(next); pausedRef.current = next; if (next) setLiveModalOpen(true); }}>
-                            {paused ? <Play weight="fill" /> : <Pause weight="fill" />} {paused ? 'RETOMAR' : 'PAUSAR / TÁTICA'}
+                        <div className="ef-match-sidebar__panel ef-match-sidebar__panel--grow">
+                            <h3 className="ef-match-sidebar__title">VELOCIDADE</h3>
+                            <div className="ef-match-live__speed-controls">
+                                <EfButton size="md" variant={!paused && speed === 400 ? 'primary' : 'secondary'} onClick={() => { setSpeed(400); setPaused(false); pausedRef.current = false; }}>1x</EfButton>
+                                <EfButton size="md" variant={!paused && speed === 200 ? 'primary' : 'secondary'} onClick={() => { setSpeed(200); setPaused(false); pausedRef.current = false; }}>2x</EfButton>
+                                <EfButton size="md" variant={!paused && speed === 80 ? 'primary' : 'secondary'} onClick={() => { setSpeed(80); setPaused(false); pausedRef.current = false; }}>5x</EfButton>
+                            </div>
+                            <EfButton size="md" variant="secondary" className="ef-match-sidebar__skip" onClick={() => skipToEnd(narration, half === '1º TEMPO' ? 45 : 90, null)}>
+                                PULAR <FastForward weight="fill" />
+                            </EfButton>
+                        </div>
+
+                        <EfButton
+                            variant={paused ? 'primary' : 'secondary'}
+                            className="ef-match-sidebar__pause-cta"
+                            onClick={() => { const next = !paused; setPaused(next); pausedRef.current = next; if (next) setLiveModalOpen(true); }}
+                        >
+                            {paused ? <Play weight="fill" /> : <Pause weight="fill" />} {paused ? 'RETOMAR' : 'PAUSAR & SUBSTITUIR'}
                         </EfButton>
-                    </div>
-                    <EfButton size="md" variant="secondary" onClick={() => skipToEnd(narration, half === '1º TEMPO' ? 45 : 90, null)}>
-                        PULAR <FastForward weight="fill" />
-                    </EfButton>
+                    </aside>
                 </div>
 
                 {half === '1º TEMPO' ? (

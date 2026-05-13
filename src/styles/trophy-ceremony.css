@@ -1,6 +1,287 @@
-/* TrophyCeremony — comprehensive semantic CSS */
+/* TrophyCeremony — Stitch v1.1 visual styles (AKITA-385).
+ * Brand-locked: gold/trophy palette destacado, zero raw hex.
+ * Shared base classes (.ef-trophy-shell, .ef-trophy-stats-panel etc.) live
+ * em isssd-premium.css. Este arquivo é o overlay específico desta tela
+ * (header bar, victory title, badge "1st PLACE", dominance meter, CRT scanlines).
+ */
 
-/* === TROPHY REVEAL SECTION === */
+/* === CRT scanline overlay ============================================ */
+
+.ef-trophy-ceremony__crt-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background:
+    linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.10) 50%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.03),
+      rgba(0, 255, 0, 0.01),
+      rgba(0, 0, 255, 0.03)
+    );
+  background-size: 100% 3px, 3px 100%;
+  opacity: 0.6;
+}
+
+/* === Confetti background pattern ===================================== */
+
+.ef-trophy-ceremony__confetti-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    radial-gradient(circle at 20% 30%, var(--primitive-color-gold-trophy, #FFD700) 2px, transparent 0),
+    radial-gradient(circle at 70% 10%, var(--primitive-color-green-neon, #39FF14) 3px, transparent 0),
+    radial-gradient(circle at 40% 80%, var(--primitive-color-gold-amber, #FBBF24) 2px, transparent 0),
+    radial-gradient(circle at 90% 50%, var(--primitive-color-red-danger, #FF3333) 4px, transparent 0),
+    radial-gradient(circle at 10% 90%, var(--primitive-color-green-neon, #39FF14) 2px, transparent 0);
+  background-size: 200px 200px;
+  opacity: 0.4;
+}
+
+/* === Vignette ======================================================== */
+
+.ef-trophy-ceremony__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    linear-gradient(
+      to top,
+      var(--primitive-color-neutral-abyss, #040805),
+      transparent 40%,
+      transparent 60%,
+      var(--primitive-color-neutral-abyss, #040805)
+    );
+  opacity: 0.8;
+}
+
+/* === Top AppBar ====================================================== */
+
+.ef-trophy-ceremony__appbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background-color: var(--primitive-color-green-forest-dark, #0E1F14);
+  border-bottom: 4px solid var(--primitive-color-green-pitch, #52B788);
+}
+
+.ef-trophy-ceremony__appbar-title {
+  font-family: var(--font-display, 'Press Start 2P', monospace);
+  font-size: 20px;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--primitive-color-gold-trophy, #FFD700);
+  margin: 0;
+}
+
+/* === Main content stack ============================================== */
+
+.ef-trophy-ceremony__main {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 96px 16px 48px;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .ef-trophy-ceremony__main {
+    padding: 112px 32px 56px;
+  }
+}
+
+/* === Victory title =================================================== */
+
+.ef-trophy-ceremony__victory-title {
+  text-align: center;
+  animation: ef-trophy-pulse-title 2s ease-in-out infinite;
+}
+
+.ef-trophy-ceremony__victory-title h1 {
+  margin: 0 0 8px;
+  font-family: var(--font-display, 'Press Start 2P', monospace);
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primitive-color-green-neon, #39FF14);
+  text-shadow: 4px 4px 0 var(--primitive-color-neutral-crt-black, #111417);
+}
+
+@media (min-width: 768px) {
+  .ef-trophy-ceremony__victory-title h1 {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+}
+
+.ef-trophy-ceremony__victory-title p {
+  margin: 0;
+  font-family: var(--font-display, 'Press Start 2P', monospace);
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: var(--primitive-color-gold-trophy, #FFD700);
+}
+
+@keyframes ef-trophy-pulse-title {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.75; }
+}
+
+/* === Trophy badge ("1st PLACE") ====================================== */
+
+.ef-trophy-ceremony__badge {
+  position: absolute;
+  left: 50%;
+  bottom: -16px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px;
+  background-color: var(--primitive-color-gold-amber, #FBBF24);
+  border: 4px solid var(--primitive-color-green-pitch, #52B788);
+  color: var(--primitive-color-neutral-crt-black, #111417);
+  font-family: var(--font-display, 'Press Start 2P', monospace);
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* === Stats panel (CRT framed) ======================================== */
+
+.ef-trophy-ceremony__stats-frame {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  padding: 24px;
+  background-color: rgba(17, 20, 23, 0.9);
+  border: 4px solid var(--primitive-color-green-pitch, #52B788);
+}
+
+.ef-trophy-ceremony__stats-tag {
+  position: absolute;
+  top: -16px;
+  left: 24px;
+  padding: 4px 12px;
+  background-color: var(--primitive-color-green-forest, #1B4332);
+  border: 2px solid var(--primitive-color-green-neon, #39FF14);
+  color: var(--primitive-color-green-neon, #39FF14);
+  font-family: var(--font-display, 'Press Start 2P', monospace);
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+/* === Dominance meter ================================================= */
+
+.ef-trophy-ceremony__meter {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-trophy-ceremony__meter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+  color: var(--primitive-color-neutral-smoke, #a0baae);
+  text-transform: uppercase;
+}
+
+.ef-trophy-ceremony__meter-track {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  padding: 2px;
+  background-color: var(--primitive-color-green-forest-dark, #0E1F14);
+  border: 1px solid rgba(160, 186, 174, 0.5);
+}
+
+.ef-trophy-ceremony__meter-fill {
+  height: 100%;
+  background-color: var(--primitive-color-green-neon, #39FF14);
+  background-image:
+    linear-gradient(
+      90deg,
+      transparent 90%,
+      var(--primitive-color-neutral-crt-black, #111417) 90%
+    );
+  background-size: 10px 100%;
+  transition: width 0.6s ease-out;
+}
+
+/* === Continue button (arcade-style) ================================== */
+
+.ef-trophy-ceremony__continue-button {
+  padding: 16px 48px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ef-trophy-ceremony__continue-cursor {
+  display: inline-block;
+  width: 12px;
+  height: 20px;
+  background-color: var(--primitive-color-green-neon, #39FF14);
+  margin-left: 4px;
+  animation: ef-trophy-cursor-blink 0.5s infinite;
+}
+
+@keyframes ef-trophy-cursor-blink {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* === Ambient corner labels =========================================== */
+
+.ef-trophy-ceremony__ambient {
+  position: absolute;
+  bottom: 16px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--primitive-color-green-pitch, #52B788);
+  opacity: 0.5;
+}
+
+.ef-trophy-ceremony__ambient--left  { left: 16px; }
+.ef-trophy-ceremony__ambient--right { right: 16px; }
+
+/* === Reveal section (override align/gap from existing) =============== */
 
 .ef-trophy-ceremony__reveal {
   display: flex;
@@ -8,39 +289,14 @@
   align-items: center;
 }
 
-/* === GOALS DISPLAY === */
+/* === Goals split colors ============================================== */
 
-.ef-trophy-ceremony__goals-for {
-  color: var(--color-primary);
-}
+.ef-trophy-ceremony__goals-for     { color: var(--color-primary, #39FF14); }
+.ef-trophy-ceremony__goals-against { color: var(--color-danger,  #FF3333); }
 
-.ef-trophy-ceremony__goals-against {
-  color: var(--color-danger);
-}
+/* === Crowd anim phase delays ========================================= */
 
-/* === CONTINUE BUTTON === */
-
-.ef-trophy-ceremony__continue-button {
-  padding: 16px 48px;
-  font-size: 1.2rem;
-  display: flex;
-  gap: 12px;
-}
-
-/* === CROWD ANIMATIONS === */
-
-.ef-trophy-ceremony__crowd-clap {
-  animation-delay: 0s;
-}
-
-.ef-trophy-ceremony__crowd-clap--delayed-200 {
-  animation-delay: 0.2s;
-}
-
-.ef-trophy-ceremony__crowd-clap--delayed-500 {
-  animation-delay: 0.5s;
-}
-
-.ef-trophy-ceremony__crowd-clap--delayed-700 {
-  animation-delay: 0.7s;
-}
+.ef-trophy-ceremony__crowd-clap            { animation-delay: 0s; }
+.ef-trophy-ceremony__crowd-clap--delayed-200 { animation-delay: 0.2s; }
+.ef-trophy-ceremony__crowd-clap--delayed-500 { animation-delay: 0.5s; }
+.ef-trophy-ceremony__crowd-clap--delayed-700 { animation-delay: 0.7s; }
