@@ -154,6 +154,67 @@ const ATMOSPHERE = {
         'Tarde quente em Salvador. Torcida só de bermuda.',
         'Sol forte em Fortaleza. Hidratação obrigatória.',
     ],
+    // AKITA-319 F3.4 expansion — regional flavor mais profundo
+    weather_north_storm: [
+        'Tempestade tropical em Manaus. Raios sobre a Arena Amazônia.',
+        'Chuva forte do Pará. Curuzu encharcado.',
+        'Pancada amazônica. Bola flutua sobre poças.',
+    ],
+    weather_north_humidity: [
+        'Umidade 95% em Belém. Camisetas grudadas no corpo.',
+        'Floresta entorno sopra ar abafado. Respiração pesa.',
+        'Amazônia em estiagem. Pó subindo do gramado.',
+    ],
+    weather_central_dry: [
+        'Cerrado seco. Brasília 35°, ar rachando lábios.',
+        'Goiânia em estação seca. Gramado precisa irrigação extra.',
+        'Mato Grosso queimando. Fumaça no horizonte.',
+    ],
+    weather_central_storm: [
+        'Tempestade do Cerrado. Brasília debaixo de raios.',
+        'Cuiabá em pancada vespertina. Jogo parado 10min.',
+        'Goiânia ventando 60km/h. Bola desvia em cada cruzamento.',
+    ],
+    weather_south_rain: [
+        'Chuva gelada de Porto Alegre. Beira-Rio molhado.',
+        'Garoa de Curitiba. Visibilidade caindo no segundo tempo.',
+        'Pampa enxarcado. Atletas escorregando nas divididas.',
+    ],
+    weather_south_wind: [
+        'Minuano cortante em Pelotas. Bola muda direção no ar.',
+        'Vento sul forte. Escanteios viram chute a gol.',
+        'Frente fria gaúcha. Gramado endurecendo.',
+    ],
+    weather_se_summer: [
+        'Verão paulista 40°. Calor mata o ritmo.',
+        'Tarde abrasadora no Pacaembu. Sombra única na arquibancada.',
+        'Sol carioca de janeiro. Praia esvazia, estádio enche.',
+    ],
+    weather_se_winter: [
+        'Inverno de São Paulo. 12°, jogador respira fumaça.',
+        'Friozinho no Mineirão. Atletas se aquecendo entre jogadas.',
+        'Sereno noturno carioca. Atmosfera densa, jogo lento.',
+    ],
+    weather_ne_dry: [
+        'Sertão seco. Caruaru 40°, terra rachando.',
+        'Estiagem cearense. Gramado amarelando.',
+        'Caatinga em pleno verão. Calor mata o segundo tempo.',
+    ],
+    weather_ne_rain: [
+        'Chuva tropical em Recife. Capibaribe transbordando.',
+        'Pancada baiana. Salvador embaixo de raios.',
+        'Inverno nordestino. Aracaju encharcada.',
+    ],
+    weather_ne_breeze: [
+        'Brisa litorânea em Maceió. Aroma de maresia no campo.',
+        'Vento do mar em João Pessoa. Bola flutua no contra-ataque.',
+        'Tarde de São Luís. Maranhão suave entre as palmeiras.',
+    ],
+    weather_se_humid: [
+        'Umidade carioca de janeiro. 90%, atleta encharcado em 10min.',
+        'Friagem paulista após chuva. Vapor saindo do gramado.',
+        'Calor abafado no Maracanã. Ventilador na sala VAR.',
+    ],
 };
 
 const ALL_EVENT_TYPES = Object.keys(ATMOSPHERE);
