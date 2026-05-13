@@ -123,12 +123,8 @@ export function AutoPlayView() {
         return (
             <div
                 className="ef-anim-fade-in ef-scene-shell ef-ap"
-                style={{
-                    backgroundImage: `url(${bgSoakTest})`,
-                    backgroundColor: 'var(--ef-ap-bg-deep)',
-                    padding: '16px',
-                    color: 'var(--ef-ap-soft-text)'
-                }}
+                /* eslint-disable-next-line no-restricted-syntax -- dynamic per-instance bg image */
+                style={{ backgroundImage: `url(${bgSoakTest})` }}
             >
                 <div className="ef-ap__container-sm">
                     <EfPanel variant="elev" padding="md" className="ef-ap__header-flex">
@@ -377,21 +373,88 @@ export function AutoPlayView() {
         return acc;
     }, {}) || {};
 
+    // Compute Stitch hero bento stats (derived from real engine telemetry)
+    const winRate = stats?.matchesPlayed > 0
+        ? Math.round((stats.wins / stats.matchesPlayed) * 100)
+        : 0;
+    const titlesCount = stats?.insights?.titlesWon ?? 0;
+    const anomaliesCount = stats?.anomalies?.length ?? 0;
+    const seasonsCount = stats?.seasonsPlayed ?? 0;
+    const isStable = anomaliesCount === 0;
+
     return (
         <div
             className="ef-anim-fade-in ef-scene-shell ef-ap"
-            style={{
-                backgroundImage: `url(${bgSoakTest})`,
-                backgroundColor: 'var(--ef-ap-bg-deep)',
-                padding: '16px',
-                color: 'var(--ef-ap-soft-text)'
-            }}
+            /* eslint-disable-next-line no-restricted-syntax -- dynamic per-instance bg image */
+            style={{ backgroundImage: `url(${bgSoakTest})` }}
         >
+            {/* Stitch scanline overlay — CRT retro effect */}
+            <div className="ef-ap__scanlines" aria-hidden="true" />
+
             <div className="ef-ap__container-md">
-                <EfPanel variant="elev" padding="md" className="ef-ap__header-flex">
-                    <h2 className="ef-arcade-h ef-arcade-h--xl">🤖 SOAK TEST DASHBOARD</h2>
+                <EfPanel variant="elev" padding="md" className="ef-ap__hero-header">
+                    <div className="ef-ap__hero-left">
+                        <h2 className="ef-arcade-h ef-arcade-h--xl ef-ap__crt-glow">🤖 SOAK TEST DASHBOARD</h2>
+                        <div className="ef-ap__sim-badge">
+                            <span className={`ef-ap__sim-dot${stats?.running ? ' ef-ap__sim-dot--active' : ''}`} />
+                            <span className="ef-ap__sim-label">
+                                {stats?.running ? 'SIMULATION ACTIVE' : 'SIMULATION IDLE'}
+                            </span>
+                        </div>
+                    </div>
                     <EfButton variant="secondary" size="sm" onClick={() => changeView(getDashboardView())}>← VOLTAR</EfButton>
                 </EfPanel>
+
+                {/* Stitch hero bento — top-line counters from real engine stats */}
+                <div className="ef-ap__bento-row">
+                    <div className="ef-ap__bento-stats">
+                        <div className="ef-ap__bento-cell">
+                            <p className="ef-ap__bento-label">TEMPORADAS</p>
+                            <p className="ef-ap__bento-value ef-ap__crt-glow">{seasonsCount}</p>
+                        </div>
+                        <div className="ef-ap__bento-cell">
+                            <p className="ef-ap__bento-label">TAXA VITÓRIA</p>
+                            <p className="ef-ap__bento-value ef-ap__bento-value--accent">{winRate}%</p>
+                        </div>
+                        <div className="ef-ap__bento-cell">
+                            <p className="ef-ap__bento-label">TÍTULOS</p>
+                            <p className="ef-ap__bento-value ef-ap__crt-glow">{titlesCount}</p>
+                        </div>
+                        <div className="ef-ap__bento-cell">
+                            <p className="ef-ap__bento-label">ANOMALIAS</p>
+                            <div className="ef-ap__bento-anomaly">
+                                <p className={`ef-ap__bento-value${isStable ? ' ef-ap__crt-glow' : ' ef-ap__bento-value--danger'}`}>{anomaliesCount}</p>
+                                <span className={`ef-ap__bento-tag${isStable ? ' ef-ap__bento-tag--stable' : ' ef-ap__bento-tag--unstable'}`}>
+                                    {isStable ? 'STABLE' : 'ALERT'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="ef-ap__bento-velocity">
+                        <p className="ef-ap__bento-label ef-ap__bento-velocity-title">SIMULATION VELOCITY</p>
+                        <div className="ef-ap__velocity-grid">
+                            {SPEED_PRESETS.map(p => {
+                                const active = speed === p.delay;
+                                const isMax = p.delay === 1;
+                                const cellClass = active
+                                    ? `ef-ap__velocity-cell ef-ap__velocity-cell--active${isMax ? ' ef-ap__velocity-cell--max' : ''}`
+                                    : 'ef-ap__velocity-cell';
+                                return (
+                                    <button
+                                        key={p.delay}
+                                        type="button"
+                                        onClick={() => handleSpeedChange(p.delay)}
+                                        className={cellClass}
+                                        title={p.label}
+                                    >
+                                        {p.label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
 
             {/* Controls */}
             <EfPanel variant="elev" padding="md" className="ef-ap__panel-mb-sm">
@@ -519,24 +582,7 @@ export function AutoPlayView() {
                 <BrainDashboard controllerRef={controllerRef} />
 
                 <div className="ef-ap__heading-grey">
-                    VELOCIDADE: {speed}ms/week
-                </div>
-                <div className="ef-ap__chip-wrap">
-                    {SPEED_PRESETS.map(p => (
-                        <EfButton
-                            key={p.delay}
-                            onClick={() => handleSpeedChange(p.delay)}
-                            variant="secondary"
-                            size="sm"
-                            style={{
-                                background: speed === p.delay ? 'var(--accent)' : 'transparent',
-                                color: speed === p.delay ? 'var(--ef-ap-stripe-text)' : 'var(--ef-ap-soft-text)',
-                                border: '3px solid var(--accent)',
-                                fontSize: '0.7rem',
-                                padding: '4px 8px'
-                            }}
-                        >{p.label}</EfButton>
-                    ))}
+                    VELOCIDADE ATIVA: {speed}ms/week — controles no painel SIMULATION VELOCITY acima
                 </div>
             </EfPanel>
 
