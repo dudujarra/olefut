@@ -4,7 +4,9 @@ import { EfButton, EfCardPlayer, EfTooltip, EfModal, EfInput } from './ui';
 import { EfPanel } from './ui/EfPanel';
 import bgManagerOffice from '../assets/environments/bg_manager_office.png';
 import { PaintBrush, ArrowLeft, TextAa, Cube, ListDashes, SquaresFour } from '@phosphor-icons/react';
+import '../styles/styleguide-view.css';
 
+// PALETTE: hex literals intentional — this view documents the design token values
 const PALETTE = [
     { group: 'Backgrounds', tokens: [{name: 'bg', hex: '#0D1117'}, {name: 'panelBg', hex: '#161B22'}, {name: 'panelElevated', hex: '#1A1F24'}] },
     { group: 'Borders & Text', tokens: [{name: 'border', hex: '#2D3748'}, {name: 'text', hex: '#FDFBF7'}, {name: 'textMuted', hex: '#8E9E94'}] },
@@ -34,12 +36,12 @@ export function StyleguideView() {
     };
 
     return (
-        <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgManagerOffice})` }}>
-            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <EfPanel padding="lg" className="ef-view-header" style={{ borderBottom: '2px solid #40BAF7' }}>
+        <div className="ef-anim-fade-in ef-scene-shell ef-sg" style={{ backgroundImage: `url(${bgManagerOffice})` }}>
+            <div className="ef-sg__container">
+                <EfPanel padding="lg" className="ef-view-header ef-sg__header">
                     <div className="ef-view-header__identity">
                         <div className="ef-view-header__icon-box">
-                            <PaintBrush size={28} color="#40BAF7" />
+                            <PaintBrush size={28} className="ef-sg__header-icon" />
                         </div>
                         <div>
                             <h2 className="ef-view-header__title">
@@ -55,17 +57,17 @@ export function StyleguideView() {
                     </EfButton>
                 </EfPanel>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '24px' }}>
+                <div className="ef-sg__grid">
                     {/* PALETTE */}
                     <EfPanel padding="lg">
                         <div className="ef-panel-section-icon-header">
                             <PaintBrush size={20} /> PALETA DE CORES
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div className="ef-sg__section">
                             {PALETTE.map(group => (
                                 <div key={group.group}>
-                                    <div className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>{group.group.toUpperCase()}</div>
-                                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                                    <div className="ef-mono ef-text-muted ef-sg__group-label">{group.group.toUpperCase()}</div>
+                                    <div className="ef-sg__chip-row">
                                         {group.tokens.map(t => (
                                             <div key={t.name} className="ef-swatch">
                                                 <div className="ef-swatch__chip" style={{ backgroundColor: t.hex }} />
@@ -84,15 +86,14 @@ export function StyleguideView() {
                         <div className="ef-panel-section-icon-header">
                             <TextAa size={20} /> TIPOGRAFIA
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div className="ef-sg__section">
                             {FONTS.map(f => (
                                 <div key={f.label} className="ef-typo-sample">
                                     <div className="ef-typo-sample__label">{f.label} ({f.size}, {f.family})</div>
-                                    <div style={{
+                                    <div className="ef-sg__typo-line" style={{
                                         fontSize: f.size,
                                         fontFamily: f.family,
-                                        fontWeight: f.weight,
-                                        color: '#FDFBF7'
+                                        fontWeight: f.weight
                                     }}>
                                         The quick brown fox jumps over the lazy dog.
                                     </div>
@@ -106,10 +107,10 @@ export function StyleguideView() {
                         <div className="ef-panel-section-icon-header">
                             <SquaresFour size={20} /> BOTÕES (EfButton)
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div className="ef-sg__section">
                             <div>
-                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>TAMANHOS</div>
-                                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                <div className="ef-mono ef-text-muted ef-sg__group-label">TAMANHOS</div>
+                                <div className="ef-sg__btn-row">
                                     <EfButton variant="primary" size="lg">Size Large</EfButton>
                                     <EfButton variant="primary" size="md">Size Medium</EfButton>
                                     <EfButton variant="primary" size="sm">Size Small</EfButton>
@@ -117,8 +118,8 @@ export function StyleguideView() {
                             </div>
 
                             <div>
-                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>VARIANTES</div>
-                                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                                <div className="ef-mono ef-text-muted ef-sg__group-label">VARIANTES</div>
+                                <div className="ef-sg__btn-row">
                                     <EfButton variant="primary">Primary</EfButton>
                                     <EfButton variant="secondary">Secondary</EfButton>
                                     <EfButton variant="danger">Danger</EfButton>
@@ -127,8 +128,8 @@ export function StyleguideView() {
                             </div>
 
                             <div>
-                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>ESTADOS</div>
-                                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                                <div className="ef-mono ef-text-muted ef-sg__group-label">ESTADOS</div>
+                                <div className="ef-sg__btn-row">
                                     <EfButton variant="primary" disabled>Disabled</EfButton>
                                     <EfButton variant="primary" loading>Loading</EfButton>
                                     <EfButton variant="primary"><Cube size={16} /> Com Ícone</EfButton>
@@ -142,8 +143,8 @@ export function StyleguideView() {
                         <div className="ef-panel-section-icon-header">
                             <ListDashes size={20} /> INPUTS & MODALS
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div className="ef-sg__section--lg-gap ef-sg__section">
+                            <div className="ef-sg__section">
                                 <EfInput
                                     label="Nome de Usuário"
                                     placeholder="Digite seu nome"
@@ -155,8 +156,8 @@ export function StyleguideView() {
                                 <EfInput label="Idade" type="number" disabled value="25" />
                             </div>
 
-                            <div style={{ borderTop: '1px solid #2D3748', paddingTop: '16px' }}>
-                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem', marginBottom: '12px' }}>MODALS</div>
+                            <div className="ef-sg__divider">
+                                <div className="ef-mono ef-text-muted ef-sg__group-label--mb12">MODALS</div>
                                 <EfButton variant="secondary" onClick={() => setModalOpen(true)}>Abrir Modal de Exemplo</EfButton>
                                 <EfModal
                                     open={modalOpen}
@@ -170,7 +171,7 @@ export function StyleguideView() {
                                         </>
                                     }
                                 >
-                                    <p style={{ color: '#FDFBF7', lineHeight: '1.6' }}>Este é o novo modal no formato Bento Grid. Ele possui bordas arredondadas suaves, fundo translúcido moderno e aderência à paleta Luxury Arcade.</p>
+                                    <p className="ef-sg__modal-body">Este é o novo modal no formato Bento Grid. Ele possui bordas arredondadas suaves, fundo translúcido moderno e aderência à paleta Luxury Arcade.</p>
                                 </EfModal>
                             </div>
                         </div>
@@ -181,18 +182,18 @@ export function StyleguideView() {
                         <div className="ef-panel-section-icon-header">
                             <Cube size={20} /> COMPONENTES DIVERSOS
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                        <div className="ef-sg__section--lg-gap ef-sg__section">
                             <div>
-                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem', marginBottom: '12px' }}>EF-CARD-PLAYER</div>
-                                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                                <div className="ef-mono ef-text-muted ef-sg__group-label--mb12">EF-CARD-PLAYER</div>
+                                <div className="ef-sg__chip-row">
                                     <EfCardPlayer player={samplePlayer} />
                                     <EfCardPlayer player={samplePlayer} badge="LEND" selected />
                                 </div>
                             </div>
 
-                            <div style={{ borderTop: '1px solid #2D3748', paddingTop: '16px' }}>
-                                <div className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem', marginBottom: '12px' }}>EF-TOOLTIP</div>
-                                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                            <div className="ef-sg__divider">
+                                <div className="ef-mono ef-text-muted ef-sg__group-label--mb12">EF-TOOLTIP</div>
+                                <div className="ef-sg__btn-row">
                                     <EfTooltip content="Informação básica do tooltip">
                                         <EfButton variant="secondary">Info</EfButton>
                                     </EfTooltip>
