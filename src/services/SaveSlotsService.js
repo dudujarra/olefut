@@ -4,8 +4,8 @@
  * 3 save slots persistent + export/import JSON.
  */
 
-const SLOT_KEYS = ['elifoot_save_slot1', 'elifoot_save_slot2', 'elifoot_save_slot3'];
-const META_KEY = 'elifoot_save_meta';
+const SLOT_KEYS = ['olefut_save_slot1', 'olefut_save_slot2', 'olefut_save_slot3'];
+const META_KEY = 'olefut_save_meta';
 
 export function listSaveSlots() {
     const meta = readMeta();
@@ -92,7 +92,7 @@ export function exportSlotJSON(slotNum) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `elifoot-save-slot${slotNum}-${Date.now()}.json`;
+    a.download = `olefut-save-slot${slotNum}-${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
     return true;

@@ -1,4 +1,4 @@
-# Changelog ELIFOOT RPG
+# Changelog OléFUT
 
 Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [SemVer](https://semver.org/spec/v2.0.0.html).
 
@@ -99,7 +99,7 @@ SPEC-179 registra a decisão por feature e a política para o build artifact.
 - `dist/audio` 465 MB: investigação revelou que a fonte é `public/audio/fase1/`
   (440 MB de WAVs **commitados** desde AKITA-103). Vite copia `public/` → `dist/`
   e o workflow `deploy.yml` empacota tudo no artifact do GitHub Pages, então
-  usuários do `https://dudujarra.github.io/elifoot-web/` baixam centenas de MB
+  usuários do `https://dudujarra.github.io/olefut/` baixam centenas de MB
   via `AudioController.jsx` (linha 35: `STEMS_BASE_PATH = '/audio/fase1'`).
   Ação corretiva real precisa de decisão técnica (LFS / CDN externo / OGG-MP3)
   — agendada para SPEC-180. Este PR documenta o achado; não remove os WAVs
@@ -151,7 +151,7 @@ PR único consolidando múltiplas frentes (commit `4b54cd4`).
 
 **Fix de bug latente em prod — NPC brain unique persona**:
 
-Todos NPCs criados pelo engine compartilhavam `STORAGE_KEY = 'elifoot_autoplay_brain'` via `AdaptiveBrain._restore()` no constructor. Convergiam para uma única persona (a do último autoplay save). Quebrava SPEC-117 (unique OCEAN) e marl-e2e test silenciosamente em prod.
+Todos NPCs criados pelo engine compartilhavam `STORAGE_KEY = 'olefut_autoplay_brain'` via `AdaptiveBrain._restore()` no constructor. Convergiam para uma única persona (a do último autoplay save). Quebrava SPEC-117 (unique OCEAN) e marl-e2e test silenciosamente em prod.
 
 - `AdaptiveBrain` constructor agora aceita `{ skipAutoRestore }`. Engine passa `true` para NPC brains; NPCs hidratam via `BrainPersistence.js` com per-team keys.
 - Regression test: `tests/regression/SPEC-117-skip-auto-restore.test.js` (5 testes — Mandamento #6 — 3-artefact).
@@ -331,7 +331,7 @@ Resultado: log completo da experiência sem effort.
   - Auto-capture window.onerror + unhandledrejection
   - Methods: recordBug, recordGameplay, recordFeedback, recordNote
   - Singleton pattern (getInstance)
-  - Storage localStorage `elifoot_monitor` (separado do save)
+  - Storage localStorage `olefut_monitor` (separado do save)
   - FIFO cap 500 entries
   - exportJSON + getStats + getByCategory
 - `src/components/MonitorView.jsx`:
@@ -713,7 +713,7 @@ Razão: engine.js não tinha métodos getLegends/getHallOfFame/getRegenChildren 
 
 ## [1.0.0] — 2026-05-08
 
-**Marco oficial v1.0** — Foundation + Live UX completo. Roadmap → v2.0 em https://github.com/dudujarra/elifoot-web.
+**Marco oficial v1.0** — Foundation + Live UX completo. Roadmap → v2.0 em https://github.com/dudujarra/olefut.
 
 ### Added
 
@@ -727,7 +727,7 @@ Razão: engine.js não tinha métodos getLegends/getHallOfFame/getRegenChildren 
 **Sprint 2 — Live UX:**
 - Live substitutions durante partida: pause button (1x/2x/5x/⏸️/▶️), `<LiveSquadEditModal>` com 5 subs/jogo (FIFA realista), tactic switch live (`engine.applyLiveSubstitution()`).
 - Formation editor visual drag/drop (`<FormationBoard>`): SVG campo 600×400, 11 jerseys posicionáveis com pointer events, 5 formações preset (4-3-3, 4-4-2, 4-2-4, 3-5-2, 5-3-2), reset to preset. `team.formationLayout = { slot: {playerId, x, y, role} }`.
-- Pre-match adversary info (`<PreMatchScreen>`): 3-painel layout estilo ELIFOOT clássico — nosso time (esquerda) / VS+CASA/FORA+rodada (centro) / adversário (direita) com sectors, formação, estilo derivado, H2H últimos 5 color-coded, torneio.
+- Pre-match adversary info (`<PreMatchScreen>`): 3-painel layout estilo OléFUT clássico — nosso time (esquerda) / VS+CASA/FORA+rodada (centro) / adversário (direita) com sectors, formação, estilo derivado, H2H últimos 5 color-coded, torneio.
 - Engine: `applyLiveSubstitution()`, `saveFormationLayout()`, `getMatchContext()`.
 - SPEC-042 (Formation Editor) + SPEC-043 (PreMatch Screen) + SPEC-044 (Live Subs).
 

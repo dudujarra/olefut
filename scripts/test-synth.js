@@ -278,7 +278,7 @@ function writeStemToWav(stemName, samples) {
 
 // Main
 async function main() {
-  console.log('🎵 ELIFOOT Audio Test Synth (Node.js)');
+  console.log('🎵 OléFUT Audio Test Synth (Node.js)');
   console.log('\n🔊 Rendering 4 test stems (30s each)...');
 
   const stems = [

@@ -14,7 +14,7 @@ Permitir que NPC brains do engine NÃO façam auto-restore do `STORAGE_KEY` comp
 
 ## 2. Motivação (bug latente descoberto)
 
-`AdaptiveBrain` foi originalmente desenhado para um único bot (user autoplay). Constructor chama `_restore()` que lê `localStorage[STORAGE_KEY='elifoot_autoplay_brain']`.
+`AdaptiveBrain` foi originalmente desenhado para um único bot (user autoplay). Constructor chama `_restore()` que lê `localStorage[STORAGE_KEY='olefut_autoplay_brain']`.
 
 Quando `Engine.initGame` passou a construir 169 NPC brains (MARL fase 6), TODOS chamavam `_restore()` no constructor → todos hidravam com a persona do último autoplay save. Resultado: 169 NPCs com OCEAN idêntico, quebrando SPEC-117 e marl-e2e test.
 
@@ -87,4 +87,4 @@ Call sites:
 ## 10. Riscos / débitos
 
 - Outros futuros call sites de `new AdaptiveBrain()` precisam decidir flag. Mitigado por docstring no constructor.
-- Per-team brain persistence via `BrainPersistence.js` (já existe, key `elifoot_npc_brains`) cobre cenário de save NPC; este SPEC só evita CROSS-contamination com user autoplay key.
+- Per-team brain persistence via `BrainPersistence.js` (já existe, key `olefut_npc_brains`) cobre cenário de save NPC; este SPEC só evita CROSS-contamination com user autoplay key.

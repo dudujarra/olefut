@@ -1,6 +1,6 @@
 /**
  * YouthAcademy.js — Base de formação + Empréstimos
- * Inspirado em FM (intake anual, personalidade do HoYD) + Elifoot (simplicidade)
+ * Inspirado em FM (intake anual, personalidade do HoYD) + OléFUT (simplicidade)
  */
 
 import { Data } from './data';

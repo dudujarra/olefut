@@ -1,4 +1,4 @@
-# ELIFOOT — Game Design Deep Research v1.0
+# OléFUT — Game Design Deep Research v1.0
 
 **Data**: 2026-05-08
 **Estado**: v2.0.0 (PR #59 + #61 merged)
@@ -9,7 +9,7 @@
 
 ## TL;DR
 
-ELIFOOT v2.0 tem **fundação técnica sólida** (1045 testes, 26 specs engine, 6 specs UI, 170 clubes, 5-layer narrative skeleton) mas **gameplay loops rasos**: 15 ações manager / 6 ações player, sessão típica = clicar avançar 38× temporada.
+OléFUT v2.0 tem **fundação técnica sólida** (1045 testes, 26 specs engine, 6 specs UI, 170 clubes, 5-layer narrative skeleton) mas **gameplay loops rasos**: 15 ações manager / 6 ações player, sessão típica = clicar avançar 38× temporada.
 
 **Diagnóstico raiz**: o jogo simula competentemente, mas **falha em criar tensão decisória contínua**. User feedback in-game (3 entries) confirma: *"só treino e jogo, que faço com dinheiro?"*.
 
@@ -162,7 +162,7 @@ Save start → 38 weeks/season → trophy/promote/relegate → next season
 
 ### 3.1 Football Manager 2025 (Sports Interactive)
 
-| Feature | FM 2025 | ELIFOOT v2.0 |
+| Feature | FM 2025 | OléFUT v2.0 |
 |---|---|---|
 | Atributos jogador | 36+ | 4 |
 | Treino granular | 50+ tipos | 5 |
@@ -178,11 +178,11 @@ Save start → 38 weeks/season → trophy/promote/relegate → next season
 | News module | Hub completo | Eventos simples |
 | Match engine | 3D | Top-down sprites |
 
-**Gap crítico**: FM tem **agency mid-match** (instructions ao vivo), ELIFOOT tem só sub.
+**Gap crítico**: FM tem **agency mid-match** (instructions ao vivo), OléFUT tem só sub.
 
 ### 3.2 Championship Manager 01/02 (cult classic BR)
 
-| Feature | CM 01/02 | ELIFOOT v2.0 |
+| Feature | CM 01/02 | OléFUT v2.0 |
 |---|---|---|
 | Atributos jogador | 36 | 4 |
 | Hidden attributes | 6 (loyalty, pressure, big_match) | ❌ |
@@ -191,11 +191,11 @@ Save start → 38 weeks/season → trophy/promote/relegate → next season
 | Database brasileiro | Excelente | ✅ 170 clubes (forte) |
 | Estaduais | Sim (Paulistão, Carioca) | ❌ |
 
-**Tsigalko effect**: regens icônicos viram folclore. ELIFOOT roadmap v1.4 prevê — não implementado ainda.
+**Tsigalko effect**: regens icônicos viram folclore. OléFUT roadmap v1.4 prevê — não implementado ainda.
 
 ### 3.3 Brasfoot (saudosismo BR)
 
-| Feature | Brasfoot 2010-2022 | ELIFOOT v2.0 |
+| Feature | Brasfoot 2010-2022 | OléFUT v2.0 |
 |---|---|---|
 | Estaduais BR | Paulistão, Carioca, Mineiro, Gaúcho | ❌ |
 | Copa do Brasil | Sim | ⚠️ Parcial (KnockoutCup) |
@@ -209,7 +209,7 @@ Save start → 38 weeks/season → trophy/promote/relegate → next season
 
 ### 3.4 NBA 2K MyCareer (player mode benchmark)
 
-| Feature | 2K MyCareer | ELIFOOT player mode |
+| Feature | 2K MyCareer | OléFUT player mode |
 |---|---|---|
 | Cidade explorável | Sim (3D hub) | ❌ |
 | Agente narrative | Sim | ❌ |
@@ -219,11 +219,11 @@ Save start → 38 weeks/season → trophy/promote/relegate → next season
 | Skill points | Earnable + trade-offs | ⚠️ XP semi |
 | Badges | 80+ unlockable | ⚠️ 5 traits |
 
-**Gap player mode**: ELIFOOT tem **stress + relationships** (CK3 inspirado) mas falta **lifestyle** (gastar dinheiro, conquistas externas).
+**Gap player mode**: OléFUT tem **stress + relationships** (CK3 inspirado) mas falta **lifestyle** (gastar dinheiro, conquistas externas).
 
 ### 3.5 Crusader Kings 3 (narrative-first benchmark)
 
-| Feature | CK3 | ELIFOOT |
+| Feature | CK3 | OléFUT |
 |---|---|---|
 | Stress system | ✅ inspiração direta | ✅ adotado |
 | Personality traits | 30+ slots | 5 |
@@ -480,7 +480,7 @@ Resolve P-15 (depends v1.4 narrative).
 - ✅ Avg session time +30%
 
 ### v2.2 (Sprints C+F — estaduais + press conferences)
-- ✅ ≥5 menções orgânicas Reddit r/futebol BR / Twitter sobre Paulistão ELIFOOT
+- ✅ ≥5 menções orgânicas Reddit r/futebol BR / Twitter sobre Paulistão OléFUT
 - ✅ Press conference engagement >60% (não skip)
 
 ### v2.3 (Sprints D+E — skill granularity + mid-match)
@@ -556,7 +556,7 @@ v3.0 (3-4 semanas):
 
 ## 10. Conclusão
 
-ELIFOOT v2.0 = **fundação 9/10 técnica, 5/10 game design**.
+OléFUT v2.0 = **fundação 9/10 técnica, 5/10 game design**.
 
 Engine simula competentemente (1045 testes) mas **gameplay loops são finos demais**. User feedback in-game confirma percepção: jogo é "bonito mas raso".
 

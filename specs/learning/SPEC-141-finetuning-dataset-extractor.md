@@ -15,8 +15,8 @@ Script que processa arquivos de telemetria do autoplay e extrai pares `(contexto
 
 ```typescript
 // Arquivos de telemetria:
-elifoot-telemetry-*.json  // campo decisions[]: ação + contexto por semana
-elifoot-autoplay-*.json   // campo anomalies[] + successes[] como ground truth
+olefut-telemetry-*.json  // campo decisions[]: ação + contexto por semana
+olefut-autoplay-*.json   // campo anomalies[] + successes[] como ground truth
 ```
 
 ---
@@ -174,8 +174,8 @@ function countActions(tuples) {
 const [,, teleGlob, autoGlob] = process.argv;
 const dir = teleGlob || 'docs/playtest/20250610/07';
 
-const teleFiles = readdirSync(dir).filter(f => f.startsWith('elifoot-telemetry'));
-const autoFiles = readdirSync(dir).filter(f => f.startsWith('elifoot-autoplay'));
+const teleFiles = readdirSync(dir).filter(f => f.startsWith('olefut-telemetry'));
+const autoFiles = readdirSync(dir).filter(f => f.startsWith('olefut-autoplay'));
 
 const allTuples = [];
 const metas = [];
@@ -217,7 +217,7 @@ describe('SPEC-141: Fine-Tuning Dataset Extractor', () => {
 
 ## Harness
 ```bash
-cd /Users/dudujarra/Documents/ELIFOOT
+cd /Users/dudujarra/Documents/OléFUT
 node scripts/extract-finetune-dataset.js docs/playtest/20250610/07
 wc -l docs/dataset-finetune.jsonl  # deve ser >= 500
 ```

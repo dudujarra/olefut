@@ -18,7 +18,7 @@ test.describe('SPEC-164 §6: Responsive mobile', () => {
         await page.addInitScript(() => {
             try {
                 localStorage.clear();
-                localStorage.setItem('elifoot_tutorial_done', 'true');
+                localStorage.setItem('olefut_tutorial_done', 'true');
             } catch { /* ignore */ }
         });
         await page.goto('/');
@@ -39,7 +39,7 @@ test.describe('SPEC-164 §6: Responsive mobile', () => {
         await page.waitForSelector('header.top-bar', { timeout: 10_000 });
 
         // Sidebar pode estar visível ou colapsada — testamos itens existentes
-        const sidebar = page.locator('aside.elifoot-sidebar');
+        const sidebar = page.locator('aside.olefut-sidebar');
         await expect(sidebar).toBeVisible();
 
         for (const label of ['PLANTEL', 'TABELA', 'SAVES']) {

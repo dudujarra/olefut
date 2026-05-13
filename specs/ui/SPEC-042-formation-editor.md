@@ -6,7 +6,7 @@
 
 ## O que é
 
-Editor visual de formação tática estilo ELIFOOT clássico. Campo verde com 11 camisas posicionáveis via drag/drop, slots base por formação (4-3-3, 4-4-2, etc), com offsets X/Y livres pra ajuste fino (lateral mais avançado, recuado, etc).
+Editor visual de formação tática estilo OléFUT clássico. Campo verde com 11 camisas posicionáveis via drag/drop, slots base por formação (4-3-3, 4-4-2, etc), com offsets X/Y livres pra ajuste fino (lateral mais avançado, recuado, etc).
 
 ## Input
 

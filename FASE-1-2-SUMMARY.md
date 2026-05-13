@@ -10,7 +10,7 @@
 
 ### Infraestrutura
 - ✅ `specs/` directory com 5 subdirs (engine, ui, data, tests, infra)
-- ✅ `SPEC-RULES.md` — governance SDD adaptado para ELIFOOT
+- ✅ `SPEC-RULES.md` — governance SDD adaptado para OléFUT
 - ✅ `SPEC-TEMPLATE.md` — template com exemplo Match Engine preenchido
 - ✅ Pre-commit hook — validador AKITA-XXX format
 - ✅ `spec-check.sh` reconhece estrutura
@@ -135,7 +135,7 @@ specs/
 
 ### Para Dudu revisar FASE 1-2:
 
-1. Ler `/Users/dudujarra/Documents/ELIFOOT/specs/engine/SPEC-00X-*.md`
+1. Ler `/Users/dudujarra/Documents/OléFUT/specs/engine/SPEC-00X-*.md`
 2. Validar:
    - [ ] Specs cobrem o código existente
    - [ ] Validações são realistas

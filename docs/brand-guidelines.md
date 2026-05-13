@@ -311,8 +311,8 @@ A identidade visual do Olé FUT segue o conceito **Luxury Arcade** — a junçã
 - [ ] Zero blur/backdrop-filter
 - [ ] Fontes: apenas Press Start 2P, Pixelify Sans, IBM Plex Mono
 - [ ] Cores: apenas da paleta aprovada neste documento
-- [ ] Texto visível ao player: "Olé FUT" (nunca "Elifoot")
-- [ ] localStorage keys: mantêm prefixo `elifoot_` (compatibilidade)
+- [ ] Texto visível ao player: "Olé FUT" (nunca "OléFUT")
+- [ ] localStorage keys: mantêm prefixo `olefut_` (compatibilidade)
 - [ ] Novos assets: seguem o estilo "Luxury Arcade" (card frame, bevel, dark BG)
 - [ ] Build limpo (`npx vite build` sem erros)
 

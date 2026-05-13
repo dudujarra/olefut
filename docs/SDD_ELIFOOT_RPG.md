@@ -1,4 +1,4 @@
-# SDD - Software Design Document (Elifoot RPG)
+# SDD - Software Design Document (OléFUT RPG)
 
 ## Arquitetura
 

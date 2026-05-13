@@ -1,8 +1,8 @@
 #!/bin/bash
 # ============================================================
-# elifoot-bug-sweep.sh — Skill de Bug Sweep Automatizado
+# olefut-bug-sweep.sh — Skill de Bug Sweep Automatizado
 #
-# Protocolo AKITA de QA para o Elifoot RPG Engine
+# Protocolo AKITA de QA para o OléFUT RPG Engine
 #
 # WORKFLOW:
 #   1. SCAN  — Varredura estática de bugs no source
@@ -12,11 +12,11 @@
 #   5. REPORT — Gera relatório final
 #
 # USO:
-#   ./scripts/elifoot-bug-sweep.sh          # roda tudo
-#   ./scripts/elifoot-bug-sweep.sh scan     # só varredura
-#   ./scripts/elifoot-bug-sweep.sh test     # só testes
-#   ./scripts/elifoot-bug-sweep.sh ci       # testes + build
-#   ./scripts/elifoot-bug-sweep.sh report   # relatório
+#   ./scripts/olefut-bug-sweep.sh          # roda tudo
+#   ./scripts/olefut-bug-sweep.sh scan     # só varredura
+#   ./scripts/olefut-bug-sweep.sh test     # só testes
+#   ./scripts/olefut-bug-sweep.sh ci       # testes + build
+#   ./scripts/olefut-bug-sweep.sh report   # relatório
 # ============================================================
 
 set -euo pipefail
@@ -242,7 +242,7 @@ do_report() {
     mkdir -p "$PROJECT_DIR/docs"
     
     cat > "$REPORT_FILE" << EOF
-# 📊 QA Report — Elifoot RPG
+# 📊 QA Report — OléFUT RPG
 
 > Gerado: ${TIMESTAMP}
 > Protocolo: AKITA Bug Sweep
@@ -279,10 +279,10 @@ $([ "$BUGS_FOUND" -eq 0 ] && echo "✅ **APROVADO** — Nenhum bug encontrado" |
 \`\`\`bash
 npm test              # testes unitários
 npm run test:ci       # testes + build
-./scripts/elifoot-bug-sweep.sh        # sweep completo
-./scripts/elifoot-bug-sweep.sh scan   # só varredura
-./scripts/elifoot-bug-sweep.sh test   # só testes
-./scripts/elifoot-bug-sweep.sh ci     # testes + build
+./scripts/olefut-bug-sweep.sh        # sweep completo
+./scripts/olefut-bug-sweep.sh scan   # só varredura
+./scripts/olefut-bug-sweep.sh test   # só testes
+./scripts/olefut-bug-sweep.sh ci     # testes + build
 \`\`\`
 EOF
 
@@ -303,7 +303,7 @@ EOF
 main() {
     echo -e "${CYAN}"
     echo "  ╔═══════════════════════════════════════╗"
-    echo "  ║  🐛 ELIFOOT BUG SWEEP — AKITA QA     ║"
+    echo "  ║  🐛 OléFUT BUG SWEEP — AKITA QA     ║"
     echo "  ║  Varredura • Teste • Build • Report   ║"
     echo "  ╚═══════════════════════════════════════╝"
     echo -e "${NC}"

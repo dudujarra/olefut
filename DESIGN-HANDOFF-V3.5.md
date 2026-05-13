@@ -1,4 +1,4 @@
-# ELIFOOT — Design Handoff Spec v3.5
+# OléFUT — Design Handoff Spec v3.5
 
 **Data**: 2026-05-09
 **Estado**: Pós PR #68 merged (v3.5 live)
@@ -55,7 +55,7 @@ Princípios:
 
 | Token | Familia | Uso |
 |---|---|---|
-| `--ef-font-family-display` | Press Start 2P | Logo ELIFOOT, scoreboard, banners |
+| `--ef-font-family-display` | Press Start 2P | Logo OléFUT, scoreboard, banners |
 | `--ef-font-family-body` | Pixelify Sans | Corpo geral, tabelas, formulários |
 | `--ef-font-family-mono` | IBM Plex Mono | Stats numéricas, código, dados |
 
@@ -471,7 +471,7 @@ Checklist final:
 
 ## 13. Conclusão
 
-ELIFOOT v3.5 = **identidade visual forte mas execução inconsistente**.
+OléFUT v3.5 = **identidade visual forte mas execução inconsistente**.
 
 30+ inconsistências catalogadas, ~14h refactoring resolverá 95%.
 

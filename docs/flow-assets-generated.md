@@ -8,11 +8,11 @@
 
 ## 🎨 Assets gerados
 
-### 1. Logo ELIFOOT 8-bit
-- **Prompt**: "8-bit pixel art logo for soccer manager game ELIFOOT. NES era retro style, chunky pixels, green and gold color palette, 320x64 pixels horizontal banner. The text 'ELIFOOT' rendered in bold pixelated letters with first half green (#4ADE80) and second half gold (#FFD700). Small pixel-art soccer ball at the end."
+### 1. Logo OléFUT 8-bit
+- **Prompt**: "8-bit pixel art logo for soccer manager game OléFUT. NES era retro style, chunky pixels, green and gold color palette, 320x64 pixels horizontal banner. The text 'OléFUT' rendered in bold pixelated letters with first half green (#4ADE80) and second half gold (#FFD700). Small pixel-art soccer ball at the end."
 - **Variantes geradas**: 4
 - **Best**: dark grid background, ELI verde + FOOT gold + bola
-- **Filename sugerido**: `logo-elifoot.png`
+- **Filename sugerido**: `logo-olefut.png`
 
 ### 2. Sprite Sheet Icons
 - **Prompt**: "8-bit pixel art icon set for soccer manager game, NES retro style. White background. 8 separate icons in a row each 64x64: white soccer ball with hexagons, gold trophy cup, yellow card, red card, silver whistle, stopwatch, green soccer goal net, gray stadium silhouette."
@@ -47,7 +47,7 @@
    - Click na imagem (abre detalhe)
    - Click ícone download (seta down, top-right)
    - Escolha 1K, 2K ou 4K
-   - Save com nome sugerido em `/Users/dudujarra/Documents/ELIFOOT/public/sprites/`
+   - Save com nome sugerido em `/Users/dudujarra/Documents/OléFUT/public/sprites/`
 
 ---
 
@@ -56,12 +56,12 @@
 ```bash
 # 1. Move downloads pra projeto
 cd ~/Downloads
-mv *elifoot* /Users/dudujarra/Documents/ELIFOOT/public/sprites/
+mv *elifoot* /Users/dudujarra/Documents/OléFUT/public/sprites/
 
 # 2. Renomear para names padronizados
-cd /Users/dudujarra/Documents/ELIFOOT/public/sprites/
+cd /Users/dudujarra/Documents/OléFUT/public/sprites/
 # Manual rename ou:
-mv "*ELIFOOT*.png" logo-elifoot.png
+mv "*OléFUT*.png" logo-olefut.png
 # etc
 
 # 3. Update CSS pra usar imagens
@@ -71,7 +71,7 @@ mv "*ELIFOOT*.png" logo-elifoot.png
 
 ```css
 body.theme-8bit .logo {
-  background: url('/elifoot-web/sprites/logo-elifoot.png') no-repeat center;
+  background: url('/olefut/sprites/logo-olefut.png') no-repeat center;
   background-size: contain;
   width: 320px;
   height: 64px;
@@ -82,7 +82,7 @@ body.theme-8bit .nav-tab[data-tab="match"]::before {
   content: '';
   display: inline-block;
   width: 16px; height: 16px;
-  background: url('/elifoot-web/sprites/icons-sprite.png') no-repeat;
+  background: url('/olefut/sprites/icons-sprite.png') no-repeat;
   background-position: 0 0; /* ball icon */
   margin-right: 4px;
 }
@@ -95,8 +95,8 @@ body.theme-8bit .nav-tab[data-tab="match"]::before {
 .stadium-icon[data-level="5"] { background-position: -256px 0; }
 
 /* Weather */
-.weather-icon[data-weather="sun"] { background-image: url('/elifoot-web/sprites/weather-sun.png'); }
-.weather-icon[data-weather="rain"] { background-image: url('/elifoot-web/sprites/weather-rain.png'); }
+.weather-icon[data-weather="sun"] { background-image: url('/olefut/sprites/weather-sun.png'); }
+.weather-icon[data-weather="rain"] { background-image: url('/olefut/sprites/weather-rain.png'); }
 /* etc */
 ```
 

@@ -1,5 +1,5 @@
 {
-  "$schema": "ELIFOOT tooltip catalog v1",
+  "$schema": "OléFUT tooltip catalog v1",
   "default_locale": "pt",
   "pt": {
     "stat.ovr": "Overall Rating: média ponderada dos atributos do jogador (0-99). Influencia setores e cálculo de partida.",

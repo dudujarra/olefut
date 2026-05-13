@@ -51,7 +51,7 @@ function App() {
     const [soundOn, setSoundOn] = useState(isSoundEnabled());
     const [savedToast, setSavedToast] = useState(false);
     // SPEC-174: LLM toggle reflects the engine's LLMNarrativeService flag.
-    // Default OFF (template-only). Persists in localStorage `elifoot_llm_enabled`.
+    // Default OFF (template-only). Persists in localStorage `olefut_llm_enabled`.
     const [llmEnabled, setLlmEnabled] = useState(() => {
         try {
             const engine = getEngine?.();

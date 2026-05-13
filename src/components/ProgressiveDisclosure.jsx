@@ -124,7 +124,7 @@ export function UnlockTooltip({ viewId, onDismiss }) {
  */
 export function AhaMomentCard({ engine }) {
     const [dismissed, setDismissed] = useState(() => {
-        try { return JSON.parse(localStorage.getItem('elifoot_aha_dismissed') || '[]'); }
+        try { return JSON.parse(localStorage.getItem('olefut_aha_dismissed') || '[]'); }
         catch { return []; }
     });
 
@@ -142,7 +142,7 @@ export function AhaMomentCard({ engine }) {
         const key = `${moment.season}-${moment.week}`;
         const updated = [...dismissed, key];
         setDismissed(updated);
-        try { localStorage.setItem('elifoot_aha_dismissed', JSON.stringify(updated)); }
+        try { localStorage.setItem('olefut_aha_dismissed', JSON.stringify(updated)); }
         catch { /* storage full */ }
     }, [dismissed]);
 

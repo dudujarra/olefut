@@ -2,7 +2,7 @@
  * DifficultyModes — SPEC-073 (Sprint L)
  *
  * 3 modes affecting economy, board patience, injury rate, training XP.
- * Persisted in localStorage 'elifoot_difficulty'.
+ * Persisted in localStorage 'olefut_difficulty'.
  */
 
 export const DIFFICULTY_MODES = {
@@ -68,7 +68,7 @@ export const DIFFICULTY_MODES = {
     }
 };
 
-const STORAGE_KEY = 'elifoot_difficulty';
+const STORAGE_KEY = 'olefut_difficulty';
 
 export function getDifficulty() {
     try {

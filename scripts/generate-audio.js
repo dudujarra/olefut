@@ -18,7 +18,7 @@ async function main() {
     outputDir: 'public/audio'
   };
 
-  console.log('🎵 ELIFOOT Audio Generation System');
+  console.log('🎵 OléFUT Audio Generation System');
   console.log(`📦 Config: ${JSON.stringify(config, null, 2)}`);
 
   const generator = new AudioGenerator(config);

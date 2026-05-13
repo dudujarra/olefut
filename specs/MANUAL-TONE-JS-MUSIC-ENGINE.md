@@ -1,6 +1,6 @@
-# ELIFOOT Music Engine: House Music Profissional em Tone.js
+# OléFUT Music Engine: House Music Profissional em Tone.js
 
-> **Manual técnico oficial do sistema musical ELIFOOT.**
+> **Manual técnico oficial do sistema musical OléFUT.**
 > Fonte de verdade para AKITA-100+ (audio system).
 > Aprovado por Dudu em 2026-05-08.
 
@@ -456,7 +456,7 @@ Ordem: EQ → MultibandComp → Saturation → Limiter. Target -7 LUFS integrado
 
 ### 2.16 AudioWorklet custom
 
-NÃO recomendado pra ELIFOOT — complexidade não justifica. Use Tone.js building blocks.
+NÃO recomendado pra OléFUT — complexidade não justifica. Use Tone.js building blocks.
 
 ---
 
@@ -728,7 +728,7 @@ Variations NÃO são apenas transposição — vary hi-hat density, accent posit
 
 5. **MPC swing diferente entre DAWs** — MPC: 50%=neutral, Cubase/FL/Tone: 0%=neutral. Pra 54% MPC use `0.16`. Pra 58% use `0.22`. Pra 66% (triplet) use `0.5`. Calibre auditivamente.
 
-6. **TB-303 IMITAÇÃO, não emulação fiel** — filtro 18dB ladder real tem comportamento não-linear. `Tone.Filter rolloff: -24` aproxima. Pra autenticidade: AudioWorklet custom (Open303 portado). Pra ELIFOOT: aproximação suficiente.
+6. **TB-303 IMITAÇÃO, não emulação fiel** — filtro 18dB ladder real tem comportamento não-linear. `Tone.Filter rolloff: -24` aproxima. Pra autenticidade: AudioWorklet custom (Open303 portado). Pra OléFUT: aproximação suficiente.
 
 7. **`Tone.Reverb.generate()` async + custa CPU** — gere UMA vez no boot, NUNCA dispose. Mudar buffer ConvolverNode pode falhar Chrome (issue #392).
 
@@ -736,14 +736,14 @@ Variations NÃO são apenas transposição — vary hi-hat density, accent posit
 
 9. **Sample-rate mismatch** — Web Audio default 44.1kHz mas alguns 48kHz. Force `new Tone.Context({sampleRate: 44100})` no boot.
 
-10. **Direitos sobre samples** — sample track real (Daft Punk, MK) = direitos. ELIFOOT só samples originais ou royalty-free (Loopcloud, Splice commercial), ou síntese pura. Refs aqui = aprender estilo, não copiar masters.
+10. **Direitos sobre samples** — sample track real (Daft Punk, MK) = direitos. OléFUT só samples originais ou royalty-free (Loopcloud, Splice commercial), ou síntese pura. Refs aqui = aprender estilo, não copiar masters.
 
-11. **Adaptive music research** (Skyrim, Sekiro, BPM) refere-se a Wwise/FMOD em engines tradicionais. Tone.js browser tem latência ~10-20ms typical lookAhead, menos sample-accurate em mobile. Pra manager game ELIFOOT = IRRELEVANTE. Pra rhythm game seria diferente.
+11. **Adaptive music research** (Skyrim, Sekiro, BPM) refere-se a Wwise/FMOD em engines tradicionais. Tone.js browser tem latência ~10-20ms typical lookAhead, menos sample-accurate em mobile. Pra manager game OléFUT = IRRELEVANTE. Pra rhythm game seria diferente.
 
 12. **72+ tracks só com pré-render offline** — runtime synthesis quebraria CPU. Estratégia híbrida (8-10 templates × 8-10 variations = 64-100 tracks) funciona. NÃO componha 72 tracks únicas à mão; gere variations de templates curados com controle artístico nos seeds.
 
 ---
 
-**Status:** Manual oficial ELIFOOT Music Engine
+**Status:** Manual oficial OléFUT Music Engine
 **Aprovado:** Dudu, 2026-05-08
 **Próximo:** AKITA-103 Fase 1 (Foundation runtime + deep house)

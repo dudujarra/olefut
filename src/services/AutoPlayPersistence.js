@@ -5,7 +5,7 @@
  * Includes functions to nuke the engine state and reset training data.
  */
 
-const STORAGE_KEY = 'elifoot_autoplay_state';
+const STORAGE_KEY = 'olefut_autoplay_state';
 
 export class AutoPlayPersistence {
     static restoreStats(statsObj) {
@@ -53,7 +53,7 @@ export class AutoPlayPersistence {
 
     static nukeEngineState() {
         try {
-            localStorage.removeItem('elifoot_save_v1');
+            localStorage.removeItem('olefut_save_v1');
             return true;
         } catch (e) {
             console.error('Failed to nuke engine:', e);

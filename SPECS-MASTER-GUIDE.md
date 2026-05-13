@@ -1,4 +1,4 @@
-# ELIFOOT RPG — SDD Master Guide
+# OléFUT — SDD Master Guide
 
 **Status**: 🔨 Em evolução (SDD ativo desde 2026-05-07)
 **Total specs**: **97** (engine 39 + gameplay 15 + ui 6 + infra 7 + learning 10 + refactor 19 + telemetry 15 + raiz)
@@ -212,7 +212,7 @@ Qualidade de vida, estatísticas, achievements. Nice-to-have.
 - Week 6: Setup FASE 4 infra
 - Week 7: FASE 5 polish
 
-**Output**: Full ELIFOOT game, 100% spec-covered, deployed to GitHub Pages
+**Output**: Full OléFUT game, 100% spec-covered, deployed to GitHub Pages
 
 ### Path B: Hybrid Build (40h, 5-6 weeks)
 - Week 1: Harnesses + CI setup

@@ -132,7 +132,7 @@ Specs adicionais para completar visão:
 1. Ler specs/engine/SPEC-009 a SPEC-019
 2. Ler specs/infra/SPEC-020 a SPEC-023
 3. Validar:
-   - [ ] Specs cobrem secundárias do ELIFOOT
+   - [ ] Specs cobrem secundárias do OléFUT
    - [ ] Infra specs são realistas (CI, deploy, tests)
    - [ ] Validações fazem sentido
    - [ ] Harnesses são executáveis

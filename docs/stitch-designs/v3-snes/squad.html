@@ -3,7 +3,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Elifoot Squad Management SNES</title>
+<title>OléFUT Squad Management SNES</title>
 <!-- Tailwind CSS v3 CDN -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <!-- Google Fonts for Retro Pixel Look -->
@@ -13,12 +13,12 @@
       theme: {
         extend: {
           colors: {
-            'elifoot-gray-dark': '#1a1a1a',
-            'elifoot-gray-panel': '#c0c0c0',
-            'elifoot-field-green': '#3d6141',
-            'elifoot-border-light': '#ffffff',
-            'elifoot-border-dark': '#555555',
-            'elifoot-gold': '#ffff00',
+            'olefut-gray-dark': '#1a1a1a',
+            'olefut-gray-panel': '#c0c0c0',
+            'olefut-field-green': '#3d6141',
+            'olefut-border-light': '#ffffff',
+            'olefut-border-dark': '#555555',
+            'olefut-gold': '#ffff00',
           },
           fontFamily: {
             'pixel': ['"Press Start 2P"', 'cursive'],
@@ -88,21 +88,21 @@
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 <!-- BEGIN: Main Game Container -->
-<main class="w-[1024px] aspect-[4/3] bg-elifoot-gray-dark border-8 border-elifoot-gray-panel p-4 flex flex-col gap-4 shadow-2xl overflow-hidden" data-purpose="squad-management-screen">
+<main class="w-[1024px] aspect-[4/3] bg-olefut-gray-dark border-8 border-olefut-gray-panel p-4 flex flex-col gap-4 shadow-2xl overflow-hidden" data-purpose="squad-management-screen">
 <!-- BEGIN: Header -->
 <header class="bevel-outset p-4 flex justify-between items-center text-base-pixel h-16">
 <div>SQUAD MANAGEMENT</div>
-<div class="text-elifoot-gold">BUDGET: $5,000,000</div>
+<div class="text-olefut-gold">BUDGET: $5,000,000</div>
 <div>TEAM: <span class="text-red-600">HOME</span></div>
 </header>
 <!-- END: Header -->
 <!-- BEGIN: Position Filters -->
 <nav class="flex gap-4" data-purpose="position-filters">
-<button class="bevel-button active-filter px-6 py-2 text-sm-pixel bg-elifoot-gray-panel">ALL</button>
-<button class="bevel-button px-6 py-2 text-sm-pixel bg-elifoot-gray-panel">GK</button>
-<button class="bevel-button px-6 py-2 text-sm-pixel bg-elifoot-gray-panel">DEF</button>
-<button class="bevel-button px-6 py-2 text-sm-pixel bg-elifoot-gray-panel">MID</button>
-<button class="bevel-button px-6 py-2 text-sm-pixel bg-elifoot-gray-panel">ATT</button>
+<button class="bevel-button active-filter px-6 py-2 text-sm-pixel bg-olefut-gray-panel">ALL</button>
+<button class="bevel-button px-6 py-2 text-sm-pixel bg-olefut-gray-panel">GK</button>
+<button class="bevel-button px-6 py-2 text-sm-pixel bg-olefut-gray-panel">DEF</button>
+<button class="bevel-button px-6 py-2 text-sm-pixel bg-olefut-gray-panel">MID</button>
+<button class="bevel-button px-6 py-2 text-sm-pixel bg-olefut-gray-panel">ATT</button>
 </nav>
 <!-- END: Position Filters -->
 <!-- BEGIN: Main Dashboard Area -->
@@ -143,7 +143,7 @@
 <!-- END: Left Side - Mini Campo -->
 <!-- BEGIN: Right Side - Player Table -->
 <section class="w-2/3 bevel-outset flex flex-col overflow-hidden">
-<div class="p-2 border-b-4 border-elifoot-border-dark bg-elifoot-gray-dark text-white text-xs-pixel flex">
+<div class="p-2 border-b-4 border-olefut-border-dark bg-olefut-gray-dark text-white text-xs-pixel flex">
 <span class="w-12">POS</span>
 <span class="flex-1">NAME</span>
 <span class="w-16 text-center">SKL</span>
@@ -153,42 +153,42 @@
 <!-- Table Body -->
 <div class="flex-1 overflow-y-auto" data-purpose="player-list">
 <!-- Sample Rows (Total 22 requested) -->
-<div class="p-2 border-b border-elifoot-border-dark flex text-xs-pixel items-center hover:bg-elifoot-field-green hover:text-white cursor-pointer transition-colors">
+<div class="p-2 border-b border-olefut-border-dark flex text-xs-pixel items-center hover:bg-olefut-field-green hover:text-white cursor-pointer transition-colors">
 <span class="w-12 text-blue-700">GK</span>
 <span class="flex-1">PETER SCHMEICHEL</span>
 <span class="w-16 text-center">92</span>
 <span class="w-12 text-center">32</span>
 <span class="w-16 text-center text-green-700 font-bold">100</span>
 </div>
-<div class="p-2 border-b border-elifoot-border-dark flex text-xs-pixel items-center hover:bg-elifoot-field-green hover:text-white cursor-pointer transition-colors bg-gray-200">
+<div class="p-2 border-b border-olefut-border-dark flex text-xs-pixel items-center hover:bg-olefut-field-green hover:text-white cursor-pointer transition-colors bg-gray-200">
 <span class="w-12 text-yellow-700">DEF</span>
 <span class="flex-1">FRANCO BARESI</span>
 <span class="w-16 text-center">90</span>
 <span class="w-12 text-center">35</span>
 <span class="w-16 text-center text-green-700 font-bold">98</span>
 </div>
-<div class="p-2 border-b border-elifoot-border-dark flex text-xs-pixel items-center hover:bg-elifoot-field-green hover:text-white cursor-pointer transition-colors">
+<div class="p-2 border-b border-olefut-border-dark flex text-xs-pixel items-center hover:bg-olefut-field-green hover:text-white cursor-pointer transition-colors">
 <span class="w-12 text-yellow-700">DEF</span>
 <span class="flex-1">PAOLO MALDINI</span>
 <span class="w-16 text-center">91</span>
 <span class="w-12 text-center">27</span>
 <span class="w-16 text-center text-green-700 font-bold">100</span>
 </div>
-<div class="p-2 border-b border-elifoot-border-dark flex text-xs-pixel items-center hover:bg-elifoot-field-green hover:text-white cursor-pointer transition-colors bg-gray-200">
+<div class="p-2 border-b border-olefut-border-dark flex text-xs-pixel items-center hover:bg-olefut-field-green hover:text-white cursor-pointer transition-colors bg-gray-200">
 <span class="w-12 text-green-700">MID</span>
 <span class="flex-1">ZINEDINE ZIDANE</span>
 <span class="w-16 text-center">94</span>
 <span class="w-12 text-center">23</span>
 <span class="w-16 text-center text-green-700 font-bold">100</span>
 </div>
-<div class="p-2 border-b border-elifoot-border-dark flex text-xs-pixel items-center hover:bg-elifoot-field-green hover:text-white cursor-pointer transition-colors">
+<div class="p-2 border-b border-olefut-border-dark flex text-xs-pixel items-center hover:bg-olefut-field-green hover:text-white cursor-pointer transition-colors">
 <span class="w-12 text-red-700">ATT</span>
 <span class="flex-1">ROMARIO</span>
 <span class="w-16 text-center">95</span>
 <span class="w-12 text-center">29</span>
 <span class="w-16 text-center text-yellow-600 font-bold">85</span>
 </div>
-<div class="p-2 border-b border-elifoot-border-dark flex text-xs-pixel items-center hover:bg-elifoot-field-green hover:text-white cursor-pointer transition-colors bg-gray-200">
+<div class="p-2 border-b border-olefut-border-dark flex text-xs-pixel items-center hover:bg-olefut-field-green hover:text-white cursor-pointer transition-colors bg-gray-200">
 <span class="w-12 text-red-700">ATT</span>
 <span class="flex-1">RONALDO</span>
 <span class="w-16 text-center">96</span>
@@ -220,7 +220,7 @@
 
             players.forEach((p, index) => {
               const row = document.createElement('div');
-              row.className = `p-2 border-b border-elifoot-border-dark flex text-xs-pixel items-center hover:bg-elifoot-field-green hover:text-white cursor-pointer transition-colors ${index % 2 === 0 ? 'bg-gray-200' : ''}`;
+              row.className = `p-2 border-b border-olefut-border-dark flex text-xs-pixel items-center hover:bg-olefut-field-green hover:text-white cursor-pointer transition-colors ${index % 2 === 0 ? 'bg-gray-200' : ''}`;
               
               let posColor = 'text-blue-700';
               if(p.pos === 'DEF') posColor = 'text-yellow-700';
@@ -244,8 +244,8 @@
 <!-- END: Main Dashboard Area -->
 <!-- BEGIN: Bottom Interaction Bar -->
 <footer class="h-16 flex gap-4" data-purpose="action-buttons">
-<button class="bevel-button flex-1 bg-elifoot-gray-panel text-sm-pixel font-bold">SAVE LINEUP</button>
-<button class="bevel-button flex-1 bg-elifoot-gray-panel text-sm-pixel font-bold">TRANSFER LIST</button>
+<button class="bevel-button flex-1 bg-olefut-gray-panel text-sm-pixel font-bold">SAVE LINEUP</button>
+<button class="bevel-button flex-1 bg-olefut-gray-panel text-sm-pixel font-bold">TRANSFER LIST</button>
 <button class="bevel-button w-48 bg-red-600 text-white text-sm-pixel font-bold">EXIT</button>
 </footer>
 <!-- END: Bottom Interaction Bar -->

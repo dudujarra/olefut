@@ -1,6 +1,6 @@
 # Stitch v2 — Gemini 3 Flash redesign (2026-05-08)
 
-Project: `15832734057756371692` ELIFOOT 8-bit Football Manager
+Project: `15832734057756371692` OléFUT 8-bit Football Manager
 Model: GEMINI_3_FLASH
 Theme: NES-era retro + football palette (grass/leather/lines/cards)
 

@@ -25,7 +25,7 @@ async function main() {
     stemsDir: 'public/audio/stems'
   };
 
-  console.log('🎵 ELIFOOT Audio Generation Pipeline');
+  console.log('🎵 OléFUT Audio Generation Pipeline');
   console.log(`📦 Config:`, JSON.stringify(config, null, 2));
 
   try {

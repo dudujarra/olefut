@@ -29,7 +29,7 @@ async function main() {
         });
     });
 
-    console.log(`Total de times na base do Elifoot: ${allTeams.length}\n`);
+    console.log(`Total de times na base do OléFUT: ${allTeams.length}\n`);
 
     const teamsMap = {};
     const unmatched = [];

@@ -30,7 +30,7 @@ async function startCareer(page) {
     await page.addInitScript(() => {
         try {
             localStorage.clear();
-            localStorage.setItem('elifoot_tutorial_done', 'true');
+            localStorage.setItem('olefut_tutorial_done', 'true');
         } catch { /* ignore */ }
     });
     await page.goto('/');
@@ -53,7 +53,7 @@ test.describe('SPEC-164 §4: Sidebar nav sem crash', () => {
         for (const label of NAV_LABELS) {
             // TUTORIAL não tem sidebar (Sidebar.jsx retorna null em view 'tutorial');
             // por isso clicamos via aside enquanto disponível.
-            const sidebar = page.locator('aside.elifoot-sidebar');
+            const sidebar = page.locator('aside.olefut-sidebar');
             if (label !== 'DASHBOARD' && !(await sidebar.isVisible().catch(() => false))) {
                 // Voltamos via header se possível
                 await page.goto('/');

@@ -1,9 +1,9 @@
-# Design System: Elifoot "Luxury Arcade" Engine
+# Design System: OléFUT "Luxury Arcade" Engine
 
 ## 1. Visão Geral & Atmosfera
 **"Luxury Arcade & 16-Bit Premium"**
 
-A atmosfera do Elifoot é densa e tática, lembrando um cockpit de simulação de alto padrão, mas com o charme nostálgico e a precisão do 16-bit luxuoso. Não é "retrô bagunçado" nem "dashboard corporativo genérico". É um simulador esportivo de elite.
+A atmosfera do OléFUT é densa e tática, lembrando um cockpit de simulação de alto padrão, mas com o charme nostálgico e a precisão do 16-bit luxuoso. Não é "retrô bagunçado" nem "dashboard corporativo genérico". É um simulador esportivo de elite.
 
 **Parâmetros Base (Configuração Ativa):**
 * **Density:** 8/10 (Cockpit Dense) - Máxima densidade de dados sem comprometer a leitura. Sem espaços perdidos, linhas finas de separação.
@@ -27,7 +27,7 @@ O visual deve passar a ideia de precisão matemática e gramado sagrado.
 ## 3. Tipografia (Typography Architecture)
 A tipografia define 90% da identidade visual.
 
-* **Display/Headlines (Opcional para Hero/Marca):** `Press Start 2P` - Usado EXCLUSIVAMENTE para títulos de tela, placar do jogo, e elementos que precisam gritar "Elifoot".
+* **Display/Headlines (Opcional para Hero/Marca):** `Press Start 2P` - Usado EXCLUSIVAMENTE para títulos de tela, placar do jogo, e elementos que precisam gritar "OléFUT".
 * **Headings de Seção:** `Satoshi` ou `Cabinet Grotesk` - Bold, tracking tight (`letter-spacing: -0.04em`).
 * **Corpo e Interface:** `Outfit` ou `Geist` - Clean, ultra legível, com peso variável para hierarquia.
 * **Números / Dados [MANDATORY]:** `JetBrains Mono` ou `Geist Mono`. TODOS os dados financeiros, pontuações, placares, barras de progresso devem utilizar Monospace. Números tabulares previnem que a UI "dance" durante as atualizações rápidas do motor de jogo.
@@ -61,10 +61,10 @@ Essas são as assinaturas clichês de UI genérica que DEVERÃO SER DESTRUÍDAS 
 
 * **[BANIDO] Sombras Suaves Gigantes:** Nada de `box-shadow: 0 10px 30px rgba(0,0,0,0.1)`. Quer profundidade? Use sobreposição de camadas e bordas contrastantes de 1px.
 * **[BANIDO] Emojis ⚽️ 🏆 💰:** Emojis são proibidos no código e na interface. Use ícones Phosphor/Radix com `strokeWidth` padronizado.
-* **[BANIDO] Placeholder Texts ("Acme", "John Doe"):** Todo mock de dados visual deve parecer com os times originais do Elifoot (São Paulo, Corinthians, Santos) ou nomes gerados procedurais com verossimilhança total.
-* **[BANIDO] Botão de "Learn More" / Textos Genéricos ("Elevate your gameplay"):** Toda copy do Elifoot é direta, estatística e técnica (ex: "PROCESSAR SEMANA", "VENDER JOGADOR").
+* **[BANIDO] Placeholder Texts ("Acme", "John Doe"):** Todo mock de dados visual deve parecer com os times originais do OléFUT (São Paulo, Corinthians, Santos) ou nomes gerados procedurais com verossimilhança total.
+* **[BANIDO] Botão de "Learn More" / Textos Genéricos ("Elevate your gameplay"):** Toda copy do OléFUT é direta, estatística e técnica (ex: "PROCESSAR SEMANA", "VENDER JOGADOR").
 * **[BANIDO] Barras de Scroll Padrão do Navegador:** Todo overflow do Bento deve ter scrollbars minificadas customizadas com CSS ou hidden com rolagem limpa, mantendo a estética imersiva.
 
 ---
 **CONCLUSÃO OPERACIONAL:**
-Qualquer agente que tocar na UI do Elifoot a partir de agora **DEVE LER** este relatório. Cada refatoração de página ou componente (`ClubView.jsx`, `TransferMarket.jsx`, `Tactics.jsx`) deve ser reescrita para remover inline styles antigos, incorporar o Double-Bezel, aplicar o Bento Grid, e utilizar este vocabulário visual e tipográfico estrito.
+Qualquer agente que tocar na UI do OléFUT a partir de agora **DEVE LER** este relatório. Cada refatoração de página ou componente (`ClubView.jsx`, `TransferMarket.jsx`, `Tactics.jsx`) deve ser reescrita para remover inline styles antigos, incorporar o Double-Bezel, aplicar o Bento Grid, e utilizar este vocabulário visual e tipográfico estrito.

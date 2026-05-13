@@ -10,8 +10,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ArrowRight, X, ChatCircle } from '@phosphor-icons/react';
 
-const STORAGE_KEY_DONE = 'elifoot_onboarding_done';
-const STORAGE_KEY_STEP = 'elifoot_onboarding_step';
+const STORAGE_KEY_DONE = 'olefut_onboarding_done';
+const STORAGE_KEY_STEP = 'olefut_onboarding_step';
 
 const STEPS = [
     {

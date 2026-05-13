@@ -1,4 +1,4 @@
-# 📊 QA Report — Elifoot RPG
+# 📊 QA Report — OléFUT RPG
 
 > Gerado: 2026-05-07 21:34:12
 > Protocolo: AKITA Bug Sweep
@@ -35,8 +35,8 @@
 ```bash
 npm test              # testes unitários
 npm run test:ci       # testes + build
-./scripts/elifoot-bug-sweep.sh        # sweep completo
-./scripts/elifoot-bug-sweep.sh scan   # só varredura
-./scripts/elifoot-bug-sweep.sh test   # só testes
-./scripts/elifoot-bug-sweep.sh ci     # testes + build
+./scripts/olefut-bug-sweep.sh        # sweep completo
+./scripts/olefut-bug-sweep.sh scan   # só varredura
+./scripts/olefut-bug-sweep.sh test   # só testes
+./scripts/olefut-bug-sweep.sh ci     # testes + build
 ```

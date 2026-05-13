@@ -2,7 +2,7 @@
  * TutorialView — SPEC-072
  *
  * Onboarding 5 steps. Skip allowed. Resume via Help.
- * State persisted in localStorage 'elifoot_tutorial_done'.
+ * State persisted in localStorage 'olefut_tutorial_done'.
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -44,14 +44,14 @@ const STEPS = [
     }
 ];
 
-const STORAGE_KEY = 'elifoot_tutorial_done';
+const STORAGE_KEY = 'olefut_tutorial_done';
 
 export function TutorialView() {
     const { changeView, getDashboardView } = useGame();
     const [step, setStep] = useState(0);
 
     // --- AUDIT-FIX #16: Tutorial Funnel Tracking for SPEC-113 ---
-    const FUNNEL_KEY = 'elifoot_tutorial_funnel';
+    const FUNNEL_KEY = 'olefut_tutorial_funnel';
     const tracked = useRef(new Set());
 
     const trackStep = useCallback((idx) => {
@@ -81,7 +81,7 @@ export function TutorialView() {
         trackStep(step);
         try {
             localStorage.setItem(STORAGE_KEY, 'true');
-            localStorage.setItem('elifoot_tutorial_origin', 'completed');
+            localStorage.setItem('olefut_tutorial_origin', 'completed');
         } catch { /* ignore */ }
         changeView('start');
     };
@@ -90,7 +90,7 @@ export function TutorialView() {
         trackDrop(step);
         try {
             localStorage.setItem(STORAGE_KEY, 'skipped');
-            localStorage.setItem('elifoot_tutorial_origin', 'skipped');
+            localStorage.setItem('olefut_tutorial_origin', 'skipped');
         } catch { /* ignore */ }
         changeView('start');
     };
