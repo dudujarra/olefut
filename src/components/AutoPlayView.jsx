@@ -21,7 +21,6 @@ import {
     DownloadSimple, PersonSimpleWalk, PersonSimpleRun, Rocket, GitDiff,
     Play, Pause, Stop, Brain, WarningCircle, ClipboardText
 } from '@phosphor-icons/react';
-import bgSoakTest from '../assets/environments/bg_soak_test.png';
 import '../styles/autoplay-view.css';
 
 const SPEED_PRESETS = [
@@ -127,11 +126,7 @@ export function AutoPlayView() {
         };
 
         return (
-            <div
-                className="ef-anim-fade-in ef-scene-shell ef-ap"
-                /* eslint-disable-next-line no-restricted-syntax -- dynamic per-instance bg image */
-                style={{ backgroundImage: `url(${bgSoakTest})` }}
-            >
+            <div className="ef-anim-fade-in ef-scene-shell ef-ap">
                 <div className="ef-ap__container-sm">
                     <EfPanel variant="elev" padding="md" className="ef-ap__header-flex">
                         <h2 className="ef-arcade-h ef-arcade-h--xxl">
@@ -393,11 +388,7 @@ export function AutoPlayView() {
     const isStable = anomaliesCount === 0;
 
     return (
-        <div
-            className="ef-anim-fade-in ef-scene-shell ef-ap"
-            /* eslint-disable-next-line no-restricted-syntax -- dynamic per-instance bg image */
-            style={{ backgroundImage: `url(${bgSoakTest})` }}
-        >
+        <div className="ef-anim-fade-in ef-scene-shell ef-ap">
             {/* Stitch scanline overlay — CRT retro effect */}
             <div className="ef-ap__scanlines" aria-hidden="true" />
 

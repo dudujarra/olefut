@@ -22,7 +22,6 @@ import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { generateQuestion } from '../engine/PressConference';
 import { EfPanel, EfButton } from './ui';
-import bgPressConference from '../assets/environments/bg_press_conference.png';
 import '../styles/press-view.css';
 
 import {
@@ -106,7 +105,6 @@ export function PressView() {
                 {/* MANAGER PRESS ROOM VISUAL */}
                 <section
                     className="ef-press__hero"
-                    style={{ backgroundImage: `url(${bgPressConference})` }}
                     aria-label="Sala de coletiva de imprensa"
                 >
                     <div className="ef-press__hero-overlay">

@@ -6,7 +6,6 @@ import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
-import bgOffice from '../assets/environments/bg_transfer_market.png';
 import { ShoppingCart, Bank, CurrencyDollar, MagnifyingGlass, Funnel, Users, Storefront, ChartLineUp, Handshake, GlobeHemisphereWest, CheckCircle } from '@phosphor-icons/react';
 import '../styles/market-view.css';
 
@@ -97,7 +96,7 @@ export function MarketView() {
 
 
     return (
-        <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgOffice})` }}>
+        <div className="ef-anim-fade-in ef-layout-pitch">
             <div className="ef-layout-container ef-market__container">
 
                 {/* HEADER HERO — Stitch (80) MERCADO title + budget badge */}

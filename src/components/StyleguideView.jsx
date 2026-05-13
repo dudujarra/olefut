@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { EfButton, EfCardPlayer, EfTooltip, EfModal, EfInput } from './ui';
 import { EfPanel } from './ui/EfPanel';
-import bgManagerOffice from '../assets/environments/bg_manager_office.png';
 import { PaintBrush, ArrowLeft, TextAa, Cube, ListDashes, SquaresFour } from '@phosphor-icons/react';
 import '../styles/styleguide-view.css';
 
@@ -36,7 +35,7 @@ export function StyleguideView() {
     };
 
     return (
-        <div className="ef-anim-fade-in ef-scene-shell ef-sg" style={{ backgroundImage: `url(${bgManagerOffice})` }}>
+        <div className="ef-anim-fade-in ef-scene-shell ef-sg">
             <div className="ef-sg__container">
                 <EfPanel padding="lg" className="ef-view-header ef-sg__header">
                     <div className="ef-view-header__identity">

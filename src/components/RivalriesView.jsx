@@ -2,7 +2,6 @@ import { useGame } from '../context/GameContext';
 import { ViewOnboarding } from './ViewOnboarding';
 import { EfButton, EfPanel, EfClubBadge } from './ui';
 import { findNextDerby } from '../engine/DerbyDetector';
-import bgNewspaper from '../assets/environments/bg_newspaper.png';
 import '../styles/rivalries-view.css';
 
 import {
@@ -67,7 +66,7 @@ export function RivalriesView() {
     const companions = engine.formerCompanions || [];
 
     return (
-        <div className="ef-anim-fade-in ef-scene-shell ef-riv" style={{ backgroundImage: `url(${bgNewspaper})` }}>
+        <div className="ef-anim-fade-in ef-scene-shell ef-riv">
             <ViewOnboarding viewId="rivalries" />
             <div className="ef-view-container ef-view-container--narrow">
 

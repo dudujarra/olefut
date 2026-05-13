@@ -9,7 +9,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
-import bgTutorial from '../assets/environments/bg_tutorial.png';
 import { resetAllOnboarding, getSeenViews, ONBOARDING_BY_VIEW } from '../engine/OnboardingTriggers';
 import '../styles/tutorial-view.css';
 import {
@@ -109,10 +108,7 @@ export function TutorialView() {
     const stepLabel = `PASSO ${String(step + 1).padStart(2, '0')}`;
 
     return (
-        <div
-            className="ef-anim-fade-in ef-scene-shell ef-scene-shell--centered ef-tut"
-            style={{ backgroundImage: `url(${bgTutorial})` }}
-        >
+        <div className="ef-anim-fade-in ef-scene-shell ef-scene-shell--centered ef-tut">
             <EfPanel padding="lg" className="ef-tut__panel">
                 {/* Decorative neon corners (Stitch signature) */}
                 <span className="ef-tut__corner ef-tut__corner--bl" aria-hidden="true" />

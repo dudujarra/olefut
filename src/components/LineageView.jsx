@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { ViewOnboarding } from './ViewOnboarding';
 import { EfPanel, EfButton } from './ui';
-import bgNewspaper from '../assets/environments/bg_newspaper.png';
 import '../styles/lineage-view.css';
 import {
     TreeStructure, ArrowLeft, Trophy, Dna, Skull, Lightning,
@@ -84,7 +83,7 @@ export function LineageView() {
     ];
 
     return (
-        <div className="ef-anim-fade-in ef-scene-shell ef-lin" style={{ backgroundImage: `url(${bgNewspaper})` }}>
+        <div className="ef-anim-fade-in ef-scene-shell ef-lin">
             <ViewOnboarding viewId="lineage" />
             <div className="ef-view-container">
 

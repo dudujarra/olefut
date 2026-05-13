@@ -15,7 +15,6 @@ import {
     importJSONToSlot
 } from '../services/SaveSlotsService';
 import { EfPanel, EfButton } from './ui';
-import bgManagerOffice from '../assets/environments/bg_manager_office.png';
 import '../styles/save-slots-view.css';
 
 import {
@@ -70,10 +69,7 @@ export function SaveSlotsView() {
     };
 
     return (
-        <div
-            className="ef-anim-fade-in ef-scene-shell ef-mc"
-            style={{ backgroundImage: `url(${bgManagerOffice})` }}
-        >
+        <div className="ef-anim-fade-in ef-scene-shell ef-mc">
             <div className="ef-mc__scanlines" aria-hidden="true" />
             <div className="ef-view-container ef-view-container--wide">
 
