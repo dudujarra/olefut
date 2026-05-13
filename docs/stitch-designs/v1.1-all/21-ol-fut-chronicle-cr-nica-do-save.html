@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CRONICA DO SAVE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .crt-scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .pixel-corners {
+            box-shadow: 
+                0 -4px 0 -2px #52B788,
+                0 4px 0 -2px #52B788,
+                -4px 0 0 -2px #52B788,
+                4px 0 0 -2px #52B788;
+        }
+        .inset-press:active {
+            box-shadow: inset 4px 4px 0px 0px rgba(0,0,0,0.5);
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-tertiary-fixed": "#002113", "primary-container": "#39ff14", danger: "#FF3333", tertiary: "#e9ffef", parchment: "#F1FAEE", "on-error-container": "#ffdad6", error: "#ffb4ab", "on-secondary": "#3a3000", smoke: "#a0baae", "inverse-surface": "#e1e2e7", "on-secondary-container": "#725f00", "tertiary-container": "#8cf1be", "secondary-fixed": "#ffe16d", neon: "#39FF14", "crt-black": "#111417", "surface-bright": "#37393d", secondary: "#fff9ef", "primary-fixed-dim": "#2ae500", forest: "#1B4332", primary: "#efffe3", "on-secondary-fixed-variant": "#544600", "on-surface-variant": "#baccb0", "tertiary-fixed-dim": "#75daa8", "secondary-container": "#ffdb3c", "surface-container": "#1d2023", "primary-fixed": "#79ff5b", background: "#111417", amber: "#FBBF24", trophy: "#FFD700", "on-tertiary": "#003823", "on-tertiary-fixed-variant": "#005235", "on-secondary-fixed": "#221b00", "error-container": "#93000a", "on-primary-fixed-variant": "#095300", "surface-container-low": "#191c1f", "on-primary": "#053900", "surface-dim": "#111417", "on-surface": "#e1e2e7", "on-error": "#690005", "danger-dark": "#8B0000", "on-primary-container": "#107100", "surface-container-high": "#272a2d", "tertiary-fixed": "#92f7c3", outline: "#85967c", "surface-container-highest": "#323538", "surface-tint": "#2ae500", pitch: "#52B788", "on-tertiary-container": "#006f4a", "surface-container-lowest": "#0b0e11", "forest-dark": "#0E1F14", "on-background": "#e1e2e7", "inverse-on-surface": "#2e3134", abyss: "#040805", "outline-variant": "#3c4b35", "on-primary-fixed": "#022100", "secondary-fixed-dim": "#e9c400", surface: "#111417", "inverse-primary": "#106e00", "surface-variant": "#323538", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "16px", "margin-desktop": "32px", unit: "4px", gutter: "16px", "container-max": "1280px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {"headline-sm": ["'Press Start 2P'"], "label-md": ["'JetBrains Mono'"], "headline-md": ["Press Start 2P"], code: ["'JetBrains Mono'"], "body-lg": ["Pixelify Sans"], "body-md": ["'Rubik'"], "body-sm": ["Pixelify Sans"], "headline-lg": ["'Press Start 2P'"], "label-lg": ["'JetBrains Mono'"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-abyss text-on-surface font-body-md min-h-screen relative overflow-x-hidden selection:bg-neon selection:text-crt-black">
+<!-- Scanline Overlay -->
+<div class="fixed inset-0 crt-scanlines z-[100] opacity-30 pointer-events-none"></div>
+<!-- Top Navigation Anchor (Shared Component) -->
+<header class="bg-forest-dark border-b-4 border-pitch flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon" data-icon="menu">menu</span>
+<h1 class="font-headline-lg text-headline-lg text-neon uppercase tracking-tighter">OLÉFUT CHRONICLE</h1>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-label-lg text-label-lg text-neon font-bold border-b-2 border-neon translate-y-1 transition-all duration-75" href="#">HOME</a>
+<a class="font-label-lg text-label-lg text-parchment opacity-80 hover:bg-forest hover:text-neon hover:border-neon p-1 transition-all duration-75" href="#">REPORTS</a>
+<a class="font-label-lg text-label-lg text-parchment opacity-80 hover:bg-forest hover:text-neon hover:border-neon p-1 transition-all duration-75" href="#">DATABASE</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon" data-icon="account_circle">account_circle</span>
+<span class="material-symbols-outlined text-neon" data-icon="settings">settings</span>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 pb-32">
+<!-- Hero Branding Section -->
+<div class="mb-12 border-4 border-pitch p-6 bg-forest-dark relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-20">
+<span class="material-symbols-outlined text-[120px] text-neon" data-icon="stadium">stadium</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-4 mb-2">
+<span class="bg-neon text-crt-black font-headline-sm px-2 py-1">LIVE FEED</span>
+<span class="text-trophy font-headline-sm">STADIUM 01 - OK</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-parchment mb-4">CRÔNICA DO SAVE</h2>
+<p class="font-label-lg text-label-lg text-smoke max-w-2xl">Manager Career Journey: The rise, the falls, and the legendary pixelated glory of the gridiron.</p>
+</div>
+</div>
+<!-- Narrative Control & Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Controls & Stats -->
+<aside class="lg:col-span-4 space-y-6">
+<!-- Toggle Group -->
+<div class="border-4 border-pitch bg-crt-black p-4">
+<h3 class="font-headline-sm text-headline-sm text-neon mb-4 uppercase tracking-widest">NARRATIVE VIEW</h3>
+<div class="flex flex-col gap-2">
+<button class="w-full text-left p-3 border-2 border-neon bg-forest text-neon font-headline-sm flex justify-between items-center inset-press">
+                            TEMPORADA <span class="material-symbols-outlined" data-icon="radio_button_checked">radio_button_checked</span>
+</button>
+<button class="w-full text-left p-3 border-2 border-pitch bg-forest-dark text-smoke font-headline-sm flex justify-between items-center hover:bg-forest hover:text-parchment transition-colors inset-press">
+                            SAVE INTEIRO <span class="material-symbols-outlined" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+</button>
+</div>
+</div>
+<!-- Manager Bio Card -->
+<div class="border-4 border-pitch bg-forest-dark overflow-hidden">
+<div class="h-48 bg-abyss relative border-b-4 border-pitch">
+<img class="w-full h-full object-cover grayscale contrast-125 opacity-70" data-alt="A portrait of a legendary football manager in a silhouette style, standing on the sidelines of a misty pitch under stadium floodlights. The lighting is harsh and high-contrast, reminiscent of 16-bit arcade cinema screens. Deep forest greens and pitch blacks dominate the scene, with neon green highlights outlining the figure's determined expression. The overall mood is intense, atmospheric, and nostalgic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo6Upn6CfUy8yPLSz7_uGvEJVZauwFb9laFjNuw4IGPs3a4UomgD5MINViMZrzYDGAoTc3XiWDqVc0SnKBKbEqOKwikjjFU9gKzNLB7H2z0Q1ZrhUgc22xEVvr92VhnBcSJi7ReJASMbK47eXGqEX5B6LiDu-_HUj8o0JykdDYHp4TO05wNWclMhLB4yCBF1dnkZ9Zep7EMr24KnB4AyVgoLDTMklkI7AG9IiutlGzKmxE5yCqmHjTUSlPKSyBd0B2pgwrsm22XM0"/>
+<div class="absolute bottom-0 left-0 bg-neon text-crt-black font-headline-sm px-3 py-1">MANAGER ALPHA</div>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex justify-between border-b border-smoke/30 pb-2">
+<span class="text-smoke font-label-md uppercase">Current Club</span>
+<span class="text-trophy font-label-md">REAL PIXEL FC</span>
+</div>
+<div class="flex justify-between border-b border-smoke/30 pb-2">
+<span class="text-smoke font-label-md uppercase">Trophies</span>
+<span class="text-trophy font-label-md">🏆 12</span>
+</div>
+<div class="flex justify-between">
+<span class="text-smoke font-label-md uppercase">Win Rate</span>
+<span class="text-neon font-label-md">68.4%</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Column: Narrative Body -->
+<section class="lg:col-span-8">
+<div class="border-4 border-pitch bg-crt-black min-h-[600px] flex flex-col">
+<!-- Terminal Header -->
+<div class="bg-pitch text-crt-black px-4 py-2 flex justify-between items-center">
+<span class="font-headline-sm">SYSTEM_LOG_2024.TXT</span>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-crt-black"></div>
+<div class="w-3 h-3 bg-crt-black"></div>
+</div>
+</div>
+<!-- Content Canvas -->
+<div class="p-8 space-y-8 font-label-lg text-parchment leading-relaxed flex-grow">
+<div class="border-l-4 border-neon pl-6 py-2">
+<h4 class="font-headline-sm text-neon mb-2">CHAPTER I: THE ASCENT</h4>
+<p>O sol mal rompia o horizonte quando cheguei aos portões do Centro de Treinamento. A temporada de 2023 começou como um sonho distante, mas as primeiras cinco vitórias consecutivas provaram que o Real Pixel FC não estava ali apenas para participar. O vestiário pulsava com uma energia bruta, quase elétrica.</p>
+</div>
+<div class="space-y-4">
+<p>A transição tática para o 4-3-3 "Vaporwave" mudou tudo. Meus alas cortavam para dentro como lâminas, enquanto o meio-campo operava com a precisão de um processador de 32 bits. Vimos gigantes caírem um a um. A derrota para o Athletic Bit na semifinal da Copa foi um golpe duro, um "Game Over" temporário que quase nos tirou dos trilhos.</p>
+<p>Mas voltamos. Inserimos a ficha novamente. A final contra o Megabyte United foi uma batalha épica sob chuva torrencial. O gol de placa aos 89 minutos, um chute de curva que desafiou a física dos sprites, selou nosso destino. Campeões. A torcida invadiu o campo em uma massa de cores saturadas.</p>
+</div>
+<div class="grid grid-cols-2 gap-4 my-8">
+<img class="border-2 border-pitch h-40 w-full object-cover grayscale" data-alt="A low-angle shot of a wide-angle stadium during a night match, captured with a grainy, pixelated retro film effect. The stadium floodlights cast long, dramatic shadows across the green pitch, which is saturated in a deep forest green. Neon green stadium seating glows in the background. The atmosphere is nostalgic, evoking a cinematic replay screen from a 90s console game." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqTF2JWundlJs2o-zhE3Ip_515S2SpSUwPnOCGwVxweXvFAvT3MGc6rF-f4pnqMHSrMM8Kv75PbnnDR6gnFD7p_SlXZRWm2U0_TYxlTPEnsBhe_etvgt-YLnMHzNuWbm7cem9JuKmNLaUQ96gfYM4IsWBusRbj6P4lqObW48tq5rj-fxqXWkLfWS4LpP6dyZ9ij2PCVbeEbP456aO4zQQ5iO3VLbtu9VK8v8nqxiXOIvJ1BN2K099xS2-zqON8uaSSZOVPuCsS_II"/>
+<img class="border-2 border-pitch h-40 w-full object-cover" data-alt="A macro shot of a shiny, golden trophy standing center-stage on a velvet-covered podium. The trophy is lit by a single, sharp spotlight creating high-contrast reflections. The background is a pitch black, making the trophy's gold glow intensely. The visual style is inspired by 32-bit reward screens, featuring heavy saturation and a celebratory, punchy mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD74pRnNHXeitcBBKzmzEiyEiKKkjlWdzRH7kHLGJkdjN_KN_CSc7Ev4dcZepkUX7-o66hbuJZSAyicYEfUDOohwwxQ-8m3Gx6iYpJvt96EwZXbvMKc58dfqqbfq8OC5YgLrCfAyXl8Dv6Xg0V2j7WbYFeY4uAlaXeZ-3XFfWnpU7_GHCWuVRYQtJ5n6b2oIk1hFZ7NDn7VTVmNdRFeXHzODTVtj6DEydGOZz-0hojkuXrS10tQMsOk87-rVvqXmqtRcBhfqdAlF1c"/>
+</div>
+<div class="border-2 border-neon bg-forest-dark/50 p-4 font-code text-neon flex items-start gap-3">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+<p>LOG ENTRY: Season concluded with 89 points. New club record established. Moral high. Preparing for international qualifiers.</p>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="border-t-4 border-pitch p-6 bg-forest-dark flex flex-wrap gap-4 justify-end">
+<button class="bg-forest border-2 border-pitch text-parchment font-headline-sm px-6 py-3 flex items-center gap-3 hover:border-neon hover:text-neon transition-all inset-press">
+<span class="material-symbols-outlined" data-icon="file_download">file_download</span>
+                            EXPORT PNG
+                        </button>
+<button class="bg-forest border-2 border-pitch text-parchment font-headline-sm px-6 py-3 flex items-center gap-3 hover:border-neon hover:text-neon transition-all inset-press">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+                            EXPORT JSON
+                        </button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Shared Component) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 pb-safe bg-crt-black border-t-4 border-pitch">
+<div class="flex flex-col items-center justify-center text-smoke opacity-70 px-4 py-1">
+<span class="material-symbols-outlined" data-icon="file_download">file_download</span>
+<span class="font-label-md text-label-md">PNG Export</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke opacity-70 px-4 py-1">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span class="font-label-md text-label-md">JSON Data</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-forest text-neon border-2 border-neon rounded-none px-4 py-1 scale-95">
+<span class="material-symbols-outlined" data-icon="stadium">stadium</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke opacity-70 px-4 py-1">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+<span class="font-label-md text-label-md">History</span>
+</div>
+</footer>
+</body></html>

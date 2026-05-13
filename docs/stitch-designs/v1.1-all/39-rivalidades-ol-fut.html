@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT - Rivalidades</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            position: relative;
+        }
+        .pixel-corners {
+            clip-path: polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% - 0 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px));
+        }
+        .crt-scanline {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+            background-size: 100% 4px;
+            z-index: 100;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-error": "#690005", background: "#111417", pitch: "#52B788", "inverse-on-surface": "#2e3134", secondary: "#fff9ef", "on-tertiary-container": "#006f4a", "forest-dark": "#0E1F14", parchment: "#F1FAEE", "surface-container-high": "#272a2d", "on-tertiary-fixed": "#002113", "on-background": "#e1e2e7", "tertiary-fixed": "#92f7c3", "on-primary-fixed-variant": "#095300", "primary-fixed": "#79ff5b", "surface-container": "#1d2023", "on-tertiary-fixed-variant": "#005235", tertiary: "#e9ffef", "surface-container-low": "#191c1f", error: "#ffb4ab", smoke: "#a0baae", "on-secondary-fixed": "#221b00", "on-surface-variant": "#baccb0", "primary-container": "#39ff14", surface: "#111417", "tertiary-fixed-dim": "#75daa8", amber: "#FBBF24", "danger-dark": "#8B0000", "surface-dim": "#111417", "on-primary-container": "#107100", "on-primary": "#053900", "surface-variant": "#323538", "on-tertiary": "#003823", "inverse-primary": "#106e00", "surface-bright": "#37393d", "secondary-fixed": "#ffe16d", "on-secondary-fixed-variant": "#544600", "surface-container-highest": "#323538", "secondary-container": "#ffdb3c", "inverse-surface": "#e1e2e7", "on-surface": "#e1e2e7", "outline-variant": "#3c4b35", neon: "#39FF14", "crt-black": "#111417", "surface-container-lowest": "#0b0e11", "surface-tint": "#2ae500", "secondary-fixed-dim": "#e9c400", "on-primary-fixed": "#022100", "primary-fixed-dim": "#2ae500", "tertiary-container": "#8cf1be", "on-secondary": "#3a3000", abyss: "#040805", outline: "#85967c", "on-error-container": "#ffdad6", trophy: "#FFD700", forest: "#1B4332", "error-container": "#93000a", "on-secondary-container": "#725f00", primary: "#efffe3", danger: "#FF3333", "danger-red": "#FF3333", "pitch-green": "#52B788", "trophy-gold": "#FFD700"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "16px", "margin-desktop": "32px", "container-max": "1280px", gutter: "16px", unit: "4px", sm: "8px", xl: "48px", lg: "24px", base: "4px", md: "16px", xs: "4px"}, fontFamily: {"body-sm": ["Pixelify Sans"], "headline-sm": ["'Press Start 2P'"], "label-md": ["jetbrainsMono"], code: ["jetbrainsMono"], "body-md": ["rubik"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "headline-lg": ["'Press Start 2P'"], "label-lg": ["jetbrainsMono"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="text-parchment overflow-x-hidden">
+<div class="crt-scanline"></div>
+<!-- TopNavBar -->
+<header class="bg-forest-dark dark:bg-forest-dark font-headline-sm text-headline-sm docked full-width top-0 border-b-4 border-pitch flat no shadows flex justify-between items-center w-full px-margin-desktop py-4 sticky z-50">
+<div class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</div>
+<div class="hidden md:flex gap-8 items-center">
+<span class="text-parchment">$2.4M</span>
+<span class="text-parchment">12 AUG 2024</span>
+<button class="bg-forest border-2 border-pitch text-neon px-4 py-2 active:translate-y-1 active:border-b-0 hover:border-neon transition-all">UPGRADE</button>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-neon cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-neon cursor-pointer" data-icon="settings">settings</span>
+</div>
+<img alt="Manager Profile Avatar" class="w-10 h-10 border-2 border-neon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKHPAYSIvSI0gtlBvSSaCSKDa1n5PQcle1gdH-3JL4x5S_iaGqwWbmE1I62fMq6jyBTqX7rV_QqgqzEFoAD8AkF9DvKMIcq4LQY1-DLa-Veenw8TAlssY9-x1XO0l6vKX8KSVkekVccDYVsjMe9TjWDFAePZowNRFRKSo7doVH51l5RWkRZ1pMfZ8Nu9MjAW_4zVuZsN51VK1xai7E47JTEIyTOEH_L-NCRNeUnfaYGiWYPGMmeRmFWl1wSjrYT5C5CaAD5aJST38"/>
+</div>
+</header>
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="bg-crt-black dark:bg-crt-black font-label-lg text-label-lg docked left-0 h-full w-64 border-r-4 border-pitch flat no shadows fixed hidden md:flex flex-col z-40">
+<div class="p-6 border-b-4 border-pitch">
+<div class="flex items-center gap-3">
+<img alt="Club Crest" class="w-12 h-12 border-2 border-neon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEv2z6zl70ZQhVsy-994ycHdGWn46e7wXZh-OK9qwrkz1p5GzmAo0ajNgucUL8GauPVap_bFJcD3ewlizIt4rOZP4bCOpktltvxPpcnNtET8xXqWqPv6DKUxk6nUuagkQsInKICBwMeLqydJ6Aq0Bbdxv4qNEciCkdZUXeQGp3ZNRh4aSI69ip0lwHxYMcLgE4NZ7jliZK8c5U_HY5lTqjEN0eQELhM1i1hWOpxIQaxQ96GBU2ZwC7Ighvcg3l2LmTI9rFmoosp4U"/>
+<div>
+<h2 class="font-headline-md text-headline-md text-neon text-[10px] leading-tight">REAL MADRID CF</h2>
+<p class="text-smoke text-[8px] uppercase tracking-widest">Elite Division</p>
+</div>
+</div>
+</div>
+<div class="flex-1 py-4">
+<a class="flex items-center gap-4 text-smoke px-4 py-3 hover:bg-surface-container hover:text-neon transition-colors duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span> Squad
+                </a>
+<a class="flex items-center gap-4 text-smoke px-4 py-3 hover:bg-surface-container hover:text-neon transition-colors duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span> Transfer Market
+                </a>
+<a class="flex items-center gap-4 text-smoke px-4 py-3 hover:bg-surface-container hover:text-neon transition-colors duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span> League
+                </a>
+<a class="flex items-center gap-4 text-smoke px-4 py-3 hover:bg-surface-container hover:text-neon transition-colors duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span> History
+                </a>
+<a class="bg-forest text-neon border-l-4 border-neon px-4 py-3 flex items-center gap-4" href="#">
+<span class="material-symbols-outlined" data-icon="swords">swords</span> Rivalries
+                </a>
+</div>
+<div class="p-4 bg-forest-dark mt-auto border-t-4 border-pitch">
+<button class="w-full bg-neon text-crt-black font-headline-sm text-[10px] py-3 hover:bg-parchment active:translate-y-1 transition-all">NEXT MATCH</button>
+</div>
+<div class="p-4 border-t-4 border-pitch">
+<a class="flex items-center gap-4 text-smoke px-4 py-2 hover:text-neon" href="#"><span class="material-symbols-outlined" data-icon="help">help</span> Support</a>
+<a class="flex items-center gap-4 text-smoke px-4 py-2 hover:text-neon" href="#"><span class="material-symbols-outlined" data-icon="logout">logout</span> Log Out</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 md:ml-64 p-4 md:p-8 bg-background">
+<div class="max-w-container-max mx-auto space-y-12">
+<!-- Page Title -->
+<div class="flex items-baseline gap-4 border-b-4 border-neon pb-2">
+<h1 class="font-headline-lg text-neon">RIVALIDADES</h1>
+<span class="font-label-lg text-smoke">ESTADO DA TEMPORADA</span>
+</div>
+<!-- Featured Panel: NEXT RED DERBY -->
+<section class="relative">
+<div class="bg-forest-dark border-4 border-danger p-6 md:p-10 relative overflow-hidden">
+<!-- Red Scanline Effect for emphasis -->
+<div class="absolute inset-0 opacity-10 pointer-events-none bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,#ff0000_3px)]"></div>
+<div class="relative z-10 grid md:grid-cols-2 gap-8 items-center">
+<div>
+<div class="bg-danger text-parchment inline-block px-3 py-1 font-headline-sm text-[10px] mb-4">PRÓXIMO DERBY VERMELHO</div>
+<h2 class="font-headline-lg text-parchment mb-4">UNITED FC <span class="text-danger">VS</span> RED RIVALS</h2>
+<p class="font-body-lg text-smoke mb-6">O confronto mais sangrento da história do OléFUT. Uma disputa que transcende os pontos da tabela; aqui, joga-se pela honra e pelo controle absoluto da região norte.</p>
+<div class="flex gap-4">
+<div class="bg-abyss border border-smoke p-4 text-center">
+<div class="text-smoke font-label-md text-[10px]">DATA</div>
+<div class="text-neon font-headline-sm mt-1">15 OUT</div>
+</div>
+<div class="bg-abyss border border-smoke p-4 text-center">
+<div class="text-smoke font-label-md text-[10px]">ESTÁDIO</div>
+<div class="text-neon font-headline-sm mt-1">ARENA INFAMY</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center items-center gap-8 md:gap-16">
+<img alt="United FC Crest" class="w-32 h-32 md:w-48 md:h-48 drop-shadow-[0_0_15px_rgba(255,51,51,0.5)]" data-alt="A retro pixel-art football club crest for United FC, featuring a prominent red shield, a golden eagle, and 90s arcade aesthetic. The logo is sharp with high contrast, set against a dark atmosphere with subtle neon red glows, evoking a classic football manager UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEnpiWGDqeDHbVOHnleqomF0g_POF5wV5VOSlkfh51X6JZ-aXc2bOaaqxGnP_yQ5nAjPkZGl7t2IQAlMt1ikVRvmieKndcKwhZ08rmXgo3G8kd0-XCRM-0IaufnxUK8wg2jpRwCU-_nAvKmYQCuiYKFmh7oTifLs7e8-q9l2OckwxY6OgqJ324FoTB-FHH5cwTzIsq4e6m1ma08eLsBihxqg1lsKpBal5Zfzf3D2ek8-eirvt7KL0GIXPeunv-UG4e45XpEGUuBz8"/>
+<div class="font-headline-lg text-danger animate-pulse">VS</div>
+<img alt="Red Rivals Crest" class="w-32 h-32 md:w-48 md:h-48 drop-shadow-[0_0_15px_rgba(255,51,51,0.5)]" data-alt="A striking pixel-art football emblem for Red Rivals, characterized by a deep crimson background, a stylized lightning bolt, and bold white lettering. The visual style is rooted in 16-bit video game graphics, with heavy outlines and vibrant saturation, glowing slightly against a forest-dark environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN-ov6kgheUQ0FQBcTax4bmxCv8hBtH4D-_b8veW3in96gUdWXHzsreNTT12KrCeYmwmgXgQyK04J-FpYB95g1E7g6Ul8gGBjf2mDFkBDPNNllCVeONpqLFd0LBrXOEG8nqQZ2snHNAFikYi-t9rYCP0Q_XU8-ZsFSf62miF6nsJSuEa5k1jym1mTrQWn-cQ7Pe9b_3XSGvcwrjjjiComCiTO5mWFli-Q_2MY2VZ9NbW9n7kJjj5Txl90kQjcZDj9gW7jQSEVSnOo"/>
+</div>
+</div>
+</div>
+</section>
+<!-- List of Rivalries -->
+<section>
+<div class="flex justify-between items-end mb-6">
+<h3 class="font-headline-md text-neon">CLASSIFICAÇÃO DE RIVAIS</h3>
+<div class="text-smoke font-label-md">ORDENADO POR: INTENSIDADE</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1: Consolidada -->
+<div class="bg-crt-black border-2 border-pitch p-5 flex flex-col gap-4 hover:border-neon transition-all">
+<div class="flex justify-between items-start">
+<img alt="Lions SC" class="w-14 h-14 border-2 border-pitch" data-alt="A pixelated football club logo for Lions SC, showcasing a fierce golden lion head on a navy blue background. The style is reminiscent of 90s arcade sports games, featuring thick borders, high-contrast highlights, and a punchy, energetic aesthetic within a square frame." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi6CtKGQ5bkKPijrOUO3wksYkFa5v51DHN-sdTf_Sm0tKBLbp37M4C5ya2h4RRLZq6EYVHDa0RYopUJZjvKJaaWcoPenyHe5yURl2RSjOilk3k6DWKk4I4-Fn5gpLpU74OlZKRWy_SyZiMwn7FuxcvDyjkeJF66sMW1XwnsP7xNSn6UZKz-5cWxk664lNYmOLlb1Rl8zUNrFxZKzbFv_tdoyQEmx9veX08NAB75yjyf_OgMN-h5lPZl-79CTa3vnxcyr73wx6j7XE"/>
+<span class="bg-trophy text-crt-black font-headline-sm text-[8px] px-2 py-1">CONSOLIDADA</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-[10px]">LIONS SC</h4>
+<p class="text-smoke font-label-md mt-1">CLÁSSICO DA SELVA</p>
+</div>
+<div class="grid grid-cols-3 gap-2 bg-abyss p-3 border border-pitch text-center">
+<div><div class="text-[8px] text-smoke">V</div><div class="text-neon font-headline-sm">12</div></div>
+<div><div class="text-[8px] text-smoke">E</div><div class="text-parchment font-headline-sm">4</div></div>
+<div><div class="text-[8px] text-smoke">D</div><div class="text-danger font-headline-sm">15</div></div>
+</div>
+</div>
+<!-- Card 2: Novo Classico -->
+<div class="bg-crt-black border-2 border-pitch p-5 flex flex-col gap-4 hover:border-neon transition-all">
+<div class="flex justify-between items-start">
+<img alt="Inter Galactics" class="w-14 h-14 border-2 border-pitch" data-alt="An interstellar-themed football club crest in retro pixel art, featuring a stylized galaxy spiral and a sleek white star. The colors are deep purples and neon greens, capturing a 32-bit era sports aesthetic with sharp lines and high-energy color saturation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz0kX4udVy8yXNO-QkKv9V8VyBQTaNPOtjj8CaKCjLRonkCPQrhPluL1JyC3-zKCGkqCv52LmLJF3awBuxapXaX6_4btPLZ66KF-ujuqUpyS4xOT2VTrXnU_84APJcxw2TWlWGyHHbnajis6oy7xH6BAJSxuwA9D9Mj8wn78oeJmYYvEmktfZuiCllGTdKQpSTUtq4xv8uA13Xam4KRM-cVuffUt_PQ5ULrvgCRdR_kLD6FbMPM_7FHWSHr8PbMGig7v8qy5xc9qU"/>
+<span class="bg-neon text-crt-black font-headline-sm text-[8px] px-2 py-1">NOVO CLÁSSICO</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-[10px]">INTER GALACTICS</h4>
+<p class="text-smoke font-label-md mt-1">A BATALHA DO FUTURO</p>
+</div>
+<div class="grid grid-cols-3 gap-2 bg-abyss p-3 border border-pitch text-center">
+<div><div class="text-[8px] text-smoke">V</div><div class="text-neon font-headline-sm">5</div></div>
+<div><div class="text-[8px] text-smoke">E</div><div class="text-parchment font-headline-sm">2</div></div>
+<div><div class="text-[8px] text-smoke">D</div><div class="text-danger font-headline-sm">1</div></div>
+</div>
+</div>
+<!-- Card 3: Crescendo -->
+<div class="bg-crt-black border-2 border-pitch p-5 flex flex-col gap-4 hover:border-neon transition-all">
+<div class="flex justify-between items-start">
+<img alt="Titan FC" class="w-14 h-14 border-2 border-pitch" data-alt="A brutalist pixel-art football emblem for Titan FC, showing a massive gray mountain peak inside a circular border. The design is heavy and authoritative, using a limited palette of stone grays and bright ambers to evoke a classic 90s console gaming UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDuZhzWYgg1xvGjFUhH0EI6fjaZoQ2DG6lHmsIc1N-qNqQeiuAXr72N0PJ6H3VwhBaWivENwB-R7TkNOhQm-0XXMtGVYQr9w7j29sApUKZ1SKXgLb0SAY7oV3PYzDgu-mzauGjIFKuVKhLdjevvm4UjR16LqPSTQoIN_t8S0eFYbUhNjgTyT5JUyUzeBFXDsyX-udAR6g83zWRzcY4ftmvyAAs4R6xsS67VlWS1UiN9TB5vIzuqi8An_sV39ztC-qAzxV1q3F9xUc"/>
+<span class="bg-amber text-crt-black font-headline-sm text-[8px] px-2 py-1">CRESCENDO</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-[10px]">TITAN FC</h4>
+<p class="text-smoke font-label-md mt-1">DUELO PESADO</p>
+</div>
+<div class="grid grid-cols-3 gap-2 bg-abyss p-3 border border-pitch text-center">
+<div><div class="text-[8px] text-smoke">V</div><div class="text-neon font-headline-sm">2</div></div>
+<div><div class="text-[8px] text-smoke">E</div><div class="text-parchment font-headline-sm">1</div></div>
+<div><div class="text-[8px] text-smoke">D</div><div class="text-danger font-headline-sm">2</div></div>
+</div>
+</div>
+<!-- Card 4: Inicio -->
+<div class="bg-crt-black border-2 border-pitch p-5 flex flex-col gap-4 hover:border-neon transition-all">
+<div class="flex justify-between items-start">
+<img alt="Celta Rovers" class="w-14 h-14 border-2 border-pitch" data-alt="A vintage-inspired pixel-art crest for Celta Rovers, featuring a traditional green shield and a simple white anchor. The style is minimalist yet high-impact, with clear dithering and a 16-bit color profile that feels like a hidden gem from a retro football management simulation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRGucrCVJK1Hlz-oQbTqsygMhWKuZkor1aP4FMHEXgCCXut3QQO1i8WVpn2eO1Fv1-eL0t5db7njqei6qrOAiiZtQISqAVUwIceEyg_kwl0w6_zc00M3Mjca61sGArqOZg4kF6zjpgAvP493vcjIELzjlbJ-pZ4QgLwh8MXHdW5MerauHGORBxYcqmBieJPEAnZ3DK8VJkGP1n_q2P6F2bCAlF68Fb1JujqSZl4fYH6qU8XGUEKH1WFZnNFxfiCORebIYdeW_o5oU"/>
+<span class="bg-smoke text-crt-black font-headline-sm text-[8px] px-2 py-1">INÍCIO</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-[10px]">CELTA ROVERS</h4>
+<p class="text-smoke font-label-md mt-1">PRIMEIRO CONTATO</p>
+</div>
+<div class="grid grid-cols-3 gap-2 bg-abyss p-3 border border-pitch text-center">
+<div><div class="text-[8px] text-smoke">V</div><div class="text-neon font-headline-sm">0</div></div>
+<div><div class="text-[8px] text-smoke">E</div><div class="text-parchment font-headline-sm">1</div></div>
+<div><div class="text-[8px] text-smoke">D</div><div class="text-danger font-headline-sm">0</div></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: EX-COMPANHEIROS -->
+<section>
+<div class="bg-forest-dark border-4 border-pitch p-8">
+<div class="flex items-center gap-4 mb-8">
+<span class="material-symbols-outlined text-neon text-4xl" data-icon="swap_horiz">swap_horiz</span>
+<h3 class="font-headline-md text-neon">EX-COMPANHEIROS</h3>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+<!-- Player Card 1 -->
+<div class="bg-abyss border-2 border-smoke p-4 text-center group hover:border-neon transition-all">
+<img alt="Hugo Silva" class="w-24 h-24 mx-auto mb-4 border-2 border-pitch group-hover:border-neon grayscale contrast-125" data-alt="A high-contrast pixelated portrait of a professional football player in a retro 90s game style. The image features deliberate pixelation, a limited color palette of greens and grays, and a sharp profile view, reminiscent of character select screens from classic arcade titles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdJPKnKlompQIXHL_AH0OBMNDdROgXBU-8MImdr32VhPyn3s-FIce_EDPxpbfFK1YfkhP74XBREF-EwEFNVYbp2k4DWuYmvFxeYO2vT_-AUuALeoBLGCfUW-lpoIY8iDf_W0vU2SrbI5gQhqwuFwpFnGMBmXYqWGeD3Gon5Cp3UGv2Jhh9psGB4X_c-JLsDjyJVdpOX1feEPZsP7b2_98uXrF_27bdKnhGS_RMQc11KqbqVMrfIGATdLqPSg4eC6AVTljgV0gNio4"/>
+<h5 class="font-headline-sm text-[8px] text-parchment">HUGO SILVA</h5>
+<div class="mt-2 flex flex-col gap-1">
+<span class="text-smoke font-label-md text-[10px]">REAL: 2018-22</span>
+<span class="text-danger font-label-md text-[10px]">UNITED: 2023-</span>
+</div>
+</div>
+<!-- Player Card 2 -->
+<div class="bg-abyss border-2 border-smoke p-4 text-center group hover:border-neon transition-all">
+<img alt="Marco Zen" class="w-24 h-24 mx-auto mb-4 border-2 border-pitch group-hover:border-neon grayscale contrast-125" data-alt="A pixel-art headshot of an athletic man in a sports jersey, styled after 16-bit console graphics. The portrait uses deep shadows and bright green highlights, with visible pixel blocks that emphasize a nostalgic, digital arcade aesthetic for a football manager game interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrRt0mBD0ort_txT5Ou3kRhfT4ZD-r9ty0kk2o3VJE5fLmnaZ7zXX3D1JlwhSzqiREgXqOOoRgSXLLtvyMqmFJS3cos4LIdALGmU9TDzo7sZCtXbVmDXo5vgYKzOlGat_JHXkPyXHBZkqRdJFeE3pS7-FSIlrz4wEkYnpC7NB4QBD4Wv5dnQKCGlfXi7By8-NGd7x9cL_6x2gFjONgDheDDkL-UoosSp4kOSJiKll8U9xjUuyOYgLwshZYE2BqWq_pgEPSvhntCo4"/>
+<h5 class="font-headline-sm text-[8px] text-parchment">MARCO ZEN</h5>
+<div class="mt-2 flex flex-col gap-1">
+<span class="text-smoke font-label-md text-[10px]">REAL: 2015-19</span>
+<span class="text-danger font-label-md text-[10px]">LIONS: 2020-</span>
+</div>
+</div>
+<!-- Player Card 3 -->
+<div class="bg-abyss border-2 border-smoke p-4 text-center group hover:border-neon transition-all">
+<img alt="Lukas V" class="w-24 h-24 mx-auto mb-4 border-2 border-pitch group-hover:border-neon grayscale contrast-125" data-alt="Retro digital portrait of a football player with a focused expression, rendered in a 90s pixelated aesthetic. The image utilizes a vibrant neon green and dark forest color palette, maintaining sharp edges and a gritty, high-performance sports feel consistent with 32-bit era simulations." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2RlPV3KO-GjUGJKupBifK57AB3CIydv2vkNWWfvDdPYBDoWm0C55G4FlnKyr5DofgbiBB4gQ7VYGwX7u8xbML8vzContdaOiKOUU21AjPuG9A7044nrtHiXfFAROeKyvm7tWLcIY2Q2mvLkxFmr0qWJoRP6row-CuHJX02PHEEQjxn2oCom2RDGGDwKJZThCOFAaWw2Vebxu3ZhYdeN4AIERxZFhTeGmQjgn-83qfsJBp1oje8T0tSyoERSGzsC26V4j-xq3O0yM"/>
+<h5 class="font-headline-sm text-[8px] text-parchment">LUKAS V.</h5>
+<div class="mt-2 flex flex-col gap-1">
+<span class="text-smoke font-label-md text-[10px]">TITAN: 2021-23</span>
+<span class="text-danger font-label-md text-[10px]">REAL: 2024-</span>
+</div>
+</div>
+<!-- Player Card 4 -->
+<div class="bg-abyss border-2 border-smoke p-4 text-center group hover:border-neon transition-all">
+<img alt="Alex J" class="w-24 h-24 mx-auto mb-4 border-2 border-pitch group-hover:border-neon grayscale contrast-125" data-alt="A pixelated character portrait for a sports manager game, featuring a rugged football player with a headband. The visual style is heavily dithered with high contrast between light and shadow, using atmospheric dark greens and bright neon accents to create a premium nostalgia vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHz50s3xlTFIkoeJn0jIA16sRq4q1E7eaMujOtFatnetnL5bi6MoaFf8yfJOWlTbOwuB8AD7hPzzscTQG74W3xHCThYACWBozWg3JC9OzEbdo6Ikr3tUvoPTpreGIhY6HF2EmRHObG2XEmDchuEicngoAZPqJcw5H8zAD-DE4WVdm8lbRsW5ztZ8sVs9iJX4j_FdtADakvgcOFAtsPQJnoWzFdX_caD4D7bdeWMCTopDOxk1MJbVgdc1MqDEV18E2p3LvfqyQJ-d8"/>
+<h5 class="font-headline-sm text-[8px] text-parchment">ALEX J.</h5>
+<div class="mt-2 flex flex-col gap-1">
+<span class="text-smoke font-label-md text-[10px]">REAL: 2019-21</span>
+<span class="text-danger font-label-md text-[10px]">RED: 2021-</span>
+</div>
+</div>
+<!-- Player Card 5 -->
+<div class="bg-abyss border-2 border-smoke p-4 text-center group hover:border-neon transition-all">
+<img alt="Renato G" class="w-24 h-24 mx-auto mb-4 border-2 border-pitch group-hover:border-neon grayscale contrast-125" data-alt="Stylized pixel-art headshot of a goalkeeper with a serious look, captured in the aesthetic of a mid-90s arcade football title. The image features a thick pitch-black outline, saturated green highlights, and a low-resolution texture that evokes the feeling of playing on an old CRT monitor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtiwop2x-kLZInV_myFLt4PzzR76ikJmM1HjoNk_kblWJGA5igE0HnP10NjpmyP2KHb0x-7M-QiN1aVDlL5dvbELUt8N6TxZ9JWfNYa0IzbgX16sqmp7KoNBQamKiAqBYr_C8it5cIn-MSzZOJk9yY_wmE3xHLusA4V59DYGR5EMvS-KcJBl_DIKM2kkGxwYPkBb5fD8dxYIa-l5FjSzEoTki-926nrryJUhgrWaTYY0kp5Rzh5MbE7OMneTdDBjuD7gi9yhrR4RM"/>
+<h5 class="font-headline-sm text-[8px] text-parchment">RENATO G.</h5>
+<div class="mt-2 flex flex-col gap-1">
+<span class="text-smoke font-label-md text-[10px]">INTER: 2017-20</span>
+<span class="text-danger font-label-md text-[10px]">REAL: 2021-</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- BottomNavBar for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-forest-dark border-t-4 border-pitch flex justify-around p-4 z-50">
+<div class="flex flex-col items-center gap-1 text-smoke">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-[8px] font-headline-sm">SQUAD</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-smoke">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-[8px] font-headline-sm">MERCADO</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-neon">
+<span class="material-symbols-outlined" data-icon="swords" style="font-variation-settings: 'FILL' 1;">swords</span>
+<span class="text-[8px] font-headline-sm">RIVAIS</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-smoke">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="text-[8px] font-headline-sm">LIGA</span>
+</div>
+</nav>
+</body></html>

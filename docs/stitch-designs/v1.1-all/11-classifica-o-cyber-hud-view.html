@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .scanning-bar {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #39FF14, transparent);
+            box-shadow: 0 0 15px #39FF14;
+            z-index: 10;
+            pointer-events: none;
+            animation: scan 4s linear infinite;
+        }
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+        .glass-panel {
+            background: rgba(14, 31, 20, 0.7);
+            backdrop-filter: blur(8px);
+            border: 2px solid #52B788;
+        }
+        .stat-ring {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 25;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"forest-dark": "#0E1F14", "surface-bright": "#37393d", "secondary-container": "#ffdb3c", "surface-variant": "#323538", "on-tertiary-fixed": "#002113", trophy: "#FFD700", "on-primary-container": "#107100", "on-tertiary": "#003823", "on-surface-variant": "#baccb0", "on-secondary-fixed": "#221b00", abyss: "#040805", "on-secondary": "#3a3000", "on-primary-fixed-variant": "#095300", "tertiary-fixed-dim": "#75daa8", "surface-container-low": "#191c1f", "primary-container": "#39ff14", amber: "#FBBF24", "surface-tint": "#2ae500", "inverse-primary": "#106e00", neon: "#39FF14", secondary: "#fff9ef", outline: "#85967c", "on-error": "#690005", parchment: "#F1FAEE", "inverse-on-surface": "#2e3134", "tertiary-container": "#8cf1be", "inverse-surface": "#e1e2e7", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#e9c400", error: "#ffb4ab", danger: "#FF3333", tertiary: "#e9ffef", "on-primary-fixed": "#022100", background: "#111417", "crt-black": "#111417", "surface-container-high": "#272a2d", "on-surface": "#e1e2e7", "on-secondary-container": "#725f00", forest: "#1B4332", "surface-container-lowest": "#0b0e11", "error-container": "#93000a", "secondary-fixed": "#ffe16d", pitch: "#52B788", "surface-container-highest": "#323538", "primary-fixed-dim": "#2ae500", primary: "#efffe3", "tertiary-fixed": "#92f7c3", "on-tertiary-container": "#006f4a", "on-primary": "#053900", "surface-dim": "#111417", "danger-dark": "#8B0000", "surface-container": "#1d2023", "on-tertiary-fixed-variant": "#005235", "primary-fixed": "#79ff5b", surface: "#111417", smoke: "#a0baae", "on-background": "#e1e2e7", "on-secondary-fixed-variant": "#544600", "outline-variant": "#3c4b35", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-desktop": "32px", "margin-mobile": "16px", "container-max": "1280px", gutter: "16px", sm: "8px", md: "16px", xs: "4px", xl: "48px", lg: "24px", base: "4px"}, fontFamily: {"label-lg": ["JetBrains Mono"], "headline-lg": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "body-md": ["Rubik"], "headline-sm": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"]}, fontSize: {"display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-abyss text-on-surface font-body-md min-h-screen selection:bg-neon selection:text-abyss overflow-x-hidden">
+<!-- CRT Visual Effect -->
+<div class="fixed inset-0 crt-overlay z-[100] pointer-events-none"></div>
+<!-- Top Navigation Bar -->
+<header class="bg-forest-dark dark:bg-abyss flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 border-b-4 border-pitch sticky top-0 z-[60]">
+<div class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</div>
+<div class="hidden md:flex gap-8">
+<nav class="flex gap-6">
+<a class="font-label-lg text-label-lg text-pitch hover:text-neon transition-all" href="#">DASHBOARD</a>
+<a class="font-label-lg text-label-lg text-neon border-b-2 border-neon" href="#">TABELA</a>
+<a class="font-label-lg text-label-lg text-pitch hover:text-neon transition-all" href="#">MERCADO</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-neon hover:scale-110 transition-transform">settings</button>
+<button class="material-symbols-outlined text-neon hover:scale-110 transition-transform">account_circle</button>
+</div>
+</header>
+<div class="flex">
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col gap-4 py-8 px-4 bg-forest-dark dark:bg-abyss border-r-4 border-pitch h-[calc(100vh-64px)] w-64 sticky top-16">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 border-2 border-neon p-1">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="A pixel-art style avatar of a 1990s football manager with a stern expression and vintage tracksuit. The background is a vibrant neon green grid. The style evokes a 32-bit Sega Saturn era menu screen with high-contrast shadows and clean retro lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsv-LUWsiDoHVVZiC6uOrvGYJxuIogpL7KyE8uARb4xjfuOTdHDPz8oIIhAnAGy5jqyIoh95DEJbmN8gt-CEfofTZpJff3bRNZ7gTzt-cU6IU02NRbVOiz-yEGiRDyq0nUlPGI0_vVQAxE8sVK-foC9PQCtVkDHzjJW3R9tq_a9kDRd8OsLalJbyvJ0prUQNyh1MnMePXczJbftwS_S34w61PQ0Nr_eqcHWCQe_9jSW1OFnWVJISNNDVSRh0qhMkfN1FVjNr13F7Y"/>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-neon">TREINADOR</div>
+<div class="font-label-md text-label-md text-smoke">Época 94/95</div>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-surface-variant hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-lg text-label-lg">Dashboard</span>
+</a>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-surface-variant hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-lg text-label-lg">Equipa</span>
+</a>
+<a class="bg-pitch text-on-primary-container border-2 border-neon p-2 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-lg text-label-lg">Tabela</span>
+</a>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-surface-variant hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-lg text-label-lg">Calendário</span>
+</a>
+</nav>
+<button class="mt-auto bg-forest border-2 border-pitch text-parchment py-3 px-4 font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:scale-95 transition-all">
+                NOVO JOGO
+            </button>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop bg-background min-h-[calc(100vh-64px)] pb-32">
+<div class="flex flex-col md:flex-row justify-between items-end gap-4 mb-8">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-neon mb-2">CLASSIFICAÇÃO</h1>
+<p class="font-label-lg text-label-lg text-smoke">PRIMEIRA DIVISÃO • JORNADA 24/38</p>
+</div>
+<div class="flex gap-2">
+<span class="bg-amber px-3 py-1 text-crt-black font-label-md text-label-md">LIVE HUD</span>
+<span class="bg-neon px-3 py-1 text-crt-black font-label-md text-label-md">SCANNING...</span>
+</div>
+</div>
+<!-- Standings Table Container -->
+<div class="relative overflow-hidden glass-panel border-4 border-pitch">
+<!-- Scanning Animation -->
+<div class="scanning-bar"></div>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="bg-pitch text-crt-black">
+<th class="p-4 text-left font-headline-sm text-headline-sm">#</th>
+<th class="p-4 text-left font-headline-sm text-headline-sm">EQUIPA</th>
+<th class="p-4 text-center font-headline-sm text-headline-sm">P</th>
+<th class="p-4 text-center font-headline-sm text-headline-sm">V</th>
+<th class="p-4 text-center font-headline-sm text-headline-sm">E</th>
+<th class="p-4 text-center font-headline-sm text-headline-sm">D</th>
+<th class="p-4 text-center font-headline-sm text-headline-sm">STATS HUD</th>
+<th class="p-4 text-right font-headline-sm text-headline-sm">PTS</th>
+</tr>
+</thead>
+<tbody class="font-label-lg text-label-lg text-parchment">
+<!-- Row 1 -->
+<tr class="border-b border-surface-variant hover:bg-forest transition-colors group">
+<td class="p-4 font-headline-sm text-headline-sm text-trophy">01</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-variant border border-smoke flex items-center justify-center">
+<span class="material-symbols-outlined text-trophy" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<span class="group-hover:text-neon">FC NOSTALGIA</span>
+</div>
+</td>
+<td class="p-4 text-center">24</td>
+<td class="p-4 text-center">18</td>
+<td class="p-4 text-center">4</td>
+<td class="p-4 text-center">2</td>
+<td class="p-4">
+<div class="flex justify-center">
+<svg class="w-10 h-10">
+<circle cx="20" cy="20" fill="transparent" r="16" stroke="#2d3828" stroke-width="4"></circle>
+<circle class="stat-ring" cx="20" cy="20" fill="transparent" r="16" stroke="#FFD700" stroke-dasharray="100" stroke-dashoffset="15" stroke-width="4"></circle>
+<text fill="#FFD700" font-family="Press Start 2P" font-size="8" text-anchor="middle" x="20" y="24">85</text>
+</svg>
+</div>
+</td>
+<td class="p-4 text-right text-neon font-headline-sm">58</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-variant hover:bg-forest transition-colors group">
+<td class="p-4 font-headline-sm text-headline-sm text-smoke">02</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-variant border border-smoke flex items-center justify-center">
+<span class="material-symbols-outlined text-neon">shield</span>
+</div>
+<span class="group-hover:text-neon">ARCADE UNITED</span>
+</div>
+</td>
+<td class="p-4 text-center">24</td>
+<td class="p-4 text-center">16</td>
+<td class="p-4 text-center">5</td>
+<td class="p-4 text-center">3</td>
+<td class="p-4">
+<div class="flex justify-center">
+<svg class="w-10 h-10">
+<circle cx="20" cy="20" fill="transparent" r="16" stroke="#2d3828" stroke-width="4"></circle>
+<circle class="stat-ring" cx="20" cy="20" fill="transparent" r="16" stroke="#39FF14" stroke-dasharray="100" stroke-dashoffset="25" stroke-width="4"></circle>
+<text fill="#39FF14" font-family="Press Start 2P" font-size="8" text-anchor="middle" x="20" y="24">75</text>
+</svg>
+</div>
+</td>
+<td class="p-4 text-right text-neon font-headline-sm">53</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-surface-variant hover:bg-forest transition-colors group">
+<td class="p-4 font-headline-sm text-headline-sm text-smoke">03</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-variant border border-smoke flex items-center justify-center">
+<span class="material-symbols-outlined text-smoke">bolt</span>
+</div>
+<span class="group-hover:text-neon">CRT ATHLETIC</span>
+</div>
+</td>
+<td class="p-4 text-center">24</td>
+<td class="p-4 text-center">14</td>
+<td class="p-4 text-center">7</td>
+<td class="p-4 text-center">3</td>
+<td class="p-4">
+<div class="flex justify-center">
+<svg class="w-10 h-10">
+<circle cx="20" cy="20" fill="transparent" r="16" stroke="#2d3828" stroke-width="4"></circle>
+<circle class="stat-ring" cx="20" cy="20" fill="transparent" r="16" stroke="#39FF14" stroke-dasharray="100" stroke-dashoffset="35" stroke-width="4"></circle>
+<text fill="#39FF14" font-family="Press Start 2P" font-size="8" text-anchor="middle" x="20" y="24">65</text>
+</svg>
+</div>
+</td>
+<td class="p-4 text-right text-neon font-headline-sm">49</td>
+</tr>
+<!-- Row 4 (User Team Highlight) -->
+<tr class="border-b-4 border-neon bg-forest-dark group">
+<td class="p-4 font-headline-sm text-headline-sm text-neon">04</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-neon border border-pitch flex items-center justify-center">
+<span class="material-symbols-outlined text-abyss" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+</div>
+<span class="text-neon">MEU CLUBE FC</span>
+</div>
+</td>
+<td class="p-4 text-center">24</td>
+<td class="p-4 text-center">14</td>
+<td class="p-4 text-center">3</td>
+<td class="p-4 text-center">7</td>
+<td class="p-4">
+<div class="flex justify-center">
+<svg class="w-10 h-10">
+<circle cx="20" cy="20" fill="transparent" r="16" stroke="#2d3828" stroke-width="4"></circle>
+<circle class="stat-ring" cx="20" cy="20" fill="transparent" r="16" stroke="#39FF14" stroke-dasharray="100" stroke-dashoffset="40" stroke-width="4"></circle>
+<text fill="#39FF14" font-family="Press Start 2P" font-size="8" text-anchor="middle" x="20" y="24">60</text>
+</svg>
+</div>
+</td>
+<td class="p-4 text-right text-neon font-headline-sm">45</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Bottom Data Bento Section -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass-panel p-6 border-2 border-pitch flex flex-col gap-4">
+<div class="font-headline-sm text-headline-sm text-neon">PROJECTED FINISH</div>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-headline-lg text-trophy">3RD</span>
+<span class="text-smoke font-label-md">PLACE</span>
+</div>
+<div class="h-2 bg-surface-variant w-full relative">
+<div class="absolute inset-0 bg-neon w-[75%]"></div>
+</div>
+<p class="text-smoke font-label-md">Probability: 82.4% for Champions Cup qualification.</p>
+</div>
+<div class="glass-panel p-6 border-2 border-pitch flex flex-col gap-4">
+<div class="font-headline-sm text-headline-sm text-neon">FORM TRACKER</div>
+<div class="flex gap-2">
+<div class="w-8 h-8 bg-neon flex items-center justify-center font-headline-sm text-abyss">V</div>
+<div class="w-8 h-8 bg-neon flex items-center justify-center font-headline-sm text-abyss">V</div>
+<div class="w-8 h-8 bg-danger flex items-center justify-center font-headline-sm text-parchment">D</div>
+<div class="w-8 h-8 bg-amber flex items-center justify-center font-headline-sm text-abyss">E</div>
+<div class="w-8 h-8 bg-neon flex items-center justify-center font-headline-sm text-abyss">V</div>
+</div>
+<p class="text-smoke font-label-md">Last 5 Matches: 10/15 Points secured.</p>
+</div>
+<div class="glass-panel p-6 border-2 border-pitch flex flex-col gap-4">
+<div class="font-headline-sm text-headline-sm text-neon">TOP SCORER</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 border border-neon bg-surface-variant overflow-hidden">
+<img alt="Player" class="w-full h-full object-cover" data-alt="A detailed pixel-art portrait of a legendary striker from the 1990s with a headband and classic jersey. The lighting is high-contrast with neon green rim lighting against a deep dark background. The image is designed to look like a collectible trading card from a retro football manager game." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZdUdpJIIHM3gGf-NyirS4TJVFMuHk28xNBf8i9ui5dCUlLi8ik6GyAhmuuJ-oBSGTiqrcxvcYs8ETzwnUY12r_y2rbgnbXGSv2RT_IKC4ATRc7XXjZcbEsjiaeZ0GQyhsR-ll80iK3xGpC4xdv0K9PIIB2Tffnuw_o5MJGqmp_ydu9Kr1ExUaC656o6uj8PAGwcQoR5ibLxcGTDlDlxylaRyGac9xtdLBB8ND8-prLzkrRZGJrqrNBnP3rbZwEbzUXBPFkBVEUL8"/>
+</div>
+<div>
+<div class="font-label-lg text-parchment">SILVA, J.</div>
+<div class="font-headline-sm text-neon">18 GOLS</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 bg-forest-dark border-t-4 border-pitch z-50">
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">Jogo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1" href="#">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-md text-label-md">Plantel</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-pitch text-on-primary-container rounded-none border-2 border-neon px-4 py-1" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">Tabela</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Mensagens</span>
+</a>
+</nav>
+</body></html>

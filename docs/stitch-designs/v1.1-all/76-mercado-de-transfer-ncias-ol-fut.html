@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MERCADO DE TRANSFERÊNCIAS | OléFUT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* CRT Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.03),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.03)
+            );
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .beveled-panel {
+            box-shadow: inset 2px 2px 0px rgba(255,255,255,0.1), inset -2px -2px 0px rgba(0,0,0,0.5);
+        }
+
+        .crt-text-glow {
+            text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+        }
+
+        body {
+            background-color: #0c1609;
+            scrollbar-width: thin;
+            scrollbar-color: #52B788 #111417;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {parchment: "#F1FAEE", "on-background": "#e1e2e7", "on-surface-variant": "#baccb0", "on-primary-container": "#107100", "primary-fixed-dim": "#2ae500", "outline-variant": "#3c4b35", outline: "#85967c", "surface-container-highest": "#323538", "on-secondary-container": "#725f00", "secondary-fixed-dim": "#e9c400", "inverse-primary": "#106e00", "surface-dim": "#111417", "surface-container": "#1d2023", "on-primary-fixed": "#022100", danger: "#FF3333", background: "#111417", "tertiary-container": "#8cf1be", "on-error-container": "#ffdad6", smoke: "#a0baae", "on-tertiary-container": "#006f4a", "surface-container-high": "#272a2d", "surface-container-low": "#191c1f", "on-surface": "#e1e2e7", "primary-fixed": "#79ff5b", trophy: "#FFD700", "error-container": "#93000a", forest: "#1B4332", error: "#ffb4ab", "surface-bright": "#37393d", "on-secondary": "#3a3000", "danger-dark": "#8B0000", "on-primary": "#053900", amber: "#FBBF24", "crt-black": "#111417", "primary-container": "#39ff14", abyss: "#040805", "secondary-container": "#ffdb3c", "surface-variant": "#323538", surface: "#111417", "inverse-surface": "#e1e2e7", "forest-dark": "#0E1F14", "on-primary-fixed-variant": "#095300", neon: "#39FF14", "secondary-fixed": "#ffe16d", pitch: "#52B788", "surface-tint": "#2ae500", secondary: "#fff9ef", "on-tertiary": "#003823", tertiary: "#e9ffef", primary: "#efffe3", "surface-container-lowest": "#0b0e11", "pitch-green": "#52B788", "on-tertiary-fixed-variant": "#005235", "inverse-on-surface": "#2e3134", "trophy-gold": "#FFD700", "tertiary-fixed": "#92f7c3", "danger-red": "#FF3333", "on-secondary-fixed-variant": "#544600", "on-tertiary-fixed": "#002113", "on-error": "#690005", "on-secondary-fixed": "#221b00", "tertiary-fixed-dim": "#75daa8"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "16px", "margin-desktop": "32px", unit: "4px", "container-max": "1280px", gutter: "16px", sm: "8px", md: "16px", xs: "4px", xl: "48px", lg: "24px", base: "4px"}, fontFamily: {code: ["JetBrains Mono"], "headline-lg": ["'Press Start 2P'"], "label-lg": ["JetBrains Mono"], "body-md": ["Rubik"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "headline-sm": ["'Press Start 2P'"], "body-lg": ["Pixelify Sans"], "body-sm": ["Pixelify Sans"], "display-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"]}, fontSize: {code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}]}}}};</script>
+</head>
+<body class="font-body-md text-on-surface selection:bg-neon selection:text-crt-black overflow-x-hidden">
+<div class="scanlines"></div>
+<!-- Navigation Shell (Desktop Side, Mobile Bottom) -->
+<nav class="hidden lg:flex flex-col h-screen fixed left-0 top-0 py-8 px-4 bg-forest-dark dark:bg-forest-dark text-neon dark:text-neon font-label-lg text-label-lg border-r-4 border-pitch z-50 w-64">
+<div class="mb-10 px-2">
+<h1 class="font-headline-sm text-headline-sm text-trophy mb-1 uppercase">MANAGER FC</h1>
+<p class="text-[10px] text-smoke opacity-70">Série A - Temporada 98</p>
+</div>
+<div class="flex-grow flex flex-col gap-2">
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest hover:text-neon transition-all active:translate-x-1 duration-75" href="#">
+<span class="material-symbols-outlined">sports_soccer</span> Escalação
+            </a>
+<a class="bg-forest text-neon border-2 border-neon p-2 flex items-center gap-3 active:translate-x-1 duration-75" href="#">
+<span class="material-symbols-outlined">payments</span> Mercado
+            </a>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest hover:text-neon transition-all active:translate-x-1 duration-75" href="#">
+<span class="material-symbols-outlined">fitness_center</span> Treino
+            </a>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest hover:text-neon transition-all active:translate-x-1 duration-75" href="#">
+<span class="material-symbols-outlined">monitoring</span> Finanças
+            </a>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest hover:text-neon transition-all active:translate-x-1 duration-75" href="#">
+<span class="material-symbols-outlined">history</span> Histórico
+            </a>
+</div>
+<div class="mt-auto">
+<button class="w-full bg-forest border-2 border-pitch py-4 text-neon font-headline-sm text-[10px] hover:border-neon transition-colors active:scale-95 mb-4">
+                PROCURAR JOGADORES
+            </button>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined">logout</span> Sair
+            </a>
+</div>
+</nav>
+<!-- Top App Bar -->
+<header class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-unit bg-crt-black dark:bg-crt-black text-neon dark:text-neon font-headline-md text-headline-md border-b-4 border-pitch lg:pl-72">
+<div class="flex flex-col md:flex-row items-baseline gap-4 py-2">
+<span class="font-headline-lg text-headline-lg text-neon uppercase tracking-tighter">MERCADO DE TRANSFERÊNCIAS</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex flex-col items-end">
+<span class="text-trophy font-headline-sm text-sm">R$ 12.5M DISPONÍVEL</span>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined cursor-pointer hover:text-trophy">account_balance_wallet</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-trophy">settings</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-24 pb-20 lg:pb-8 px-margin-mobile md:px-margin-desktop min-h-screen">
+<!-- Filter Bar -->
+<section class="bg-forest-dark border-4 border-pitch p-6 mb-8 beveled-panel">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="flex flex-col gap-2">
+<label class="font-headline-sm text-[10px] text-smoke uppercase">Posição</label>
+<select class="bg-abyss border-2 border-smoke text-neon p-2 font-code focus:border-neon outline-none">
+<option>GOL</option>
+<option>DEF</option>
+<option>MEI</option>
+<option>ATA</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-headline-sm text-[10px] text-smoke uppercase">Idade (15 - 40)</label>
+<input class="accent-neon h-2 bg-forest rounded-none mt-4" max="40" min="15" type="range"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-headline-sm text-[10px] text-smoke uppercase">OVR Min</label>
+<input class="bg-abyss border-2 border-smoke text-neon p-2 font-code focus:border-neon outline-none" placeholder="75" type="number"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-headline-sm text-[10px] text-smoke uppercase">Preço Max</label>
+<div class="relative">
+<span class="absolute left-2 top-2 text-trophy font-bold">R$</span>
+<input class="w-full bg-abyss border-2 border-smoke text-neon p-2 pl-8 font-code focus:border-neon outline-none" placeholder="5.0M" type="number"/>
+</div>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+<!-- Player Grid (8 columns) -->
+<div class="xl:col-span-8 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
+<!-- Player Card 1 -->
+<div class="bg-crt-black border-4 border-pitch p-4 beveled-panel hover:border-neon transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-20 h-20 bg-forest border-2 border-smoke flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale contrast-125" data-alt="A pixelated 32-bit arcade style portrait of a focused soccer player with short hair. The lighting is harsh and directional, creating high-contrast shadows reminiscent of vintage video game graphics. The color palette uses deep forest greens and vibrant neon accents. The mood is intense and competitive, perfectly fitting a retro sports management simulator." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVlceBqqtAx860CYTAXR7qfzboJsURdc9sVf-Ho1Tgh0O4IY_JAFuN4mV_Vw-eEWQ0P7bFuAxS7zXbppscmsVjZaX87p98L05aAQJpznTL4AxtRkQ1U9V_GHawuVWfUo2nKczA_rY3_QIwQu_3f-axCW4uQgCxwyhpVfFUE4-Syvkawdau0dYnsjPF4FlTQPaABB2xHb3weRJGNPfwOvlC7j6WdLMZ9Knr5H2neAXZDFwtugWy6K21zn_1yvV3rxPYt5AA4F-BO0U"/>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="bg-neon text-crt-black px-2 py-1 font-headline-sm text-[10px]">ATA</span>
+<span class="text-trophy font-headline-md">OVR 89</span>
+</div>
+</div>
+<h3 class="font-headline-md text-sm text-parchment mb-2 group-hover:text-neon transition-colors">V. JUNIOR</h3>
+<div class="flex justify-between items-center mb-4 border-b border-forest pb-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-forest border border-smoke flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+</div>
+<span class="text-smoke text-[10px] font-code">REAL MADRID</span>
+</div>
+<span class="text-smoke text-[10px] font-code">23 ANOS</span>
+</div>
+<div class="text-trophy font-headline-md text-center mb-4">R$ 15.2M</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm text-[10px] hover:border-neon active:scale-95 duration-100">VER</button>
+<button class="bg-neon border-2 border-pitch text-crt-black py-2 font-headline-sm text-[10px] hover:bg-white active:scale-95 duration-100">OFERTA</button>
+</div>
+</div>
+<!-- Player Card 2 -->
+<div class="bg-crt-black border-4 border-pitch p-4 beveled-panel hover:border-neon transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-20 h-20 bg-forest border-2 border-smoke flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale contrast-125" data-alt="A gritty, pixelated 16-bit soccer player headshot in a high-contrast noir style with neon green highlights. The character looks determined. The background is a dark, atmospheric locker room rendered with simple geometric shapes. The overall visual style is reminiscent of 90s Sega Genesis sports games, prioritizing punchy colors and sharp, aliased edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVPWIOC72O5QiK8GNajxqpgMU2M45G_1klCt9kZENE2jPys4cYiRLqm2_JvfenG_u94AOr_cAx443ZE1Ty8tEys2iRKMw1ZcQN3PB7oW2Dd6AgHrpsUjn94OMJ3y09mQ_hSjkRadAkbwrshjZOBeyW9MAf3-HrCBg4OjJT39G22LdwsXG5RG_8nPWjxIRFs9EEk8qJ4Kk26yM37fyzvJZrTlInDlwlhfoGvBTvTfEtO_r1vO92j4KXBgh4tjbhgNLxpEmdVdw6Dhc"/>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="bg-amber text-crt-black px-2 py-1 font-headline-sm text-[10px]">MEI</span>
+<span class="text-trophy font-headline-md">OVR 91</span>
+</div>
+</div>
+<h3 class="font-headline-md text-sm text-parchment mb-2 group-hover:text-neon transition-colors">DE BRUYNE</h3>
+<div class="flex justify-between items-center mb-4 border-b border-forest pb-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-forest border border-smoke flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+</div>
+<span class="text-smoke text-[10px] font-code">MAN CITY</span>
+</div>
+<span class="text-smoke text-[10px] font-code">32 ANOS</span>
+</div>
+<div class="text-trophy font-headline-md text-center mb-4">R$ 11.0M</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm text-[10px] hover:border-neon active:scale-95">VER</button>
+<button class="bg-neon border-2 border-pitch text-crt-black py-2 font-headline-sm text-[10px] hover:bg-white active:scale-95">OFERTA</button>
+</div>
+</div>
+<!-- Player Card 3 -->
+<div class="bg-crt-black border-4 border-pitch p-4 beveled-panel hover:border-neon transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-20 h-20 bg-forest border-2 border-smoke flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale contrast-125" data-alt="Dynamic pixel-art portrait of a soccer goalkeeper with a helmet. The lighting is stylized with neon purple and green backlighting against a dark abyss. The player has a focused expression, rendered with chunky square pixels. The atmosphere is energetic and nostalgic, capturing the essence of early PlayStation-era arcade football titles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeaJzuuEf-Uf30k88whUHlV9I5CMNS7EbO4eHjZqdrf2FrmeAB2qobt7ZYhEZcQOjZ8zGDpmSFjfMlGesK7t4I01J9k3DWVYNjz2yJ_NKasgh7H57Mv6gNz6-7DuNxo2IJMDDlT6GqkT4P0EefsjGLT_7OC-I8PkjHdw9aq2mjiERYc9Ax1BpWfVNCQeXLcg9qSr-PTAOTOQrj-dM9qKLQSQzo9d6EsSClrq_3i9XztZl9yyh145ZV3zDeqFrmeViKPf2grRoBOnQ"/>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="bg-smoke text-crt-black px-2 py-1 font-headline-sm text-[10px]">GOL</span>
+<span class="text-trophy font-headline-md">OVR 85</span>
+</div>
+</div>
+<h3 class="font-headline-md text-sm text-parchment mb-2 group-hover:text-neon transition-colors">E. MARTINEZ</h3>
+<div class="flex justify-between items-center mb-4 border-b border-forest pb-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-forest border border-smoke flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+</div>
+<span class="text-smoke text-[10px] font-code">ASTON VILLA</span>
+</div>
+<span class="text-smoke text-[10px] font-code">31 ANOS</span>
+</div>
+<div class="text-trophy font-headline-md text-center mb-4">R$ 4.8M</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm text-[10px] hover:border-neon active:scale-95">VER</button>
+<button class="bg-neon border-2 border-pitch text-crt-black py-2 font-headline-sm text-[10px] hover:bg-white active:scale-95">OFERTA</button>
+</div>
+</div>
+</div>
+<!-- Side Panel (4 columns) -->
+<aside class="xl:col-span-4 flex flex-col gap-6">
+<div class="bg-forest-dark border-4 border-pitch p-6 beveled-panel">
+<h2 class="font-headline-sm text-neon mb-6 border-b-2 border-pitch pb-2 flex items-center gap-2">
+<span class="material-symbols-outlined">gavel</span>
+                        OFERTAS ATIVAS
+                    </h2>
+<div class="space-y-4">
+<!-- Bid Entry 1 -->
+<div class="bg-crt-black border-2 border-pitch p-4 flex flex-col gap-2 hover:border-trophy transition-colors">
+<div class="flex justify-between">
+<span class="font-headline-sm text-[10px] text-parchment">K. MBAPPÉ</span>
+<span class="font-code text-neon font-bold">04:22:15</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-smoke text-[10px] font-code">OFERTA ATUAL:</span>
+<span class="text-trophy font-headline-sm text-sm">R$ 18.2M</span>
+</div>
+<div class="h-1 bg-forest-dark mt-2 overflow-hidden">
+<div class="h-full bg-neon w-[75%]"></div>
+</div>
+</div>
+<!-- Bid Entry 2 -->
+<div class="bg-crt-black border-2 border-pitch p-4 flex flex-col gap-2 hover:border-trophy transition-colors">
+<div class="flex justify-between">
+<span class="font-headline-sm text-[10px] text-parchment">J. BELLINGHAM</span>
+<span class="font-code text-neon font-bold">01:45:02</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-smoke text-[10px] font-code">OFERTA ATUAL:</span>
+<span class="text-trophy font-headline-sm text-sm">R$ 9.4M</span>
+</div>
+<div class="h-1 bg-forest-dark mt-2 overflow-hidden">
+<div class="h-full bg-neon w-[40%]"></div>
+</div>
+</div>
+<!-- Bid Entry 3 -->
+<div class="bg-crt-black border-2 border-pitch p-4 flex flex-col gap-2 hover:border-trophy transition-colors opacity-70">
+<div class="flex justify-between">
+<span class="font-headline-sm text-[10px] text-parchment">RODRI</span>
+<span class="font-code text-danger font-bold">EXPIRADO</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-smoke text-[10px] font-code">OFERTA VENCEDORA:</span>
+<span class="text-smoke font-headline-sm text-sm">R$ 12.0M</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-4 border-2 border-pitch text-smoke font-headline-sm text-[10px] hover:text-neon hover:border-neon transition-all">
+                        HISTÓRICO DE LEILÕES
+                    </button>
+</div>
+<div class="bg-crt-black border-4 border-trophy p-6 beveled-panel">
+<div class="flex items-center gap-4 mb-4">
+<div class="p-2 bg-trophy text-crt-black rounded-none">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-trophy text-[10px]">MERCADO EM ALTA</h4>
+<p class="text-smoke font-code text-[11px]">+14% VALORIZAÇÃO</p>
+</div>
+</div>
+<p class="text-parchment text-xs font-body-sm leading-relaxed">
+                        Jogadores da <span class="text-neon">LALIGA</span> estão com demanda elevada nesta rodada. Venda agora para maximizar lucros!
+                    </p>
+</div>
+</aside>
+</div>
+</main>
+<!-- Bottom Nav Bar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 lg:hidden bg-crt-black dark:bg-crt-black text-neon dark:text-neon font-label-md text-label-md border-t-4 border-pitch">
+<a class="flex flex-col items-center justify-center text-smoke p-1 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span>Plantel</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-forest text-trophy border-2 border-trophy rounded-none p-1 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span>Mercado</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-1 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span>Alertas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-1 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Perfil</span>
+</a>
+</nav>
+</body></html>

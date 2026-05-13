@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pitch-pattern {
+            background-color: #0E1F14;
+            background-image: radial-gradient(#52B788 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+        .chalk-line {
+            box-shadow: 0 0 4px #52B788;
+        }
+        .magnetic-card {
+            box-shadow: 4px 4px 0px #000000;
+        }
+        .magnetic-card:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000000;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"forest-dark": "#0E1F14", "surface-bright": "#37393d", "secondary-container": "#ffdb3c", "surface-variant": "#323538", "on-tertiary-fixed": "#002113", trophy: "#FFD700", "on-primary-container": "#107100", "on-tertiary": "#003823", "on-surface-variant": "#baccb0", "on-secondary-fixed": "#221b00", abyss: "#040805", "on-secondary": "#3a3000", "on-primary-fixed-variant": "#095300", "tertiary-fixed-dim": "#75daa8", "surface-container-low": "#191c1f", "primary-container": "#39ff14", amber: "#FBBF24", "surface-tint": "#2ae500", "inverse-primary": "#106e00", neon: "#39FF14", secondary: "#fff9ef", outline: "#85967c", "on-error": "#690005", parchment: "#F1FAEE", "inverse-on-surface": "#2e3134", "tertiary-container": "#8cf1be", "inverse-surface": "#e1e2e7", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#e9c400", error: "#ffb4ab", danger: "#FF3333", tertiary: "#e9ffef", "on-primary-fixed": "#022100", background: "#111417", "crt-black": "#111417", "surface-container-high": "#272a2d", "on-surface": "#e1e2e7", "on-secondary-container": "#725f00", forest: "#1B4332", "surface-container-lowest": "#0b0e11", "error-container": "#93000a", "secondary-fixed": "#ffe16d", pitch: "#52B788", "surface-container-highest": "#323538", "primary-fixed-dim": "#2ae500", primary: "#efffe3", "tertiary-fixed": "#92f7c3", "on-tertiary-container": "#006f4a", "on-primary": "#053900", "surface-dim": "#111417", "danger-dark": "#8B0000", "surface-container": "#1d2023", "on-tertiary-fixed-variant": "#005235", "primary-fixed": "#79ff5b", surface: "#111417", smoke: "#a0baae", "on-background": "#e1e2e7", "on-secondary-fixed-variant": "#544600", "outline-variant": "#3c4b35", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-desktop": "32px", "margin-mobile": "16px", "container-max": "1280px", gutter: "16px", xl: "48px", md: "16px", base: "4px", xs: "4px", lg: "24px", sm: "8px"}, fontFamily: {"label-lg": ["JetBrains Mono"], "headline-lg": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "body-md": ["Rubik"], "headline-sm": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-abyss text-on-surface font-body-md min-h-screen overflow-x-hidden">
+<div class="fixed inset-0 scanlines z-50 pointer-events-none"></div>
+<header class="bg-forest-dark dark:bg-abyss border-b-4 border-pitch flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 sticky top-0 z-40">
+<h1 class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</h1>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-neon cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-neon cursor-pointer">account_circle</span>
+</div>
+</header>
+<div class="flex flex-col md:flex-row min-h-[calc(100vh-64px)]">
+<aside class="hidden md:flex flex-col gap-4 py-8 px-4 bg-forest-dark dark:bg-abyss border-r-4 border-pitch w-64">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 bg-pitch rounded-none border-2 border-neon flex items-center justify-center overflow-hidden">
+<img alt="Manager Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIRRIEaiWzuTVR4HuY6UKrDlWgzNxYn3sfkv6oRkmFubdLX6JPG-X5KrI2fASnJcGzY-v5KzJMPDTHM0UnOKmiHpoPloh3ZCt-YPQvo2ur7n1wiDMBFlm0Fef1rP44tVsN9NOj2NKIAO9yGhgdGCaAifeLTQF7TQrQkrUyODABjzqTm96H76lzil6rPHkgNFSrFuttSIeNrgZH-gWZ1ohbng1kw4x04gnKr6uMGSLYEZFu8PNm9KC9wGbKLdFUWOeWt0T54-RruQY"/>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-neon">TREINADOR</p>
+<p class="font-label-md text-label-md text-smoke">Época 94/95</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="text-smoke p-2 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon transition-all flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+                </a>
+<a class="text-smoke p-2 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon transition-all flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">groups</span> Equipa
+                </a>
+<a class="text-smoke p-2 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon transition-all flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">swap_horiz</span> Transferências
+                </a>
+<a class="bg-pitch text-on-primary-container border-2 border-neon p-2 font-label-lg text-label-lg flex items-center gap-3 active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">leaderboard</span> Tabela
+                </a>
+<a class="text-smoke p-2 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon transition-all flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">payments</span> Finanças
+                </a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-4 bg-forest border-2 border-pitch text-parchment font-headline-sm hover:border-neon hover:text-neon transition-all">
+                    NOVO JOGO
+                </button>
+</div>
+</aside>
+<main class="flex-1 pitch-pattern relative p-4 md:p-8 overflow-y-auto pb-24 md:pb-8">
+<div class="absolute inset-0 border-[12px] border-double border-white/5 pointer-events-none"></div>
+<div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-lg text-headline-lg text-neon drop-shadow-md">CLASSIFICAÇÃO</h2>
+<div class="flex gap-2">
+<span class="bg-amber px-3 py-1 text-crt-black font-headline-sm">LIGA PRO</span>
+<span class="bg-neon px-3 py-1 text-crt-black font-headline-sm">JORNADA 24</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="grid grid-cols-12 px-6 py-2 bg-pitch/20 text-smoke font-label-md border-b-2 border-pitch/40">
+<div class="col-span-1">#</div>
+<div class="col-span-6">CLUBE</div>
+<div class="col-span-1 text-center">J</div>
+<div class="col-span-1 text-center">V</div>
+<div class="col-span-1 text-center">E</div>
+<div class="col-span-1 text-center">D</div>
+<div class="col-span-1 text-center font-bold text-neon">PT</div>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Table Row 1 -->
+<div class="magnetic-card grid grid-cols-12 px-6 py-4 bg-forest-dark border-2 border-pitch items-center cursor-pointer hover:border-neon transition-colors group">
+<div class="col-span-1 font-headline-sm text-neon">01</div>
+<div class="col-span-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-pitch/40 border border-pitch flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">shield</span>
+</div>
+<span class="font-label-lg group-hover:text-neon transition-colors">FC PORTO</span>
+</div>
+<div class="col-span-1 text-center font-code">24</div>
+<div class="col-span-1 text-center font-code">18</div>
+<div class="col-span-1 text-center font-code">4</div>
+<div class="col-span-1 text-center font-code">2</div>
+<div class="col-span-1 text-center font-headline-sm text-neon">58</div>
+</div>
+<!-- Table Row 2 (Active Team) -->
+<div class="magnetic-card grid grid-cols-12 px-6 py-4 bg-pitch text-on-primary-container border-2 border-neon items-center cursor-pointer scale-[1.02] relative z-10">
+<div class="col-span-1 font-headline-sm">02</div>
+<div class="col-span-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-on-primary-container/20 border border-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="font-label-lg font-bold">ALVERCA SAD</span>
+</div>
+<div class="col-span-1 text-center font-code">24</div>
+<div class="col-span-1 text-center font-code">17</div>
+<div class="col-span-1 text-center font-code">5</div>
+<div class="col-span-1 text-center font-code">2</div>
+<div class="col-span-1 text-center font-headline-sm">56</div>
+</div>
+<!-- Table Row 3 -->
+<div class="magnetic-card grid grid-cols-12 px-6 py-4 bg-forest-dark border-2 border-pitch items-center cursor-pointer hover:border-neon transition-colors group">
+<div class="col-span-1 font-headline-sm text-smoke">03</div>
+<div class="col-span-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-pitch/40 border border-pitch flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">shield</span>
+</div>
+<span class="font-label-lg group-hover:text-neon transition-colors">SL BENFICA</span>
+</div>
+<div class="col-span-1 text-center font-code">24</div>
+<div class="col-span-1 text-center font-code">16</div>
+<div class="col-span-1 text-center font-code">3</div>
+<div class="col-span-1 text-center font-code">5</div>
+<div class="col-span-1 text-center font-headline-sm text-neon">51</div>
+</div>
+<!-- Table Row 4 -->
+<div class="magnetic-card grid grid-cols-12 px-6 py-4 bg-forest-dark border-2 border-pitch items-center cursor-pointer hover:border-neon transition-colors group">
+<div class="col-span-1 font-headline-sm text-smoke">04</div>
+<div class="col-span-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-pitch/40 border border-pitch flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">shield</span>
+</div>
+<span class="font-label-lg group-hover:text-neon transition-colors">SPORTING CP</span>
+</div>
+<div class="col-span-1 text-center font-code">24</div>
+<div class="col-span-1 text-center font-code">14</div>
+<div class="col-span-1 text-center font-code">6</div>
+<div class="col-span-1 text-center font-code">4</div>
+<div class="col-span-1 text-center font-headline-sm text-neon">48</div>
+</div>
+</div>
+</div>
+<div class="mt-4 p-4 border-2 border-dashed border-pitch/50 bg-forest-dark/40">
+<p class="font-label-md text-smoke text-center uppercase tracking-widest italic">-- Zona de Promoção Europeia --</p>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-forest-dark border-4 border-pitch p-4 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-neon opacity-50"></div>
+<h3 class="font-headline-sm text-headline-sm text-neon mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">sports_soccer</span> PRÓXIMO JOGO
+                        </h3>
+<div class="aspect-[3/4] relative bg-forest border-2 border-pitch/50 rounded-lg p-4 overflow-hidden">
+<!-- Mini Pitch Lines -->
+<div class="absolute inset-0 border-2 border-white/10 m-2 pointer-events-none"></div>
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-12 border-b-2 border-r-2 border-l-2 border-white/10"></div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-20 border-t-2 border-r-2 border-l-2 border-white/10"></div>
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-white/10 -translate-y-1/2"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 border-2 border-white/10 rounded-full"></div>
+<!-- Players Markers (4-4-2) -->
+<div class="relative h-full flex flex-col justify-between items-center py-4">
+<!-- FW -->
+<div class="flex justify-around w-full">
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">9</div>
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">11</div>
+</div>
+<!-- MF -->
+<div class="flex justify-between w-full px-4">
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">7</div>
+<div class="flex gap-8">
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">8</div>
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">10</div>
+</div>
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">17</div>
+</div>
+<!-- DF -->
+<div class="flex justify-between w-full">
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">2</div>
+<div class="flex gap-6">
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">4</div>
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">5</div>
+</div>
+<div class="w-6 h-6 bg-neon border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">3</div>
+</div>
+<!-- GK -->
+<div class="w-6 h-6 bg-amber border-2 border-crt-black rounded-full flex items-center justify-center text-[10px] font-bold text-crt-black shadow-lg">1</div>
+</div>
+</div>
+<div class="mt-6 flex flex-col gap-2">
+<div class="flex justify-between items-center border-b border-pitch/30 pb-2">
+<span class="font-label-md text-smoke">ADVERSÁRIO</span>
+<span class="font-label-lg text-neon">SC BRAGA</span>
+</div>
+<div class="flex justify-between items-center border-b border-pitch/30 pb-2">
+<span class="font-label-md text-smoke">ESTÁDIO</span>
+<span class="font-label-lg text-neon">MUNICIPAL</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-md text-smoke">ESTRATÉGIA</span>
+<span class="font-label-lg text-amber">4-4-2 DIAMANTE</span>
+</div>
+</div>
+<button class="w-full mt-6 py-3 bg-neon text-crt-black font-headline-sm active:translate-y-0.5 transition-transform">
+                            GERIR TÁTICA
+                        </button>
+</div>
+<div class="bg-crt-black border-2 border-pitch p-4">
+<p class="font-code text-smoke text-sm mb-4 leading-relaxed italic">
+                            "O balneário está motivado após a última vitória. Os jogadores esperam que mantenha a mesma formação contra o Braga."
+                        </p>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-neon animate-pulse"></div>
+<span class="font-headline-sm text-[10px] text-neon">TERMINAL DO TREINADOR_</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 bg-forest-dark border-t-4 border-pitch z-50">
+<div class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">Jogo</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-md text-label-md">Plantel</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-pitch text-on-primary-container rounded-none border-2 border-neon px-4 py-1 active:inset-shadow transition-all">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">Tabela</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Mensagens</span>
+</div>
+</nav>
+</body></html>

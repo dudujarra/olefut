@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT LineageView - Hall de Lendas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 -2px #52B788,
+                0 4px 0 -2px #52B788,
+                -4px 0 0 -2px #52B788,
+                4px 0 0 -2px #52B788;
+        }
+        .pixel-border-neon {
+            box-shadow: 
+                0 -4px 0 -2px #39FF14,
+                0 4px 0 -2px #39FF14,
+                -4px 0 0 -2px #39FF14,
+                4px 0 0 -2px #39FF14;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-tint": "#2ae500", "surface-container": "#1d2023", "on-surface": "#e1e2e7", pitch: "#52B788", "on-secondary-fixed": "#221b00", "on-error-container": "#ffdad6", "on-secondary-container": "#725f00", "error-container": "#93000a", parchment: "#F1FAEE", "on-primary": "#053900", error: "#ffb4ab", "primary-fixed-dim": "#2ae500", "on-primary-fixed": "#022100", "forest-dark": "#0E1F14", "surface-container-low": "#191c1f", "on-primary-container": "#107100", "on-surface-variant": "#baccb0", "inverse-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", outline: "#85967c", "on-background": "#e1e2e7", primary: "#efffe3", "on-secondary-fixed-variant": "#544600", "on-secondary": "#3a3000", "surface-dim": "#111417", "tertiary-container": "#8cf1be", "secondary-fixed-dim": "#e9c400", danger: "#FF3333", "surface-container-high": "#272a2d", "on-error": "#690005", "surface-variant": "#323538", trophy: "#FFD700", "surface-bright": "#37393d", "on-tertiary-fixed-variant": "#005235", "tertiary-fixed-dim": "#75daa8", "primary-fixed": "#79ff5b", "on-tertiary": "#003823", forest: "#1B4332", "outline-variant": "#3c4b35", "surface-container-lowest": "#0b0e11", "inverse-primary": "#106e00", "primary-container": "#39ff14", "on-tertiary-fixed": "#002113", "danger-dark": "#8B0000", "crt-black": "#111417", background: "#111417", "inverse-on-surface": "#2e3134", "on-tertiary-container": "#006f4a", abyss: "#040805", "surface-container-highest": "#323538", amber: "#FBBF24", smoke: "#a0baae", surface: "#111417", "secondary-fixed": "#ffe16d", neon: "#39FF14", tertiary: "#e9ffef", secondary: "#fff9ef", "tertiary-fixed": "#92f7c3", "secondary-container": "#ffdb3c", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-max": "1280px", "margin-mobile": "16px", "margin-desktop": "32px", unit: "4px", gutter: "16px", sm: "8px", md: "16px", xs: "4px", xl: "48px", lg: "24px", base: "4px"}, fontFamily: {"label-md": ["jetbrainsMono"], "body-md": ["rubik"], "body-lg": ["Pixelify Sans"], "headline-lg": ["'Press Start 2P'"], "label-lg": ["jetbrainsMono"], "body-sm": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "headline-sm": ["'Press Start 2P'"], code: ["jetbrainsMono"], "display-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"]}, fontSize: {"display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen overflow-x-hidden">
+<div class="crt-overlay"></div>
+<!-- TopNavBar -->
+<header class="bg-crt-black border-b-2 border-pitch flex justify-between items-center w-full px-margin-desktop h-16 sticky top-0 z-50">
+<div class="font-headline-md text-headline-md text-neon tracking-tighter">
+            ULTRA_MANAGER_98
+        </div>
+<nav class="hidden md:flex items-center gap-8 h-full">
+<a class="font-headline-sm text-headline-sm text-neon border-b-2 border-neon pb-1 active:translate-y-0.5 transition-all" href="#">SQUAD</a>
+<a class="font-headline-sm text-headline-sm text-pitch hover:text-neon hover:border-neon pb-1 active:translate-y-0.5 transition-all" href="#">TACTICS</a>
+<a class="font-headline-sm text-headline-sm text-pitch hover:text-neon hover:border-neon pb-1 active:translate-y-0.5 transition-all" href="#">TRANSFERS</a>
+<a class="font-headline-sm text-headline-sm text-pitch hover:text-neon hover:border-neon pb-1 active:translate-y-0.5 transition-all" href="#">SCOUTING</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-neon cursor-pointer">notifications</span>
+<img alt="Manager Avatar" class="w-10 h-10 border-2 border-neon" data-alt="A pixel-art style portrait of a football manager wearing a retro track suit and aviator glasses. The background is a dimly lit office with CRT monitors glowing in neon green and amber. High contrast, sharp edges, and 90s arcade aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOOwA14gt7syqQCq_C2TRbEymRPH8C_9G0Qev04IjkpCwh793ti9Kaj15NGP60mMva9aXJl2o47BPApUKS_29RpI6cMbqeosmkYmg0lgVDxj9jmNKFy2PmgKe2UjUU19PYDf_JICedNdgcv2UKggLsiAHrEQbxuiDfUclIHDSmlDHlQc9xgQK3-2S52nK6CF5dPBGZ6fol6Pc9GOy2_TOLL7K31zIwqafBqZDsKbj11JqmlSTnXIDZoiJhld7o4MmhNELEEXl-vn0"/>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<!-- Sub-Header / Secondary Nav -->
+<div class="mb-12 border-2 border-pitch bg-forest-dark p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<h1 class="font-headline-lg text-headline-lg text-neon uppercase">Hall de Lendas</h1>
+<div class="flex flex-wrap gap-4 justify-center">
+<button class="bg-forest border-2 border-neon text-neon px-4 py-2 font-headline-sm text-headline-sm active:scale-95 transition-transform">HALL</button>
+<button class="bg-forest-dark border-2 border-pitch text-pitch px-4 py-2 font-headline-sm text-headline-sm hover:text-neon hover:border-neon active:scale-95 transition-transform">HERANÇA</button>
+<button class="bg-forest-dark border-2 border-pitch text-pitch px-4 py-2 font-headline-sm text-headline-sm hover:text-neon hover:border-neon active:scale-95 transition-transform">HUMILHAÇÕES</button>
+<button class="bg-forest-dark border-2 border-pitch text-pitch px-4 py-2 font-headline-sm text-headline-sm hover:text-neon hover:border-neon active:scale-95 transition-transform">CRESCIMENTOS</button>
+</div>
+</div>
+<!-- Legend Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: IDOLO ETERNO -->
+<div class="bg-forest-dark border-4 border-trophy p-1 relative group">
+<div class="border-2 border-trophy p-6 h-full flex flex-col items-center text-center bg-abyss/50">
+<span class="material-symbols-outlined text-6xl text-trophy mb-4" style="font-variation-settings: 'FILL' 1;">crown</span>
+<span class="bg-trophy text-crt-black px-3 py-1 font-headline-sm text-[10px] mb-4">ÍDOLO ETERNO</span>
+<h2 class="font-headline-md text-headline-md text-parchment mb-6 uppercase tracking-widest">ZICO</h2>
+<div class="w-full grid grid-cols-2 gap-4 border-t-2 border-trophy pt-6 mt-auto">
+<div class="flex flex-col">
+<span class="font-label-md text-trophy/60 text-[10px]">JOGOS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">731</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-trophy/60 text-[10px]">GOLS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">508</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: GOLEADOR -->
+<div class="bg-forest-dark border-4 border-neon p-1 relative group">
+<div class="border-2 border-neon p-6 h-full flex flex-col items-center text-center bg-abyss/50">
+<span class="material-symbols-outlined text-6xl text-neon mb-4" style="font-variation-settings: 'FILL' 1;">trophy</span>
+<span class="bg-neon text-crt-black px-3 py-1 font-headline-sm text-[10px] mb-4">GOLEADOR</span>
+<h2 class="font-headline-md text-headline-md text-parchment mb-6 uppercase tracking-widest">ROMÁRIO</h2>
+<div class="w-full grid grid-cols-2 gap-4 border-t-2 border-neon pt-6 mt-auto">
+<div class="flex flex-col">
+<span class="font-label-md text-neon/60 text-[10px]">JOGOS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">420</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-neon/60 text-[10px]">GOLS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">382</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: CRIA DA BASE -->
+<div class="bg-forest-dark border-4 border-parchment p-1 relative group">
+<div class="border-2 border-parchment p-6 h-full flex flex-col items-center text-center bg-abyss/50">
+<span class="material-symbols-outlined text-6xl text-parchment mb-4" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="bg-parchment text-crt-black px-3 py-1 font-headline-sm text-[10px] mb-4">CRIA DA BASE</span>
+<h2 class="font-headline-md text-headline-md text-parchment mb-6 uppercase tracking-widest">VINÍCIUS</h2>
+<div class="w-full grid grid-cols-2 gap-4 border-t-2 border-parchment pt-6 mt-auto">
+<div class="flex flex-col">
+<span class="font-label-md text-parchment/60 text-[10px]">JOGOS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">112</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-parchment/60 text-[10px]">GOLS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">28</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4: CARRASCO -->
+<div class="bg-forest-dark border-4 border-danger p-1 relative group">
+<div class="border-2 border-danger p-6 h-full flex flex-col items-center text-center bg-abyss/50">
+<span class="material-symbols-outlined text-6xl text-danger mb-4" style="font-variation-settings: 'FILL' 1;">swords</span>
+<span class="bg-danger text-crt-black px-3 py-1 font-headline-sm text-[10px] mb-4">CARRASCO</span>
+<h2 class="font-headline-md text-headline-md text-parchment mb-6 uppercase tracking-widest">RIVALDO</h2>
+<div class="w-full grid grid-cols-2 gap-4 border-t-2 border-danger pt-6 mt-auto">
+<div class="flex flex-col">
+<span class="font-label-md text-danger/60 text-[10px]">JOGOS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">15</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-danger/60 text-[10px]">GOLS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">12</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 5: TRAIDOR -->
+<div class="bg-forest-dark border-4 border-purple-500 p-1 relative group">
+<div class="border-2 border-purple-500 p-6 h-full flex flex-col items-center text-center bg-abyss/50">
+<span class="material-symbols-outlined text-6xl text-purple-500 mb-4" style="font-variation-settings: 'FILL' 1;">skull</span>
+<span class="bg-purple-500 text-crt-black px-3 py-1 font-headline-sm text-[10px] mb-4">TRAIDOR</span>
+<h2 class="font-headline-md text-headline-md text-parchment mb-6 uppercase tracking-widest">FIGO</h2>
+<div class="w-full grid grid-cols-2 gap-4 border-t-2 border-purple-500 pt-6 mt-auto">
+<div class="flex flex-col">
+<span class="font-label-md text-purple-500/60 text-[10px]">JOGOS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">249</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-purple-500/60 text-[10px]">GOLS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">45</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 6: LENDA TRÁGICA -->
+<div class="bg-forest-dark border-4 border-amber p-1 relative group">
+<div class="border-2 border-amber p-6 h-full flex flex-col items-center text-center bg-abyss/50">
+<span class="material-symbols-outlined text-6xl text-amber mb-4" style="font-variation-settings: 'FILL' 1;">heart_broken</span>
+<span class="bg-amber text-crt-black px-3 py-1 font-headline-sm text-[10px] mb-4">LENDA TRÁGICA</span>
+<h2 class="font-headline-md text-headline-md text-parchment mb-6 uppercase tracking-widest">GARRINCHA</h2>
+<div class="w-full grid grid-cols-2 gap-4 border-t-2 border-amber pt-6 mt-auto">
+<div class="flex flex-col">
+<span class="font-label-md text-amber/60 text-[10px]">JOGOS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">581</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-amber/60 text-[10px]">GOLS</span>
+<span class="font-headline-sm text-headline-sm text-parchment">232</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- SideNavBar (Desktop persistent, Mobile hidden for Hall focus) -->
+<aside class="hidden md:flex flex-col h-screen py-margin-desktop bg-forest-dark border-r-2 border-pitch fixed left-0 top-0 w-64 z-40 pt-24">
+<div class="px-6 mb-8 flex flex-col items-center text-center border-b-2 border-pitch pb-8">
+<div class="w-20 h-20 bg-forest border-2 border-neon flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-4xl text-trophy">shield</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-trophy">UNITED_FC</h3>
+<p class="font-label-md text-pitch text-[10px] mt-1">PREMIER DIVISION</p>
+</div>
+<nav class="flex-grow flex flex-col">
+<a class="text-pitch flex items-center gap-3 p-4 hover:bg-forest hover:text-neon transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-lg text-label-lg">DASHBOARD</span>
+</a>
+<a class="text-pitch flex items-center gap-3 p-4 hover:bg-forest hover:text-neon transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-lg text-label-lg">LEAGUE</span>
+</a>
+<a class="bg-forest text-neon border-2 border-neon flex items-center gap-3 p-4 mx-2" href="#">
+<span class="material-symbols-outlined">settings_applications</span>
+<span class="font-label-lg text-label-lg">MANAGEMENT</span>
+</a>
+<a class="text-pitch flex items-center gap-3 p-4 hover:bg-forest hover:text-neon transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-lg text-label-lg">HISTORY</span>
+</a>
+<a class="text-pitch flex items-center gap-3 p-4 hover:bg-forest hover:text-neon transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">business_center</span>
+<span class="font-label-lg text-label-lg">OFFICE</span>
+</a>
+</nav>
+<div class="p-4 space-y-4">
+<button class="w-full bg-forest border-2 border-pitch text-parchment py-3 font-headline-sm text-headline-sm hover:border-neon hover:text-neon transition-all active:scale-95">
+                NEXT MATCH
+            </button>
+<a class="text-pitch flex items-center gap-3 p-4 hover:bg-danger-dark/20 hover:text-danger transition-all" href="#">
+<span class="material-symbols-outlined">power_settings_new</span>
+<span class="font-label-lg text-label-lg">QUIT</span>
+</a>
+</div>
+</aside>
+<!-- Footer Mobile Nav -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full bg-crt-black border-t-2 border-pitch flex justify-around p-4 z-50">
+<span class="material-symbols-outlined text-pitch">dashboard</span>
+<span class="material-symbols-outlined text-pitch">leaderboard</span>
+<span class="material-symbols-outlined text-neon border-b-2 border-neon">settings_applications</span>
+<span class="material-symbols-outlined text-pitch">history</span>
+<span class="material-symbols-outlined text-pitch">power_settings_new</span>
+</footer>
+<!-- Background scanline element -->
+<div class="fixed inset-0 pointer-events-none opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]"></div>
+</body></html>

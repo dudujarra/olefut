@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT | MarketView</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 -2px #52B788,
+                0 4px 0 -2px #52B788,
+                -4px 0 0 -2px #52B788,
+                4px 0 0 -2px #52B788;
+        }
+        .halftone {
+            filter: contrast(200%) grayscale(100%);
+            mix-blend-mode: luminosity;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container-high": "#272a2d", "on-background": "#e1e2e7", "danger-dark": "#8B0000", "forest-dark": "#0E1F14", "secondary-container": "#ffdb3c", "on-primary-container": "#107100", "outline-variant": "#3c4b35", "on-secondary-fixed": "#221b00", "tertiary-fixed": "#92f7c3", "surface-tint": "#2ae500", background: "#111417", "inverse-surface": "#e1e2e7", "crt-black": "#111417", "surface-container-highest": "#323538", "error-container": "#93000a", forest: "#1B4332", primary: "#efffe3", "on-secondary": "#3a3000", "on-secondary-fixed-variant": "#544600", surface: "#111417", "tertiary-fixed-dim": "#75daa8", "surface-container-lowest": "#0b0e11", smoke: "#a0baae", "surface-container-low": "#191c1f", "on-error": "#690005", tertiary: "#e9ffef", neon: "#39FF14", "tertiary-container": "#8cf1be", "primary-fixed-dim": "#2ae500", "primary-fixed": "#79ff5b", "on-surface": "#e1e2e7", "surface-bright": "#37393d", "inverse-primary": "#106e00", danger: "#FF3333", "surface-variant": "#323538", outline: "#85967c", abyss: "#040805", "inverse-on-surface": "#2e3134", "on-tertiary": "#003823", "on-secondary-container": "#725f00", "secondary-fixed-dim": "#e9c400", "on-error-container": "#ffdad6", pitch: "#52B788", secondary: "#fff9ef", "surface-dim": "#111417", "primary-container": "#39ff14", "on-tertiary-fixed": "#002113", "secondary-fixed": "#ffe16d", "on-primary": "#053900", "on-primary-fixed-variant": "#095300", error: "#ffb4ab", amber: "#FBBF24", trophy: "#FFD700", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed": "#022100", parchment: "#F1FAEE", "on-tertiary-container": "#006f4a", "surface-container": "#1d2023", "on-surface-variant": "#baccb0", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "16px", "margin-desktop": "32px", gutter: "16px", unit: "4px", "container-max": "1280px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {"headline-sm": ["Press Start 2P"], code: ["jetbrainsMono"], "body-md": ["rubik"], "body-lg": ["Pixelify Sans"], "label-lg": ["jetbrainsMono"], "headline-md": ["Press Start 2P"], "headline-lg": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], "label-md": ["jetbrainsMono"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-abyss text-on-background font-body-md overflow-x-hidden selection:bg-neon selection:text-abyss">
+<div class="fixed inset-0 crt-overlay z-[100] pointer-events-none opacity-20"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-forest dark:bg-forest-dark border-b-4 border-pitch">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-md text-headline-md text-neon italic drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">OléFUT</h1>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<div class="flex gap-4">
+<span class="font-headline-sm text-headline-sm uppercase tracking-tighter text-smoke">€84.5M</span>
+<span class="font-headline-sm text-headline-sm uppercase tracking-tighter text-smoke">15 AUG 1996</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-smoke hover:text-neon transition-colors" data-icon="settings">settings</button>
+<button class="material-symbols-outlined text-smoke hover:text-neon transition-colors" data-icon="account_circle">account_circle</button>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only for Layout) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-4 z-40 bg-forest-dark dark:bg-abyss border-r-4 border-pitch hidden md:flex w-64 pt-20">
+<div class="flex flex-col items-center mb-8 border-b border-pitch pb-4">
+<div class="w-16 h-16 bg-pitch mb-2 flex items-center justify-center p-1">
+<img alt="Club Crest" class="w-full h-full object-contain" data-alt="A retro 16-bit pixel art soccer club crest featuring a golden laurel wreath and a vintage leather football. The aesthetic is inspired by 90s sports management simulators with a high-contrast palette of forest green and trophy gold. The lighting is flat and graphic, mimicking a CRT display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrXjjHAWEuFb9cUrgrACCqa1WggsA0yeD_2sI3ft7-RbAGwHFzevOB2JjZ3srUPOKQYjuyMbnhc-hrTHYmS7-eWlkH9QS3v2atTmRclujI4GI37at6UCyouJ3WeNVdTn8ltpGrBNLqlSJkAAKLwpe9LhI-ehpzN7mwScK1mqmEEYzcsMvqa8BX7mBFW9KeuAkdsrjXAjeujfx9kvkzj94lnooZIjixEe4ZaSoqzjCk3scZOStdlynU0ihD0wW2Suh_qoyw2ZSvWvI"/>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-trophy text-center uppercase">SC VICTORIA</h2>
+<p class="font-label-md text-label-md text-smoke opacity-80 uppercase">LEGENDARY DIVISION</p>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 p-3 font-label-lg text-label-lg uppercase text-smoke opacity-80 hover:bg-forest hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 p-3 font-label-lg text-label-lg uppercase text-smoke opacity-80 hover:bg-forest hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span> Squad
+            </a>
+<a class="flex items-center gap-3 p-3 font-label-lg text-label-lg uppercase bg-pitch text-on-primary font-bold border-2 border-neon transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span> Transfers
+            </a>
+<a class="flex items-center gap-3 p-3 font-label-lg text-label-lg uppercase text-smoke opacity-80 hover:bg-forest hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span> League
+            </a>
+<a class="flex items-center gap-3 p-3 font-label-lg text-label-lg uppercase text-smoke opacity-80 hover:bg-forest hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span> Matches
+            </a>
+</nav>
+<button class="mt-auto bg-forest border-2 border-pitch p-3 text-parchment font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:scale-95 transition-all uppercase">
+            NEXT MATCH
+        </button>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 pt-20 px-margin-mobile md:px-margin-desktop min-h-screen">
+<!-- Header & Filters Section -->
+<div class="flex flex-col gap-6 mb-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="font-label-md text-label-md text-neon uppercase tracking-widest mb-1 block">Mercado Global</span>
+<h2 class="font-headline-lg text-headline-lg text-on-background uppercase">Transferências</h2>
+</div>
+<div class="flex items-center gap-2 bg-forest-dark border-2 border-pitch p-1">
+<button class="bg-pitch text-on-primary px-4 py-2 font-headline-sm text-headline-sm">LISTA</button>
+<button class="px-4 py-2 font-headline-sm text-headline-sm text-smoke hover:text-neon">OLHEIROS</button>
+</div>
+</div>
+<!-- Filter Panel -->
+<div class="bg-surface-container border-4 border-pitch p-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="flex flex-col gap-2">
+<label class="font-headline-sm text-headline-sm text-smoke uppercase">Posição</label>
+<select class="bg-abyss border border-smoke text-on-background p-2 font-code text-code focus:border-neon focus:ring-0 outline-none">
+<option>TODAS</option>
+<option>ATA (Atacante)</option>
+<option>MEI (Meio-campo)</option>
+<option>DEF (Defesa)</option>
+<option>GOL (Goleiro)</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-headline-sm text-headline-sm text-smoke uppercase">Idade Máx</label>
+<input class="accent-neon h-2 bg-forest-dark rounded-none appearance-none border border-pitch" max="40" min="16" type="range"/>
+<div class="flex justify-between font-code text-xs text-smoke">
+<span>16</span>
+<span>40</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-headline-sm text-headline-sm text-smoke uppercase">Preço Máx</label>
+<input class="bg-abyss border border-smoke text-on-background p-2 font-code text-code focus:border-neon focus:ring-0 outline-none" placeholder="Ex: 50.000.000" type="text"/>
+</div>
+<div class="flex items-end">
+<button class="w-full bg-forest border-2 border-pitch p-2 text-neon font-headline-sm text-headline-sm hover:bg-forest-dark active:translate-y-1 transition-all uppercase">
+                        Filtrar
+                    </button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter pb-margin-desktop">
+<!-- Player Grid (Left/Center) -->
+<div class="xl:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Player Card 1 -->
+<div class="bg-forest-dark border-4 border-pitch hover:border-neon transition-colors group relative overflow-hidden">
+<div class="absolute top-2 right-2 z-10 bg-trophy text-abyss font-headline-sm px-2 py-1 italic">91</div>
+<div class="h-48 overflow-hidden bg-abyss border-b-2 border-pitch">
+<img alt="Player" class="w-full h-full object-cover halftone group-hover:scale-105 transition-transform" data-alt="A gritty, halftone-filtered portrait of a professional soccer player in a classic 90s jersey. The image uses a high-contrast grayscale palette with visible pixel grain, reminiscent of a Sega Saturn era sports game. The lighting is harsh and dramatic, highlighting the player's intense focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxpyqyB-mVLXWSFnfsM5ejOficClc9dFi0m23C4APja2XRSjxGl-mkLo1ohZYljTeWUYXfTgYSqjEPj0sGGuObCRagBqOC2dhcxviGtIyvO_9CFvyxQ66gxau51TMbVps0uyx5Ly9DHIM4cYaAg1Hr0hi7fj8BpUAx62H661VwWMTs803K-bKuO4UuL_LbEy16tkdyI6KUkv5OP3x2B_0rVDcDnocV64h-Z9tjNKhg9W9hqsdTBRVbKL0c_oPQ7FJXgyyhJtXt3Uo"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-background uppercase mb-1">R. VEIGA</h3>
+<p class="font-label-md text-label-md text-smoke">ATA | PALMEIRAS</p>
+</div>
+<span class="text-neon material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="font-code text-code text-trophy font-bold">€ 64.2M</span>
+<button class="bg-pitch text-on-primary px-3 py-1 font-headline-sm text-[10px] hover:bg-neon transition-colors uppercase">Licitar</button>
+</div>
+</div>
+</div>
+<!-- Player Card 2 -->
+<div class="bg-forest-dark border-4 border-pitch hover:border-neon transition-colors group relative overflow-hidden">
+<div class="absolute top-2 right-2 z-10 bg-trophy text-abyss font-headline-sm px-2 py-1 italic">88</div>
+<div class="h-48 overflow-hidden bg-abyss border-b-2 border-pitch">
+<img alt="Player" class="w-full h-full object-cover halftone group-hover:scale-105 transition-transform" data-alt="A pixel-art style portrait of a athletic soccer player with a focused expression. The visual style uses a limited color palette of deep greens and dark grays with a prominent halftone pattern. The overall mood is competitive and atmospheric, evoking the feeling of an arcade football manager screen from the late 90s." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8cBMAt2w2QEgspkgnCcaqEh5ZfjOR9jDXTJqbLqSSqPD_WyeNki6C0_c-Di76pEHvxGIE3nGFykSZOohFQW5y2vQFUOPJZrZ_WpiMUnrvNjZuiTIgxCuu5edsRrQIkE4ENHZkD7O52VKQuz6sZfcEK-MNMvdi2gfepCEdqmZy3n49tI3Vq9-bJ7HmmxDoo-Gc1H12kpFr1FyVFRG7biiV7UjPatXUV9y90qzhAxUU6jHrO5drrNIRrjjprA__iGcPPfSZkYaLAxs"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-background uppercase mb-1">G. JESUS</h3>
+<p class="font-label-md text-label-md text-smoke">ATA | ARSENAL</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="font-code text-code text-trophy font-bold">€ 48.5M</span>
+<button class="bg-pitch text-on-primary px-3 py-1 font-headline-sm text-[10px] hover:bg-neon transition-colors uppercase">Licitar</button>
+</div>
+</div>
+</div>
+<!-- Player Card 3 -->
+<div class="bg-forest-dark border-4 border-pitch hover:border-neon transition-colors group relative overflow-hidden">
+<div class="absolute top-2 right-2 z-10 bg-trophy text-abyss font-headline-sm px-2 py-1 italic">85</div>
+<div class="h-48 overflow-hidden bg-abyss border-b-2 border-pitch">
+<img alt="Player" class="w-full h-full object-cover halftone group-hover:scale-105 transition-transform" data-alt="A stylized portrait of a soccer goalkeeper in a vibrant 90s goalie kit, rendered with a heavy pixel-art and halftone effect. The player has a commanding presence. The lighting simulates a CRT monitor glow with intense shadows and sharp highlights, perfectly matching the premium nostalgia of the OléFUT interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhl65cIBtZ37vH1P98vMbAw8ZdWMq2Z0pG7AltunOxH1Mtm3uVX4LbLF55dYzmhmkIadYKDOg1hDxAc7ChFhy1ZdBOv1S3EYQlSHZrDNfEsXlQ45cvgncLcdIxpvQWSpXTNUe194KZ9qjgzluEoEVaFwXT2X_sZfmTSUmCeCT9g6E7RDseGnR28c-kWxnDJE0i6M4DcEZqt5GPED1Wa4Qt16SM7_iaF2v0b33sBBT7-y99qVTvwutGWGqzdBuol96_5Mj_hcLxY90"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-background uppercase mb-1">EDERSON</h3>
+<p class="font-label-md text-label-md text-smoke">GOL | MAN CITY</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="font-code text-code text-trophy font-bold">€ 32.0M</span>
+<button class="bg-pitch text-on-primary px-3 py-1 font-headline-sm text-[10px] hover:bg-neon transition-colors uppercase">Licitar</button>
+</div>
+</div>
+</div>
+<!-- Player Card 4 -->
+<div class="bg-forest-dark border-4 border-pitch hover:border-neon transition-colors group relative overflow-hidden">
+<div class="absolute top-2 right-2 z-10 bg-trophy text-abyss font-headline-sm px-2 py-1 italic">82</div>
+<div class="h-48 overflow-hidden bg-abyss border-b-2 border-pitch">
+<img alt="Player" class="w-full h-full object-cover halftone group-hover:scale-105 transition-transform" data-alt="A gritty close-up portrait of a veteran defender, with facial details emphasized by a harsh halftone dot pattern. The style is inspired by 32-bit era sports titles, featuring a moody, dark atmospheric backdrop and high-contrast lighting that makes the character pop against the crt-black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-5bZKX5ZmZcviRinDJ1HctMGeuHoeM2D0-euypaKR3j2kdWXt1HwSErZdeljy_WZwpZUV1q3MUz7HB1ueziAgVPneVrdskl5ZTN7mETGL3EQhlh6AGedGWdc-8gRX_jO4YM62BATh3rdFOdMEmoxvL60BLjMi4L0qZfWT6QcBk-NJ8zrYdDH1G7mihdbMYEM1jKKIoFsJmDnVLVVfQmhd-UtXdB77iTVoUFK0luPzG2VVBB5miWISuAVcOdBr-rqI2QGrTyA4rnc"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-background uppercase mb-1">D. LUIZ</h3>
+<p class="font-label-md text-label-md text-smoke">DEF | FLAMENGO</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="font-code text-code text-trophy font-bold">€ 12.5M</span>
+<button class="bg-pitch text-on-primary px-3 py-1 font-headline-sm text-[10px] hover:bg-neon transition-colors uppercase">Licitar</button>
+</div>
+</div>
+</div>
+<!-- Player Card 5 -->
+<div class="bg-forest-dark border-4 border-pitch hover:border-neon transition-colors group relative overflow-hidden">
+<div class="absolute top-2 right-2 z-10 bg-trophy text-abyss font-headline-sm px-2 py-1 italic">87</div>
+<div class="h-48 overflow-hidden bg-abyss border-b-2 border-pitch">
+<img alt="Player" class="w-full h-full object-cover halftone group-hover:scale-105 transition-transform" data-alt="Portrait of a young breakout talent in football, rendered with vintage pixelated aesthetics and a dithered shadow effect. The color scheme is dominated by deep forest green and vibrant neon green accents. The character design is bold and iconic, fitting for a top-tier sports simulator interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8IIFfz7vbYqo2OLlEoZbXwsJ8nPjI-spQjkugyQV5ccyI4L1047WgxPNk43b0DUM66Pi9u41pUlqsv43ITO17-u02ddSRhXFaLG3pbQN3_RWnSOyClB9RJwC-cmhevptYPXpv-RG7SzTBvMFueBSwSx60NjiT2LnzGJyb5_NNuyGDncgB9D-CPMYdoBRgUIDngsBNFl6Tb-PILkjPraS5bKl0iMzuPnPhZDp6YxGw7dAJXhDoOZUnRY4QahNA6Q4SmLqwlZ_qGZc"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-background uppercase mb-1">SANTOS</h3>
+<p class="font-label-md text-label-md text-smoke">MEI | AJAX</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="font-code text-code text-trophy font-bold">€ 28.1M</span>
+<button class="bg-pitch text-on-primary px-3 py-1 font-headline-sm text-[10px] hover:bg-neon transition-colors uppercase">Licitar</button>
+</div>
+</div>
+</div>
+<!-- Player Card 6 -->
+<div class="bg-forest-dark border-4 border-pitch hover:border-neon transition-colors group relative overflow-hidden">
+<div class="absolute top-2 right-2 z-10 bg-trophy text-abyss font-headline-sm px-2 py-1 italic">89</div>
+<div class="h-48 overflow-hidden bg-abyss border-b-2 border-pitch">
+<img alt="Player" class="w-full h-full object-cover halftone group-hover:scale-105 transition-transform" data-alt="A dramatic profile shot of a football star in a classic kit, using 16-bit arcade graphics styling with a heavy emphasis on high-contrast outlines and pixelated shading. The background is a dark, atmospheric field, creating a sense of professional sports intensity and nostalgic digital craft." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC5gyB52O6DwGKsyOFlU-JKKDBwUVqUGKrmkSJYdQ0YfAAuMiFZUDJqqWbLVQIKKAhsPXd6ppMw87Fs_oxE3po2NEwT_fMxuevmsQlW4UISfCBRiaTS3DvIiFbTZ5PfnaDntro2qjOT1FqroRh0g6JgPuf60MAp9NS55VJKweLxd1EtAqfq3RNMQRvU_rJ2ndp33tyLS3HR58hMl4XyOUaNJqbscNdPWrlynw73XbiJ3VpEuTdRdpLBfC_KqYjafAFdMSIPYotHZI"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-background uppercase mb-1">V. JUNIOR</h3>
+<p class="font-label-md text-label-md text-smoke">ATA | R. MADRID</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="font-code text-code text-trophy font-bold">€ 110.0M</span>
+<button class="bg-pitch text-on-primary px-3 py-1 font-headline-sm text-[10px] hover:bg-neon transition-colors uppercase">Licitar</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Active Bids (Right Side) -->
+<aside class="xl:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container border-4 border-trophy p-4 relative">
+<div class="absolute -top-3 left-4 bg-trophy text-abyss px-2 font-headline-sm text-[10px] uppercase">Lances Ativos</div>
+<div class="flex flex-col gap-4 mt-2">
+<!-- Bid 1 -->
+<div class="flex items-center gap-3 bg-abyss p-2 border border-pitch">
+<div class="w-12 h-12 bg-forest flex-shrink-0">
+<img alt="Player thumb" class="w-full h-full object-cover halftone" data-alt="A small, pixelated avatar of a football player in profile, featuring high-contrast dithered shading and a vintage arcade color palette. The style is strictly 90s retro-futurism with a focus on punchy greens and deep blacks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI3tsMsZs2UqvBhSp98-RTMEMvNDR3EBqgsjmEsr_xqhORIZBZNsCksrFjNrYLYqG8ZljTJXfqtM5_n43RkfaWKVMt_o9ZbL2ywXr1sv3xRVVUJlyG7sFMOZdJtnCMB2O0XzkhhxxgnulonzspFpy5hu-Nw73IQWAl1qrz_ByX8CbnFT-IBDpgsqrOENh9sETBIl_NekFwvOiNQWjN-kdDqz34eW1jwRUKUuEqI02QljaxztCqBvlts-bFWS-7LJlqoYLxWLNwUcc"/>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-sm text-[10px] text-on-background uppercase">M. ALISSON</h4>
+<div class="flex justify-between items-center">
+<span class="font-code text-xs text-smoke">SEU LANCE:</span>
+<span class="font-code text-xs text-neon">€ 42.0M</span>
+</div>
+</div>
+<div class="bg-forest-dark border border-neon p-1 flex flex-col items-center">
+<span class="font-code text-[10px] text-neon">04:12</span>
+<span class="font-code text-[8px] text-smoke uppercase">RESTANTE</span>
+</div>
+</div>
+<!-- Bid 2 -->
+<div class="flex items-center gap-3 bg-abyss p-2 border border-pitch opacity-80">
+<div class="w-12 h-12 bg-forest flex-shrink-0">
+<img alt="Player thumb" class="w-full h-full object-cover halftone" data-alt="A small, pixelated icon of a football player, rendered in a 16-bit style with limited colors. The image uses a halftone texture to simulate a low-resolution CRT screen effect, maintaining the premium nostalgia theme of the application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiXxFiLB-LqNGRqDXjCs_UHUO4B4e1dSmc-eFxf3Bp7R3WE6GWIFBI1ra0sreV7TDRkYTLfxed44CPWoUfpl573uL-KzE9BzhkWSXBPlh5sLsnbACPS2ndVTK9uGOzbttBkhzsHRJKkzV8L4GZcrSHO7CRIffYFhqdwJxsgQ_lnQwZTXyEzUecI_RrzhnSA-yM4r7nmZtV75AdnkmcB0VMWoDGzM5btYXg57zqrI_DOtoXVnFYxx5Y_CseFpm2bIrhOsK7zVby948"/>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-sm text-[10px] text-on-background uppercase">DANILO</h4>
+<div class="flex justify-between items-center">
+<span class="font-code text-xs text-smoke">LANCE ATUAL:</span>
+<span class="font-code text-xs text-danger">€ 15.5M</span>
+</div>
+</div>
+<div class="bg-danger-dark border border-danger p-1 flex flex-col items-center">
+<span class="material-symbols-outlined text-danger text-sm" data-icon="warning">warning</span>
+<span class="font-code text-[8px] text-danger uppercase">SUPERADO</span>
+</div>
+</div>
+<!-- Stats Summary Card -->
+<div class="mt-4 p-4 bg-forest-dark border-2 border-pitch border-dashed">
+<h5 class="font-headline-sm text-[10px] text-smoke uppercase mb-3">Resumo da Carteira</h5>
+<div class="flex justify-between mb-2">
+<span class="font-label-md text-smoke">Orçamento Total:</span>
+<span class="font-code text-neon">€ 84.5M</span>
+</div>
+<div class="flex justify-between mb-2">
+<span class="font-label-md text-smoke">Lances Retidos:</span>
+<span class="font-code text-trophy">€ 57.5M</span>
+</div>
+<div class="h-4 bg-abyss border border-pitch mt-4 overflow-hidden flex">
+<div class="h-full bg-neon w-[68%]"></div>
+<div class="h-full bg-trophy w-[15%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Market News -->
+<div class="bg-surface-container border-4 border-pitch p-4">
+<h5 class="font-headline-sm text-headline-sm text-neon uppercase mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="newspaper">newspaper</span> Boletim do Mercado
+                    </h5>
+<ul class="space-y-4">
+<li class="border-l-4 border-neon pl-3 py-1">
+<p class="font-label-md text-smoke text-xs mb-1">HÁ 5 MINUTOS</p>
+<p class="font-body-sm text-on-background">FLAMENGO aceitou proposta por G. BARBOSA.</p>
+</li>
+<li class="border-l-4 border-pitch pl-3 py-1">
+<p class="font-label-md text-smoke text-xs mb-1">HÁ 12 MINUTOS</p>
+<p class="font-body-sm text-on-background">Novo olheiro disponível para a região EUROPA SUL.</p>
+</li>
+<li class="border-l-4 border-pitch pl-3 py-1">
+<p class="font-label-md text-smoke text-xs mb-1">HÁ 30 MINUTOS</p>
+<p class="font-body-sm text-on-background">Preço médio de defesas subiu +4% nesta semana.</p>
+</li>
+</ul>
+</div>
+</aside>
+</div>
+</main>
+<!-- Bottom Nav (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-forest border-t-4 border-pitch flex justify-around items-center h-16 z-50">
+<button class="flex flex-col items-center gap-1 text-smoke">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[8px] uppercase font-headline-sm">Dash</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-smoke">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-[8px] uppercase font-headline-sm">Squad</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-neon">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-[8px] uppercase font-headline-sm">Mercado</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-smoke">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="text-[8px] uppercase font-headline-sm">Liga</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-smoke">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="text-[8px] uppercase font-headline-sm">Jogar</span>
+</button>
+</nav>
+<!-- FAB (Contextual for Market) -->
+<button class="fixed bottom-20 right-4 md:bottom-8 md:right-8 w-16 h-16 bg-neon text-abyss rounded-none shadow-[4px_4px_0px_black] flex items-center justify-center border-4 border-pitch active:translate-y-1 active:translate-x-1 active:shadow-none transition-all z-40">
+<span class="material-symbols-outlined text-3xl font-bold" data-icon="search">search</span>
+</button>
+</body></html>

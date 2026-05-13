@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container-low": "#191c1f", "secondary-fixed": "#ffe16d", abyss: "#040805", "on-primary-container": "#107100", "on-primary": "#053900", "crt-black": "#111417", "error-container": "#93000a", danger: "#FF3333", "surface-container": "#1d2023", "on-surface-variant": "#baccb0", error: "#ffb4ab", "on-secondary-fixed": "#221b00", tertiary: "#e9ffef", "secondary-fixed-dim": "#e9c400", "tertiary-container": "#8cf1be", surface: "#111417", "secondary-container": "#ffdb3c", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed": "#022100", "surface-tint": "#2ae500", "danger-dark": "#8B0000", amber: "#FBBF24", smoke: "#a0baae", pitch: "#52B788", "on-secondary-container": "#725f00", "tertiary-fixed": "#92f7c3", "primary-fixed": "#79ff5b", "on-error": "#690005", "on-surface": "#e1e2e7", background: "#111417", "surface-container-high": "#272a2d", "on-tertiary-fixed": "#002113", "surface-container-highest": "#323538", "outline-variant": "#3c4b35", "on-background": "#e1e2e7", "forest-dark": "#0E1F14", "inverse-primary": "#106e00", "tertiary-fixed-dim": "#75daa8", "on-error-container": "#ffdad6", "primary-container": "#39ff14", "surface-bright": "#37393d", outline: "#85967c", "surface-variant": "#323538", "on-tertiary-container": "#006f4a", "on-secondary-fixed-variant": "#544600", forest: "#1B4332", trophy: "#FFD700", "inverse-on-surface": "#2e3134", parchment: "#F1FAEE", "inverse-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", primary: "#efffe3", "on-secondary": "#3a3000", "surface-dim": "#111417", secondary: "#fff9ef", "primary-fixed-dim": "#2ae500", "surface-container-lowest": "#0b0e11", neon: "#39FF14", "on-tertiary": "#003823", "trophy-gold": "#FFD700", "danger-red": "#FF3333", "pitch-green": "#52B788"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-max": "1280px", "margin-mobile": "16px", gutter: "16px", "margin-desktop": "32px", unit: "4px", lg: "24px", base: "4px", sm: "8px", xs: "4px", md: "16px", xl: "48px"}, fontFamily: {code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "headline-lg": ["'Press Start 2P'"], "label-lg": ["JetBrains Mono"], "body-md": ["Rubik"], "body-sm": ["Pixelify Sans"], "headline-sm": ["'Press Start 2P'"], pixel: ["'Pixelify Sans'"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+<style>
+        .crt-scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+        .pixel-border-outer {
+            box-shadow: 
+                0 -4px 0 0 #52B788,
+                0 4px 0 0 #52B788,
+                -4px 0 0 0 #52B788,
+                4px 0 0 0 #52B788;
+        }
+        .pixel-border-inner {
+            box-shadow: 
+                0 -4px 0 0 #111417,
+                0 4px 0 0 #111417,
+                -4px 0 0 0 #111417,
+                4px 0 0 0 #111417;
+        }
+        .btn-retro {
+            position: relative;
+            background: #1B4332;
+            border: 2px solid #52B788;
+            box-shadow: 4px 4px 0px #111417;
+        }
+        .btn-retro:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #111417;
+        }
+        .dot-active {
+            box-shadow: 0 0 8px #39FF14;
+        }
+    </style>
+</head>
+<body class="bg-crt-black min-h-screen flex items-center justify-center p-4 overflow-hidden">
+<div class="crt-scanlines"></div>
+<!-- Background Decoration Elements -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none opacity-20">
+<div class="absolute -top-20 -left-20 w-96 h-96 bg-forest rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-20 -right-20 w-96 h-96 bg-forest rounded-full blur-[120px]"></div>
+</div>
+<!-- Main Onboarding Card Container -->
+<main class="relative z-10 w-full max-w-2xl">
+<div class="bg-forest-dark border-4 border-pitch p-6 md:p-12 text-center relative">
+<!-- Corner Decorative Elements -->
+<div class="absolute top-0 left-0 w-4 h-4 border-l-4 border-t-4 border-neon -mt-1 -ml-1"></div>
+<div class="absolute top-0 right-0 w-4 h-4 border-r-4 border-t-4 border-neon -mt-1 -mr-1"></div>
+<div class="absolute bottom-0 left-0 w-4 h-4 border-l-4 border-b-4 border-neon -mb-1 -ml-1"></div>
+<div class="absolute bottom-0 right-0 w-4 h-4 border-r-4 border-b-4 border-neon -mb-1 -mr-1"></div>
+<!-- Header Badge -->
+<div class="inline-block bg-neon text-crt-black px-4 py-1 mb-8">
+<span class="font-headline-sm text-headline-sm uppercase tracking-wider">PASSO 02</span>
+</div>
+<!-- Big Pixel-Art Icon -->
+<div class="flex justify-center mb-10">
+<div class="relative group">
+<div class="absolute inset-0 bg-neon blur-2xl opacity-10 group-hover:opacity-20 transition-opacity"></div>
+<div class="w-[120px] h-[120px] border-4 border-pitch bg-abyss flex items-center justify-center p-2">
+<img alt="Gráfico de desempenho pixel art" class="w-full h-full object-contain image-rendering-pixelated" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4JK4hB7yE2GMGuObY21ODPXgtmCNxPvZadTGZZkneNnwFwtDylWeZlWVnr_-ttGv2xIuQQTcIDnrkTU-yFdWrbZzaI3CUMbevqFehybctUpZwtYOMf0yH_ZBsMKsZYwdOeRUZMkUBV2VwwIawhj4nH9dvfUF5uB3UtLVvkqE_3y-LFicmqGWm-sRdTV82SXNQRyO5cRHNZkVA1DEtz-R--lh8Qlj6GFfQcbsRQXjCcvZRemEAAe94X2EwV4YTYUFlT9jykqoS1W8"/>
+</div>
+</div>
+</div>
+<!-- Text Content -->
+<div class="space-y-6 mb-12">
+<h1 class="font-headline-lg text-headline-lg text-neon leading-relaxed tracking-tight">
+                    ANALISE O DESEMPENHO
+                </h1>
+<p class="font-pixel text-2xl text-parchment max-w-md mx-auto leading-normal opacity-90">
+                    Monitore as estatísticas e finanças do seu clube em tempo real.
+                </p>
+</div>
+<!-- Step Dots -->
+<div class="flex justify-center gap-4 mb-12">
+<!-- Step 1 (Inactive) -->
+<div class="w-4 h-4 border-2 border-smoke bg-transparent"></div>
+<!-- Step 2 (Active) -->
+<div class="w-4 h-4 border-2 border-neon bg-neon dot-active"></div>
+<!-- Step 3 (Inactive) -->
+<div class="w-4 h-4 border-2 border-smoke bg-transparent"></div>
+<!-- Step 4 (Inactive) -->
+<div class="w-4 h-4 border-2 border-smoke bg-transparent"></div>
+<!-- Step 5 (Inactive) -->
+<div class="w-4 h-4 border-2 border-smoke bg-transparent"></div>
+</div>
+<!-- Navigation Buttons -->
+<div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+<button class="btn-retro w-full md:w-48 py-4 font-headline-sm text-headline-sm text-smoke hover:text-parchment transition-colors">
+                    ANTERIOR
+                </button>
+<button class="btn-retro w-full md:w-48 py-4 font-headline-sm text-headline-sm text-neon hover:bg-forest transition-all">
+                    PROXIMO
+                </button>
+</div>
+<!-- Footer Link -->
+<div class="mt-8">
+<a class="font-headline-sm text-[10px] text-smoke hover:text-trophy underline decoration-2 underline-offset-8 transition-colors" href="#">
+                    PULAR TUTORIAL
+                </a>
+</div>
+</div>
+<!-- Terminal-like footer status -->
+<div class="mt-4 flex justify-between items-center px-2">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-neon rounded-full animate-pulse"></span>
+<span class="font-code text-label-md text-pitch uppercase tracking-widest">SYSTEM_ACTIVE</span>
+</div>
+<div class="font-code text-label-md text-smoke opacity-50">
+                ULTRA_MANAGER_OS_V95.2
+            </div>
+</div>
+</main>
+<!-- Overlay "Manager" elements to reinforce SNES manager feel -->
+<div class="fixed top-8 left-8 hidden lg:block">
+<div class="border-2 border-pitch p-2 bg-forest-dark">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-abyss border border-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div>
+<div class="font-headline-sm text-[10px] text-neon">TREINADOR</div>
+<div class="font-code text-label-md text-smoke">STATUS: ONLINE</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-8 right-8 hidden lg:block">
+<div class="border-2 border-pitch p-2 bg-forest-dark">
+<div class="font-headline-sm text-[10px] text-trophy mb-1">DATA ATUAL</div>
+<div class="font-code text-label-md text-parchment">15 OUT 1994</div>
+</div>
+</div>
+</body></html>

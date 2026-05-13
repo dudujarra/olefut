@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PITCH MANAGER '98 - MEMORY CARD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* CRT Scanline Effect */
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        
+        /* PS1 Style Bevel */
+        .memory-card-bevel {
+            box-shadow: 
+                inset 4px 4px 0px rgba(255,255,255,0.1),
+                inset -4px -4px 0px rgba(0,0,0,0.5),
+                4px 4px 0px rgba(0,0,0,0.9);
+        }
+
+        .button-bevel {
+            box-shadow: 
+                inset 2px 2px 0px rgba(255,255,255,0.2),
+                inset -2px -2px 0px rgba(0,0,0,0.4);
+        }
+
+        .button-bevel:active {
+            box-shadow: 
+                inset -2px -2px 0px rgba(255,255,255,0.2),
+                inset 2px 2px 0px rgba(0,0,0,0.4);
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"crt-black": "#111417", "on-tertiary": "#003823", danger: "#FF3333", "surface-dim": "#111417", "on-background": "#e1e2e7", "on-surface": "#e1e2e7", "inverse-surface": "#e1e2e7", "danger-dark": "#8B0000", "surface-container-highest": "#323538", "on-primary": "#053900", "on-secondary-container": "#725f00", secondary: "#fff9ef", "primary-fixed-dim": "#2ae500", "forest-dark": "#0E1F14", "inverse-on-surface": "#2e3134", "surface-tint": "#2ae500", parchment: "#F1FAEE", "on-error-container": "#ffdad6", surface: "#111417", error: "#ffb4ab", "tertiary-fixed-dim": "#75daa8", "secondary-fixed": "#ffe16d", "primary-container": "#39ff14", pitch: "#52B788", "secondary-container": "#ffdb3c", "outline-variant": "#3c4b35", "on-tertiary-fixed-variant": "#005235", "inverse-primary": "#106e00", "primary-fixed": "#79ff5b", primary: "#efffe3", "on-secondary-fixed": "#221b00", "surface-bright": "#37393d", trophy: "#FFD700", "on-error": "#690005", "on-tertiary-container": "#006f4a", "on-primary-fixed": "#022100", outline: "#85967c", "surface-container-low": "#191c1f", "tertiary-fixed": "#92f7c3", "on-secondary": "#3a3000", background: "#111417", neon: "#39FF14", amber: "#FBBF24", "on-secondary-fixed-variant": "#544600", "surface-variant": "#323538", "surface-container": "#1d2023", "on-primary-fixed-variant": "#095300", "on-surface-variant": "#baccb0", smoke: "#a0baae", tertiary: "#e9ffef", "on-primary-container": "#107100", abyss: "#040805", "on-tertiary-fixed": "#002113", "error-container": "#93000a", "secondary-fixed-dim": "#e9c400", forest: "#1B4332", "surface-container-high": "#272a2d", "tertiary-container": "#8cf1be", "surface-container-lowest": "#0b0e11", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-mobile": "16px", "margin-desktop": "32px", "container-max": "1280px", gutter: "16px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {"headline-lg": ["'Press Start 2P'"], "headline-md": ["Press Start 2P"], "headline-sm": ["'Press Start 2P'"], code: ["'JetBrains Mono'"], "label-lg": ["'JetBrains Mono'"], "label-md": ["'JetBrains Mono'"], "body-sm": ["Pixelify Sans"], "body-md": ["'Rubik'"], "body-lg": ["Pixelify Sans"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden relative">
+<!-- CRT Texture Layer -->
+<div class="fixed inset-0 crt-overlay z-[100] pointer-events-none"></div>
+<!-- TopAppBar -->
+<header class="bg-forest-dark dark:bg-forest-dark border-b-2 border-pitch dark:border-pitch flex justify-between items-center w-full px-margin-mobile h-16 fixed top-0 left-0 z-50">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center p-2 hover:text-neon transition-all active:scale-95">
+<span class="material-symbols-outlined text-neon" data-icon="arrow_back">arrow_back</span>
+</button>
+<h2 class="font-headline-md text-headline-md text-trophy dark:text-trophy tracking-tighter">PITCH MANAGER '98</h2>
+</div>
+<div class="font-headline-md text-headline-md text-neon">MEMORY CARD</div>
+<div class="w-10"></div> <!-- Spacer for balance -->
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter lg:gap-12 items-start">
+<!-- Slot 1 (Filled) -->
+<div class="flex flex-col gap-6 group">
+<div class="relative memory-card-bevel bg-forest-dark border-4 border-trophy rounded-lg p-6 flex flex-col items-center">
+<div class="absolute -top-4 bg-trophy text-crt-black font-headline-sm px-4 py-1">SLOT 1</div>
+<div class="w-full h-32 bg-abyss border-2 border-pitch mb-6 flex items-center justify-center overflow-hidden">
+<img alt="Manager Avatar" class="opacity-60 grayscale brightness-75 mix-blend-screen" data-alt="A pixel-art style manager portrait in a high-contrast palette of forest green and trophy gold. The character wears a vintage 90s tracksuit with a stoic expression, presented within a grainy CRT scanline aesthetic against a pitch-black abyss background. Cinematic dramatic lighting from the side emphasizes a retro-gaming arcade mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-j30ZK1APQiyJElG3J_0E84FSyHFWc1eNV_YgBSkX6Aq7egPilU4sI7RN6__WSP8-5Enf_Yuc--FQj-BkI1grP7dLWj62r7QYGUMd5_AM5J4NdmCqo3dKtQCeMbgA-uf3xdnYDOqmZG8Cd4a3Id9N1YWIc1-ry7G_pr6NNxeivNjxm51UTHrTE0ntm3irHBk051AxMkRSKFqbe65N_kNpm7T7sdyOt_uB9ajK3LjCLB9Az8yXZaOsUuMy90q5S3of9LAVryyLHkM"/>
+</div>
+<div class="w-full space-y-4">
+<div>
+<p class="font-headline-sm text-headline-sm text-neon mb-1">MANAGER</p>
+<p class="font-code text-headline-md text-parchment">MISTER X</p>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-neon mb-1">CLUB</p>
+<p class="font-code text-headline-md text-parchment">UNITED FC</p>
+</div>
+<div class="border-t border-pitch/30 pt-4 flex justify-between">
+<div class="text-left">
+<p class="font-label-md text-smoke">INFO</p>
+<p class="font-code text-body-sm text-parchment">SEASON 26/W12</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-smoke">DATE</p>
+<p class="font-code text-body-sm text-parchment">13/05/2026</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions Slot 1 -->
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-parchment button-bevel hover:text-neon hover:border-neon transition-all">SALVAR</button>
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-parchment button-bevel hover:text-neon hover:border-neon transition-all">EXPORTAR</button>
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-danger-dark button-bevel hover:bg-danger hover:text-crt-black hover:border-danger transition-all">DELETAR</button>
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-parchment button-bevel hover:text-neon hover:border-neon transition-all">IMPORTAR</button>
+</div>
+</div>
+<!-- Slot 2 (Filled) -->
+<div class="flex flex-col gap-6 group">
+<div class="relative memory-card-bevel bg-forest-dark border-4 border-trophy rounded-lg p-6 flex flex-col items-center">
+<div class="absolute -top-4 bg-trophy text-crt-black font-headline-sm px-4 py-1">SLOT 2</div>
+<div class="w-full h-32 bg-abyss border-2 border-pitch mb-6 flex items-center justify-center overflow-hidden">
+<img alt="Club Logo" class="opacity-60 grayscale brightness-75 mix-blend-screen" data-alt="A retro shield emblem for a soccer club called SC Victoria, featuring stylized pixelated eagles and a laurel wreath. The design is rendered in vibrant trophy gold and neon green on a dark, scanline-filled background, evoking the graphic identity of 16-bit console era sports managers. High-contrast brutalist layout." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSXbMOmutJcsYzGXMve4raDHs9C1eRDgLlJhKsWkoSuscKJ1FYvUnQWivVKNrZoaBcXi6kCTnjQZ0h5ssLEqTTMhMGgYm30fT7m-KKOLxFouhf1GRo3QW1CY2yh4fMkkZa5X76Q8_jM4lv2yLGJ_0UT5H7uDbZ20FBaOX1RBdKng4aeCzWECCAKFn0tXVXRSaq133GEhF1gsALu0zbe_DoeJ0FFCd0VzBSmNJaT53vWVYy4iQYErzpW3oqhFKWgbfJjuQcb4sxYfU"/>
+</div>
+<div class="w-full space-y-4">
+<div>
+<p class="font-headline-sm text-headline-sm text-neon mb-1">MANAGER</p>
+<p class="font-code text-headline-md text-parchment">CAPITÃO</p>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-neon mb-1">CLUB</p>
+<p class="font-code text-headline-md text-parchment">SC VICTORIA</p>
+</div>
+<div class="border-t border-pitch/30 pt-4 flex justify-between">
+<div class="text-left">
+<p class="font-label-md text-smoke">INFO</p>
+<p class="font-code text-body-sm text-parchment">SEASON 25/W38</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-smoke">DATE</p>
+<p class="font-code text-body-sm text-parchment">22/04/2026</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions Slot 2 -->
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-parchment button-bevel hover:text-neon hover:border-neon transition-all">SALVAR</button>
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-parchment button-bevel hover:text-neon hover:border-neon transition-all">EXPORTAR</button>
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-danger-dark button-bevel hover:bg-danger hover:text-crt-black hover:border-danger transition-all">DELETAR</button>
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-parchment button-bevel hover:text-neon hover:border-neon transition-all">IMPORTAR</button>
+</div>
+</div>
+<!-- Slot 3 (Empty) -->
+<div class="flex flex-col gap-6">
+<div class="relative h-[416px] border-4 border-dashed border-smoke/30 bg-crt-black/50 rounded-lg p-6 flex flex-col items-center justify-center opacity-60">
+<div class="absolute -top-4 bg-smoke/30 text-smoke font-headline-sm px-4 py-1">SLOT 3</div>
+<span class="material-symbols-outlined text-smoke text-6xl mb-4" data-icon="sd_card_alert">sd_card_alert</span>
+<p class="font-headline-sm text-headline-sm text-smoke">EMPTY SLOT</p>
+<p class="font-label-md text-smoke mt-2">NO DATA DETECTED</p>
+</div>
+<!-- Actions Slot 3 -->
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-parchment button-bevel hover:text-neon hover:border-neon transition-all">SALVAR</button>
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-parchment button-bevel hover:text-neon hover:border-neon transition-all opacity-30 cursor-not-allowed">EXPORTAR</button>
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-danger-dark button-bevel opacity-30 cursor-not-allowed">DELETAR</button>
+<button class="bg-forest border-2 border-pitch p-2 font-headline-sm text-parchment button-bevel hover:text-neon hover:border-neon transition-all">IMPORTAR</button>
+</div>
+</div>
+</div>
+<!-- Warning Label -->
+<div class="mt-12 p-4 border-l-4 border-amber bg-forest-dark flex items-center gap-4">
+<span class="material-symbols-outlined text-amber" data-icon="warning">warning</span>
+<p class="font-label-md text-parchment uppercase tracking-widest">DO NOT REMOVE MEMORY CARD WHILE THE "ACCESSING" LIGHT IS FLASHING.</p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile py-2 bg-crt-black dark:bg-crt-black border-t-4 border-forest dark:border-forest">
+<a class="flex flex-col items-center justify-center text-smoke p-unit hover:bg-forest-dark hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">SQUAD</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-unit hover:bg-forest-dark hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label-md text-label-md">MATCH</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-unit hover:bg-forest-dark hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="swap_horiz">swap_horiz</span>
+<span class="font-label-md text-label-md">TRANSFERS</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-forest text-neon rounded-none border-2 border-neon p-unit scale-90 brightness-125" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">SYSTEM</span>
+</a>
+</nav>
+</body></html>

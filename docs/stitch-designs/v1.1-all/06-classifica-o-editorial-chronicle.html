@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"forest-dark": "#0E1F14", "surface-bright": "#37393d", "secondary-container": "#ffdb3c", "surface-variant": "#323538", "on-tertiary-fixed": "#002113", trophy: "#FFD700", "on-primary-container": "#107100", "on-tertiary": "#003823", "on-surface-variant": "#baccb0", "on-secondary-fixed": "#221b00", abyss: "#040805", "on-secondary": "#3a3000", "on-primary-fixed-variant": "#095300", "tertiary-fixed-dim": "#75daa8", "surface-container-low": "#191c1f", "primary-container": "#39ff14", amber: "#FBBF24", "surface-tint": "#2ae500", "inverse-primary": "#106e00", neon: "#39FF14", secondary: "#fff9ef", outline: "#85967c", "on-error": "#690005", parchment: "#F1FAEE", "inverse-on-surface": "#2e3134", "tertiary-container": "#8cf1be", "inverse-surface": "#e1e2e7", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#e9c400", error: "#ffb4ab", danger: "#FF3333", tertiary: "#e9ffef", "on-primary-fixed": "#022100", background: "#111417", "crt-black": "#111417", "surface-container-high": "#272a2d", "on-surface": "#e1e2e7", "on-secondary-container": "#725f00", forest: "#1B4332", "surface-container-lowest": "#0b0e11", "error-container": "#93000a", "secondary-fixed": "#ffe16d", pitch: "#52B788", "surface-container-highest": "#323538", "primary-fixed-dim": "#2ae500", primary: "#efffe3", "tertiary-fixed": "#92f7c3", "on-tertiary-container": "#006f4a", "on-primary": "#053900", "surface-dim": "#111417", "danger-dark": "#8B0000", "surface-container": "#1d2023", "on-tertiary-fixed-variant": "#005235", "primary-fixed": "#79ff5b", surface: "#111417", smoke: "#a0baae", "on-background": "#e1e2e7", "on-secondary-fixed-variant": "#544600", "outline-variant": "#3c4b35", "danger-red": "#FF3333", "pitch-green": "#52B788", "trophy-gold": "#FFD700"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-desktop": "32px", "margin-mobile": "16px", "container-max": "1280px", gutter: "16px", sm: "8px", xl: "48px", lg: "24px", base: "4px", md: "16px", xs: "4px"}, fontFamily: {"label-lg": ["JetBrains Mono"], "headline-lg": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "body-md": ["Rubik"], "headline-sm": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="min-h-screen text-on-surface font-body-md flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-forest-dark dark:bg-abyss flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 border-b-4 border-pitch docked full-width top-0 z-50">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</h1>
+<nav class="hidden md:flex gap-6 ml-8">
+<a class="text-neon border-b-2 border-neon font-label-lg text-label-lg transition-transform active:translate-y-0.5" href="#">MERCADO</a>
+<a class="text-pitch hover:text-neon hover:border-neon font-label-lg text-label-lg transition-transform active:translate-y-0.5" href="#">LIGA</a>
+<a class="text-pitch hover:text-neon hover:border-neon font-label-lg text-label-lg transition-transform active:translate-y-0.5" href="#">CLUBES</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-neon p-1 transition-transform active:translate-y-0.5">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-neon p-1 transition-transform active:translate-y-0.5">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden md:flex flex-col gap-4 py-8 px-4 bg-forest-dark dark:bg-abyss border-r-4 border-pitch w-64 h-full">
+<div class="flex flex-col items-center mb-6">
+<div class="w-16 h-16 bg-pitch border-2 border-neon flex items-center justify-center mb-2 overflow-hidden">
+<img alt="Manager" class="w-full h-full object-cover" data-alt="A portrait of a football manager with a focused expression, wearing a classic 90s tracksuit in deep green. The lighting is dramatic and moody, with neon green highlights reflecting off his skin. The style is reminiscent of pixel-art inspired digital illustration with high contrast and sharp edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoctfTyFUyxSU-Oj-6B6yTEDLw4Zvj065dBOPWdaVEbKpwvuOMtR0atcXldEH7DQ-FLMfpvNXCuQSyQQN0a2FdsSLcB7fBORHdABiXCm5w9ArSewRaGMnGmvowAEgFToUZQyiKtB51bkkyK4gOxPkHM8mq_X45TE1-_YF1D5BT08C8pJnuO6pnavp0PlPdPTUuSLQ4swSNBJRPBX95xhWbhXZMjiKaaaCORS5ewXL7SOi-1ymmFUHXgfXz_lZbgEOVp2OdqRMrxTw"/>
+</div>
+<p class="font-headline-sm text-headline-sm text-neon">TREINADOR</p>
+<p class="font-label-md text-label-md text-smoke">Época 94/95</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="text-smoke p-2 flex items-center gap-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+                </a>
+<a class="text-smoke p-2 flex items-center gap-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">groups</span> Equipa
+                </a>
+<a class="text-smoke p-2 flex items-center gap-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">swap_horiz</span> Transferências
+                </a>
+<a class="text-smoke p-2 flex items-center gap-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">calendar_month</span> Calendário
+                </a>
+<a class="bg-pitch text-on-primary-container border-2 border-neon p-2 flex items-center gap-3 font-label-lg text-label-lg active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">leaderboard</span> Tabela
+                </a>
+<a class="text-smoke p-2 flex items-center gap-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">payments</span> Finanças
+                </a>
+</nav>
+<button class="mt-auto bg-forest border-2 border-pitch text-parchment py-3 px-4 font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:scale-95 transition-all">
+                NOVO JOGO
+            </button>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-background p-margin-mobile md:p-margin-desktop pb-24 md:pb-8">
+<!-- Chronicle Header Section -->
+<section class="mb-12">
+<div class="border-b-8 border-pitch pb-6 flex flex-col md:flex-row md:items-end gap-6">
+<div class="flex-1">
+<span class="bg-neon text-crt-black px-2 py-1 font-label-lg text-label-lg inline-block mb-4">CRÓNICA DA JORNADA 24</span>
+<h2 class="font-headline-lg text-3xl md:text-5xl text-parchment leading-tight tracking-tighter uppercase mb-4">
+                            S.C. LISBOA ISOLADO NO TOPO!
+                        </h2>
+<p class="font-body-lg text-body-lg text-smoke max-w-2xl">
+                            A equipa de Alvalade não perdoa e aumenta a vantagem após um dérbi eletrizante. O título parece cada vez mais próximo do museu dos leões, enquanto a luta pela manutenção torna-se uma autêntica batalha campal.
+                        </p>
+</div>
+<div class="w-full md:w-72 h-48 border-4 border-pitch bg-forest-dark relative overflow-hidden group">
+<img alt="Stadium" class="w-full h-full object-cover grayscale contrast-125 opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" data-alt="A cinematic, low-angle shot of a classic European football stadium at dusk, with massive floodlights piercing through a foggy atmosphere. The color palette is dominated by deep forest greens and pitch blacks, with glowing neon green light trails. The style is dark, atmospheric, and reminiscent of 1990s sports broadcast aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcl3_jkN-cSsmCuIeNWX3PB_q6W1hJdfxl82_-WmsShe-ZtshxeHNy4wEd6fy_Jb_ILuX97QREBGD9pDNtyIpnumO4ONUbiKhZpiY0rG3vv44SUyoAmnt2GouZA9GE7qTZ8qgMLHPyRLts-41xKRRH8gEqw5S8XDLAS32y2oJXLbiMLVvOIqRJ-dXGgNQ1Wf13gYfZvukE6d2KWs4qGLapw5A-OVBRWEzM23_0vTYIpnOVOtzTfkdTVx7eR5-GMqdj8pHO5ZSEA1E"/>
+<div class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-crt-black to-transparent">
+<span class="font-headline-sm text-neon">ESTÁDIO DA LUZ</span>
+<span class="font-label-md text-smoke">Lotação Esgotada</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Two-Column Newspaper Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left: The Classic Standings Table (8 Cols) -->
+<div class="lg:col-span-8 flex flex-col gap-4">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<h3 class="font-headline-md text-headline-md text-neon uppercase">CLASSIFICAÇÃO GERAL</h3>
+</div>
+<div class="bg-forest-dark border-4 border-pitch overflow-hidden">
+<table class="w-full border-collapse">
+<thead>
+<tr class="bg-pitch text-crt-black font-label-lg text-label-lg">
+<th class="p-3 text-left w-12">#</th>
+<th class="p-3 text-left">CLUBE</th>
+<th class="p-3 text-center hidden md:table-cell">J</th>
+<th class="p-3 text-center hidden md:table-cell">V</th>
+<th class="p-3 text-center hidden md:table-cell">E</th>
+<th class="p-3 text-center hidden md:table-cell">D</th>
+<th class="p-3 text-center">PTS</th>
+<th class="p-3 text-center">FORMA</th>
+</tr>
+</thead>
+<tbody class="font-label-md text-label-md">
+<!-- Row 1 -->
+<tr class="border-b-2 border-pitch bg-pitch/10 group hover:bg-forest transition-colors">
+<td class="p-3 font-headline-sm text-neon">01</td>
+<td class="p-3 flex items-center gap-3">
+<div class="w-8 h-8 bg-neon border border-crt-black"></div>
+<span class="font-bold text-parchment">S.C. LISBOA</span>
+</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">24</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">19</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">3</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">2</td>
+<td class="p-3 text-center font-bold text-neon">60</td>
+<td class="p-3">
+<div class="flex justify-center gap-1">
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-smoke border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b-2 border-pitch group hover:bg-forest transition-colors">
+<td class="p-3 font-headline-sm text-parchment">02</td>
+<td class="p-3 flex items-center gap-3">
+<div class="w-8 h-8 bg-danger border border-crt-black"></div>
+<span class="font-bold text-parchment">F.C. PORTO</span>
+</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">24</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">17</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">4</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">3</td>
+<td class="p-3 text-center font-bold text-parchment">55</td>
+<td class="p-3">
+<div class="flex justify-center gap-1">
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-smoke border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-danger border border-crt-black"></span>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b-2 border-pitch group hover:bg-forest transition-colors">
+<td class="p-3 font-headline-sm text-parchment">03</td>
+<td class="p-3 flex items-center gap-3">
+<div class="w-8 h-8 bg-trophy border border-crt-black"></div>
+<span class="font-bold text-parchment">S.L. BENFICA</span>
+</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">24</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">16</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">5</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">3</td>
+<td class="p-3 text-center font-bold text-parchment">53</td>
+<td class="p-3">
+<div class="flex justify-center gap-1">
+<span class="w-4 h-4 bg-danger border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-smoke border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b-2 border-pitch group hover:bg-forest transition-colors">
+<td class="p-3 font-headline-sm text-parchment">04</td>
+<td class="p-3 flex items-center gap-3">
+<div class="w-8 h-8 bg-parchment border border-crt-black"></div>
+<span class="font-bold text-parchment">S.C. BRAGA</span>
+</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">24</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">14</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">6</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">4</td>
+<td class="p-3 text-center font-bold text-parchment">48</td>
+<td class="p-3">
+<div class="flex justify-center gap-1">
+<span class="w-4 h-4 bg-smoke border border-crt-black"></span>
+<span class="w-4 h-4 bg-smoke border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="border-b-2 border-pitch group hover:bg-forest transition-colors">
+<td class="p-3 font-headline-sm text-parchment">05</td>
+<td class="p-3 flex items-center gap-3">
+<div class="w-8 h-8 bg-amber border border-crt-black"></div>
+<span class="font-bold text-parchment">VITÓRIA S.C.</span>
+</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">24</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">12</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">4</td>
+<td class="p-3 text-center text-smoke hidden md:table-cell">8</td>
+<td class="p-3 text-center font-bold text-parchment">40</td>
+<td class="p-3">
+<div class="flex justify-center gap-1">
+<span class="w-4 h-4 bg-danger border border-crt-black"></span>
+<span class="w-4 h-4 bg-danger border border-crt-black"></span>
+<span class="w-4 h-4 bg-neon border border-crt-black"></span>
+<span class="w-4 h-4 bg-smoke border border-crt-black"></span>
+<span class="w-4 h-4 bg-danger border border-crt-black"></span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right: Team of the Week (4 Cols) -->
+<div class="lg:col-span-4 flex flex-col gap-4">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-trophy" style="font-variation-settings: 'FILL' 1;">groups</span>
+<h3 class="font-headline-md text-headline-md text-trophy uppercase">EQUIPA DA SEMANA</h3>
+</div>
+<div class="bg-abyss border-4 border-trophy p-4 relative overflow-hidden">
+<!-- Decorative scanlines specifically for this card -->
+<div class="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px]"></div>
+<div class="relative z-10 flex flex-col gap-4">
+<!-- Player Item -->
+<div class="flex items-center gap-4 border-b border-pitch/30 pb-3">
+<div class="w-12 h-12 bg-forest-dark border-2 border-trophy overflow-hidden shrink-0">
+<img alt="Player" class="w-full h-full object-cover grayscale" data-alt="Close-up portrait of a professional soccer player with intense focus, sweat on his brow, looking directly at the camera. The image has a heavy film grain, high-contrast black and white styling, and sharp lighting hitting one side of the face. The mood is heroic and gritty, set in a dark professional studio." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACpD7CEUi10HqoPJCwEwnJYaIJ0B5TknyoMskAqOKLlTv0EZGf2uC4VrG8TXLdxNbIB6jcUvfo6rigQ9WGLgld9TvlQ89ZmP7-25U7UCJoKIthTcPkwDaTSocNRARqkN6B5h9NPC7UIDcWWyM1N-Jc5Yrk6zBxy2EQMqxyaCYc199RCCLaaf52dm91VeSoZ3pi9kxAdHzCF1_C4f_mIeU8dw5drU-q672hhf5fKNFM38sjvMffJTcnCOIgfizhMVMl3ohtKyhyH1M"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-headline-sm text-neon">P. PAULETA</p>
+<span class="bg-trophy text-crt-black px-2 py-0.5 font-label-md">9.5</span>
+</div>
+<p class="font-label-md text-smoke">Avançado • S.C. Lisboa</p>
+</div>
+</div>
+<!-- Player Item -->
+<div class="flex items-center gap-4 border-b border-pitch/30 pb-3">
+<div class="w-12 h-12 bg-forest-dark border-2 border-trophy overflow-hidden shrink-0">
+<img alt="Player" class="w-full h-full object-cover grayscale" data-alt="A gritty, high-contrast black and white photograph of a football player mid-shout, celebrating a goal. The background is a dark, out-of-focus stadium. The lighting is harsh and dramatic, emphasizing the athlete's muscular form and intense emotion, styled like a 1990s sports magazine cover." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxoryPTY3VmLF9v2Q9WTyWwShvxIK_odxQtnyHnXJRWq4B5Mq7DBRJaGnieQ6m0HhoGteyQKuSEb_QORF-lwNaiDGqWyqhuw-rp-Gn6SmYIcEGkUVMqWmvdZmBfxaSfOMmjh-27RS33yZVNlzf3WZJ5NOtn9KD3pk72AwCJV0bKpclYtUxb_I_4H3SwUnSMYH-Rk_Ew4db1P34Z5PZd3ahWmjt_YvTBvuOYbN7pxBL0-8waK2euS-lChZsdGWedS1gIFAJQKFVxYk"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-headline-sm text-neon">JOÃO PINTO</p>
+<span class="bg-trophy text-crt-black px-2 py-0.5 font-label-md">9.2</span>
+</div>
+<p class="font-label-md text-smoke">Extremo • F.C. Porto</p>
+</div>
+</div>
+<!-- Player Item -->
+<div class="flex items-center gap-4 border-b border-pitch/30 pb-3">
+<div class="w-12 h-12 bg-forest-dark border-2 border-trophy overflow-hidden shrink-0">
+<img alt="Player" class="w-full h-full object-cover grayscale" data-alt="A low-key, professional sports portrait of a tall goalkeeper in a classic jersey. The image is processed with heavy contrast and a slight blue tint in the shadows. The player has a serious, impenetrable gaze, lit by a single spotlight from above to create deep shadows. Retro digital aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq8vKzlq1KwMYctVLqkfBI5HVwl58dbGQ43xwH-fhMM_1Vi-XHvZJ2yq-Z0PnYQzSgVKnowCbXifrMWLQbnIqUZh9LY_j3DEEaXc-bvkme1N4Wz2Z4l13nCeDfO4hfRPsQqWgaFHtSIiijuINBQ8CXiA9-1P7oxYX8MKHdazmQR3_sUdDbChP1q-e4u_Pw1w4_7ASidm8wtiCLpu_v36JeSDnZvbkbY_Iql6UkAMUGQFYbb8JivBR2eLoaqMDQBhczYvN_AENUU4I"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-headline-sm text-neon">PREUD'HOMME</p>
+<span class="bg-trophy text-crt-black px-2 py-0.5 font-label-md">8.8</span>
+</div>
+<p class="font-label-md text-smoke">Guarda-Redes • S.L. Benfica</p>
+</div>
+</div>
+<!-- Player Item -->
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-forest-dark border-2 border-trophy overflow-hidden shrink-0">
+<img alt="Player" class="w-full h-full object-cover grayscale" data-alt="A dynamic action shot of a soccer player's legs and feet as they strike a classic leather football. The background is a dark night pitch with neon green stadium lighting casting long, hard shadows. The photograph is high-contrast black and white with a grainy, analog feel from the 90s era." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCenyuyy4mpSZRBUm7u2cLbg0hXke04_wjhdbcVW3gY_koG9Wnap49xeeJSDF3vOKxQvyxgu718DqyUFuvsjS4e-cVvMp2BFa4K8sjZNNvnI24Pv5Ih2UycpHYNNQ2oXrIhRFw9YD1A-u2nRkVOuBpiqPcVarvuqj8c-1mQxRg773oT4rgwGt7LMfbLPKTDhFeDj9zMr8aBjfZWFbF3myeUYv0xuMAPlCBTUE-l-Lb-146HRHgXrvZ2rMkemjTFVQoO_ZUuvzRkkEM"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-headline-sm text-neon">OCEANO</p>
+<span class="bg-trophy text-crt-black px-2 py-0.5 font-label-md">8.5</span>
+</div>
+<p class="font-label-md text-smoke">Médio • S.C. Lisboa</p>
+</div>
+</div>
+<button class="mt-4 border-2 border-trophy text-trophy font-headline-sm text-headline-sm py-2 hover:bg-trophy hover:text-crt-black transition-all">
+                                VER EQUIPA COMPLETA
+                            </button>
+</div>
+</div>
+<!-- Small Chronicle Sidebar Ad/Extra -->
+<div class="bg-forest border-2 border-pitch p-4">
+<h4 class="font-headline-sm text-neon mb-2">PRÓXIMO GRANDE JOGO</h4>
+<div class="flex justify-between items-center text-parchment font-label-lg">
+<span>S.C. BRAGA</span>
+<span class="text-neon">VS</span>
+<span>VITÓRIA S.C.</span>
+</div>
+<p class="font-label-md text-smoke text-center mt-2">DOMINGO, 19:45 • ESTÁDIO 1º DE MAIO</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 bg-forest-dark border-t-4 border-pitch z-50">
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 transition-all active:inset-shadow" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">Jogo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 transition-all active:inset-shadow" href="#">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-md text-label-md">Plantel</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-pitch text-on-primary-container rounded-none border-2 border-neon px-4 py-1 transition-all active:inset-shadow" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="font-label-md text-label-md">Tabela</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 transition-all active:inset-shadow" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Mensagens</span>
+</a>
+</nav>
+</body></html>

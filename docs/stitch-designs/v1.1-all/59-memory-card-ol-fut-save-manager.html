@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT Memory Card</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {danger: "#FF3333", trophy: "#FFD700", surface: "#111417", tertiary: "#e9ffef", "surface-variant": "#323538", "tertiary-fixed-dim": "#75daa8", outline: "#85967c", "on-primary-fixed-variant": "#095300", error: "#ffb4ab", "on-tertiary": "#003823", "outline-variant": "#3c4b35", neon: "#39FF14", background: "#111417", "surface-dim": "#111417", "on-tertiary-fixed-variant": "#005235", "on-secondary": "#3a3000", "error-container": "#93000a", "on-primary-container": "#107100", "on-error": "#690005", "surface-container-lowest": "#0b0e11", "secondary-fixed-dim": "#e9c400", "secondary-container": "#ffdb3c", "on-primary": "#053900", "on-secondary-fixed-variant": "#544600", "crt-black": "#111417", "surface-tint": "#2ae500", "inverse-primary": "#106e00", abyss: "#040805", "on-secondary-fixed": "#221b00", "secondary-fixed": "#ffe16d", smoke: "#a0baae", secondary: "#fff9ef", "on-surface-variant": "#baccb0", "on-primary-fixed": "#022100", "forest-dark": "#0E1F14", amber: "#FBBF24", parchment: "#F1FAEE", "surface-container": "#1d2023", "inverse-surface": "#e1e2e7", "danger-dark": "#8B0000", "surface-bright": "#37393d", "on-tertiary-container": "#006f4a", "primary-fixed": "#79ff5b", "on-error-container": "#ffdad6", "surface-container-high": "#272a2d", "tertiary-container": "#8cf1be", "surface-container-highest": "#323538", "primary-container": "#39ff14", "inverse-on-surface": "#2e3134", "primary-fixed-dim": "#2ae500", "on-secondary-container": "#725f00", forest: "#1B4332", primary: "#efffe3", "on-tertiary-fixed": "#002113", "on-surface": "#e1e2e7", "tertiary-fixed": "#92f7c3", pitch: "#52B788", "on-background": "#e1e2e7", "surface-container-low": "#191c1f", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-max": "1280px", gutter: "16px", unit: "4px", "margin-mobile": "16px", "margin-desktop": "32px", sm: "8px", md: "16px", xs: "4px", xl: "48px", lg: "24px", base: "4px"}, fontFamily: {"label-md": ["JetBrains Mono"], code: ["JetBrains Mono"], "body-sm": ["Pixelify Sans"], "label-lg": ["JetBrains Mono"], "headline-lg": ["'Press Start 2P'"], "headline-sm": ["'Press Start 2P'"], "body-md": ["Rubik"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"]}, fontSize: {"label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}]}}}};</script>
+<style>
+        .scanline-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .beveled-border {
+            box-shadow: inset 2px 2px 0px rgba(255,255,255,0.1), inset -2px -2px 0px rgba(0,0,0,0.5);
+        }
+        .active-slot-glow {
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+        }
+        .pixel-border {
+            border: 2px solid;
+            border-image-slice: 1;
+            border-width: 2px;
+            border-image-source: linear-gradient(to bottom, #52B788, #1B4332);
+        }
+        .text-shadow-neon {
+            text-shadow: 2px 2px 0px #0c1609;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden relative">
+<div class="scanline-overlay fixed inset-0 z-[100]"></div>
+<!-- Top Navigation Anchor -->
+<header class="bg-forest-dark dark:bg-forest-dark border-b-2 border-pitch dark:border-pitch flex justify-between items-center w-full px-margin-mobile h-16 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon" data-icon="arrow_back">arrow_back</span>
+<h1 class="font-headline-md text-headline-md text-trophy dark:text-trophy tracking-tighter">PITCH MANAGER '98</h1>
+</div>
+<div class="font-headline-md text-headline-md text-neon uppercase text-shadow-neon">MEMORY CARD</div>
+</header>
+<main class="flex-grow container mx-auto px-margin-mobile py-8 flex flex-col items-center justify-center gap-12 max-w-6xl">
+<!-- Memory Card Slots Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+<!-- Slot 1: Active -->
+<div class="bg-forest-dark border-2 border-neon p-6 relative group active-slot-glow flex flex-col h-full transform transition-transform hover:scale-[1.02]">
+<div class="absolute -top-3 left-4 bg-neon px-2 py-0.5">
+<span class="font-headline-sm text-headline-sm text-crt-black">SLOT 01</span>
+</div>
+<div class="flex gap-4 mb-4">
+<div class="w-16 h-16 bg-abyss border-2 border-pitch flex items-center justify-center overflow-hidden">
+<img alt="Manager Avatar" class="w-full h-full object-cover" data-alt="A pixel-art style portrait of a football manager character with a focused expression. The character has short dark hair and is wearing a classic dark green tracksuit. The aesthetic is inspired by 16-bit retro sports games, featuring sharp pixel edges and a limited color palette of forest green, neon, and deep blacks. The background is a simple flat dark grey to emphasize the character silhouette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQ5cVNG7Oh5Dl5YkWj2-1oAwNvrT8TrVWU-zLFNRnL5Vhc1lVh6_3-aKfFW_fhJJgnxdWigpqZiF62IF9m2bCPxChTyZS4r4AvAqHhVBPD6vc-iBOG0P0J07AyMMeqM1S9h71K3xRtC8rdCr5sQMYmy9KVDaoqY6bIEZ1cZ5Svx-SCr-eJwpcS3WfwUN0u7gd6uqRyHHXl7uUJt9yMRk5BB1nX0AMwgZwW8rWUM6t--K7BFvV7CM1I2QqaPsCMLHjy42sigkHhEyU"/>
+</div>
+<div class="flex flex-col justify-center">
+<p class="font-headline-sm text-headline-sm text-neon mb-1">MISTER X</p>
+<p class="font-label-md text-label-md text-smoke">UNITED FC</p>
+</div>
+</div>
+<div class="space-y-2 mb-6 flex-grow">
+<div class="flex justify-between border-b border-forest py-1">
+<span class="font-label-md text-label-md text-smoke">INFO:</span>
+<span class="font-label-md text-label-md text-parchment">SEASON 26/W12</span>
+</div>
+<div class="flex justify-between border-b border-forest py-1">
+<span class="font-label-md text-label-md text-smoke">DATE:</span>
+<span class="font-label-md text-label-md text-parchment">13/05/2026</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-auto">
+<button class="bg-forest hover:bg-forest-dark border-2 border-pitch hover:border-neon text-parchment hover:text-neon p-2 font-headline-sm text-headline-sm transition-all active:scale-95 beveled-border">SALVAR</button>
+<button class="bg-forest hover:bg-forest-dark border-2 border-pitch hover:border-neon text-parchment hover:text-neon p-2 font-headline-sm text-headline-sm transition-all active:scale-95 beveled-border">EXPORTAR</button>
+<button class="bg-danger-dark hover:bg-danger border-2 border-pitch hover:border-neon text-parchment hover:text-neon p-2 font-headline-sm text-headline-sm transition-all active:scale-95 beveled-border">DELETAR</button>
+<button class="bg-forest hover:bg-forest-dark border-2 border-pitch hover:border-neon text-parchment hover:text-neon p-2 font-headline-sm text-headline-sm transition-all active:scale-95 beveled-border">IMPORTAR</button>
+</div>
+</div>
+<!-- Slot 2: Active -->
+<div class="bg-forest-dark border-2 border-pitch p-6 relative group flex flex-col h-full transform transition-transform hover:scale-[1.02] hover:border-neon">
+<div class="absolute -top-3 left-4 bg-pitch group-hover:bg-neon px-2 py-0.5">
+<span class="font-headline-sm text-headline-sm text-crt-black">SLOT 02</span>
+</div>
+<div class="flex gap-4 mb-4">
+<div class="w-16 h-16 bg-abyss border-2 border-pitch flex items-center justify-center p-2">
+<span class="material-symbols-outlined text-trophy text-4xl" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="font-headline-sm text-headline-sm text-neon mb-1">CAPITÃO</p>
+<p class="font-label-md text-label-md text-smoke">SC VICTORIA</p>
+</div>
+</div>
+<div class="space-y-2 mb-6 flex-grow">
+<div class="flex justify-between border-b border-forest py-1">
+<span class="font-label-md text-label-md text-smoke">INFO:</span>
+<span class="font-label-md text-label-md text-parchment">SEASON 25/W38</span>
+</div>
+<div class="flex justify-between border-b border-forest py-1">
+<span class="font-label-md text-label-md text-smoke">DATE:</span>
+<span class="font-label-md text-label-md text-parchment">22/04/2026</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-auto">
+<button class="bg-forest hover:bg-forest-dark border-2 border-pitch hover:border-neon text-parchment hover:text-neon p-2 font-headline-sm text-headline-sm transition-all active:scale-95 beveled-border">SALVAR</button>
+<button class="bg-forest hover:bg-forest-dark border-2 border-pitch hover:border-neon text-parchment hover:text-neon p-2 font-headline-sm text-headline-sm transition-all active:scale-95 beveled-border">EXPORTAR</button>
+<button class="bg-danger-dark hover:bg-danger border-2 border-pitch hover:border-neon text-parchment hover:text-neon p-2 font-headline-sm text-headline-sm transition-all active:scale-95 beveled-border">DELETAR</button>
+<button class="bg-forest hover:bg-forest-dark border-2 border-pitch hover:border-neon text-parchment hover:text-neon p-2 font-headline-sm text-headline-sm transition-all active:scale-95 beveled-border">IMPORTAR</button>
+</div>
+</div>
+<!-- Slot 3: Empty -->
+<div class="bg-abyss border-2 border-dashed border-smoke p-6 relative flex flex-col items-center justify-center text-center h-full min-h-[340px]">
+<div class="absolute -top-3 left-4 bg-smoke px-2 py-0.5">
+<span class="font-headline-sm text-headline-sm text-crt-black">SLOT 03</span>
+</div>
+<span class="material-symbols-outlined text-smoke text-5xl mb-4" data-icon="folder_open">folder_open</span>
+<p class="font-headline-sm text-headline-sm text-smoke leading-loose">EMPTY SLOT<br/>NO DATA DETECTED</p>
+<button class="mt-8 bg-surface-container border-2 border-smoke text-smoke px-4 py-2 font-headline-sm text-headline-sm cursor-not-allowed opacity-50">INITIALIZE</button>
+</div>
+</div>
+<!-- Warning Area -->
+<div class="w-full max-w-4xl bg-crt-black border-2 border-danger-dark p-6 flex items-center gap-6 relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle,red_1px,transparent_1px)] bg-[size:10px_10px]"></div>
+<div class="bg-danger-dark p-3 shrink-0">
+<span class="material-symbols-outlined text-parchment text-4xl" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-parchment leading-relaxed uppercase relative z-10">
+                DO NOT REMOVE MEMORY CARD WHILE THE <span class="text-amber">'ACCESSING'</span> LIGHT IS FLASHING.
+            </p>
+</div>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile py-2 bg-crt-black border-t-4 border-forest">
+<div class="flex flex-col items-center justify-center text-smoke p-unit hover:bg-forest-dark hover:text-neon">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">SQUAD</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-unit hover:bg-forest-dark hover:text-neon">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label-md text-label-md">MATCH</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-unit hover:bg-forest-dark hover:text-neon">
+<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+<span class="font-label-md text-label-md">TRANSFERS</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-forest text-neon rounded-none border-2 border-neon p-unit scale-90 brightness-125">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">SYSTEM</span>
+</div>
+</nav>
+<!-- Contextual Information Badge -->
+<div class="fixed bottom-24 right-8 bg-neon px-4 py-2 flex items-center gap-2 transform rotate-3 shadow-lg z-40 border-b-4 border-r-4 border-forest">
+<span class="material-symbols-outlined text-crt-black font-bold" data-icon="save">save</span>
+<span class="font-headline-sm text-headline-sm text-crt-black">AUTO-SAVE: ON</span>
+</div>
+</body></html>

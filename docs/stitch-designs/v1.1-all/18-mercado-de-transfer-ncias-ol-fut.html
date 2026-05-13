@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .pixel-border-inset {
+            box-shadow: inset -2px -2px 0px #000, inset 2px 2px 0px #52B788;
+        }
+        .active-inset {
+            box-shadow: inset 2px 2px 0px #000, inset -1px -1px 0px #52B788;
+        }
+        body {
+            image-rendering: pixelated;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"primary-container": "#39ff14", "primary-fixed": "#79ff5b", "surface-bright": "#37393d", danger: "#FF3333", "on-tertiary-fixed": "#002113", "surface-container-lowest": "#0b0e11", "surface-dim": "#111417", "tertiary-fixed": "#92f7c3", "surface-container-highest": "#323538", secondary: "#fff9ef", "surface-container-low": "#191c1f", "on-secondary-fixed-variant": "#544600", surface: "#111417", "on-secondary-container": "#725f00", "on-primary": "#053900", "inverse-surface": "#e1e2e7", "surface-container-high": "#272a2d", primary: "#efffe3", trophy: "#FFD700", "secondary-fixed-dim": "#e9c400", "on-tertiary-container": "#006f4a", "forest-dark": "#0E1F14", "surface-container": "#1d2023", "on-primary-container": "#107100", forest: "#1B4332", pitch: "#52B788", parchment: "#F1FAEE", smoke: "#a0baae", "on-surface": "#e1e2e7", background: "#111417", abyss: "#040805", "on-tertiary": "#003823", "on-error-container": "#ffdad6", "on-secondary-fixed": "#221b00", amber: "#FBBF24", error: "#ffb4ab", "on-primary-fixed-variant": "#095300", "secondary-fixed": "#ffe16d", "on-surface-variant": "#baccb0", outline: "#85967c", "on-background": "#e1e2e7", "tertiary-container": "#8cf1be", tertiary: "#e9ffef", "outline-variant": "#3c4b35", "surface-tint": "#2ae500", "on-error": "#690005", "primary-fixed-dim": "#2ae500", "error-container": "#93000a", "on-tertiary-fixed-variant": "#005235", "surface-variant": "#323538", "secondary-container": "#ffdb3c", neon: "#39FF14", "tertiary-fixed-dim": "#75daa8", "on-primary-fixed": "#022100", "on-secondary": "#3a3000", "inverse-primary": "#106e00", "crt-black": "#111417", "inverse-on-surface": "#2e3134", "trophy-gold": "#FFD700", "danger-red": "#FF3333", "pitch-green": "#52B788"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-desktop": "32px", "container-max": "1280px", "margin-mobile": "16px", gutter: "16px", lg: "24px", base: "4px", sm: "8px", xs: "4px", md: "16px", xl: "48px"}, fontFamily: {"headline-sm": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], "body-md": ["Rubik"], "label-lg": ["JetBrains Mono"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "headline-lg": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="bg-background text-parchment font-body-md overflow-x-hidden min-h-screen">
+<!-- CRT SCANLINES OVERLAY -->
+<div class="fixed inset-0 crt-overlay opacity-20 pointer-events-none"></div>
+<!-- TopAppBar -->
+<header class="bg-crt-black dark:bg-crt-black border-b-2 border-pitch flat no shadows flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 z-50 docked full-width top-0 sticky">
+<div class="font-headline-lg text-headline-lg text-neon uppercase tracking-tighter">OléFUT</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-8">
+<span class="text-parchment font-label-lg text-label-lg hover:text-neon cursor-pointer">Dashboard</span>
+<span class="text-parchment font-label-lg text-label-lg hover:text-neon cursor-pointer">Squad</span>
+<span class="text-neon font-bold font-label-lg text-label-lg border-b-2 border-neon pb-1">Market</span>
+<span class="text-parchment font-label-lg text-label-lg hover:text-neon cursor-pointer">History</span>
+</div>
+<div class="flex items-center gap-4 text-neon">
+<span class="material-symbols-outlined cursor-pointer hover:scale-110" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110" data-icon="person">person</span>
+</div>
+</div>
+</header>
+<div class="flex min-h-[calc(100vh-64px)]">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 bg-forest-dark dark:bg-forest-dark border-r-2 border-pitch flat no shadows docked left-0 h-full w-64 hidden lg:flex pt-16">
+<div class="p-6 flex flex-col items-center border-b-2 border-pitch mb-4">
+<div class="w-20 h-20 border-2 border-neon p-1 mb-3 bg-abyss">
+<img alt="Manager Avatar" class="w-full h-full object-cover grayscale" data-alt="A gritty, high-contrast black and white portrait of a determined football manager in his late 40s. He wears a classic 90s tracksuit. The lighting is dramatic and moody, casting sharp shadows that emphasize his rugged features, aligning with a retro 32-bit arcade cinematic style with visible scanline textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDxCyf16YE2qyFx--qtKpfiVJY1Sjx7uJAIWLUSi-Xz8oKCLMed3UNv7pd171rM7iOOcpFujrAP7H8dyrI-rBZqfuUsObDotbdwagpbyhW3mjzUHPNAIxFk7L-driJt_pJHRaLWizgXnLz0ZyAACzsZlc1ollXS2QL3xSdVNKd1KXxL6FQEIsX7n4NckD3DQpaG5rj5f7UXpt5esvA3fVBlxRz42-QEYrggXnaE_gGGmenietniqGDxja6MsCqjhZC86zbbtkJGvY"/>
+</div>
+<div class="font-headline-md text-headline-md text-trophy text-center">Manager</div>
+<div class="font-label-md text-label-md text-smoke">Rank: Pro</div>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<div class="text-smoke px-4 py-3 flex items-center gap-3 font-label-lg text-label-lg hover:bg-forest hover:text-neon transition-colors duration-150 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</div>
+<div class="text-smoke px-4 py-3 flex items-center gap-3 font-label-lg text-label-lg hover:bg-forest hover:text-neon transition-colors duration-150 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span>Squad</span>
+</div>
+<!-- Active Tab: Market -->
+<div class="bg-forest text-neon border-l-4 border-neon px-4 py-3 flex items-center gap-3 font-label-lg text-label-lg cursor-default">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Market</span>
+</div>
+<div class="text-smoke px-4 py-3 flex items-center gap-3 font-label-lg text-label-lg hover:bg-forest hover:text-neon transition-colors duration-150 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>History</span>
+</div>
+</nav>
+<div class="p-4 mt-auto space-y-1 border-t-2 border-pitch bg-abyss">
+<button class="w-full bg-forest border-2 border-pitch text-neon py-3 font-headline-sm text-headline-sm hover:border-neon active:translate-y-px active:active-inset transition-all mb-4">
+                    Match Day
+                </button>
+<div class="text-smoke px-4 py-2 flex items-center gap-3 font-label-md text-label-md hover:text-neon cursor-pointer">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</div>
+<div class="text-smoke px-4 py-2 flex items-center gap-3 font-label-md text-label-md hover:text-neon cursor-pointer">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Log Out</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 p-margin-mobile md:p-margin-desktop space-y-gutter bg-background relative">
+<!-- Market Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b-4 border-pitch pb-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-neon tracking-tighter uppercase">MERCADO</h1>
+<p class="font-label-lg text-label-lg text-smoke mt-2">GLOBAL TRANSFER NETWORK</p>
+</div>
+<div class="bg-crt-black border-2 border-trophy p-4 flex items-center gap-4">
+<span class="material-symbols-outlined text-trophy" data-icon="account_balance_wallet" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<div>
+<div class="font-label-md text-label-md text-smoke">SALDO DISPONÍVEL</div>
+<div class="font-headline-md text-headline-md text-trophy">R$ 12.5M</div>
+</div>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="bg-forest-dark border-2 border-pitch p-4 grid grid-cols-1 md:grid-cols-4 gap-gutter items-end">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-neon block uppercase">Posição</label>
+<select class="w-full bg-abyss border border-smoke text-parchment p-2 font-label-lg text-label-lg focus:border-neon outline-none appearance-none">
+<option>TODAS</option>
+<option>ATA</option>
+<option>MEI</option>
+<option>DEF</option>
+<option>GOL</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-neon block uppercase">Idade</label>
+<select class="w-full bg-abyss border border-smoke text-parchment p-2 font-label-lg text-label-lg focus:border-neon outline-none appearance-none">
+<option>17 - 35</option>
+<option>17 - 21</option>
+<option>22 - 28</option>
+<option>29+</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-neon block uppercase">Mínimo OVR</label>
+<input class="w-full bg-abyss border border-smoke text-parchment p-2 font-label-lg text-label-lg focus:border-neon outline-none" placeholder="75" type="number"/>
+</div>
+<button class="bg-forest border-2 border-pitch text-neon py-2 font-headline-sm text-headline-sm hover:border-neon active:translate-y-px transition-all">
+                    FILTRAR
+                </button>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-4 gap-gutter">
+<!-- Player Grid -->
+<div class="xl:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Player Card 1 -->
+<div class="bg-forest-dark border-2 border-pitch flex flex-col group hover:border-neon transition-colors relative overflow-hidden">
+<div class="absolute top-0 left-0 bg-neon text-crt-black font-headline-sm p-2 z-10">89</div>
+<div class="h-48 bg-abyss relative">
+<img alt="Player Portrait" class="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300" data-alt="A grayscale, high-fidelity sports portrait of a professional football player looking intensely at the camera. He is standing in a stadium tunnel with atmospheric backlighting. The image has a sharp, slightly grainy 90s aesthetic with cool undertones and visible texture, capturing a moment of intense focus before a match." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv4Ceh-SAN2VVzCjKcZBgS2NeSzUCt6eVjmSKnvhy6FthK1-z2kfIuAEdItXGtmaC3bhoOrIc9DnIiHWXdPveq7aPKdmWlGmfgJREarq6QHDl32Pp1Gs0r1VTggNZMlxWk3j9pncsHp7fzb3Wxkcr_SPUuntO6x07Ko2jJ-PWTJACKMskUu7P9BHUQOWW0XbJB3bwKLR3XlWE7ceaDew_YfTUI2moLpyrTg1x8V9P7i-QnoTjZFONByPdxppoyVV4ILhS3-Q2UKJk"/>
+<div class="absolute bottom-0 right-0 p-2 bg-crt-black/80">
+<span class="bg-neon text-crt-black font-label-md px-2 py-0.5">ATA</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="font-headline-md text-headline-md text-parchment mb-1">RICARDO ALVES</h3>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-4 h-4 bg-neon rounded-full"></div>
+<span class="font-label-md text-label-md text-smoke">SC BRASÍLIA</span>
+</div>
+<div class="mt-auto">
+<div class="text-trophy font-label-lg text-label-lg mb-4">VALOR: R$ 4.2M</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-label-lg text-label-lg hover:border-neon">VER</button>
+<button class="bg-neon border-2 border-pitch text-crt-black py-2 font-label-lg text-label-lg font-bold hover:bg-primary-container">OFERTA</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Player Card 2 -->
+<div class="bg-forest-dark border-2 border-pitch flex flex-col group hover:border-neon transition-colors relative overflow-hidden">
+<div class="absolute top-0 left-0 bg-neon text-crt-black font-headline-sm p-2 z-10">84</div>
+<div class="h-48 bg-abyss relative">
+<img alt="Player Portrait" class="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300" data-alt="A grayscale portrait of a football goalkeeper in a dynamic pose, wearing professional goalie gloves. The background is a blurred stadium turf under bright floodlights. The aesthetic is inspired by 32-bit era sports titles with high contrast, dramatic shadows, and a punchy, energetic feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMm_wSXfcR10LAJ4WrrhkkRi0CmAkQCqePESN7DZVM-V_3jAlfQKAhbrJYVDxXxIMKtp4j1GqZGshEaE62XcvCL_vp8qsbNLXKalQeGKexjQuHNvtOoqQVIpYjrgbT8bJbawIiQ1y4YYkhNVQ4MlaIii4gbt8A2rlcMthgOK4nmRkrBbTVDbXVWDxejMYMFUjo_hDE8jo2XvTiykLDpL2ZNPD5A4C9JLYrBPbHi9hMQy_Ja6fCS44EFezMyRkk6QtFL5IgzgwweXM"/>
+<div class="absolute bottom-0 right-0 p-2 bg-crt-black/80">
+<span class="bg-neon text-crt-black font-label-md px-2 py-0.5">GOL</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="font-headline-md text-headline-md text-parchment mb-1">MARCUS SILVA</h3>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-4 h-4 bg-blue-500 rounded-full"></div>
+<span class="font-label-md text-label-md text-smoke">PORTO ALEGRE FC</span>
+</div>
+<div class="mt-auto">
+<div class="text-trophy font-label-lg text-label-lg mb-4">VALOR: R$ 1.8M</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-label-lg text-label-lg hover:border-neon">VER</button>
+<button class="bg-neon border-2 border-pitch text-crt-black py-2 font-label-lg text-label-lg font-bold hover:bg-primary-container">OFERTA</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Player Card 3 -->
+<div class="bg-forest-dark border-2 border-pitch flex flex-col group hover:border-neon transition-colors relative overflow-hidden">
+<div class="absolute top-0 left-0 bg-neon text-crt-black font-headline-sm p-2 z-10">81</div>
+<div class="h-48 bg-abyss relative">
+<img alt="Player Portrait" class="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300" data-alt="A moody, high-contrast grayscale photo of a young midfield player sprinting on a rain-slicked pitch. Droplets of water are captured in mid-air, highlighted by powerful stadium lights. The style is vintage brutalist sports photography with sharp lines and a nostalgic 90s gaming vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZyFbgvOeULJ9lmo3KyvM4iyhn3sGzg2IvC3mEepy10Agu1_uJo3B2Qu2fMsRt80wWU2dGC8CmUrInOrTsZJnJl0zZ2YIJjOrDahKamne7rzOL2MNOcNSq-hh_N29v-XW0HTnd7NaqZ7jSFenksNYX0Gv8Y94TwrAsCpht2Xr5YXRil4rFU9DyEzwQuHZOcqc8gsL_H4OTh--wWd6il6kMY-7a7VY9SqNf9Mt92tUzkjiK8MgVE-k5GbNT3Dxqz2Ey8DCLKl_1ceA"/>
+<div class="absolute bottom-0 right-0 p-2 bg-crt-black/80">
+<span class="bg-neon text-crt-black font-label-md px-2 py-0.5">MEI</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="font-headline-md text-headline-md text-parchment mb-1">FELIPE LUZ</h3>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-4 h-4 bg-red-600 rounded-full"></div>
+<span class="font-label-md text-label-md text-smoke">AMAZÔNIA UNITED</span>
+</div>
+<div class="mt-auto">
+<div class="text-trophy font-label-lg text-label-lg mb-4">VALOR: R$ 2.4M</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-label-lg text-label-lg hover:border-neon">VER</button>
+<button class="bg-neon border-2 border-pitch text-crt-black py-2 font-label-lg text-label-lg font-bold hover:bg-primary-container">OFERTA</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Active Offers -->
+<aside class="space-y-4">
+<div class="bg-crt-black border-2 border-pitch p-4">
+<h2 class="font-headline-sm text-headline-sm text-neon border-b-2 border-pitch pb-3 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-neon" data-icon="campaign">campaign</span>
+                            OFERTAS ATIVAS
+                        </h2>
+<div class="space-y-4">
+<!-- Offer Item 1 -->
+<div class="bg-forest-dark border-2 border-neon p-3 relative group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-lg text-label-lg font-bold text-parchment">BRUNO PERES</span>
+<span class="bg-neon text-crt-black text-[10px] px-1 font-bold">LIDERANDO</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-trophy">R$ 3.1M</span>
+<div class="flex items-center gap-1 text-neon animate-pulse">
+<span class="material-symbols-outlined text-[16px]" data-icon="timer">timer</span>
+<span class="font-code text-label-md">04:12:09</span>
+</div>
+</div>
+<div class="mt-2 h-1 bg-abyss overflow-hidden">
+<div class="h-full bg-neon w-3/4"></div>
+</div>
+</div>
+<!-- Offer Item 2 -->
+<div class="bg-forest-dark border-2 border-danger p-3 relative opacity-80">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-lg text-label-lg font-bold text-parchment">CAIO COSTA</span>
+<span class="bg-danger text-parchment text-[10px] px-1 font-bold">REJEITADA</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-smoke">R$ 1.2M</span>
+<span class="font-code text-label-md text-danger">FINALIZADO</span>
+</div>
+</div>
+<!-- Offer Item 3 -->
+<div class="bg-forest-dark border-2 border-pitch p-3 relative opacity-60">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-lg text-label-lg font-bold text-parchment">DANIEL REIS</span>
+<span class="bg-smoke text-crt-black text-[10px] px-1 font-bold">EXPIRADO</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-smoke">R$ 2.8M</span>
+<span class="font-code text-label-md text-smoke">-- : -- : --</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 border-2 border-smoke text-smoke py-3 font-label-lg text-label-lg hover:border-neon hover:text-neon transition-all uppercase flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+                            Ver Histórico
+                        </button>
+</div>
+<!-- Market Insights -->
+<div class="bg-forest border-2 border-pitch p-4">
+<div class="font-headline-sm text-headline-sm text-trophy mb-3">TENDÊNCIAS</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center border-b border-pitch pb-2">
+<span class="font-label-md text-label-md text-parchment">DEFENSOR</span>
+<span class="text-neon font-code">↑ 12%</span>
+</div>
+<div class="flex justify-between items-center border-b border-pitch pb-2">
+<span class="font-label-md text-label-md text-parchment">VETERANOS</span>
+<span class="text-danger font-code">↓ 08%</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-crt-black border-t-2 border-pitch h-16 flex items-center justify-around z-50">
+<button class="flex flex-col items-center gap-1 text-smoke hover:text-neon transition-all">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-label-md">DASH</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-smoke hover:text-neon transition-all">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-[10px] font-label-md">SQUAD</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-neon transition-all scale-110">
+<span class="material-symbols-outlined" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="text-[10px] font-label-md">MARKET</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-smoke hover:text-neon transition-all">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-[10px] font-label-md">LOGS</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+        }
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 2px, 2px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 -2px #52B788,
+                0 4px 0 -2px #52B788,
+                -4px 0 0 -2px #52B788,
+                4px 0 0 -2px #52B788;
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container-highest": "#323538", "surface-tint": "#2ae500", "tertiary-fixed": "#92f7c3", "primary-container": "#39ff14", "tertiary-container": "#8cf1be", danger: "#FF3333", abyss: "#040805", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed-variant": "#095300", neon: "#39FF14", "on-secondary-fixed-variant": "#544600", "on-background": "#e1e2e7", amber: "#FBBF24", "surface-container-low": "#191c1f", "on-primary-fixed": "#022100", "primary-fixed-dim": "#2ae500", "tertiary-fixed-dim": "#75daa8", "on-tertiary": "#003823", "crt-black": "#111417", tertiary: "#e9ffef", smoke: "#a0baae", "on-surface-variant": "#baccb0", "on-surface": "#e1e2e7", error: "#ffb4ab", "secondary-fixed-dim": "#e9c400", "forest-dark": "#0E1F14", primary: "#efffe3", outline: "#85967c", "on-error": "#690005", parchment: "#F1FAEE", "inverse-primary": "#106e00", "outline-variant": "#3c4b35", "danger-dark": "#8B0000", "secondary-container": "#ffdb3c", "surface-container-lowest": "#0b0e11", "surface-container": "#1d2023", "surface-container-high": "#272a2d", "on-tertiary-container": "#006f4a", trophy: "#FFD700", "on-secondary": "#3a3000", "on-primary-container": "#107100", "on-error-container": "#ffdad6", pitch: "#52B788", "on-primary": "#053900", background: "#111417", "on-secondary-fixed": "#221b00", "on-tertiary-fixed": "#002113", "on-secondary-container": "#725f00", "inverse-surface": "#e1e2e7", "surface-variant": "#323538", forest: "#1B4332", "surface-bright": "#37393d", "surface-dim": "#111417", secondary: "#fff9ef", "inverse-on-surface": "#2e3134", "error-container": "#93000a", "secondary-fixed": "#ffe16d", "primary-fixed": "#79ff5b", surface: "#111417", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, fontFamily: {code: ["jetbrainsMono"], "body-lg": ["Pixelify Sans"], "label-md": ["jetbrainsMono"], "body-sm": ["Pixelify Sans"], "body-md": ["rubik"], "headline-md": ["Press Start 2P"], "label-lg": ["jetbrainsMono"], "headline-lg": ["'Press Start 2P'"], "headline-sm": ["'Press Start 2P'"], "display-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"]}, fontSize: {"headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}]}, spacing: {sm: "8px", md: "16px", xs: "4px", gutter: "16px", xl: "48px", "margin-desktop": "32px", "margin-mobile": "16px", lg: "24px", base: "4px"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<div class="crt-overlay"></div>
+<!-- TopAppBar -->
+<header class="bg-forest-dark border-b-4 border-pitch flex justify-between items-center w-full px-margin-desktop h-16 fixed top-0 z-50">
+<div class="flex items-center gap-6">
+<h1 class="font-headline-lg text-headline-lg text-neon italic">ULTIMATE MANAGER '98</h1>
+<nav class="hidden md:flex gap-8 items-center h-full">
+<a class="font-label-lg text-label-lg text-trophy border-b-2 border-trophy transition-all" href="#">LEAGUE</a>
+<a class="font-label-lg text-label-lg text-parchment hover:text-neon hover:border-neon transition-all" href="#">CUPS</a>
+<a class="font-label-lg text-label-lg text-parchment hover:text-neon hover:border-neon transition-all" href="#">STATS</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 bg-abyss border border-smoke px-3 py-1">
+<span class="material-symbols-outlined text-trophy text-sm">account_balance_wallet</span>
+<span class="font-code text-neon">£42,500,000</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-parchment cursor-pointer hover:text-neon">settings</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 bg-crt-black border-r-4 border-pitch flex flex-col pt-gutter hidden lg:flex">
+<div class="px-6 mb-8 border-b border-forest-dark pb-6">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-12 h-12 border-2 border-neon bg-forest-dark flex items-center justify-center overflow-hidden">
+<img alt="Manager Portrait" class="w-full h-full object-cover" data-alt="A detailed pixel-art portrait of a 90s-era football manager with short styled hair and a sharp suit. The art style mimics 32-bit console graphics with a limited color palette featuring deep greens and stark highlights. The character has an authoritative expression, set against a dark atmospheric background of a locker room with soft neon green lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr2RRLzSaGqq5ApkFwfvET5g_7xhpjUXNqj_TRSJ8Qe-3mNXSynRpxdlff8ftseZ6jDhY4ZYIUj4spZg4jfJFJ_wvTzQYRGs59myAuL0RgJCwd8pdtJ1_ZbEU0kwszNn1n4X1uzk3Id02o_eJQZBaJoGyTW61NRydTTxAVSobniRtIdj_ma28ZzVjZhT58nfWDgJVWksEBJ_1hFiuacyupRLA_pB6epnGXhGzGlWquiCafoB11RHhGazYKkEMPEF4J_O2zYxqql80"/>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-trophy">COACH ACE</h2>
+<p class="font-label-md text-[10px] text-smoke">PREMIER DIVISION</p>
+</div>
+</div>
+<button class="w-full py-2 bg-forest border-2 border-pitch text-parchment font-headline-sm hover:border-neon hover:text-neon active:translate-y-0.5 transition-all">
+                NEXT MATCH
+            </button>
+</div>
+<nav class="flex-1 flex flex-col">
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest hover:text-parchment group" href="#">
+<span class="material-symbols-outlined group-hover:text-neon">dashboard</span>
+<span class="font-label-md">DASHBOARD</span>
+</a>
+<a class="bg-surface-container-highest text-neon border-l-4 border-neon px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label-md">SQUAD</span>
+</a>
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest hover:text-parchment" href="#">
+<span class="material-symbols-outlined">strategy</span>
+<span class="font-label-md">TACTICS</span>
+</a>
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest hover:text-parchment" href="#">
+<span class="material-symbols-outlined">swap_horizontal_circle</span>
+<span class="font-label-md">TRANSFERS</span>
+</a>
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest hover:text-parchment" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-md">TRAINING</span>
+</a>
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest hover:text-parchment" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md">FINANCE</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="ml-0 lg:ml-64 mt-16 p-margin-desktop min-h-screen bg-abyss/50">
+<!-- Dashboard Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b-2 border-pitch pb-4">
+<div>
+<h3 class="font-headline-md text-neon mb-2">PREMIER DIVISION LEAGUE TABLE</h3>
+<p class="font-label-lg text-smoke">MATCHWEEK 28 • SEASON 95/96</p>
+</div>
+<div class="flex gap-4">
+<div class="bg-forest-dark border border-pitch p-3 flex flex-col items-center">
+<span class="font-label-md text-smoke text-[10px]">FORM</span>
+<div class="flex gap-1 mt-1">
+<div class="w-4 h-4 bg-neon border border-abyss"></div>
+<div class="w-4 h-4 bg-neon border border-abyss"></div>
+<div class="w-4 h-4 bg-danger border border-abyss"></div>
+<div class="w-4 h-4 bg-neon border border-abyss"></div>
+<div class="w-4 h-4 bg-amber border border-abyss"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- High-Density Standings Table -->
+<div class="bg-forest-dark border-4 border-pitch overflow-x-auto">
+<table class="w-full border-collapse">
+<thead class="bg-pitch text-abyss font-headline-sm">
+<tr>
+<th class="px-4 py-3 text-left">POS</th>
+<th class="px-4 py-3 text-left" colspan="2">CLUB</th>
+<th class="px-4 py-3 text-center">P</th>
+<th class="px-4 py-3 text-center">W</th>
+<th class="px-4 py-3 text-center">D</th>
+<th class="px-4 py-3 text-center">L</th>
+<th class="px-4 py-3 text-center">GD</th>
+<th class="px-4 py-3 text-center">PTS</th>
+</tr>
+</thead>
+<tbody class="font-label-lg">
+<!-- Row 1 -->
+<tr class="border-b border-forest hover:bg-forest/50 transition-colors">
+<td class="px-4 py-2 font-headline-sm text-trophy">01</td>
+<td class="w-10 px-2 py-2">
+<img alt="London Kings" class="w-8 h-8" data-alt="A retro 32-bit pixel art football club crest featuring a golden crown over a shield with crimson and navy stripes. The design is chunky and vibrant, reminiscent of early 90s sports management games. The lighting is flat with high-contrast shadows to emphasize the digital arcade aesthetic, set against a dark forest green backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAbizjtt9nQP9oQdZ7k2uBohg9W5iAOvN7Im9M5qg5HcKwLFvtL0FFhT-D7KVESgNODsuHMKzufybPHXhFPEAIbJUaWMPvWygFvFQeKY7_EDPHDWSQeWLHgliDpdHfYunzayjqJc4ycXWNQ-hDkl-xADF9gua4yAmyhZwvDutYGPEXmA8MQkMatA1d6y3nbzbnC6kp_-1yOkbS-MeMrzK5SKgm6hvqtt77ORrKHJTv46OPufrSDhASnFI-BMbnfN64wi9qqUIrS4g"/>
+</td>
+<td class="px-4 py-2 text-parchment">London Kings</td>
+<td class="px-4 py-2 text-center text-smoke">28</td>
+<td class="px-4 py-2 text-center">20</td>
+<td class="px-4 py-2 text-center">5</td>
+<td class="px-4 py-2 text-center">3</td>
+<td class="px-4 py-2 text-center text-neon">+34</td>
+<td class="px-4 py-2 text-center font-bold text-neon">65</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-forest hover:bg-forest/50 transition-colors">
+<td class="px-4 py-2 font-headline-sm text-parchment">02</td>
+<td class="w-10 px-2 py-2">
+<img alt="Manchester Eagles" class="w-8 h-8" data-alt="A pixelated sports logo of a white eagle with wings spread, framed by a circular light blue and white border. The artwork is stylized in a premium nostalgic 16-bit arcade style with sharp edges and vibrant neon accents. The mood is heroic and classic, fitting for a prestigious football league in a retro-future aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMi2As5bag-yWtaZ_OyFoiyw2F03wb1O2ajijTe1bAIrptl4UltKpjprpntMlHouPMJPAUgcFRZYHO6rid_j_AgXLnhw7RBTePXnkc3zdccYue7yIDNiJ8yzmfdu4Mk3lF6yOooUN-y48Vj7aVzrx1SkM-SFltwuu92adZBkmqf1PN8nqFFqpFc31d3dF_SU5Ii8eP21gfvXYpsSMPgTjBOdrXEAHm0QT5EPC3qWHt8_bUSDnki7SfflBV1Gxj1dWORflCVMpoYvs"/>
+</td>
+<td class="px-4 py-2 text-parchment">Manchester Eagles</td>
+<td class="px-4 py-2 text-center text-smoke">28</td>
+<td class="px-4 py-2 text-center">19</td>
+<td class="px-4 py-2 text-center">4</td>
+<td class="px-4 py-2 text-center">5</td>
+<td class="px-4 py-2 text-center text-neon">+28</td>
+<td class="px-4 py-2 text-center font-bold text-neon">61</td>
+</tr>
+<!-- Row 3: User Club Highlighted -->
+<tr class="bg-forest border-y-2 border-neon neon-glow">
+<td class="px-4 py-3 font-headline-sm text-neon">03</td>
+<td class="w-10 px-2 py-3">
+<img alt="United FC" class="w-8 h-8" data-alt="A striking pixel art badge for a football team named United FC, showcasing a classic leather football design with neon green energy pulses. The badge is rendered in a high-density 32-bit style with bold outlines and a sense of depth through tonal layering. It glows slightly against the dark green background of the interface, symbolizing a premium user-owned club." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMN-1Qi8F8Ecv-bYHCE23JbvGKmdGtiRzLfBOWP2umKFWzBlTQ6WUb_EmK3qL8GUodOJrC0icTUfFa_QVt8iHLsRTfC3UlEz4xnyaZnxVx3Mqhn7nRK7TTjkX5YAwwcrYdosfT_r2u4IJKN_SUOztiCkAkmAb4WJKa2xS4XTuM3hAJALASYxzEUAeOi6g772Dla-dmxCdwae-huxWvusEcXKs0ylaQ-i8g8oCACDofo86mDW20THxpIMLeJDgDs8cM7RXS72etrLc"/>
+</td>
+<td class="px-4 py-3 text-neon font-bold">UNITED FC <span class="text-[10px] ml-2 text-trophy">[YOU]</span></td>
+<td class="px-4 py-3 text-center text-parchment">28</td>
+<td class="px-4 py-3 text-center">18</td>
+<td class="px-4 py-3 text-center">6</td>
+<td class="px-4 py-3 text-center">4</td>
+<td class="px-4 py-3 text-center text-neon">+22</td>
+<td class="px-4 py-3 text-center font-bold text-neon">60</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-forest hover:bg-forest/50 transition-colors">
+<td class="px-4 py-2 font-headline-sm text-parchment">04</td>
+<td class="w-10 px-2 py-2">
+<img alt="North Lion" class="w-8 h-8" data-alt="A low-resolution but high-detail pixel art crest of a golden lion rampant on a dark navy shield. The style is classic 90s console UI, featuring dithered shadows and a punchy limited color palette. The lion looks fierce and regal, illuminated by a simulated CRT glow from the surrounding dark manager interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoTbpYm4_reRXJwddrA3_TT3CSCdrR6FxbOKM6u06HAFBE4cF2gQQuvlCVv7mpcSG8CwX7Nyjp299LcEfg-oXxvxZ4ucFbMPBpFds5TK-mqCM4TSUPB4WJtW8uLr4XPI6XJmTmjFus4lUt5j2S_No3t4AyN6gvQaa3geLhKuSgNCDWefTonYHnH3NP9UMFw88-JH6eBN0KLIQmK3JdhhOO9yjJJEUJwgdYO78BlKi_MZxKLLx40j0qYW2AHilLFmhaYR4IeuY-L6E"/>
+</td>
+<td class="px-4 py-2 text-parchment">North Lion</td>
+<td class="px-4 py-2 text-center text-smoke">27</td>
+<td class="px-4 py-2 text-center">17</td>
+<td class="px-4 py-2 text-center">5</td>
+<td class="px-4 py-2 text-center">5</td>
+<td class="px-4 py-2 text-center text-neon">+19</td>
+<td class="px-4 py-2 text-center font-bold text-neon">56</td>
+</tr>
+<!-- Row 5-10 abbreviated for display but stylized as full list -->
+<tr class="border-b border-forest/30">
+<td class="px-4 py-2 font-headline-sm text-smoke">05</td>
+<td class="w-10 px-2 py-2">
+<img alt="Harbor Town" class="w-8 h-8" data-alt="A 16-bit style pixel art logo representing a port-based football team, featuring a stylized silver anchor over a sea-blue background. The lighting is sharp and artificial, capturing the look of a vintage CRT screen. The colors are deep and atmospheric, with the anchor having a bright metallic sheen that cuts through the dark UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFXYGJWWUnxNiRkZZLo9N9H1764pJjBRHBYJ6Esx6z1E2aJc3wRtOI-_2m0mIoY23rB8_QU5lr37OJ8qK8YfLfWTLO1cvczX_JQVmamMQCydpPLnixY_J5fisNKW7ClGWiH-349Dp5X_k3RfrnxZYLYA3MdWL2KMIAth8tHyyqP4VGUbn9ZbcWaZy5a8pfc7WF6MGUiLqSckRiJuD4eS2PxlSiMxsDsBc5lB_6LpkvBsU14laBnmE2G4azsAQfU4eR2RhedJgH4og"/>
+</td>
+<td class="px-4 py-2 text-parchment/80">Harbor Town</td>
+<td class="px-4 py-2 text-center text-smoke/70">28</td>
+<td class="px-4 py-2 text-center">16</td>
+<td class="px-4 py-2 text-center">4</td>
+<td class="px-4 py-2 text-center">8</td>
+<td class="px-4 py-2 text-center text-neon/80">+12</td>
+<td class="px-4 py-2 text-center text-neon/80">52</td>
+</tr>
+<tr class="border-b border-forest/30">
+<td class="px-4 py-2 font-headline-sm text-smoke">06</td>
+<td class="w-10 px-2 py-2"><img alt="Volt AC" class="w-8 h-8" data-alt="A vibrant yellow lightning bolt pixel-art logo on a black circular shield. The aesthetic is heavily inspired by 32-bit arcade games, featuring neon glow effects and a chunky, tactile feel. The background is a textured dark green, consistent with the manager game's overall atmospheric theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-rmucsolqVO5pL9XCD2egiWcCtE_OI_YEmfhfIhoKkZFkDPgsTIcKf_BSXBtPZNn3Mo8fsQLdGoVXKg-UkHO2TJu1F_iNTKMiHnXzNjkUldPa7cpFJM1dRCwWYa3oewkgKE22wKmkoUTamooEO6LycxyKTHLZB8TKFf4Bk9CB5IXq1evlfPsVbJgegdOFm3fSGw3mBW0X6vjk_Jt6FCqALE52qjn19lY5rzl8sb1LH6xtJ2A8Il_tGTMgp1zZPhf05Efq5vcYpLA"/></td>
+<td class="px-4 py-2 text-parchment/80">Volt AC</td>
+<td class="px-4 py-2 text-center text-smoke/70">28</td>
+<td class="px-4 py-2 text-center">14</td>
+<td class="px-4 py-2 text-center">7</td>
+<td class="px-4 py-2 text-center">7</td>
+<td class="px-4 py-2 text-center text-neon/80">+8</td>
+<td class="px-4 py-2 text-center text-neon/80">49</td>
+</tr>
+<!-- Middle Table Divider -->
+<tr class="bg-abyss/40">
+<td class="px-4 py-1 text-center text-[8px] font-headline-sm text-pitch tracking-[0.5em]" colspan="9">LOWER TABLE CONTINUES</td>
+</tr>
+<!-- 17-20 Relegation Zone -->
+<tr class="border-b border-forest/30">
+<td class="px-4 py-2 font-headline-sm text-smoke">17</td>
+<td class="w-10 px-2 py-2"><img alt="Peak Rovers" class="w-8 h-8" data-alt="A pixel-art badge of a jagged mountain peak against a sunset orange sky, designed for a 90s sports management game. The style is rugged and brutalist with heavy black borders. The lighting suggests a CRT glow, with high saturation and distinct pixels making up the landscape." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLrL3yTJ8h7rKJyybMGcsjuN7bQd84a7U_JVRQ7MqpMY0x4DV22JfdvoMfyHqdRky8ypQyM_iNZlB_cPRZeO-yvZpWo-QfnVi_Le_QmfCWM5O_t45y9VbTaLSEFprFZaMFbHIK6nWdogP1upbRb-PhrXzF5p21UvklkbKENl0bN1XeNWAn8MfFNA9Y2B3GC7R8JWUq5lIwLbicLVMyBitRCTv4ZiWg2LDAaY8UBUHYnLCzdAHow_R9iM--0oKnb5MnGZvuKp4KCKM"/></td>
+<td class="px-4 py-2 text-parchment/80">Peak Rovers</td>
+<td class="px-4 py-2 text-center text-smoke/70">28</td>
+<td class="px-4 py-2 text-center">6</td>
+<td class="px-4 py-2 text-center">8</td>
+<td class="px-4 py-2 text-center">14</td>
+<td class="px-4 py-2 text-center text-danger">-12</td>
+<td class="px-4 py-2 text-center text-danger">26</td>
+</tr>
+<tr class="bg-danger/10 border-b border-danger/40">
+<td class="px-4 py-2 font-headline-sm text-danger">18</td>
+<td class="w-10 px-2 py-2"><img alt="Vulcan FC" class="w-8 h-8" data-alt="A flaming football pixel art crest with bright orange and red gradients. The logo is set inside a heavy grey iron-like border, evoking a 32-bit era sports aesthetic. The lighting is punchy and high-contrast, creating a sense of heat and intensity against the cool dark green of the manager interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApxNnoBAvXywentR0nSgmoyo22Esglc6ThcPfdKEdHED-pG70dY9yhBZk6mbFQION2KbRPc6E3HVbF9WwdYbepIBxJScQHmdPvVk1XcDTRW4JgrKXiGq89iQDDuMgb377C0viMeuSvK8Uuh8QSnt1yPI3q3hSPE67dRu0y31ogO5KtKLy850_ORLhXQnv9AD1dCWq12RcfF_vZ9aw7DYdXiqVvnU9-v4hGNABhbOdvcekVwbftrhWY8o1E36LiL-MuUNbu5F-2kTA"/></td>
+<td class="px-4 py-2 text-danger">Vulcan FC</td>
+<td class="px-4 py-2 text-center text-smoke/70">28</td>
+<td class="px-4 py-2 text-center">5</td>
+<td class="px-4 py-2 text-center">6</td>
+<td class="px-4 py-2 text-center">17</td>
+<td class="px-4 py-2 text-center text-danger">-22</td>
+<td class="px-4 py-2 text-center font-bold text-danger">21</td>
+</tr>
+<tr class="bg-danger/10 border-b border-danger/40">
+<td class="px-4 py-2 font-headline-sm text-danger">19</td>
+<td class="w-10 px-2 py-2"><img alt="Frost Rovers" class="w-8 h-8" data-alt="A blue ice-cube shaped pixel art crest for a winter-themed football club. The design features jagged edges and white specular highlights to simulate a frozen surface. The artwork is distinctively 90s console style, sitting comfortably within the high-contrast dark forest green environment of the league table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5OQd7KGWmZ3XcWkKtl6h0oBX1vUdEX7TW_7Q4Bl05f8FN_g__M9mMO6SnSjkY8vUK4xqOkvTpPsXC6rfIcHAFMyAd71dF1d_sOVA9lslJuclPxwCN54iB3Hb7y3BocE-V7WfaegB4hBo6PBWhgeY3GK8xlzKOJxz1k2bGtLpUAmXbUiyr-4jtDL_3DZOj4vSaIPXzAruD86HOKDBZHM1NXsaHT6dz3QEwbltP2fHmKw1WJulGvfd8Tq-tkXsHqCWZruo68JczXho"/></td>
+<td class="px-4 py-2 text-danger">Frost Rovers</td>
+<td class="px-4 py-2 text-center text-smoke/70">28</td>
+<td class="px-4 py-2 text-center">4</td>
+<td class="px-4 py-2 text-center">7</td>
+<td class="px-4 py-2 text-center">17</td>
+<td class="px-4 py-2 text-center text-danger">-28</td>
+<td class="px-4 py-2 text-center font-bold text-danger">19</td>
+</tr>
+<tr class="bg-danger/10">
+<td class="px-4 py-2 font-headline-sm text-danger">20</td>
+<td class="w-10 px-2 py-2"><img alt="Deadwood" class="w-8 h-8" data-alt="A minimalist and eerie pixel art skull crest with a classic soccer ball pattern on the cranium. The color palette is muted greys and blacks with sharp white highlights. It represents a bottom-tier club in a 32-bit retro manager game, providing a stark contrast to the neon and gold of the top-tier teams." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8ihV830NJDmLD6CSE0Fzo8y0YLdUO2y67p0AJ62vP59qvgUrrSsENt1CUCQstBIm5ntZg_7DfF0c2bCeI7V-AyXTsVUATjkVapRFOcL7BNvDTksv7A0VfjEiZpNh-imenA-oO5p-1zZOuxrH5dUyhTNYM8JvDkwKJ-0DBvir3aIj2Pjx2tXsK3StTI7jSjV0CWmAh-vxOKHAARzRVVMv14Ny_y7jk-I9hcL8Lf00EMmcQlOxVqCTM_fA2WKOf0brLivVNa4sqOtw"/></td>
+<td class="px-4 py-2 text-danger">Deadwood Athletic</td>
+<td class="px-4 py-2 text-center text-smoke/70">28</td>
+<td class="px-4 py-2 text-center">2</td>
+<td class="px-4 py-2 text-center">5</td>
+<td class="px-4 py-2 text-center">21</td>
+<td class="px-4 py-2 text-center text-danger">-45</td>
+<td class="px-4 py-2 text-center font-bold text-danger">11</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footnote Legend -->
+<div class="mt-6 flex flex-wrap gap-4 font-label-md text-[10px]">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-neon"></div>
+<span class="text-smoke">EUROPEAN QUALIFICATION</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-danger"></div>
+<span class="text-smoke">RELEGATION ZONE</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-trophy">★</span>
+<span class="text-smoke">USER MANAGED CLUB</span>
+</div>
+</div>
+<!-- Stat Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mt-12">
+<div class="bg-crt-black border-2 border-pitch p-4">
+<h4 class="font-headline-sm text-trophy mb-4">TOP SCORER</h4>
+<div class="flex items-center gap-4">
+<img alt="Top Scorer" class="w-12 h-12 border border-neon" data-alt="A pixel-art portrait of a star striker, with a focused gaze and 90s frosted tips hairstyle. The style is 32-bit retro, using a palette of vibrant blues and deep blacks. The lighting is dramatic, highlighting the player's facial features as if caught by a stadium floodlight, within the dark manager UI shell." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6D_KRQaazNEKFeUmxi5F08BXsNPxGPukPZKru9PIM-QNBi6gxpfrHxtwdy-pRaQZcaxYHpzGk86UujBvruTJCWXOEm7xMxgNUYylbM7O-2DrD_2ZOsHWGgXJQ5KXsvwH5bh_NvsjnoYFL3NF-pOJ3RpONUcEuNr2rCJRt8d08_pDSM_x2G0a0xJbJNwRt-M6ZdCnF8Diiq0HP8wRAD2lk8lx4bmr0mC41xAYiw7Z4K0gc0nedOXaO0u1KAcOYtwQSa4qlt6OI2X8"/>
+<div>
+<p class="font-label-lg text-parchment">M. ROSSI</p>
+<p class="font-headline-sm text-neon">22 GOALS</p>
+</div>
+</div>
+</div>
+<div class="bg-crt-black border-2 border-pitch p-4">
+<h4 class="font-headline-sm text-trophy mb-4">NEXT FIXTURE</h4>
+<div class="flex justify-between items-center text-center">
+<div>
+<p class="text-[10px] text-smoke mb-1">UNITED FC</p>
+<img alt="United FC" class="w-8 h-8 mx-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZgOrWAQooCKcjRYQErSKMt43mmZCGqltS0FUAE8p-FIszuzXmLl6JbKIC6tyJNYa8sBNCEwRkZUSNeV1enu8VncOdwReZm0cZbsw3k74YIzZoEEWXpHLevrcdmoJZGlNoYXx6GNku_DKJVFdKppPeR5LGV-p_OlyaDAzk_3cXdnUAv9GMgm63gYVl4IMGlcUuL9yUaYFMZb8cdpIVD3hYpVyVOwi-i_-vLkqr_TnPwk1bg9bsyFeXZcb53wsx9XhFOaxcEGLUMzI"/>
+</div>
+<div class="font-headline-sm text-neon">VS</div>
+<div>
+<p class="text-[10px] text-smoke mb-1">LONDON KINGS</p>
+<img alt="London Kings" class="w-8 h-8 mx-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHBlDLAsb14IuwSXZ2C4yQ2Z3DLgF2crqmvcCrGfNzAaj0XthLck8DfOUEThT6lFDSITwOBhZ8kaKxcKEqQ-0_noVuUQh684EZvCcdtgEbeB9hSj4wCsI4WrLGyHVNU-0gOmaGutxLoaoXPBdvOYHJ6zl3Vjh5mop7efM8p9Zyt61S48UvIyT2QzFCPxRHgwpIP3tT08PLw1YKjPwKwrKAV17EBiZ_1-gItuxyPwRGNKMG-x8boH3qpO5UKqIZazYGB3zWPTkJaig"/>
+</div>
+</div>
+<p class="text-center mt-2 font-label-md text-amber">SATURDAY 15:00</p>
+</div>
+<div class="bg-crt-black border-2 border-pitch p-4">
+<h4 class="font-headline-sm text-trophy mb-4">LEAGUE NEWS</h4>
+<p class="font-label-md text-smoke leading-relaxed italic">"UNITED FC EYES SECOND PLACE AFTER IMPRESSIVE 3-0 WIN OVER VOLT AC..."</p>
+</div>
+</div>
+</main>
+<!-- Bottom Nav for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-forest-dark border-t-4 border-pitch flex justify-around items-center z-50">
+<a class="flex flex-col items-center text-smoke" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[8px] font-headline-sm">HOME</span>
+</a>
+<a class="flex flex-col items-center text-neon" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="text-[8px] font-headline-sm">LEAGUE</span>
+</a>
+<a class="flex flex-col items-center text-smoke" href="#">
+<span class="material-symbols-outlined">strategy</span>
+<span class="text-[8px] font-headline-sm">SQUAD</span>
+</a>
+<a class="flex flex-col items-center text-smoke" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[8px] font-headline-sm">OFFICE</span>
+</a>
+</nav>
+</body></html>

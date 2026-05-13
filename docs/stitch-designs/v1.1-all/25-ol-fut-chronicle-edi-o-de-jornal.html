@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            color: #F1FAEE;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 -2px #52B788,
+                0 4px 0 -2px #52B788,
+                -4px 0 0 -2px #52B788,
+                4px 0 0 -2px #52B788;
+        }
+        .pressed-state:active {
+            transform: translateY(2px);
+            box-shadow: inset 0 4px 0 rgba(0,0,0,0.5);
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-background": "#e1e2e7", "surface-container-high": "#272a2d", "on-error-container": "#ffdad6", primary: "#efffe3", "primary-fixed": "#79ff5b", "on-secondary-container": "#725f00", secondary: "#fff9ef", "surface-container-low": "#191c1f", "danger-dark": "#8B0000", "on-primary-container": "#107100", forest: "#1B4332", "on-tertiary": "#003823", "primary-container": "#39ff14", background: "#111417", "on-secondary-fixed": "#221b00", outline: "#85967c", "on-tertiary-fixed": "#002113", "on-tertiary-container": "#006f4a", "tertiary-fixed-dim": "#75daa8", "inverse-on-surface": "#2e3134", pitch: "#52B788", "inverse-primary": "#106e00", "on-secondary": "#3a3000", "primary-fixed-dim": "#2ae500", "forest-dark": "#0E1F14", "on-surface": "#e1e2e7", error: "#ffb4ab", tertiary: "#e9ffef", surface: "#111417", "crt-black": "#111417", "on-primary": "#053900", danger: "#FF3333", neon: "#39FF14", "outline-variant": "#3c4b35", "surface-tint": "#2ae500", "secondary-container": "#ffdb3c", "inverse-surface": "#e1e2e7", smoke: "#a0baae", "on-error": "#690005", "surface-bright": "#37393d", "surface-variant": "#323538", parchment: "#F1FAEE", "surface-container-highest": "#323538", "secondary-fixed-dim": "#e9c400", "on-secondary-fixed-variant": "#544600", "on-tertiary-fixed-variant": "#005235", trophy: "#FFD700", "surface-container": "#1d2023", "secondary-fixed": "#ffe16d", "surface-dim": "#111417", amber: "#FBBF24", abyss: "#040805", "tertiary-container": "#8cf1be", "surface-container-lowest": "#0b0e11", "tertiary-fixed": "#92f7c3", "on-primary-fixed-variant": "#095300", "error-container": "#93000a", "on-surface-variant": "#baccb0", "on-primary-fixed": "#022100", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, fontFamily: {"body-sm": ["Pixelify Sans"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "headline-lg": ["Press Start 2P"], "headline-sm": ["Press Start 2P"], "headline-md": ["Press Start 2P"], "body-md": ["Rubik"], "label-lg": ["JetBrains Mono"], "label-md": ["JetBrains Mono"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], code: ["14px", {lineHeight: "20px"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em"}], "headline-sm": ["12px", {lineHeight: "16px"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}, spacing: {xl: "48px", md: "16px", base: "4px", "margin-desktop": "32px", gutter: "16px", xs: "4px", "margin-mobile": "16px", lg: "24px", sm: "8px"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+</head>
+<body class="min-h-screen flex flex-col pb-24">
+<!-- TopAppBar -->
+<header class="bg-forest-dark dark:bg-forest-dark border-b-4 border-pitch flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon" data-icon="menu">menu</span>
+<h1 class="font-headline-lg text-headline-lg text-neon dark:text-neon uppercase tracking-tighter">OLÉFUT CHRONICLE</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-neon font-bold border-b-2 border-neon font-label-lg text-label-lg" href="#">DASHBOARD</a>
+<a class="text-parchment opacity-80 font-label-lg text-label-lg hover:text-neon transition-colors" href="#">HISTORY</a>
+<a class="text-parchment opacity-80 font-label-lg text-label-lg hover:text-neon transition-colors" href="#">MARKET</a>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-neon cursor-pointer" data-icon="account_circle">account_circle</span>
+<span class="material-symbols-outlined text-neon cursor-pointer" data-icon="settings">settings</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-[1280px] mx-auto p-margin-mobile md:p-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Sidebar: Editor's Analysis -->
+<aside class="md:col-span-3 order-2 md:order-1 space-y-gutter">
+<div class="bg-forest-dark border-2 border-pitch p-4">
+<div class="flex items-center gap-2 mb-4 border-b border-pitch pb-2">
+<span class="material-symbols-outlined text-amber" data-icon="edit_note">edit_note</span>
+<h2 class="font-headline-sm text-headline-sm text-neon">EDITOR'S ANALYSIS</h2>
+</div>
+<div class="space-y-4">
+<p class="font-body-sm text-body-sm text-parchment opacity-90 leading-relaxed italic">
+                        "O futebol de outrora encontra o pixel de amanhã. Nesta edição, analisamos como a tática brutalista superou o caos digital no Estádio do Algoritmo."
+                    </p>
+<div class="bg-abyss p-3 border border-smoke">
+<h3 class="font-label-lg text-label-lg text-trophy mb-1 uppercase">ESTATÍSTICA CHAVE</h3>
+<p class="font-headline-md text-headline-md text-neon">98% SYNC</p>
+</div>
+</div>
+</div>
+<div class="bg-crt-black border-2 border-pitch p-4">
+<h3 class="font-headline-sm text-headline-sm text-smoke mb-4">MERCADO</h3>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-label-md font-label-md">
+<span class="text-parchment">BIT-COIN</span>
+<span class="text-neon">↑ 14.5%</span>
+</div>
+<div class="flex justify-between items-center text-label-md font-label-md">
+<span class="text-parchment">TOKEN-FUT</span>
+<span class="text-danger">↓ 2.1%</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Column: Historic Victory -->
+<article class="md:col-span-6 order-1 md:order-2 space-y-gutter">
+<div class="relative group overflow-hidden border-4 border-pitch">
+<img class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" data-alt="A low-poly, pixelated soccer stadium at night under intense green spotlights that cut through a dark atmosphere. The field is glowing in vibrant neon green with sharp geometric player silhouettes celebrating a goal. The visual style is a mix of 90s arcade sports games and modern brutalism with high contrast and thick black borders." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFeb-x7rAXdMoxtcFSKPYrolfTN19LJEjL7xvOgeIWiJlxKbHrtL-FDfPPqKODw8OJWpQT8YR7WkYgTPylE_ZJH3H-suhuu6xq9P7hlF3OzHT6LPX2QOocpo2xHR0BLSlkYsJgvxsEBLbFi7dD15tw3OhP3H59lWDdvbWkcj9i3B8Su5ZTS7NWPgyWiDyUCbgeg5kCIErSy7-6M-b6ZRiJNo3ykhK8An3dzddKc0UTEQmnSC7GKtd18vixK1V7-fqHrZzJHSGHQWE"/>
+<div class="absolute bottom-0 left-0 right-0 bg-forest-dark bg-opacity-90 p-6 border-t-4 border-neon">
+<h2 class="font-headline-lg text-headline-lg text-neon mb-2 leading-tight">VITÓRIA ÉPICA: O TRIUNFO DOS PIXELS</h2>
+<p class="font-label-md text-label-md text-smoke uppercase tracking-widest">EDIÇÃO ESPECIAL • 19:45 CRT TIME</p>
+</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-6 space-y-4">
+<p class="font-body-lg text-body-lg text-parchment first-letter:text-5xl first-letter:font-headline-lg first-letter:text-neon first-letter:mr-3 first-letter:float-left">
+                    O OléFUT não é apenas um jogo, é um manifesto. A vitória de ontem prova que a nostalgia premium, quando aliada à execução técnica impecável, cria momentos que transcendem o código.
+                </p>
+<p class="font-body-md text-body-md text-parchment opacity-80">
+                    O time dominou o campo com uma formação clássica, lembrando os grandes esquadrões da era 16-bits. Cada passe foi uma declaração de intenções contra a esterilidade das interfaces modernas.
+                </p>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-pitch">
+<button class="bg-forest border-2 border-pitch text-parchment font-label-lg text-label-lg py-3 hover:bg-forest-dark hover:border-neon hover:text-neon transition-all pressed-state">
+                        LER COMPLETO
+                    </button>
+<button class="bg-abyss border-2 border-neon text-neon font-label-lg text-label-lg py-3 hover:bg-forest hover:text-parchment transition-all pressed-state">
+                        GALERIA [32BIT]
+                    </button>
+</div>
+</div>
+</article>
+<!-- Right Sidebar: Team of the Week -->
+<section class="md:col-span-3 order-3 space-y-gutter">
+<div class="bg-crt-black border-4 border-pitch p-4">
+<div class="text-center mb-6 border-b-2 border-pitch pb-2">
+<h2 class="font-headline-sm text-headline-sm text-trophy italic">TEAM OF THE WEEK</h2>
+</div>
+<div class="space-y-6">
+<!-- Player 1 -->
+<div class="flex items-center gap-4 group">
+<div class="w-16 h-16 bg-forest border-2 border-neon flex-shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="A pixel-art style portrait of a stylized football player with a focused expression. The image uses a limited color palette of greens, blacks, and golds, reminiscent of 1990s video game character selection screens. The lighting is dramatic and side-lit, emphasizing a low-poly geometric aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCodqapNeurgPwzshdy4ty-kzoi94vyBWO91Dc7exTP2gyUGz_YhdiEKUf_QamjQpO--L3hn7OLRqnZNH12EvilVZG3i5F3yWE8dpXtRlz3sFCtz03AFI2Ud7AANDzqcVUMDfsa9IpOKMsVAcV0IzRJ352q-WSksYZGPqX3EbWDpe_sppMwjHj6MkflhF-YvJ6FhuyBe4TxVcJPzwoag958uvC8lRKkICTafdFjS0plfiZEejVjFLsBRl9hcor8-yc__N-5bHwOBw"/>
+<span class="absolute -top-2 -right-2 bg-neon text-crt-black font-headline-sm text-[10px] px-1 border border-pitch">GK</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-neon group-hover:text-trophy">KEEPER_01</h4>
+<p class="font-label-md text-label-md text-smoke">CLEAN SHEET</p>
+</div>
+</div>
+<!-- Player 2 -->
+<div class="flex items-center gap-4 group">
+<div class="w-16 h-16 bg-forest border-2 border-neon flex-shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="A stylized pixel-art avatar of an athletic athlete in a vibrant green jersey. The visual style is high-contrast 8-bit aesthetic with sharp edges and saturated neon accents. The background is a dark abyss, making the character pop with a glowing outline effect typical of retro arcade interfaces." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb0hPhSow4PVlpDMEqJNVxP35yFP5upCOk4-P8Levfx5yL6z4gUIawzXUehyBbdZjVLQo5YpTT27-YE4YAJqJJelKOvz6loK4pxbSQKlYA7zA-_kjqJYLcW1LKYWymeDM9dWNABgXxmIjs_Y1g9qe6aEkJj-tT1Z5PueSAsDkT6Y6FmXcjT7a1pqKXfq8qpLt2mKJVno9ZEbTbu1kqIf1uZnN4uNAHuk_Kin48ifngTODpMC59nXC_c31tOpCPJHbBNZRajeQZoR8"/>
+<span class="absolute -top-2 -right-2 bg-neon text-crt-black font-headline-sm text-[10px] px-1 border border-pitch">FW</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-neon group-hover:text-trophy">STRIKER_99</h4>
+<p class="font-label-md text-label-md text-smoke">3 GOALS (HAT TRICK)</p>
+</div>
+</div>
+<!-- Player 3 -->
+<div class="flex items-center gap-4 group">
+<div class="w-16 h-16 bg-forest border-2 border-neon flex-shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="Retro game style character portrait of a soccer midfielder. The face is constructed from visible large square pixels in shades of emerald and dark forest green. Gold highlights add a sense of rarity and 'legend' status to the card, consistent with a high-end 90s sports manager UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIqk0jyy1tOfcOoGVYvxVaLVdGMriOTVD8V23WOFJQZZb_DXE9iK4QDZCpe7xzVJKLHsB9YI82a6zjS37wA4ycQicewiKmEn4_SP-L9HRdt-mTzsb9DvAPbCyRdK0nYTxos-C_OjJ6-DjNleZwcWCOvegylH1ePRADiJqTTKivM5RXQBifJwJuJE4YokaB6iA1t3gI14P1tICkZW5lkYKgD9zONXEDrSZQJ9NIRwm2qj5JBlURIvZJznEcKsCiNLov61bPhGLh96c"/>
+<span class="absolute -top-2 -right-2 bg-neon text-crt-black font-headline-sm text-[10px] px-1 border border-pitch">MF</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-neon group-hover:text-trophy">LEGEND_BIT</h4>
+<p class="font-label-md text-label-md text-smoke">12 KM RUN</p>
+</div>
+</div>
+</div>
+<div class="mt-8 bg-abyss border border-pitch p-3 text-center">
+<span class="font-headline-sm text-headline-sm text-amber">VOTAÇÃO ABERTA</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 pb-safe bg-crt-black border-t-4 border-pitch">
+<button class="flex flex-col items-center justify-center text-smoke opacity-70 px-4 py-1 hover:bg-forest-dark hover:text-neon transition-all">
+<span class="material-symbols-outlined mb-1" data-icon="file_download">file_download</span>
+<span class="font-label-md text-label-md">PNG Export</span>
+</button>
+<button class="flex flex-col items-center justify-center text-smoke opacity-70 px-4 py-1 hover:bg-forest-dark hover:text-neon transition-all">
+<span class="material-symbols-outlined mb-1" data-icon="database">database</span>
+<span class="font-label-md text-label-md">JSON Data</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-forest text-neon border-2 border-neon rounded-none px-4 py-1 scale-95 transition-transform">
+<span class="material-symbols-outlined mb-1" data-icon="stadium">stadium</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-smoke opacity-70 px-4 py-1 hover:bg-forest-dark hover:text-neon transition-all">
+<span class="material-symbols-outlined mb-1" data-icon="history_edu">history_edu</span>
+<span class="font-label-md text-label-md">History</span>
+</button>
+</nav>
+</body></html>

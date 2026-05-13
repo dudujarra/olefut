@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @font-face {
+            font-family: 'jetbrainsMono';
+            src: local('JetBrains Mono');
+        }
+        @font-face {
+            font-family: 'rubik';
+            src: local('Rubik');
+        }
+
+        .crt-scanlines {
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            ),
+            linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.03),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.03)
+            );
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .bevel-inset {
+            box-shadow: inset -2px -2px 0px 0px #52B788, inset 2px 2px 0px 0px #040805;
+        }
+
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 -2px #52B788,
+                0 4px 0 -2px #52B788,
+                -4px 0 0 -2px #52B788,
+                4px 0 0 -2px #52B788;
+        }
+
+        .player-card-glow:hover {
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-error-container": "#ffdad6", trophy: "#FFD700", "primary-fixed": "#79ff5b", abyss: "#040805", "secondary-container": "#ffdb3c", outline: "#85967c", "on-tertiary-fixed-variant": "#005235", "outline-variant": "#3c4b35", "on-secondary-fixed": "#221b00", "secondary-fixed-dim": "#e9c400", tertiary: "#e9ffef", "primary-container": "#39ff14", "error-container": "#93000a", background: "#111417", "surface-tint": "#2ae500", "inverse-on-surface": "#2e3134", "on-error": "#690005", "surface-container-lowest": "#0b0e11", "tertiary-fixed": "#92f7c3", "secondary-fixed": "#ffe16d", "on-primary-fixed": "#022100", "primary-fixed-dim": "#2ae500", "tertiary-container": "#8cf1be", "inverse-surface": "#e1e2e7", surface: "#111417", smoke: "#a0baae", "on-secondary-container": "#725f00", pitch: "#52B788", "on-tertiary-fixed": "#002113", "on-background": "#e1e2e7", forest: "#1B4332", "on-primary": "#053900", amber: "#FBBF24", "tertiary-fixed-dim": "#75daa8", "surface-container-high": "#272a2d", "on-secondary": "#3a3000", "on-tertiary": "#003823", "on-surface-variant": "#baccb0", "on-tertiary-container": "#006f4a", "inverse-primary": "#106e00", "surface-bright": "#37393d", "surface-dim": "#111417", "on-secondary-fixed-variant": "#544600", "surface-variant": "#323538", "surface-container": "#1d2023", primary: "#efffe3", "danger-dark": "#8B0000", "forest-dark": "#0E1F14", error: "#ffb4ab", secondary: "#fff9ef", "surface-container-low": "#191c1f", "on-primary-container": "#107100", "on-primary-fixed-variant": "#095300", "surface-container-highest": "#323538", parchment: "#F1FAEE", neon: "#39FF14", "on-surface": "#e1e2e7", "crt-black": "#111417", danger: "#FF3333", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, fontFamily: {"label-md": ["jetbrainsMono"], "body-sm": ["Pixelify Sans"], code: ["jetbrainsMono"], "body-lg": ["Pixelify Sans"], "label-lg": ["jetbrainsMono"], "headline-sm": ["Press Start 2P"], "headline-md": ["Press Start 2P"], "headline-lg": ["Press Start 2P"], "body-md": ["rubik"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}, spacing: {"margin-desktop": "32px", sm: "8px", lg: "24px", base: "4px", xs: "4px", md: "16px", xl: "48px", gutter: "16px", "margin-mobile": "16px"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+</head>
+<body class="bg-background text-parchment font-body-md overflow-hidden selection:bg-neon selection:text-crt-black">
+<div class="fixed inset-0 crt-scanlines"></div>
+<div class="flex h-screen w-full relative z-10">
+<!-- SideNavBar -->
+<aside class="bg-crt-black flex flex-col h-full py-8 border-r-4 border-pitch w-64 fixed left-0 top-0 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 border-2 border-neon flex items-center justify-center bg-forest">
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-neon">OléFUT</h1>
+<p class="font-label-md text-[10px] text-smoke">EST. 1994</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2 space-y-2">
+<a class="text-smoke hover:text-parchment flex items-center gap-4 px-4 py-3 hover:bg-forest-dark transition-all duration-100 active:translate-x-1 group" href="#">
+<span class="material-symbols-outlined group-hover:text-neon">dashboard</span>
+<span class="font-label-lg text-label-lg">Dashboard</span>
+</a>
+<a class="text-smoke hover:text-parchment flex items-center gap-4 px-4 py-3 hover:bg-forest-dark transition-all duration-100 active:translate-x-1 group" href="#">
+<span class="material-symbols-outlined group-hover:text-neon">groups</span>
+<span class="font-label-lg text-label-lg">Squad</span>
+</a>
+<a class="bg-forest text-neon border-r-4 border-neon flex items-center gap-4 px-4 py-3 transition-all duration-100 active:translate-x-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-lg text-label-lg">Transfer Market</span>
+</a>
+<a class="text-smoke hover:text-parchment flex items-center gap-4 px-4 py-3 hover:bg-forest-dark transition-all duration-100 active:translate-x-1 group" href="#">
+<span class="material-symbols-outlined group-hover:text-neon">fitness_center</span>
+<span class="font-label-lg text-label-lg">Training</span>
+</a>
+<a class="text-smoke hover:text-parchment flex items-center gap-4 px-4 py-3 hover:bg-forest-dark transition-all duration-100 active:translate-x-1 group" href="#">
+<span class="material-symbols-outlined group-hover:text-neon">history</span>
+<span class="font-label-lg text-label-lg">History</span>
+</a>
+</nav>
+<div class="px-4 mb-6">
+<button class="w-full bg-forest border-2 border-pitch py-3 px-2 font-headline-sm text-headline-sm text-neon hover:border-neon active:bg-forest-dark transition-all">
+                    NEXT MATCH
+                </button>
+</div>
+<footer class="px-2 border-t border-forest-dark pt-4">
+<a class="text-smoke hover:text-parchment flex items-center gap-4 px-4 py-3 hover:bg-forest-dark transition-all duration-100 active:translate-x-1" href="#">
+<span class="material-symbols-outlined">exit_to_app</span>
+<span class="font-label-lg text-label-lg">Logout</span>
+</a>
+</footer>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-64 flex flex-col h-full">
+<!-- TopNavBar -->
+<header class="bg-forest-dark flex justify-between items-center px-8 w-full h-16 z-40 border-b-4 border-pitch flex-shrink-0">
+<div class="flex items-center gap-6">
+<span class="font-headline-lg text-headline-lg text-neon italic tracking-tighter">OléFUT</span>
+<div class="flex gap-4">
+<span class="font-label-lg text-trophy font-bold border-b-2 border-trophy">$12.5M</span>
+<span class="font-label-lg text-parchment">AUG 15 / S1</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-neon hover:text-neon hover:bg-forest p-2 active:scale-95 transition-transform"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-neon hover:text-neon hover:bg-forest p-2 active:scale-95 transition-transform"><span class="material-symbols-outlined">settings</span></button>
+<img alt="Manager Avatar" class="w-10 h-10 border-2 border-neon" data-alt="A gritty, pixelated 32-bit portrait of a professional football manager with a stern expression, wearing a 90s style tracksuit in dark green. The lighting is harsh and atmospheric, like an old CRT monitor display, using a color palette of deep forest green, neon lime, and dark pitch black." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBz_DPvmiK1_RqlbSU8HCIsp5LlIQRoSNu0R6NwIVLI1DPUNcASoWMf_Ts9QJOuhmAWkXO7mXJeLmJjPnRGNnWNzZQbozdyMXsNX2_AOS1GiuPdTI5KbMWdeY8ssI8xheZiqaB-TkpbS3Ja6fW9pOHHyFpBHpXCyX0CkRSa5OviSqXEYbRNoTa2YHmtLNVK1pGMBZjiw-thjXGPQ_7UBb-Z7nultLvhi8nQKc-aSwDVPWxRyv5_JEhkRNxAxM6hUDerIBf5oAK5ACE"/>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<main class="flex-1 overflow-y-auto p-8 flex gap-8">
+<!-- Transfer Market Content -->
+<div class="flex-1">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-lg text-neon text-4xl mb-2">MERCADO</h2>
+<p class="font-label-lg text-smoke uppercase tracking-widest">Global Transfer Listing</p>
+</div>
+<div class="bg-crt-black border-2 border-pitch p-4 pixel-border">
+<span class="font-headline-sm text-trophy">R$ 12.5M DISPONÍVEL</span>
+</div>
+</div>
+<!-- Filter Bar -->
+<section class="bg-forest-dark p-6 border-2 border-pitch mb-8">
+<div class="grid grid-cols-4 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-neon uppercase block">Posição</label>
+<select class="w-full bg-abyss border-2 border-pitch text-parchment p-3 font-label-md bevel-inset focus:border-neon focus:ring-0 outline-none appearance-none">
+<option>TODAS</option>
+<option>GOL</option>
+<option>DEF</option>
+<option>MEI</option>
+<option>ATA</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-neon uppercase block">Idade</label>
+<input class="w-full bg-abyss border-2 border-pitch text-parchment p-3 font-label-md bevel-inset focus:border-neon focus:ring-0 outline-none" placeholder="17 - 40" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-neon uppercase block">OVR Min</label>
+<input class="w-full bg-abyss border-2 border-pitch text-parchment p-3 font-label-md bevel-inset focus:border-neon focus:ring-0 outline-none" placeholder="75" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-neon uppercase block">Preço Max</label>
+<input class="w-full bg-abyss border-2 border-pitch text-parchment p-3 font-label-md bevel-inset focus:border-neon focus:ring-0 outline-none" placeholder="R$ 5.0M" type="text"/>
+</div>
+</div>
+</section>
+<!-- Player Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Player Card 1 -->
+<article class="bg-forest-dark border-2 border-pitch p-4 player-card-glow transition-all flex flex-col relative group">
+<div class="absolute top-2 right-2 bg-trophy text-crt-black px-2 py-1 font-headline-sm z-20">88</div>
+<div class="h-48 bg-abyss border border-pitch mb-4 overflow-hidden relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform" data-alt="A pixel-art style football player with short dark hair, wearing a green and yellow kit, standing in a stadium with dramatic floodlight illumination. The aesthetic is reminiscent of a 32-bit console football game with high saturation, sharp edges, and a dark forest green and pitch black color scheme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5pTegBSaxPOp5ph2uOnXu_-dzbrqvUwtQdg4Zi9cYvt_MFVjE1H-Z8zE-Og6JO1VTcY3n-RK4SFG9-EO2g8CA09vGgRtBQ9bsDVFGUGYY6W9hvMe9TVGWpEWa6zKjJgJe-uRuuXtv9DB8uEhQzxAicIajRHvH3ecwpwPA0KYJXuBo3pMTCOGnxTaEmAJf7f_QKKgtsqT0T4XxyF4cDnPqLca1bqkmJu1WFcQkqC6PklpMqwWxcfWRY8ba6awjyMuAEd3Ze6svVh0"/>
+<div class="absolute bottom-0 left-0 bg-neon text-crt-black px-2 py-1 font-label-md">ATA</div>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-sm text-parchment mb-2">RAFAEL VIGA</h3>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-6 h-6 bg-white flex items-center justify-center border border-pitch">
+<span class="material-symbols-outlined text-crt-black text-sm">shield</span>
+</div>
+<span class="font-label-md text-smoke">PALMEIRAS FC</span>
+</div>
+<div class="flex justify-between items-center mb-6">
+<span class="font-label-md text-smoke uppercase">Preço:</span>
+<span class="font-headline-sm text-trophy">R$ 4.2M</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-forest border border-pitch py-2 font-label-lg text-parchment hover:border-neon transition-all">VER</button>
+<button class="bg-neon border-2 border-pitch py-2 font-label-lg text-crt-black font-bold active:bg-trophy transition-all uppercase">FAZER OFERTA</button>
+</div>
+</article>
+<!-- Player Card 2 -->
+<article class="bg-forest-dark border-2 border-pitch p-4 player-card-glow transition-all flex flex-col relative group">
+<div class="absolute top-2 right-2 bg-trophy text-crt-black px-2 py-1 font-headline-sm z-20">84</div>
+<div class="h-48 bg-abyss border border-pitch mb-4 overflow-hidden relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform" data-alt="Detailed pixel art of a goalkeeper wearing a vibrant red jersey, seen mid-action under bright stadium lights. The scene captures the high-contrast aesthetic of 90s sports managers with heavy borders, neon green glow, and a punchy atmospheric lighting setup." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK02z4MM26QOlvnNUinaRO9_6HmgpcDVmIC-cMBFjWYCe-dXZyJ8FPBUXqD0nY8MBDPdSWnhyjhIuh3_Ads7gtCoCGarR8RGgSTk05UJWAs1qIMTU2Jno0DiJc_t_7B2ynKMpFWV2-oOdOgckSCIhqKRk5cftdBIwP7OlDqSY4ddkBLi2luFG171OSjN9-n2aLZr6A-aoVlkecuk4YXCn-slp5nm8SHRdYhAR_8C9PHnFwGBBSJ7ylY6WM6USVm9P23XqmZwUGja8"/>
+<div class="absolute bottom-0 left-0 bg-neon text-crt-black px-2 py-1 font-label-md">GOL</div>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-sm text-parchment mb-2">MARCOS NETO</h3>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-6 h-6 bg-white flex items-center justify-center border border-pitch">
+<span class="material-symbols-outlined text-crt-black text-sm">shield</span>
+</div>
+<span class="font-label-md text-smoke">FLAMENGO CR</span>
+</div>
+<div class="flex justify-between items-center mb-6">
+<span class="font-label-md text-smoke uppercase">Preço:</span>
+<span class="font-headline-sm text-trophy">R$ 2.8M</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-forest border border-pitch py-2 font-label-lg text-parchment hover:border-neon transition-all">VER</button>
+<button class="bg-neon border-2 border-pitch py-2 font-label-lg text-crt-black font-bold active:bg-trophy transition-all uppercase">FAZER OFERTA</button>
+</div>
+</article>
+<!-- Player Card 3 -->
+<article class="bg-forest-dark border-2 border-pitch p-4 player-card-glow transition-all flex flex-col relative group">
+<div class="absolute top-2 right-2 bg-trophy text-crt-black px-2 py-1 font-headline-sm z-20">81</div>
+<div class="h-48 bg-abyss border border-pitch mb-4 overflow-hidden relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform" data-alt="A stylized 32-bit era render of a defensive player in a dark blue kit with white accents. The background is a blurry green pitch at night under intense stadium floodlighting, using high contrast and saturated tones from the OléFUT brand palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiEBFHjdRIn0LIV7-4nze1MmR5c0QmYMxqPEgwIntwlxfScHUJtkVyYgJmVXjUy-XbvMJmTuiqd9Jmfi_rINn-tP6VHwzK-b1AAih6RjXWW5biCipPopLDYaHTyXFA1iirWwtRZjtAO37TQIdWZYnRJfr7d_t45KyS4d6W-dDny70TwnLnGKTD3Mmry37FZRpkxgM4gsIo-4WSwF7iz0dTJD96-VOhPPMzBGKiU1hppAJ4TcwQqvUNbxeZ7VHvyYwgMAop3DSuxsk"/>
+<div class="absolute bottom-0 left-0 bg-neon text-crt-black px-2 py-1 font-label-md">DEF</div>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-sm text-parchment mb-2">B. GUSTAVO</h3>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-6 h-6 bg-white flex items-center justify-center border border-pitch">
+<span class="material-symbols-outlined text-crt-black text-sm">shield</span>
+</div>
+<span class="font-label-md text-smoke">GREMIO FB</span>
+</div>
+<div class="flex justify-between items-center mb-6">
+<span class="font-label-md text-smoke uppercase">Preço:</span>
+<span class="font-headline-sm text-trophy">R$ 1.1M</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-forest border border-pitch py-2 font-label-lg text-parchment hover:border-neon transition-all">VER</button>
+<button class="bg-neon border-2 border-pitch py-2 font-label-lg text-crt-black font-bold active:bg-trophy transition-all uppercase">FAZER OFERTA</button>
+</div>
+</article>
+</div>
+</div>
+<!-- Right Sidebar: Ofertas Ativas -->
+<aside class="w-80 flex-shrink-0">
+<div class="bg-forest-dark border-4 border-pitch h-full flex flex-col">
+<div class="bg-pitch p-4">
+<h2 class="font-headline-sm text-crt-black uppercase">OFERTAS ATIVAS</h2>
+</div>
+<div class="flex-1 p-4 space-y-4 overflow-y-auto">
+<!-- Offer Item -->
+<div class="bg-abyss border border-forest p-3 space-y-3 relative group">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-lg text-neon">L. PAQUETÁ</p>
+<p class="font-label-md text-smoke text-[10px]">OVR 85 | MEI</p>
+</div>
+<div class="bg-forest px-2 py-1">
+<p class="font-code text-[10px] text-neon">02:45:12</p>
+</div>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-parchment">Sua Oferta:</span>
+<span class="text-trophy font-bold">R$ 6.5M</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-amber rounded-full animate-pulse"></div>
+<span class="font-label-md text-amber text-[10px] uppercase">Aguardando Resposta</span>
+</div>
+</div>
+<!-- Offer Item -->
+<div class="bg-abyss border border-danger p-3 space-y-3 relative group">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-lg text-danger">G. BARBOSA</p>
+<p class="font-label-md text-smoke text-[10px]">OVR 82 | ATA</p>
+</div>
+<div class="bg-danger-dark px-2 py-1">
+<p class="font-code text-[10px] text-parchment">EXPIRADO</p>
+</div>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-parchment">Sua Oferta:</span>
+<span class="text-trophy font-bold">R$ 3.2M</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-danger rounded-full"></div>
+<span class="font-label-md text-danger text-[10px] uppercase">Oferta Recusada</span>
+</div>
+</div>
+<!-- Offer Item -->
+<div class="bg-abyss border border-neon p-3 space-y-3 relative group">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-lg text-neon">D. LUIZ</p>
+<p class="font-label-md text-smoke text-[10px]">OVR 80 | DEF</p>
+</div>
+<div class="bg-forest-dark px-2 py-1">
+<p class="font-code text-[10px] text-neon">ACEITA</p>
+</div>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-parchment">Acordo:</span>
+<span class="text-trophy font-bold">R$ 1.8M</span>
+</div>
+<button class="w-full bg-neon text-crt-black font-headline-sm text-[10px] py-2 uppercase">ASSINAR CONTRATO</button>
+</div>
+</div>
+<div class="p-4 border-t border-forest">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md text-smoke">Capacidade:</span>
+<span class="font-label-md text-parchment">3/10</span>
+</div>
+<div class="w-full bg-abyss h-3 border border-pitch">
+<div class="bg-neon h-full w-[30%]"></div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+</div>
+</body></html>

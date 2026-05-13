@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT MatchView - ULTIMATE MANAGER '95</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(57, 255, 20, 0.1);
+            position: absolute;
+            bottom: 100%;
+            animation: scan 8s linear infinite;
+        }
+        @keyframes scan {
+            0% { bottom: 100%; }
+            100% { bottom: 0%; }
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0E1F14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #52B788;
+            border: 2px solid #0E1F14;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {parchment: "#F1FAEE", "on-primary-fixed": "#022100", "on-surface-variant": "#baccb0", "surface-container": "#1d2023", "on-tertiary-container": "#006f4a", amber: "#FBBF24", error: "#ffb4ab", "on-primary-fixed-variant": "#095300", "on-primary": "#053900", "on-tertiary-fixed-variant": "#005235", trophy: "#FFD700", "secondary-fixed-dim": "#e9c400", "on-error-container": "#ffdad6", "on-secondary-container": "#725f00", "on-tertiary": "#003823", "inverse-on-surface": "#2e3134", "surface-variant": "#323538", outline: "#85967c", abyss: "#040805", "surface-bright": "#37393d", "inverse-primary": "#106e00", danger: "#FF3333", "primary-fixed-dim": "#2ae500", "primary-fixed": "#79ff5b", "on-surface": "#e1e2e7", "secondary-fixed": "#ffe16d", "primary-container": "#39ff14", "on-tertiary-fixed": "#002113", "surface-dim": "#111417", secondary: "#fff9ef", pitch: "#52B788", tertiary: "#e9ffef", "on-error": "#690005", "surface-container-low": "#191c1f", "tertiary-container": "#8cf1be", neon: "#39FF14", "tertiary-fixed-dim": "#75daa8", surface: "#111417", "on-secondary-fixed-variant": "#544600", "on-secondary": "#3a3000", smoke: "#a0baae", "surface-container-lowest": "#0b0e11", primary: "#efffe3", forest: "#1B4332", "surface-tint": "#2ae500", background: "#111417", "tertiary-fixed": "#92f7c3", "surface-container-highest": "#323538", "error-container": "#93000a", "crt-black": "#111417", "inverse-surface": "#e1e2e7", "surface-container-high": "#272a2d", "on-background": "#e1e2e7", "danger-dark": "#8B0000", "on-secondary-fixed": "#221b00", "outline-variant": "#3c4b35", "secondary-container": "#ffdb3c", "on-primary-container": "#107100", "forest-dark": "#0E1F14", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {gutter: "16px", unit: "4px", "container-max": "1280px", "margin-desktop": "32px", "margin-mobile": "16px", sm: "8px", lg: "24px", base: "4px", xs: "4px", md: "16px", xl: "48px"}, fontFamily: {"headline-lg": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], "body-lg": ["Pixelify Sans"], "label-lg": ["jetbrainsMono"], "headline-md": ["Press Start 2P"], code: ["jetbrainsMono"], "body-md": ["rubik"], "headline-sm": ["Press Start 2P"], "label-md": ["jetbrainsMono"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden selection:bg-neon selection:text-crt-black">
+<div class="crt-overlay">
+<div class="scanline"></div>
+</div>
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 z-50 fixed top-0 bg-forest-dark dark:bg-crt-black border-b-4 border-pitch">
+<div class="flex items-center gap-8">
+<h1 class="font-headline-lg text-headline-lg text-neon drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">ULTIMATE MANAGER '95</h1>
+<nav class="hidden md:flex gap-6">
+<a class="text-parchment font-label-lg opacity-80 hover:text-neon hover:bg-forest transition-colors p-1" href="#">SQUAD</a>
+<a class="text-neon border-b-4 border-neon pb-1 hover:bg-forest transition-colors" href="#">TACTICS</a>
+<a class="text-parchment font-label-lg opacity-80 hover:text-neon hover:bg-forest transition-colors p-1" href="#">TRANSFERS</a>
+<a class="text-parchment font-label-lg opacity-80 hover:text-neon hover:bg-forest transition-colors p-1" href="#">SCOUTING</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-neon p-2 hover:bg-forest rounded transition-colors" data-icon="account_balance_wallet">account_balance_wallet</button>
+<button class="material-symbols-outlined text-neon p-2 hover:bg-forest rounded transition-colors" data-icon="notifications">notifications</button>
+<div class="w-10 h-10 border-2 border-neon bg-forest overflow-hidden">
+<img alt="Manager Avatar" data-alt="A pixel-art style portrait of a football manager with a serious expression, wearing a classic 90s tracksuit in forest green and neon accents. The lighting is harsh and high-contrast, mimicking the visual style of a 16-bit arcade sports game character selection screen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtZHjYyw7xcVuDfjL0UpzfQiPE1eJ_QD1Z6KOKkVKwv_mGODAFq3H237h3BDhlON43s1Kfe45R59HdIHiCj6hpxi9uKiBKX1NWOowBdHlWoKvaCDDnWI0snHjUCWx7UA1MPxXspVhDmilJreZusEgZbg1V23F0pfjGk90hyzbWsl8zfOaJz1_O6rzvJNbaoP7IHrkSRpbZJa13xuR1D3o6qQhwr7jhLSFjuJHKukkQqnM-_AfQgKX-dkugt7E3pEM6Pdxoxj5mpgI"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Desktop) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 pt-16 hidden md:flex bg-forest dark:bg-forest-dark w-64 border-r-4 border-pitch">
+<div class="p-6 flex flex-col items-center border-b-4 border-pitch">
+<div class="w-16 h-16 bg-crt-black border-2 border-trophy p-2 mb-2 flex items-center justify-center">
+<img alt="Club Crest" data-alt="A regal and detailed crest for United FC featuring a golden eagle and green shield, designed with chunky pixels and bold black outlines. The style is reminiscent of late 80s crest designs seen on CRT monitors, emphasizing high saturation and sharp, blocky gradients." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAQUmvO1_ydgNAUmqm_rexvRObzzbQorGnqv5WAIEJzqbVgeXi19grOZNgTYImma-rcdPewE14IXG5CCBzRzb4Bp6sxXwQpoLRyz5J50dzKomUfQzMI_768O1wyX0_MBIKfx2BQsCJ6qCIKKCZoDAHaOAVh9VQPqjCav5IFU9oPFo5T2iWQQHwJ3MqXrE_SlUqh6BKA9R2bFAtwtm46YO6Cue_wReBg0QHTZmV6IpG3q4vTwGtzQVVZr5Z9U-dOC2bAGhuyFzrQns"/>
+</div>
+<h2 class="font-headline-md text-headline-md text-trophy">UNITED FC</h2>
+<p class="font-label-md text-label-md text-smoke">PREMIER DIV</p>
+</div>
+<nav class="flex-1 py-4">
+<a class="bg-forest-dark text-neon border-l-4 border-neon flex items-center p-4 hover:bg-forest-dark hover:text-neon transition-transform active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">DASHBOARD</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon transition-transform active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-md text-label-md">LEAGUE</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon transition-transform active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">FINANCE</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon transition-transform active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="stadium">stadium</span>
+<span class="font-label-md text-label-md">STADIUM</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon transition-transform active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="work">work</span>
+<span class="font-label-md text-label-md">OFFICE</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon transition-transform active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="history">history</span>
+<span class="font-label-md text-label-md">HISTORY</span>
+</a>
+</nav>
+<div class="p-4 border-t-4 border-pitch space-y-2">
+<button class="w-full bg-neon text-crt-black font-headline-sm py-3 border-2 border-pitch hover:bg-parchment transition-colors">SAVE GAME</button>
+<div class="flex gap-2">
+<button class="flex-1 flex items-center justify-center p-2 text-smoke hover:text-neon"><span class="material-symbols-outlined" data-icon="settings">settings</span></button>
+<button class="flex-1 flex items-center justify-center p-2 text-danger hover:text-neon"><span class="material-symbols-outlined" data-icon="power_settings_new">power_settings_new</span></button>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-0 md:ml-64 pt-16 pb-16 md:pb-0 min-h-screen bg-abyss relative flex flex-col">
+<!-- Stadium Background Layer -->
+<div class="absolute inset-0 z-0 opacity-20">
+<img class="w-full h-full object-cover" data-alt="A sprawling, atmospheric football stadium at night under heavy floodlights, captured in a gritty 32-bit pixel art style. The atmosphere is thick with fog and dramatic shadows, with deep emerald green turf and obsidian black stands, evoking the intense and moody feel of a classic arcade sports simulator." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDILnqOBRaID-DLEFmvDid63rV-bhkyUbFkZ_kaFi5rmVPL8RztTbXjye8FBBJl6bbAkcl3ZA3KXCGx22eBIf2XoDEySsAXQgEEINK9uLelGv9o00OosT_hC5B15FpnLFXd-ozmLUvyeCUoOak8CgtfvCep6YV6bKq3PhM65GxXCoMnooeM5VGwB1VPdLcc__6ZJvycNP01saFb1jAcpFj6jEQ5OSbsS1NL-VgdV9KpLZcB6gEUG3vKqx6krqtkDDMNi4F1MQYkV3U"/>
+</div>
+<div class="relative z-10 p-gutter flex-1 flex flex-col gap-6">
+<!-- Top Scoreboard -->
+<section class="bg-crt-black border-4 border-pitch p-6 flex flex-col items-center">
+<div class="w-full flex justify-between items-center max-w-3xl">
+<!-- Home Team -->
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-20 h-20 bg-forest border-2 border-neon p-2">
+<img alt="United FC" data-alt="A chunky, pixelated club crest for United FC featuring a green and gold shield with bold black outlines and a central eagle motif. The visual style is retro-digital, with limited color depth and sharp geometric forms designed to look like a sprite from a 1990s management simulator." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_aN_-NUG-uz27Nwvu5rUhkHfBfiKHAlJzxhKFSqwF4wf6SsvSP6ctfYBMmljIj5tn1v5Ew7JnYxwHuhD5n_T5DQrgRYMOVR1vpcmmoy5yLN9C63KvyrFaLFc-NoE28UXUWLRMjxNaxZ99vG-HmMbw72kCFqpG0t1JbAAw-iyhoyfovDMM3tqhZ5MQ25wQfLceZvgtZMnzFpkzEHpKPsJ3aiX_AgekGz81HaKi1NBRC2ZrARioyaam6u1IgSeZhsaGkln8N4LMd24"/>
+</div>
+<span class="font-headline-sm text-parchment">UNITED FC</span>
+</div>
+<!-- Score & Clock -->
+<div class="flex flex-col items-center">
+<div class="font-code text-neon text-2xl tracking-widest mb-2" style="font-family: 'JetBrains Mono', monospace;">45'</div>
+<div class="font-headline-lg text-6xl text-trophy drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">2 - 1</div>
+</div>
+<!-- Away Team -->
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-20 h-20 bg-danger-dark border-2 border-danger p-2">
+<img alt="Flamengo" data-alt="A classic football crest for Flamengo, featuring red and black horizontal stripes within a shield, rendered in a bold, low-resolution pixel art style. The colors are highly saturated and punchy, framed by a thick black border to separate it from the dark background of the match engine." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMM64u8LmrZ_WcNtvgg0iUExkYdQeAeui5zZ9xUnqAqSfR1ridgat0hk5epAAh1NdHW14Lf-StfXCRmVm9OwqWP54KG7FwMPKJztI2giiszuvnXyUk3gWRIDIj6HTQ-apN3-yiFCCjmGY4WlXY6o4Py6VPFhrHFtctPgD1cFWgJENKWGFNlHAruVVA96aR8mXJKIQ5GFz8bpyxk55aQeiNSteUBquxwmH67O1y2vUjD4nO72yCmxHwDi3RxL_x-0PfPkzn73KU7tw"/>
+</div>
+<span class="font-headline-sm text-parchment">FLAMENGO</span>
+</div>
+</div>
+<!-- Match Progress Bar -->
+<div class="w-full mt-8 h-4 bg-forest-dark border-2 border-pitch overflow-hidden relative">
+<div class="h-full bg-neon w-[50%]" style="box-shadow: 0 0 10px #39FF14;"></div>
+<!-- Time Markers -->
+<div class="absolute inset-0 flex justify-between px-2 text-[8px] font-code items-center text-smoke">
+<span>0'</span>
+<span>45'</span>
+<span>90'</span>
+</div>
+</div>
+</section>
+<!-- Live Match Interaction Area -->
+<div class="flex flex-col lg:flex-row gap-6 flex-1 h-[500px]">
+<!-- Narration Panel -->
+<section class="lg:flex-grow bg-forest-dark border-4 border-pitch flex flex-col">
+<header class="bg-pitch text-crt-black p-2 font-headline-sm flex justify-between items-center">
+<span>MATCH FEED</span>
+<span class="material-symbols-outlined text-sm" data-icon="podcasts">podcasts</span>
+</header>
+<div class="flex-1 overflow-y-auto p-4 space-y-4 font-code text-sm">
+<!-- Goal Event -->
+<div class="bg-neon/20 border-l-4 border-neon p-4 flex items-center gap-4 animate-pulse">
+<span class="material-symbols-outlined text-neon" data-icon="sports_soccer">sports_soccer</span>
+<div class="flex flex-col">
+<span class="text-neon font-bold">23' GOOL do Pelé!</span>
+<span class="text-xs text-smoke">Assistência: Garrincha</span>
+</div>
+</div>
+<!-- Card Event -->
+<div class="bg-crt-black border-l-4 border-amber p-4 flex items-center gap-4">
+<div class="w-4 h-6 bg-amber rounded-sm"></div>
+<div class="flex flex-col">
+<span class="text-amber">31' Cartão amarelo Zé</span>
+<span class="text-xs text-smoke">Falta tática no meio campo.</span>
+</div>
+</div>
+<!-- OG Event -->
+<div class="bg-danger/20 border-l-4 border-danger p-4 flex items-center gap-4">
+<span class="material-symbols-outlined text-danger" data-icon="sports_soccer">sports_soccer</span>
+<div class="flex flex-col">
+<span class="text-danger font-bold">45' Gol contra</span>
+<span class="text-xs text-smoke">Desvio infeliz do zagueiro.</span>
+</div>
+</div>
+<!-- Regular events -->
+<div class="p-4 border-l-4 border-pitch opacity-60">
+<span class="text-smoke">15' United FC domina a posse de bola.</span>
+</div>
+<div class="p-4 border-l-4 border-pitch opacity-60">
+<span class="text-smoke">08' Chute de longe passa por cima do travessão.</span>
+</div>
+</div>
+</section>
+<!-- Sidebar Controls -->
+<aside class="w-full lg:w-80 flex flex-col gap-6">
+<!-- Substitutions -->
+<div class="bg-crt-black border-4 border-pitch p-4">
+<h3 class="font-headline-sm text-smoke mb-4">SUBSTITUTIONS</h3>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-forest-dark rounded-full overflow-hidden flex gap-1">
+<div class="flex-1 bg-neon"></div>
+<div class="flex-1 bg-neon"></div>
+<div class="flex-1 bg-neon"></div>
+<div class="flex-1 bg-forest"></div>
+<div class="flex-1 bg-forest"></div>
+</div>
+<span class="font-code text-neon">3/5</span>
+</div>
+</div>
+<!-- Tactics Chips -->
+<div class="bg-crt-black border-4 border-pitch p-4 flex-1">
+<h3 class="font-headline-sm text-smoke mb-4">MATCH STRATEGY</h3>
+<div class="flex flex-wrap gap-3">
+<button class="bg-forest-dark border-2 border-pitch px-3 py-2 text-parchment font-label-md hover:border-neon transition-colors">NORMAL</button>
+<button class="bg-neon border-2 border-pitch px-3 py-2 text-crt-black font-label-md">ATACAR</button>
+<button class="bg-forest-dark border-2 border-pitch px-3 py-2 text-parchment font-label-md hover:border-neon transition-colors opacity-50">RETRANCAR</button>
+</div>
+<div class="mt-8 space-y-4">
+<div class="flex justify-between text-[10px] font-code text-smoke">
+<span>POSSESSION</span>
+<span>62%</span>
+</div>
+<div class="w-full h-1 bg-forest-dark">
+<div class="h-full bg-neon w-[62%]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-code text-smoke">
+<span>INTENSITY</span>
+<span>HIGH</span>
+</div>
+<div class="w-full h-1 bg-forest-dark">
+<div class="h-full bg-amber w-[85%]"></div>
+</div>
+</div>
+</div>
+<!-- CTA Button -->
+<button class="bg-forest border-4 border-pitch text-parchment font-headline-sm py-4 hover:border-neon hover:text-neon transition-all active:scale-95 active:bg-forest-dark group">
+<span class="group-active:hidden">PAUSAR &amp; SUBSTITUIR</span>
+<span class="hidden group-active:inline text-trophy">PROCESSANDO...</span>
+</button>
+</aside>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-16 md:hidden bg-crt-black border-t-4 border-pitch z-50">
+<button class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest-dark">
+<span class="material-symbols-outlined" data-icon="newspaper">newspaper</span>
+<span class="font-label-md text-[10px]">NEWS</span>
+</button>
+<button class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest-dark">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="font-label-md text-[10px]">MAIL</span>
+</button>
+<button class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest-dark">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-md text-[10px]">SEARCH</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-forest text-neon p-2 border-t-2 border-neon">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-label-md text-[10px]">REPORTS</span>
+</button>
+</nav>
+</body></html>

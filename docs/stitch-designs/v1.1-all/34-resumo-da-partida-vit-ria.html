@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container-lowest": "#0b0e11", "surface-tint": "#2ae500", secondary: "#fff9ef", "on-tertiary": "#003823", tertiary: "#e9ffef", primary: "#efffe3", neon: "#39FF14", "on-primary-fixed-variant": "#095300", "secondary-fixed": "#ffe16d", pitch: "#52B788", "forest-dark": "#0E1F14", "surface-variant": "#323538", surface: "#111417", "inverse-surface": "#e1e2e7", "secondary-container": "#ffdb3c", "on-secondary-fixed": "#221b00", abyss: "#040805", "primary-container": "#39ff14", "crt-black": "#111417", "on-tertiary-fixed-variant": "#005235", "on-primary": "#053900", amber: "#FBBF24", "surface-bright": "#37393d", "on-secondary": "#3a3000", error: "#ffb4ab", "error-container": "#93000a", forest: "#1B4332", trophy: "#FFD700", "surface-container-low": "#191c1f", "on-surface": "#e1e2e7", "primary-fixed": "#79ff5b", "surface-container-high": "#272a2d", smoke: "#a0baae", "on-tertiary-container": "#006f4a", "on-error-container": "#ffdad6", "tertiary-container": "#8cf1be", background: "#111417", "surface-dim": "#111417", danger: "#FF3333", "tertiary-fixed": "#92f7c3", "surface-container": "#1d2023", "on-primary-fixed": "#022100", "inverse-primary": "#106e00", "secondary-fixed-dim": "#e9c400", "outline-variant": "#3c4b35", "surface-container-highest": "#323538", "on-secondary-container": "#725f00", outline: "#85967c", "on-tertiary-fixed": "#002113", "primary-fixed-dim": "#2ae500", "on-primary-container": "#107100", "on-surface-variant": "#baccb0", "on-error": "#690005", "on-background": "#e1e2e7", "tertiary-fixed-dim": "#75daa8", "on-secondary-fixed-variant": "#544600", "inverse-on-surface": "#2e3134", parchment: "#F1FAEE", "trophy-gold": "#FFD700", "danger-red": "#FF3333", "pitch-green": "#52B788"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {gutter: "16px", unit: "4px", "container-max": "1280px", "margin-mobile": "16px", "margin-desktop": "32px", lg: "24px", base: "4px", sm: "8px", xs: "4px", md: "16px", xl: "48px"}, fontFamily: {"headline-sm": ["Press Start 2P"], "body-lg": ["Pixelify Sans"], "body-sm": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "label-md": ["jetbrainsMono"], "label-lg": ["jetbrainsMono"], "body-md": ["rubik"], "headline-lg": ["Press Start 2P"], code: ["jetbrainsMono"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+<style>
+    .crt-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      background-size: 100% 4px, 3px 100%;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .pixel-border {
+      box-shadow: 0 0 0 2px #52B788, 0 0 0 4px #0c1609;
+    }
+    .pixel-border-neon {
+      box-shadow: 0 0 0 2px #39FF14, 0 0 0 4px #0c1609;
+    }
+    .pixel-border-trophy {
+      box-shadow: 0 0 0 2px #FFD700, 0 0 0 4px #0c1609;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen relative selection:bg-neon selection:text-abyss">
+<div class="crt-overlay"></div>
+<!-- Top Navigation Shell -->
+<header class="bg-forest-dark dark:bg-abyss text-neon font-headline-md text-headline-md font-headline-lg text-headline-lg text-neon tracking-tighter docked full-width top-0 border-b-4 border-pitch flat no shadows flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 relative z-10">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-neon">OléFUT</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined cursor-pointer hover:text-white transition-colors">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-white transition-colors">account_circle</span>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-8 pb-32">
+<!-- Hero Win Banner -->
+<section class="text-center mb-12">
+<h1 class="font-headline-lg text-[48px] md:text-[64px] text-neon mb-4 tracking-widest drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">VITÓRIA</h1>
+<div class="bg-forest-dark border-4 border-pitch p-6 inline-block">
+<h2 class="font-headline-md text-parchment flex items-center gap-4 md:gap-8 justify-center">
+<span>UNITED FC</span>
+<span class="text-neon text-[32px] md:text-[48px]">3 - 1</span>
+<span>FLAMENGO</span>
+</h2>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Statistics & Narrative Column -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Statistics Panel -->
+<div class="bg-forest-dark border-2 border-pitch p-gutter">
+<div class="bg-pitch text-abyss font-headline-sm px-4 py-2 mb-6 inline-block">ESTATÍSTICAS</div>
+<div class="space-y-6">
+<!-- Stat Row -->
+<div>
+<div class="flex justify-between font-label-lg text-smoke mb-2">
+<span>POSSE DE BOLA</span>
+<span>58% - 42%</span>
+</div>
+<div class="h-4 bg-abyss border border-smoke flex">
+<div class="h-full bg-neon" style="width: 58%"></div>
+<div class="h-full bg-danger" style="width: 42%"></div>
+</div>
+</div>
+<!-- Stat Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+<div class="flex justify-between items-center border-b border-surface-variant pb-2">
+<span class="font-label-lg text-smoke">FINALIZAÇÕES</span>
+<span class="font-headline-sm text-neon">12 - 5</span>
+</div>
+<div class="flex justify-between items-center border-b border-surface-variant pb-2">
+<span class="font-label-lg text-smoke">FALTAS</span>
+<span class="font-headline-sm text-neon">8 - 14</span>
+</div>
+<div class="flex justify-between items-center border-b border-surface-variant pb-2">
+<span class="font-label-lg text-smoke">ESCANTEIOS</span>
+<span class="font-headline-sm text-neon">6 - 2</span>
+</div>
+<div class="flex justify-between items-center border-b border-surface-variant pb-2">
+<span class="font-label-lg text-smoke">CARTÕES</span>
+<span class="font-headline-sm text-neon">1 - 3</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Goals Narration List -->
+<div class="bg-forest-dark border-2 border-pitch p-gutter">
+<div class="bg-pitch text-abyss font-headline-sm px-4 py-2 mb-6 inline-block">NARRATIVA</div>
+<ul class="space-y-4">
+<li class="flex items-center gap-4 bg-abyss p-4 border-l-4 border-neon">
+<span class="font-code text-neon w-16">24'</span>
+<span class="material-symbols-outlined text-neon" data-weight="fill">sports_soccer</span>
+<span class="font-label-lg text-parchment">GOL: R. GAÚCHO (P)</span>
+</li>
+<li class="flex items-center gap-4 bg-abyss p-4 border-l-4 border-neon">
+<span class="font-code text-neon w-16">45+1'</span>
+<span class="material-symbols-outlined text-neon" data-weight="fill">sports_soccer</span>
+<span class="font-label-lg text-parchment">GOL: ROMÁRIO</span>
+</li>
+<li class="flex items-center gap-4 bg-surface-container-low p-4 border-l-4 border-danger">
+<span class="font-code text-danger w-16">68'</span>
+<span class="material-symbols-outlined text-danger" data-weight="fill">sports_soccer</span>
+<span class="font-label-lg text-smoke">GOL: PEDRO (FLA)</span>
+</li>
+<li class="flex items-center gap-4 bg-abyss p-4 border-l-4 border-neon">
+<span class="font-code text-neon w-16">82'</span>
+<span class="material-symbols-outlined text-neon" data-weight="fill">sports_soccer</span>
+<span class="font-label-lg text-parchment">GOL: R. GAÚCHO</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- MVP & Sidebar Column -->
+<div class="lg:col-span-4 space-y-8">
+<!-- MVP Card -->
+<div class="bg-abyss border-4 border-trophy p-gutter text-center relative overflow-hidden group">
+<div class="absolute top-0 right-0 bg-trophy text-abyss font-headline-sm px-3 py-1">MVP</div>
+<div class="mb-6 mt-4 inline-block pixel-border-trophy bg-forest p-1">
+<img alt="R. Gaúcho" class="w-48 h-48 object-cover grayscale brightness-125 contrast-125" data-alt="A stylized pixel-art style portrait of a legendary Brazilian football player with long curly hair and a joyful expression. The lighting is cinematic with golden glows around the silhouette, evoking a retro 32-bit video game aesthetic. The background is a dark forest green with subtle CRT scanline textures and vibrant neon green accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkXMZ9oWDrDA6Qo-yGYhDArphBGD6eAie6_zvjHcrjT3HY14YhqxGsGPhknw0NZM99ay-uZ7AlGc6NF_hBT6sQcAZL8kZH5yujcuKuoXaiqeUjgn9QizCbubEVrZq4PU3FOyc7uCRL98GNbF7wue6YtG-hp396Oth-_xHsB9lmzrN9_F2kNwgZXTIvsW8034FMrDSWasMOeel_38mXIRILbvJKBUM-GIdBiZv0u2hhy2gwD9u8wllkUSJxUL1gIBgsam9Rvy-0EHs"/>
+</div>
+<h3 class="font-headline-md text-trophy mb-1">R. GAÚCHO</h3>
+<p class="font-label-md text-smoke mb-6">HOMEM DO JOGO</p>
+<div class="bg-forest-dark border-2 border-pitch p-4 mb-2">
+<div class="font-label-sm text-pitch mb-1">AVALIAÇÃO</div>
+<div class="font-headline-lg text-trophy text-[40px]">9.8</div>
+</div>
+</div>
+<!-- Team Management Quick Links -->
+<div class="bg-forest-dark border-2 border-pitch p-gutter">
+<div class="space-y-4">
+<button class="w-full py-4 border-2 border-pitch text-parchment font-label-lg hover:bg-pitch hover:text-abyss transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">analytics</span>
+              VER DETALHES
+            </button>
+<button class="w-full py-4 border-2 border-pitch text-parchment font-label-lg hover:bg-pitch hover:text-abyss transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">group</span>
+              PLANTEL
+            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Actions -->
+<footer class="fixed bottom-0 left-0 w-full z-40">
+<!-- Mobile Navigation Shell (BottomNavBar) -->
+<div class="md:hidden flex justify-around items-center h-20 bg-forest-dark border-t-4 border-pitch">
+<div class="flex flex-col items-center justify-center bg-pitch text-on-primary-container rounded-none border-2 border-neon px-4 py-1">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">Jogo</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke px-4 py-1">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-md text-label-md">Plantel</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke px-4 py-1">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">Tabela</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke px-4 py-1">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Mensagens</span>
+</div>
+</div>
+<!-- Desktop Continued CTA -->
+<div class="hidden md:flex bg-abyss border-t-4 border-pitch h-24 items-center justify-center px-margin-desktop gap-8">
+<div class="flex-1">
+<p class="font-label-md text-smoke">PRÓXIMO JOGO: <span class="text-neon">VS SANTOS FC</span> (DENTRO DE 3 DIAS)</p>
+</div>
+<button class="bg-forest border-4 border-neon text-parchment font-headline-md px-16 py-4 hover:bg-forest-dark hover:text-neon active:translate-y-1 transition-all">
+        CONTINUAR
+      </button>
+<div class="flex-1 flex justify-end gap-4">
+<span class="material-symbols-outlined text-smoke text-[32px] cursor-pointer hover:text-neon">share</span>
+<span class="material-symbols-outlined text-smoke text-[32px] cursor-pointer hover:text-neon">download</span>
+</div>
+</div>
+</footer>
+<!-- FAB Overlay for Context (Only on Mobile) -->
+<button class="md:hidden fixed bottom-24 right-4 bg-neon text-abyss w-16 h-16 rounded-none border-4 border-abyss flex items-center justify-center pixel-border-neon z-50 active:scale-95">
+<span class="material-symbols-outlined text-[32px]" data-weight="fill">play_arrow</span>
+</button>
+</body></html>

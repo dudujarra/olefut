@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT - Resumo da Partida</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {pitch: "#52B788", "surface-tint": "#2ae500", "surface-container": "#1d2023", "on-surface": "#e1e2e7", "forest-dark": "#0E1F14", parchment: "#F1FAEE", "on-primary": "#053900", error: "#ffb4ab", "primary-fixed-dim": "#2ae500", "on-primary-fixed": "#022100", "on-secondary-container": "#725f00", "error-container": "#93000a", "on-secondary-fixed": "#221b00", "on-error-container": "#ffdad6", primary: "#efffe3", "on-secondary-fixed-variant": "#544600", "on-secondary": "#3a3000", "surface-dim": "#111417", outline: "#85967c", "on-background": "#e1e2e7", "surface-container-low": "#191c1f", "on-primary-container": "#107100", "on-surface-variant": "#baccb0", "inverse-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", "secondary-fixed-dim": "#e9c400", danger: "#FF3333", "tertiary-container": "#8cf1be", "tertiary-fixed-dim": "#75daa8", "on-tertiary-fixed-variant": "#005235", trophy: "#FFD700", "surface-bright": "#37393d", "surface-container-high": "#272a2d", "on-error": "#690005", "surface-variant": "#323538", "crt-black": "#111417", "surface-container-lowest": "#0b0e11", "inverse-primary": "#106e00", "primary-container": "#39ff14", "on-tertiary-fixed": "#002113", "danger-dark": "#8B0000", "outline-variant": "#3c4b35", "primary-fixed": "#79ff5b", "on-tertiary": "#003823", forest: "#1B4332", smoke: "#a0baae", surface: "#111417", "secondary-fixed": "#ffe16d", amber: "#FBBF24", abyss: "#040805", "surface-container-highest": "#323538", background: "#111417", "inverse-on-surface": "#2e3134", "on-tertiary-container": "#006f4a", "tertiary-fixed": "#92f7c3", "secondary-container": "#ffdb3c", tertiary: "#e9ffef", secondary: "#fff9ef", neon: "#39FF14", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-desktop": "32px", unit: "4px", gutter: "16px", "margin-mobile": "16px", "container-max": "1280px", xl: "48px", md: "16px", base: "4px", xs: "4px", lg: "24px", sm: "8px"}, fontFamily: {"headline-lg": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "body-md": ["Rubik"], "body-lg": ["Pixelify Sans"], "body-sm": ["Pixelify Sans"], "label-lg": ["JetBrains Mono"], "headline-sm": ["Press Start 2P"], "headline-md": ["Press Start 2P"], code: ["JetBrains Mono"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+<style>
+        body {
+            background-color: #111417;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 -2px #52B788,
+                0 4px 0 -2px #52B788,
+                -4px 0 0 -2px #52B788,
+                4px 0 0 -2px #52B788;
+        }
+        .inset-pixel {
+            box-shadow: inset 0 2px 0 0 rgba(0,0,0,0.5), inset 2px 0 0 0 rgba(0,0,0,0.5);
+        }
+        .scanline-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .scanline-btn::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            z-index: 2;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-parchment flex flex-col items-center">
+<!-- TopAppBar -->
+<header class="bg-crt-black text-neon font-headline-md text-headline-md w-full top-0 border-b-2 border-pitch flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full z-50">
+<div class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</div>
+<div class="flex gap-4">
+<button class="transition-all duration-75 active:scale-95 text-smoke hover:text-neon material-symbols-outlined">settings</button>
+<button class="transition-all duration-75 active:scale-95 text-smoke hover:text-neon material-symbols-outlined">account_circle</button>
+</div>
+</header>
+<main class="flex-grow w-full max-w-container-max px-margin-mobile md:px-margin-desktop py-8 mb-20 md:mb-0">
+<!-- Scoreboard -->
+<div class="w-full flex flex-col items-center mb-12">
+<div class="flex items-center justify-center gap-4 md:gap-12 w-full">
+<div class="flex flex-col items-center">
+<div class="w-20 h-20 bg-forest border-4 border-pitch flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-4xl text-neon">shield</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-center">UNITED FC</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-[48px] md:text-[64px] text-neon">3</span>
+<span class="font-headline-md text-headline-md text-smoke">-</span>
+<span class="font-headline-lg text-[48px] md:text-[64px] text-smoke">1</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-20 h-20 bg-forest border-4 border-pitch flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-4xl text-danger">shield</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-center">FLAMENGO</span>
+</div>
+</div>
+<div class="mt-4 px-6 py-2 bg-pitch text-crt-black font-headline-sm text-headline-sm">FULL TIME</div>
+</div>
+<!-- Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Statistics Column -->
+<section class="lg:col-span-4 bg-forest-dark border-2 border-pitch p-6">
+<h3 class="font-headline-sm text-headline-sm text-neon mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">analytics</span> ESTATÍSTICAS
+                </h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between font-label-lg text-label-lg mb-2">
+<span>UNITED FC</span>
+<span class="text-neon">POSSE</span>
+<span>FLAMENGO</span>
+</div>
+<div class="h-4 bg-abyss border border-smoke flex overflow-hidden">
+<div class="h-full bg-neon" style="width: 58%"></div>
+<div class="h-full bg-smoke/20" style="width: 42%"></div>
+</div>
+<div class="flex justify-between font-label-md text-label-md mt-1">
+<span>58%</span>
+<span>42%</span>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-[10px]">12</span>
+<span class="font-label-md text-label-md text-smoke uppercase">Remates</span>
+<span class="font-headline-sm text-[10px]">8</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-[10px] text-neon">7</span>
+<span class="font-label-md text-label-md text-smoke uppercase">No Alvo</span>
+<span class="font-headline-sm text-[10px]">3</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-[10px]">10</span>
+<span class="font-label-md text-label-md text-smoke uppercase">Faltas</span>
+<span class="font-headline-sm text-[10px] text-danger">14</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-[10px]">6</span>
+<span class="font-label-md text-label-md text-smoke uppercase">Cantos</span>
+<span class="font-headline-sm text-[10px]">4</span>
+</div>
+</div>
+<div class="pt-4 border-t border-pitch/30">
+<img class="w-full h-32 object-cover border-2 border-pitch" data-alt="A pixel-art style graph showing team performance over time on a glowing green CRT monitor background. The visual represents football match analytics with a sharp, zig-zagging neon green line indicating momentum shifts throughout the 90 minutes. The atmosphere is nostalgic and tech-focused, reminiscent of a classic 1990s management simulation game." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN1uL0LfZ_tmzj1U9isHd2-TAvn5dbzul6vmkFMJ_X--nnsM7A2Iayb9l_aMx3iDSfYcDNOkoAOCxrVCJWS04lKIEIhnbTQ6hNZNV5c_FoZ2aKk4MCAOYEVoeJEvjTC6LpJRkdPTH8JuLR-OAGWbOVuCkhpM3OBgxpaUNA42HhN--WvQrEvlG4N7-R5n5jPzWGyr_bkxZ1Rvns2m-KaNLC5l_2H82yL_BJkh0HtMz0OHMWSQRQXHloZ5Nvlu7H_-xjeGs52l-j2Lg"/>
+</div>
+</div>
+</section>
+<!-- Events Timeline -->
+<section class="lg:col-span-4 bg-crt-black border-2 border-neon p-6">
+<h3 class="font-headline-sm text-headline-sm text-neon mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">history</span> EVENTOS
+                </h3>
+<div class="relative space-y-8 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-pitch/20">
+<div class="relative pl-10 flex items-center gap-4">
+<div class="absolute left-0 w-6 h-6 bg-forest border-2 border-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-neon" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+</div>
+<div>
+<div class="font-headline-sm text-[10px] text-neon">12' GOL!</div>
+<div class="font-body-sm text-body-sm">P. SCHOLES (UNITED)</div>
+</div>
+</div>
+<div class="relative pl-10 flex items-center gap-4">
+<div class="absolute left-0 w-6 h-6 bg-forest border-2 border-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-neon" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+</div>
+<div>
+<div class="font-headline-sm text-[10px] text-neon">34' GOL!</div>
+<div class="font-body-sm text-body-sm">R. VAN NISTELROOY (UNITED)</div>
+</div>
+</div>
+<div class="relative pl-10 flex items-center gap-4">
+<div class="absolute left-0 w-6 h-6 bg-forest border-2 border-danger flex items-center justify-center">
+<div class="w-2 h-3 bg-danger"></div>
+</div>
+<div>
+<div class="font-headline-sm text-[10px] text-danger">41' CARTÃO AMARELO</div>
+<div class="font-body-sm text-body-sm">GABIGOL (FLAMENGO)</div>
+</div>
+</div>
+<div class="relative pl-10 flex items-center gap-4">
+<div class="absolute left-0 w-6 h-6 bg-forest border-2 border-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-neon" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+</div>
+<div>
+<div class="font-headline-sm text-[10px] text-neon">67' GOL!</div>
+<div class="font-body-sm text-body-sm">R. GAÚCHO (FLAMENGO)</div>
+</div>
+</div>
+<div class="relative pl-10 flex items-center gap-4">
+<div class="absolute left-0 w-6 h-6 bg-forest border-2 border-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-neon" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+</div>
+<div>
+<div class="font-headline-sm text-[10px] text-neon">89' GOL!</div>
+<div class="font-body-sm text-body-sm">D. BECKHAM (UNITED)</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Man of the Match Column -->
+<section class="lg:col-span-4 flex flex-col gap-gutter">
+<div class="bg-forest border-2 border-trophy p-6 flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-trophy mb-6 text-center">HOMEM DO JOGO</h3>
+<div class="flex flex-col items-center">
+<div class="relative mb-6">
+<div class="w-48 h-56 bg-crt-black border-4 border-trophy overflow-hidden grayscale contrast-125">
+<img class="w-full h-full object-cover" data-alt="A high-contrast black and white pixelated portrait of a legendary Brazilian football player with long curly hair and a joyful expression. The style is raw and grainy, reminiscent of a 32-bit sports video game unlockable character card. The background features a subtle halftone pattern and glowing trophy-gold frame accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ33hHLH0RY4eeLEVzgBdyqv3g1pxrl4Afyqf4yrQScUvz48DMth0JAZlO5gOtdPG3CSmHY3KvBd6oQ760QnujRLlgqDfuq721BYiBU3j7Rr4RveqL9GKQaWsptdkyIdStUBTFloGUHxgsBpkVR4qQydNhb_7tK1WaSfrYa2l8yO-Xx2O_Ly33lpT5HhAdUNfHAhtgfMAnRX3yyOnFfKMM4nGkMKRn5PfZF5gLpGhB_58EgEkIni6El7erKMPJRZKzgLlTQ_BZ3JU"/>
+</div>
+<div class="absolute -bottom-4 -right-4 bg-trophy text-crt-black w-16 h-16 rounded-full flex items-center justify-center border-4 border-forest">
+<span class="font-headline-md text-headline-md font-bold">9.8</span>
+</div>
+</div>
+<div class="text-center">
+<h4 class="font-headline-md text-headline-md text-trophy mb-1 uppercase">R. GAÚCHO</h4>
+<p class="font-label-md text-label-md text-smoke mb-6">FLAMENGO | MEI</p>
+<div class="grid grid-cols-2 gap-4 w-full">
+<div class="bg-forest-dark border border-pitch p-2">
+<div class="text-trophy font-headline-sm text-[10px]">1</div>
+<div class="font-label-md text-[10px] uppercase">Gols</div>
+</div>
+<div class="bg-forest-dark border border-pitch p-2">
+<div class="text-trophy font-headline-sm text-[10px]">8</div>
+<div class="font-label-md text-[10px] uppercase">Dribles</div>
+</div>
+<div class="bg-forest-dark border border-pitch p-2">
+<div class="text-trophy font-headline-sm text-[10px]">92%</div>
+<div class="font-label-md text-[10px] uppercase">Passes</div>
+</div>
+<div class="bg-forest-dark border border-pitch p-2">
+<div class="text-trophy font-headline-sm text-[10px]">3</div>
+<div class="font-label-md text-[10px] uppercase">Chances</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<button class="scanline-btn w-full bg-neon text-crt-black font-headline-md text-headline-md py-6 border-4 border-pitch active:bg-pitch transition-colors hover:bg-surface-tint">
+                    CONTINUAR
+                </button>
+</section>
+</div>
+</main>
+<!-- SideNavBar (Desktop Only) -->
+<nav class="hidden md:flex flex-col fixed h-screen top-0 left-0 z-40 bg-forest-dark border-r-4 border-pitch h-full w-64 left-0">
+<div class="p-6 border-b border-pitch/30">
+<div class="font-headline-sm text-headline-sm text-neon mb-2">Manager</div>
+<div class="font-label-lg text-label-lg text-smoke">Season 1</div>
+</div>
+<ul class="flex-grow py-8 px-2 space-y-4">
+<li class="p-2 border-2 border-transparent transition-colors duration-100 bg-pitch text-crt-black font-bold flex items-center gap-3">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-lg text-label-lg">Dashboard</span>
+</li>
+<li class="p-2 border-2 border-transparent transition-colors duration-100 text-parchment hover:bg-forest hover:text-neon flex items-center gap-3">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-lg text-label-lg">Squad</span>
+</li>
+<li class="p-2 border-2 border-transparent transition-colors duration-100 text-parchment hover:bg-forest hover:text-neon flex items-center gap-3">
+<span class="material-symbols-outlined">strategy</span>
+<span class="font-label-lg text-label-lg">Tactics</span>
+</li>
+<li class="p-2 border-2 border-transparent transition-colors duration-100 text-parchment hover:bg-forest hover:text-neon flex items-center gap-3">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-lg text-label-lg">Schedule</span>
+</li>
+</ul>
+<div class="p-6">
+<button class="w-full bg-forest border-2 border-pitch py-3 font-label-lg text-label-lg hover:border-neon hover:text-neon transition-all active:scale-95">CONTINUE</button>
+</div>
+</nav>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full flex justify-around items-center px-4 py-2 bg-crt-black border-t-4 border-pitch z-50">
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:text-neon" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:text-neon" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">Squad</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-forest text-neon p-2 border-2 border-neon" href="#">
+<span class="material-symbols-outlined">fast_forward</span>
+<span class="font-label-md text-label-md">Next Match</span>
+</a>
+</nav>
+</body></html>

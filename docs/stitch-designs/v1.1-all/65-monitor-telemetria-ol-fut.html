@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MONITOR - OléFUT Debug Telemetry</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .crt-glow {
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.15);
+        }
+        .pixel-border-inset {
+            border: 2px solid #52B788;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body class="bg-crt-black text-parchment font-body-md overflow-hidden h-screen">
+<div class="scanline-overlay"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center w-full px-margin-desktop h-16 bg-crt-black border-b-2 border-pitch flat no shadows">
+<div class="font-headline-md text-headline-md text-neon flex items-center gap-2">
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">terminal</span>
+            FM_CORE_v2.0
+        </div>
+<nav class="hidden md:flex gap-8 items-center h-full">
+<a class="font-headline-sm text-headline-sm uppercase tracking-wider text-smoke hover:text-neon transition-colors" href="#">DASHBOARD</a>
+<a class="font-headline-sm text-headline-sm uppercase tracking-wider text-smoke hover:text-neon transition-colors" href="#">LOGS</a>
+<a class="font-headline-sm text-headline-sm uppercase tracking-wider text-neon border-b-2 border-neon pb-1" href="#">TELEMETRY</a>
+<a class="font-headline-sm text-headline-sm uppercase tracking-wider text-smoke hover:text-neon transition-colors" href="#">PERFORMANCE</a>
+<a class="font-headline-sm text-headline-sm uppercase tracking-wider text-smoke hover:text-neon transition-colors" href="#">RESOURCES</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1 border border-pitch bg-abyss">
+<div class="w-2 h-2 rounded-full bg-neon animate-pulse"></div>
+<span class="font-label-md text-label-md text-neon">SYS_ACTIVE</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-smoke hover:text-neon cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-smoke hover:text-neon cursor-pointer">terminal</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 bottom-0 flex flex-col z-40 bg-forest-dark border-r-2 border-pitch h-full w-64 flat no shadows">
+<div class="p-6 border-b-2 border-pitch bg-abyss/50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 border-2 border-trophy bg-forest flex items-center justify-center">
+<span class="material-symbols-outlined text-trophy" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+</div>
+<div>
+<div class="text-headline-sm font-headline-sm text-trophy uppercase">ROOT_USER</div>
+<div class="font-label-md text-label-md text-smoke">SYS_LEVEL_01</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 py-4">
+<a class="flex items-center gap-3 text-smoke px-4 py-3 hover:bg-forest hover:text-neon transition-all duration-75 active:bg-abyss active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-label-lg text-label-lg">DATABASE</span>
+</a>
+<a class="flex items-center gap-3 bg-forest text-neon border-l-4 border-neon px-4 py-3 active:bg-abyss active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">memory</span>
+<span class="font-label-lg text-label-lg">ENGINE</span>
+</a>
+<a class="flex items-center gap-3 text-smoke px-4 py-3 hover:bg-forest hover:text-neon transition-all duration-75 active:bg-abyss active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-label-lg text-label-lg">NETWORK</span>
+</a>
+<a class="flex items-center gap-3 text-smoke px-4 py-3 hover:bg-forest hover:text-neon transition-all duration-75 active:bg-abyss active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">model_training</span>
+<span class="font-label-lg text-label-lg">MODELS</span>
+</a>
+<a class="flex items-center gap-3 text-smoke px-4 py-3 hover:bg-forest hover:text-neon transition-all duration-75 active:bg-abyss active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">developer_board</span>
+<span class="font-label-lg text-label-lg">DRIVERS</span>
+</a>
+</nav>
+<div class="p-4 flex flex-col gap-2">
+<button class="w-full py-3 bg-forest border-2 border-pitch text-parchment font-label-lg hover:border-neon hover:text-neon active:bg-forest-dark active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] transition-all">
+                FLUSH_CACHE
+            </button>
+<div class="flex border-t border-pitch pt-4 gap-2">
+<a class="flex-1 flex flex-col items-center py-2 text-smoke hover:bg-forest hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-[10px] mt-1">HELP</span>
+</a>
+<a class="flex-1 flex flex-col items-center py-2 text-smoke hover:bg-forest hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined">restart_alt</span>
+<span class="text-[10px] mt-1">REBOOT</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 mt-16 p-gutter h-[calc(100vh-64px)] overflow-y-auto bg-abyss relative">
+<div class="max-w-container-max mx-auto space-y-gutter pb-margin-desktop">
+<!-- Header Section -->
+<div class="flex justify-between items-end border-b-2 border-pitch pb-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-neon mb-2">MONITOR - OléFUT Debug Telemetry</h1>
+<p class="font-label-lg text-label-lg text-smoke uppercase tracking-widest">Global Instance: 0x8F22 // Region: EU_NORTH</p>
+</div>
+<div class="flex gap-4 items-center">
+<div class="bg-forest-dark border-2 border-pitch px-4 py-2 flex items-center gap-3">
+<span class="font-label-md text-label-md text-smoke">UPTIME:</span>
+<span class="font-code text-code text-neon">124:14:02:55</span>
+</div>
+</div>
+</div>
+<!-- Top Row Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="bg-forest-dark border-2 border-pitch p-4 relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-md text-label-md text-smoke">TOTAL_CALLS</span>
+<span class="material-symbols-outlined text-pitch text-[20px]">call_made</span>
+</div>
+<div class="font-headline-md text-headline-md text-parchment mb-4">1.2M</div>
+<div class="w-full bg-abyss h-2 border border-smoke/20">
+<div class="h-full bg-neon w-[65%] shadow-[0_0_8px_#39FF14]"></div>
+</div>
+</div>
+<div class="bg-forest-dark border-2 border-danger p-4 relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-md text-label-md text-danger">CRITICAL_BUGS</span>
+<span class="material-symbols-outlined text-danger text-[20px]">error</span>
+</div>
+<div class="font-headline-md text-headline-md text-danger mb-4">00</div>
+<div class="text-[10px] font-label-md text-danger uppercase animate-pulse">Status: Nominal</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-4 relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-md text-label-md text-smoke">GAME_ENGINE</span>
+<span class="material-symbols-outlined text-neon text-[20px]">bolt</span>
+</div>
+<div class="font-headline-md text-headline-md text-neon mb-4">STABLE</div>
+<div class="flex gap-1">
+<div class="w-2 h-4 bg-neon"></div>
+<div class="w-2 h-4 bg-neon"></div>
+<div class="w-2 h-4 bg-neon"></div>
+<div class="w-2 h-4 bg-forest"></div>
+</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-4 relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-md text-label-md text-smoke">FEEDBACK_LOOP</span>
+<span class="material-symbols-outlined text-amber text-[20px]">query_stats</span>
+</div>
+<div class="font-headline-md text-headline-md text-amber mb-4">416ms</div>
+<div class="font-code text-[10px] text-smoke">LATENCY_DELTA: +2ms</div>
+</div>
+</div>
+<!-- Central System Log -->
+<div class="bg-forest-dark border-2 border-pitch flex flex-col h-[400px]">
+<div class="bg-pitch px-4 py-2 flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm text-crt-black">SYSTEM_KERNEL_LOGS</h3>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-crt-black rounded-full"></div>
+<div class="w-3 h-3 bg-crt-black rounded-full"></div>
+</div>
+</div>
+<div class="flex-1 overflow-auto bg-abyss/80">
+<table class="w-full text-left font-code text-code border-collapse">
+<thead class="sticky top-0 bg-forest-dark border-b-2 border-pitch">
+<tr>
+<th class="p-4 text-smoke border-r border-pitch/30">TIMESTAMP</th>
+<th class="p-4 text-smoke border-r border-pitch/30">SEVERITY</th>
+<th class="p-4 text-smoke">TECHNICAL_MESSAGE</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-pitch/10">
+<tr class="hover:bg-forest/20">
+<td class="p-4 text-smoke border-r border-pitch/30">14:22:01.004</td>
+<td class="p-4 border-r border-pitch/30">
+<span class="px-2 py-0.5 bg-neon/10 text-neon border border-neon/30 text-[10px]">INFO</span>
+</td>
+<td class="p-4 text-parchment uppercase">Network socket established at port 8080</td>
+</tr>
+<tr class="hover:bg-forest/20">
+<td class="p-4 text-smoke border-r border-pitch/30">14:22:04.291</td>
+<td class="p-4 border-r border-pitch/30">
+<span class="px-2 py-0.5 bg-neon/10 text-neon border border-neon/30 text-[10px]">INFO</span>
+</td>
+<td class="p-4 text-parchment uppercase">Physics collision detected - Sub-mesh index 42</td>
+</tr>
+<tr class="hover:bg-forest/20">
+<td class="p-4 text-smoke border-r border-pitch/30">14:22:08.115</td>
+<td class="p-4 border-r border-pitch/30">
+<span class="px-2 py-0.5 bg-amber/10 text-amber border border-amber/30 text-[10px]">WARN</span>
+</td>
+<td class="p-4 text-parchment uppercase">Sprite cache miss - Buffer reloading (Latency spike expected)</td>
+</tr>
+<tr class="hover:bg-forest/20">
+<td class="p-4 text-smoke border-r border-pitch/30">14:22:12.560</td>
+<td class="p-4 border-r border-pitch/30">
+<span class="px-2 py-0.5 bg-neon/10 text-neon border border-neon/30 text-[10px]">INFO</span>
+</td>
+<td class="p-4 text-parchment uppercase">Garbage collection cycle completed in 12ms</td>
+</tr>
+<tr class="hover:bg-forest/20">
+<td class="p-4 text-smoke border-r border-pitch/30">14:22:15.902</td>
+<td class="p-4 border-r border-pitch/30">
+<span class="px-2 py-0.5 bg-neon/10 text-neon border border-neon/30 text-[10px]">INFO</span>
+</td>
+<td class="p-4 text-parchment uppercase">Engine state synchronization successful with primary node</td>
+</tr>
+<tr class="hover:bg-forest/20">
+<td class="p-4 text-smoke border-r border-pitch/30">14:22:19.443</td>
+<td class="p-4 border-r border-pitch/30">
+<span class="px-2 py-0.5 bg-danger/10 text-danger border border-danger/30 text-[10px]">ERROR</span>
+</td>
+<td class="p-4 text-danger uppercase">Telemetry drop-out detected in region EU_NORTH_SECONDARY</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Bottom Visualization Row -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Bar Chart -->
+<div class="lg:col-span-2 bg-forest-dark border-2 border-pitch p-6">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline-sm text-headline-sm text-smoke uppercase">ENGINE_LOAD_FLUX</h3>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-neon"></span>
+<span class="font-label-md text-label-md text-smoke">LIVE_MS</span>
+</div>
+</div>
+<div class="flex items-end gap-1 h-32 w-full px-2">
+<div class="flex-1 bg-neon/30 border-t border-neon h-[20%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[35%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[30%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[45%] shadow-[0_0_10px_#39FF14]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[85%] shadow-[0_0_10px_#39FF14]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[60%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[40%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[55%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[90%] shadow-[0_0_10px_#39FF14]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[70%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[30%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[25%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[40%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[45%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[80%] shadow-[0_0_10px_#39FF14]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[65%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[45%]"></div>
+<div class="flex-1 bg-neon/30 border-t border-neon h-[20%]"></div>
+</div>
+<div class="mt-4 flex justify-between border-t border-pitch/30 pt-4 font-code text-[10px] text-smoke">
+<span>T - 60s</span>
+<span>T - 45s</span>
+<span>T - 30s</span>
+<span>T - 15s</span>
+<span>NOW</span>
+</div>
+</div>
+<!-- Radial Chart -->
+<div class="bg-forest-dark border-2 border-pitch p-6 flex flex-col items-center justify-center">
+<h3 class="font-headline-sm text-headline-sm text-smoke uppercase mb-8">SYSTEM_HEALTH_INDEX</h3>
+<div class="relative w-40 h-40 flex items-center justify-center">
+<!-- Simulated radial gauge -->
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-abyss" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-neon" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="8.8" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-lg text-headline-lg text-neon">98%</span>
+<span class="font-label-md text-label-md text-smoke mt-2 uppercase">Optimal</span>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-2 gap-4 w-full">
+<div class="bg-abyss p-2 border border-pitch/20 text-center">
+<div class="text-[10px] text-smoke uppercase">CPU_HEAT</div>
+<div class="font-code text-neon">42°C</div>
+</div>
+<div class="bg-abyss p-2 border border-pitch/20 text-center">
+<div class="text-[10px] text-smoke uppercase">MEM_UTIL</div>
+<div class="font-code text-neon">14.2GB</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Secondary Info -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="md:col-span-1 bg-forest-dark border-2 border-pitch p-4">
+<h4 class="font-headline-sm text-headline-sm text-neon mb-4">DRIVERS</h4>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[10px] font-code">
+<span class="text-smoke">V-SYNC:</span>
+<span class="text-neon">ENABLED</span>
+</div>
+<div class="flex justify-between items-center text-[10px] font-code">
+<span class="text-smoke">BUF_STRAT:</span>
+<span class="text-neon">LIFO</span>
+</div>
+<div class="flex justify-between items-center text-[10px] font-code">
+<span class="text-smoke">SHADERS:</span>
+<span class="text-neon">COMPILED</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-3 bg-forest border-2 border-pitch p-4 flex items-center justify-between">
+<div class="flex items-center gap-6">
+<img alt="Server Rack Hardware" class="w-16 h-16 border-2 border-neon object-cover" data-alt="A high-tech server room interior with rows of blinking green LEDs on sleek black hardware racks. The lighting is moody and dark, reflecting a high-performance data center atmosphere. The overall aesthetic is clean and futuristic, focusing on the precision of server blades and industrial computing power. Shot with a shallow depth of field to emphasize the glowing telemetry indicators." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-b_kzskCZZd9FEHgUidMThW1zX-mAKh48l9KUn99S-Rb1K5jurfdq6tfVQ-cWmLuwlp11BmW-BLcR2TAvMl2t9F0qLty65AeHfr64klamLAiDcVZ0_L4dzuhz7EY1k9HeXI3uS7NsEa2Oei8nokXlRlIcqX-SstzS3kjtrhYlbkT743W7xP4tOCTLk-VWFcd_El1Xz71j6L1IEE5cvt0f4LViAKUnIVs6XgyS-SE2gQPNjKIv5cBmjpqnufavsi2zMWzACQetM_c"/>
+<div>
+<div class="font-headline-sm text-headline-sm text-parchment">HARDWARE_NODE_01</div>
+<div class="font-label-md text-label-md text-smoke uppercase mt-1">Status: Running at peak efficiency</div>
+</div>
+</div>
+<div class="hidden lg:block text-right">
+<div class="font-code text-[12px] text-neon">0x7FFC2A800000</div>
+<div class="font-code text-[12px] text-smoke mt-1">PRIMARY_ADDR_MAPPING</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Suppressed on Monitoring/Dashboard as per instructions for Details/Transactional, but kept if considered 'Home') -->
+<!-- Let's assume this is a sub-page of the main Dashboard and suppress based on 'Details/Transactional' logic -->
+</body></html>

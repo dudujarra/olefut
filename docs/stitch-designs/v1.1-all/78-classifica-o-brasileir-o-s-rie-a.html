@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            color: #dae6d0;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.15;
+        }
+        .pixel-corners {
+            clip-path: polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px));
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"tertiary-fixed-dim": "#75daa8", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed": "#022100", "on-surface": "#e1e2e7", smoke: "#a0baae", "primary-fixed-dim": "#2ae500", amber: "#FBBF24", "surface-variant": "#323538", "on-error-container": "#ffdad6", "surface-container-high": "#272a2d", parchment: "#F1FAEE", "surface-container": "#1d2023", "on-secondary-container": "#725f00", "on-tertiary-fixed": "#002113", "on-primary": "#053900", "on-background": "#e1e2e7", "inverse-on-surface": "#2e3134", abyss: "#040805", "on-error": "#690005", "error-container": "#93000a", "primary-fixed": "#79ff5b", "crt-black": "#111417", tertiary: "#e9ffef", secondary: "#fff9ef", "outline-variant": "#3c4b35", "on-tertiary-container": "#006f4a", "surface-bright": "#37393d", "surface-container-low": "#191c1f", "surface-tint": "#2ae500", "on-secondary-fixed": "#221b00", "on-primary-container": "#107100", error: "#ffb4ab", "on-secondary": "#3a3000", "primary-container": "#39ff14", neon: "#39FF14", "on-tertiary": "#003823", background: "#111417", "inverse-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", "on-surface-variant": "#baccb0", "forest-dark": "#0E1F14", "tertiary-container": "#8cf1be", primary: "#efffe3", outline: "#85967c", "secondary-container": "#ffdb3c", "secondary-fixed": "#ffe16d", trophy: "#FFD700", "surface-container-highest": "#323538", "surface-container-lowest": "#0b0e11", danger: "#FF3333", "on-secondary-fixed-variant": "#544600", forest: "#1B4332", "surface-dim": "#111417", surface: "#111417", "secondary-fixed-dim": "#e9c400", pitch: "#52B788", "danger-dark": "#8B0000", "inverse-primary": "#106e00", "tertiary-fixed": "#92f7c3", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "16px", gutter: "16px", "margin-desktop": "32px", unit: "4px", "container-max": "1280px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {"headline-sm": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "body-md": ["Rubik"], "headline-lg": ["Press Start 2P"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "label-lg": ["JetBrains Mono"], "body-sm": ["Pixelify Sans"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-surface-dim font-body-md text-on-surface">
+<div class="crt-overlay"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-forest-dark border-b-4 border-pitch">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg text-neon italic tracking-tighter">OléFUT</span>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex gap-6">
+<span class="font-label-lg text-label-lg text-trophy font-bold">$12.5M</span>
+<span class="font-label-lg text-label-lg text-parchment">OCT 2024</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-neon hover:text-parchment transition-colors" data-icon="settings">settings</button>
+<button class="material-symbols-outlined text-neon hover:text-parchment transition-colors" data-icon="notifications">notifications</button>
+<div class="w-10 h-10 bg-pitch border-2 border-neon overflow-hidden">
+<img alt="Manager Avatar" class="w-full h-full object-cover" data-alt="A pixel-art style character portrait of a professional football manager with a stern expression, wearing a dark suit and green tie. The visual style is inspired by 90s SNES arcade games with vibrant neon green accents and a dark, moody background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmTKLXCASKF21cwADR2VQe24M1Hvtx1U_-wFtpjXTsTf1BpIPyx0RIYvKijOYEkHyWzVZnvEZ9D80WaqBPBv4lr2Xh45Lk3psrs7Jos7PedCyO3bexp6odXUrqx8mXKGpndbGVqpBflLMDZTkJPWsUfntHsljYv5RjC4csovZ80iQPGnJgC01wjjrgAobYcQjnVYSE3TQmb8HTonIFsM-zgQH6DDlx1gNpnhroXieZrSP7WnZhVTuYrd7IvFtAXlEqsXrPSe0O7kA"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full flex flex-col pt-20 pb-8 bg-crt-black w-64 border-r-4 border-pitch hidden md:flex z-40">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-12 h-12 bg-forest flex items-center justify-center border-2 border-neon">
+<span class="material-symbols-outlined text-neon" data-icon="sports_soccer">sports_soccer</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-neon">SC BRUTALIST</h3>
+<p class="font-label-md text-label-md text-smoke">Elite Division</p>
+</div>
+</div>
+<button class="w-full py-2 mt-4 bg-forest border-2 border-pitch text-neon font-headline-sm text-[10px] hover:border-neon active:translate-y-1 transition-all">NEXT MATCH</button>
+</div>
+<div class="flex-grow">
+<a class="text-smoke flex items-center gap-3 px-4 py-3 hover:bg-surface-container-highest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-smoke flex items-center gap-3 px-4 py-3 hover:bg-surface-container-highest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Squad</span>
+</a>
+<a class="bg-forest text-neon border-l-4 border-neon flex items-center gap-3 px-4 py-3" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-md text-label-md">League</span>
+</a>
+<a class="text-smoke flex items-center gap-3 px-4 py-3 hover:bg-surface-container-highest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+</div>
+<div class="px-4">
+<a class="text-smoke flex items-center gap-3 px-4 py-3 hover:bg-surface-container-highest hover:text-parchment transition-all border-t border-forest-dark pt-4" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 px-4 md:px-margin-desktop pb-20">
+<!-- Title & Region Selector -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-neon mb-4 tracking-tight">BRASILEIRAO SERIE A</h1>
+<div class="flex gap-2">
+<button class="px-6 py-2 bg-forest-dark border-2 border-neon text-neon font-headline-sm text-xs pixel-corners">BRA</button>
+<button class="px-6 py-2 bg-abyss border-2 border-pitch text-smoke font-headline-sm text-xs pixel-corners hover:text-parchment transition-colors">EUR</button>
+<button class="px-6 py-2 bg-abyss border-2 border-pitch text-smoke font-headline-sm text-xs pixel-corners hover:text-parchment transition-colors">SAM</button>
+</div>
+</div>
+<div class="flex gap-2 bg-abyss p-1 border-2 border-pitch">
+<button class="px-4 py-1 bg-neon text-crt-black font-headline-sm text-[10px]">A</button>
+<button class="px-4 py-1 text-smoke font-headline-sm text-[10px] hover:text-neon">B</button>
+<button class="px-4 py-1 text-smoke font-headline-sm text-[10px] hover:text-neon">C</button>
+<button class="px-4 py-1 text-smoke font-headline-sm text-[10px] hover:text-neon">D</button>
+</div>
+</div>
+<!-- Legend Section -->
+<div class="flex flex-wrap gap-6 mb-6 p-4 bg-forest-dark border-2 border-pitch">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-blue-500"></span>
+<span class="font-label-md text-label-md text-smoke">LIBERTADORES</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-amber"></span>
+<span class="font-label-md text-label-md text-smoke">SUL-AMERICANA</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-neon"></span>
+<span class="font-label-md text-label-md text-smoke">ACESSO</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-danger"></span>
+<span class="font-label-md text-label-md text-smoke">REBAIXAMENTO</span>
+</div>
+</div>
+<!-- Table Container -->
+<div class="w-full overflow-x-auto border-4 border-pitch bg-abyss shadow-[8px_8px_0px_0px_rgba(82,183,136,0.3)]">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-forest-dark border-b-2 border-pitch font-headline-sm text-[10px] text-neon">
+<th class="py-4 px-4">#</th>
+<th class="py-4 px-4">TIME</th>
+<th class="py-4 px-2 text-center">P</th>
+<th class="py-4 px-2 text-center">J</th>
+<th class="py-4 px-2 text-center">V</th>
+<th class="py-4 px-2 text-center">E</th>
+<th class="py-4 px-2 text-center">D</th>
+<th class="py-4 px-2 text-center">GP</th>
+<th class="py-4 px-2 text-center">GC</th>
+<th class="py-4 px-2 text-center">SG</th>
+</tr>
+</thead>
+<tbody class="font-label-lg text-parchment">
+<!-- High Ranking (Libertadores) -->
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-blue-500">
+<td class="py-3 px-4 font-headline-sm text-xs text-blue-400">01</td>
+<td class="py-3 px-4 flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-container-high border border-pitch p-1">
+<img alt="Flamengo" class="w-full h-full object-contain" data-alt="A professional football club crest featuring a vibrant red and black color scheme with high-contrast graphic elements. The style is bold and aggressive, fitting a premium 90s sports management game aesthetic with sharp pixel edges and a clean, iconic layout." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJuik7bUj-n5I_OjQMuAXG8UK9iSaipOFc-aEde_ZfGPo7i6JWgQaN2aoPA-CXXokNMaEESV9bZSOnS7FPk21b75O8QgbHdW-Q3RI4d-icGB5d99Kg0-sXKHlMmwQVJHMB66A2nmbQrSdgrubNvPgH0n6Rz_6LtuekTlSeHp2zInTLxngE6X9Lm--EvbUM-4T10wzX8W9PP_UNcWXezyx24RC4RwNExEwLRrEOqu5PQpS9oqI6iX9NY73WSFKW8tZDi0uGIBxh58E"/>
+</div>
+<span class="font-bold">FLAMENGO</span>
+</td>
+<td class="py-3 px-2 text-center text-neon">58</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center">18</td>
+<td class="py-3 px-2 text-center">4</td>
+<td class="py-3 px-2 text-center text-danger">5</td>
+<td class="py-3 px-2 text-center">42</td>
+<td class="py-3 px-2 text-center">19</td>
+<td class="py-3 px-2 text-center text-pitch">+23</td>
+</tr>
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-blue-500">
+<td class="py-3 px-4 font-headline-sm text-xs text-blue-400">02</td>
+<td class="py-3 px-4 flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-container-high border border-pitch p-1">
+<img alt="Palmeiras" class="w-full h-full object-contain" data-alt="A professional football club badge designed in shades of emerald green and white. The aesthetic is clean and geometric, presented with a retro digital screen texture and high-contrast lines suitable for a dark-themed sports UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxtTQfCrIN9NeGnFWGwHhjeZ2SYtZB2qPqEYL2UFy7HVO43RYSv-VdE8UL4kD3Zr31gq9W8_UzhK1geS-kg32uVJkT94hy-of2ERjhnl_hl6CHQadozfUt94wAaHNQrScc_3Y2JnW6VVy9qT2ApU-DtqLX9bjYK4wWKacYblHDY5_mju8MAzwxatgzj0s1TYDLCqa39kuu6O0NPB3N-u6GEnV2b2quOzmFpTjg7--CYhWphyjjGIwqpG5zyO4gX6y63DpwSqvROrg"/>
+</div>
+<span class="font-bold">PALMEIRAS</span>
+</td>
+<td class="py-3 px-2 text-center text-neon">56</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center">17</td>
+<td class="py-3 px-2 text-center">5</td>
+<td class="py-3 px-2 text-center text-danger">5</td>
+<td class="py-3 px-2 text-center">39</td>
+<td class="py-3 px-2 text-center">21</td>
+<td class="py-3 px-2 text-center text-pitch">+18</td>
+</tr>
+<!-- User Team (Highlight) -->
+<tr class="bg-forest-dark/50 border-y-2 border-neon border-l-[10px] border-l-neon shadow-[inset_0_0_15px_rgba(57,255,20,0.15)]">
+<td class="py-4 px-4 font-headline-sm text-xs text-neon">03</td>
+<td class="py-4 px-4 flex items-center gap-3">
+<div class="w-10 h-10 bg-forest border-2 border-neon p-1 animate-pulse-slow">
+<span class="material-symbols-outlined text-neon flex items-center justify-center h-full" data-icon="shield">shield</span>
+</div>
+<span class="font-bold text-neon text-lg tracking-wider">UNITED FC</span>
+</td>
+<td class="py-4 px-2 text-center text-neon text-lg font-bold">54</td>
+<td class="py-4 px-2 text-center">27</td>
+<td class="py-4 px-2 text-center">16</td>
+<td class="py-4 px-2 text-center">6</td>
+<td class="py-4 px-2 text-center text-danger">5</td>
+<td class="py-4 px-2 text-center">45</td>
+<td class="py-4 px-2 text-center">24</td>
+<td class="py-4 px-2 text-center text-neon">+21</td>
+</tr>
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-blue-500">
+<td class="py-3 px-4 font-headline-sm text-xs text-blue-400">04</td>
+<td class="py-3 px-4 flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-container-high border border-pitch p-1">
+<span class="material-symbols-outlined text-smoke" data-icon="sports_handball">sports_handball</span>
+</div>
+<span class="font-bold">BOTAFOGO</span>
+</td>
+<td class="py-3 px-2 text-center text-neon">53</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center">16</td>
+<td class="py-3 px-2 text-center">5</td>
+<td class="py-3 px-2 text-center text-danger">6</td>
+<td class="py-3 px-2 text-center">36</td>
+<td class="py-3 px-2 text-center">20</td>
+<td class="py-3 px-2 text-center text-pitch">+16</td>
+</tr>
+<!-- Sul-Americana -->
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-amber">
+<td class="py-3 px-4 font-headline-sm text-xs text-amber">05</td>
+<td class="py-3 px-4 flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-container-high border border-pitch p-1">
+<span class="material-symbols-outlined text-smoke" data-icon="token">token</span>
+</div>
+<span class="font-bold">SAO PAULO</span>
+</td>
+<td class="py-3 px-2 text-center text-neon">47</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center">14</td>
+<td class="py-3 px-2 text-center">5</td>
+<td class="py-3 px-2 text-center text-danger">8</td>
+<td class="py-3 px-2 text-center">34</td>
+<td class="py-3 px-2 text-center">28</td>
+<td class="py-3 px-2 text-center text-pitch">+6</td>
+</tr>
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-amber">
+<td class="py-3 px-4 font-headline-sm text-xs text-amber">06</td>
+<td class="py-3 px-4 flex items-center gap-3">
+<span class="w-8 h-8 bg-surface-container-high border border-pitch p-1 text-xs flex items-center justify-center text-smoke">INT</span>
+<span class="font-bold">INTERNACIONAL</span>
+</td>
+<td class="py-3 px-2 text-center text-neon">44</td>
+<td class="py-3 px-2 text-center">26</td>
+<td class="py-3 px-2 text-center">12</td>
+<td class="py-3 px-2 text-center">8</td>
+<td class="py-3 px-2 text-center text-danger">6</td>
+<td class="py-3 px-2 text-center">30</td>
+<td class="py-3 px-2 text-center">21</td>
+<td class="py-3 px-2 text-center text-pitch">+9</td>
+</tr>
+<!-- Middle Table (Generic rows for brevity, representing up to 16) -->
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-smoke/20">
+<td class="py-3 px-4 font-headline-sm text-xs text-smoke">07</td>
+<td class="py-3 px-4 flex items-center gap-3"><span class="font-bold">BAHIA</span></td>
+<td class="py-3 px-2 text-center text-neon">42</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center">12</td>
+<td class="py-3 px-2 text-center">6</td>
+<td class="py-3 px-2 text-center text-danger">9</td>
+<td class="py-3 px-2 text-center">33</td>
+<td class="py-3 px-2 text-center">30</td>
+<td class="py-3 px-2 text-center text-pitch">+3</td>
+</tr>
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-smoke/20">
+<td class="py-3 px-4 font-headline-sm text-xs text-smoke">08</td>
+<td class="py-3 px-4 flex items-center gap-3"><span class="font-bold">CRUZEIRO</span></td>
+<td class="py-3 px-2 text-center text-neon">42</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center">12</td>
+<td class="py-3 px-2 text-center">6</td>
+<td class="py-3 px-2 text-center text-danger">9</td>
+<td class="py-3 px-2 text-center">29</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center text-pitch">+2</td>
+</tr>
+<!-- Rebaixamento Zone (Last rows) -->
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-danger">
+<td class="py-3 px-4 font-headline-sm text-xs text-danger">17</td>
+<td class="py-3 px-4 flex items-center gap-3"><span class="font-bold">CORINTHIANS</span></td>
+<td class="py-3 px-2 text-center text-neon">28</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center">6</td>
+<td class="py-3 px-2 text-center">10</td>
+<td class="py-3 px-2 text-center text-danger">11</td>
+<td class="py-3 px-2 text-center">26</td>
+<td class="py-3 px-2 text-center">33</td>
+<td class="py-3 px-2 text-center text-danger">-7</td>
+</tr>
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-danger">
+<td class="py-3 px-4 font-headline-sm text-xs text-danger">18</td>
+<td class="py-3 px-4 flex items-center gap-3"><span class="font-bold">VITORIA</span></td>
+<td class="py-3 px-2 text-center text-neon">28</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center">8</td>
+<td class="py-3 px-2 text-center">4</td>
+<td class="py-3 px-2 text-center text-danger">15</td>
+<td class="py-3 px-2 text-center">29</td>
+<td class="py-3 px-2 text-center">39</td>
+<td class="py-3 px-2 text-center text-danger">-10</td>
+</tr>
+<tr class="border-b border-forest-dark hover:bg-surface-container-highest transition-colors border-l-4 border-l-danger">
+<td class="py-3 px-4 font-headline-sm text-xs text-danger">19</td>
+<td class="py-3 px-4 flex items-center gap-3"><span class="font-bold">CUIABA</span></td>
+<td class="py-3 px-2 text-center text-neon">23</td>
+<td class="py-3 px-2 text-center">26</td>
+<td class="py-3 px-2 text-center">5</td>
+<td class="py-3 px-2 text-center">8</td>
+<td class="py-3 px-2 text-center text-danger">13</td>
+<td class="py-3 px-2 text-center">23</td>
+<td class="py-3 px-2 text-center">38</td>
+<td class="py-3 px-2 text-center text-danger">-15</td>
+</tr>
+<tr class="border-b-4 border-pitch hover:bg-surface-container-highest transition-colors border-l-4 border-l-danger">
+<td class="py-3 px-4 font-headline-sm text-xs text-danger">20</td>
+<td class="py-3 px-4 flex items-center gap-3"><span class="font-bold">ATLETICO-GO</span></td>
+<td class="py-3 px-2 text-center text-neon">18</td>
+<td class="py-3 px-2 text-center">27</td>
+<td class="py-3 px-2 text-center">4</td>
+<td class="py-3 px-2 text-center">6</td>
+<td class="py-3 px-2 text-center text-danger">17</td>
+<td class="py-3 px-2 text-center">21</td>
+<td class="py-3 px-2 text-center">42</td>
+<td class="py-3 px-2 text-center text-danger">-21</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Stats Bar -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-forest-dark border-2 border-pitch p-4 flex items-center justify-between">
+<div>
+<p class="font-headline-sm text-[10px] text-smoke mb-1">CURRENT ROUND</p>
+<p class="font-headline-md text-headline-md text-neon">28 / 38</p>
+</div>
+<div class="w-24 h-2 bg-abyss border border-smoke">
+<div class="h-full bg-neon w-[73%] shadow-[0_0_8px_#39FF14]"></div>
+</div>
+</div>
+<div class="bg-forest border-2 border-neon p-4 flex items-center gap-6">
+<div class="flex-shrink-0 bg-crt-black p-2 border border-neon">
+<span class="material-symbols-outlined text-neon" data-icon="event">event</span>
+</div>
+<div class="flex-grow">
+<p class="font-headline-sm text-[10px] text-parchment/60 mb-1">NEXT MATCH TEASER</p>
+<p class="font-label-lg text-label-lg text-parchment"><span class="text-neon font-bold">UNITED FC</span> vs FLAMENGO <span class="text-trophy ml-2">(@Maracana)</span></p>
+</div>
+<button class="bg-neon text-crt-black px-4 py-2 font-headline-sm text-[10px] pixel-corners active:translate-y-1 transition-all">VIEW PREVIEW</button>
+</div>
+</div>
+</main>
+<!-- Bottom Nav for Mobile -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full bg-crt-black border-t-4 border-pitch h-16 flex items-center justify-around z-50">
+<button class="flex flex-col items-center text-smoke">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="text-[8px] font-headline-sm mt-1">DASH</span>
+</button>
+<button class="flex flex-col items-center text-smoke">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-[8px] font-headline-sm mt-1">SQUAD</span>
+</button>
+<button class="flex flex-col items-center text-neon">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="text-[8px] font-headline-sm mt-1">LEAGUE</span>
+</button>
+<button class="flex flex-col items-center text-smoke">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-[8px] font-headline-sm mt-1">HIST</span>
+</button>
+</footer>
+</body></html>

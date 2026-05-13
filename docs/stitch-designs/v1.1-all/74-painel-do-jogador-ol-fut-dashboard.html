@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ULTIMATE MANAGER '95 - PLAYER DASHBOARD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @font-face {
+            font-family: 'jetbrainsMono';
+            src: local('JetBrains Mono');
+        }
+        @font-face {
+            font-family: 'rubik';
+            src: local('Rubik');
+        }
+
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            color: #dae6d0;
+        }
+
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .hexagon-bg {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(57, 255, 20, 0.1);
+            position: absolute;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-tertiary-fixed-variant": "#005235", "secondary-fixed-dim": "#e9c400", "on-surface-variant": "#baccb0", "on-primary-fixed": "#022100", "on-secondary-fixed": "#221b00", "surface-container": "#1d2023", danger: "#FF3333", background: "#111417", "danger-dark": "#8B0000", "surface-container-high": "#272a2d", amber: "#FBBF24", "on-primary": "#053900", "surface-dim": "#111417", "on-tertiary-container": "#006f4a", trophy: "#FFD700", "surface-container-highest": "#323538", "surface-variant": "#323538", pitch: "#52B788", "secondary-fixed": "#ffe16d", "primary-container": "#39ff14", "inverse-primary": "#106e00", secondary: "#fff9ef", "on-error": "#690005", "tertiary-container": "#8cf1be", "on-tertiary": "#003823", "inverse-surface": "#e1e2e7", outline: "#85967c", neon: "#39FF14", "primary-fixed": "#79ff5b", "forest-dark": "#0E1F14", "tertiary-fixed": "#92f7c3", error: "#ffb4ab", "tertiary-fixed-dim": "#75daa8", parchment: "#F1FAEE", "on-primary-fixed-variant": "#095300", "surface-container-low": "#191c1f", "on-primary-container": "#107100", "outline-variant": "#3c4b35", abyss: "#040805", "on-tertiary-fixed": "#002113", "on-surface": "#e1e2e7", "on-secondary": "#3a3000", "surface-bright": "#37393d", "surface-tint": "#2ae500", "on-secondary-fixed-variant": "#544600", tertiary: "#e9ffef", "inverse-on-surface": "#2e3134", surface: "#111417", forest: "#1B4332", "surface-container-lowest": "#0b0e11", primary: "#efffe3", "secondary-container": "#ffdb3c", "on-error-container": "#ffdad6", "crt-black": "#111417", "error-container": "#93000a", smoke: "#a0baae", "on-secondary-container": "#725f00", "primary-fixed-dim": "#2ae500", "on-background": "#e1e2e7", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", gutter: "16px", "margin-desktop": "32px", "container-max": "1280px", "margin-mobile": "16px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {"label-lg": ["jetbrainsMono"], "headline-lg": ["Press Start 2P"], "headline-md": ["Press Start 2P"], code: ["jetbrainsMono"], "body-md": ["rubik"], "headline-sm": ["Press Start 2P"], "label-md": ["jetbrainsMono"], "body-lg": ["Pixelify Sans"], "body-sm": ["Pixelify Sans"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="font-body-md text-on-background min-h-screen">
+<div class="crt-overlay"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-forest-dark dark:bg-crt-black border-b-2 border-pitch">
+<div class="font-headline-md text-headline-md text-neon tracking-tighter">ULTIMATE MANAGER '95</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-neon border-b-2 border-neon pb-1 font-label-lg text-label-lg hover:text-neon hover:border-neon transition-colors" href="#">SQUAD</a>
+<a class="text-parchment opacity-80 font-label-lg text-label-lg hover:text-neon hover:border-neon transition-colors" href="#">TACTICS</a>
+<a class="text-parchment opacity-80 font-label-lg text-label-lg hover:text-neon hover:border-neon transition-colors" href="#">TRANSFERS</a>
+<a class="text-parchment opacity-80 font-label-lg text-label-lg hover:text-neon hover:border-neon transition-colors" href="#">SCOUTING</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-neon cursor-pointer">settings</span>
+<div class="w-8 h-8 bg-forest border border-neon flex items-center justify-center overflow-hidden">
+<img alt="Manager Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwTwZUYbuaTQIcyoQDpfVsbBFokek-ArurDTyyDN8tbs7VjyVOrcewQpa8bMiGvm6k4djbgMM3NJ6qU6WYlFCtXtARL0_EyD2IySoc-Y2qeECZ9IC-Hoxa8htGaRCWwh1jEr8J6uKm5K3KsujzIbMh6ETji6yJE4WuppdYLdZDyBbkg95HHO4PGfyn_B7Q00ru2A3giZqKSnzj05_olbu_JpJ9i2KCRMYoTgWo65gIaYoTIADRKoV7NolPGDgLo0L4MA2mWNqOdbY"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 flex flex-col p-gutter bg-forest-dark dark:bg-abyss border-r-2 border-pitch hidden md:flex">
+<div class="mb-8 border-2 border-neon p-3 bg-crt-black">
+<div class="font-headline-sm text-headline-sm text-neon mb-1">MANAGER HUB</div>
+<div class="font-label-md text-label-md text-smoke">SEASON 1995/96</div>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<div class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark font-label-md text-label-md cursor-pointer transition-all active:bg-forest-dark inset-shadow">
+<span class="material-symbols-outlined">dashboard</span> DASHBOARD
+            </div>
+<div class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark font-label-md text-label-md cursor-pointer">
+<span class="material-symbols-outlined">leaderboard</span> LEAGUE
+            </div>
+<div class="bg-forest text-neon border-2 border-neon p-2 flex items-center gap-3 font-label-md text-label-md cursor-pointer">
+<span class="material-symbols-outlined">settings_applications</span> MANAGEMENT
+            </div>
+<div class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark font-label-md text-label-md cursor-pointer">
+<span class="material-symbols-outlined">fitness_center</span> TRAINING
+            </div>
+<div class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark font-label-md text-label-md cursor-pointer">
+<span class="material-symbols-outlined">payments</span> FINANCE
+            </div>
+<div class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark font-label-md text-label-md cursor-pointer">
+<span class="material-symbols-outlined">history</span> HISTORY
+            </div>
+</div>
+<button class="mt-auto mb-4 bg-forest border-2 border-pitch p-3 text-parchment font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:translate-y-0.5 transition-all">
+            SAVE GAME
+        </button>
+<div class="text-danger flex items-center gap-3 p-2 font-label-md text-label-md cursor-pointer hover:bg-danger-dark/20">
+<span class="material-symbols-outlined">power_settings_new</span> LOGOUT
+        </div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 mt-16 p-margin-desktop min-h-[calc(100vh-64px)]">
+<!-- Player Header Section -->
+<section class="mb-margin-desktop border-4 border-pitch bg-forest-dark p-6 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-20">
+<span class="text-[120px] font-headline-lg leading-none select-none text-neon">ATA</span>
+</div>
+<!-- Monochrome Pixel Portrait -->
+<div class="w-48 h-48 bg-crt-black border-4 border-neon flex-shrink-0 relative overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-125 contrast-150" data-alt="A high-contrast monochrome pixel-art style portrait of a young athletic male football player looking intensely forward. The style mimics 1990s 32-bit video game graphics with visible jagged edges and a limited greyscale palette. The lighting is dramatic and moody, casting sharp shadows on his focused expression, fitting a retro sports simulator aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArFr829rrQKF6-PwvjJXbPf_Hhdf7txlhwk9_zJlEKHg-hrMDzGqbXVjLaIg8-ns_CvY3RdRtFlCb3PQsNk7_Dcbhxej9rvegRklsXNewbaWtoM2jMmsvrndxT9CGLN4QwIlnF1UJ69e8kf6p1X9mhcXoKDwEG9dNEc5CKCUnKn1QMk7KRlnhfWZzfWu9tvhJLHtY-7-OMPXIWaIjvmhk5yADSMLHaKIWs46zo6SsWPPYfjH_SQOjudXBVWkidIm3reQOt2RMYOYw"/>
+<div class="absolute inset-0 border-2 border-neon mix-blend-overlay"></div>
+</div>
+<div class="flex-grow z-10">
+<div class="inline-block bg-neon text-crt-black px-2 py-1 font-headline-sm text-headline-sm mb-4">PLAYER PROFILE</div>
+<h1 class="font-headline-lg text-headline-lg text-parchment mb-2 tracking-tight">R. AUGUSTO</h1>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+<div class="border-l-4 border-neon pl-3">
+<p class="font-label-md text-label-md text-smoke">CLUB</p>
+<p class="font-headline-sm text-headline-sm text-neon">UNITED FC</p>
+</div>
+<div class="border-l-4 border-neon pl-3">
+<p class="font-label-md text-label-md text-smoke">AGE</p>
+<p class="font-headline-sm text-headline-sm text-neon">23 ANOS</p>
+</div>
+<div class="border-l-4 border-neon pl-3">
+<p class="font-label-md text-label-md text-smoke">POSITION</p>
+<p class="font-headline-sm text-headline-sm text-neon">ATA (PL)</p>
+</div>
+<div class="border-l-4 border-trophy pl-3">
+<p class="font-label-md text-label-md text-smoke">OVERALL</p>
+<p class="font-headline-sm text-headline-sm text-trophy">92 OVR</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Main Content -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- 1. Attributes Hexagon Chart (Occupies 5 columns) -->
+<div class="lg:col-span-5 border-2 border-pitch bg-crt-black p-6 flex flex-col items-center">
+<div class="w-full mb-6 border-b border-pitch pb-2 flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm text-neon">ATTRIBUTE MATRIX</span>
+<span class="material-symbols-outlined text-neon">insights</span>
+</div>
+<div class="relative w-full max-w-[300px] aspect-square flex items-center justify-center mt-4">
+<!-- Radial Chart Mockup -->
+<div class="absolute inset-0 flex items-center justify-center">
+<!-- Background Pentagons -->
+<div class="absolute w-full h-full border border-forest/30 hexagon-bg scale-100"></div>
+<div class="absolute w-full h-full border border-forest/40 hexagon-bg scale-75"></div>
+<div class="absolute w-full h-full border border-forest/50 hexagon-bg scale-50"></div>
+<div class="absolute w-full h-full border border-forest/60 hexagon-bg scale-25"></div>
+<!-- Data Shape -->
+<svg class="w-full h-full overflow-visible" viewbox="0 0 100 100">
+<!-- Axis Lines -->
+<line opacity="0.3" stroke="#52B788" stroke-width="0.5" x1="50" x2="50" y1="50" y2="0"></line>
+<line opacity="0.3" stroke="#52B788" stroke-width="0.5" x1="50" x2="100" y1="50" y2="25"></line>
+<line opacity="0.3" stroke="#52B788" stroke-width="0.5" x1="50" x2="100" y1="50" y2="75"></line>
+<line opacity="0.3" stroke="#52B788" stroke-width="0.5" x1="50" x2="50" y1="50" y2="100"></line>
+<line opacity="0.3" stroke="#52B788" stroke-width="0.5" x1="50" x2="0" y1="50" y2="75"></line>
+<line opacity="0.3" stroke="#52B788" stroke-width="0.5" x1="50" x2="0" y1="50" y2="25"></line>
+<!-- Filled Chart Area -->
+<polygon fill="#39FF14" fill-opacity="0.2" points="50,6 94,28 91,71 50,88 21,63 12,31" stroke="#39FF14" stroke-width="2"></polygon>
+</svg>
+</div>
+<!-- Labels (Placed contextually) -->
+<div class="absolute top-[-20px] font-label-md text-label-md text-neon">ATK (94)</div>
+<div class="absolute top-[20%] right-[-40px] font-label-md text-label-md text-neon">TEC (88)</div>
+<div class="absolute bottom-[20%] right-[-40px] font-label-md text-label-md text-neon">CRI (82)</div>
+<div class="absolute bottom-[-20px] font-label-md text-label-md text-neon">TAC (75)</div>
+<div class="absolute bottom-[20%] left-[-40px] font-label-md text-label-md text-neon">DEF (42)</div>
+<div class="absolute top-[20%] left-[-40px] font-label-md text-label-md text-neon">OVR (92)</div>
+</div>
+</div>
+<!-- 2. Career Stats & Relationship Bars (Occupies 7 columns) -->
+<div class="lg:col-span-7 flex flex-col gap-gutter">
+<!-- Career Stats Table -->
+<div class="border-2 border-pitch bg-forest-dark p-6">
+<div class="w-full mb-4 flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm text-neon">CAREER PERFORMANCE</span>
+<span class="font-label-md text-label-md text-smoke">ARCHIVE 1995</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-abyss">
+<th class="p-3 border border-pitch font-label-md text-label-md text-smoke">SEASON</th>
+<th class="p-3 border border-pitch font-label-md text-label-md text-smoke">JOGOS</th>
+<th class="p-3 border border-pitch font-label-md text-label-md text-smoke">GOLS</th>
+<th class="p-3 border border-pitch font-label-md text-label-md text-smoke">ASSISTS</th>
+<th class="p-3 border border-pitch font-label-md text-label-md text-smoke">RATING</th>
+</tr>
+</thead>
+<tbody class="font-code text-code">
+<tr>
+<td class="p-3 border border-pitch text-parchment">95/96</td>
+<td class="p-3 border border-pitch text-parchment">28</td>
+<td class="p-3 border border-pitch text-neon">22</td>
+<td class="p-3 border border-pitch text-parchment">10</td>
+<td class="p-3 border border-pitch text-trophy font-bold">8.4</td>
+</tr>
+<tr class="bg-abyss/40">
+<td class="p-3 border border-pitch text-smoke">94/95</td>
+<td class="p-3 border border-pitch text-smoke">15</td>
+<td class="p-3 border border-pitch text-smoke">8</td>
+<td class="p-3 border border-pitch text-smoke">3</td>
+<td class="p-3 border border-pitch text-smoke">7.2</td>
+</tr>
+<tr>
+<td class="p-3 border border-pitch text-smoke">93/94</td>
+<td class="p-3 border border-pitch text-smoke">10</td>
+<td class="p-3 border border-pitch text-smoke">4</td>
+<td class="p-3 border border-pitch text-smoke">1</td>
+<td class="p-3 border border-pitch text-smoke">6.9</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Relationship Bars -->
+<div class="border-2 border-pitch bg-crt-black p-6 flex-grow">
+<div class="w-full mb-6 border-b border-pitch pb-2">
+<span class="font-headline-sm text-headline-sm text-neon">LOCKER ROOM STANDING</span>
+</div>
+<div class="space-y-6">
+<!-- Mister -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-lg text-label-lg text-parchment">MISTER</span>
+<span class="font-code text-code text-neon">85%</span>
+</div>
+<div class="h-6 w-full bg-forest-dark border border-smoke p-1 relative">
+<div class="h-full bg-neon flex" style="width: 85%">
+<!-- Retro Loading Blocks Effect -->
+<div class="h-full w-full opacity-30 flex gap-1">
+<div class="w-4 h-full border-r-2 border-crt-black"></div>
+<div class="w-4 h-full border-r-2 border-crt-black"></div>
+<div class="w-4 h-full border-r-2 border-crt-black"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Torcida -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-lg text-label-lg text-parchment">TORCIDA</span>
+<span class="font-code text-code text-neon">95%</span>
+</div>
+<div class="h-6 w-full bg-forest-dark border border-smoke p-1 relative">
+<div class="h-full bg-neon flex" style="width: 95%">
+<div class="h-full w-full opacity-30 flex gap-1">
+<div class="w-4 h-full border-r-2 border-crt-black"></div>
+<div class="w-4 h-full border-r-2 border-crt-black"></div>
+<div class="w-4 h-full border-r-2 border-crt-black"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Elenco -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-lg text-label-lg text-parchment">ELENCO</span>
+<span class="font-code text-code text-neon">78%</span>
+</div>
+<div class="h-6 w-full bg-forest-dark border border-smoke p-1 relative">
+<div class="h-full bg-neon flex" style="width: 78%">
+<div class="h-full w-full opacity-30 flex gap-1">
+<div class="w-4 h-full border-r-2 border-crt-black"></div>
+<div class="w-4 h-full border-r-2 border-crt-black"></div>
+<div class="w-4 h-full border-r-2 border-crt-black"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Call to Action / Footer -->
+<div class="mt-margin-desktop flex flex-wrap gap-4 justify-end">
+<button class="bg-abyss border-2 border-pitch px-6 py-3 font-headline-sm text-headline-sm text-smoke hover:border-neon hover:text-neon transition-all">
+                TRANSFER LIST
+            </button>
+<button class="bg-forest border-2 border-neon px-6 py-3 font-headline-sm text-headline-sm text-neon hover:bg-neon hover:text-crt-black active:translate-y-1 transition-all">
+                RENEW CONTRACT
+            </button>
+</div>
+</main>
+<!-- Bottom Nav (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-forest-dark border-t-2 border-pitch grid grid-cols-4 h-16 z-50">
+<div class="flex flex-col items-center justify-center text-neon">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-label-md">DASH</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="text-[10px] font-label-md">LEAGUE</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-[10px] font-label-md">TRAIN</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke">
+<span class="material-symbols-outlined">settings_applications</span>
+<span class="text-[10px] font-label-md">MGMT</span>
+</div>
+</nav>
+</body></html>

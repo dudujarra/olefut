@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+        }
+        .pixel-border-inset {
+            box-shadow: inset 4px 4px 0px 0px rgba(0,0,0,0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-primary-fixed-variant": "#095300", "on-secondary-fixed-variant": "#544600", "on-tertiary-container": "#006f4a", background: "#111417", "surface-container-low": "#191c1f", "secondary-container": "#ffdb3c", secondary: "#fff9ef", "primary-fixed": "#79ff5b", "on-tertiary": "#003823", "on-secondary-fixed": "#221b00", neon: "#39FF14", amber: "#FBBF24", "on-surface-variant": "#baccb0", danger: "#FF3333", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed": "#022100", "secondary-fixed-dim": "#e9c400", "secondary-fixed": "#ffe16d", "primary-fixed-dim": "#2ae500", "on-secondary": "#3a3000", "on-error-container": "#ffdad6", "forest-dark": "#0E1F14", "inverse-surface": "#e1e2e7", "primary-container": "#39ff14", "on-error": "#690005", "tertiary-fixed-dim": "#75daa8", "on-primary": "#053900", forest: "#1B4332", "on-primary-container": "#107100", "tertiary-fixed": "#92f7c3", "error-container": "#93000a", surface: "#111417", "danger-dark": "#8B0000", tertiary: "#e9ffef", "inverse-on-surface": "#2e3134", "surface-container-high": "#272a2d", "surface-tint": "#2ae500", trophy: "#FFD700", "surface-variant": "#323538", "surface-dim": "#111417", pitch: "#52B788", parchment: "#F1FAEE", "on-tertiary-fixed": "#002113", "on-surface": "#e1e2e7", smoke: "#a0baae", "crt-black": "#111417", outline: "#85967c", "inverse-primary": "#106e00", "outline-variant": "#3c4b35", "on-secondary-container": "#725f00", primary: "#efffe3", "surface-container": "#1d2023", "on-background": "#e1e2e7", "surface-bright": "#37393d", "tertiary-container": "#8cf1be", abyss: "#040805", "surface-container-lowest": "#0b0e11", "surface-container-highest": "#323538", error: "#ffb4ab", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {gutter: "16px", "container-max": "1280px", "margin-mobile": "16px", unit: "4px", "margin-desktop": "32px", sm: "8px", lg: "24px", base: "4px", xs: "4px", md: "16px", xl: "48px"}, fontFamily: {code: ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "label-lg": ["JetBrains Mono"], "body-md": ["Rubik"], "label-md": ["JetBrains Mono"], "headline-lg": ["'Press Start 2P'"], "headline-sm": ["'Press Start 2P'"], "body-sm": ["Pixelify Sans"], "body-lg": ["Pixelify Sans"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-crt-black dark:bg-crt-black border-b-4 border-pitch">
+<h1 class="font-headline-lg text-headline-lg text-neon dark:text-neon tracking-tighter">LOJA</h1>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 bg-abyss border-2 border-trophy px-3 py-1">
+<span class="material-symbols-outlined text-trophy text-lg" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-lg text-label-lg text-trophy">9,450 GOLD</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full z-40 pt-20 flex flex-col gap-unit bg-forest-dark dark:bg-forest-dark border-r-4 border-pitch w-64 hidden md:flex">
+<div class="px-4 py-6 border-b-2 border-pitch/30 mb-4">
+<h2 class="font-headline-sm text-headline-sm text-neon">COSMETICSHOP</h2>
+<p class="font-label-md text-label-md text-smoke opacity-70 mt-1">V1.0 - ARCADE EDITION</p>
+</div>
+<div class="flex flex-col gap-2 px-2">
+<a class="text-parchment p-2 flex items-center gap-3 hover:text-pitch hover:bg-forest-dark transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">ESCRITÓRIO</span>
+</a>
+<a class="text-parchment p-2 flex items-center gap-3 hover:text-pitch hover:bg-forest-dark transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">ELENCO</span>
+</a>
+<a class="text-parchment p-2 flex items-center gap-3 hover:text-pitch hover:bg-forest-dark transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="strategy">strategy</span>
+<span class="font-label-md text-label-md">TÁTICAS</span>
+</a>
+<a class="text-parchment p-2 flex items-center gap-3 hover:text-pitch hover:bg-forest-dark transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">MERCADO</span>
+</a>
+<a class="bg-forest text-neon border-2 border-neon p-2 flex items-center gap-3 scale-95 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md">LOJA</span>
+</a>
+</div>
+<div class="mt-auto p-4 border-t-2 border-pitch/30">
+<button class="w-full bg-danger-dark border-2 border-pitch p-2 text-parchment font-headline-sm text-headline-sm hover:bg-danger active:translate-y-0.5 transition-transform">
+                SAIR DO JOGO
+            </button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="md:ml-64 pt-20 pb-10 px-gutter min-h-screen">
+<!-- Filter Bar -->
+<div class="flex items-center gap-4 mb-8 overflow-x-auto pb-2">
+<button class="bg-forest-dark border-2 border-neon text-neon px-6 py-2 font-headline-sm text-headline-sm whitespace-nowrap">
+                ESCUDOS
+            </button>
+<button class="bg-forest-dark border-2 border-pitch text-parchment px-6 py-2 font-headline-sm text-headline-sm hover:border-neon hover:text-neon transition-colors whitespace-nowrap">
+                SKINS
+            </button>
+<button class="bg-forest-dark border-2 border-pitch text-parchment px-6 py-2 font-headline-sm text-headline-sm hover:border-neon hover:text-neon transition-colors whitespace-nowrap">
+                EFEITOS
+            </button>
+</div>
+<!-- Bento/Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Item 1: Escudo Alpha (Equipped) -->
+<div class="bg-forest-dark border-4 border-trophy p-4 flex flex-col relative group">
+<div class="absolute -top-3 -right-3 bg-trophy text-crt-black font-headline-sm text-headline-sm px-2 py-1 shadow-lg">
+                    EQUIPADO
+                </div>
+<div class="bg-abyss aspect-square flex items-center justify-center border-2 border-pitch mb-4 overflow-hidden relative">
+<img alt="Escudo Alpha" class="w-full h-full object-cover opacity-80" data-alt="A vibrant 16-bit pixel art shield icon centered in a dark arcade frame. The shield is glowing with golden and metallic silver highlights, featuring a prominent Alpha symbol in the center. The background consists of a dark, grid-like digital environment with retro CRT scanline effects. The lighting is focused and dramatic, highlighting the blocky textures of the pixel art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW9eGQcIx25KJiB6W2Xqm2uzkOF5FS2x8-vRP8oztqOscHUCIod5xOhoMrhBV2823XiAyaULTJ8n-ErJi141VeOT_bNJAGVBvvvjhlOsYELtYCsdMF7Q6i1GpvEotobW5HoFnSp07uBPVk5S_Kc0oZJ6KiqwobGCcqN4lLG1k17H8HzrVJsNnMfU5IMtBBUPRfcBBXlVWq4NHdczJkqCsSJCFL75cMcEXkw_yaJKYwtxhSJkRN3kHTgWKY9MFMQFFr4V5y6WBpvOU"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-trophy" data-icon="shield">shield</span>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-trophy mb-2">Escudo Alpha</h3>
+<p class="font-body-sm text-body-sm text-parchment mb-6 flex-grow">O símbolo da elite. Forjado nos primeiros torneios de OléFUT.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-label-lg text-label-lg text-trophy">OWNED</span>
+<button class="bg-trophy/20 border-2 border-trophy/50 text-trophy/50 px-4 py-2 font-headline-sm text-headline-sm cursor-not-allowed" disabled="">
+                        EQUIPADO
+                    </button>
+</div>
+</div>
+<!-- Item 2: Skin Neon (Owned) -->
+<div class="bg-forest-dark border-4 border-neon p-4 flex flex-col relative group">
+<div class="bg-abyss aspect-square flex items-center justify-center border-2 border-pitch mb-4 overflow-hidden relative">
+<img alt="Skin Neon" class="w-full h-full object-cover opacity-60" data-alt="A futuristic 90s arcade character skin featuring glowing neon green outlines and retro-tech armor. The visual style is high-contrast vaporwave with intense greens and deep blacks. The character stands in a heroic pose, surrounded by pixelated digital particles. The overall mood is high-energy and nostalgic, with sharp geometric shapes and a distinct CRT texture across the image." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPfGG82eepVBSj5kTg1b2wHdnDNDewci3AnZRGZgImlWTvSzapEwA5HfRb0elOOX64m28-ClIo-xjifTXc21JUV9JwS2VkCiZFkKS7Z-T_HbxXu1scuiN3wt4nNOh4Hk41NHBikjccDBvWzaOaZi3iib3Iut4cPXMi1Aw-MJSia2IEI4Yr2f09q9-MLeKLLsoVXfEhhmFxx8agj-EdVd2987HcOqru41n2o-ocdmS5hFUojJ0qWXpiCMw0xhYEXQp4nHZKgxaZmuY"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-neon" data-icon="check_circle" data-weight="fill">check_circle</span>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-neon mb-2">Skin Neon</h3>
+<p class="font-body-sm text-body-sm text-parchment mb-6 flex-grow">Brilhe no campo com a estética clássica do arcade. 100% visível.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-label-lg text-label-lg text-neon">500 GOLD</span>
+<button class="bg-forest border-2 border-neon text-neon px-4 py-2 font-headline-sm text-headline-sm hover:bg-neon hover:text-crt-black active:translate-y-0.5 transition-all">
+                        EQUIPAR
+                    </button>
+</div>
+</div>
+<!-- Item 3: Efeito Fogo (Locked) -->
+<div class="bg-forest-dark border-4 border-pitch p-4 flex flex-col relative group opacity-90">
+<div class="bg-abyss aspect-square flex items-center justify-center border-2 border-pitch mb-4 overflow-hidden relative">
+<img alt="Efeito Fogo" class="w-full h-full object-cover opacity-40 grayscale" data-alt="Intense pixel art flames erupting from a soccer ball, designed in a classic 16-bit arcade style. The colors transition from deep red to vibrant orange and yellow highlights. The lighting is fiery and dynamic, casting a glow against a dark, pitch-black background. The scene is framed with a heavy, industrial-looking border, evoking the feel of a high-stakes arcade match menu." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCW4N3pVhEd5v4imE1dvP5d5f3Xm75wVSFRSHC1JhW6RLKOH582Y2GDJkiXObubB49SQAsh3SxS4McePsaURJnFYZ3ae1y68bpoJxeGl9ICN4NC2YTafvRrSI9pzbvQVlNFHV0rgFweW8euBBttYwIptOtP_2pEZTmEJMUieS1QEn5opysXXZICbUBkqJynMpn6fRDOSP8Sf-y9sAr9Q4dlNwkmoy_3StUJVEjYjskyqveQaI0ivagOcxekiaHvwtKfkwbd4_Ihs8o"/>
+<div class="absolute inset-0 flex items-center justify-center bg-abyss/60">
+<span class="material-symbols-outlined text-6xl text-smoke" data-icon="lock">lock</span>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-parchment mb-2">Efeito Fogo</h3>
+<p class="font-body-sm text-body-sm text-smoke mb-6 flex-grow">Deixe um rastro de destruição por onde a bola passar. Lendário.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-trophy text-sm" data-icon="database">database</span>
+<span class="font-label-lg text-label-lg text-trophy">1,200</span>
+</div>
+<button class="bg-forest border-2 border-pitch text-parchment px-4 py-2 font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:translate-y-0.5 transition-all">
+                        COMPRAR
+                    </button>
+</div>
+</div>
+<!-- Additional Item: Aura Retro -->
+<div class="bg-forest-dark border-4 border-pitch p-4 flex flex-col relative group">
+<div class="bg-abyss aspect-square flex items-center justify-center border-2 border-pitch mb-4 overflow-hidden relative">
+<img alt="Aura Retro" class="w-full h-full object-cover opacity-60" data-alt="A mesmerizing retro digital aura consisting of concentric pixelated rings in shades of cyan and magenta. The visual style mimics an old-school loading screen or power-up effect from the 90s. The center of the aura is a bright, concentrated point of light, fading out into blocky, transparent pixels. The background is a dark forest green with subtle CRT horizontal scanlines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb2YFHgepE00OcqDIRDp4KY5UW_yObW59YNDj-8tOMCLeArHZOp6S4YklUCm8Nsz3iZZjLYZIH313jHPblW4I3snSNdCqbE2M0oiyo3D618n4Yhw23Sas5BRexcTUxFa38KZwIdfooS1lhy6m9iUfXkN8Hi2b5zVtRJKrCdshYh9Gn1O2YQS1vZtZj84J34j2Sy-v5f6qcg4K8ppsFff3Q2z05KWgby010NK_6_w_bTW9VFCnt1Pf7512XEaiEOrYHKvzfEJ_PbHY"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-pitch" data-icon="auto_awesome">auto_awesome</span>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-parchment mb-2">Aura Retro</h3>
+<p class="font-body-sm text-body-sm text-smoke mb-6 flex-grow">Partículas de nostalgia que orbitam seu jogador durante o jogo.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-trophy text-sm" data-icon="database">database</span>
+<span class="font-label-lg text-label-lg text-trophy">850</span>
+</div>
+<button class="bg-forest border-2 border-pitch text-parchment px-4 py-2 font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:translate-y-0.5 transition-all">
+                        COMPRAR
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-crt-black border-t-4 border-pitch flex justify-around items-center h-16 z-50">
+<a class="text-parchment flex flex-col items-center" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[8px] font-label-md">HOME</span>
+</a>
+<a class="text-parchment flex flex-col items-center" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-[8px] font-label-md">ELENCO</span>
+</a>
+<a class="text-neon flex flex-col items-center" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="text-[8px] font-label-md">LOJA</span>
+</a>
+<a class="text-parchment flex flex-col items-center" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="text-[8px] font-label-md">PERFIL</span>
+</a>
+</nav>
+</body></html>

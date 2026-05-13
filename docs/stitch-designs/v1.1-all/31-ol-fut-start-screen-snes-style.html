@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {error: "#ffb4ab", "primary-fixed": "#79ff5b", "crt-black": "#111417", "outline-variant": "#3c4b35", danger: "#FF3333", "on-tertiary-fixed-variant": "#005235", "surface-dim": "#111417", "secondary-fixed": "#ffe16d", "inverse-surface": "#e1e2e7", "on-secondary": "#3a3000", "on-tertiary": "#003823", trophy: "#FFD700", "on-tertiary-container": "#006f4a", outline: "#85967c", "on-secondary-fixed": "#221b00", "surface-variant": "#323538", surface: "#111417", "on-error": "#690005", "danger-dark": "#8B0000", "on-secondary-container": "#725f00", background: "#111417", secondary: "#fff9ef", "inverse-primary": "#106e00", "error-container": "#93000a", "on-primary": "#053900", parchment: "#F1FAEE", abyss: "#040805", tertiary: "#e9ffef", forest: "#1B4332", "tertiary-fixed-dim": "#75daa8", "primary-fixed-dim": "#2ae500", "on-error-container": "#ffdad6", "surface-container-high": "#272a2d", "surface-container-low": "#191c1f", pitch: "#52B788", neon: "#39FF14", smoke: "#a0baae", "primary-container": "#39ff14", "secondary-fixed-dim": "#e9c400", "surface-container": "#1d2023", "on-primary-fixed": "#022100", amber: "#FBBF24", "surface-bright": "#37393d", "surface-container-highest": "#323538", "secondary-container": "#ffdb3c", "surface-container-lowest": "#0b0e11", "on-tertiary-fixed": "#002113", "on-primary-fixed-variant": "#095300", "on-secondary-fixed-variant": "#544600", "tertiary-container": "#8cf1be", "inverse-on-surface": "#2e3134", "on-primary-container": "#107100", primary: "#efffe3", "on-surface-variant": "#baccb0", "forest-dark": "#0E1F14", "surface-tint": "#2ae500", "on-surface": "#e1e2e7", "tertiary-fixed": "#92f7c3", "on-background": "#e1e2e7", "trophy-gold": "#FFD700", "danger-red": "#FF3333", "pitch-green": "#52B788"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "16px", unit: "4px", "margin-desktop": "32px", gutter: "16px", "container-max": "1280px", lg: "24px", base: "4px", sm: "8px", xs: "4px", md: "16px", xl: "48px"}, fontFamily: {"body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], code: ["'JetBrains Mono'"], "body-md": ["Rubik"], "label-md": ["'JetBrains Mono'"], "body-sm": ["Pixelify Sans"], "label-lg": ["'JetBrains Mono'"], "headline-sm": ["'Press Start 2P'"], "headline-lg": ["'Press Start 2P'"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+<style>
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 0 #52B788,
+                0 4px 0 0 #52B788,
+                -4px 0 0 0 #52B788,
+                4px 0 0 0 #52B788;
+        }
+        .text-glow-neon {
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.8), 2px 2px 0px rgba(0,0,0,1);
+        }
+        .text-glow-trophy {
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 2px 2px 0px rgba(0,0,0,1);
+        }
+        .scanline-anim {
+            background: linear-gradient(to bottom, transparent 0%, rgba(57, 255, 20, 0.05) 50%, transparent 100%);
+            background-size: 100% 20px;
+        }
+        .title-skew {
+            transform: skew(-5deg) rotate(-2deg);
+        }
+    </style>
+</head>
+<body class="bg-crt-black font-body-md text-on-background m-0 p-0 overflow-hidden select-none">
+<!-- CRT Overlay Layer -->
+<div class="fixed inset-0 crt-overlay pointer-events-none"></div>
+<!-- Main Title Screen Canvas -->
+<main class="relative h-screen w-full flex flex-col items-center justify-center bg-forest-dark overflow-hidden">
+<!-- Pitch Background with Detail -->
+<div class="absolute inset-0 opacity-40">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-pitch/20 via-transparent to-transparent"></div>
+<div class="absolute inset-0" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0,0,0,0.1) 40px, rgba(0,0,0,0.1) 80px);"></div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border-4 border-pitch/30 rounded-full"></div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[2px] h-full bg-pitch/30"></div>
+</div>
+<!-- Content Container -->
+<div class="relative z-10 flex flex-col items-center justify-between h-full py-12 w-full max-w-container-max">
+<!-- Top Section: Stars & Logo -->
+<div class="flex flex-col items-center gap-6 mt-12">
+<!-- 4 Gold Stars -->
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-trophy text-[32px] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-trophy text-[40px] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-trophy text-[40px] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-trophy text-[32px] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<!-- Main Logo -->
+<div class="relative flex flex-col items-center">
+<div class="absolute -top-12 opacity-80 scale-150 grayscale brightness-50 contrast-150">
+<span class="material-symbols-outlined text-[120px] text-pitch">sports_soccer</span>
+</div>
+<h1 class="font-headline-lg text-[80px] md:text-[120px] text-neon text-glow-neon title-skew tracking-tighter leading-none mb-4">
+                        OléFUT
+                    </h1>
+<div class="bg-crt-black border-y-4 border-trophy px-6 py-2">
+<h2 class="font-headline-sm text-trophy tracking-widest text-glow-trophy">
+                            FOOTBALL MANAGER
+                        </h2>
+</div>
+</div>
+</div>
+<!-- Middle Section: Menu -->
+<div class="flex flex-col items-center gap-4 w-full max-w-md px-margin-mobile">
+<nav class="w-full flex flex-col gap-2">
+<!-- Menu Item 1 -->
+<button class="group relative w-full bg-forest border-4 border-pitch p-4 transition-all active:scale-95 active:bg-forest-dark">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-neon opacity-0 group-hover:opacity-100">arrow_forward_ios</span>
+<span class="font-headline-md text-parchment group-hover:text-neon">NOVO JOGO</span>
+<span class="material-symbols-outlined text-neon opacity-0 group-hover:opacity-100">arrow_back_ios</span>
+</div>
+</button>
+<!-- Menu Item 2 -->
+<button class="group relative w-full bg-forest border-4 border-pitch p-4 transition-all active:scale-95 active:bg-forest-dark">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-neon opacity-0 group-hover:opacity-100">arrow_forward_ios</span>
+<span class="font-headline-md text-parchment group-hover:text-neon">CARREGAR</span>
+<span class="material-symbols-outlined text-neon opacity-0 group-hover:opacity-100">arrow_back_ios</span>
+</div>
+</button>
+<!-- Menu Item 3 -->
+<button class="group relative w-full bg-forest border-4 border-pitch p-4 transition-all active:scale-95 active:bg-forest-dark">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-neon opacity-0 group-hover:opacity-100">arrow_forward_ios</span>
+<span class="font-headline-md text-parchment group-hover:text-neon">TUTORIAL</span>
+<span class="material-symbols-outlined text-neon opacity-0 group-hover:opacity-100">arrow_back_ios</span>
+</div>
+</button>
+<!-- Menu Item 4 -->
+<button class="group relative w-full bg-forest border-4 border-pitch p-4 transition-all active:scale-95 active:bg-forest-dark">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-neon opacity-0 group-hover:opacity-100">arrow_forward_ios</span>
+<span class="font-headline-md text-parchment group-hover:text-neon">OPÇÕES</span>
+<span class="material-symbols-outlined text-neon opacity-0 group-hover:opacity-100">arrow_back_ios</span>
+</div>
+</button>
+</nav>
+</div>
+<!-- Bottom Section: Prompt & Credits -->
+<div class="flex flex-col items-center gap-8 mb-4">
+<div class="animate-pulse">
+<p class="font-headline-sm text-neon tracking-widest text-glow-neon">
+                        PRESS START BUTTON
+                    </p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<p class="font-label-md text-smoke">© 1995 PIXEL PITCH INTERACTIVE</p>
+<div class="flex gap-2">
+<div class="w-8 h-8 bg-neon border-2 border-crt-black"></div>
+<div class="w-8 h-8 bg-trophy border-2 border-crt-black"></div>
+<div class="w-8 h-8 bg-pitch border-2 border-crt-black"></div>
+<div class="w-8 h-8 bg-forest border-2 border-crt-black"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Decorative UI Elements (Corner Brackets) -->
+<div class="absolute top-8 left-8 w-16 h-16 border-t-8 border-l-8 border-neon opacity-50"></div>
+<div class="absolute top-8 right-8 w-16 h-16 border-t-8 border-r-8 border-neon opacity-50"></div>
+<div class="absolute bottom-8 left-8 w-16 h-16 border-b-8 border-l-8 border-neon opacity-50"></div>
+<div class="absolute bottom-8 right-8 w-16 h-16 border-b-8 border-r-8 border-neon opacity-50"></div>
+<!-- Side Data Strips -->
+<div class="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-4 opacity-20">
+<div class="w-1 h-32 bg-neon"></div>
+<div class="w-1 h-8 bg-trophy"></div>
+<div class="w-1 h-16 bg-neon"></div>
+</div>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-4 opacity-20">
+<div class="w-1 h-16 bg-neon"></div>
+<div class="w-1 h-8 bg-trophy"></div>
+<div class="w-1 h-32 bg-neon"></div>
+</div>
+</main>
+<!-- Hidden Sprite Reference for background generation logic -->
+<div class="hidden">
+<img data-alt="A cinematic low-angle shot of a classic 1990s football stadium at night, captured in a vibrant pixel art style. The atmosphere is thick with stadium fog and illuminated by harsh green neon floodlights. The field is a lush deep forest green with sharp white boundary lines. The visual style mimics a 16-bit console title screen with rich high-contrast colors of neon green, trophy gold, and deep pitch blacks. The mood is energetic, nostalgic, and authoritative." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL6VBrBqKPre3DnGQPgA7qZ_-t-_r5_B2p17RnnnNx6ItPWWRg8ElqsGIKa5bau5K_zC67bwfuCwLWdjmns9QGsTPsH-1uwiX5yqz1ALRpWVtQNda4l1tUw8vxc7hlu_TAP-KFBJgL3R5XKzYTLdDZG-UGlIaSFZoovbqJXEwT7FSBnxM4pnw311Mhjzhw5lNtr6WTzX3HMN-LFekF2_3KVDISEV0ME_wLd4zZlxJ4cU49HP3XxiDvWfIbh62cn6GhygjCB-cInRQ"/>
+</div>
+</body></html>

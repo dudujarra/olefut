@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT PressView - Entrevista Pós-Jogo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-error": "#690005", "surface-tint": "#2ae500", "outline-variant": "#3c4b35", "surface-variant": "#323538", "secondary-container": "#ffdb3c", "on-tertiary-fixed-variant": "#005235", "error-container": "#93000a", "primary-fixed-dim": "#2ae500", "tertiary-fixed-dim": "#75daa8", neon: "#39FF14", "on-primary-fixed": "#022100", "crt-black": "#111417", "inverse-primary": "#106e00", "on-secondary": "#3a3000", "inverse-on-surface": "#2e3134", parchment: "#F1FAEE", pitch: "#52B788", abyss: "#040805", smoke: "#a0baae", "on-surface": "#e1e2e7", background: "#111417", "on-error-container": "#ffdad6", "on-tertiary": "#003823", "on-secondary-fixed": "#221b00", amber: "#FBBF24", "on-primary-fixed-variant": "#095300", "danger-dark": "#8B0000", error: "#ffb4ab", "on-surface-variant": "#baccb0", "secondary-fixed": "#ffe16d", tertiary: "#e9ffef", "tertiary-container": "#8cf1be", outline: "#85967c", "on-background": "#e1e2e7", surface: "#111417", "on-secondary-fixed-variant": "#544600", "on-primary": "#053900", "on-secondary-container": "#725f00", "surface-container-high": "#272a2d", "inverse-surface": "#e1e2e7", primary: "#efffe3", "secondary-fixed-dim": "#e9c400", trophy: "#FFD700", "surface-container": "#1d2023", "forest-dark": "#0E1F14", "on-tertiary-container": "#006f4a", forest: "#1B4332", "on-primary-container": "#107100", "primary-fixed": "#79ff5b", "primary-container": "#39ff14", danger: "#FF3333", "surface-bright": "#37393d", "surface-container-lowest": "#0b0e11", "on-tertiary-fixed": "#002113", "surface-dim": "#111417", "surface-container-highest": "#323538", secondary: "#fff9ef", "tertiary-fixed": "#92f7c3", "surface-container-low": "#191c1f", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-desktop": "32px", "container-max": "1280px", "margin-mobile": "16px", gutter: "16px", xl: "48px", md: "16px", base: "4px", xs: "4px", lg: "24px", sm: "8px"}, fontFamily: {"headline-sm": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], "body-md": ["Rubik"], "label-lg": ["JetBrains Mono"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "headline-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+<style>
+        .crt-scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .retro-border {
+            box-shadow: 2px 2px 0px 0px #040805, inset 2px 2px 0px 0px rgba(255,255,255,0.1);
+        }
+        .active-response {
+            box-shadow: inset 4px 4px 0px 0px #040805;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<div class="crt-scanlines"></div>
+<header class="fixed top-0 w-full z-50 bg-forest dark:bg-forest-dark border-b-2 border-pitch h-16 flex justify-between items-center px-margin-mobile md:px-margin-desktop">
+<div class="font-headline-lg text-headline-lg text-neon">OléFUT PressView</div>
+<div class="flex items-center gap-4 text-parchment">
+<span class="material-symbols-outlined text-neon">mic</span>
+<span class="font-code text-code">LIVE: SALA DE IMPRENSA</span>
+</div>
+</header>
+<aside class="fixed left-0 top-0 h-full w-64 bg-crt-black dark:bg-abyss border-r-2 border-pitch flex flex-col pt-20 pb-4 hidden md:flex">
+<div class="px-4 mb-8">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-12 h-12 bg-forest border-2 border-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-neon text-3xl">person</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-trophy">OlêFUT</div>
+<div class="font-label-md text-label-md text-smoke">Season '98</div>
+</div>
+</div>
+<div class="space-y-4 pt-4 border-t border-outline-variant">
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-parchment mb-1">
+<span>MORAL</span>
+<span class="text-neon">85%</span>
+</div>
+<div class="h-3 bg-forest-dark border border-smoke overflow-hidden">
+<div class="h-full bg-neon w-[85%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-parchment mb-1">
+<span>IMPRENSA</span>
+<span class="text-amber">42%</span>
+</div>
+<div class="h-3 bg-forest-dark border border-smoke overflow-hidden">
+<div class="h-full bg-amber w-[42%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-parchment mb-1">
+<span>TORCIDA</span>
+<span class="text-neon">92%</span>
+</div>
+<div class="h-3 bg-forest-dark border border-smoke overflow-hidden">
+<div class="h-full bg-neon w-[92%]"></div>
+</div>
+</div>
+</div>
+</div>
+<nav class="flex-grow">
+<a class="flex items-center gap-3 bg-forest text-neon border-l-4 border-neon px-4 py-3 font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined">groups</span> Squad
+            </a>
+<a class="flex items-center gap-3 text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-parchment transition-colors" href="#">
+<span class="material-symbols-outlined">strategy</span> Tactics
+            </a>
+<a class="flex items-center gap-3 text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-parchment transition-colors" href="#">
+<span class="material-symbols-outlined">leaderboard</span> League
+            </a>
+<a class="flex items-center gap-3 text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-parchment transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings_voice</span> Media
+            </a>
+</nav>
+</aside>
+<main class="pt-20 md:ml-64 pb-16 px-4 md:px-8 min-h-screen flex flex-col items-center justify-center relative">
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none overflow-hidden">
+<img class="w-full h-full object-cover filter grayscale" data-alt="A cinematic, low-poly 90s video game background showing a dark, atmospheric press conference room. Silhouetted rows of chairs lead to a brightly lit stage with three microphones on a long desk. Harsh spotlights create dramatic high-contrast shadows against a dark green textured wall, evoking the aesthetic of 32-bit era sports management sims with deep blacks and neon green accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBRj2Ahif29BH9L2SUNbbDuDd_b9apYbEJhUqap-Ved_ll8gB3qxopfRJ_lsCpz7DREFQRvd8yp0E3NI_ll76MUdgQTGT0sNzI4HHRg0rNrTfBiZKVhkAvDkq8Qpts0Dy5DpznEq2N1X6k14uUyv0LqszXnijJgV2b5GQ8G0w1CUwV4zD-COjaUmieSNBQ201pG1PfsFM7Rk3Y76IVLrnzswi0L6wPtQos6JFLNSo9LCFEv7u6UbavwyxAL_iWds_NAb3BvrWI9Wk"/>
+</div>
+<div class="relative z-10 w-full max-w-4xl space-y-8">
+<div class="bg-forest-dark border-2 border-trophy p-6 md:p-8 retro-border relative">
+<div class="absolute -top-4 left-6 bg-trophy px-3 py-1 text-crt-black font-headline-sm text-headline-sm uppercase tracking-tighter">
+                    Repórter - Gazeta Esportiva
+                </div>
+<div class="flex gap-6 items-start">
+<div class="hidden md:block w-20 h-20 bg-abyss border-2 border-pitch flex-shrink-0">
+<span class="material-symbols-outlined text-smoke text-6xl flex items-center justify-center h-full">record_voice_over</span>
+</div>
+<p class="font-body-lg text-body-lg text-parchment leading-relaxed">
+                        "Professor, a vitória de hoje foi convincente, mas a torcida está preocupada com a substituição precoce do craque do time aos 30 do primeiro tempo. Foi uma decisão técnica ou já pensamos no clássico de domingo?"
+                    </p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<button class="group bg-forest border-2 border-pitch p-4 text-left hover:border-neon hover:text-neon transition-all active:scale-95 active:bg-forest-dark retro-border">
+<div class="flex items-center gap-4">
+<span class="w-10 h-10 flex items-center justify-center bg-abyss text-neon font-headline-md text-headline-md border border-neon group-hover:bg-neon group-hover:text-abyss">A</span>
+<span class="font-label-lg text-label-lg">"O coletivo é soberano. Tirei porque o esquema pedia mais intensidade defensiva."</span>
+</div>
+<div class="mt-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="text-[10px] font-code bg-danger-dark text-white px-2 py-0.5">MORAL -5</span>
+<span class="text-[10px] font-code bg-forest text-neon px-2 py-0.5">FANS +10</span>
+</div>
+</button>
+<button class="group bg-forest border-2 border-pitch p-4 text-left hover:border-neon hover:text-neon transition-all active:scale-95 active:bg-forest-dark retro-border">
+<div class="flex items-center gap-4">
+<span class="w-10 h-10 flex items-center justify-center bg-abyss text-neon font-headline-md text-headline-md border border-neon group-hover:bg-neon group-hover:text-abyss">B</span>
+<span class="font-label-lg text-label-lg">"Próxima pergunta. Não discuto minhas táticas individualmente com a imprensa."</span>
+</div>
+<div class="mt-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="text-[10px] font-code bg-danger-dark text-white px-2 py-0.5">PRESS -20</span>
+<span class="text-[10px] font-code bg-danger-dark text-white px-2 py-0.5">MORAL -2</span>
+</div>
+</button>
+<button class="group bg-forest border-2 border-pitch p-4 text-left hover:border-neon hover:text-neon transition-all active:scale-95 active:bg-forest-dark retro-border">
+<div class="flex items-center gap-4">
+<span class="w-10 h-10 flex items-center justify-center bg-abyss text-neon font-headline-md text-headline-md border border-neon group-hover:bg-neon group-hover:text-abyss">C</span>
+<span class="font-label-lg text-label-lg">"Ele sentiu um desconforto. Preservar nosso melhor ativo é prioridade máxima."</span>
+</div>
+<div class="mt-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="text-[10px] font-code bg-forest text-neon px-2 py-0.5">MORAL +10</span>
+<span class="text-[10px] font-code bg-forest text-neon px-2 py-0.5">PRESS +5</span>
+</div>
+</button>
+<button class="group bg-forest border-2 border-pitch p-4 text-left hover:border-neon hover:text-neon transition-all active:scale-95 active:bg-forest-dark retro-border">
+<div class="flex items-center gap-4">
+<span class="w-10 h-10 flex items-center justify-center bg-abyss text-neon font-headline-md text-headline-md border border-neon group-hover:bg-neon group-hover:text-abyss">D</span>
+<span class="font-label-lg text-label-lg">"Ganhamos de 3x0 e você quer falar de substituição? Vamos focar no resultado."</span>
+</div>
+<div class="mt-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="text-[10px] font-code bg-amber text-crt-black px-2 py-0.5">PRESS +15</span>
+<span class="text-[10px] font-code bg-forest text-neon px-2 py-0.5">FANS +5</span>
+</div>
+</button>
+</div>
+</div>
+</main>
+<footer class="fixed bottom-0 right-0 w-full md:w-[calc(100%-16rem)] bg-crt-black border-t border-outline-variant flex justify-between items-center px-4 py-2 z-40">
+<div class="font-code text-code text-smoke">© 1998 OléFUT Arcade Media</div>
+<div class="flex gap-6">
+<a class="font-code text-code text-smoke hover:text-trophy transition-opacity duration-200" href="#">Privacidade</a>
+<a class="font-code text-code text-smoke hover:text-trophy transition-opacity duration-200" href="#">Termos</a>
+<div class="flex items-center gap-2 ml-4">
+<span class="w-2 h-2 rounded-full bg-neon animate-pulse"></span>
+<span class="font-label-md text-label-md text-neon">REC</span>
+</div>
+</div>
+</footer>
+</body></html>

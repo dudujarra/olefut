@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: 
+                linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
+                linear-gradient(90px, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .blueprint-scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .vector-line {
+            background: repeating-linear-gradient(90deg, #39FF14 0px, #39FF14 2px, transparent 2px, transparent 4px);
+        }
+        .measurement-marker {
+            position: absolute;
+            font-family: 'JetBrains Mono';
+            font-size: 8px;
+            color: #52B788;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"forest-dark": "#0E1F14", "surface-bright": "#37393d", "secondary-container": "#ffdb3c", "surface-variant": "#323538", "on-tertiary-fixed": "#002113", trophy: "#FFD700", "on-primary-container": "#107100", "on-tertiary": "#003823", "on-surface-variant": "#baccb0", "on-secondary-fixed": "#221b00", abyss: "#040805", "on-secondary": "#3a3000", "on-primary-fixed-variant": "#095300", "tertiary-fixed-dim": "#75daa8", "surface-container-low": "#191c1f", "primary-container": "#39ff14", amber: "#FBBF24", "surface-tint": "#2ae500", "inverse-primary": "#106e00", neon: "#39FF14", secondary: "#fff9ef", outline: "#85967c", "on-error": "#690005", parchment: "#F1FAEE", "inverse-on-surface": "#2e3134", "tertiary-container": "#8cf1be", "inverse-surface": "#e1e2e7", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#e9c400", error: "#ffb4ab", danger: "#FF3333", tertiary: "#e9ffef", "on-primary-fixed": "#022100", background: "#111417", "crt-black": "#111417", "surface-container-high": "#272a2d", "on-surface": "#e1e2e7", "on-secondary-container": "#725f00", forest: "#1B4332", "surface-container-lowest": "#0b0e11", "error-container": "#93000a", "secondary-fixed": "#ffe16d", pitch: "#52B788", "surface-container-highest": "#323538", "primary-fixed-dim": "#2ae500", primary: "#efffe3", "tertiary-fixed": "#92f7c3", "on-tertiary-container": "#006f4a", "on-primary": "#053900", "surface-dim": "#111417", "danger-dark": "#8B0000", "surface-container": "#1d2023", "on-tertiary-fixed-variant": "#005235", "primary-fixed": "#79ff5b", surface: "#111417", smoke: "#a0baae", "on-background": "#e1e2e7", "on-secondary-fixed-variant": "#544600", "outline-variant": "#3c4b35", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, fontFamily: {"label-lg": ["JetBrains Mono"], "headline-lg": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "body-md": ["Rubik"], "headline-sm": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"]}, fontSize: {"display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}]}, spacing: {sm: "8px", md: "16px", xs: "4px", gutter: "16px", xl: "48px", "margin-desktop": "32px", "margin-mobile": "16px", lg: "24px", base: "4px"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+</head>
+<body class="text-on-surface selection:bg-neon selection:text-abyss">
+<div class="blueprint-scanlines"></div>
+<header class="bg-forest-dark dark:bg-abyss border-b-4 border-pitch flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 relative z-10">
+<div class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-neon" data-icon="settings">settings</span>
+<span class="material-symbols-outlined text-neon" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<div class="flex min-h-[calc(100vh-64px-80px)]">
+<nav class="hidden md:flex flex-col gap-4 py-8 px-4 bg-forest-dark dark:bg-abyss border-r-4 border-pitch w-64">
+<div class="mb-6 px-2">
+<div class="w-12 h-12 bg-pitch border-2 border-neon mb-2">
+<img alt="Manager" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoYszlvWCf9aRS32G1JavNZjDfXBNVhozLa9ofOopRN967tX9UfLH-d2BNag5pvsWbCm3Bxgbkr_1Tm7klZdkx4XtGdfqLYFrCsKFT_vJQeDxMu2IBZRJ8Ylk5wHtg4lYHKRonJIjEnRJgnMk6xydRqSZix528rqyWMKp1dPsjF91HMsRaoNVcE8TIr5PcRhAOgwtCYtReAkdYUcBke4woEVmDnfJZbEA3h3AU3c10ObrlybHLP8E568_cgksr9fnbh7_xlJ1Rcxw"/>
+</div>
+<div class="font-headline-sm text-headline-sm text-neon">TREINADOR</div>
+<div class="font-label-lg text-label-lg text-smoke">Época 94/95</div>
+</div>
+<a class="text-smoke p-2 hover:bg-surface-variant hover:text-neon transition-all font-label-lg text-label-lg" href="#">Dashboard</a>
+<a class="text-smoke p-2 hover:bg-surface-variant hover:text-neon transition-all font-label-lg text-label-lg" href="#">Equipa</a>
+<a class="text-smoke p-2 hover:bg-surface-variant hover:text-neon transition-all font-label-lg text-label-lg" href="#">Transferências</a>
+<a class="bg-pitch text-on-primary-container border-2 border-neon p-2 font-label-lg text-label-lg" href="#">Tabela</a>
+<a class="text-smoke p-2 hover:bg-surface-variant hover:text-neon transition-all font-label-lg text-label-lg" href="#">Finanças</a>
+<button class="mt-auto bg-forest border-2 border-pitch text-parchment py-3 font-label-lg hover:border-neon hover:text-neon active:scale-95 transition-all">
+                NOVO JOGO
+            </button>
+</nav>
+<main class="flex-1 p-margin-mobile md:p-margin-desktop relative overflow-hidden bg-background">
+<div class="measurement-marker top-4 left-4">REF. AXIS [X: 104, Y: 22]</div>
+<div class="measurement-marker top-4 right-4">VER. 0.94-B</div>
+<div class="mb-8 relative">
+<h1 class="font-headline-lg text-headline-lg text-neon mb-2">CLASSIFICAÇÃO TÉCNICA</h1>
+<div class="h-1 w-full vector-line mb-1"></div>
+<div class="flex justify-between items-center text-smoke font-code text-[10px] tracking-widest">
+<span>Módulo de Simulação de Resultados #441</span>
+<span>Sincronização: 100%</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-gutter">
+<section class="lg:col-span-3 space-y-gutter">
+<div class="bg-forest-dark border-2 border-pitch p-4 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-30">
+<span class="material-symbols-outlined text-smoke text-4xl" data-icon="architecture">architecture</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-label-md">
+<thead class="border-b-2 border-pitch text-neon">
+<tr>
+<th class="py-4 px-2">POS</th>
+<th class="py-4 px-2">CLUBE</th>
+<th class="py-4 px-2">J</th>
+<th class="py-4 px-2">V</th>
+<th class="py-4 px-2">E</th>
+<th class="py-4 px-2">D</th>
+<th class="py-4 px-2">GM</th>
+<th class="py-4 px-2">PTS</th>
+<th class="py-4 px-2">TREND</th>
+</tr>
+</thead>
+<tbody class="text-smoke">
+<tr class="border-b border-pitch/30 bg-pitch/5">
+<td class="py-4 px-2 font-bold text-neon">01.</td>
+<td class="py-4 px-2 text-parchment font-bold">LUMIAR FC</td>
+<td class="py-4 px-2">28</td>
+<td class="py-4 px-2">22</td>
+<td class="py-4 px-2">4</td>
+<td class="py-4 px-2">2</td>
+<td class="py-4 px-2">64</td>
+<td class="py-4 px-2 text-neon">70</td>
+<td class="py-4 px-2"><span class="text-neon">▲▲▲</span></td>
+</tr>
+<tr class="border-b border-pitch/30">
+<td class="py-4 px-2 font-bold">02.</td>
+<td class="py-4 px-2 text-parchment">BOAVISTA CLASSIC</td>
+<td class="py-4 px-2">28</td>
+<td class="py-4 px-2">19</td>
+<td class="py-4 px-2">6</td>
+<td class="py-4 px-2">3</td>
+<td class="py-4 px-2">51</td>
+<td class="py-4 px-2">63</td>
+<td class="py-4 px-2"><span class="text-neon">▲▲</span></td>
+</tr>
+<tr class="border-b border-pitch/30">
+<td class="py-4 px-2 font-bold">03.</td>
+<td class="py-4 px-2 text-parchment">VITÓRIA PIXEL</td>
+<td class="py-4 px-2">28</td>
+<td class="py-4 px-2">17</td>
+<td class="py-4 px-2">8</td>
+<td class="py-4 px-2">3</td>
+<td class="py-4 px-2">44</td>
+<td class="py-4 px-2">59</td>
+<td class="py-4 px-2"><span class="text-danger">▼</span></td>
+</tr>
+<tr class="border-b border-pitch/30">
+<td class="py-4 px-2 font-bold">04.</td>
+<td class="py-4 px-2 text-parchment">ATLÉTICO CRT</td>
+<td class="py-4 px-2">28</td>
+<td class="py-4 px-2">15</td>
+<td class="py-4 px-2">10</td>
+<td class="py-4 px-2">3</td>
+<td class="py-4 px-2">39</td>
+<td class="py-4 px-2">55</td>
+<td class="py-4 px-2">——</td>
+</tr>
+<tr class="border-b border-pitch/30">
+<td class="py-4 px-2 font-bold">05.</td>
+<td class="py-4 px-2 text-parchment">OPORTO UNITED</td>
+<td class="py-4 px-2">28</td>
+<td class="py-4 px-2">14</td>
+<td class="py-4 px-2">8</td>
+<td class="py-4 px-2">6</td>
+<td class="py-4 px-2">48</td>
+<td class="py-4 px-2">50</td>
+<td class="py-4 px-2"><span class="text-neon">▲</span></td>
+</tr>
+<tr class="border-b border-pitch/30">
+<td class="py-4 px-2 font-bold">06.</td>
+<td class="py-4 px-2 text-parchment">BELÉM VINTAGE</td>
+<td class="py-4 px-2">28</td>
+<td class="py-4 px-2">12</td>
+<td class="py-4 px-2">9</td>
+<td class="py-4 px-2">7</td>
+<td class="py-4 px-2">33</td>
+<td class="py-4 px-2">45</td>
+<td class="py-4 px-2"><span class="text-danger">▼▼</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-6 pt-4 border-t border-pitch/30 grid grid-cols-2 gap-4">
+<div class="font-code text-[10px] text-smoke uppercase">
+<div class="text-neon mb-1 font-bold">// ANOTAÇÕES TÉCNICAS</div>
+                                Projeção de pontos: 82.5 <br/>
+                                Coeficiente de ataque: 2.28 G/J <br/>
+                                Probabilidade de título: 68%
+                            </div>
+<div class="font-code text-[10px] text-smoke text-right uppercase">
+<div class="text-amber mb-1 font-bold">// MARCADOR DE ZONA</div>
+<span class="inline-block w-2 h-2 bg-neon mr-1"></span> Champions League <br/>
+<span class="inline-block w-2 h-2 bg-amber mr-1"></span> Europa League <br/>
+<span class="inline-block w-2 h-2 bg-danger mr-1"></span> Relegação
+                            </div>
+</div>
+</div>
+</section>
+<aside class="space-y-gutter">
+<div class="bg-forest-dark border-2 border-pitch p-4 relative">
+<div class="font-headline-sm text-headline-sm text-neon mb-4">MAPA TÁTICO</div>
+<div class="aspect-square bg-abyss border border-pitch flex items-center justify-center relative overflow-hidden">
+<img class="w-full h-full object-cover opacity-40 grayscale sepia brightness-50" data-alt="A detailed vector-style architectural blueprint of a football pitch layout shown from a top-down perspective. The drawing is rendered in glowing neon green lines over a dark forest green background. Technical annotations, measurement markers, and player positioning coordinates are visible across the diagram, creating a professional coaching manual aesthetic. The lighting is low-key, emphasizing the high-contrast fluorescent lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVMa6DlsRXgpxjlmhG_j8zQRA1U8p5IwA4VZxCGsa6XD_b5ENrP0Atcw5Jeprzv3wTdYgiFJ62Qt4svmRg0vzfnCRCojhm5LkdgtEyYJzejD6cSJnBjn1d7k16uqYy8NLRF3kA0UCKY-O4Rs2-QfciFBG6ovWGUIgEbmdmYGbUVQyrDRqjmNn8Qg2rPrlreFzKSfB-wYckxWsJsjP0K61Gq72VcgJLnVFoFjW7bk4O1X9kBLxXO8cObBNK1L3gbOR3cosi2N7wSRs"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-full h-full flex flex-col items-center justify-center p-4 border border-neon/20">
+<div class="w-2 h-2 bg-neon rounded-full mb-1"></div>
+<div class="font-code text-[8px] text-neon uppercase">Active Scan</div>
+</div>
+</div>
+</div>
+<div class="mt-2 font-code text-[10px] text-smoke text-center">CAMPO: ESTÁDIO DA LUZ [EM-88]</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-4">
+<div class="font-headline-sm text-headline-sm text-neon mb-4">TOP SCORER</div>
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-abyss border-2 border-neon flex-shrink-0">
+<img alt="Player" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd70WHVAxhf2wfl_j33NPK8SmNRcNCiPdMrpvSA_FT1vo3bM3Oq2QrQFa97uZxk_8QDTx-nZ9cWGU-FeyBUQBHBqy1PXrQ0J3MzRh2nSWGuSIMlyxzYu70pSmkMWQJM-7SB9KVQDJ5mKIRtl0PXC2-maKghE3EZmpIHjyBqwbS3XMgPca0xkTH0NZlnMkTVgcClD6jXlq4eL-kw3oNaTa3ccxYAstyI0uTSKL33gd1akRp8eIqHXDOWJ6hQuzSlT3TAwPQUgd3lWo"/>
+</div>
+<div>
+<div class="font-label-lg text-label-lg text-parchment">J. MARIO</div>
+<div class="font-code text-[10px] text-neon">24 GOLOS / 28 J</div>
+</div>
+</div>
+<div class="mt-4 h-2 bg-abyss border border-pitch relative">
+<div class="absolute top-0 left-0 h-full bg-neon" style="width: 85%;"></div>
+</div>
+<div class="flex justify-between mt-1 font-code text-[8px] text-smoke">
+<span>PRECISÃO: 85%</span>
+<span>INDEX: 9.4</span>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<footer class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 bg-forest-dark border-t-4 border-pitch z-50">
+<div class="flex flex-col items-center justify-center text-smoke px-4 py-1">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label-md text-label-md">Jogo</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke px-4 py-1">
+<span class="material-symbols-outlined" data-icon="format_list_bulleted">format_list_bulleted</span>
+<span class="font-label-md text-label-md">Plantel</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-pitch text-on-primary-container border-2 border-neon px-4 py-1">
+<span class="material-symbols-outlined" data-icon="leaderboard" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="font-label-md text-label-md">Tabela</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke px-4 py-1">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="font-label-md text-label-md">Mensagens</span>
+</div>
+</footer>
+</body></html>

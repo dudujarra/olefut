@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-PT"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            image-rendering: pixelated;
+        }
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pixel-border-inset {
+            box-shadow: inset -2px -2px 0px 0px #52B788, inset 2px 2px 0px 0px #040805;
+        }
+        .pixel-border-outset {
+            box-shadow: -2px -2px 0px 0px #040805, 2px 2px 0px 0px #52B788;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-error-container": "#ffdad6", "tertiary-fixed-dim": "#75daa8", "surface-bright": "#37393d", outline: "#85967c", "primary-container": "#39ff14", "surface-variant": "#323538", "on-tertiary-container": "#006f4a", "on-secondary-fixed-variant": "#544600", trophy: "#FFD700", "inverse-on-surface": "#2e3134", forest: "#1B4332", parchment: "#F1FAEE", "on-surface": "#e1e2e7", background: "#111417", "surface-container-high": "#272a2d", "on-tertiary-fixed": "#002113", "surface-container-highest": "#323538", "outline-variant": "#3c4b35", "on-background": "#e1e2e7", "forest-dark": "#0E1F14", "inverse-primary": "#106e00", secondary: "#fff9ef", "primary-fixed-dim": "#2ae500", "surface-container-lowest": "#0b0e11", neon: "#39FF14", "on-tertiary": "#003823", "inverse-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", "on-secondary": "#3a3000", primary: "#efffe3", "surface-dim": "#111417", "on-primary": "#053900", "on-primary-container": "#107100", "crt-black": "#111417", "error-container": "#93000a", "surface-container-low": "#191c1f", "secondary-fixed": "#ffe16d", abyss: "#040805", "on-primary-fixed": "#022100", "secondary-container": "#ffdb3c", "on-tertiary-fixed-variant": "#005235", "surface-tint": "#2ae500", "danger-dark": "#8B0000", smoke: "#a0baae", pitch: "#52B788", amber: "#FBBF24", "on-secondary-container": "#725f00", "tertiary-fixed": "#92f7c3", "primary-fixed": "#79ff5b", "on-error": "#690005", danger: "#FF3333", "on-surface-variant": "#baccb0", error: "#ffb4ab", "surface-container": "#1d2023", tertiary: "#e9ffef", "on-secondary-fixed": "#221b00", "secondary-fixed-dim": "#e9c400", surface: "#111417", "tertiary-container": "#8cf1be", "danger-red": "#FF3333", "pitch-green": "#52B788", "trophy-gold": "#FFD700"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-desktop": "32px", unit: "4px", "container-max": "1280px", "margin-mobile": "16px", gutter: "16px", sm: "8px", xl: "48px", lg: "24px", base: "4px", md: "16px", xs: "4px"}, fontFamily: {"headline-md": ["Press Start 2P"], code: ["'JetBrains Mono'"], "body-lg": ["Pixelify Sans"], "label-md": ["'JetBrains Mono'"], "label-lg": ["'JetBrains Mono'"], "headline-lg": ["'Press Start 2P'"], "body-md": ["'Rubik'"], "headline-sm": ["'Press Start 2P'"], "body-sm": ["Pixelify Sans"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-neon selection:text-crt-black">
+<div class="crt-overlay"></div>
+<!-- TopAppBar -->
+<header class="bg-forest-dark fixed top-0 left-0 w-full z-50 border-b-2 border-pitch flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-8">
+<a class="text-neon font-bold font-headline-sm text-headline-sm uppercase tracking-widest" href="#">LISTA DE DERBIES</a>
+<a class="text-parchment hover:text-neon transition-colors font-headline-sm text-headline-sm uppercase tracking-widest" href="#">RANKING MUNDIAL</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon cursor-pointer">search</span>
+<span class="material-symbols-outlined text-neon cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-neon cursor-pointer">notifications</span>
+<img alt="Manager Avatar" class="w-10 h-10 border-2 border-neon p-0.5 bg-crt-black" data-alt="A pixel-art style manager avatar featuring a professional football coach wearing a dark blazer with a neon green club crest on the pocket. The lighting is dramatic and moody, reflecting a 90s arcade manager aesthetic with high contrast and saturated greens and blacks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCedKpqwavxAmy0-480PvgCxpe1zAnTIIeukwCDM9fFtzZu9FtCSF4F5uYAoaw_5U4khwsLaLGColRtxqHf0mni9F6HmozG_jlUWt2QicziZuKpnv5UaexhR4ne3pXPsd1_RfyOnENZdSs9pcKI-MGuCxU4T-XI4if91IwJ1UMNYyfg-hy8APUcrmGrewgqzPv_xDCpFIy-swP3yos-iolblKNOPp8aIKBTbZdvRqDvhg8E42NFu0G8EgpeU6ypi4ZXlml1D4WJ6vk"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 bg-forest-dark border-r-4 border-pitch hidden md:flex flex-col pt-24 pb-8 z-40">
+<div class="px-6 mb-8 border-b-2 border-pitch pb-6">
+<h2 class="font-headline-md text-headline-md text-neon mb-1">SEASON 94/95</h2>
+<p class="font-label-lg text-label-lg text-smoke uppercase">Rank: Pro-Manager</p>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<a class="text-smoke px-6 py-3 flex items-center gap-4 hover:bg-forest hover:text-neon transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-lg text-label-lg uppercase">Squad</span>
+</a>
+<a class="text-smoke px-6 py-3 flex items-center gap-4 hover:bg-forest hover:text-neon transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined">sports_score</span>
+<span class="font-label-lg text-label-lg uppercase">Tactics</span>
+</a>
+<a class="bg-forest border-2 border-neon text-neon px-6 py-3 flex items-center gap-4 active:translate-x-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">swords</span>
+<span class="font-label-lg text-label-lg uppercase">Rivalries</span>
+</a>
+<a class="text-smoke px-6 py-3 flex items-center gap-4 hover:bg-forest hover:text-neon transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined">swap_horiz</span>
+<span class="font-label-lg text-label-lg uppercase">Transfer</span>
+</a>
+<a class="text-smoke px-6 py-3 flex items-center gap-4 hover:bg-forest hover:text-neon transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-lg text-label-lg uppercase">Training</span>
+</a>
+</div>
+<div class="px-6 mb-8">
+<button class="w-full bg-forest border-2 border-pitch py-4 text-neon font-headline-sm text-headline-sm hover:border-neon active:scale-95 transition-all">
+                START MATCH
+            </button>
+</div>
+<div class="px-6 flex flex-col gap-2 border-t-2 border-pitch pt-6">
+<a class="text-smoke flex items-center gap-4 hover:text-neon font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined">save</span> SAVE
+            </a>
+<a class="text-smoke flex items-center gap-4 hover:text-danger font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined">exit_to_app</span> QUIT
+            </a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="md:ml-64 pt-28 pb-12 px-margin-mobile md:px-margin-desktop">
+<!-- Header Section -->
+<div class="mb-12 border-l-8 border-neon pl-6">
+<h1 class="font-headline-lg text-headline-lg text-neon mb-2 uppercase">Lista de Derbies</h1>
+<p class="text-smoke font-body-lg text-body-lg max-w-2xl">Onde a história é escrita em sangue, suor e glória. Explore os maiores confrontos do futebol mundial sob a lente de 32 bits.</p>
+</div>
+<!-- Head-to-Head Feature (Bento Grid Style) -->
+<section class="mb-16">
+<h3 class="font-headline-sm text-headline-sm text-trophy mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                DESTAQUE: CONFRONTO DIRETO
+            </h3>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main H2H Card -->
+<div class="lg:col-span-2 bg-crt-black border-2 border-pitch p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-neon text-crt-black px-4 py-1 font-headline-sm text-[10px]">MAIS DISPUTADO</div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-8 py-8">
+<div class="text-center">
+<img class="w-32 h-32 mb-4 mx-auto border-4 border-white p-2 bg-white/10" data-alt="A pixel-art style football club crest for Real Madrid, featuring a white shield with a gold crown on top. The style is reminiscent of 1990s video games with limited color palettes and jagged, sharp edges against a deep forest green background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIFNZzfLPUaeOwxhjhDFklDOqa_49EZUen3w2hlTVAfrlJkhmu_9uZkzfCM91VBWRWAJK9muXOxDwZtyxBcoPa7iLgiXvecuD3hAva4s0DdJ4E622vl77d1eaEUH9yNSMocVW2-PhOVfELSpYTfIM6fmy3Yd-26BH4fn0rpRYqFOXGvoxjzxdWCvUYjf-BkgniDKWe7sQ9tKXVflnD_ZBhXxqPlDuiCUvVQulRani5_RAUY5jV52SJZRiJ1f1k0wBdLxUj0Zj4Pks"/>
+<span class="font-headline-md text-headline-md text-parchment">REAL MADRID</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-neon font-headline-lg text-[40px] mb-2">VS</span>
+<div class="bg-forest px-4 py-1 border border-neon text-neon text-label-md font-label-md">254 JOGOS</div>
+</div>
+<div class="text-center">
+<img class="w-32 h-32 mb-4 mx-auto border-4 border-[#A31C44] p-2 bg-white/10" data-alt="A pixel-art style football club crest for FC Barcelona, featuring a classic blue and maroon shield with a stylized football in the center. The image is rendered in high-contrast 32-bit graphics with vibrant neon accents and thick black outlines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbLe2Xv30NnbTQoSY0h7JbHu52zVf75E3Q4rUTzDXVUQ0srfqbpfyFhvD-Kzwu99BjJGXU1U91W5enBIwvdn4stxw-ihtb631NRNHVNEWtZricZQXdkxhY3n8yYnZ4E-mVNMJQAZb98ZZ3rn2HP4TwTqYS4Ohm5vGegjrJ_xvvVCkKl0FFtRA9a6QyFD1FVTwOjRLVilq-RNeSTJ7KyAto2-KXoTjnpzvXTPJp1R7n0_UjR0PG7ZIS63PfP7KP12KrlxV2lxuas4Y"/>
+<span class="font-headline-md text-headline-md text-parchment">BARCELONA</span>
+</div>
+</div>
+<!-- Stats Bar -->
+<div class="mt-8 space-y-4">
+<div class="flex justify-between font-label-lg text-label-lg text-smoke mb-1">
+<span>102 VITÓRIAS</span>
+<span>52 EMPATES</span>
+<span>100 VITÓRIAS</span>
+</div>
+<div class="h-6 w-full flex border-2 border-pitch">
+<div class="h-full bg-white border-r-2 border-pitch" style="width: 40%"></div>
+<div class="h-full bg-forest border-r-2 border-pitch" style="width: 20%"></div>
+<div class="h-full bg-[#A31C44]" style="width: 40%"></div>
+</div>
+</div>
+</div>
+<!-- Quick Stats Info -->
+<div class="bg-forest-dark border-2 border-neon p-6 flex flex-col justify-between">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-neon mb-4">EL CLÁSICO</h4>
+<p class="text-smoke text-body-sm mb-6">A maior rivalidade do mundo. Mais que futebol, uma disputa cultural e política que paralisa o planeta a cada 90 minutos.</p>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between border-b border-pitch pb-2">
+<span class="text-label-md text-smoke">Último Vencedor</span>
+<span class="text-neon font-bold">REAL MADRID</span>
+</div>
+<div class="flex items-center justify-between border-b border-pitch pb-2">
+<span class="text-label-md text-smoke">Golos Totais</span>
+<span class="text-neon font-bold">847</span>
+</div>
+<button class="w-full mt-4 bg-neon text-crt-black py-3 font-headline-sm text-headline-sm hover:bg-trophy transition-colors">VER HISTÓRICO</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Derby Cards Grid -->
+<section>
+<div class="flex justify-between items-end mb-8">
+<h3 class="font-headline-sm text-headline-sm text-neon">DERBIES MUNDIAIS</h3>
+<div class="flex gap-2">
+<button class="p-2 border-2 border-pitch text-neon hover:border-neon"><span class="material-symbols-outlined">grid_view</span></button>
+<button class="p-2 border-2 border-pitch text-smoke hover:border-neon"><span class="material-symbols-outlined">list</span></button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Card 1: Derby de Lisboa -->
+<div class="bg-crt-black border-2 border-pitch hover:border-neon transition-all group flex flex-col">
+<div class="h-48 bg-abyss relative overflow-hidden border-b-2 border-pitch">
+<img class="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform" data-alt="A dramatic aerial shot of a football stadium in Lisbon at dusk, with the lights of the city glowing in the background. The image is processed with a 32-bit aesthetic, featuring heavy scanlines, a limited color palette of deep greens and dark blacks, and high-contrast neon green highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB71g7AnS4ikIzOg_Vsd3erHsIElj7uRJYojqYofra_4w9sQ4oztjvUopE0u0upErSZpTUGRgD9vDu9cP1tz9RFvM2Z2D4Vxd_h46F5PiJPwJaKwwx5fiDlYMYdHHJ8SPvdgDLV7bWlkcmtaixbT0EKEEZq3S-nEQ43Q2farSmUhdoUmDIp_ZEdBATsMC3-F3qziEwZsUXGlYmD8XWHEBrs4Q4N5myz5ztzJDeNGYMFMzP5O72yi01lPLvUttgA98leQiv4irtiXvE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-crt-black to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex gap-2">
+<img class="w-12 h-12 bg-white/10 p-1 border border-white" data-alt="Pixel art logo of SL Benfica with a stylized eagle and red shield, vibrant colors, retro 1990s sports game style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzVtipqfMluX7VGTsdffKuaFUdFjh4dSj0u4BkSlMukoRtDkORCeuf9mmhzOaj_0UpTetkhp5eAnaoH14eCIJNM3xpV-hFlLyrZbPAgIjVdeRcAa7FLDDe9dq1JL7Iu-4s9nGUbRbukqrIPFbkSTMjJ66vgEpTdPJpgAFJIosHDfRwZMO4p-LOXjZoU0IpfQqoLmaKouwhZ0ojrrdJZ7ADUUsZ-h1iSUq7J3cgCGw2WHqlJPgKqsdQznkzZ-ISztdyj0ragYWWVmU"/>
+<img class="w-12 h-12 bg-white/10 p-1 border border-[#006F4A]" data-alt="Pixel art logo of Sporting CP with a stylized lion and green shield, vibrant colors, retro 1990s sports game style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7MsJwW1GuaV736GtRy-FfiNMs9JRzXw7gsVEu7q-a0g38IIrGSLKP7dTW96sUQJAp7OGnNioDUDJT-Rdht9mqUryKnA_EWN8s9GbXuYnMZJDwv7VyU8WAJ13yAxfmYcwmXKXgIa5LVnRfr3zBQQuszkaj8BUzJ1m7SyrXGgvZU7lffPTHFXu4e91ltL6VrWpKY0qW6zlZzj2OFJdfePmxNi9b_xu73_eTetqtX3BkWipgMZ16nd_xBb-dExN4CSzrMfym59mq2uA"/>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<h4 class="font-headline-md text-headline-md text-neon mb-4">DERBY DE LISBOA</h4>
+<p class="text-smoke text-body-sm mb-6 line-clamp-3">A eterna rivalidade entre o SL Benfica e o Sporting CP. O "Derby Eterno" divide a capital portuguesa desde 1907.</p>
+<div class="mt-auto pt-6 border-t border-pitch flex justify-between items-center">
+<span class="text-label-md text-neon uppercase tracking-tighter">315 Partidas</span>
+<button class="bg-forest border border-pitch px-4 py-2 text-parchment font-headline-sm text-[10px] hover:border-neon active:scale-95 transition-all">VIEW DETAILS</button>
+</div>
+</div>
+</div>
+<!-- Card 2: O Clássico -->
+<div class="bg-crt-black border-2 border-pitch hover:border-neon transition-all group flex flex-col">
+<div class="h-48 bg-abyss relative overflow-hidden border-b-2 border-pitch">
+<img class="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform" data-alt="A vibrant night scene of a passionate football crowd waving blue and white flags in a massive stadium. The style is gritty and brutalist, with visible pixelation and a digital retro filter that enhances the high-contrast lighting and neon elements typical of 90s arcade interfaces." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJxvrIShpVZxKPimiD2qpsTlNdThM5-gTb2Jvpw7K97tqa-TZ1X6pn9wxRMg7ilzIZAdj-pQE158tC68-WA_Mdv8Efe7FNMdsr577FEp8Xo7gbLUWa6E5Y7Rz2Vw3J6IWeYiNwOOiyog0WS7v1bYJIE0Ziqv7nPA0pQaZnwbF78R-0A9pyKxkl3Vs0ly9sE36rRsVHNXTfB6551jSr2BuEL3D-VeRbVSEaqpu4f5KpchEBYejjnjts9pim6iqHyzCqdvSw-G3y8ss"/>
+<div class="absolute inset-0 bg-gradient-to-t from-crt-black to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex gap-2">
+<img class="w-12 h-12 bg-white/10 p-1 border border-[#005CA9]" data-alt="Pixel art logo of FC Porto, blue and white shield, 32-bit graphics style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYzLMLmwo5ef8XjrI7QTfd9jpJld-TIfHZv-3aIgtT-2z5t14a0K_9s9sbCfjigeUKQzt8zRpSS3zaSzUXtnx9WLEEfpaL5SKtorFDQtqgSF3rCdEA2gq08kqrP5hoMIXyf2iSrBf65uqSdNaBK6B5wepFvhle2ii1BU-0JgFyRwaR-IWQ4vVa2Nl0_pgdupj-2Xws3NndFsm1Js72RPo6PlKzG8tetDGZyukvbk5E-rV_gXFJfzt5hV1Lj8D1h8V5wHicGE01xdA"/>
+<img class="w-12 h-12 bg-white/10 p-1 border border-white" data-alt="Pixel art logo of SL Benfica, red shield, 32-bit graphics style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD__9OHRJ4zyTufPv1hD3l4TbnBIo3W8MKl7bSln4u841fhzfMzxnY6Lji9G3DwWrOx9D1uJnfAKE57dt2XH3V3OmqK2xoX2gkc8nusW-1bE0EawmFW5TqBc2qEYxtqn7R6liey5KZIsizJ64E_rNOxawm4Yu5uAUdNScThyu7yIJ5k9lN3rT4N84s8U35gf0l4C0MFwBmohhCJTta4N00capmV9x8mm1zdYdeV9rogSjPyc84BAqllB0rF-W-9fg1UsO6r7TvRLrU"/>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<h4 class="font-headline-md text-headline-md text-neon mb-4">O CLÁSSICO</h4>
+<p class="text-smoke text-body-sm mb-6 line-clamp-3">O choque entre o Norte e o Sul. FC Porto e SL Benfica disputam a hegemonia do futebol nacional em batalhas épicas.</p>
+<div class="mt-auto pt-6 border-t border-pitch flex justify-between items-center">
+<span class="text-label-md text-neon uppercase tracking-tighter">252 Partidas</span>
+<button class="bg-forest border border-pitch px-4 py-2 text-parchment font-headline-sm text-[10px] hover:border-neon active:scale-95 transition-all">VIEW DETAILS</button>
+</div>
+</div>
+</div>
+<!-- Card 3: Superclásico -->
+<div class="bg-crt-black border-2 border-pitch hover:border-neon transition-all group flex flex-col">
+<div class="h-48 bg-abyss relative overflow-hidden border-b-2 border-pitch">
+<img class="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform" data-alt="A cinematic, low-angle shot of a smoke-filled football pitch in Buenos Aires with red and blue flares lighting up the night sky. The image uses a dark, moody CRT filter with horizontal scanlines and a highly saturated color palette of deep forest greens and bright neons." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyh7uS4uParr0hqNaJWw7kd32_TgoG-HdnFX2wZwFVoI5eMWtvlEe8UyPchVrbadoqUt3NJ7CL1fQ9nqPCeMd11v6dX4dyTeXgFLa_fSymeNmXwPiYtCqE4evzqV-qv3DfgvhV5zF7jn5uqCemiabH601IuR4pvGWHRj7gLB0erLuAS63BpgXiisLs7EhYUuVlB4J15npX4qztELiWmGt_BaG9jskRupMik6V909n_aJ8v6P9dRMjcNEBE4TJf9hNLKheYHjWuQ_Y"/>
+<div class="absolute inset-0 bg-gradient-to-t from-crt-black to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex gap-2">
+<img class="w-12 h-12 bg-white/10 p-1 border border-[#003C7E]" data-alt="Pixel art logo of Boca Juniors, blue and yellow shield, 32-bit graphics style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxnTDO2Q4-L2VI5642dw088j6ueQFy7SYX8ype2xce9EWJ1tT8IJ5jVgBlx9xq46jfX-OHeXIC1SOshq21ptMw-VGtOqMFA1CnCEhL4paGkqLASiTulcrLbAjrlu-rsG4SApjrCAmhQmZ96WodHC9LCM_7Y5nCa9xtU9V3-HKYBI5x8qiNLhEoPyeiZIpSbpyQE7xFi8qdieO_2uojTYTiMbdUzUAYv7y46BwkeHmdr7kd7KrvQArv2AsqkDZz7PwhJeV5SuSmW9U"/>
+<img class="w-12 h-12 bg-white/10 p-1 border border-[#EF3340]" data-alt="Pixel art logo of River Plate, white shield with red sash, 32-bit graphics style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgawYz2gq4IDv0XZ6WNiBY9KBhZCoq1yT2mM3neVpHK1nKaWGDjK3TmpxvVs9LjgQ8sbJO6ErNrmBxCspF1xjjtL_jekhGBt3DEibBNi0bM4kXS-Q1C-dH_uo91I6KQ7jPHzAuG_hM4_w7NQsV9YygE2Vs_U9Gc6vC6pT1ThrKGTYJuxCf8JckgN8CT-_pUbZ0exxNPvB_NJIP5HxtBHxYZiKsA7w-UscSynwpzCThA5eIIo-KF7WIcabKzlmtGq2XDn0OpnpVW3c"/>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<h4 class="font-headline-md text-headline-md text-neon mb-4">SUPERCLÁSICO</h4>
+<p class="text-smoke text-body-sm mb-6 line-clamp-3">Boca Juniors vs River Plate. Considerado um dos eventos desportivos mais intensos do mundo, em Buenos Aires.</p>
+<div class="mt-auto pt-6 border-t border-pitch flex justify-between items-center">
+<span class="text-label-md text-neon uppercase tracking-tighter">260 Partidas</span>
+<button class="bg-forest border border-pitch px-4 py-2 text-parchment font-headline-sm text-[10px] hover:border-neon active:scale-95 transition-all">VIEW DETAILS</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Call to Action -->
+<footer class="mt-16 border-t-4 border-pitch pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 bg-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-crt-black text-4xl">swords</span>
+</div>
+<div>
+<h5 class="font-headline-sm text-headline-sm text-neon">ESTÁS PRONTO PARA O DERBY?</h5>
+<p class="text-smoke text-label-md uppercase">A tua próxima partida é contra o teu maior rival.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-8 py-4 bg-forest-dark border-2 border-pitch text-smoke font-headline-sm text-headline-sm hover:border-neon hover:text-neon transition-all">TREINAR SQUAD</button>
+<button class="px-8 py-4 bg-neon border-2 border-neon text-crt-black font-headline-sm text-headline-sm hover:bg-trophy hover:border-trophy active:scale-95 transition-all">JOGAR AGORA</button>
+</div>
+</footer>
+</main>
+<!-- Bottom Nav for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-forest-dark border-t-4 border-pitch grid grid-cols-5 z-50">
+<a class="flex flex-col items-center py-3 text-smoke" href="#">
+<span class="material-symbols-outlined">groups</span>
+</a>
+<a class="flex flex-col items-center py-3 text-smoke" href="#">
+<span class="material-symbols-outlined">sports_score</span>
+</a>
+<a class="flex flex-col items-center py-3 text-neon border-t-2 border-neon bg-forest" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">swords</span>
+</a>
+<a class="flex flex-col items-center py-3 text-smoke" href="#">
+<span class="material-symbols-outlined">swap_horiz</span>
+</a>
+<a class="flex flex-col items-center py-3 text-smoke" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+</a>
+</nav>
+</body></html>

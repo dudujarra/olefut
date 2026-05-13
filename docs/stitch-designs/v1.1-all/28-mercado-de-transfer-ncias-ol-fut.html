@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            image-rendering: pixelated;
+        }
+        .glow-sm:hover {
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+        }
+        .inset-shadow {
+            box-shadow: inset 4px 4px 0px rgba(0, 0, 0, 0.5);
+        }
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 2px;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {amber: "#FBBF24", "tertiary-fixed-dim": "#75daa8", surface: "#111417", "primary-container": "#39ff14", "on-surface-variant": "#baccb0", "on-secondary-fixed": "#221b00", smoke: "#a0baae", error: "#ffb4ab", "surface-container-low": "#191c1f", tertiary: "#e9ffef", "on-tertiary-fixed-variant": "#005235", "surface-container": "#1d2023", "primary-fixed": "#79ff5b", "tertiary-fixed": "#92f7c3", "on-primary-fixed-variant": "#095300", "on-tertiary-fixed": "#002113", "on-background": "#e1e2e7", "surface-container-high": "#272a2d", parchment: "#F1FAEE", "forest-dark": "#0E1F14", secondary: "#fff9ef", "on-tertiary-container": "#006f4a", "inverse-on-surface": "#2e3134", pitch: "#52B788", background: "#111417", "on-error": "#690005", primary: "#efffe3", danger: "#FF3333", "on-secondary-container": "#725f00", trophy: "#FFD700", forest: "#1B4332", "error-container": "#93000a", "on-error-container": "#ffdad6", outline: "#85967c", abyss: "#040805", "on-secondary": "#3a3000", "tertiary-container": "#8cf1be", "primary-fixed-dim": "#2ae500", "on-primary-fixed": "#022100", "secondary-fixed-dim": "#e9c400", "surface-tint": "#2ae500", "surface-container-lowest": "#0b0e11", "outline-variant": "#3c4b35", neon: "#39FF14", "crt-black": "#111417", "on-surface": "#e1e2e7", "inverse-surface": "#e1e2e7", "secondary-container": "#ffdb3c", "surface-container-highest": "#323538", "surface-bright": "#37393d", "secondary-fixed": "#ffe16d", "on-secondary-fixed-variant": "#544600", "inverse-primary": "#106e00", "on-tertiary": "#003823", "surface-variant": "#323538", "on-primary-container": "#107100", "on-primary": "#053900", "surface-dim": "#111417", "danger-dark": "#8B0000", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "16px", "margin-desktop": "32px", "container-max": "1280px", gutter: "16px", unit: "4px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {code: ["JetBrains Mono"], "body-md": ["Rubik"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "headline-lg": ["'Press Start 2P'"], "label-lg": ["JetBrains Mono"], "body-sm": ["Pixelify Sans"], "headline-sm": ["'Press Start 2P'"], "label-md": ["JetBrains Mono"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="font-body-md text-on-background selection:bg-neon selection:text-crt-black">
+<div class="scanlines"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop bg-forest-dark border-b-4 border-pitch h-16">
+<div class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</div>
+<nav class="hidden md:flex gap-8">
+<a class="font-headline-sm text-headline-sm text-neon border-b-2 border-neon pb-1" href="#">Transfer Market</a>
+<a class="font-headline-sm text-headline-sm text-parchment opacity-70 hover:text-neon hover:glow-sm transition-all" href="#">My Squad</a>
+<a class="font-headline-sm text-headline-sm text-parchment opacity-70 hover:text-neon hover:glow-sm transition-all" href="#">Scouting</a>
+<a class="font-headline-sm text-headline-sm text-parchment opacity-70 hover:text-neon hover:glow-sm transition-all" href="#">Finance</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1 bg-crt-black border-2 border-pitch">
+<span class="font-label-lg text-label-lg text-neon">99M</span>
+<span class="font-label-md text-label-md text-smoke">CREDITS</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-neon cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-neon cursor-pointer" data-icon="settings">settings</span>
+</div>
+<div class="w-10 h-10 border-2 border-neon bg-forest overflow-hidden">
+<img alt="Manager Avatar" class="w-full h-full object-cover" data-alt="A pixel-art style manager avatar for a retro sports game, featuring a stern expression, dark hair, and a high-collared tracksuit. The character is set against a dark forest green background with neon green geometric highlights. The lighting is harsh and stylized, evoking 16-bit arcade aesthetics with a limited, high-contrast palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkcjYsS9AmAJFykqURwnRDmvoOXA012Ax1IjG8WHgYQshQBxdOR_-YzYVE45aES67L5iKFaeMHEANJRuparX1Wh2qnkbcV5_voMrK5jNc_MQkAL9Pv8WdpAg7VEwG6iW7PgQyd8Kx0QeHIJiTNgF18ZmvQuKo4-635KohUVQO1FqNnjiZ9GN25R5RPKpQZ85mlCi6sjxylR8EI2Okv3XzDvMiza6bLgf-wg1ayzy99mPQrWpTnpli1Cc6ULMMnjZjnlVqI0VTtkZ4"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Transposed as Sidebar) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-forest-dark border-r-4 border-pitch flex flex-col p-4 gap-2 hidden lg:flex">
+<div class="mb-4">
+<div class="font-headline-sm text-headline-sm text-amber">MARKET HUB</div>
+<div class="font-label-md text-label-md text-smoke">Season 98/99</div>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-4 bg-forest text-neon border-2 border-neon p-3 active:bg-forest-dark inset-shadow transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="font-label-lg text-label-lg">Active Bids</span>
+</a>
+<a class="flex items-center gap-4 text-smoke p-3 hover:bg-forest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="newspaper">newspaper</span>
+<span class="font-label-lg text-label-lg">Market News</span>
+</a>
+<a class="flex items-center gap-4 text-smoke p-3 hover:bg-forest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span class="font-label-lg text-label-lg">Watchlist</span>
+</a>
+<a class="flex items-center gap-4 text-smoke p-3 hover:bg-forest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-lg text-label-lg">Sold Players</span>
+</a>
+<a class="flex items-center gap-4 text-smoke p-3 hover:bg-forest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-lg text-label-lg">Transfer History</span>
+</a>
+</nav>
+<button class="mt-auto w-full bg-neon text-crt-black font-headline-sm py-4 border-2 border-pitch hover:bg-parchment active:scale-95 transition-all">
+            REFRESH MARKET
+        </button>
+</aside>
+<!-- Main Content Area -->
+<main class="mt-16 lg:ml-64 lg:mr-80 p-6 mb-20 lg:mb-0">
+<!-- Filter Bar -->
+<section class="mb-8 bg-forest p-4 border-4 border-pitch">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 items-end">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-neon uppercase">Posição</label>
+<select class="bg-abyss border-2 border-smoke text-parchment font-code text-label-md p-2 focus:border-neon focus:ring-0 appearance-none">
+<option>TODAS</option>
+<option>ATA</option>
+<option>MEI</option>
+<option>ZAG</option>
+<option>GOL</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-neon uppercase">Idade (17-40)</label>
+<input class="accent-neon bg-forest-dark h-2 rounded-none border border-pitch" max="40" min="17" type="range"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-neon uppercase">OVR Mín.</label>
+<input class="bg-abyss border-2 border-smoke text-parchment font-code text-label-md p-2 focus:border-neon focus:ring-0" placeholder="80" type="number"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-neon uppercase">Preço Máx.</label>
+<input class="bg-abyss border-2 border-smoke text-parchment font-code text-label-md p-2 focus:border-neon focus:ring-0" placeholder="5.000.000" type="text"/>
+</div>
+<button class="bg-neon text-crt-black font-headline-sm text-headline-sm py-2 px-4 border-b-4 border-r-4 border-forest-dark active:border-0 active:translate-y-1 transition-all h-10">
+                    FILTRAR
+                </button>
+</div>
+</section>
+<!-- Market Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-forest-dark border-4 border-neon p-4 relative flex flex-col gap-4">
+<div class="absolute top-2 right-2 bg-neon text-crt-black px-2 py-1 font-headline-sm">91</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 bg-crt-black border-2 border-pitch flex-shrink-0 grayscale contrast-125">
+<img alt="V. JUNIOR" class="w-full h-full" data-alt="A pixel-art portrait of a world-class footballer with dark skin and a confident gaze, rendered in a high-contrast black and white 8-bit style. The background is a solid charcoal black. The lighting is dramatic, highlighting the contours of the face with sharp pixel steps, evoking the aesthetic of 1990s Japanese sports arcade titles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvenTQuPoJyzjJnBu5Tkaqdg2UcaoDiH1NNe65rd_TUVDR0CpWKaZ0WinyIUhRbk-yg8wA9l9b6_pnS2uxCGbX4SjVqF3PcM5J2bH5CManYlYyr9-slBaRcK0foBoccnCSYEItUG7kValPuX7T-FV4lZdZcoYZnRmY-r2WLuuwI3CNL5TTyieU5XjgWj34AH6pzAYv3Y4yQtByyA_XNei9KjX81-5gbaBphtF78enC6ONTwfow8o4moQRnz_jQe7NARPNOqYGzN9M"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="font-headline-md text-neon mb-1">V. JUNIOR</h3>
+<p class="font-label-lg text-smoke">ATA | 23 ANOS</p>
+<p class="font-code text-amber mt-2">75.500.000 <span class="text-[10px]">CR</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon transition-all">VIEW</button>
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon active:bg-forest-dark active:text-trophy transition-all">BID</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-forest-dark border-4 border-neon p-4 relative flex flex-col gap-4">
+<div class="absolute top-2 right-2 bg-neon text-crt-black px-2 py-1 font-headline-sm">88</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 bg-crt-black border-2 border-pitch flex-shrink-0 grayscale contrast-125">
+<img alt="J. BELLINGHAM" class="w-full h-full" data-alt="A detailed black and white pixel-art headshot of a young, talented midfielder. The visual style is reminiscent of 32-bit console graphics, with deliberate dithering and sharp edges. The subject has short, textured hair and a determined expression. The palette is strictly grayscale against a deep black void, maintaining the premium nostalgia theme of a classic manager game." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALW-JC0q5_YqZwka4uSm7mgx7PBKOwKz0aNcO7QOGIwH30uZwwuAh2Tknav0QTwOvfr-1SB4H7nNcAwsS1jSTPxZB44GhS4kmfhMyCvzojj8sPZhSUUER-Gl-mFkVNRyCZ4eccbWqs_1ro9JviUf_xAeCFDbwrz7WJLdNPuiRBBakU4xQnhHXXor4SdQ_FPCRH31bS_kIO4k_cUVblU5uvOtN9S-VZluiWXTe-mNUHLlhMwh52_GaqUlzYA7dFiAk2ZTxXqZaCBSQ"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="font-headline-md text-neon mb-1">J. BELLINGHAM</h3>
+<p class="font-label-lg text-smoke">MEI | 20 ANOS</p>
+<p class="font-code text-amber mt-2">68.000.000 <span class="text-[10px]">CR</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon transition-all">VIEW</button>
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon active:bg-forest-dark active:text-trophy transition-all">BID</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-forest-dark border-4 border-neon p-4 relative flex flex-col gap-4">
+<div class="absolute top-2 right-2 bg-neon text-crt-black px-2 py-1 font-headline-sm">86</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 bg-crt-black border-2 border-pitch flex-shrink-0 grayscale contrast-125">
+<img alt="R. DIAS" class="w-full h-full" data-alt="A pixelated black and white portrait of a stoic defender with a sharp jawline and focused eyes. The art style mimics high-contrast monochrome displays from the mid-90s, using crisp pixel blocks to define features. The character is set against an abyss-black background, reinforcing the brutalist, retro-futurist sports interface aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGRvCdCGPzRH9f-rLXB_QzBW_HSy0h_kjXIyOjOn6r4Vrbx8-oKwrGT1T2WUi5zLTTw2LMiRPFb3eLEDJjjdVJTu-HD38p2v9kdrXKHvSW0wjvdkvLxI931kVCNMQdjEuEzf4Uo7WmeberI1x2vruTYYpTJd4rBaxPu6X_QhYa3Wl90E-0vIABiJM5OAyPd8wFMwQaxkKk_oMdP3lseOJjUiHLD91stB37Q1WZZhlnjnJxhYiH7TNdJXGNhB3zEK7nLRXvrLYkUQs"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="font-headline-md text-neon mb-1">R. DIAS</h3>
+<p class="font-label-lg text-smoke">ZAG | 26 ANOS</p>
+<p class="font-code text-amber mt-2">42.200.000 <span class="text-[10px]">CR</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon transition-all">VIEW</button>
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon active:bg-forest-dark active:text-trophy transition-all">BID</button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-forest-dark border-4 border-neon p-4 relative flex flex-col gap-4">
+<div class="absolute top-2 right-2 bg-neon text-crt-black px-2 py-1 font-headline-sm">85</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 bg-crt-black border-2 border-pitch flex-shrink-0 grayscale contrast-125">
+<img alt="PEDRI" class="w-full h-full" data-alt="A monochrome pixel-art depiction of a youthful playmaker, featuring sharp, clear pixel lines and heavy shading for depth. The style captures the essence of early 90s digital sports portraits, using a minimalist color scheme of blacks, whites, and greys. The portrait is framed by the UI's dark environment, emphasizing the high-fidelity retro vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr8wYYAzKBKF8s7M2DuK9NGzzW3fG9nCmu6y-f5M-zVgiL_RyVnK7EUYmVKNiiGpyM2xC3sEdHfVAJPb5okGOyK7TQc9_5blwrRSK6NzovhN9nvZbMogfwJ43zqzcHJGTYTjOEA4yHEhpu8YWPAme-w8Ji_0gDN1Hagk4oA7cQUNzLSfcw_C2keGaWICHKTK0EjIX8FDUBqmZFazAsDx1Ienh3xL7oli9xeip1KPenQ8TVjpBaPiea76d81neGnSOkZW8qebnWpfo"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="font-headline-md text-neon mb-1">PEDRI</h3>
+<p class="font-label-lg text-smoke">MEI | 21 ANOS</p>
+<p class="font-code text-amber mt-2">35.900.000 <span class="text-[10px]">CR</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon transition-all">VIEW</button>
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon active:bg-forest-dark active:text-trophy transition-all">BID</button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-forest-dark border-4 border-neon p-4 relative flex flex-col gap-4">
+<div class="absolute top-2 right-2 bg-neon text-crt-black px-2 py-1 font-headline-sm">90</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 bg-crt-black border-2 border-pitch flex-shrink-0 grayscale contrast-125">
+<img alt="M. SALAH" class="w-full h-full" data-alt="A high-contrast black and white pixel portrait of a veteran forward with a distinctive beard and focused look. The pixel art is crisp and stylized, reminiscent of the best 16-bit era manager games. The grayscale values are carefully placed to create a sense of three-dimensional form without losing the gritty, bit-crushed texture essential to the OléFUT brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAnmCnuxGeMYijgYHNKirk4R7dJ9Xhl1nFYzUNypWGuN95sMKqOwnrRAIMix-OUnArTJf0dJsmuesnadoXajgwLg_mA0XdK9HZA5TSMpE4fhyVhCirqExjZRAMRz9smyAhoy18Ubo2nHF40TfusTW7aItwVznhRlxqtbIvw6r5nOsDq8QUCw5CkFg4kv78MxIQ-8tTk93qzTMBxyamZdASs1n09TrtPNE1gkTX2qCuwdxT_nCkXXly7wIMuVJOzAwe2Ogw4D0cctI"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="font-headline-md text-neon mb-1">M. SALAH</h3>
+<p class="font-label-lg text-smoke">ATA | 31 ANOS</p>
+<p class="font-code text-amber mt-2">55.100.000 <span class="text-[10px]">CR</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon transition-all">VIEW</button>
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon active:bg-forest-dark active:text-trophy transition-all">BID</button>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="bg-forest-dark border-4 border-neon p-4 relative flex flex-col gap-4">
+<div class="absolute top-2 right-2 bg-neon text-crt-black px-2 py-1 font-headline-sm">82</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 bg-crt-black border-2 border-pitch flex-shrink-0 grayscale contrast-125">
+<img alt="A. DAVIES" class="w-full h-full" data-alt="A pixel-art headshot of an explosive wing-back in sharp black and white. The portrait uses aggressive pixelation and high-contrast lighting to create a punchy, arcade-style aesthetic. The subject has a slight grin and intense eyes. The entire image feels like a high-quality capture from a vintage 1998 PC soccer simulator, perfectly aligned with the dark forest UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdBsxsmAWoIuviCl6lfIYMAVCcpRBrz7bWYLttR_4Iy-H_gFcSqG5AfVbqccQ3_kD5DfEFftXQMAyjhTkZ37Pglxxx5yA66YoRUy1GdUHy6CLe25rqXl8DPZtx8ImFre7ACeyYLK9u8icWjvYdID6RI6tqkRSA_5SRv8Za4F_xCayTTZvdTiiUka008xMw6tD1NhS9XUODYyG-521pakfGfiBot3xxrmd_iD166UJr_3Kv-uax9pFyRs2E2cHZosyNpRwpS4uzyJo"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="font-headline-md text-neon mb-1">A. DAVIES</h3>
+<p class="font-label-lg text-smoke">ZAG | 23 ANOS</p>
+<p class="font-code text-amber mt-2">18.400.000 <span class="text-[10px]">CR</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon transition-all">VIEW</button>
+<button class="bg-forest border-2 border-pitch text-parchment py-2 font-headline-sm hover:border-neon hover:text-neon active:bg-forest-dark active:text-trophy transition-all">BID</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Sidebar Right -->
+<aside class="fixed right-0 top-16 h-[calc(100vh-64px)] w-80 bg-forest-dark border-l-4 border-pitch p-4 flex flex-col gap-6 hidden xl:flex">
+<section>
+<h2 class="font-headline-sm text-headline-sm text-neon mb-4">ACTIVE BIDS</h2>
+<div class="flex flex-col gap-3">
+<div class="bg-crt-black border-2 border-pitch p-2 flex justify-between items-center">
+<div>
+<div class="font-label-lg text-parchment">H. KANE</div>
+<div class="font-code text-[10px] text-smoke">88.2M CR</div>
+</div>
+<span class="bg-neon text-crt-black px-2 py-0.5 font-label-md">LEADING</span>
+</div>
+<div class="bg-crt-black border-2 border-pitch p-2 flex justify-between items-center">
+<div>
+<div class="font-label-lg text-parchment">K. MBAPPÉ</div>
+<div class="font-code text-[10px] text-smoke">120M CR</div>
+</div>
+<span class="bg-danger text-parchment px-2 py-0.5 font-label-md">OUTBID</span>
+</div>
+<div class="bg-crt-black border-2 border-pitch p-2 flex justify-between items-center">
+<div>
+<div class="font-label-lg text-parchment">ALISSON</div>
+<div class="font-code text-[10px] text-smoke">32.1M CR</div>
+</div>
+<span class="bg-neon text-crt-black px-2 py-0.5 font-label-md">LEADING</span>
+</div>
+</div>
+</section>
+<section class="mt-4">
+<div class="bg-forest border-2 border-neon p-4">
+<div class="flex items-center gap-2 mb-2 text-neon">
+<span class="material-symbols-outlined" data-icon="lightbulb" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<h3 class="font-headline-sm text-headline-sm">SCOUT RECOMMENDATION</h3>
+</div>
+<p class="font-body-sm text-parchment leading-tight">
+                    O mercado para <span class="text-neon">Zagueiros</span> está em alta. Considere vender agora ou buscar jovens talentos na liga holandesa antes do fechamento da janela.
+                </p>
+<div class="mt-4 pt-4 border-t border-pitch flex justify-between items-center">
+<span class="font-code text-[10px] text-smoke">CHANCE DE LUCRO</span>
+<div class="flex gap-1">
+<div class="w-3 h-3 bg-neon"></div>
+<div class="w-3 h-3 bg-neon"></div>
+<div class="w-3 h-3 bg-neon"></div>
+<div class="w-3 h-3 bg-pitch"></div>
+<div class="w-3 h-3 bg-pitch"></div>
+</div>
+</div>
+</div>
+</section>
+</aside>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-16 bg-forest-dark border-t-4 border-pitch">
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest" href="#">
+<span class="material-symbols-outlined" data-icon="stadium">stadium</span>
+<span class="font-headline-sm text-[8px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-forest text-neon border-2 border-neon rounded-none p-2 scale-95 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="sync_alt">sync_alt</span>
+<span class="font-headline-sm text-[8px]">Transfers</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest" href="#">
+<span class="material-symbols-outlined" data-icon="strategy">strategy</span>
+<span class="font-headline-sm text-[8px]">Tactics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-headline-sm text-[8px]">League</span>
+</a>
+</nav>
+</body></html>

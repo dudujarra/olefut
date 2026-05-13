@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT-SYS_32BIT | MONITOR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: auto;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pixel-border {
+            box-shadow: inset 0 0 0 2px #52B788, 0 0 0 2px #040805;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #040805;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #52B788;
+            border: 2px solid #040805;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            5% { opacity: 0.95; }
+            10% { opacity: 0.9; }
+            15% { opacity: 0.95; }
+            20% { opacity: 0.98; }
+            100% { opacity: 1; }
+        }
+        .crt-flicker {
+            animation: flicker 0.15s infinite;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container-high": "#272a2d", "on-surface": "#e1e2e7", "primary-container": "#39ff14", "on-background": "#e1e2e7", "inverse-on-surface": "#2e3134", "tertiary-fixed-dim": "#75daa8", "primary-fixed": "#79ff5b", "on-primary-fixed": "#022100", "on-error-container": "#ffdad6", "on-secondary-fixed-variant": "#544600", "inverse-surface": "#e1e2e7", abyss: "#040805", "secondary-container": "#ffdb3c", "on-tertiary-container": "#006f4a", background: "#111417", "on-tertiary": "#003823", primary: "#efffe3", trophy: "#FFD700", "crt-black": "#111417", "on-secondary": "#3a3000", danger: "#FF3333", secondary: "#fff9ef", outline: "#85967c", "forest-dark": "#0E1F14", amber: "#FBBF24", "danger-dark": "#8B0000", smoke: "#a0baae", surface: "#111417", "on-tertiary-fixed": "#002113", "tertiary-container": "#8cf1be", "surface-dim": "#111417", "surface-variant": "#323538", error: "#ffb4ab", "on-secondary-container": "#725f00", "tertiary-fixed": "#92f7c3", "error-container": "#93000a", "surface-tint": "#2ae500", "secondary-fixed-dim": "#e9c400", "on-surface-variant": "#baccb0", "on-primary-container": "#107100", pitch: "#52B788", "on-secondary-fixed": "#221b00", "surface-container": "#1d2023", "outline-variant": "#3c4b35", "on-primary": "#053900", "on-primary-fixed-variant": "#095300", forest: "#1B4332", "surface-container-lowest": "#0b0e11", "surface-bright": "#37393d", neon: "#39FF14", "surface-container-low": "#191c1f", tertiary: "#e9ffef", "inverse-primary": "#106e00", "secondary-fixed": "#ffe16d", "primary-fixed-dim": "#2ae500", "on-tertiary-fixed-variant": "#005235", "surface-container-highest": "#323538", parchment: "#F1FAEE", "on-error": "#690005", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "container-max": "1280px", "margin-mobile": "16px", gutter: "16px", "margin-desktop": "32px", xl: "48px", md: "16px", base: "4px", xs: "4px", lg: "24px", sm: "8px"}, fontFamily: {"body-md": ["rubik"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "headline-lg": ["'Press Start 2P'"], "label-md": ["'JetBrains Mono'"], "headline-sm": ["'Press Start 2P'"], "body-sm": ["Pixelify Sans"], code: ["'JetBrains Mono'"], "label-lg": ["'JetBrains Mono'"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-background text-on-background font-body-md crt-flicker">
+<!-- TopNavBar -->
+<header class="bg-forest-dark dark:bg-forest-dark fixed top-0 w-full z-50 border-b-2 border-pitch flex justify-between items-center px-margin-desktop h-16 w-full">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg text-neon uppercase tracking-tighter">OléFUT-SYS_32BIT</span>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-md text-label-md text-neon border-b-2 border-neon pb-1" href="#">STATUS</a>
+<a class="font-label-md text-label-md text-smoke hover:text-neon transition-colors" href="#">LOGS</a>
+<a class="font-label-md text-label-md text-smoke hover:text-neon transition-colors" href="#">TELEMETRY</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-smoke hover:text-neon transition-colors" data-icon="settings">settings</button>
+<button class="material-symbols-outlined text-smoke hover:text-neon transition-colors" data-icon="power_settings_new">power_settings_new</button>
+<div class="h-8 w-8 bg-forest border border-pitch flex items-center justify-center overflow-hidden">
+<img alt="Admin Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB9G7E9ig2xcJ1gDzpVvwaFVuAwXpFU3Fla2HtWEedDehAoFBv5JopYCZjCydu3aUHB_fvgTO1OMsgi_8O9ZyPpmMojkH0dZU8oT0YzkSLPkzqglH05jbVXC4nXOCxHKwEJQdeAKMaONAey8g7QOWyyH05OP72wVmRGpG0yRXGaJ_T7eLfpqJ39Y6a1aPAi507brYQ6Jw_549y5bu7z2w0Hx5aWY_sJw5Mfe4X68may8NPJUzC0RhtZGdkRXcVklEN3r5LFsNPaIE"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="bg-abyss dark:bg-abyss fixed left-0 top-16 h-screen w-64 border-r-2 border-pitch flex flex-col h-full py-4 hidden md:flex">
+<div class="px-6 py-4 border-b border-pitch mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-forest border border-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-neon">ROOT_ADMIN</h2>
+<p class="font-label-md text-smoke text-[10px]">V-32.0.48</p>
+</div>
+</div>
+</div>
+<nav class="flex-1">
+<ul class="space-y-1">
+<li class="bg-forest text-neon border-l-4 border-neon py-3 px-4 flex items-center gap-4">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span class="font-label-lg text-label-lg">DATABASE</span>
+</li>
+<li class="text-smoke py-3 px-4 flex items-center gap-4 hover:bg-forest-dark hover:text-pitch transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+<span class="font-label-lg text-label-lg">ENGINE</span>
+</li>
+<li class="text-smoke py-3 px-4 flex items-center gap-4 hover:bg-forest-dark hover:text-pitch transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-label-lg text-label-lg">NETWORK</span>
+</li>
+<li class="text-smoke py-3 px-4 flex items-center gap-4 hover:bg-forest-dark hover:text-pitch transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-label-lg text-label-lg">TASKS</span>
+</li>
+<li class="text-smoke py-3 px-4 flex items-center gap-4 hover:bg-forest-dark hover:text-pitch transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-lg text-label-lg">REPORTS</span>
+</li>
+</ul>
+</nav>
+<div class="p-4 mt-auto space-y-4">
+<button class="w-full py-3 bg-danger-dark border-2 border-danger text-parchment font-headline-sm text-[10px] hover:bg-danger transition-colors active:scale-95">
+                REBOOT CORE
+            </button>
+<ul class="space-y-2 border-t border-pitch pt-4">
+<li class="flex items-center gap-4 text-smoke px-2 hover:text-neon cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+<span class="font-label-md text-label-md">HELP</span>
+</li>
+<li class="flex items-center gap-4 text-smoke px-2 hover:text-danger cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">LOGOUT</span>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="md:ml-64 pt-24 px-margin-desktop min-h-screen">
+<div class="max-w-container-max mx-auto">
+<!-- Page Title -->
+<div class="mb-8 border-l-8 border-neon pl-6 py-2">
+<h1 class="font-headline-lg text-neon tracking-widest uppercase">MONITOR</h1>
+<p class="font-label-md text-smoke mt-1 opacity-60">REAL-TIME_KERNEL_TELEMETRY</p>
+</div>
+<!-- Stats Row: Bento Grid Style -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-8">
+<!-- TOTAL_CALLS -->
+<div class="bg-forest-dark border-2 border-pitch p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-16 h-16 bg-pitch opacity-5 rotate-45 translate-x-8 -translate-y-8"></div>
+<p class="font-label-md text-smoke mb-2">TOTAL_CALLS</p>
+<p class="font-headline-lg text-neon">48.2K</p>
+<div class="w-full bg-abyss h-2 mt-4 border border-smoke/20">
+<div class="bg-neon h-full w-[72%]"></div>
+</div>
+</div>
+<!-- CRITICAL_BUGS -->
+<div class="bg-forest-dark border-2 border-danger-dark p-6 group">
+<p class="font-label-md text-smoke mb-2">CRITICAL_BUGS</p>
+<div class="flex items-baseline gap-2">
+<p class="font-headline-lg text-danger">03</p>
+<span class="material-symbols-outlined text-danger text-sm animate-pulse" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<p class="font-label-md text-danger-dark text-[10px] mt-4 uppercase">Immediate action required</p>
+</div>
+<!-- GAME_ENGINE -->
+<div class="bg-forest-dark border-2 border-pitch p-6">
+<p class="font-label-md text-smoke mb-2">GAME_ENGINE</p>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-neon shadow-[0_0_8px_#39FF14]"></div>
+<p class="font-headline-md text-parchment">STABLE</p>
+</div>
+<p class="font-label-md text-smoke text-[10px] mt-4">UPTIME: 142:22:04</p>
+</div>
+<!-- FEEDBACK_LOOP -->
+<div class="bg-forest-dark border-2 border-pitch p-6">
+<p class="font-label-md text-smoke mb-2">FEEDBACK_LOOP</p>
+<p class="font-headline-lg text-trophy">98%</p>
+<div class="flex gap-1 mt-4">
+<div class="w-1.5 h-4 bg-neon"></div>
+<div class="w-1.5 h-4 bg-neon"></div>
+<div class="w-1.5 h-4 bg-neon"></div>
+<div class="w-1.5 h-4 bg-neon"></div>
+<div class="w-1.5 h-4 bg-smoke/20"></div>
+</div>
+</div>
+</div>
+<!-- Filter Chips & Content Section -->
+<div class="bg-crt-black border-2 border-pitch mb-12 flex flex-col h-[600px]">
+<!-- Filter Row -->
+<div class="border-b-2 border-pitch p-4 flex flex-wrap items-center gap-3 bg-forest-dark">
+<span class="font-label-md text-smoke mr-2">FILTERS:</span>
+<button class="px-4 py-1 bg-neon text-abyss font-label-md border border-neon">ALL</button>
+<button class="px-4 py-1 bg-transparent text-smoke font-label-md border border-smoke/30 hover:border-neon hover:text-neon transition-all">SYSTEM</button>
+<button class="px-4 py-1 bg-transparent text-smoke font-label-md border border-smoke/30 hover:border-neon hover:text-neon transition-all">ENGINE</button>
+<button class="px-4 py-1 bg-transparent text-smoke font-label-md border border-smoke/30 hover:border-neon hover:text-neon transition-all">UI</button>
+<button class="px-4 py-1 bg-transparent text-smoke font-label-md border border-smoke/30 hover:border-neon hover:text-neon transition-all">NETWORK</button>
+<div class="ml-auto flex items-center gap-2 text-smoke">
+<span class="material-symbols-outlined text-sm" data-icon="search">search</span>
+<input class="bg-abyss border-none text-label-md focus:ring-0 placeholder:text-smoke/30 w-48" placeholder="QUERY_LOGS..." type="text"/>
+</div>
+</div>
+<!-- Log List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar font-code text-sm">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-abyss border-b border-pitch z-10">
+<tr>
+<th class="p-4 text-neon font-label-md border-r border-pitch/20">TIMESTAMP</th>
+<th class="p-4 text-neon font-label-md border-r border-pitch/20">SEVERITY</th>
+<th class="p-4 text-neon font-label-md">TECHNICAL_MESSAGE</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-pitch/10">
+<!-- CRITICAL -->
+<tr class="bg-danger/5 hover:bg-danger/10 transition-colors">
+<td class="p-4 text-smoke whitespace-nowrap border-r border-pitch/20">14:02:11.455</td>
+<td class="p-4 border-r border-pitch/20">
+<span class="px-2 py-0.5 bg-danger text-abyss font-bold text-[10px]">CRITICAL</span>
+</td>
+<td class="p-4 text-danger-dark font-bold">KERNEL_PANIC: Stack overflow in thread 0x04. Core dump initiated.</td>
+</tr>
+<!-- ERROR -->
+<tr class="hover:bg-forest/10 transition-colors">
+<td class="p-4 text-smoke whitespace-nowrap border-r border-pitch/20">14:02:10.912</td>
+<td class="p-4 border-r border-pitch/20">
+<span class="px-2 py-0.5 border border-danger text-danger font-bold text-[10px]">ERROR</span>
+</td>
+<td class="p-4 text-on-surface">Physics collision detected at X:142 Y:55. Out of bounds exception.</td>
+</tr>
+<!-- WARN -->
+<tr class="hover:bg-forest/10 transition-colors">
+<td class="p-4 text-smoke whitespace-nowrap border-r border-pitch/20">14:02:10.400</td>
+<td class="p-4 border-r border-pitch/20">
+<span class="px-2 py-0.5 border border-amber text-amber font-bold text-[10px]">WARN</span>
+</td>
+<td class="p-4 text-on-surface">Sprite cache miss: Resource 'PLAYER_ANIM_KICK_03' not found in L1.</td>
+</tr>
+<!-- INFO -->
+<tr class="hover:bg-forest/10 transition-colors">
+<td class="p-4 text-smoke whitespace-nowrap border-r border-pitch/20">14:02:09.881</td>
+<td class="p-4 border-r border-pitch/20">
+<span class="px-2 py-0.5 border border-neon text-neon font-bold text-[10px]">INFO</span>
+</td>
+<td class="p-4 text-smoke">Network socket 42 established with latency: 12ms.</td>
+</tr>
+<!-- More rows -->
+<tr class="hover:bg-forest/10 transition-colors">
+<td class="p-4 text-smoke whitespace-nowrap border-r border-pitch/20">14:02:09.112</td>
+<td class="p-4 border-r border-pitch/20">
+<span class="px-2 py-0.5 border border-neon text-neon font-bold text-[10px]">INFO</span>
+</td>
+<td class="p-4 text-smoke">Database cleanup completed. 412 orphaned records purged.</td>
+</tr>
+<tr class="hover:bg-forest/10 transition-colors">
+<td class="p-4 text-smoke whitespace-nowrap border-r border-pitch/20">14:02:08.555</td>
+<td class="p-4 border-r border-pitch/20">
+<span class="px-2 py-0.5 border border-amber text-amber font-bold text-[10px]">WARN</span>
+</td>
+<td class="p-4 text-on-surface">Garbage collector running longer than 50ms (82ms).</td>
+</tr>
+<tr class="hover:bg-forest/10 transition-colors">
+<td class="p-4 text-smoke whitespace-nowrap border-r border-pitch/20">14:02:07.912</td>
+<td class="p-4 border-r border-pitch/20">
+<span class="px-2 py-0.5 border border-danger text-danger font-bold text-[10px]">ERROR</span>
+</td>
+<td class="p-4 text-on-surface">Connection timed out: API_GATEWAY_S3. Retrying in 5s...</td>
+</tr>
+<tr class="hover:bg-forest/10 transition-colors">
+<td class="p-4 text-smoke whitespace-nowrap border-r border-pitch/20">14:02:07.400</td>
+<td class="p-4 border-r border-pitch/20">
+<span class="px-2 py-0.5 border border-neon text-neon font-bold text-[10px]">INFO</span>
+</td>
+<td class="p-4 text-smoke">User session 9x93 initialized successfully.</td>
+</tr>
+<tr class="hover:bg-forest/10 transition-colors">
+<td class="p-4 text-smoke whitespace-nowrap border-r border-pitch/20">14:02:06.881</td>
+<td class="p-4 border-r border-pitch/20">
+<span class="px-2 py-0.5 border border-neon text-neon font-bold text-[10px]">INFO</span>
+</td>
+<td class="p-4 text-smoke">Telemetry heartbeat received from node_04.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Status -->
+<div class="border-t-2 border-pitch p-3 flex justify-between items-center bg-forest-dark font-label-md text-[10px]">
+<div class="flex gap-4">
+<span class="text-neon">DISK: 42%</span>
+<span class="text-neon">RAM: 12.1GB/16GB</span>
+<span class="text-smoke">NET: 440 KB/s</span>
+</div>
+<div class="text-smoke">
+                        PAGE 01 OF 128 | TOTAL ENTRIES: 15,221
+                    </div>
+</div>
+</div>
+<!-- Visualization Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-12">
+<div class="bg-forest-dark border-2 border-pitch p-4">
+<h3 class="font-headline-sm text-neon mb-4">ENGINE_LOAD_FLUX</h3>
+<div class="h-40 flex items-end gap-1 overflow-hidden">
+<!-- Simulated Bar Chart -->
+<div class="flex-1 bg-neon/20 h-[40%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[55%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[45%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[70%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[90%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[65%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[40%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[30%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[50%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[80%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[60%] border-t border-neon"></div>
+<div class="flex-1 bg-neon/20 h-[45%] border-t border-neon"></div>
+</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-4 flex flex-col justify-between">
+<h3 class="font-headline-sm text-neon mb-4">SYSTEM_HEALTH_INDEX</h3>
+<div class="flex items-center justify-center gap-12 py-4">
+<div class="relative w-24 h-24 rounded-full border-4 border-pitch/30 flex items-center justify-center">
+<div class="absolute inset-0 border-4 border-neon rounded-full border-t-transparent -rotate-45"></div>
+<span class="font-headline-md text-neon">88</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-neon"></div>
+<span class="font-label-md text-smoke">LOGIC_FLOW: OPTIMAL</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-trophy"></div>
+<span class="font-label-md text-smoke">SYNC_DELAY: 4MS</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-danger"></div>
+<span class="font-label-md text-smoke">PKT_LOSS: 0.01%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Scanning Overlay -->
+<div class="fixed inset-0 pointer-events-none z-[100] opacity-[0.03]" style="background: repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px);"></div>
+</body></html>

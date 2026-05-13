@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Rubik:wght@400;500;700&amp;family=Pixelify+Sans:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 -2px #52B788,
+                0 4px 0 -2px #52B788,
+                -4px 0 0 -2px #52B788,
+                4px 0 0 -2px #52B788;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .font-pixelify {
+            font-family: 'Pixelify Sans', cursive;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container-low": "#191c1f", "secondary-fixed": "#ffe16d", abyss: "#040805", "on-primary-container": "#107100", "on-primary": "#053900", "crt-black": "#111417", "error-container": "#93000a", danger: "#FF3333", "surface-container": "#1d2023", "on-surface-variant": "#baccb0", error: "#ffb4ab", "on-secondary-fixed": "#221b00", tertiary: "#e9ffef", "secondary-fixed-dim": "#e9c400", "tertiary-container": "#8cf1be", surface: "#111417", "secondary-container": "#ffdb3c", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed": "#022100", "surface-tint": "#2ae500", "danger-dark": "#8B0000", amber: "#FBBF24", smoke: "#a0baae", pitch: "#52B788", "on-secondary-container": "#725f00", "tertiary-fixed": "#92f7c3", "primary-fixed": "#79ff5b", "on-error": "#690005", "on-surface": "#e1e2e7", background: "#111417", "surface-container-high": "#272a2d", "on-tertiary-fixed": "#002113", "surface-container-highest": "#323538", "outline-variant": "#3c4b35", "on-background": "#e1e2e7", "forest-dark": "#0E1F14", "inverse-primary": "#106e00", "tertiary-fixed-dim": "#75daa8", "on-error-container": "#ffdad6", "primary-container": "#39ff14", "surface-bright": "#37393d", outline: "#85967c", "surface-variant": "#323538", "on-tertiary-container": "#006f4a", "on-secondary-fixed-variant": "#544600", forest: "#1B4332", trophy: "#FFD700", "inverse-on-surface": "#2e3134", parchment: "#F1FAEE", "inverse-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", primary: "#efffe3", "on-secondary": "#3a3000", "surface-dim": "#111417", secondary: "#fff9ef", "primary-fixed-dim": "#2ae500", "surface-container-lowest": "#0b0e11", neon: "#39FF14", "on-tertiary": "#003823", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-max": "1280px", "margin-mobile": "16px", gutter: "16px", "margin-desktop": "32px", unit: "4px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "headline-lg": ["Press Start 2P"], "label-lg": ["JetBrains Mono"], "body-md": ["Rubik"], "body-sm": ["Pixelify Sans"], "headline-sm": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-gutter overflow-hidden selection:bg-neon selection:text-crt-black">
+<!-- Top AppBar (Identity Anchor) -->
+<header class="fixed top-0 left-0 w-full bg-crt-black border-b-4 border-pitch flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 z-50">
+<div class="font-headline-lg text-headline-lg text-neon tracking-tighter uppercase">ULTRA MANAGER 95</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-neon" data-icon="help">help</span>
+<span class="material-symbols-outlined text-neon" data-icon="settings">settings</span>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="w-full max-w-lg flex flex-col items-center gap-8 z-10 pt-16">
+<!-- Onboarding Center Card -->
+<section class="w-full bg-forest-dark border-4 border-pitch p-8 flex flex-col items-center text-center relative">
+<!-- Decorative Corners -->
+<div class="absolute -top-1 -left-1 w-4 h-4 bg-neon"></div>
+<div class="absolute -top-1 -right-1 w-4 h-4 bg-neon"></div>
+<div class="absolute -bottom-1 -left-1 w-4 h-4 bg-neon"></div>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-neon"></div>
+<!-- Pixel-Art Icon Container -->
+<div class="mb-8 w-[120px] h-[120px] bg-forest flex items-center justify-center border-2 border-neon p-2">
+<img alt="Medalha de Ouro Pixel Art" class="w-full h-full object-contain pixelated" data-alt="A meticulously crafted 16-bit pixel art illustration of a gleaming gold championship medal suspended by a vibrant red and blue striped ribbon. The medal catches the artificial light of a stadium, rendered in high-contrast trophy gold and deep amber shades against a dark forest green atmospheric background. The lighting is harsh and direct, reminiscent of classic SNES sports game menus, featuring sharp highlights and defined shadows that emphasize its metallic texture. The overall aesthetic is punchy, saturated, and authentically retro-gaming inspired." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7gjrnPVM5bddykif2-SPP8J6z026Prc6YIk1eCNxEYowlzD4Dh5uegFBQ92lXXe53K4Qx7w0QqFvM4ZLLj6To_0nbuFUCY8g-C2U9qoOorgJYhHeO9m_vPhY0ywdrOqnmfqC7h8j8HUUfK5UhuYEWWMMKtzUUZaVC4oKlroTd4PsYFGUVj5ElOqwlxN_FKIm_ECuXZCo_HD51fTio07X-iPclTzL4At4FMQ4_hSrF1d8ysFXiEXC_CyS1kpNcJqro7FnzOeMMLa0"/>
+</div>
+<!-- Title -->
+<h1 class="font-headline-md text-headline-md text-neon mb-6 leading-relaxed">CONQUISTE TROFÉUS</h1>
+<!-- Body Text -->
+<p class="font-pixelify text-body-lg text-parchment mb-10 leading-relaxed max-w-sm">
+                Suba de divisão e coloque seu nome na história do OléFUT.
+            </p>
+<!-- Step Dots -->
+<div class="flex gap-3 mb-10">
+<div class="w-3 h-3 bg-forest border border-smoke"></div>
+<div class="w-3 h-3 bg-forest border border-smoke"></div>
+<div class="w-3 h-3 bg-forest border border-smoke"></div>
+<div class="w-3 h-3 bg-forest border border-smoke"></div>
+<div class="w-3 h-3 bg-neon border border-pitch shadow-[0_0_8px_#39FF14]"></div>
+</div>
+<!-- Navigation Actions -->
+<div class="grid grid-cols-2 gap-4 w-full">
+<button class="bg-forest border-2 border-pitch text-parchment font-headline-sm py-4 active:translate-y-1 active:scale-95 transition-all hover:bg-forest-dark hover:text-neon hover:border-neon uppercase">
+                    ANTERIOR
+                </button>
+<button class="bg-neon border-2 border-pitch text-crt-black font-headline-sm py-4 active:translate-y-1 active:scale-95 transition-all hover:bg-primary-container hover:shadow-[0_0_15px_#39FF14] uppercase">
+                    JOGAR
+                </button>
+</div>
+</section>
+<!-- Secondary Link -->
+<a class="font-headline-sm text-smoke hover:text-neon transition-colors tracking-widest uppercase" href="#">
+            PULAR TUTORIAL
+        </a>
+</main>
+<!-- Scanline Overlay -->
+<div class="fixed inset-0 pointer-events-none z-[100] opacity-10" style="background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%;"></div>
+<!-- Decorative CRT Flicker Overlay -->
+<div class="fixed inset-0 pointer-events-none z-[99] opacity-[0.03] bg-white mix-blend-overlay"></div>
+<!-- Mobile SideNav Mock (Hidden based on rule, but styled via SideNavBar logic) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-0 h-full w-64 bg-forest-dark border-r-4 border-pitch p-4 gap-4 z-40 pt-24">
+<div class="flex flex-col gap-2 mb-8 items-center text-center">
+<div class="w-20 h-20 bg-forest border-2 border-neon p-1 mb-2">
+<div class="w-full h-full bg-smoke/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-neon text-4xl" data-icon="person">person</span>
+</div>
+</div>
+<div class="font-headline-sm text-trophy">TREINADOR</div>
+<div class="font-code text-label-md text-smoke">Temporada 94/95</div>
+</div>
+<nav class="flex flex-col gap-2">
+<div class="flex items-center gap-3 p-3 bg-forest text-trophy border-2 border-neon font-headline-sm">
+<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
+<span>ESCRITÓRIO</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-smoke hover:text-parchment hover:bg-forest font-headline-sm transition-all">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span>ELENCO</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-smoke hover:text-parchment hover:bg-forest font-headline-sm transition-all">
+<span class="material-symbols-outlined" data-icon="strategy">strategy</span>
+<span>TÁTICAS</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-smoke hover:text-parchment hover:bg-forest font-headline-sm transition-all">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>MERCADO</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-smoke hover:text-parchment hover:bg-forest font-headline-sm transition-all">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span>CALENDÁRIO</span>
+</div>
+</nav>
+<button class="mt-auto bg-neon text-crt-black font-headline-sm py-4 border-2 border-pitch hover:bg-primary-container transition-all active:scale-95 uppercase">
+            PRÓXIMO JOGO
+        </button>
+</aside>
+</body></html>

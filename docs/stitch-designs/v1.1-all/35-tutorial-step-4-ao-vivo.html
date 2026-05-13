@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container-low": "#191c1f", "secondary-fixed": "#ffe16d", abyss: "#040805", "on-primary-container": "#107100", "on-primary": "#053900", "crt-black": "#111417", "error-container": "#93000a", danger: "#FF3333", "surface-container": "#1d2023", "on-surface-variant": "#baccb0", error: "#ffb4ab", "on-secondary-fixed": "#221b00", tertiary: "#e9ffef", "secondary-fixed-dim": "#e9c400", "tertiary-container": "#8cf1be", surface: "#111417", "secondary-container": "#ffdb3c", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed": "#022100", "surface-tint": "#2ae500", "danger-dark": "#8B0000", amber: "#FBBF24", smoke: "#a0baae", pitch: "#52B788", "on-secondary-container": "#725f00", "tertiary-fixed": "#92f7c3", "primary-fixed": "#79ff5b", "on-error": "#690005", "on-surface": "#e1e2e7", background: "#111417", "surface-container-high": "#272a2d", "on-tertiary-fixed": "#002113", "surface-container-highest": "#323538", "outline-variant": "#3c4b35", "on-background": "#e1e2e7", "forest-dark": "#0E1F14", "inverse-primary": "#106e00", "tertiary-fixed-dim": "#75daa8", "on-error-container": "#ffdad6", "primary-container": "#39ff14", "surface-bright": "#37393d", outline: "#85967c", "surface-variant": "#323538", "on-tertiary-container": "#006f4a", "on-secondary-fixed-variant": "#544600", forest: "#1B4332", trophy: "#FFD700", "inverse-on-surface": "#2e3134", parchment: "#F1FAEE", "inverse-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", primary: "#efffe3", "on-secondary": "#3a3000", "surface-dim": "#111417", secondary: "#fff9ef", "primary-fixed-dim": "#2ae500", "surface-container-lowest": "#0b0e11", neon: "#39FF14", "on-tertiary": "#003823", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-max": "1280px", "margin-mobile": "16px", gutter: "16px", "margin-desktop": "32px", unit: "4px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {code: ["jetbrainsMono"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "label-md": ["jetbrainsMono"], "headline-lg": ["'Press Start 2P'"], "label-lg": ["jetbrainsMono"], "body-md": ["rubik"], "body-sm": ["Pixelify Sans"], "headline-sm": ["'Press Start 2P'"], pixel: ["'Pixelify Sans'"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+<style>
+      .crt-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        background-size: 100% 4px, 3px 100%;
+        pointer-events: none;
+        z-index: 100;
+      }
+      .pixel-border {
+        box-shadow: 0 4px 0 0 #000, 0 -4px 0 0 #000, 4px 0 0 0 #000, -4px 0 0 0 #000, 4px 4px 0 0 #000, -4px -4px 0 0 #000, 4px -4px 0 0 #000, -4px 4px 0 0 #000;
+      }
+      .inset-border {
+        box-shadow: inset 4px 4px 0 0 #040805, inset -4px -4px 0 0 #52B788;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-abyss text-parchment font-body-md min-h-screen flex flex-col overflow-hidden">
+<div class="crt-overlay"></div>
+<header class="bg-crt-black border-b-4 border-pitch flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full z-10">
+<h1 class="font-headline-lg text-headline-lg text-neon tracking-tighter">ULTRA MANAGER 95</h1>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-smoke hover:text-neon cursor-pointer" data-icon="help">help</span>
+<span class="material-symbols-outlined text-smoke hover:text-neon cursor-pointer" data-icon="settings">settings</span>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center p-gutter relative">
+<!-- Background decorative elements to mimic stadium or tech atmosphere -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#39FF14 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Onboarding Center Card -->
+<div class="relative w-full max-w-lg bg-forest-dark border-4 border-pitch p-8 md:p-12 flex flex-col items-center text-center shadow-[8px_8px_0px_0px_#040805]">
+<!-- Decorative corner brackets -->
+<div class="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-neon"></div>
+<div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-neon"></div>
+<div class="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-neon"></div>
+<div class="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-neon"></div>
+<!-- TV Icon Container -->
+<div class="w-[120px] h-[120px] mb-8 bg-crt-black flex items-center justify-center p-4 pixel-border border-2 border-neon/50">
+<img alt="Acompanhe ao Vivo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZxvn_KzPpwKCJyxoy5Ur9gHXlL-cpt4yBSSiY-d6EUNIozv8SMdJN1XoitMTrixWmOc20rAy7uPjnI-IX0YMOnVogxbChuwKcPv7by-0yTkjtLS171AOPs7umeWYdPADXoDGz9S9N3JUp4JY-XDkB1YBNqbcW_4Vn8EwdsYeWdIx_0KYllWco6FOS0tobKDtsAiMUKZTpXRImqSKnlX0ToROA7gVvsRVmJs0GWS2AaxcmCSL-6LM4mTZsuHjUgLygNg6RkUfmW40"/>
+</div>
+<!-- Content Section -->
+<h2 class="font-headline-md text-headline-md text-neon mb-6 leading-relaxed">
+                ACOMPANHE AO VIVO
+            </h2>
+<p class="font-pixel text-2xl text-parchment mb-10 leading-snug max-w-sm">
+                Assista aos jogos e tome decisões críticas na beira do gramado.
+            </p>
+<!-- Progress Step Dots -->
+<div class="flex gap-4 mb-10">
+<div class="w-4 h-4 bg-forest border-2 border-pitch"></div>
+<div class="w-4 h-4 bg-forest border-2 border-pitch"></div>
+<div class="w-4 h-4 bg-forest border-2 border-pitch"></div>
+<div class="w-4 h-4 bg-neon shadow-[0_0_8px_#39FF14]"></div>
+<div class="w-4 h-4 bg-forest border-2 border-pitch"></div>
+</div>
+<!-- Navigation Buttons -->
+<div class="flex flex-col sm:flex-row gap-6 w-full">
+<button class="flex-1 py-4 bg-forest border-2 border-pitch text-parchment font-headline-sm hover:text-neon hover:border-neon active:translate-y-1 transition-all">
+                    ANTERIOR
+                </button>
+<button class="flex-1 py-4 bg-forest-dark border-2 border-neon text-neon font-headline-sm hover:bg-forest active:scale-95 transition-all shadow-[4px_4px_0px_0px_#040805]">
+                    PROXIMO
+                </button>
+</div>
+<!-- Skip Link -->
+<button class="mt-8 font-label-md text-smoke hover:text-trophy transition-colors tracking-widest flex items-center gap-2 group">
+                PULAR TUTORIAL
+                <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="double_arrow">double_arrow</span>
+</button>
+</div>
+</main>
+<!-- Bottom Status Bar (Aesthetic only) -->
+<footer class="bg-crt-black border-t-4 border-pitch px-margin-mobile py-2 flex justify-between items-center z-10">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-neon rounded-full animate-pulse"></div>
+<span class="font-code text-neon text-xs">SYSTEM READY_</span>
+</div>
+<div class="font-code text-smoke text-xs uppercase tracking-widest">
+            Module: Tutorial_Flow // Step_04
+        </div>
+</footer>
+</body></html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DASHBOARD - OléFUT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=Pixelify+Sans:wght@400..700&amp;family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=Rubik:ital,wght@0,300..900;1,300..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"tertiary-fixed-dim": "#75daa8", "on-primary": "#053900", "primary-container": "#39ff14", "on-error": "#690005", forest: "#1B4332", "tertiary-fixed": "#92f7c3", "on-primary-container": "#107100", "error-container": "#93000a", surface: "#111417", "on-tertiary-container": "#006f4a", background: "#111417", "on-primary-fixed-variant": "#095300", "on-secondary-fixed-variant": "#544600", "surface-container-low": "#191c1f", "secondary-container": "#ffdb3c", "primary-fixed": "#79ff5b", "on-tertiary": "#003823", "on-secondary-fixed": "#221b00", neon: "#39FF14", secondary: "#fff9ef", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed": "#022100", amber: "#FBBF24", "on-surface-variant": "#baccb0", danger: "#FF3333", "primary-fixed-dim": "#2ae500", "secondary-fixed-dim": "#e9c400", "secondary-fixed": "#ffe16d", "forest-dark": "#0E1F14", "inverse-surface": "#e1e2e7", "on-secondary": "#3a3000", "on-error-container": "#ffdad6", "outline-variant": "#3c4b35", "on-secondary-container": "#725f00", primary: "#efffe3", "surface-container": "#1d2023", "on-background": "#e1e2e7", "surface-bright": "#37393d", "tertiary-container": "#8cf1be", abyss: "#040805", "surface-container-lowest": "#0b0e11", error: "#ffb4ab", "surface-container-highest": "#323538", "danger-dark": "#8B0000", tertiary: "#e9ffef", "inverse-on-surface": "#2e3134", "surface-tint": "#2ae500", "surface-container-high": "#272a2d", "surface-dim": "#111417", trophy: "#FFD700", "surface-variant": "#323538", pitch: "#52B788", parchment: "#F1FAEE", "on-tertiary-fixed": "#002113", smoke: "#a0baae", "crt-black": "#111417", outline: "#85967c", "inverse-primary": "#106e00", "on-surface": "#e1e2e7", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-max": "1280px", "margin-mobile": "16px", unit: "4px", "margin-desktop": "32px", gutter: "16px", sm: "8px", md: "16px", xs: "4px", xl: "48px", lg: "24px", base: "4px"}, fontFamily: {"body-sm": ["Pixelify Sans"], "body-lg": ["Pixelify Sans"], "headline-sm": ["Press Start 2P"], "label-md": ["jetbrainsMono"], "headline-lg": ["Press Start 2P"], "label-lg": ["jetbrainsMono"], "body-md": ["rubik"], "headline-md": ["Press Start 2P"], code: ["jetbrainsMono"], "display-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"]}, fontSize: {"body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}]}}}};</script>
+<style>
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .arcade-bevel {
+            box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.2), inset -2px -2px 0px rgba(0, 0, 0, 0.5);
+        }
+        .arcade-bevel-inset {
+            box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.5), inset -2px -2px 0px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-abyss text-parchment min-h-screen relative font-body-md overflow-x-hidden pt-16 md:pl-64">
+<div class="scanlines"></div>
+<!-- TopAppBar -->
+<header class="fixed flex justify-between items-center w-full px-margin-desktop h-16 z-50 docked full-width top-0 border-b-4 border-pitch bg-forest-dark dark:bg-crt-black border-b-4 border-pitch bg-forest-dark flat no shadows with sharp bevel top-left-highlight">
+<div class="flex items-center gap-6">
+<h1 class="font-headline-lg text-headline-lg text-neon drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">ULTIMATE MANAGER '95</h1>
+<nav class="hidden md:flex gap-4">
+<a class="text-parchment font-label-lg opacity-80 hover:text-neon hover:bg-forest transition-colors px-2 py-1" href="#">SQUAD</a>
+<a class="text-parchment font-label-lg opacity-80 hover:text-neon hover:bg-forest transition-colors px-2 py-1" href="#">TACTICS</a>
+<a class="text-parchment font-label-lg opacity-80 hover:text-neon hover:bg-forest transition-colors px-2 py-1" href="#">TRANSFERS</a>
+<a class="text-parchment font-label-lg opacity-80 hover:text-neon hover:bg-forest transition-colors px-2 py-1" href="#">SCOUTING</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="account_balance_wallet" class="hover:text-neon transition-colors"><span class="material-symbols-outlined text-[24px]">account_balance_wallet</span></button>
+<button aria-label="notifications" class="hover:text-neon transition-colors"><span class="material-symbols-outlined text-[24px]">notifications</span></button>
+<img alt="Manager Avatar" class="w-8 h-8 border-2 border-pitch arcade-bevel" data-alt="A retro pixel art style portrait of a football manager wearing a classic 90s tracksuit jacket. The manager has a determined expression. High contrast lighting with neon green and dark forest green tones. Nostalgic 16-bit arcade aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuKeYk31XSX43gf0dleKisouVnPpEvFR-23mrStCDawkMoJxmV9Ei4wfNbvWMw1nKw7O9FX6OvT8FDtJgWdSVMJUqE-Ez-YoX0A85Eunu9NnO6ZB8g-jB7guyeKTAIgMh74BHxj-7C085MAh2ff1v9avNWzk19VtyIFGEoUe0AQNt00vXYuv_xlEm1wSb3dkfStOd4ynQGZVazry1Artmg3SR6T8SoIPdIUwKh_VzoSmadm5oXN5CeJyYdKU_VKm3oHUl-xF6EyGs"/>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full flex flex-col z-40 pt-16 docked left-0 h-full w-64 border-r-4 border-pitch border-r-4 border-pitch bg-forest bg-forest dark:bg-forest-dark flat no shadows">
+<div class="p-6 border-b-2 border-pitch/30 flex flex-col items-center">
+<img alt="Club Crest" class="w-16 h-16 border-2 border-pitch arcade-bevel mb-4" data-alt="A classic 90s football club crest design featuring a minimalist shield shape with bold geometric patterns inside. The crest uses bright neon green, trophy gold, and deep forest green colors. The style is reminiscent of 16-bit arcade sports games with sharp pixelated edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjn35y2oEJLU7NHODOdj9fsZ3R4s3_wt9PWnynxIN2S0sUvCksbTOCOqdM6oc4Zffhl_y9zUHjwS_FmXJ8hYQiff-hSn1X4BoavLIPEJavj_Qe7tUfO1m50NcJyz0b1cjmoNgkeAFB5OCR1SWXvQ60NWkGxAqbew845ulTnvFPPgJ-dopxCGnjxJ-OuWED9jC8XLcOGYrKlF52GVj_Pci7rk0ZZwF6AIzsFvLX4CVUI7ZWtqXTIJxqWybP0bD39bDlhOOt5ZXfIKU"/>
+<h2 class="font-headline-md text-headline-md text-trophy mb-1 text-center">UNITED FC</h2>
+<p class="font-label-md text-label-md text-parchment opacity-80">PREMIER DIV</p>
+</div>
+<div class="flex-1 overflow-y-auto py-4 flex flex-col gap-1">
+<a class="bg-forest-dark text-neon border-l-4 border-neon flex items-center p-4 hover:bg-forest-dark hover:text-neon Active: translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-md text-label-md">DASHBOARD</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon" href="#">
+<span class="material-symbols-outlined mr-3">leaderboard</span>
+<span class="font-label-md text-label-md">LEAGUE</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon" href="#">
+<span class="material-symbols-outlined mr-3">payments</span>
+<span class="font-label-md text-label-md">FINANCE</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon" href="#">
+<span class="material-symbols-outlined mr-3">stadium</span>
+<span class="font-label-md text-label-md">STADIUM</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon" href="#">
+<span class="material-symbols-outlined mr-3">work</span>
+<span class="font-label-md text-label-md">OFFICE</span>
+</a>
+<a class="text-parchment flex items-center p-4 opacity-70 hover:bg-forest-dark hover:text-neon" href="#">
+<span class="material-symbols-outlined mr-3">history</span>
+<span class="font-label-md text-label-md">HISTORY</span>
+</a>
+</div>
+<div class="p-4 border-t-2 border-pitch/30 flex flex-col gap-2 mt-auto">
+<button class="w-full bg-forest border-2 border-pitch text-parchment font-label-md text-label-md py-3 arcade-bevel hover:border-neon hover:text-neon transition-all">SAVE GAME</button>
+<div class="flex justify-between mt-4">
+<button aria-label="SETTINGS" class="text-parchment opacity-70 hover:text-neon transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button aria-label="QUIT" class="text-parchment opacity-70 hover:text-neon transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">power_settings_new</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-16 md:hidden docked full-width bottom-0 z-50 border-t-4 border-pitch bg-crt-black border-t-4 border-pitch bg-crt-black flat no shadows">
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest-dark" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1">newspaper</span>
+<span class="font-label-md text-label-md">NEWS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest-dark" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1">mail</span>
+<span class="font-label-md text-label-md">MAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest-dark" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1">search</span>
+<span class="font-label-md text-label-md">SEARCH</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest-dark" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1">assessment</span>
+<span class="font-label-md text-label-md">REPORTS</span>
+</a>
+</nav>
+<main class="p-margin-mobile md:p-margin-desktop pb-24 md:pb-margin-desktop max-w-container-max mx-auto relative z-20 flex flex-col gap-6">
+<!-- 1. HEADER PANEL -->
+<section class="bg-forest-dark border-2 border-pitch arcade-bevel p-4 md:p-6 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative overflow-hidden">
+<div class="scanlines opacity-50"></div>
+<div class="flex items-center gap-4 relative z-10">
+<div class="w-24 h-24 bg-crt-black border-2 border-pitch arcade-bevel-inset flex items-center justify-center shrink-0">
+<img alt="UNITED FC Crest" class="w-full h-full object-cover p-1" data-alt="A close up shot of a retro 16-bit style football club crest. The crest features a bold, simplified eagle emblem in vivid neon green against a dark background. Thick pixelated borders frame the crest. The aesthetic is heavily inspired by 90s arcade sports games." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9jZBYzvIBExh69dCneXHhqpYI9erbawodLf7TcnGhLSNl8H1QolzqhoI01iEVbu9p2um82NFlQ3re2Q5G-epNApXk7BDr_tF8-1B2hwvdjRvTMHtm9-hb1xSWZptNH6LAVATvV_n9uUpRroChltK6qiU59ZizsuEfDA1SKoK9ECOeS3ywp75SS_5zcajMiEFr4Nd-NhENAqzvBtHKAT3HZrp4douQCjOq1V1PxtZwaFya-dOI0eC7hXlbCuYwOWsUdqtgeINUiaw"/>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-parchment drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] mb-2">UNITED FC</h2>
+<p class="font-[Pixelify+Sans] text-body-lg text-neon tracking-widest uppercase">TREINADOR: MISTER X</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center relative z-10 w-full lg:w-auto border-t-2 lg:border-t-0 lg:border-l-2 border-pitch/50 pt-4 lg:pt-0 lg:pl-6">
+<div class="font-[IBM+Plex+Mono] text-parchment text-body-md tracking-wider mb-3 bg-crt-black px-4 py-1 border border-pitch">SEMANA 12/38 · TEMPORADA 2026</div>
+<div class="flex gap-2">
+<div class="w-8 h-8 bg-neon border border-on-primary arcade-bevel"></div>
+<div class="w-8 h-8 bg-neon border border-on-primary arcade-bevel"></div>
+<div class="w-8 h-8 bg-neon border border-on-primary arcade-bevel"></div>
+<div class="w-8 h-8 bg-forest border border-pitch arcade-bevel-inset"></div>
+</div>
+</div>
+<div class="flex flex-col items-end relative z-10 w-full lg:w-auto border-t-2 lg:border-t-0 lg:border-l-2 border-pitch/50 pt-4 lg:pt-0 lg:pl-6 text-right">
+<div class="font-[IBM+Plex+Mono] text-trophy text-headline-lg font-bold mb-2">R$ 2.5M</div>
+<div class="flex flex-col items-end gap-1">
+<span class="font-[Pixelify+Sans] text-body-sm text-parchment">MORAL DO PLANTEL: 78</span>
+<div class="w-48 h-3 bg-crt-black border border-smoke p-0.5">
+<div class="h-full bg-neon w-[78%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. PRÓXIMO JOGO PANEL -->
+<section class="bg-crt-black border-4 border-trophy p-6 flex flex-col items-center relative text-center">
+<div class="absolute top-0 left-0 bg-trophy text-crt-black font-headline-sm text-headline-sm px-4 py-2 border-b-2 border-r-2 border-amber">PRÓXIMO JOGO</div>
+<div class="mt-8 mb-6 flex flex-col items-center">
+<p class="font-[Pixelify+Sans] text-body-lg text-smoke tracking-widest mb-4">VS Flamengo · CASA · SEMANA 13 · BRASILEIRÃO SÉRIE A</p>
+<div class="flex items-center justify-center gap-8 md:gap-16">
+<div class="w-24 h-24 md:w-32 md:h-32 bg-forest border-2 border-pitch arcade-bevel flex items-center justify-center p-2">
+<img alt="Home Team" class="w-full h-full object-cover filter contrast-125" data-alt="Pixel art representation of a football team crest, heavily stylized with high contrast neon green and deep blacks. The design features geometric shapes mimicking a shield. Retro 90s console graphics style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0j4ihefgVABzsK10Hw7bQDgirqFbT0YP-MnCrZYFTgxlI8GuHltxx2UE-r_EfItp7t-yPfZh-FJegUmRTo21q1gulnK7kWbqAFJzXoor6WwxZtn7nCpLFo297_81923t2mFW7KLJG0s2kWKZmIX5xoBEu0b1jp04ZTL5H_4IKT6FZv1_43KzEXyhc4oj97D7na-xFa2BU2YYyVe0sAFNeRa14z1fWmaEQdtZ8XjTNFMeubH8MaIc1FWKzaXP20d8H2O1BQQU9b1k"/>
+</div>
+<div class="font-headline-lg text-[32px] md:text-[48px] text-trophy drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">VS</div>
+<div class="w-24 h-24 md:w-32 md:h-32 bg-abyss border-2 border-danger arcade-bevel flex items-center justify-center p-2">
+<img alt="Away Team" class="w-full h-full object-cover filter contrast-125" data-alt="Pixel art representation of an opposing football team crest, stylized with stark red and black colors. The design is a minimalist 16-bit interpretation of a sports logo. Retro 90s console graphics style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwbgGIE8CyjrbuZ7H9lU7A4LJp1qFaXaZcR9wuaZ0A0hkWhSXaQypNPu1DV8WxaATrhv0atn8msyHSqY9bqoWNADd6l3u7GuhBBj_4SCpG3VE34VcPeFA4dCxMVdsapB7qc1CoaWeXhQq5EeAZKIoG2gXBx6Mp-RYTk3yzyBta5J25w1RNXDmm45TFGglNCzu2FrBkqCdkA2EMTbtOySZdZRDLS3ucFG9QHdrqszZugTFKWorcQzvEN25-ZWwYr9mAb1liBpKYg2w"/>
+</div>
+</div>
+</div>
+<div class="w-full max-w-md bg-forest-dark border border-pitch p-3 mb-8 flex flex-col items-center gap-2">
+<div class="font-[IBM+Plex+Mono] text-neon text-body-sm tracking-wider drop-shadow-[0_0_5px_rgba(57,255,20,0.5)]">PROBABILIDADE 65% VITÓRIA</div>
+<div class="w-full h-2 flex">
+<div class="h-full bg-neon w-[65%]"></div>
+<div class="h-full bg-smoke w-[20%]"></div>
+<div class="h-full bg-danger w-[15%]"></div>
+</div>
+</div>
+<button class="bg-forest border-2 border-pitch text-parchment font-headline-md text-headline-md px-12 py-6 arcade-bevel hover:border-neon hover:text-neon transition-all hover:bg-forest-dark active:bg-abyss active:arcade-bevel-inset">
+                ESCALAR E JOGAR
+            </button>
+</section>
+</main>
+</body></html>

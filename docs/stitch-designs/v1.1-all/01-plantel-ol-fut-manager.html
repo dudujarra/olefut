@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT - SQUAD (Plantel)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609; /* Fallback */
+            color: #F1FAEE;
+            font-family: 'Rubik', sans-serif;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        /* CRT Scanline Effect */
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .pixel-border {
+            box-shadow: inset -2px -2px 0px 0px #52B788, inset 2px 2px 0px 0px #0E1F14;
+        }
+        .active-tab-glow {
+            text-shadow: 0 0 8px #39FF14;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {neon: "#39FF14", "on-primary-fixed-variant": "#095300", "secondary-fixed": "#ffe16d", pitch: "#52B788", "forest-dark": "#0E1F14", "surface-container-lowest": "#0b0e11", "surface-tint": "#2ae500", secondary: "#fff9ef", "on-tertiary": "#003823", tertiary: "#e9ffef", primary: "#efffe3", "surface-variant": "#323538", surface: "#111417", "inverse-surface": "#e1e2e7", "secondary-container": "#ffdb3c", "on-secondary-fixed": "#221b00", "on-primary": "#053900", amber: "#FBBF24", "surface-bright": "#37393d", "danger-dark": "#8B0000", "on-secondary": "#3a3000", abyss: "#040805", "primary-container": "#39ff14", "crt-black": "#111417", "on-tertiary-fixed-variant": "#005235", trophy: "#FFD700", "surface-container-low": "#191c1f", "on-surface": "#e1e2e7", "primary-fixed": "#79ff5b", error: "#ffb4ab", "error-container": "#93000a", forest: "#1B4332", "on-error-container": "#ffdad6", "tertiary-container": "#8cf1be", "surface-container-high": "#272a2d", smoke: "#a0baae", "on-tertiary-container": "#006f4a", "inverse-primary": "#106e00", "secondary-fixed-dim": "#e9c400", "outline-variant": "#3c4b35", "surface-container-highest": "#323538", "on-secondary-container": "#725f00", outline: "#85967c", background: "#111417", "surface-dim": "#111417", danger: "#FF3333", "tertiary-fixed": "#92f7c3", "surface-container": "#1d2023", "on-primary-fixed": "#022100", "on-primary-container": "#107100", "on-surface-variant": "#baccb0", "on-error": "#690005", "on-tertiary-fixed": "#002113", "primary-fixed-dim": "#2ae500", parchment: "#F1FAEE", "on-background": "#e1e2e7", "tertiary-fixed-dim": "#75daa8", "on-secondary-fixed-variant": "#544600", "inverse-on-surface": "#2e3134", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, fontFamily: {"headline-sm": ["'Press Start 2P'"], "headline-md": ["Press Start 2P"], "headline-lg": ["'Press Start 2P'"], "label-md": ["'JetBrains Mono'"], "label-lg": ["'JetBrains Mono'"], "body-sm": ["Pixelify Sans"], "body-md": ["'Rubik'"], "body-lg": ["Pixelify Sans"], code: ["'JetBrains Mono'"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}, spacing: {sm: "8px", xs: "4px", base: "4px", xl: "48px", "margin-mobile": "16px", lg: "24px", "margin-desktop": "32px", md: "16px", gutter: "16px"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+</head>
+<body class="bg-surface">
+<div class="crt-overlay"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-forest-dark border-b-2 border-pitch">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md text-neon tracking-tighter">ULTIMATE MANAGER '95</span>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-lg text-label-lg text-neon border-b-2 border-neon pb-1 transition-colors" href="#">SQUAD</a>
+<a class="font-label-lg text-label-lg text-parchment opacity-80 hover:text-neon hover:border-neon transition-colors" href="#">TACTICS</a>
+<a class="font-label-lg text-label-lg text-parchment opacity-80 hover:text-neon hover:border-neon transition-colors" href="#">TRANSFERS</a>
+<a class="font-label-lg text-label-lg text-parchment opacity-80 hover:text-neon hover:border-neon transition-colors" href="#">SCOUTING</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-neon cursor-pointer">settings</span>
+<div class="w-8 h-8 bg-pitch border border-neon overflow-hidden">
+<img alt="Manager Avatar" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmKJzTDaV70osh97gd3HCt4y14bJJ4dkj3qxX2VL653651LQeM7X1SrfiUHa1GAUlMYdiWXmn6DhA88w5FCmf3o2V_CmqouwOofMFLZm2Lsfg3_N_nUI8AtPPd4RK_pdW8GF6lQ8Tn9_Vgd6A0yAYREe6mrOsJBKHg1LsbBmDlFED_nzWTr8wDJAf0wciChukXdBfn6bw6tD3atBgX_BT_KSLK5b3njwMSN7hREnaOnWZCMocafsclbV3JHuzDK61Pmco5lIzT3D8"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-forest-dark border-r-2 border-pitch flex flex-col p-gutter hidden md:flex">
+<div class="mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-forest-dark font-bold">sports_soccer</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-neon">MANAGER HUB</h2>
+<p class="font-label-md text-[10px] text-smoke">SEASON 1995/96</p>
+</div>
+</div>
+</div>
+<nav class="flex-grow flex flex-col gap-2">
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">DASHBOARD</span>
+</a>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">LEAGUE</span>
+</a>
+<a class="bg-forest text-neon border-2 border-neon p-2 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">settings_applications</span>
+<span class="font-label-md text-label-md">MANAGEMENT</span>
+</a>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-md text-label-md">TRAINING</span>
+</a>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">FINANCE</span>
+</a>
+<a class="text-smoke p-2 flex items-center gap-3 hover:bg-forest-dark hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">HISTORY</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-4">
+<button class="bg-forest border-2 border-pitch text-parchment font-headline-sm text-[10px] py-3 hover:border-neon hover:text-neon active:translate-y-0.5 transition-all">
+                SAVE GAME
+            </button>
+<a class="text-smoke p-2 flex items-center gap-3 hover:text-danger transition-colors" href="#">
+<span class="material-symbols-outlined">power_settings_new</span>
+<span class="font-label-md text-label-md">LOGOUT</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 px-margin-mobile md:px-margin-desktop pb-12 min-h-screen bg-crt-black">
+<!-- Header Section -->
+<section class="flex flex-col md:flex-row items-center gap-6 mb-8 p-6 bg-forest-dark border-2 border-pitch">
+<div class="w-24 h-24 border-4 border-neon p-1 bg-abyss flex items-center justify-center">
+<img alt="UNITED FC Crest" class="w-full h-full" data-alt="A bold and aggressive professional football club crest for United FC. The design features a stylized shield in neon green and deep black with geometric, high-contrast symbols reminiscent of 1990s arcade sports graphics. The lighting is punchy with a slight digital glow, conveying a premium and nostalgic sports management aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjUt6b858Td7p7j2O4uzWOdY5GAROZ6SrfIXdejKEJS5aIAGAaNMrEVKwxhK0WaJY-8ku8YRdgCK-IomWCKXhGx3KT0ReUefn3dn6IYKzY6E-Hm-pZPqABaTkn8KpPCwppNiqajt3JIfJc9nUftrE3alG2kZTDvpVDkFBxe16eKGTXinDIMEEvxSy9l7HlRIPABsZ_j_r3AxWzQGHUbgRsFj8RlyLk0xCsAzle3lBQD3gJeayF5975x-5ucQxje3OyQcy6G21tjP0"/>
+</div>
+<div class="text-center md:text-left">
+<h1 class="font-headline-lg text-headline-lg text-neon mb-2">UNITED FC</h1>
+<p class="font-label-lg text-parchment opacity-70">25/30 JOGADORES NO PLANTEL</p>
+</div>
+<div class="ml-auto hidden lg:flex flex-col items-end">
+<div class="font-headline-sm text-trophy mb-1">CASH: $45.2M</div>
+<div class="font-headline-sm text-neon">WAGE: $1.2M/wk</div>
+</div>
+</section>
+<!-- Sub-Tabs -->
+<nav class="flex gap-1 mb-6">
+<button class="px-6 py-3 bg-forest border-t-4 border-x-2 border-neon text-neon font-headline-sm text-[10px] active-tab-glow">PLANTEL</button>
+<button class="px-6 py-3 bg-forest-dark border-t-4 border-x-2 border-pitch text-smoke font-headline-sm text-[10px] hover:text-parchment hover:border-smoke transition-colors">ANÁLISE TÁTICA</button>
+<button class="px-6 py-3 bg-forest-dark border-t-4 border-x-2 border-pitch text-smoke font-headline-sm text-[10px] hover:text-parchment hover:border-smoke transition-colors">FINANÇAS</button>
+</nav>
+<!-- Filters -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-forest-dark p-4 border-2 border-pitch">
+<div class="relative">
+<input class="w-full bg-abyss border border-smoke p-3 font-code text-neon placeholder:text-forest focus:border-neon outline-none" placeholder="BUSCAR JOGADOR..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-smoke">search</span>
+</div>
+<select class="bg-abyss border border-smoke p-3 font-code text-parchment appearance-none focus:border-neon outline-none">
+<option>TODAS POSIÇÕES</option>
+<option>GOL</option>
+<option>DEF</option>
+<option>MEI</option>
+<option>ATA</option>
+</select>
+<select class="bg-abyss border border-smoke p-3 font-code text-parchment appearance-none focus:border-neon outline-none">
+<option>ORDENAR POR: POS</option>
+<option>ORDENAR POR: OVR</option>
+<option>ORDENAR POR: IDADE</option>
+<option>ORDENAR POR: COND</option>
+</select>
+<button class="bg-forest border-2 border-pitch text-parchment font-headline-sm text-[10px] hover:border-neon hover:text-neon">APLICAR</button>
+</div>
+<!-- Squad Table -->
+<div class="overflow-x-auto border-2 border-pitch bg-forest-dark">
+<table class="w-full text-left border-collapse">
+<thead class="bg-pitch text-forest-dark font-headline-sm text-[10px]">
+<tr>
+<th class="p-4 border-r border-forest-dark">ST</th>
+<th class="p-4 border-r border-forest-dark">POS</th>
+<th class="p-4 border-r border-forest-dark">JOGADOR</th>
+<th class="p-4 border-r border-forest-dark">OVR</th>
+<th class="p-4 border-r border-forest-dark">COND</th>
+<th class="p-4 border-r border-forest-dark">MOR</th>
+<th class="p-4">AÇÃO</th>
+</tr>
+</thead>
+<tbody class="font-code text-parchment">
+<!-- Starter Row -->
+<tr class="border-b border-pitch hover:bg-forest transition-colors border-l-4 border-l-neon">
+<td class="p-4 text-center">
+<div class="w-3 h-3 bg-neon rounded-full mx-auto shadow-[0_0_8px_#39FF14]"></div>
+</td>
+<td class="p-4">
+<span class="px-2 py-1 bg-danger-dark text-[10px] font-headline-sm text-white border border-pitch">GOL</span>
+</td>
+<td class="p-4">
+<div class="font-bold">CLAUDIO TAFFAREL</div>
+<div class="text-[10px] text-smoke">29 ANOS</div>
+</td>
+<td class="p-4 font-headline-sm text-trophy">88</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="text-[10px]">98%</span>
+<div class="w-16 h-2 bg-abyss border border-smoke p-[1px]">
+<div class="h-full bg-neon w-[98%]"></div>
+</div>
+</div>
+</td>
+<td class="p-4">92</td>
+<td class="p-4">
+<button class="bg-abyss border border-smoke px-3 py-1 text-[10px] font-headline-sm hover:border-neon hover:text-neon">ESCALAR</button>
+</td>
+</tr>
+<!-- Starter Row -->
+<tr class="border-b border-pitch hover:bg-forest transition-colors border-l-4 border-l-neon">
+<td class="p-4 text-center">
+<div class="w-3 h-3 bg-neon rounded-full mx-auto shadow-[0_0_8px_#39FF14]"></div>
+</td>
+<td class="p-4">
+<span class="px-2 py-1 bg-amber text-[10px] font-headline-sm text-crt-black border border-pitch">DEF</span>
+</td>
+<td class="p-4">
+<div class="font-bold">ALDAIR</div>
+<div class="text-[10px] text-smoke">28 ANOS</div>
+</td>
+<td class="p-4 font-headline-sm text-trophy">85</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="text-[10px]">95%</span>
+<div class="w-16 h-2 bg-abyss border border-smoke p-[1px]">
+<div class="h-full bg-neon w-[95%]"></div>
+</div>
+</div>
+</td>
+<td class="p-4">88</td>
+<td class="p-4">
+<button class="bg-abyss border border-smoke px-3 py-1 text-[10px] font-headline-sm hover:border-neon hover:text-neon">ESCALAR</button>
+</td>
+</tr>
+<!-- Injured Row -->
+<tr class="border-b border-pitch hover:bg-forest transition-colors opacity-60">
+<td class="p-4 text-center">
+<span class="material-symbols-outlined text-danger text-sm">medical_services</span>
+</td>
+<td class="p-4">
+<span class="px-2 py-1 bg-neon text-[10px] font-headline-sm text-forest-dark border border-pitch">ATA</span>
+</td>
+<td class="p-4">
+<div class="font-bold">R. GAÚCHO</div>
+<div class="text-[10px] text-smoke">15 ANOS (JOVEM)</div>
+</td>
+<td class="p-4 font-headline-sm text-trophy">82</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-danger">12%</span>
+<div class="w-16 h-2 bg-abyss border border-smoke p-[1px]">
+<div class="h-full bg-danger w-[12%]"></div>
+</div>
+</div>
+</td>
+<td class="p-4">45</td>
+<td class="p-4 text-smoke text-[10px] italic">LESIONADO</td>
+</tr>
+<!-- Regular Row -->
+<tr class="border-b border-pitch hover:bg-forest transition-colors">
+<td class="p-4 text-center">
+<div class="w-3 h-3 border border-smoke rounded-full mx-auto"></div>
+</td>
+<td class="p-4">
+<span class="px-2 py-1 bg-pitch text-[10px] font-headline-sm text-forest-dark border border-pitch">MEI</span>
+</td>
+<td class="p-4">
+<div class="font-bold">DUNGA (C)</div>
+<div class="text-[10px] text-smoke">31 ANOS</div>
+</td>
+<td class="p-4 font-headline-sm text-trophy">90</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="text-[10px]">100%</span>
+<div class="w-16 h-2 bg-abyss border border-smoke p-[1px]">
+<div class="h-full bg-neon w-full"></div>
+</div>
+</div>
+</td>
+<td class="p-4">99</td>
+<td class="p-4">
+<button class="bg-abyss border border-smoke px-3 py-1 text-[10px] font-headline-sm hover:border-neon hover:text-neon">ESCALAR</button>
+</td>
+</tr>
+<!-- Regular Row -->
+<tr class="border-b border-pitch hover:bg-forest transition-colors">
+<td class="p-4 text-center">
+<div class="w-3 h-3 border border-smoke rounded-full mx-auto"></div>
+</td>
+<td class="p-4">
+<span class="px-2 py-1 bg-neon text-[10px] font-headline-sm text-forest-dark border border-pitch">ATA</span>
+</td>
+<td class="p-4">
+<div class="font-bold">ROMÁRIO</div>
+<div class="text-[10px] text-smoke">29 ANOS</div>
+</td>
+<td class="p-4 font-headline-sm text-trophy">94</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="text-[10px]">82%</span>
+<div class="w-16 h-2 bg-abyss border border-smoke p-[1px]">
+<div class="h-full bg-neon w-[82%]"></div>
+</div>
+</div>
+</td>
+<td class="p-4">75</td>
+<td class="p-4">
+<button class="bg-abyss border border-smoke px-3 py-1 text-[10px] font-headline-sm hover:border-neon hover:text-neon">ESCALAR</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Stats Bento -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+<div class="bg-forest-dark p-4 border-2 border-pitch flex items-center justify-between">
+<div>
+<h4 class="font-label-md text-smoke mb-1">MÉDIA OVR</h4>
+<span class="font-headline-lg text-trophy">84.2</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-pitch opacity-30">star</span>
+</div>
+<div class="bg-forest-dark p-4 border-2 border-pitch flex items-center justify-between">
+<div>
+<h4 class="font-label-md text-smoke mb-1">COND. MÉDIA</h4>
+<span class="font-headline-lg text-neon">88%</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-pitch opacity-30">bolt</span>
+</div>
+<div class="bg-forest-dark p-4 border-2 border-pitch flex items-center justify-between">
+<div>
+<h4 class="font-label-md text-smoke mb-1">MORAL EQUIPE</h4>
+<span class="font-headline-lg text-amber">FORTE</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-pitch opacity-30">groups</span>
+</div>
+</div>
+</main>
+<!-- Mobile BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full bg-forest-dark border-t-2 border-pitch flex justify-around items-center h-16 z-50">
+<a class="flex flex-col items-center gap-1 text-smoke" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[8px] font-headline-sm">HUB</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-neon active-tab-glow" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-[8px] font-headline-sm">SQUAD</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-smoke" href="#">
+<span class="material-symbols-outlined">strategy</span>
+<span class="text-[8px] font-headline-sm">TAC</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-smoke" href="#">
+<span class="material-symbols-outlined">paid</span>
+<span class="text-[8px] font-headline-sm">FIN</span>
+</a>
+</nav>
+</body></html>

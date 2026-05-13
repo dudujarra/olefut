@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {surface: "#111417", "error-container": "#93000a", forest: "#1B4332", "tertiary-fixed": "#92f7c3", "on-primary-container": "#107100", "on-primary": "#053900", "tertiary-fixed-dim": "#75daa8", "primary-container": "#39ff14", "on-error": "#690005", "primary-fixed-dim": "#2ae500", "secondary-fixed-dim": "#e9c400", "secondary-fixed": "#ffe16d", "inverse-surface": "#e1e2e7", "forest-dark": "#0E1F14", "on-error-container": "#ffdad6", "on-secondary": "#3a3000", neon: "#39FF14", "primary-fixed": "#79ff5b", "on-tertiary": "#003823", "on-secondary-fixed": "#221b00", secondary: "#fff9ef", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed": "#022100", "on-surface-variant": "#baccb0", danger: "#FF3333", amber: "#FBBF24", "on-tertiary-container": "#006f4a", background: "#111417", "on-secondary-fixed-variant": "#544600", "on-primary-fixed-variant": "#095300", "surface-container-low": "#191c1f", "secondary-container": "#ffdb3c", "surface-container-lowest": "#0b0e11", abyss: "#040805", error: "#ffb4ab", "surface-container-highest": "#323538", "tertiary-container": "#8cf1be", "surface-container": "#1d2023", "surface-bright": "#37393d", "on-background": "#e1e2e7", "outline-variant": "#3c4b35", "on-secondary-container": "#725f00", primary: "#efffe3", pitch: "#52B788", parchment: "#F1FAEE", "on-tertiary-fixed": "#002113", outline: "#85967c", "inverse-primary": "#106e00", smoke: "#a0baae", "crt-black": "#111417", "on-surface": "#e1e2e7", "surface-dim": "#111417", trophy: "#FFD700", "surface-variant": "#323538", "surface-tint": "#2ae500", "surface-container-high": "#272a2d", tertiary: "#e9ffef", "danger-dark": "#8B0000", "inverse-on-surface": "#2e3134", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "16px", unit: "4px", "margin-desktop": "32px", "container-max": "1280px", gutter: "16px", sm: "8px", md: "16px", xs: "4px", xl: "48px", lg: "24px", base: "4px"}, fontFamily: {"headline-sm": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], "body-lg": ["Pixelify Sans"], "label-lg": ["JetBrains Mono"], "body-md": ["Rubik"], "label-md": ["JetBrains Mono"], "headline-lg": ["Press Start 2P"], "headline-md": ["Press Start 2P"], code: ["JetBrains Mono"], "display-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"]}, fontSize: {"display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}]}}}};</script>
+<style>
+        .crt-scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .pixel-border-outer {
+            box-shadow: 0 0 0 4px #52B788, 0 0 0 8px #0E1F14;
+        }
+        @keyframes pulse-neon {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(0.98); }
+        }
+        .animate-pulse-neon {
+            animation: pulse-neon 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface overflow-x-hidden selection:bg-neon selection:text-crt-black">
+<div class="fixed inset-0 crt-scanlines z-[100]"></div>
+<!-- TopAppBar -->
+<header class="bg-forest-dark dark:bg-abyss flex justify-between items-center px-margin-mobile md:px-margin-desktop py-unit w-full sticky top-0 z-50 border-b-4 border-pitch">
+<div class="font-headline-md text-headline-md text-neon tracking-tighter">OléFUT</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">database</span>
+<span class="font-label-lg text-label-lg text-parchment">1,450 XP</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+<span class="font-label-lg text-label-lg text-parchment">50.2K</span>
+</div>
+<span class="material-symbols-outlined text-parchment hover:text-neon cursor-pointer">calendar_today</span>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full hidden md:flex flex-col z-40 bg-forest-dark dark:bg-crt-black h-screen w-64 border-r-4 border-pitch pt-20">
+<div class="px-6 py-8 flex flex-col items-center border-b-4 border-pitch mb-4">
+<div class="w-16 h-16 border-2 border-neon p-1 mb-3">
+<img alt="Manager" class="w-full h-full object-cover" data-alt="A pixel-art portrait of a legendary football manager with grey hair and a sharp suit, styled in a 32-bit retro video game aesthetic. The character has a determined expression against a deep forest green background with neon accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsZ2cU3yMWgu-g56F3lBKprQHW93_BSiMAOKMfKJV8Goyjrz9pJg4mzZVgjoeD6QfUvpKGgug5HQm-G3n7s37QT97G2s3cFtVLrRnqY6fxPRcn38kCOR-NxGTJAgVrm2IWc31TZR-FiDLYPu9tbiMZOYqROsNQKerYIbextmFPXKbnpCIfqm7L51HWAzsSsQleYU7vMhM_jubKnQDaqmlljttgvq7DaHN--6i7HH_BcPEdhjHhtWNXXCQXBvnGfuOH-y_9KOK6RYw"/>
+</div>
+<div class="font-headline-sm text-headline-sm text-trophy">G. HODDLE</div>
+<div class="font-label-md text-label-md text-smoke mt-1">LEGENDARY STATUS</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 text-smoke px-4 py-3 hover:text-parchment hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">strategy</span>
+<span class="font-label-lg text-label-lg">Tactics</span>
+</a>
+<a class="flex items-center gap-4 text-smoke px-4 py-3 hover:text-parchment hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-lg text-label-lg">Squad</span>
+</a>
+<a class="flex items-center gap-4 text-smoke px-4 py-3 hover:text-parchment hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-lg text-label-lg">Training</span>
+</a>
+<a class="flex items-center gap-4 text-smoke px-4 py-3 hover:text-parchment hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">swap_horizontal_circle</span>
+<span class="font-label-lg text-label-lg">Transfers</span>
+</a>
+<a class="flex items-center gap-4 text-smoke px-4 py-3 hover:text-parchment hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-lg text-label-lg">History</span>
+</a>
+</nav>
+<div class="p-4 border-t-4 border-pitch">
+<button class="w-full bg-forest border-2 border-pitch text-neon py-3 font-headline-sm text-headline-sm active:translate-y-1 transition-all">GO TO MATCH</button>
+</div>
+</aside>
+<!-- Main Content Area (PRÉ-JOGO) -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-margin-desktop min-h-screen pb-32">
+<!-- Page Title Section -->
+<div class="mb-8 border-l-8 border-neon pl-6">
+<h1 class="font-headline-lg text-headline-lg text-neon mb-2">PRÉ-JOGO</h1>
+<p class="font-label-lg text-label-lg text-smoke uppercase tracking-widest">Estádio da Luz • Rodada 24 • UEFA Champs</p>
+</div>
+<!-- Bento Grid Layout for Match Setup -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Center Area: Large VS Card -->
+<section class="lg:col-span-12 bg-forest-dark border-4 border-pitch p-6 md:p-10 relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<div class="h-full w-full bg-[radial-gradient(#39FF14_1px,transparent_1px)] [background-size:20px_20px]"></div>
+</div>
+<div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
+<!-- Left Side: United FC -->
+<div class="flex-1 w-full text-center md:text-left flex flex-col items-center md:items-start">
+<div class="mb-6 group">
+<div class="w-40 h-40 border-4 border-neon flex items-center justify-center bg-abyss p-4 mb-4 transform transition-transform group-hover:scale-105">
+<img alt="United FC Logo" class="w-full h-full" data-alt="A futuristic minimalist football club crest for United FC, featuring geometric patterns in neon green and deep forest dark colors. The aesthetic is clean, sharp, and modern with a retro-digital influence, set against a dark textured background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbQ5a5uVea0nrHCBYyJAAEKjCl78110OlO6ZrATgRz3ogIM1G8sPZmYPvWLeX-SM4DFHAJNQBeTyG3GY7FR2JSa-xZQx-qMNkZRuIw0YyPFX98iWkZMVtmTsDhL0gWG62Xk12__qLNHMZnwBaHsn9Dwvez98NiwHzGF3t0SfU0nMZp7rutPvtnQ4UiKbcer1rDXamekU1lb5K0Ssqb7zE37G97E7YX9Ymmibc0lGI1swkYVNStX5djJg2DAIAybaMmtkldSVwKrNc"/>
+</div>
+<h2 class="font-headline-md text-headline-md text-parchment">UNITED FC</h2>
+<p class="font-label-lg text-label-lg text-neon mt-2">4-3-3 ATTACK</p>
+</div>
+<!-- Vertical Bar Chart for Sectors -->
+<div class="w-full max-w-[240px] space-y-4 bg-abyss/50 p-4 border-2 border-pitch">
+<div class="space-y-1">
+<div class="flex justify-between font-label-md text-label-md text-smoke">
+<span>GOL</span>
+<span class="text-neon">92</span>
+</div>
+<div class="h-4 bg-forest-dark border border-smoke/30 overflow-hidden">
+<div class="h-full bg-neon" style="width: 92%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-md text-label-md text-smoke">
+<span>DEF</span>
+<span class="text-neon">88</span>
+</div>
+<div class="h-4 bg-forest-dark border border-smoke/30 overflow-hidden">
+<div class="h-full bg-neon" style="width: 88%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-md text-label-md text-smoke">
+<span>MEI</span>
+<span class="text-neon">86</span>
+</div>
+<div class="h-4 bg-forest-dark border border-smoke/30 overflow-hidden">
+<div class="h-full bg-neon" style="width: 86%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-md text-label-md text-smoke">
+<span>ATA</span>
+<span class="text-neon">94</span>
+</div>
+<div class="h-4 bg-forest-dark border border-smoke/30 overflow-hidden">
+<div class="h-full bg-neon" style="width: 94%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center: Large VS and Widget -->
+<div class="flex flex-col items-center justify-center py-8">
+<div class="font-headline-lg text-[64px] text-trophy drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] mb-8">VS</div>
+<div class="bg-crt-black border-4 border-trophy p-6 text-center min-w-[280px]">
+<div class="font-label-lg text-label-lg text-smoke mb-4 border-b border-smoke/20 pb-2">WIN PROBABILITY</div>
+<div class="relative h-20 w-full bg-forest-dark border-2 border-pitch flex items-center px-4">
+<!-- Probability Bar -->
+<div class="w-full h-12 bg-abyss border border-smoke/20 relative flex">
+<div class="h-full bg-neon border-r-2 border-abyss" style="width: 55%"></div>
+<div class="h-full bg-danger" style="width: 45%"></div>
+<!-- Percentage Overlay -->
+<div class="absolute inset-0 flex justify-between items-center px-4 font-headline-sm text-headline-sm">
+<span class="text-crt-black">55%</span>
+<span class="text-parchment">45%</span>
+</div>
+</div>
+</div>
+<p class="font-label-md text-label-md text-danger mt-3">OPPONENT: FLAMENGO (45%)</p>
+</div>
+</div>
+<!-- Right Side: Flamengo -->
+<div class="flex-1 w-full text-center md:text-right flex flex-col items-center md:items-end">
+<div class="mb-6 group">
+<div class="w-40 h-40 border-4 border-danger flex items-center justify-center bg-abyss p-4 mb-4 transform transition-transform group-hover:scale-105">
+<img alt="Flamengo Logo" class="w-full h-full" data-alt="A historic-style football club crest for Flamengo, emphasizing bold red and black horizontal stripes with a classic shield shape. The visual style is retro-arcade, high-contrast, and punchy, fitting a 32-bit sports manager game UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6dPVVcbED7CALRrjYXjV7RxY8kJzvbViSWgQyjViZyQRnHvwN3gR5_iLJbq9ATyeoOaitn9ftaVHWlGrvHryYUBEpKNFtZ80aXQruD--W2GF-3Y7Mi_auOvNsGslx1h8KjiOMGdKobqQnLZWgzggnneACP-4UgHSMwhmHKA3rFdyg2NwwmmeV2SfDAlPs9NN6QVgllOSabGOk132BhwOfppEbqmP8kjCvpxlK4Dx8sAVo46KwQGrUPiYC5Q5k0ZbQqXX0XyM3kPE"/>
+</div>
+<h2 class="font-headline-md text-headline-md text-parchment">FLAMENGO</h2>
+<p class="font-label-lg text-label-lg text-danger mt-2">4-3-3</p>
+</div>
+<div class="bg-abyss/50 border-2 border-danger p-6 text-right w-full max-w-[240px]">
+<span class="font-label-md text-label-md text-smoke block mb-1">TACTICAL STYLE</span>
+<span class="font-headline-sm text-headline-sm text-danger block">TOTAL ATTACK</span>
+<div class="mt-6 flex justify-end gap-2">
+<span class="material-symbols-outlined text-danger">warning</span>
+<span class="material-symbols-outlined text-danger">rocket_launch</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- H2H Section -->
+<section class="lg:col-span-12 bg-forest border-2 border-pitch p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon text-3xl">analytics</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-parchment">ÚLTIMOS JOGOS (H2H)</h3>
+<p class="font-label-md text-label-md text-smoke">Confrontos diretos nesta temporada</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<!-- V (Vitória) -->
+<div class="w-12 h-12 flex items-center justify-center bg-neon text-crt-black font-headline-sm text-headline-sm border-2 border-abyss">V</div>
+<!-- E (Empate) -->
+<div class="w-12 h-12 flex items-center justify-center bg-amber text-crt-black font-headline-sm text-headline-sm border-2 border-abyss">E</div>
+<!-- E (Empate) -->
+<div class="w-12 h-12 flex items-center justify-center bg-amber text-crt-black font-headline-sm text-headline-sm border-2 border-abyss">E</div>
+<!-- D (Derrota) -->
+<div class="w-12 h-12 flex items-center justify-center bg-danger text-parchment font-headline-sm text-headline-sm border-2 border-abyss">D</div>
+<!-- V (Vitória) -->
+<div class="w-12 h-12 flex items-center justify-center bg-neon text-crt-black font-headline-sm text-headline-sm border-2 border-abyss">V</div>
+</div>
+</section>
+<!-- Additional Info Cards -->
+<div class="lg:col-span-4 bg-crt-black border-2 border-pitch p-4">
+<div class="font-label-lg text-label-lg text-neon mb-4">CONDIÇÃO DO GRAMADO</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-smoke text-4xl">grass</span>
+<div>
+<p class="font-body-md text-body-md text-parchment">PERFEITO</p>
+<p class="font-label-md text-label-md text-smoke">Umidade: 12%</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 bg-crt-black border-2 border-pitch p-4">
+<div class="font-label-lg text-label-lg text-neon mb-4">CLIMA</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-smoke text-4xl">cloud</span>
+<div>
+<p class="font-body-md text-body-md text-parchment">NUBLADO</p>
+<p class="font-label-md text-label-md text-smoke">18°C • Sem Vento</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 bg-crt-black border-2 border-pitch p-4">
+<div class="font-label-lg text-label-lg text-neon mb-4">ARBITRAGEM</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-smoke text-4xl">sports</span>
+<div>
+<p class="font-body-md text-body-md text-parchment">M. OLIVER</p>
+<p class="font-label-md text-label-md text-smoke">Média: 4.2 Cartões/Jogo</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Action Button -->
+<div class="fixed bottom-0 left-0 md:left-64 right-0 p-6 bg-forest-dark/80 backdrop-blur-md border-t-4 border-pitch flex justify-center z-40">
+<button class="w-full max-w-2xl bg-neon border-4 border-pitch px-12 py-5 font-headline-lg text-headline-lg text-crt-black hover:bg-white active:scale-95 transition-all shadow-[0_0_30px_rgba(57,255,20,0.4)] animate-pulse-neon">
+                    JOGAR <span class="block text-label-lg font-label-lg mt-1">(ENTRAR EM CAMPO)</span>
+</button>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-forest-dark border-t-4 border-pitch">
+<div class="flex flex-col items-center justify-center bg-forest text-neon rounded-none p-2 border-2 border-neon">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Inbox</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Finance</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</div>
+</nav>
+</body></html>

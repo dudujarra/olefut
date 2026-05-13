@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ULTRA MANAGER 95 - Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", "on-tertiary-fixed": "#002113", "on-primary": "#053900", amber: "#FBBF24", "on-tertiary-fixed-variant": "#005235", "on-secondary-fixed-variant": "#544600", "on-surface-variant": "#baccb0", primary: "#efffe3", "error-container": "#93000a", smoke: "#a0baae", "on-tertiary-container": "#006f4a", "outline-variant": "#3c4b35", "primary-container": "#39ff14", abyss: "#040805", "on-error-container": "#ffdad6", "on-primary-fixed": "#022100", "inverse-surface": "#e1e2e7", "surface-container-highest": "#323538", "on-background": "#e1e2e7", pitch: "#52B788", "inverse-primary": "#106e00", tertiary: "#e9ffef", "tertiary-container": "#8cf1be", "surface-container-high": "#272a2d", "secondary-fixed": "#ffe16d", "tertiary-fixed": "#92f7c3", secondary: "#fff9ef", "on-primary-container": "#107100", "crt-black": "#111417", "surface-dim": "#111417", "primary-fixed-dim": "#2ae500", "surface-bright": "#37393d", surface: "#111417", "secondary-container": "#ffdb3c", neon: "#39FF14", "surface-variant": "#323538", "on-secondary-container": "#725f00", trophy: "#FFD700", "on-secondary-fixed": "#221b00", "inverse-on-surface": "#2e3134", "surface-container-low": "#191c1f", forest: "#1B4332", outline: "#85967c", "surface-tint": "#2ae500", error: "#ffb4ab", danger: "#FF3333", parchment: "#F1FAEE", "tertiary-fixed-dim": "#75daa8", "on-tertiary": "#003823", "primary-fixed": "#79ff5b", "secondary-fixed-dim": "#e9c400", "surface-container": "#1d2023", "danger-dark": "#8B0000", background: "#111417", "surface-container-lowest": "#0b0e11", "on-secondary": "#3a3000", "forest-dark": "#0E1F14", "on-error": "#690005", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", gutter: "16px", "margin-mobile": "16px", "margin-desktop": "32px", "container-max": "1280px", xl: "48px", md: "16px", base: "4px", xs: "4px", lg: "24px", sm: "8px"}, fontFamily: {"headline-lg": ["Press Start 2P"], code: ["jetbrainsMono"], "body-md": ["rubik"], "body-sm": ["Pixelify Sans"], "label-lg": ["jetbrainsMono"], "headline-md": ["Press Start 2P"], "label-md": ["jetbrainsMono"], "body-lg": ["Pixelify Sans"], "headline-sm": ["Press Start 2P"], pixel: ["Pixelify Sans"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+<style>
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 0 #52B788,
+                0 4px 0 0 #52B788,
+                -4px 0 0 0 #52B788,
+                4px 0 0 0 #52B788;
+        }
+        .pixel-border-inset {
+            box-shadow: inset 0 -4px 0 0 rgba(0,0,0,0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen relative overflow-hidden flex items-center justify-center">
+<!-- CRT Overlay -->
+<div class="fixed inset-0 z-50 scanlines opacity-30 pointer-events-none"></div>
+<!-- Background Canvas -->
+<div class="absolute inset-0 bg-forest-dark z-0">
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(#52B788_1px,transparent_1px)] [background-size:24px_24px]"></div>
+</div>
+<!-- Main Content: Tutorial Modal -->
+<main class="relative z-10 w-full max-w-[540px] px-margin-mobile md:px-0">
+<div class="bg-crt-black p-1 pixel-border">
+<div class="border-2 border-forest-dark p-8 md:p-12 flex flex-col items-center text-center space-y-8">
+<!-- Icon Header -->
+<div class="w-32 h-32 md:w-40 md:h-40 bg-forest-dark p-4 border-2 border-pitch flex items-center justify-center">
+<img alt="Retro CRT TV playing a pixelated soccer match" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ujybglUIhCk1FWw8rbWU-K5oTkef0qzcBx3wmOqQ1113eq0rqeWoHNhl58mAAibtP2FQAhVDw8obO-EXGtoOz_BHoiIy9hW6a18vfCTckmLEISxtE9JA6IClTxxldHPXfQj8MYnYnv9r-kHpV3U-3DEtZnXf5KLoVIOAGw_4Tgyl9BrgF31a9RrKZql70fjOxd7pf-rwO-ob45lM5ZW4VYcBBYg4vyNT4lzm9DzwqY31MoI74T4MjacBg"/>
+</div>
+<!-- Title -->
+<div class="space-y-4">
+<h1 class="font-headline-md text-headline-md text-neon uppercase tracking-tighter">
+                        ACOMPANHE AO VIVO
+                    </h1>
+<p class="font-pixel text-body-lg text-parchment leading-relaxed max-w-sm mx-auto">
+                        Assista aos jogos e tome decisões críticas na beira do gramado.
+                    </p>
+</div>
+<!-- Progress Dots -->
+<div class="flex gap-4 py-2">
+<div class="w-3 h-3 bg-forest border border-pitch"></div>
+<div class="w-3 h-3 bg-forest border border-pitch"></div>
+<div class="w-3 h-3 bg-forest border border-pitch"></div>
+<div class="w-4 h-4 bg-neon shadow-[0_0_8px_#39FF14] -mt-0.5"></div>
+<div class="w-3 h-3 bg-forest border border-pitch"></div>
+</div>
+<!-- Actions -->
+<div class="w-full space-y-6">
+<div class="flex flex-col md:flex-row gap-4 w-full">
+<button class="flex-1 font-headline-sm text-headline-sm px-6 py-4 border-2 border-smoke text-smoke hover:bg-forest-dark hover:text-parchment active:translate-y-1 transition-all uppercase">
+                            ANTERIOR
+                        </button>
+<button class="flex-1 font-headline-sm text-headline-sm px-6 py-4 bg-neon border-2 border-pitch text-crt-black hover:bg-primary-container active:translate-y-1 pixel-border-inset transition-all uppercase">
+                            PROXIMO
+                        </button>
+</div>
+<button class="font-label-md text-label-md text-smoke hover:text-neon underline underline-offset-4 tracking-widest uppercase transition-colors">
+                        PULAR TUTORIAL
+                    </button>
+</div>
+</div>
+</div>
+<!-- Decoration Corner Elements -->
+<div class="hidden md:block absolute -top-4 -left-4 w-8 h-8 border-t-4 border-l-4 border-neon"></div>
+<div class="hidden md:block absolute -bottom-4 -right-4 w-8 h-8 border-b-4 border-r-4 border-neon"></div>
+</main>
+<!-- Semantic Shell: SideNavBar (Suppressed as this is a focused Journey) -->
+<!-- Semantic Shell: BottomNavBar (Suppressed as this is a focused Journey) -->
+<!-- Status Bar Top (Mock) -->
+<div class="fixed top-0 left-0 w-full px-8 py-4 flex justify-between items-center opacity-40 z-20 pointer-events-none">
+<div class="font-code text-label-md text-neon">
+            SYS_STATUS: CALIBRATING_FIELD
+        </div>
+<div class="font-code text-label-md text-neon">
+            95/96_SEASON_OS
+        </div>
+</div>
+</body></html>

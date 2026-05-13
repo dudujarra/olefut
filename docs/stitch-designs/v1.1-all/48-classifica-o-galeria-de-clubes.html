@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
+        .pixel-bevel {
+            box-shadow: inset 4px 4px 0px 0px rgba(255, 255, 255, 0.1), inset -4px -4px 0px 0px rgba(0, 0, 0, 0.5);
+        }
+        .pixel-bevel-active {
+            box-shadow: inset -4px -4px 0px 0px rgba(255, 255, 255, 0.2), inset 4px 4px 0px 0px rgba(0, 0, 0, 0.6);
+        }
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"forest-dark": "#0E1F14", "surface-bright": "#37393d", "secondary-container": "#ffdb3c", "surface-variant": "#323538", "on-tertiary-fixed": "#002113", trophy: "#FFD700", "on-primary-container": "#107100", "on-tertiary": "#003823", "on-surface-variant": "#baccb0", "on-secondary-fixed": "#221b00", abyss: "#040805", "on-secondary": "#3a3000", "on-primary-fixed-variant": "#095300", "tertiary-fixed-dim": "#75daa8", "surface-container-low": "#191c1f", "primary-container": "#39ff14", amber: "#FBBF24", "surface-tint": "#2ae500", "inverse-primary": "#106e00", neon: "#39FF14", secondary: "#fff9ef", outline: "#85967c", "on-error": "#690005", parchment: "#F1FAEE", "inverse-on-surface": "#2e3134", "tertiary-container": "#8cf1be", "inverse-surface": "#e1e2e7", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#e9c400", error: "#ffb4ab", danger: "#FF3333", tertiary: "#e9ffef", "on-primary-fixed": "#022100", background: "#111417", "crt-black": "#111417", "surface-container-high": "#272a2d", "on-surface": "#e1e2e7", "on-secondary-container": "#725f00", forest: "#1B4332", "surface-container-lowest": "#0b0e11", "error-container": "#93000a", "secondary-fixed": "#ffe16d", pitch: "#52B788", "surface-container-highest": "#323538", "primary-fixed-dim": "#2ae500", primary: "#efffe3", "tertiary-fixed": "#92f7c3", "on-tertiary-container": "#006f4a", "on-primary": "#053900", "surface-dim": "#111417", "danger-dark": "#8B0000", "surface-container": "#1d2023", "on-tertiary-fixed-variant": "#005235", "primary-fixed": "#79ff5b", surface: "#111417", smoke: "#a0baae", "on-background": "#e1e2e7", "on-secondary-fixed-variant": "#544600", "outline-variant": "#3c4b35", "danger-red": "#FF3333", "pitch-green": "#52B788", "trophy-gold": "#FFD700"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-desktop": "32px", "margin-mobile": "16px", "container-max": "1280px", gutter: "16px", sm: "8px", xl: "48px", lg: "24px", base: "4px", md: "16px", xs: "4px"}, fontFamily: {"label-lg": ["JetBrains Mono"], "headline-lg": ["'Press Start 2P'"], "body-sm": ["Pixelify Sans"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "body-md": ["Rubik"], "headline-sm": ["'Press Start 2P'"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col relative overflow-x-hidden">
+<div class="fixed inset-0 crt-overlay z-50 pointer-events-none"></div>
+<!-- TopAppBar -->
+<header class="bg-forest-dark dark:bg-abyss border-b-4 border-pitch flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 sticky top-0 z-40">
+<div class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</div>
+<div class="hidden md:flex gap-8">
+<a class="font-headline-md text-headline-md text-neon border-b-2 border-neon active:translate-y-0.5 transition-transform" href="#">Tabela</a>
+<a class="font-headline-md text-headline-md text-pitch hover:text-neon hover:border-neon active:translate-y-0.5 transition-transform" href="#">Plantel</a>
+<a class="font-headline-md text-headline-md text-pitch hover:text-neon hover:border-neon active:translate-y-0.5 transition-transform" href="#">Finanças</a>
+</div>
+<div class="flex items-center gap-4 text-neon">
+<button class="material-symbols-outlined text-2xl">settings</button>
+<button class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">account_circle</button>
+</div>
+</header>
+<div class="flex flex-1">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col gap-4 py-8 px-4 bg-forest-dark dark:bg-abyss border-r-4 border-pitch w-64">
+<div class="flex flex-col items-center mb-8 border-4 border-pitch p-4 bg-abyss">
+<div class="w-16 h-16 bg-surface-variant border-2 border-neon mb-2 overflow-hidden">
+<img alt="Manager" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBG8g5AGmGpbqw4lSmbWkDOezsUfpX3itpeHIicNhlOlMhjANjBm6l_-5eLfSOntT4ZvybXjKSH8Fx0iTDr858OZIIkG_e0fsp9zHBmZMrneqImnyDuuGumgg168m1uu9hs38LLZ8nXghqfo82dwx8pD1Fg7koH8qyIDRbvECnXY5pVJ4k_XjUxE-NSMRiCY1mFkziY3I3tl7w4aODk9isDJckHW2P31q-BjGjXuxMq9tT-rqb1nX3s3ENRrrysVDtP6fJchiQHw9o"/>
+</div>
+<div class="font-headline-sm text-headline-sm text-neon text-center">TREINADOR</div>
+<div class="font-label-lg text-label-lg text-smoke mt-1 uppercase tracking-widest text-center">Época 94/95</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="text-smoke p-2 flex items-center gap-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+                </a>
+<a class="text-smoke p-2 flex items-center gap-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">groups</span> Equipa
+                </a>
+<a class="text-smoke p-2 flex items-center gap-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">swap_horiz</span> Transferências
+                </a>
+<a class="text-smoke p-2 flex items-center gap-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">calendar_month</span> Calendário
+                </a>
+<a class="bg-pitch text-on-primary-container border-2 border-neon p-2 flex items-center gap-3 font-label-lg text-label-lg active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">leaderboard</span> Tabela
+                </a>
+</nav>
+<button class="mt-auto bg-forest border-2 border-pitch text-parchment py-3 px-4 font-headline-sm text-headline-sm hover:text-neon hover:border-neon active:pixel-bevel-active transition-all">
+                NOVO JOGO
+            </button>
+</aside>
+<!-- Main Content (Pixel Art Gallery) -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop bg-background overflow-y-auto pb-32 md:pb-8">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-trophy mb-2">GALERIA DE CLUBES</h1>
+<p class="font-label-lg text-label-lg text-smoke uppercase">Primeira Liga - Jornada 14/34</p>
+</div>
+<div class="flex gap-2">
+<span class="bg-neon text-crt-black px-3 py-1 font-headline-sm text-headline-sm">AO VIVO</span>
+<span class="bg-amber text-crt-black px-3 py-1 font-headline-sm text-headline-sm">DIFICULDADE: LENDÁRIO</span>
+</div>
+</div>
+<!-- Bento Grid Layout for Highlights -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-12">
+<div class="md:col-span-2 bg-forest-dark border-4 border-pitch p-6 flex flex-col justify-between pixel-bevel relative overflow-hidden group">
+<div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/pixel-weave.png')]"></div>
+<div class="relative z-10">
+<span class="text-neon font-headline-sm text-headline-sm block mb-4">LÍDER DA TABELA</span>
+<h2 class="text-parchment font-headline-lg text-headline-lg mb-4">DRAGÕES FC</h2>
+</div>
+<div class="flex justify-between items-end relative z-10">
+<div class="flex flex-col">
+<span class="text-smoke font-label-md text-label-md">PONTOS</span>
+<span class="text-trophy font-headline-lg text-headline-lg">38</span>
+</div>
+<img class="w-24 h-24 object-contain pixelated drop-shadow-[0_0_10px_rgba(57,255,20,0.5)]" data-alt="A detailed pixel art mascot of a blue dragon with emerald green eyes, breathing a small flame of neon green. The art style is high-fidelity 32-bit SNES era sprite work with thick outlines and vibrant, saturated colors. It is set against a dark atmospheric football stadium background with glowing stadium lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIJqsI-wAJTjbnNyYvI3ia2ZnSkPJmNSuSARXXfMG4B9aB3mkD3B0IgT0MD0qT0zCycqv2RjZd13XlabgtlHQC-j2-pqHPiWL_t-YWPSHVWEFrXDgPjIwWjZqUlByaFVshikJ6HjJT65S5-Nzf2_816s3ogadc3pIrduk34w9QGGP5guQvykV3Nyswt9qauLiNkdHm1cuZbcRQKi0mTK9ZhyBVT_uDpjNcWDbIue2s6VQZnPGkbEH1vgSrO-Yc1N_TpT70xpujHRE"/>
+</div>
+</div>
+<div class="bg-abyss border-4 border-danger p-6 pixel-bevel flex flex-col items-center justify-center text-center">
+<img class="w-20 h-20 mb-4 pixelated" data-alt="A majestic pixel art lion head with a golden mane, rendered in a 16-bit arcade style. The lion has a fierce expression and is wearing a crown of trophy gold. The background is a dark, gritty forest green gradient that matches the premium nostalgia theme of the football manager interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVLJ4geVKBabySjUZeOewRZ2ARCz4I2xSZbPMHGW1tNZYRSUePiulRnWBprOnjnfJXwC1DmxYvzyIbO6Rs2LLFQ_Orqrk0IE8fVxu6DvodPamAXZChIV2XZ8UjYk2JnkqUZZlnPWK64XQMD-CG9HJxQTNh-IjPvHdSf_w78znpYjOJgNaNEJmuQMEAOANEIKsVrozSqGNrKzvo8HKk-cZw4Au-sxNKsCYPI99vNHNXEARv47m8c4y8fyA0vNtNiUh_PZwGhZ3_hVY"/>
+<span class="text-danger font-headline-sm text-headline-sm mb-2">ZONA DE RISCO</span>
+<span class="text-parchment font-label-lg text-label-lg">LEÕES DA SERRA</span>
+</div>
+<div class="bg-surface-container-high border-4 border-pitch p-6 pixel-bevel flex flex-col items-center justify-center text-center">
+<img class="w-20 h-20 mb-4 pixelated" data-alt="A sharp, aggressive pixel art eagle soaring with its talons out, rendered in high-contrast red and white colors. The sprite is reminiscent of a classic 90s fighting game character select icon. The lighting is harsh and dramatic, creating deep shadows that emphasize the retro brutalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBRds3X6JjCdjUZ_fduz0Xdsznn0W8prwG0gHTVsX_g8F1zGA2LCIoboApesG-X8yxlLMdWKz0rq-p8QqmSjdLUdIXJ90L0aM-_mw3J-hjUge5ecBMSvjwNZcTNttFvQs0CKkK2uV5yAh7SAtghX6qjMUXbQy9w0_whNKGswa8-ajtXbklJWkOZb5M8JVGxAYrULAMRXlhzg81y6tQDcQRps29kApA7QGr6JkGuMCvyNrLF5krQkWQd9VsazBQB4ufUmswQHLwWsc"/>
+<span class="text-neon font-headline-sm text-headline-sm mb-2">MELHOR ATAQUE</span>
+<span class="text-parchment font-label-lg text-label-lg">ÁGUIAS REAIS</span>
+</div>
+</div>
+<!-- Character Select Style Table -->
+<div class="bg-forest-dark border-4 border-pitch pixel-bevel">
+<div class="grid grid-cols-12 bg-abyss border-b-4 border-pitch p-4 text-smoke font-headline-sm text-headline-sm">
+<div class="col-span-1 text-center">#</div>
+<div class="col-span-5 md:col-span-6">EQUIPA</div>
+<div class="col-span-2 text-center">J</div>
+<div class="col-span-2 text-center">GM</div>
+<div class="col-span-2 text-center">PTS</div>
+</div>
+<div class="flex flex-col">
+<!-- Row 1 -->
+<div class="grid grid-cols-12 items-center p-4 border-b-4 border-pitch bg-pitch text-on-primary-container pixel-bevel-active">
+<div class="col-span-1 text-center font-headline-md text-headline-md">01</div>
+<div class="col-span-5 md:col-span-6 flex items-center gap-4">
+<img class="w-12 h-12 pixelated border-2 border-on-primary-container bg-forest-dark p-1" data-alt="Small pixel art icon of a blue dragon head, high contrast, 16-bit style with neon green highlights. Professional sprite design for a 90s sports simulator." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIiKmgGQX9pB5Zp0hQ4JUdTO5mHcL6atWG8h3H2vq9exPn1yYyrfbHo6hI23PYY8sKyRItFXEbBIawy8Uc2BqSbxEBgilti9JBJdz9qv5O2PVIeCM2doQiWQ71K20R1wB5xriE2r0L2h6guSEYYeDHZ9fb17GfrcqAX56RCjXGqb6FQjlHGyGsDoW_c0h3hWs-F9EQGcqlNXonw_gjSGSXdy4biQsLprpHqC-DoHgy6OKbBb1_VAPiOU7C42TqORo7xm8hTvoH39o"/>
+<div class="font-headline-sm text-headline-sm">DRAGÕES FC</div>
+</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg">14</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg">32</div>
+<div class="col-span-2 text-center font-headline-md text-headline-md">38</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 items-center p-4 border-b-4 border-pitch hover:bg-surface-variant transition-colors group">
+<div class="col-span-1 text-center font-headline-md text-headline-md text-neon">02</div>
+<div class="col-span-5 md:col-span-6 flex items-center gap-4">
+<img class="w-12 h-12 pixelated border-2 border-pitch bg-abyss p-1 group-hover:border-neon" data-alt="Small pixel art icon of a red eagle profile, high contrast, 16-bit style with parchment highlights. Professional sprite design for a 90s sports simulator." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD85Jc_rTXF2-bwaGioJRajM9g-PN8AaDW6fVMBjC9WzJ6lD0ip_kgOB8odg26ipXP9vZuANY4cQHzH3JQ5W2AaGQmaz3aDhpOGPQZyP00Gjy62YhMLCaeLXzeNWjkDMUnUvcyV0HQA2_8pUNmYubX1Oz4DhxOfGjGceoMbwH67FP-DWY9l11TkiOrPYbzxCZCeqf3kQKj9We9RMpT1f4rS2p7D_tnvYQA0bx0VlfO_x1XgBPeUtOOBW4ohvBlzTugATa6QAGt4aLE"/>
+<div class="font-headline-sm text-headline-sm text-parchment group-hover:text-neon">ÁGUIAS REAIS</div>
+</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg text-smoke">14</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg text-smoke">28</div>
+<div class="col-span-2 text-center font-headline-md text-headline-md text-trophy">34</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-12 items-center p-4 border-b-4 border-pitch hover:bg-surface-variant transition-colors group">
+<div class="col-span-1 text-center font-headline-md text-headline-md text-neon">03</div>
+<div class="col-span-5 md:col-span-6 flex items-center gap-4">
+<img class="w-12 h-12 pixelated border-2 border-pitch bg-abyss p-1 group-hover:border-neon" data-alt="Small pixel art icon of a grey wolf howling, high contrast, 16-bit style with smoke highlights. Professional sprite design for a 90s sports simulator." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIZBss01yvxQRN7Rni-ZGgFkwpWX5ewobVswK8j4Pze2TnHoc-HyB7ZQM1ZXofK2cPPmmI4pns5EySp2wtjlZg9kttaIykGh5aqLzOXZvEy1S-UfXPCi-jr0R6iDFi9e7aDId-g1r-8A7SnnAfglmumf27mT9a2SDzg1j3sQeo5DXBmVsSsrmoAK_JUu0vgqhp3TmFUT5O3hNUvZy7msq6oyrAqrKvi5OJifhLf3Jlz26GHeNY7EjH3_LkYvDM3juA32HVcr7qfVE"/>
+<div class="font-headline-sm text-headline-sm text-parchment group-hover:text-neon">ALCATEIA SC</div>
+</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg text-smoke">14</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg text-smoke">21</div>
+<div class="col-span-2 text-center font-headline-md text-headline-md text-trophy">31</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-12 items-center p-4 border-b-4 border-pitch hover:bg-surface-variant transition-colors group">
+<div class="col-span-1 text-center font-headline-md text-headline-md text-neon">04</div>
+<div class="col-span-5 md:col-span-6 flex items-center gap-4">
+<img class="w-12 h-12 pixelated border-2 border-pitch bg-abyss p-1 group-hover:border-neon" data-alt="Small pixel art icon of a medieval shield, high contrast, 16-bit style with trophy gold highlights. Professional sprite design for a 90s sports simulator." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX-BJg7yvQ2QPoFsLohb-7zauY3VTi-0v5bFVhIM4p-DIlbMC0At7VDPP_BsPm_fwfO6zEyM8xSCzNNRtAn0XdYK7dg7iRp5yDEXbTfwIgrM1GXDsBhsv_CEww7CK1BEZ_Mz1v1JKPQyAGDa7OptZXwnKkkV9vfjaSeM60Bbhd2B5b4KBLS9CoPVWhqJB16vSKEzmj_SWe0L8pw0biFUUu9CNa1hDqTNl4dJ3M5_vp6kfk58u74Umd9PQib3W6-g7VYbxPMcAEku8"/>
+<div class="font-headline-sm text-headline-sm text-parchment group-hover:text-neon">OS CONQUISTADORES</div>
+</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg text-smoke">14</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg text-smoke">19</div>
+<div class="col-span-2 text-center font-headline-md text-headline-md text-trophy">29</div>
+</div>
+<!-- Row 5 (Relegation Style) -->
+<div class="grid grid-cols-12 items-center p-4 border-b-4 border-pitch bg-danger-dark/20 hover:bg-danger-dark/40 transition-colors group">
+<div class="col-span-1 text-center font-headline-md text-headline-md text-danger">18</div>
+<div class="col-span-5 md:col-span-6 flex items-center gap-4">
+<img class="w-12 h-12 pixelated border-2 border-danger bg-abyss p-1" data-alt="Small pixel art icon of a gold lion head, high contrast, 16-bit style. Professional sprite design for a 90s sports simulator." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdD3IQ9KbSKMsKgTxAtqGy4zg2mtdgVoKObElA9wny5o-QQBaMr0OpFvLrlA82LI6f1P9zIaznDLqG44GRMM6NBb4XyNT3Qvac2DxYj1ga9W0AytudCXuL56A1z3ws1QHRWKcJZpnb6hClNHVQ9zkajQrg0Q6wmyj4qYy60nbzUF9IsQZ10kYqlarmAZQ9t2D1AuPBWSj-0gZcI6_pf9QxFnykI3nvyaxrQ9If9YxYm-uIipIF3ER61VPskOzhO7PkT8jm30x-1tk"/>
+<div class="font-headline-sm text-headline-sm text-parchment">LEÕES DA SERRA</div>
+</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg text-smoke">14</div>
+<div class="col-span-2 text-center font-label-lg text-label-lg text-smoke">11</div>
+<div class="col-span-2 text-center font-headline-md text-headline-md text-danger">12</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 bg-forest-dark border-t-4 border-pitch z-50">
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined text-2xl">sports_soccer</span>
+<span class="font-label-md text-label-md">Jogo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined text-2xl">format_list_bulleted</span>
+<span class="font-label-md text-label-md">Plantel</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-pitch text-on-primary-container rounded-none border-2 border-neon px-4 py-1 active:inset-shadow transition-all" href="#">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="font-label-md text-label-md">Tabela</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon transition-all" href="#">
+<span class="material-symbols-outlined text-2xl">mail</span>
+<span class="font-label-md text-label-md">Mensagens</span>
+</a>
+</nav>
+</body></html>

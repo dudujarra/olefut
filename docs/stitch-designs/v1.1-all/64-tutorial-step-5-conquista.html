@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ULTRA MANAGER 95 - Tutorial Step 5</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .scanlines {
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.06),
+                rgba(0, 255, 0, 0.02),
+                rgba(0, 0, 255, 0.06)
+            );
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 0 #52B788,
+                0 4px 0 0 #52B788,
+                -4px 0 0 0 #52B788,
+                4px 0 0 0 #52B788;
+        }
+        .inset-pixel-border {
+            box-shadow: 
+                inset 0 -4px 0 0 #111417,
+                inset 0 4px 0 0 #111417,
+                inset -4px 0 0 0 #111417,
+                inset 4px 0 0 0 #111417;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", "on-tertiary-fixed": "#002113", "on-primary": "#053900", amber: "#FBBF24", "on-tertiary-fixed-variant": "#005235", "on-secondary-fixed-variant": "#544600", "on-surface-variant": "#baccb0", primary: "#efffe3", "error-container": "#93000a", smoke: "#a0baae", "on-tertiary-container": "#006f4a", "outline-variant": "#3c4b35", "primary-container": "#39ff14", abyss: "#040805", "on-error-container": "#ffdad6", "on-primary-fixed": "#022100", "inverse-surface": "#e1e2e7", "surface-container-highest": "#323538", "on-background": "#e1e2e7", pitch: "#52B788", "inverse-primary": "#106e00", tertiary: "#e9ffef", "tertiary-container": "#8cf1be", "surface-container-high": "#272a2d", "secondary-fixed": "#ffe16d", "tertiary-fixed": "#92f7c3", secondary: "#fff9ef", "on-primary-container": "#107100", "crt-black": "#111417", "surface-dim": "#111417", "primary-fixed-dim": "#2ae500", "surface-bright": "#37393d", surface: "#111417", "secondary-container": "#ffdb3c", neon: "#39FF14", "surface-variant": "#323538", "on-secondary-container": "#725f00", trophy: "#FFD700", "on-secondary-fixed": "#221b00", "inverse-on-surface": "#2e3134", "surface-container-low": "#191c1f", forest: "#1B4332", outline: "#85967c", "surface-tint": "#2ae500", error: "#ffb4ab", danger: "#FF3333", parchment: "#F1FAEE", "tertiary-fixed-dim": "#75daa8", "on-tertiary": "#003823", "primary-fixed": "#79ff5b", "secondary-fixed-dim": "#e9c400", "surface-container": "#1d2023", "danger-dark": "#8B0000", background: "#111417", "surface-container-lowest": "#0b0e11", "on-secondary": "#3a3000", "forest-dark": "#0E1F14", "on-error": "#690005", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", gutter: "16px", "margin-mobile": "16px", "margin-desktop": "32px", "container-max": "1280px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {"headline-lg": ["Press Start 2P"], code: ["jetbrainsMono"], "body-md": ["rubik"], "body-sm": ["Pixelify Sans"], pixel: ["Pixelify Sans"], "label-lg": ["jetbrainsMono"], "headline-md": ["Press Start 2P"], "label-md": ["jetbrainsMono"], "body-lg": ["Pixelify Sans"], "headline-sm": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-forest-dark text-parchment font-body-md overflow-hidden min-h-screen relative">
+<!-- CRT Overlay -->
+<div class="fixed inset-0 z-[100] scanlines opacity-30 pointer-events-none"></div>
+<!-- Background Decoration (Stadium Atmosphere) -->
+<div class="absolute inset-0 z-0 bg-gradient-to-b from-abyss to-forest-dark opacity-80"></div>
+<div class="absolute inset-0 z-0 opacity-10 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-[400px] text-pitch">sports_soccer</span>
+</div>
+<!-- Main Content Area -->
+<main class="relative z-10 flex items-center justify-center min-h-screen p-margin-mobile md:p-margin-desktop">
+<!-- Modal Container -->
+<div class="w-full max-w-[480px] bg-crt-black border-4 border-pitch pixel-border relative overflow-hidden flex flex-col items-center text-center p-8">
+<!-- Header/Title -->
+<div class="mb-8">
+<div class="relative w-32 h-32 mb-6 group">
+<div class="absolute inset-0 bg-neon opacity-20 blur-xl group-hover:opacity-40 transition-opacity"></div>
+<img alt="Gold medal icon" class="w-full h-full object-contain relative z-10 filter drop-shadow-[0_0_10px_rgba(255,215,0,0.5)]" src="https://lh3.googleusercontent.com/aida/ADBb0uj0HDUzUuCFP2UY3D-LEWZofl-ceJlM1oxlma0btQxF2wyUdccIDk-6BjGUuqLPuAijBZRCqPhpI7z3WUU5UwWWm5HZuuKl030w65ZviIi2XX91ztuWW_QrRYNezFAZDRBugXcXSGVvnNtoKH_pgDkzZC1gKyxPORNhWdP85o1-o3X-es5Y_rFoRPaqxgx6eHuQXpXg80gzpuRXdO_UfJva--IwJHhDkVnamDAJCuvWgvNMM5idCoTu38Y"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-neon tracking-tight px-4 leading-relaxed">
+                    CONQUISTE TROFÉUS
+                </h1>
+</div>
+<!-- Body Text -->
+<div class="mb-10 px-2">
+<p class="font-pixel text-[24px] leading-snug text-parchment">
+                    Suba de divisão e coloque seu nome na história do OléFUT.
+                </p>
+</div>
+<!-- Progress Dots -->
+<div class="flex gap-4 mb-10">
+<div class="w-4 h-4 bg-forest border-2 border-pitch"></div>
+<div class="w-4 h-4 bg-forest border-2 border-pitch"></div>
+<div class="w-4 h-4 bg-forest border-2 border-pitch"></div>
+<div class="w-4 h-4 bg-forest border-2 border-pitch"></div>
+<div class="w-4 h-4 bg-neon border-2 border-pitch shadow-[0_0_8px_#39FF14]"></div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row gap-4 w-full">
+<!-- Anterior Button (Ghost) -->
+<button class="flex-1 font-label-lg text-label-lg text-smoke border-2 border-smoke py-4 px-6 hover:bg-smoke hover:text-crt-black active:translate-y-1 transition-all">
+                    ANTERIOR
+                </button>
+<!-- Jogar Button (Neon) -->
+<button class="flex-1 font-label-lg text-label-lg bg-neon text-crt-black border-2 border-pitch py-4 px-6 hover:bg-primary-container hover:shadow-[0_0_15px_#39FF14] active:translate-y-1 transition-all">
+                    JOGAR
+                </button>
+</div>
+<!-- Hidden Skip Link (As per requirements) -->
+<div class="hidden mt-6">
+<a class="text-smoke font-label-md text-label-md hover:text-neon underline decoration-2 underline-offset-4" href="#">
+                    PULAR TUTORIAL
+                </a>
+</div>
+<!-- Decorative corner elements (Retro UI feel) -->
+<div class="absolute top-0 left-0 w-2 h-2 bg-pitch"></div>
+<div class="absolute top-0 right-0 w-2 h-2 bg-pitch"></div>
+<div class="absolute bottom-0 left-0 w-2 h-2 bg-pitch"></div>
+<div class="absolute bottom-0 right-0 w-2 h-2 bg-pitch"></div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Mock - As per Shared Components context) -->
+<nav class="lg:hidden fixed bottom-0 w-full z-50 bg-crt-black border-t-4 border-pitch flex justify-around items-center pb-safe opacity-50 grayscale pointer-events-none">
+<div class="flex flex-col items-center justify-center text-smoke p-2">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Inbox</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-label-md text-label-md">Market</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</div>
+</nav>
+</body></html>

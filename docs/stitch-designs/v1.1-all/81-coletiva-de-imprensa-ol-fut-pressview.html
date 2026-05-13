@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            overflow-x: hidden;
+        }
+        .crt-overlay {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(18, 16, 16, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
+            z-index: 99;
+        }
+        .pixel-border {
+            box-shadow: 0 0 0 2px #52B788, 0 0 0 4px #111417;
+        }
+        .blinking {
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#efffe3", "on-surface-variant": "#baccb0", "tertiary-fixed-dim": "#75daa8", pitch: "#52B788", "tertiary-container": "#8cf1be", "surface-bright": "#37393d", outline: "#85967c", "inverse-on-surface": "#2e3134", "outline-variant": "#3c4b35", "on-surface": "#e1e2e7", "on-primary-container": "#107100", "on-primary-fixed": "#022100", "primary-fixed": "#79ff5b", "on-tertiary": "#003823", "secondary-fixed": "#ffe16d", error: "#ffb4ab", "on-tertiary-container": "#006f4a", "danger-dark": "#8B0000", "surface-dim": "#111417", "primary-container": "#39ff14", tertiary: "#e9ffef", "surface-variant": "#323538", "surface-container-lowest": "#0b0e11", "surface-container": "#1d2023", "on-error-container": "#ffdad6", parchment: "#F1FAEE", forest: "#1B4332", "surface-tint": "#2ae500", "forest-dark": "#0E1F14", amber: "#FBBF24", "surface-container-high": "#272a2d", trophy: "#FFD700", smoke: "#a0baae", "on-secondary": "#3a3000", surface: "#111417", "on-primary": "#053900", "secondary-container": "#ffdb3c", "on-tertiary-fixed-variant": "#005235", "surface-container-highest": "#323538", "error-container": "#93000a", secondary: "#fff9ef", "inverse-primary": "#106e00", "on-error": "#690005", "surface-container-low": "#191c1f", "inverse-surface": "#e1e2e7", neon: "#39FF14", danger: "#FF3333", "crt-black": "#111417", "on-secondary-container": "#725f00", background: "#111417", "primary-fixed-dim": "#2ae500", "on-secondary-fixed": "#221b00", "on-background": "#e1e2e7", "on-secondary-fixed-variant": "#544600", "on-tertiary-fixed": "#002113", "on-primary-fixed-variant": "#095300", abyss: "#040805", "tertiary-fixed": "#92f7c3", "secondary-fixed-dim": "#e9c400", "danger-red": "#FF3333", "pitch-green": "#52B788", "trophy-gold": "#FFD700"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-mobile": "16px", "container-max": "1280px", gutter: "16px", "margin-desktop": "32px", sm: "8px", xl: "48px", lg: "24px", base: "4px", md: "16px", xs: "4px"}, fontFamily: {code: ["jetbrainsMono"], "label-lg": ["jetbrainsMono"], "headline-md": ["Press Start 2P"], "headline-sm": ["Press Start 2P"], "body-lg": ["Pixelify Sans"], "label-md": ["jetbrainsMono"], "body-md": ["rubik"], "headline-lg": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="bg-background text-on-surface">
+<div class="crt-overlay"></div>
+<!-- TopAppBar Section -->
+<header class="fixed top-0 w-full z-50 bg-forest dark:bg-forest-dark border-b-2 border-pitch flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-lg text-headline-lg text-neon">OléFUT PressView</h1>
+<div class="hidden md:flex items-center gap-2 px-3 py-1 bg-crt-black border border-danger">
+<span class="blinking w-3 h-3 rounded-full bg-danger"></span>
+<span class="font-headline-sm text-headline-sm text-danger">LIVE</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-neon">
+<span class="material-symbols-outlined text-neon" data-icon="mic">mic</span>
+<span class="font-code text-code uppercase">CH. 04</span>
+</div>
+<button class="active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-parchment hover:text-neon transition-colors" data-icon="settings">settings</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar Section -->
+<nav class="fixed left-0 top-0 h-full w-64 bg-crt-black dark:bg-abyss border-r-2 border-pitch flex flex-col pt-20 pb-4 hidden md:flex">
+<div class="px-6 mb-8">
+<h2 class="font-headline-sm text-headline-sm text-trophy uppercase tracking-wider">OlêFUT</h2>
+<p class="font-label-md text-label-md text-smoke">Season '98</p>
+</div>
+<div class="flex-1 flex flex-col">
+<a class="text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-parchment flex items-center gap-3 transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+                Squad
+            </a>
+<a class="text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-parchment flex items-center gap-3 transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="strategy">strategy</span>
+                Tactics
+            </a>
+<a class="text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-surface-variant hover:text-parchment flex items-center gap-3 transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+                League
+            </a>
+<a class="bg-forest text-neon border-l-4 border-neon px-4 py-3 font-label-lg text-label-lg flex items-center gap-3 transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="settings_voice">settings_voice</span>
+                Media
+            </a>
+</div>
+<div class="px-4 mt-auto">
+<div class="flex items-center gap-3 p-3 bg-forest-dark border border-pitch">
+<div class="w-10 h-10 bg-surface-variant border border-neon flex items-center justify-center">
+<span class="material-symbols-outlined text-neon" data-icon="person">person</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-parchment">MANAGER</p>
+<p class="font-code text-[10px] text-neon">LVL 42</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 md:mr-72 pt-20 pb-16 px-6 min-h-screen">
+<div class="max-w-4xl mx-auto space-y-6">
+<!-- Manager Press Room Visual -->
+<section class="relative aspect-video w-full overflow-hidden border-4 border-pitch bg-abyss">
+<img class="w-full h-full object-cover opacity-60 mix-blend-screen grayscale contrast-150" data-alt="A cinematic 32-bit pixel art style illustration of a football manager sitting behind a long mahogany table crowded with vintage microphones. The room is dimly lit with harsh camera flashes erupting from the back, creating a high-contrast atmosphere. The manager wears a focused, stoic expression. The color palette is dominated by deep forest greens, pitch blacks, and vibrant neon green accents, echoing a 90s arcade sports simulation aesthetic. Scanlines are visible across the image." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-BkKpsgZgb0Qoh8jcXlypYNSMFEbXQFVL4uv7C3hgnqGZogfwuwd02HnBhH9lbkSDIRP8UL5ZZl_VUSySh2IEfuRd5iYiwosLCKOotg6qgmL4XAM4liIfcN5A1NUZG5g2ivTwe5sV_uACrUkbbpOtRPGeE6RN0cpEZ926TorQyrGruh7aIKKqZC2w_ZxFOu8x6uQHzNTbrTWzCwdzdz9At0gbjqaZBOm_pzWpi4wQ0XDoSEZOIbh5_E46mvO_zNejkJFSE0Yr6ng"/>
+<div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-abyss to-transparent">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-neon text-crt-black font-headline-sm text-[10px]">ROOM 1-B</span>
+<span class="px-2 py-0.5 bg-trophy text-crt-black font-headline-sm text-[10px]">WORLD FEED</span>
+</div>
+</div>
+</section>
+<!-- Reporter Speech Bubble -->
+<section class="bg-forest-dark border-2 border-neon p-6 relative">
+<div class="absolute -top-3 left-6 bg-neon text-crt-black px-3 py-0.5 font-headline-sm text-headline-sm uppercase">
+                    Reporter
+                </div>
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 border-2 border-pitch flex items-center justify-center bg-surface-variant">
+<span class="material-symbols-outlined text-smoke" data-icon="newspaper">newspaper</span>
+</div>
+<p class="font-body-lg text-body-lg text-parchment leading-relaxed italic">
+                        "Professor, após a derrota de hoje, muitos torcedores questionam sua tática conservadora. Você manterá essa postura para o próximo clássico?"
+                    </p>
+</div>
+</section>
+<!-- Interactive Response Options -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<button class="group flex items-start gap-4 p-4 bg-forest border-2 border-pitch hover:border-neon transition-all active:bg-forest-dark active:border-trophy">
+<span class="flex-shrink-0 w-8 h-8 flex items-center justify-center border-2 border-pitch text-neon font-headline-sm group-hover:bg-neon group-hover:text-crt-black">A</span>
+<p class="font-body-md text-body-md text-parchment text-left">As críticas são parte do jogo, mas confio no meu método acima de tudo.</p>
+</button>
+<button class="group flex items-start gap-4 p-4 bg-forest border-2 border-pitch hover:border-neon transition-all active:bg-forest-dark active:border-trophy">
+<span class="flex-shrink-0 w-8 h-8 flex items-center justify-center border-2 border-pitch text-neon font-headline-sm group-hover:bg-neon group-hover:text-crt-black">B</span>
+<p class="font-body-md text-body-md text-parchment text-left">Vamos analisar os erros. O clássico exige uma postura diferente, com certeza.</p>
+</button>
+<button class="group flex items-start gap-4 p-4 bg-forest border-2 border-pitch hover:border-neon transition-all active:bg-forest-dark active:border-trophy">
+<span class="flex-shrink-0 w-8 h-8 flex items-center justify-center border-2 border-pitch text-neon font-headline-sm group-hover:bg-neon group-hover:text-crt-black">C</span>
+<p class="font-body-md text-body-md text-parchment text-left">Os torcedores devem focar em apoiar, não em escalar o time.</p>
+</button>
+<button class="group flex items-start gap-4 p-4 bg-forest border-2 border-pitch hover:border-neon transition-all active:bg-forest-dark active:border-trophy">
+<span class="flex-shrink-0 w-8 h-8 flex items-center justify-center border-2 border-pitch text-neon font-headline-sm group-hover:bg-neon group-hover:text-crt-black">D</span>
+<p class="font-body-md text-body-md text-parchment text-left">A tática foi correta, faltou execução individual dos atletas hoje.</p>
+</button>
+</section>
+</div>
+</main>
+<!-- Right Sidebar: Impact Forecast -->
+<aside class="fixed right-0 top-0 h-full w-72 bg-crt-black border-l-2 border-pitch pt-20 pb-4 px-6 hidden md:flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-trophy mb-8 uppercase tracking-widest">Previsão de Impacto</h3>
+<div class="space-y-8">
+<!-- Morale -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-lg text-label-lg text-parchment uppercase">Morale</span>
+<span class="font-code text-code text-neon">82%</span>
+</div>
+<div class="h-6 bg-forest-dark border border-smoke p-1 flex">
+<div class="h-full w-4/5 bg-neon mr-1"></div>
+<div class="h-full w-1/5 bg-forest opacity-30"></div>
+</div>
+<p class="mt-2 font-code text-[10px] text-smoke">ESTÁVEL / ALTA</p>
+</div>
+<!-- Press -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-lg text-label-lg text-parchment uppercase">Imprensa</span>
+<span class="font-code text-code text-amber">45%</span>
+</div>
+<div class="h-6 bg-forest-dark border border-smoke p-1 flex">
+<div class="h-full w-[45%] bg-amber mr-1"></div>
+<div class="h-full w-[55%] bg-forest opacity-30"></div>
+</div>
+<p class="mt-2 font-code text-[10px] text-smoke">VOLÁTIL / HOSTIL</p>
+</div>
+<!-- Fans -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-lg text-label-lg text-parchment uppercase">Torcida</span>
+<span class="font-code text-code text-danger">28%</span>
+</div>
+<div class="h-6 bg-forest-dark border border-smoke p-1 flex">
+<div class="h-full w-[28%] bg-danger mr-1"></div>
+<div class="h-full w-[72%] bg-forest opacity-30"></div>
+</div>
+<p class="mt-2 font-code text-[10px] text-smoke">CRÍTICA / BAIXA</p>
+</div>
+</div>
+<div class="mt-auto p-4 border-2 border-dashed border-smoke">
+<p class="font-label-md text-label-md text-smoke text-center">
+                DECISÃO CRÍTICA:<br/>O resultado impactará o clima para o clássico regional.
+            </p>
+</div>
+</aside>
+<!-- Footer -->
+<footer class="fixed bottom-0 right-0 w-full md:w-[calc(100%-16rem)] bg-crt-black border-t border-outline-variant flex justify-between items-center px-4 py-2 z-40">
+<div class="flex items-center gap-4">
+<p class="font-code text-code text-smoke">© 1998 OléFUT Arcade Media</p>
+<div class="hidden md:flex gap-4">
+<a class="font-code text-code text-smoke hover:text-trophy transition-opacity" href="#">Privacy</a>
+<a class="font-code text-code text-smoke hover:text-trophy transition-opacity" href="#">Terms</a>
+</div>
+</div>
+<div class="font-label-md text-label-md text-pitch uppercase tracking-tighter">
+            System Ready // Press Any Key
+        </div>
+</footer>
+</body></html>

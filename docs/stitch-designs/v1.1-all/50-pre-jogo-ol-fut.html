@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Press+Start+2P&amp;family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            position: relative;
+        }
+        .crt-scanlines::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 -2px #52B788,
+                0 4px 0 -2px #52B788,
+                -4px 0 0 -2px #52B788,
+                4px 0 0 -2px #52B788;
+        }
+        .neon-glow {
+            text-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14;
+        }
+        .trophy-glow {
+            text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
+        }
+        .segmented-bar-block {
+            width: 8px;
+            height: 12px;
+            margin-right: 2px;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-secondary-fixed-variant": "#544600", "surface-variant": "#323538", amber: "#FBBF24", "tertiary-fixed": "#92f7c3", "on-secondary": "#3a3000", background: "#111417", neon: "#39FF14", "surface-container-low": "#191c1f", outline: "#85967c", "on-primary-fixed": "#022100", "on-tertiary-container": "#006f4a", "on-error": "#690005", trophy: "#FFD700", "surface-bright": "#37393d", "on-secondary-fixed": "#221b00", primary: "#efffe3", "surface-container-lowest": "#0b0e11", "tertiary-container": "#8cf1be", "surface-container-high": "#272a2d", "secondary-fixed-dim": "#e9c400", forest: "#1B4332", "error-container": "#93000a", "on-tertiary-fixed": "#002113", abyss: "#040805", "on-primary-container": "#107100", tertiary: "#e9ffef", "on-surface-variant": "#baccb0", smoke: "#a0baae", "on-primary-fixed-variant": "#095300", "surface-container": "#1d2023", "inverse-on-surface": "#2e3134", "forest-dark": "#0E1F14", "primary-fixed-dim": "#2ae500", "on-secondary-container": "#725f00", secondary: "#fff9ef", "surface-container-highest": "#323538", "on-primary": "#053900", "inverse-surface": "#e1e2e7", "danger-dark": "#8B0000", "on-surface": "#e1e2e7", "surface-dim": "#111417", "on-background": "#e1e2e7", "on-tertiary": "#003823", danger: "#FF3333", "crt-black": "#111417", "primary-fixed": "#79ff5b", "on-tertiary-fixed-variant": "#005235", "inverse-primary": "#106e00", "outline-variant": "#3c4b35", "secondary-container": "#ffdb3c", "secondary-fixed": "#ffe16d", "primary-container": "#39ff14", pitch: "#52B788", "tertiary-fixed-dim": "#75daa8", error: "#ffb4ab", "on-error-container": "#ffdad6", surface: "#111417", "surface-tint": "#2ae500", parchment: "#F1FAEE", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-mobile": "16px", "margin-desktop": "32px", "container-max": "1280px", gutter: "16px", sm: "8px", xs: "4px", base: "4px", xl: "48px", lg: "24px", md: "16px"}, fontFamily: {"label-md": ["JetBrains Mono"], "body-md": ["Rubik"], "headline-sm": ["'Press Start 2P'"], "headline-md": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], "body-lg": ["Pixelify Sans"], "label-lg": ["JetBrains Mono"], code: ["JetBrains Mono"], "headline-lg": ["'Press Start 2P'"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="min-h-screen text-on-surface font-body-md crt-scanlines overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="bg-crt-black dark:bg-crt-black border-b-4 border-pitch flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg text-neon italic tracking-tighter">OléFUT</span>
+</div>
+<div class="flex items-center gap-6">
+<h1 class="font-headline-md text-headline-md text-neon uppercase">PRE-JOGO</h1>
+<button class="text-smoke hover:text-primary transition-colors duration-100">
+<span class="material-symbols-outlined text-3xl">account_circle</span>
+</button>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 relative z-10">
+<!-- Main Versus Layout -->
+<div class="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-4 mb-16">
+<!-- Left Side: UNITED FC -->
+<div class="w-full lg:w-5/12 flex flex-col items-center lg:items-end text-center lg:text-right">
+<div class="relative mb-6 p-4 border-4 border-pitch bg-forest-dark">
+<img alt="UNITED FC Crest" class="w-32 h-32 md:w-40 md:h-40 object-contain" data-alt="A stylized 16-bit pixel art soccer club shield for United FC, featuring a bold eagle motif in vibrant neon green and forest dark colors. The design is framed with a heavy stroke and sits against a textured dark green background with visible scanlines, evoking a premium retro arcade manager aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUv8k85IFWmHJCYfNxm3BKZX7dVLognfDxaJeNUP7ZiGzTUOgQl_vV0pgs8vnKoC45gXwbujl-HAHfhs6eJi71m3c1lFS81uQtp7g-2o8ax10EAwj4uo6hCnBCX-mJBmLM6rGvSCBtc4RNdgq8UwxtIyNVeRSpXUUzUAMwXKBWQqpstcQzK-Lt9RIw7tBZDb4NzcDGFrZpTL4KFfPhaE8pkuUroXDX3I5a542h9v6BE9zWj2tz4k-B6qST0tmh87liv0HyB61N42I"/>
+<div class="absolute -bottom-4 -right-4 bg-neon text-crt-black px-4 py-1 font-headline-sm text-headline-sm border-2 border-pitch">
+                        90 OVR
+                    </div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-parchment mb-2">UNITED FC</h2>
+<p class="font-label-lg text-label-lg text-smoke mb-6 uppercase tracking-widest">4-3-3 ATTACK</p>
+<!-- Sector Ratings -->
+<div class="space-y-4 w-full max-w-xs">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-end">
+<span class="font-label-md text-label-md text-smoke">GOL</span>
+<span class="font-headline-sm text-headline-sm text-neon">92</span>
+</div>
+<div class="flex h-3 w-full bg-abyss border border-smoke/30 overflow-hidden">
+<div class="h-full bg-neon w-[92%] flex">
+<div class="h-full w-full bg-repeat-x" style="background-image: linear-gradient(90deg, transparent 0%, transparent 80%, #040805 80%, #040805 100%); background-size: 10px 100%;"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-end">
+<span class="font-label-md text-label-md text-smoke">DEF</span>
+<span class="font-headline-sm text-headline-sm text-neon">88</span>
+</div>
+<div class="flex h-3 w-full bg-abyss border border-smoke/30 overflow-hidden">
+<div class="h-full bg-neon w-[88%] flex">
+<div class="h-full w-full bg-repeat-x" style="background-image: linear-gradient(90deg, transparent 0%, transparent 80%, #040805 80%, #040805 100%); background-size: 10px 100%;"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-end">
+<span class="font-label-md text-label-md text-smoke">MEI</span>
+<span class="font-headline-sm text-headline-sm text-neon">86</span>
+</div>
+<div class="flex h-3 w-full bg-abyss border border-smoke/30 overflow-hidden">
+<div class="h-full bg-neon w-[86%] flex">
+<div class="h-full w-full bg-repeat-x" style="background-image: linear-gradient(90deg, transparent 0%, transparent 80%, #040805 80%, #040805 100%); background-size: 10px 100%;"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-end">
+<span class="font-label-md text-label-md text-smoke">ATA</span>
+<span class="font-headline-sm text-headline-sm text-neon">94</span>
+</div>
+<div class="flex h-3 w-full bg-abyss border border-smoke/30 overflow-hidden">
+<div class="h-full bg-neon w-[94%] flex">
+<div class="h-full w-full bg-repeat-x" style="background-image: linear-gradient(90deg, transparent 0%, transparent 80%, #040805 80%, #040805 100%); background-size: 10px 100%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center: VS -->
+<div class="flex flex-col items-center justify-center py-8">
+<div class="font-headline-lg text-8xl md:text-[120px] text-trophy trophy-glow italic select-none transform -skew-x-12 leading-none">VS</div>
+<div class="mt-4 px-4 py-1 bg-crt-black border-2 border-trophy text-trophy font-label-md text-label-md animate-pulse">DERBY NACIONAL</div>
+</div>
+<!-- Right Side: FLAMENGO -->
+<div class="w-full lg:w-5/12 flex flex-col items-center lg:items-start text-center lg:text-left">
+<div class="relative mb-6 p-4 border-4 border-danger bg-crt-black">
+<img alt="FLAMENGO Crest" class="w-32 h-32 md:w-40 md:h-40 object-contain" data-alt="A detailed 16-bit pixel art rendition of a classic football club crest for Flamengo, featuring iconic red and black stripes and a monogrammed shield. The art style is gritty and retro, with high-contrast outlines and atmospheric dark lighting, fitting perfectly into a 90s football simulator UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo8rTgOI0V4Ildnw0EwHR_X6YNylis9su2dGlo4a-xiKrtg0Vixr3smaVA0X9Uckn9bd6U4K6LlWdXqeUZYc918r5gzVGMRBNFxAC8wU9EEhCs3AD5-7YtKAQmudVqaSrzHsLiXfw9XetWTM0CIYQuw600U6y51cmiFT7gS-ddCXh-19jpCoFeBSmOl3bDpSc5ddtfRrIxa9L055TiG3XLtvWzi3Ralfw1qhSmsUhgWe2DgBlxpunA2KZu9P4PvLTnjFPdnYcP1wM"/>
+<div class="absolute -bottom-4 -left-4 bg-danger text-parchment px-4 py-1 font-headline-sm text-headline-sm border-2 border-pitch">
+                        88 OVR
+                    </div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-parchment mb-2">FLAMENGO</h2>
+<p class="font-label-lg text-label-lg text-danger mb-6 uppercase tracking-widest">ATAQUE TOTAL</p>
+<div class="bg-forest-dark/50 border-2 border-pitch p-6 w-full max-w-xs relative">
+<div class="flex flex-col items-center gap-2">
+<span class="font-label-md text-label-md text-smoke uppercase tracking-tight">Chances de Vitória</span>
+<div class="font-headline-lg text-headline-lg text-neon neon-glow">45%</div>
+<div class="w-full h-1 bg-abyss mt-2">
+<div class="h-full bg-danger w-[45%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Row Sections -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+<!-- Bottom Left: H2H -->
+<div class="bg-forest-dark border-4 border-pitch p-6">
+<h3 class="font-headline-sm text-headline-sm text-neon mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">history</span>
+                    ÚLTIMOS 5 JOGOS
+                </h3>
+<div class="flex gap-3 justify-center md:justify-start">
+<div class="w-12 h-12 flex items-center justify-center bg-neon text-crt-black font-headline-sm border-2 border-pitch">V</div>
+<div class="w-12 h-12 flex items-center justify-center bg-amber text-crt-black font-headline-sm border-2 border-pitch">E</div>
+<div class="w-12 h-12 flex items-center justify-center bg-amber text-crt-black font-headline-sm border-2 border-pitch">E</div>
+<div class="w-12 h-12 flex items-center justify-center bg-danger text-parchment font-headline-sm border-2 border-pitch">D</div>
+<div class="w-12 h-12 flex items-center justify-center bg-neon text-crt-black font-headline-sm border-2 border-pitch">V</div>
+</div>
+</div>
+<!-- Bottom Right: Dica do Mister -->
+<div class="bg-forest border-4 border-pitch p-6 relative">
+<div class="absolute -top-4 -right-4 bg-trophy p-2 border-2 border-pitch">
+<span class="material-symbols-outlined text-crt-black text-2xl">lightbulb</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-parchment mb-4 uppercase">DICA DO MISTER</h3>
+<p class="font-body-md text-body-md text-parchment mb-4 leading-relaxed">
+                    "Adversário joga em linha alta, explore a velocidade dos pontas."
+                </p>
+<div class="flex items-center gap-3">
+<span class="font-label-md text-label-md text-smoke">RECOMENDADO:</span>
+<span class="bg-abyss text-neon px-3 py-1 border border-neon font-label-lg text-label-lg uppercase">CONTRA-ATAQUE</span>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="flex justify-center mb-24">
+<button class="group relative px-12 py-6 bg-neon border-4 border-pitch transition-all duration-100 hover:scale-105 active:translate-y-1 active:shadow-inner">
+<span class="relative z-10 font-headline-lg text-headline-lg text-crt-black uppercase tracking-tighter">ENTRAR EM CAMPO</span>
+<div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 bg-forest-dark border-t-4 border-pitch">
+<div class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest hover:text-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">ELENCO</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-forest text-neon border-2 border-neon p-1 scale-105 ring-2 ring-neon ring-inset cursor-pointer">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">PARTIDA</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest hover:text-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined">strategy</span>
+<span class="font-label-md text-label-md">TÁTICA</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest hover:text-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-label-md text-label-md">MERCADO</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2 hover:bg-forest hover:text-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">CLUBE</span>
+</div>
+</nav>
+</body></html>

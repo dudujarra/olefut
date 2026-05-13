@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"forest-dark": "#0E1F14", "surface-bright": "#37393d", "secondary-container": "#ffdb3c", "surface-variant": "#323538", "on-tertiary-fixed": "#002113", trophy: "#FFD700", "on-primary-container": "#107100", "on-tertiary": "#003823", "on-surface-variant": "#baccb0", "on-secondary-fixed": "#221b00", abyss: "#040805", "on-secondary": "#3a3000", "on-primary-fixed-variant": "#095300", "tertiary-fixed-dim": "#75daa8", "surface-container-low": "#191c1f", "primary-container": "#39ff14", amber: "#FBBF24", "surface-tint": "#2ae500", "inverse-primary": "#106e00", neon: "#39FF14", secondary: "#fff9ef", outline: "#85967c", "on-error": "#690005", parchment: "#F1FAEE", "inverse-on-surface": "#2e3134", "tertiary-container": "#8cf1be", "inverse-surface": "#e1e2e7", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#e9c400", error: "#ffb4ab", danger: "#FF3333", tertiary: "#e9ffef", "on-primary-fixed": "#022100", background: "#111417", "crt-black": "#111417", "surface-container-high": "#272a2d", "on-surface": "#e1e2e7", "on-secondary-container": "#725f00", forest: "#1B4332", "surface-container-lowest": "#0b0e11", "error-container": "#93000a", "secondary-fixed": "#ffe16d", pitch: "#52B788", "surface-container-highest": "#323538", "primary-fixed-dim": "#2ae500", primary: "#efffe3", "tertiary-fixed": "#92f7c3", "on-tertiary-container": "#006f4a", "on-primary": "#053900", "surface-dim": "#111417", "danger-dark": "#8B0000", "surface-container": "#1d2023", "on-tertiary-fixed-variant": "#005235", "primary-fixed": "#79ff5b", surface: "#111417", smoke: "#a0baae", "on-background": "#e1e2e7", "on-secondary-fixed-variant": "#544600", "outline-variant": "#3c4b35", "trophy-gold": "#FFD700", "danger-red": "#FF3333", "pitch-green": "#52B788"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-desktop": "32px", "margin-mobile": "16px", "container-max": "1280px", gutter: "16px", lg: "24px", base: "4px", sm: "8px", xs: "4px", md: "16px", xl: "48px"}, fontFamily: {"label-lg": ["JetBrains Mono"], "headline-lg": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "body-md": ["Rubik"], "headline-sm": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .pixel-confetti {
+            background-image: radial-gradient(circle, #39FF14 1px, transparent 1px), radial-gradient(circle, #FFD700 1px, transparent 1px), radial-gradient(circle, #FF3333 1px, transparent 1px);
+            background-size: 40px 40px, 60px 60px, 50px 50px;
+            background-position: 0 0, 20px 30px, 10px 10px;
+            opacity: 0.15;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col selection:bg-neon selection:text-crt-black overflow-x-hidden">
+<header class="bg-forest-dark dark:bg-abyss text-neon font-headline-md text-headline-md docked full-width top-0 border-b-4 border-pitch flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 z-[100] relative">
+<div class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</div>
+<div class="flex items-center gap-4">
+<button class="active:translate-y-0.5 transition-transform hover:text-neon">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="active:translate-y-0.5 transition-transform hover:text-neon">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 relative">
+<aside class="hidden md:flex flex-col gap-4 py-8 px-4 bg-forest-dark dark:bg-abyss text-neon font-label-lg text-label-lg docked left-0 h-full w-64 border-r-4 border-pitch">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 bg-pitch border-2 border-neon overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A gritty pixelated-style portrait of a focused football manager in a dark green tracksuit. The lighting is dramatic and moody, reminiscent of 90s sports simulator loading screens, with high contrast and deep forest shadows. The overall aesthetic is authoritative and nostalgic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARc8__i9xXpf9yQ8LLIQ8nisD8_khfdV7Qsn1ddZEhv1EvGMWDQyl-JD-HQsumkd-H0ExhZkGot8kE3VyAZbhBwJW0qaMb4SfnBxQqoCKSruDHzmsqnGzWUVHDSxfiWQRu-yyyciMYb6hdwWaXSC3x1RexUJ87v-pOF8ZPD-hZYUDTIhRfw5jp9I4ufRM6KTG4gaPeCfVunr7yIeSBNQrW4sJ5-EOXxGtvOvRJ9ra7VyyybOC2WHRa_20PuE89OMGo8_swQrXmaKo"/>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-neon">TREINADOR</div>
+<div class="text-smoke text-[10px] uppercase">Época 94/95</div>
+</div>
+</div>
+<nav class="space-y-2">
+<a class="flex items-center gap-3 text-smoke p-2 hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+                </a>
+<a class="flex items-center gap-3 text-smoke p-2 hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">groups</span> Equipa
+                </a>
+<a class="flex items-center gap-3 text-smoke p-2 hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">swap_horiz</span> Transferências
+                </a>
+<a class="flex items-center gap-3 bg-pitch text-on-primary-container border-2 border-neon p-2 active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">leaderboard</span> Tabela
+                </a>
+<a class="flex items-center gap-3 text-smoke p-2 hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">calendar_month</span> Calendário
+                </a>
+<a class="flex items-center gap-3 text-smoke p-2 hover:bg-surface-variant hover:text-neon active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">payments</span> Finanças
+                </a>
+</nav>
+<button class="mt-auto bg-forest border-2 border-pitch text-parchment py-3 font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:scale-95 transition-all">
+                NOVO JOGO
+            </button>
+</aside>
+<main class="flex-1 p-margin-mobile md:p-margin-desktop bg-background relative overflow-hidden">
+<div class="absolute inset-0 pixel-confetti"></div>
+<div class="absolute inset-0 scanlines"></div>
+<div class="relative z-10 max-w-container-max mx-auto space-y-8">
+<div class="flex flex-col md:flex-row justify-between items-end gap-4 border-l-8 border-trophy pl-6">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-trophy mb-2">QUADRO DE HONRA</h1>
+<p class="font-label-lg text-label-lg text-smoke uppercase tracking-widest">Liga Profissional - Prémios de Época</p>
+</div>
+<div class="bg-forest-dark border-2 border-trophy p-4 text-center min-w-[200px]">
+<div class="text-smoke text-[10px] mb-1">TOTAL PRIZE POOL</div>
+<div class="font-headline-md text-headline-md text-neon">₠ 45,500,000</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-gutter">
+<div class="lg:col-span-3 overflow-x-auto">
+<div class="bg-crt-black border-4 border-pitch p-1 shadow-[8px_8px_0px_0px_rgba(82,183,136,0.3)]">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-forest-dark border-b-4 border-pitch">
+<th class="p-4 font-headline-sm text-headline-sm text-neon">#</th>
+<th class="p-4 font-headline-sm text-headline-sm text-neon">EQUIPA</th>
+<th class="p-4 font-headline-sm text-headline-sm text-neon text-center">J</th>
+<th class="p-4 font-headline-sm text-headline-sm text-neon text-center">V</th>
+<th class="p-4 font-headline-sm text-headline-sm text-neon text-center">PTS</th>
+<th class="p-4 font-headline-sm text-headline-sm text-trophy text-right">PREMIAÇÃO</th>
+</tr>
+</thead>
+<tbody class="font-label-lg text-label-lg">
+<tr class="border-b-2 border-pitch bg-forest-dark/40 border-l-4 border-l-trophy group hover:bg-forest transition-colors">
+<td class="p-4 text-trophy font-headline-sm">01</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-trophy flex items-center justify-center text-crt-black font-bold">L</div>
+<span class="text-parchment group-hover:text-neon">Lisboa FC</span>
+</td>
+<td class="p-4 text-center text-smoke">28</td>
+<td class="p-4 text-center text-smoke">22</td>
+<td class="p-4 text-center text-neon font-bold">68</td>
+<td class="p-4 text-right text-trophy font-code">₠ 12,000,000</td>
+</tr>
+<tr class="border-b-2 border-pitch bg-forest-dark/40 border-l-4 border-l-trophy group hover:bg-forest transition-colors">
+<td class="p-4 text-trophy font-headline-sm">02</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-secondary-container flex items-center justify-center text-crt-black font-bold">P</div>
+<span class="text-parchment group-hover:text-neon">Porto Atlético</span>
+</td>
+<td class="p-4 text-center text-smoke">28</td>
+<td class="p-4 text-center text-smoke">20</td>
+<td class="p-4 text-center text-neon font-bold">64</td>
+<td class="p-4 text-right text-trophy font-code">₠ 8,500,000</td>
+</tr>
+<tr class="border-b-2 border-pitch bg-forest-dark/40 border-l-4 border-l-trophy group hover:bg-forest transition-colors">
+<td class="p-4 text-trophy font-headline-sm">03</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-amber flex items-center justify-center text-crt-black font-bold">S</div>
+<span class="text-parchment group-hover:text-neon">Sporting Clube</span>
+</td>
+<td class="p-4 text-center text-smoke">28</td>
+<td class="p-4 text-center text-smoke">19</td>
+<td class="p-4 text-center text-neon font-bold">61</td>
+<td class="p-4 text-right text-trophy font-code">₠ 6,200,000</td>
+</tr>
+<tr class="border-b-2 border-pitch group hover:bg-forest transition-colors">
+<td class="p-4 text-smoke">04</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-surface-variant flex items-center justify-center text-smoke font-bold">B</div>
+<span class="text-smoke group-hover:text-neon">Braga City</span>
+</td>
+<td class="p-4 text-center text-smoke">28</td>
+<td class="p-4 text-center text-smoke">15</td>
+<td class="p-4 text-center text-parchment font-bold">52</td>
+<td class="p-4 text-right text-smoke font-code">₠ 4,100,000</td>
+</tr>
+<tr class="border-b-2 border-pitch group hover:bg-forest transition-colors">
+<td class="p-4 text-smoke">05</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-surface-variant flex items-center justify-center text-smoke font-bold">V</div>
+<span class="text-smoke group-hover:text-neon">Vitória Unido</span>
+</td>
+<td class="p-4 text-center text-smoke">28</td>
+<td class="p-4 text-center text-smoke">14</td>
+<td class="p-4 text-center text-parchment font-bold">49</td>
+<td class="p-4 text-right text-smoke font-code">₠ 3,800,000</td>
+</tr>
+<tr class="border-b-2 border-pitch group hover:bg-forest transition-colors">
+<td class="p-4 text-smoke">06</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-surface-variant flex items-center justify-center text-smoke font-bold">E</div>
+<span class="text-smoke group-hover:text-neon">Estrela Amadora</span>
+</td>
+<td class="p-4 text-center text-smoke">28</td>
+<td class="p-4 text-center text-smoke">12</td>
+<td class="p-4 text-center text-parchment font-bold">44</td>
+<td class="p-4 text-right text-smoke font-code">₠ 2,400,000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="space-y-gutter">
+<div class="bg-forest-dark border-4 border-trophy p-6 flex flex-col items-center text-center">
+<div class="w-24 h-24 bg-crt-black border-4 border-trophy flex items-center justify-center mb-4 relative">
+<span class="material-symbols-outlined text-trophy text-5xl">emoji_events</span>
+<div class="absolute -top-2 -right-2 bg-neon text-crt-black font-headline-sm px-2 py-1 text-[8px]">MVP</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-neon mb-2">MELHOR MARCADOR</h3>
+<p class="font-label-lg text-label-lg text-parchment">Ronaldo Fenómeno</p>
+<p class="text-trophy font-headline-md mt-2">24 GOLOS</p>
+<div class="mt-4 pt-4 border-t border-pitch w-full">
+<p class="text-[10px] text-smoke mb-1">BÓNUS DE ARTILHEIRO</p>
+<p class="font-code text-trophy">₠ 1,500,000</p>
+</div>
+</div>
+<div class="bg-crt-black border-4 border-pitch p-6">
+<h3 class="font-headline-sm text-headline-sm text-neon mb-4">DISTRIBUIÇÃO</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-[10px] text-smoke uppercase">
+<span>Vitoria</span>
+<span class="text-neon">₠ 150k</span>
+</div>
+<div class="w-full bg-forest-dark h-2 border border-smoke">
+<div class="bg-neon h-full w-[80%]"></div>
+</div>
+<div class="flex justify-between items-center text-[10px] text-smoke uppercase">
+<span>Empate</span>
+<span class="text-neon">₠ 50k</span>
+</div>
+<div class="w-full bg-forest-dark h-2 border border-smoke">
+<div class="bg-neon h-full w-[40%]"></div>
+</div>
+</div>
+<button class="w-full mt-6 bg-pitch border-2 border-crt-black text-crt-black font-headline-sm py-2 hover:bg-neon transition-colors">
+                                VER EXTRATO
+                            </button>
+</div>
+</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-4 flex flex-wrap gap-4 items-center justify-center md:justify-start">
+<span class="text-smoke text-[10px] uppercase font-bold tracking-widest mr-4">ESTÁDIO PATROCINADO POR:</span>
+<div class="flex gap-8 grayscale opacity-60">
+<div class="font-headline-sm text-neon italic">ULTRA-TECH</div>
+<div class="font-headline-sm text-trophy italic">BIT-GOLD</div>
+<div class="font-headline-sm text-parchment italic">CRONOS-V</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 bg-forest-dark border-t-4 border-pitch z-50">
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">Jogo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon" href="#">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-md text-label-md">Plantel</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-pitch text-on-primary-container rounded-none border-2 border-neon px-4 py-1 active:inset-shadow transition-all" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">Tabela</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Mensagens</span>
+</a>
+</nav>
+</body></html>

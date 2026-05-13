@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ULTRA_MGR_V1.0 - MONITOR_BUG_TRACKER</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 9999;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10000;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            pointer-events: none;
+        }
+        .pixel-border-inset {
+            box-shadow: inset 4px 4px 0px 0px rgba(0,0,0,0.5), inset -4px -4px 0px 0px rgba(255,255,255,0.1);
+        }
+        body {
+            background-color: #0c1609;
+            image-rendering: pixelated;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-tertiary-fixed-variant": "#005235", "on-secondary": "#3a3000", "secondary-container": "#ffdb3c", "on-error": "#690005", outline: "#85967c", "inverse-primary": "#106e00", "surface-container": "#1d2023", "surface-container-lowest": "#0b0e11", "outline-variant": "#3c4b35", "surface-container-highest": "#323538", "surface-container-high": "#272a2d", "on-primary": "#053900", secondary: "#fff9ef", amber: "#FBBF24", smoke: "#a0baae", "surface-container-low": "#191c1f", "on-tertiary": "#003823", background: "#111417", "on-background": "#e1e2e7", "secondary-fixed-dim": "#e9c400", danger: "#FF3333", "on-tertiary-fixed": "#002113", "on-secondary-fixed": "#221b00", "tertiary-fixed-dim": "#75daa8", "primary-container": "#39ff14", "primary-fixed": "#79ff5b", "tertiary-container": "#8cf1be", "crt-black": "#111417", "error-container": "#93000a", "inverse-on-surface": "#2e3134", "secondary-fixed": "#ffe16d", "on-surface-variant": "#baccb0", "primary-fixed-dim": "#2ae500", tertiary: "#e9ffef", pitch: "#52B788", "surface-tint": "#2ae500", parchment: "#F1FAEE", "on-primary-fixed": "#022100", "on-secondary-container": "#725f00", "surface-variant": "#323538", forest: "#1B4332", "surface-dim": "#111417", surface: "#111417", primary: "#efffe3", abyss: "#040805", error: "#ffb4ab", "on-primary-container": "#107100", "on-tertiary-container": "#006f4a", "on-secondary-fixed-variant": "#544600", "surface-bright": "#37393d", "danger-dark": "#8B0000", "inverse-surface": "#e1e2e7", "on-error-container": "#ffdad6", "tertiary-fixed": "#92f7c3", "forest-dark": "#0E1F14", trophy: "#FFD700", "on-surface": "#e1e2e7", "on-primary-fixed-variant": "#095300", neon: "#39FF14", "danger-red": "#FF3333", "pitch-green": "#52B788", "trophy-gold": "#FFD700"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-max": "1280px", unit: "4px", "margin-desktop": "32px", "margin-mobile": "16px", gutter: "16px", sm: "8px", xl: "48px", lg: "24px", base: "4px", md: "16px", xs: "4px"}, fontFamily: {"headline-lg": ["Press Start 2P"], "label-md": ["JetBrains Mono"], code: ["JetBrains Mono"], "body-sm": ["Pixelify Sans"], "headline-sm": ["Press Start 2P"], "label-lg": ["JetBrains Mono"], "body-md": ["Rubik"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-neon selection:text-crt-black overflow-hidden">
+<div class="crt-overlay"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-crt-black dark:bg-crt-black border-b-2 border-pitch flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg text-neon tracking-tighter uppercase">ULTRA_MGR_V1.0</span>
+<div class="hidden md:flex gap-4 ml-8">
+<a class="text-smoke font-label-md text-label-md hover:bg-forest hover:text-neon transition-colors px-2 py-1" href="#">KERNEL</a>
+<a class="text-neon font-bold font-label-md text-label-md hover:bg-forest hover:text-neon transition-colors px-2 py-1" href="#">MONITOR</a>
+<a class="text-smoke font-label-md text-label-md hover:bg-forest hover:text-neon transition-colors px-2 py-1" href="#">CONFIG</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex flex-col items-end mr-4">
+<span class="font-label-md text-label-md text-neon">ROOT@SYSTEM</span>
+<span class="text-[10px] text-pitch font-code">IP: 127.0.0.1</span>
+</div>
+<div class="flex gap-2 text-neon">
+<span class="material-symbols-outlined hover:bg-forest p-1 cursor-pointer" data-icon="memory">memory</span>
+<span class="material-symbols-outlined hover:bg-forest p-1 cursor-pointer" data-icon="terminal">terminal</span>
+<span class="material-symbols-outlined hover:bg-forest p-1 cursor-pointer" data-icon="settings_input_component">settings_input_component</span>
+</div>
+<img alt="Manager Avatar" class="w-8 h-8 border-2 border-neon bg-forest-dark" data-alt="A pixel-art style avatar of a gritty system administrator with a cybernetic eyepiece, wearing a dark green tactical vest. The background is a dense grid of neon green terminal code. The lighting is harsh and high-contrast, characteristic of a 90s arcade machine debug menu." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF9c7uba0NGe2z3H98iIeEJP_i-SV7SeEMMuALqG5r38htY2UpMQzD-HXZ_exeJyklMXjyOxgrPmVmI6xx0hOyM9LP8YI6v0v04wyI_54SvnX0p-eqPcWKbf0RdRE25NQqGQ0K7UIxo1dCxzn1g0rMh7OuRJKbYFfQKdyrCkuql4Qw1tT3n9xm8wQ60nTMB0PEUpVXDam2Ms5TiQBgbkcfd348og5qeOqaU6EmoeBskzmnwb7vXabUgpkcKRWOu8mBatlo1IZ-58U"/>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-forest-dark dark:bg-forest-dark border-r-2 border-pitch flex flex-col py-gutter h-full overflow-y-auto z-40">
+<div class="px-4 mb-8">
+<h2 class="font-headline-sm text-headline-sm text-trophy uppercase tracking-widest">FOOTBALL_CORE</h2>
+<p class="font-label-md text-[10px] text-neon mt-1">STATUS: STABLE</p>
+</div>
+<nav class="flex-1">
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest-dark hover:text-pitch transition-all duration-75 active:bg-abyss" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-lg text-label-lg">DASHBOARD</span>
+</a>
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest-dark hover:text-pitch transition-all duration-75 active:bg-abyss" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-lg text-label-lg">ROSTER_DATA</span>
+</a>
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest-dark hover:text-pitch transition-all duration-75 active:bg-abyss" href="#">
+<span class="material-symbols-outlined" data-icon="strategy">strategy</span>
+<span class="font-label-lg text-label-lg">TACTICS_SYS</span>
+</a>
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest-dark hover:text-pitch transition-all duration-75 active:bg-abyss" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-lg text-label-lg">MARKET_SIM</span>
+</a>
+<a class="bg-forest text-neon border-l-4 border-neon px-4 py-3 flex items-center gap-3 active:bg-abyss transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span class="font-label-lg text-label-lg">LOG_STREAM</span>
+</a>
+</nav>
+<div class="mt-auto px-4 space-y-4">
+<button class="w-full py-2 bg-forest border-2 border-pitch text-parchment font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:translate-y-0.5 transition-all">
+                RESET_KERNEL
+            </button>
+<div class="border-t border-pitch/30 pt-4">
+<a class="text-smoke px-0 py-2 flex items-center gap-3 hover:text-neon" href="#">
+<span class="material-symbols-outlined" data-icon="restart_alt">restart_alt</span>
+<span class="font-label-lg text-label-lg">REBOOT</span>
+</a>
+<a class="text-smoke px-0 py-2 flex items-center gap-3 hover:text-danger" href="#">
+<span class="material-symbols-outlined" data-icon="power_settings_new">power_settings_new</span>
+<span class="font-label-lg text-label-lg">LOGOUT</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 mt-16 p-8 h-[calc(100vh-64px)] overflow-y-auto">
+<!-- Header Section -->
+<div class="mb-8 border-l-8 border-neon pl-6 py-2">
+<h1 class="font-headline-lg text-headline-lg text-neon uppercase mb-2">MONITOR - BUG TRACKER</h1>
+<p class="font-code text-smoke tracking-widest">KERNEL PANIC &amp; RUNTIME EXCEPTION LOGS</p>
+</div>
+<!-- Bento Grid Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-8">
+<div class="bg-forest-dark border-2 border-pitch p-4 flex flex-col justify-between">
+<span class="font-label-md text-smoke">TOTAL_CRITICAL</span>
+<div class="flex items-end justify-between">
+<span class="font-headline-lg text-danger text-4xl">12</span>
+<span class="material-symbols-outlined text-danger text-3xl" data-icon="report" data-weight="fill" style="font-variation-settings: 'FILL' 1;">report</span>
+</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-4 flex flex-col justify-between">
+<span class="font-label-md text-smoke">UNRESOLVED</span>
+<div class="flex items-end justify-between">
+<span class="font-headline-lg text-amber text-4xl">08</span>
+<span class="material-symbols-outlined text-amber text-3xl" data-icon="pending" data-weight="fill" style="font-variation-settings: 'FILL' 1;">pending</span>
+</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-4 flex flex-col justify-between">
+<span class="font-label-md text-smoke">PATCH_VERSION</span>
+<div class="flex items-end justify-between">
+<span class="font-headline-md text-neon uppercase">v1.95_rc2</span>
+<span class="material-symbols-outlined text-neon text-3xl" data-icon="verified_user" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-4 flex flex-col justify-between">
+<span class="font-label-md text-smoke">UPTIME</span>
+<div class="flex items-end justify-between">
+<span class="font-headline-md text-parchment">142:22:04</span>
+<span class="material-symbols-outlined text-smoke text-3xl" data-icon="timer">timer</span>
+</div>
+</div>
+</div>
+<!-- Bug Table -->
+<div class="bg-crt-black border-2 border-pitch overflow-hidden mb-8">
+<div class="bg-forest px-4 py-2 flex justify-between items-center border-b-2 border-pitch">
+<span class="font-headline-sm text-neon">ACTIVE_INCIDENTS_STREAM</span>
+<span class="font-code text-xs text-smoke">SYSTEM_READY // FILTER: ALL</span>
+</div>
+<table class="w-full text-left font-code text-sm">
+<thead>
+<tr class="bg-forest-dark text-neon border-b border-pitch">
+<th class="px-6 py-4 font-bold uppercase tracking-tighter">BUG_ID</th>
+<th class="px-6 py-4 font-bold uppercase tracking-tighter">TIMESTAMP</th>
+<th class="px-6 py-4 font-bold uppercase tracking-tighter">MODULE</th>
+<th class="px-6 py-4 font-bold uppercase tracking-tighter">STATUS</th>
+<th class="px-6 py-4 font-bold uppercase tracking-tighter text-right">PRIORITY</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-pitch/20">
+<tr class="hover:bg-forest/20 transition-colors group">
+<td class="px-6 py-4 text-neon font-bold">BUG_0x42</td>
+<td class="px-6 py-4 text-smoke">14:31:55</td>
+<td class="px-6 py-4 text-parchment">PHYSICS_ENGINE</td>
+<td class="px-6 py-4 text-danger italic">UNHANDLED_EXCEPTION</td>
+<td class="px-6 py-4 text-right">
+<span class="bg-danger text-crt-black px-2 py-0.5 font-bold">CRITICAL</span>
+</td>
+</tr>
+<tr class="hover:bg-forest/20 transition-colors">
+<td class="px-6 py-4 text-neon font-bold">BUG_0x8F</td>
+<td class="px-6 py-4 text-smoke">14:28:09</td>
+<td class="px-6 py-4 text-parchment">UI_RENDERER</td>
+<td class="px-6 py-4 text-amber italic">ASSET_MISSING</td>
+<td class="px-6 py-4 text-right">
+<span class="bg-amber text-crt-black px-2 py-0.5 font-bold">HIGH</span>
+</td>
+</tr>
+<tr class="hover:bg-forest/20 transition-colors">
+<td class="px-6 py-4 text-neon font-bold">BUG_0x22</td>
+<td class="px-6 py-4 text-smoke">14:25:12</td>
+<td class="px-6 py-4 text-parchment">MEMORY_MGMT</td>
+<td class="px-6 py-4 text-neon italic">ACCESS_DELAY</td>
+<td class="px-6 py-4 text-right">
+<span class="bg-forest text-neon border border-neon px-2 py-0.5 font-bold">MEDIUM</span>
+</td>
+</tr>
+<tr class="hover:bg-forest/20 transition-colors">
+<td class="px-6 py-4 text-neon font-bold">BUG_0x11</td>
+<td class="px-6 py-4 text-smoke">14:10:05</td>
+<td class="px-6 py-4 text-parchment">NETWORK_STACK</td>
+<td class="px-6 py-4 text-neon italic">TIMEOUT</td>
+<td class="px-6 py-4 text-right">
+<span class="bg-forest text-neon border border-neon px-2 py-0.5 font-bold">LOW</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Bottom Actions -->
+<div class="flex flex-wrap gap-gutter justify-end">
+<button class="px-6 py-3 bg-forest border-2 border-pitch text-parchment font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:bg-forest-dark active:shadow-inner flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="file_download">file_download</span>
+                DUMP_LOGS
+            </button>
+<button class="px-6 py-3 bg-forest border-2 border-pitch text-parchment font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:bg-forest-dark active:shadow-inner flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="delete_sweep">delete_sweep</span>
+                CLEAR_STACK
+            </button>
+<button class="px-6 py-3 bg-danger-dark border-2 border-pitch text-parchment font-headline-sm text-headline-sm hover:bg-danger hover:text-crt-black active:bg-abyss transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="restart_alt">restart_alt</span>
+                REBOOT_KERNEL
+            </button>
+</div>
+</main>
+<!-- Scanline effect element -->
+<div class="scanline"></div>
+</body></html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+        }
+        .pixel-corners {
+            clip-path: polygon(
+                0 4px, 4px 4px, 4px 0,
+                calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+                100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
+                4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+            );
+        }
+        .inset-press:active {
+            box-shadow: inset 4px 4px 0px 0px #111417;
+            transform: translateY(2px);
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container-lowest": "#0b0e11", "tertiary-container": "#8cf1be", amber: "#FBBF24", abyss: "#040805", "on-primary-fixed": "#022100", "on-surface-variant": "#baccb0", "error-container": "#93000a", "tertiary-fixed": "#92f7c3", "on-primary-fixed-variant": "#095300", "on-tertiary-fixed-variant": "#005235", "on-secondary-fixed-variant": "#544600", "secondary-fixed-dim": "#e9c400", "surface-dim": "#111417", "secondary-fixed": "#ffe16d", trophy: "#FFD700", "surface-container": "#1d2023", smoke: "#a0baae", "inverse-surface": "#e1e2e7", "surface-container-highest": "#323538", "surface-variant": "#323538", parchment: "#F1FAEE", "surface-bright": "#37393d", "on-error": "#690005", "on-primary": "#053900", "crt-black": "#111417", surface: "#111417", "surface-tint": "#2ae500", "secondary-container": "#ffdb3c", "outline-variant": "#3c4b35", neon: "#39FF14", danger: "#FF3333", "primary-fixed-dim": "#2ae500", "forest-dark": "#0E1F14", "on-secondary": "#3a3000", tertiary: "#e9ffef", error: "#ffb4ab", "on-surface": "#e1e2e7", "tertiary-fixed-dim": "#75daa8", "on-tertiary-container": "#006f4a", "on-tertiary-fixed": "#002113", outline: "#85967c", "on-secondary-fixed": "#221b00", pitch: "#52B788", "inverse-primary": "#106e00", "inverse-on-surface": "#2e3134", "surface-container-low": "#191c1f", "danger-dark": "#8B0000", secondary: "#fff9ef", "primary-fixed": "#79ff5b", "on-secondary-container": "#725f00", background: "#111417", "primary-container": "#39ff14", "on-tertiary": "#003823", "on-primary-container": "#107100", forest: "#1B4332", "surface-container-high": "#272a2d", "on-background": "#e1e2e7", primary: "#efffe3", "on-error-container": "#ffdad6", "danger-red": "#FF3333", "pitch-green": "#52B788", "trophy-gold": "#FFD700"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "16px", "margin-desktop": "32px", "container-max": "1280px", unit: "4px", gutter: "16px", sm: "8px", xl: "48px", lg: "24px", base: "4px", md: "16px", xs: "4px"}, fontFamily: {"headline-lg": ["Press Start 2P"], code: ["jetbrainsMono"], "body-lg": ["Pixelify Sans"], "body-sm": ["Pixelify Sans"], "label-md": ["jetbrainsMono"], "label-lg": ["jetbrainsMono"], "body-md": ["rubik"], "headline-md": ["Press Start 2P"], "headline-sm": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="min-h-screen text-parchment font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-forest dark:bg-forest-dark border-b-2 border-pitch flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon text-headline-md" data-icon="mic">mic</span>
+<h1 class="font-headline-md text-headline-md text-neon uppercase tracking-tighter">COLETIVA DE IMPRENSA</h1>
+</div>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-parchment hover:text-neon" data-icon="settings">settings</button>
+</div>
+</header>
+<!-- Sidebar (SideNavBar) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 z-40 bg-crt-black border-r-2 border-pitch flex-col pt-20 pb-8 px-4">
+<div class="mb-8 px-3">
+<h2 class="font-headline-sm text-headline-sm text-trophy uppercase">SEASON 98</h2>
+<p class="font-label-md text-smoke">Post-Match Press</p>
+</div>
+<nav class="flex flex-col gap-2">
+<div class="text-smoke pl-3 flex items-center gap-3 py-3 hover:bg-forest hover:text-neon transition-colors">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-lg text-label-lg">Manager</span>
+</div>
+<div class="text-smoke pl-3 flex items-center gap-3 py-3 hover:bg-forest hover:text-neon transition-colors">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-lg text-label-lg">Squad</span>
+</div>
+<div class="text-smoke pl-3 flex items-center gap-3 py-3 hover:bg-forest hover:text-neon transition-colors">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-lg text-label-lg">League</span>
+</div>
+<div class="text-neon font-bold border-l-4 border-neon pl-2 flex items-center gap-3 py-3 bg-forest-dark">
+<span class="material-symbols-outlined" data-icon="newspaper">newspaper</span>
+<span class="font-label-lg text-label-lg">Media</span>
+</div>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-24 md:pl-72 md:pr-80 px-4 min-h-screen">
+<div class="max-w-4xl mx-auto space-y-8">
+<!-- Hero Press Section -->
+<div class="relative w-full aspect-video bg-crt-black border-4 border-pitch pixel-corners overflow-hidden shadow-[0_0_20px_rgba(57,255,20,0.2)]">
+<img class="w-full h-full object-cover opacity-60" data-alt="A cinematic low-angle shot of a football manager sitting behind a crowded press conference desk with multiple microphones. The scene is lit with harsh, moody spotlights creating a high-contrast 32-bit arcade game atmosphere. The background is dark and filled with blurred silhouettes of photographers. A retro scanline filter is applied over the entire image, using a palette of deep greens, pitch blacks, and neon accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDh4rUbpr03C7wwABT7P6FQQWJjudWTrFd1OoSdEdgcdCPGIaZ6-o2h_0zm9NDJv467GgWYWNVzE9Ed8eXUz4Frj9NgC_wZqrAyDklXBUIOq50D5HiLx5BoX2s7w2INblRDCBjp6kkaJlyoklJEo99O4oOBN_XoLREvNOgvjeF3npmIva2Pqt2ddPUyB3j2g1YwFSDEozFiwxQMSIVWY0y_e78vOTciiFirxC4IM_1jmwTtrHkc-TpIsuAjOk0mYBl7PfxFdA5ojKs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-crt-black to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<span class="bg-neon text-crt-black px-2 py-1 font-headline-sm mb-4 inline-block">AO VIVO</span>
+<h3 class="font-headline-sm text-parchment">STADIUM PRESS ROOM - SECTOR 7</h3>
+</div>
+</div>
+<!-- Question Card -->
+<div class="bg-forest-dark border-4 border-trophy p-8 pixel-corners relative shadow-[4px_4px_0px_#52B788]">
+<div class="absolute -top-4 left-6 bg-trophy text-crt-black px-4 py-1 font-headline-sm uppercase">REPORTER</div>
+<div class="flex gap-6 items-start">
+<div class="w-16 h-16 bg-pitch border-2 border-neon flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-crt-black" data-icon="record_voice_over">record_voice_over</span>
+</div>
+<p class="font-body-lg text-body-lg leading-relaxed italic text-parchment">
+                        "Professor, após a derrota de hoje, muitos torcedores questionam sua tática conservadora. Você manterá essa postura para o próximo clássico?"
+                    </p>
+</div>
+</div>
+<!-- Response Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Option A -->
+<button class="group bg-forest border-2 border-pitch p-6 text-left hover:border-neon hover:bg-forest-dark transition-all inset-press pixel-corners flex items-center gap-4">
+<span class="font-headline-md text-neon group-hover:scale-110 transition-transform">A</span>
+<span class="font-label-lg text-parchment">A tática foi correta, faltou execução dos atletas em campo.</span>
+</button>
+<!-- Option B -->
+<button class="group bg-forest border-2 border-pitch p-6 text-left hover:border-neon hover:bg-forest-dark transition-all inset-press pixel-corners flex items-center gap-4">
+<span class="font-headline-md text-neon group-hover:scale-110 transition-transform">B</span>
+<span class="font-label-lg text-parchment">Assumo total responsabilidade e faremos mudanças drásticas.</span>
+</button>
+<!-- Option C -->
+<button class="group bg-forest border-2 border-pitch p-6 text-left hover:border-neon hover:bg-forest-dark transition-all inset-press pixel-corners flex items-center gap-4">
+<span class="font-headline-md text-neon group-hover:scale-110 transition-transform">C</span>
+<span class="font-label-lg text-parchment">Não respondo a perguntas baseadas em 'se'. Próxima pergunta.</span>
+</button>
+<!-- Option D -->
+<button class="group bg-forest border-2 border-pitch p-6 text-left hover:border-neon hover:bg-forest-dark transition-all inset-press pixel-corners flex items-center gap-4">
+<span class="font-headline-md text-neon group-hover:scale-110 transition-transform">D</span>
+<span class="font-label-lg text-parchment">A torcida tem razão, o futebol hoje foi abaixo do esperado.</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Feedback Sidebar -->
+<aside class="hidden lg:block fixed right-0 top-0 h-full w-80 z-40 bg-crt-black border-l-2 border-pitch pt-20 px-6">
+<div class="bg-forest-dark border-2 border-pitch p-4 pixel-corners">
+<h2 class="font-headline-sm text-headline-sm text-neon mb-6 uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                PREVISÃO DE IMPACTO
+            </h2>
+<div class="space-y-8">
+<!-- Morale -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-lg text-smoke uppercase">MORALE</span>
+<span class="font-code text-danger">-15</span>
+</div>
+<div class="h-4 w-full bg-abyss border border-smoke flex overflow-hidden">
+<div class="h-full bg-danger w-[15%]"></div>
+<div class="h-full w-[85%] bg-transparent"></div>
+</div>
+</div>
+<!-- Imprensa -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-lg text-smoke uppercase">IMPRENSA</span>
+<span class="font-code text-neon">+05</span>
+</div>
+<div class="h-4 w-full bg-abyss border border-smoke flex overflow-hidden">
+<div class="h-full bg-neon w-[40%]"></div>
+<div class="h-full bg-neon/30 w-[5%] animate-pulse"></div>
+</div>
+</div>
+<!-- Torcida -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-lg text-smoke uppercase">TORCIDA</span>
+<span class="font-code text-trophy">+12</span>
+</div>
+<div class="h-4 w-full bg-abyss border border-smoke flex overflow-hidden">
+<div class="h-full bg-trophy w-[65%]"></div>
+<div class="h-full bg-trophy/40 w-[12%] animate-pulse"></div>
+</div>
+</div>
+</div>
+<div class="mt-12 p-4 border border-pitch bg-forest/50">
+<h4 class="font-label-md text-neon uppercase mb-2">Dica de Gestão</h4>
+<p class="font-body-sm text-smoke text-xs italic">"Respostas agressivas podem aumentar o moral da torcida, mas dificultam sua relação com os jogadores no vestiário."</p>
+</div>
+</div>
+</aside>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-forest-dark border-t-4 border-pitch flex justify-around items-center h-20 px-4">
+<div class="flex flex-col items-center justify-center text-smoke p-1">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-1">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label-md text-label-md">Tactics</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-1">
+<span class="material-symbols-outlined" data-icon="swap_horizontal_circle">swap_horizontal_circle</span>
+<span class="font-label-md text-label-md">Transfers</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-forest text-trophy border-2 border-neon p-1 scale-95 brightness-125">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md">Press</span>
+</div>
+</nav>
+</body></html>

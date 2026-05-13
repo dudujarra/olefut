@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT - LOJA COSMÉTICA</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container": "#1d2023", "primary-fixed-dim": "#2ae500", "on-primary-fixed-variant": "#095300", "secondary-fixed": "#ffe16d", error: "#ffb4ab", "on-primary-fixed": "#022100", "on-tertiary-container": "#006f4a", tertiary: "#e9ffef", background: "#111417", secondary: "#fff9ef", "tertiary-fixed-dim": "#75daa8", parchment: "#F1FAEE", "on-secondary": "#3a3000", "tertiary-fixed": "#92f7c3", forest: "#1B4332", outline: "#85967c", "secondary-container": "#ffdb3c", neon: "#39FF14", "on-secondary-fixed-variant": "#544600", amber: "#FBBF24", "surface-container-high": "#272a2d", pitch: "#52B788", "surface-dim": "#111417", "surface-bright": "#37393d", primary: "#efffe3", "surface-variant": "#323538", "forest-dark": "#0E1F14", "danger-dark": "#8B0000", "outline-variant": "#3c4b35", "inverse-surface": "#e1e2e7", abyss: "#040805", "on-surface": "#e1e2e7", "surface-container-lowest": "#0b0e11", "secondary-fixed-dim": "#e9c400", "tertiary-container": "#8cf1be", "surface-tint": "#2ae500", "primary-container": "#39ff14", "on-error": "#690005", danger: "#FF3333", "on-primary": "#053900", smoke: "#a0baae", "on-tertiary-fixed": "#002113", "on-secondary-fixed": "#221b00", "surface-container-low": "#191c1f", "surface-container-highest": "#323538", "on-surface-variant": "#baccb0", trophy: "#FFD700", surface: "#111417", "inverse-primary": "#106e00", "inverse-on-surface": "#2e3134", "on-tertiary-fixed-variant": "#005235", "on-primary-container": "#107100", "primary-fixed": "#79ff5b", "error-container": "#93000a", "crt-black": "#111417", "on-secondary-container": "#725f00", "on-error-container": "#ffdad6", "on-tertiary": "#003823", "on-background": "#e1e2e7", "trophy-gold": "#FFD700", "danger-red": "#FF3333", "pitch-green": "#52B788"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-desktop": "32px", unit: "4px", gutter: "16px", "margin-mobile": "16px", "container-max": "1280px", lg: "24px", base: "4px", sm: "8px", xs: "4px", md: "16px", xl: "48px"}, fontFamily: {"headline-md": ["Press Start 2P"], "body-md": ["'Rubik'"], "headline-sm": ["'Press Start 2P'"], code: ["'JetBrains Mono'"], "body-sm": ["Pixelify Sans"], "body-lg": ["Pixelify Sans"], "headline-lg": ["'Press Start 2P'"], "label-lg": ["'JetBrains Mono'"], "label-md": ["'JetBrains Mono'"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+<style>
+        .crt-scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 4px 0 0 #52B788,
+                0 -4px 0 0 #52B788,
+                4px 0 0 0 #52B788,
+                -4px 0 0 0 #52B788;
+        }
+        .pixel-border-neon {
+            box-shadow: 
+                0 2px 0 0 #39FF14,
+                0 -2px 0 0 #39FF14,
+                2px 0 0 0 #39FF14,
+                -2px 0 0 0 #39FF14;
+        }
+        .inset-press:active {
+            transform: translate(2px, 2px);
+            box-shadow: inset 4px 4px 0px 0px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="bg-crt-black text-parchment font-body-md selection:bg-neon selection:text-crt-black overflow-x-hidden">
+<!-- CRT Overlay -->
+<div class="crt-scanlines"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-crt-black border-b-4 border-pitch flex justify-between items-center px-margin-desktop py-4">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg text-neon uppercase tracking-tighter">LOJA</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 bg-abyss border-2 border-neon px-4 py-2">
+<span class="material-symbols-outlined text-trophy" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="font-headline-sm text-headline-sm text-neon tracking-widest">9,999 GOLD</span>
+</div>
+<div class="hidden md:flex gap-4">
+<span class="font-label-lg text-label-lg text-parchment hover:text-trophy cursor-pointer uppercase">Equipe</span>
+<span class="font-label-lg text-label-lg text-parchment hover:text-trophy cursor-pointer uppercase">Rank</span>
+</div>
+</div>
+</header>
+<div class="flex min-h-screen pt-24">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-forest-dark border-r-4 border-pitch flex flex-col gap-unit p-gutter pt-24 hidden md:flex">
+<div class="mb-8 flex items-center gap-4 border-b-2 border-pitch pb-4">
+<div class="w-12 h-12 bg-forest border-2 border-neon flex items-center justify-center overflow-hidden">
+<img alt="Manager Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_HnB84ma_6rnnugB1lXILjL98xVnqbO5AdaVHNx0l5d3MxUdrcyU2n2rxkK01rc6c65XXoNXbEdbXZdjEwihVkZ90XtRF_SHtPi71W9lPjlWiVZFugvaC_T0cvhSFNpXb-Q-2p395T03Wejgv40H1iGzqLKYkL1CMpvWwsa2nrNTde_lmdNmq7kH4kZ7vDhjHsmH2fhh6QFbJ4L0Sau-zqmznfPVc_Dy7Z0KpdrRPFlguN9VZM_mcbq3qCiQyf-wH5vY33mCDdCY"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-neon">MANAGER_01</h3>
+<p class="font-label-md text-label-md text-smoke uppercase">Level 42</p>
+</div>
+</div>
+<nav class="flex flex-col gap-4">
+<a class="text-parchment p-2 hover:text-neon flex items-center gap-3 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110">inventory_2</span>
+<span class="font-label-lg text-label-lg uppercase">Locker Room</span>
+</a>
+<a class="text-parchment p-2 hover:text-neon flex items-center gap-3 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110">payments</span>
+<span class="font-label-lg text-label-lg uppercase">Transfer Market</span>
+</a>
+<a class="bg-forest text-trophy border-2 border-neon p-2 flex items-center gap-3 scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">palette</span>
+<span class="font-label-lg text-label-lg uppercase">Cosmetics</span>
+</a>
+<a class="text-parchment p-2 hover:text-neon flex items-center gap-3 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110">military_tech</span>
+<span class="font-label-lg text-label-lg uppercase">Missions</span>
+</a>
+<a class="text-parchment p-2 hover:text-neon flex items-center gap-3 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110">settings</span>
+<span class="font-label-lg text-label-lg uppercase">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-abyss border-2 border-pitch">
+<p class="font-label-md text-label-md text-smoke mb-2 text-center uppercase">Ofertas Flash</p>
+<button class="w-full bg-forest text-neon border-2 border-neon py-2 font-headline-sm text-headline-sm hover:bg-neon hover:text-crt-black transition-all uppercase inset-press">SHOP DEALS</button>
+</div>
+</aside>
+<!-- Main Content (Canvas) -->
+<main class="flex-1 md:ml-64 p-gutter pb-32">
+<!-- Shop Banner -->
+<div class="relative w-full h-48 mb-8 bg-forest-dark border-4 border-pitch overflow-hidden flex items-center justify-center group">
+<div class="absolute inset-0 opacity-40 mix-blend-overlay">
+<img class="w-full h-full object-cover grayscale brightness-50" data-alt="A retro 16-bit style arcade background with neon green and purple light leaks, featuring a football stadium silhouette. The lighting is moody and atmospheric, evoking the spirit of a 90s gaming console terminal. Pixelated textures and glitch effects are visible across the horizon." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnKcYF_A-q4KBCnKa_7rIRuYtcgPKrqNjJF5RsYsRFehN5thtXcUtv2TJ4YlN_IeEyL6wTk_9aZNedCH6zheWUA0t8Hl3HsnqgD8lOJOVcmnJp5STqAVxxtykXs0zqi7wOiZ8bIKo6ht0gm40_oSqQbGDfHmg8uRFTis6qOVcIJM6FVPxHCJWpjqE4IPcyCIu8Jjo7psKiD28m73kiIPBgNnA9kWc6AVDWfBQMC7JqEK_P85LN__2-Is6qzPaSbnDCqQ-IvKUVeOg"/>
+</div>
+<div class="relative z-10 text-center px-4">
+<h1 class="font-headline-lg text-headline-lg text-neon mb-2 drop-shadow-[0_4px_0_rgba(0,0,0,1)] uppercase">COSMÉTICOS ELITE</h1>
+<p class="font-label-lg text-label-lg text-parchment uppercase tracking-widest">Personalize sua dinastia no OléFUT</p>
+</div>
+<div class="absolute bottom-4 right-4">
+<span class="bg-neon text-crt-black px-3 py-1 font-headline-sm text-headline-sm uppercase">Novo Drop</span>
+</div>
+</div>
+<!-- Grid de Itens -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: Escudo Neon -->
+<div class="bg-surface-container border-4 border-pitch group hover:border-neon transition-all flex flex-col p-4 relative">
+<div class="absolute top-2 right-2 z-20">
+<span class="bg-amber text-crt-black px-2 py-1 font-label-md text-label-md uppercase font-bold">Elite</span>
+</div>
+<div class="aspect-square bg-abyss border-2 border-pitch mb-4 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+<img class="w-full h-full object-contain p-4" data-alt="A premium 32-bit pixel art shield emblem with glowing vibrant neon green borders. The design is symmetrical and futuristic, centered on a dark obsidian-like background. Subtle cybernetic patterns and electric pulses flow through the shield's core." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNHLqgOeG7YTQm-rMm4zcnx_ruMahCRMHwnkCYC-cVMICw6CvZUxHJ6_8xMWr4iOgE2cCyXJ0hVyzl9UFPaZAlk97W8W3QtXRufewwLW-lNcfh7Zb_4kB8w5vInHjhZlaj2D6NQ9KX1ns_yLBZeRj9h1YgNO7FJMN_oVTAbBn-8TIyoBJ_duL2vawBrTmC-9lomOZoMkC7ViTOwVQzdynQaQVUKd8hTEpZxeBFgnWnWUCV4VAhfTJz3HogZ1RfguVgEr-cSIRcPhk"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-parchment mb-2 uppercase group-hover:text-neon">Escudo Neon</h4>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-1 text-trophy">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-headline-sm text-headline-sm">2,500</span>
+</div>
+<button class="bg-forest text-parchment border-2 border-pitch px-4 py-2 font-label-lg text-label-lg hover:bg-neon hover:text-crt-black hover:border-neon transition-all uppercase inset-press">Comprar</button>
+</div>
+</div>
+<!-- Card 2: Skin Uniforme 94 -->
+<div class="bg-surface-container border-4 border-pitch group hover:border-neon transition-all flex flex-col p-4">
+<div class="aspect-square bg-abyss border-2 border-pitch mb-4 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+<img class="w-full h-full object-contain p-4" data-alt="A pixelated soccer jersey displayed as a 2D icon, featuring iconic 1994-style geometric patterns in forest green and neon yellow. The art style is crisp 32-bit pixel art, reminiscent of classic SNES football games. The jersey glows slightly at the edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQTm3cBUYkoiwF90mNDSQFnPZXkpN0CYjuXG25hg69fgW-EP2OrWYAi86Byx7iCsGk-Ok62embPadTRmgU1wX4Ro1VcjBLSdCcrfd7VzVJrP0NEbpbZJRDCNKzSMd7RFIdquKUt75t_rc2nvq2BCs5DexwgeOPAwh8QCkxfoQcClJMhXmfTKg_acRbT6rwJpWo1Q85VQ7UyuVcijq7l6A8brDRXOgo6-iHRciT3vqB68wUziBmxXo1djen5-0gw86D_fDPTJGReRU"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-parchment mb-2 uppercase group-hover:text-neon">Uniforme 94</h4>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-1 text-trophy">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-headline-sm text-headline-sm">1,800</span>
+</div>
+<button class="bg-forest text-parchment border-2 border-pitch px-4 py-2 font-label-lg text-label-lg hover:bg-neon hover:text-crt-black hover:border-neon transition-all uppercase inset-press">Comprar</button>
+</div>
+</div>
+<!-- Card 3: Comemoração Mortal -->
+<div class="bg-surface-container border-4 border-pitch group hover:border-neon transition-all flex flex-col p-4">
+<div class="aspect-square bg-abyss border-2 border-pitch mb-4 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+<img class="w-full h-full object-contain p-4" data-alt="A pixel art sequence showing a stylized football player performing a backflip. The motion is captured in a frame-by-frame arcade aesthetic with white motion streaks. The background is a dark void with neon scanlines crossing horizontally." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRIZqbYoSzQHMCch51jp3AbQ11SwcLz2KikzN8i3Uuen8FDcx0LQaijctJXkDQp-O1oNaVTh17J_jdQexnvTxHEOnmSzMjbZJdX-5DqHa1MJnGaaTCe9mo1GIxR0e1r6qtKs7Ih11ioGESk8E-uDMM5-v0Kx7FlVsyBxBs1g-RKCMvC7gLov8B3qp_AKrkNB1rS8xuGV12cIIDbpUhCk9oaw_rf84L0q8DVkf6jE0gKY1woBs4LpGTmUo91W85LA5AmgRfn8d6sCs"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-parchment mb-2 uppercase group-hover:text-neon">Mortal</h4>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-1 text-trophy">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-headline-sm text-headline-sm">3,200</span>
+</div>
+<button class="bg-forest text-parchment border-2 border-pitch px-4 py-2 font-label-lg text-label-lg hover:bg-neon hover:text-crt-black hover:border-neon transition-all uppercase inset-press">Comprar</button>
+</div>
+</div>
+<!-- Card 4: Bola Glitch -->
+<div class="bg-surface-container border-4 border-pitch group hover:border-neon transition-all flex flex-col p-4">
+<div class="aspect-square bg-abyss border-2 border-pitch mb-4 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+<img class="w-full h-full object-contain p-4" data-alt="A floating football with a digital glitch effect, rendered in vibrant 32-bit pixel art. Magenta and neon green artifacts pixelate the sphere's edges. It is suspended in a dark cybernetic grid environment, looking like a rare retro game item." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcFMiAQ6CuO-eV6a2SUulYcVPXHp23sK5v3jYAC3AtXdzeUBeyC2U8136qX7sgKlbDKULECUiufJVQ31p9T9ixVhXb6m5pPgC3dd3ZNBHCwY_dwLGDS7rW9JAH9KA2KEjDDHXwRuMzAdSWyFT2zC3pkY2M7fvXPhPtERfaBxgTdzQX0aO9K2FWz9KNJNpBvAMvj83gNDQIXBSmPJj7Hsv4tDqwqcZj2PmURSpCQmuYosabBLdX6aS5mdjNEw0V_AxN0GlPsREpCRg"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-parchment mb-2 uppercase group-hover:text-neon">Bola Glitch</h4>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-1 text-trophy">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-headline-sm text-headline-sm">1,200</span>
+</div>
+<button class="bg-forest text-parchment border-2 border-pitch px-4 py-2 font-label-lg text-label-lg hover:bg-neon hover:text-crt-black hover:border-neon transition-all uppercase inset-press">Comprar</button>
+</div>
+</div>
+<!-- Card 5: Escudo Alpha -->
+<div class="bg-surface-container border-4 border-neon group hover:bg-forest-dark transition-all flex flex-col p-4 relative">
+<div class="absolute top-2 right-2 z-20">
+<span class="bg-danger text-parchment px-2 py-1 font-label-md text-label-md uppercase font-bold animate-pulse">Raro</span>
+</div>
+<div class="aspect-square bg-abyss border-2 border-neon mb-4 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.05] transition-transform">
+<img class="w-full h-full object-contain p-4" data-alt="An ornate, highly detailed pixel art crest featuring a golden crown and a lion's head. The colors are royal gold and deep forest green with intense glowing highlights. The style is 32-bit premium arcade, representing a legendary status achievement." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTcSNNoZyp35A9ktw0VJQlyWSZYEARnJMNKgcfckA7gGFvxU5Vx5-CyDGQqkfWL8OGv94V9q_fMJ62taz3qY9R_le_BjplABbRKk67lqa_yfek3Z_cLGb41QD33D3C1407El0hoCZdHF4wOo8pXPFG9VDGh1mLJx1OiWoDJGDhKv-iNWB97HfK9G6WL-gCObEKXrr2z0RgqfL_gBJjjJrKfFKc2UUUNtYpjmA-3I86HRh0GPhlZ_c8IsLU25LwBnlKgRIZgJRzTq0"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-trophy mb-2 uppercase group-hover:text-neon">Escudo Alpha</h4>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-1 text-trophy">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-headline-sm text-headline-sm">5,000</span>
+</div>
+<button class="bg-neon text-crt-black border-2 border-neon px-4 py-2 font-label-lg text-label-lg hover:bg-trophy transition-all uppercase inset-press">Comprar</button>
+</div>
+</div>
+<!-- Card 6: Skin Cyber-Pitch -->
+<div class="bg-surface-container border-4 border-pitch group hover:border-neon transition-all flex flex-col p-4">
+<div class="aspect-square bg-abyss border-2 border-pitch mb-4 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+<img class="w-full h-full object-contain p-4" data-alt="A stylized football field top-down view in pixel art, glowing with neon blue and green circuits. The grass appears as a motherboard texture. The aesthetic is purely cyberpunk, high-contrast, and digital, like a stadium from the future." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLyVI2GmTjhG2wXFWoc2AVWExmuXO7EDRNmFwo3SCde5JaQxIDVh7oHUpSc04XshUnq96H3o2ymF9oLVGB0qfxoRnwb8c3Nsj6oILtm3ybCepMBd943YO5ZysdP3QCaFxDTDuVPPYeQcRbBU23WdqMTtYBSYHHtvCBhgKv8tRdm2413qh4836YtLPG167gsO9AzQF_hv_ArvDlHuWnSPmP3-_9fISf8JUAVTXpdIHHf9ufcF9YJy3m6UzOgx24dvs19OPyrQzMwj4"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-parchment mb-2 uppercase group-hover:text-neon">Cyber-Pitch</h4>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-1 text-trophy">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-headline-sm text-headline-sm">2,200</span>
+</div>
+<button class="bg-forest text-parchment border-2 border-pitch px-4 py-2 font-label-lg text-label-lg hover:bg-neon hover:text-crt-black hover:border-neon transition-all uppercase inset-press">Comprar</button>
+</div>
+</div>
+<!-- Card 7: Comemoração Aviãozinho -->
+<div class="bg-surface-container border-4 border-pitch group hover:border-neon transition-all flex flex-col p-4">
+<div class="aspect-square bg-abyss border-2 border-pitch mb-4 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+<img class="w-full h-full object-contain p-4" data-alt="A playful pixel art icon of a player running with arms outstretched like an airplane. The style is whimsical and vibrant, using a classic 16-bit color palette of primary colors. Soft scanlines overlay the image for a vintage TV feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrhRSF0FyZ93Bi1j5lPqtmVaMvuOVaykhQaqaP2OHEE5gVdr4ysD773jonC4TPBakr3yXgkHNBxEaBXIYg2PHCe6GH7CJ59AUJsgrplIsiJ1OcS7ADDVOv7CSsGUAjzZ_n0HET7VGyJyjGdhkGFzTzJy7l0v0_EvFTnkxIk95Fats-angdq3s_k5PYURcF5UCEdzHpKDc9asz7-xD6etwhyS7Ljr3Kt4kQ4WfKbU7LbUneKLijSXe7zl3x_LPRpM7aNF3wu92echY"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-parchment mb-2 uppercase group-hover:text-neon">Aviãozinho</h4>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-1 text-trophy">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-headline-sm text-headline-sm">800</span>
+</div>
+<button class="bg-forest text-parchment border-2 border-pitch px-4 py-2 font-label-lg text-label-lg hover:bg-neon hover:text-crt-black hover:border-neon transition-all uppercase inset-press">Comprar</button>
+</div>
+</div>
+<!-- Card 8: Luvas Pro-Grip -->
+<div class="bg-surface-container border-4 border-pitch group hover:border-neon transition-all flex flex-col p-4">
+<div class="aspect-square bg-abyss border-2 border-pitch mb-4 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+<img class="w-full h-full object-contain p-4" data-alt="A pair of goalkeeper gloves rendered in sharp, industrial pixel art. The colors are smoke grey and neon green. The gloves have mechanical, armored details, looking like high-performance sports gear from a near-future cyberpunk era." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACINjClQQpg0RSe9-vNcWpccSBN4DNcDBwRVcFthqzLaEOIfCaMsu89lRhoiXU1AMmivaBnry1gp0vj4bYvtOBOokIV_qlbcqqW9vIpIlqJIFz_08mzAPyBMaP7gHxg5RyvYV_HQAC59aQUWvcS4tzU3AlkE9igN1_OWJbtgbnqoNG3IcL4oRvbVSl5k6BN6ozhQ-TPGj3Ho8FZp9mUbgUbWBk5DqB_Ylkhrzr9yIbc-L3u-z-MP58U3DzlQdQMNXx9DW2ERGcseM"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-parchment mb-2 uppercase group-hover:text-neon">Luvas Pro-Grip</h4>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-1 text-trophy">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-headline-sm text-headline-sm">1,500</span>
+</div>
+<button class="bg-forest text-parchment border-2 border-pitch px-4 py-2 font-label-lg text-label-lg hover:bg-neon hover:text-crt-black hover:border-neon transition-all uppercase inset-press">Comprar</button>
+</div>
+</div>
+<!-- Card 9: Grama Retro -->
+<div class="bg-surface-container border-4 border-pitch group hover:border-neon transition-all flex flex-col p-4">
+<div class="aspect-square bg-abyss border-2 border-pitch mb-4 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+<img class="w-full h-full object-contain p-4" data-alt="A textured pixel art square showing different shades of forest green in a classic grid pattern, representing an old-school grass pitch. The resolution is low-fi but intentional, capturing the tactile feel of early 90s sports games." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiL1GSkMDU5__CJH1v670in6tUtxDiiPhFNuoW8Ub7i0Cce98ylV_s8W77L3q622b2juXqRgn-rXcyY1BPubplQV87zXNFaAyfTyf5OE_05O6jLkivAiWEyoGdcmHREVxknDHuUufCxTJ0N1lvabaSPCDwB9XIckKQev7ro8QXbY6RsjR1-GObv_VUWnPj4v2_DTzDMOBNzRFXnBZ6s7BPR7r2fVGMXGZmFKa4NVRlkt7fuENkKmWxJKkrYKk3xYpI70Lz-Lh77L8"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-parchment mb-2 uppercase group-hover:text-neon">Grama Retro</h4>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-1 text-trophy">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-headline-sm text-headline-sm">3,000</span>
+</div>
+<button class="bg-forest text-parchment border-2 border-pitch px-4 py-2 font-label-lg text-label-lg hover:bg-neon hover:text-crt-black hover:border-neon transition-all uppercase inset-press">Comprar</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 w-full bg-forest-dark border-t-4 border-pitch flex justify-around p-4 z-50">
+<span class="material-symbols-outlined text-parchment">inventory_2</span>
+<span class="material-symbols-outlined text-parchment">payments</span>
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">palette</span>
+<span class="material-symbols-outlined text-parchment">military_tech</span>
+<span class="material-symbols-outlined text-parchment">settings</span>
+</nav>
+<!-- Footer Stats / Terminal -->
+<footer class="fixed bottom-0 right-0 p-4 z-30 pointer-events-none hidden md:block">
+<div class="bg-abyss border-2 border-pitch p-3 opacity-80 backdrop-blur-sm">
+<p class="font-code text-label-md text-neon">&gt; SYSTEM_LOAD: COSMETIC_MOD_v4.2</p>
+<p class="font-code text-label-md text-neon">&gt; SYNC_STATUS: STABLE</p>
+<p class="font-code text-label-md text-trophy">&gt; USER: MANAGER_01_AUTHENTICATED</p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609; /* surface-dim from config */
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .content-canvas {
+            pointer-events: auto;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 -2px #52B788, 
+                0 4px 0 -2px #52B788, 
+                -4px 0 0 -2px #52B788, 
+                4px 0 0 -2px #52B788;
+        }
+        .crt-flicker {
+            animation: flicker 0.15s infinite;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.98; }
+            50% { opacity: 1; }
+            100% { opacity: 0.99; }
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-tertiary-fixed-variant": "#005235", "on-error": "#690005", parchment: "#F1FAEE", "surface-container-highest": "#323538", "surface-container-low": "#191c1f", "surface-container-lowest": "#0b0e11", "surface-bright": "#37393d", neon: "#39FF14", "primary-fixed-dim": "#2ae500", "secondary-fixed": "#ffe16d", tertiary: "#e9ffef", "inverse-primary": "#106e00", "surface-container": "#1d2023", pitch: "#52B788", "on-secondary-fixed": "#221b00", "on-surface-variant": "#baccb0", "on-primary-container": "#107100", forest: "#1B4332", "on-primary-fixed-variant": "#095300", "on-primary": "#053900", "outline-variant": "#3c4b35", "on-secondary-container": "#725f00", "surface-variant": "#323538", error: "#ffb4ab", "secondary-fixed-dim": "#e9c400", "surface-tint": "#2ae500", "error-container": "#93000a", "tertiary-fixed": "#92f7c3", smoke: "#a0baae", "danger-dark": "#8B0000", "forest-dark": "#0E1F14", amber: "#FBBF24", outline: "#85967c", secondary: "#fff9ef", "surface-dim": "#111417", "tertiary-container": "#8cf1be", "on-tertiary-fixed": "#002113", surface: "#111417", primary: "#efffe3", "on-tertiary": "#003823", "secondary-container": "#ffdb3c", "on-tertiary-container": "#006f4a", background: "#111417", "on-secondary": "#3a3000", danger: "#FF3333", "crt-black": "#111417", trophy: "#FFD700", "on-primary-fixed": "#022100", "primary-fixed": "#79ff5b", "tertiary-fixed-dim": "#75daa8", "inverse-on-surface": "#2e3134", abyss: "#040805", "inverse-surface": "#e1e2e7", "on-secondary-fixed-variant": "#544600", "on-error-container": "#ffdad6", "surface-container-high": "#272a2d", "on-surface": "#e1e2e7", "on-background": "#e1e2e7", "primary-container": "#39ff14", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-desktop": "32px", "margin-mobile": "16px", gutter: "16px", "container-max": "1280px", unit: "4px", sm: "8px", lg: "24px", base: "4px", xs: "4px", md: "16px", xl: "48px"}, fontFamily: {"body-sm": ["Pixelify Sans"], code: ["jetbrainsMono"], "label-lg": ["jetbrainsMono"], "body-md": ["rubik"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], "headline-lg": ["'Press Start 2P'"], "label-md": ["jetbrainsMono"], "headline-sm": ["'Press Start 2P'"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="bg-background text-on-background min-h-screen overflow-x-hidden content-canvas">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-forest-dark dark:bg-abyss border-b-4 border-pitch">
+<span class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</span>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-neon hover:text-parchment transition-all">settings</button>
+<button class="material-symbols-outlined text-neon hover:text-parchment transition-all">help</button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto space-y-8">
+<!-- Victory Headline -->
+<div class="text-center space-y-2 py-8">
+<h1 class="font-headline-lg text-[48px] md:text-[64px] text-neon uppercase crt-flicker tracking-widest" style="text-shadow: 4px 4px 0px #111417;">
+                VITÓRIA
+            </h1>
+<p class="font-label-lg text-pitch uppercase tracking-widest">Partida Encerrada • Maracanã</p>
+</div>
+<!-- Scoreboard Panel -->
+<section class="bg-forest-dark border-4 border-pitch p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="flex flex-col items-center gap-4">
+<div class="w-24 h-24 bg-crt-black border-2 border-smoke flex items-center justify-center">
+<span class="material-symbols-outlined text-[48px] text-parchment">shield</span>
+</div>
+<h2 class="font-headline-md text-parchment">United FC</h2>
+</div>
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-[64px] text-neon">3</span>
+<span class="font-headline-md text-smoke">-</span>
+<span class="font-headline-lg text-[64px] text-parchment">1</span>
+</div>
+<div class="flex flex-col items-center gap-4">
+<div class="w-24 h-24 bg-crt-black border-2 border-smoke flex items-center justify-center">
+<span class="material-symbols-outlined text-[48px] text-parchment">flag</span>
+</div>
+<h2 class="font-headline-md text-parchment">Flamengo</h2>
+</div>
+</section>
+<!-- Bento Grid Stats & MVP -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Stats Panel (Left) -->
+<section class="lg:col-span-7 bg-forest border-4 border-pitch p-6 flex flex-col gap-6">
+<div class="flex items-center justify-between border-b-2 border-pitch pb-2">
+<h3 class="font-headline-sm text-neon">ESTATÍSTICAS</h3>
+<span class="material-symbols-outlined text-neon">bar_chart</span>
+</div>
+<div class="space-y-6">
+<!-- Possession -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-parchment">
+<span>Posse de Bola</span>
+<div class="flex gap-8">
+<span class="text-neon">58%</span>
+<span>42%</span>
+</div>
+</div>
+<div class="h-4 w-full bg-abyss flex border border-smoke">
+<div class="h-full bg-neon" style="width: 58%"></div>
+<div class="h-full bg-parchment opacity-20" style="width: 42%"></div>
+</div>
+</div>
+<!-- Other Stats -->
+<div class="grid grid-cols-2 gap-y-4 font-label-lg">
+<div class="flex justify-between items-center pr-4 border-r border-pitch/30">
+<span class="text-smoke">Finalizações</span>
+<span class="text-neon font-bold">12 / 5</span>
+</div>
+<div class="flex justify-between items-center pl-4">
+<span class="text-smoke">Faltas</span>
+<span class="text-parchment">8 / 11</span>
+</div>
+<div class="flex justify-between items-center pr-4 border-r border-pitch/30">
+<span class="text-smoke">Escanteios</span>
+<span class="text-neon">6 / 3</span>
+</div>
+<div class="flex justify-between items-center pl-4">
+<span class="text-smoke">Cartões (A/V)</span>
+<span class="text-amber">2/0 / 1/0</span>
+</div>
+</div>
+</div>
+</section>
+<!-- MVP Card (Right) -->
+<section class="lg:col-span-5 bg-crt-black border-4 border-neon p-6 flex flex-col items-center relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-neon text-crt-black px-4 py-1 font-headline-sm">
+                    9.8
+                </div>
+<h3 class="font-headline-sm text-neon mb-6 w-full text-center">HOMEM DO JOGO</h3>
+<div class="w-full aspect-[4/5] bg-forest-dark border-2 border-pitch overflow-hidden mb-4 relative">
+<img alt="R. Gaúcho" class="w-full h-full object-cover grayscale contrast-125" data-alt="A dramatic, high-contrast black and white portrait of a legendary professional football player with long curly hair and a charismatic smile, wearing a vintage sports jersey. The lighting is moody and noir-inspired, highlighting facial features against a dark, atmospheric background. The overall aesthetic is gritty yet premium, evoking a classic sports icon status with sharp 32-bit graphical fidelity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0cGZXxBpGmamWRoMgnePzdd7FaQLZUJe84kaR3E7oG_6DyghkDWkoSpuTC1kwreSW4gjgGNe4KOJWbmhZpiHxDhaxJ6croZ-VFSFmLjg7Pzi-bmxb5ElJNNs984XjZMXOLnYPbuZXr7QGnflsQA1NuSvPb8shPVsaYedLnCi1OcjEEkpOJBvAMgphY51cd1QIAjbRouSsSr4t7hcv4c3RQwKhLWaqlPWD8TZ_FXVifhNTTPv_J8hizE7kw1ywv2_XOtcdlggQ2HY"/>
+</div>
+<div class="text-center">
+<p class="font-headline-md text-parchment">R. GAÚCHO</p>
+<p class="font-label-md text-neon mt-2 uppercase tracking-tighter">2 Gols • 1 Assistência</p>
+</div>
+</section>
+</div>
+<!-- Narrative Panel -->
+<section class="bg-forest-dark border-4 border-pitch p-6">
+<h3 class="font-headline-sm text-parchment border-b-2 border-pitch pb-4 mb-6">EVENTOS DA PARTIDA</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-6 group">
+<span class="font-label-lg text-neon w-16">24'</span>
+<span class="material-symbols-outlined text-neon" data-weight="fill">sports_soccer</span>
+<span class="font-body-md text-parchment">Gol! <strong class="text-neon">R. Gaúcho</strong> abre o placar.</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-label-lg text-neon w-16">45+1'</span>
+<span class="material-symbols-outlined text-neon" data-weight="fill">sports_soccer</span>
+<span class="font-body-md text-parchment">Gol! <strong class="text-neon">Romário</strong> amplia antes do intervalo.</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-label-lg text-smoke w-16">68'</span>
+<span class="material-symbols-outlined text-danger">sports_soccer</span>
+<span class="font-body-md text-smoke">Gol! <strong class="text-parchment">Pedro (FLA)</strong> diminui a vantagem.</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-label-lg text-neon w-16">82'</span>
+<span class="material-symbols-outlined text-neon" data-weight="fill">sports_soccer</span>
+<span class="font-body-md text-parchment">Gol! <strong class="text-neon">R. Gaúcho</strong> define o resultado.</span>
+</div>
+</div>
+</section>
+<!-- Action Area -->
+<div class="flex justify-center pt-8">
+<button class="bg-forest border-4 border-pitch px-12 py-4 flex items-center gap-4 hover:border-neon hover:text-neon group active:translate-y-1 transition-all">
+<span class="font-headline-md text-parchment group-hover:text-neon">CONTINUAR</span>
+<span class="material-symbols-outlined text-parchment group-hover:text-neon">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component) - Rendered as per protocol but usually suppressed for transactional results screens. I've included it with styling defined in the JSON. -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 bg-forest-dark dark:bg-abyss border-t-4 border-pitch">
+<a class="flex flex-col items-center justify-center text-parchment p-2 hover:bg-forest hover:text-neon transition-transform active:scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-neon text-crt-black rounded-none p-2 border-2 border-parchment transition-transform active:scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">Resultados</span>
+</a>
+<a class="flex flex-col items-center justify-center text-parchment p-2 hover:bg-forest hover:text-neon transition-transform active:scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Equipe</span>
+</a>
+<a class="flex flex-col items-center justify-center text-parchment p-2 hover:bg-forest hover:text-neon transition-transform active:scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-md text-label-md">Loja</span>
+</a>
+</nav>
+</body></html>

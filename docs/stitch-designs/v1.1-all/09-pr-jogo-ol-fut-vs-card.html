@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #040805;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            cursor: crosshair;
+        }
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .pixel-border {
+            box-shadow: 
+                0 -4px 0 0 #52B788,
+                0 4px 0 0 #52B788,
+                -4px 0 0 #52B788,
+                4px 0 0 #52B788;
+        }
+        .pixel-border-neon {
+            box-shadow: 
+                0 -4px 0 0 #39FF14,
+                0 4px 0 0 #39FF14,
+                -4px 0 0 #39FF14,
+                4px 0 0 #39FF14;
+        }
+        .pixel-border-inset {
+            box-shadow: 
+                inset 0 -4px 0 0 #000,
+                inset 0 4px 0 0 #52B788,
+                inset -4px 0 0 #52B788,
+                inset 4px 0 0 #000;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-primary": "#053900", secondary: "#fff9ef", "inverse-primary": "#106e00", "error-container": "#93000a", background: "#111417", "on-secondary-container": "#725f00", "danger-dark": "#8B0000", "on-error": "#690005", surface: "#111417", tertiary: "#e9ffef", forest: "#1B4332", abyss: "#040805", parchment: "#F1FAEE", "on-secondary": "#3a3000", "surface-dim": "#111417", "secondary-fixed": "#ffe16d", "inverse-surface": "#e1e2e7", "on-tertiary-fixed-variant": "#005235", danger: "#FF3333", "outline-variant": "#3c4b35", "crt-black": "#111417", "primary-fixed": "#79ff5b", error: "#ffb4ab", "surface-variant": "#323538", outline: "#85967c", "on-secondary-fixed": "#221b00", "on-tertiary-container": "#006f4a", trophy: "#FFD700", "on-tertiary": "#003823", primary: "#efffe3", "on-primary-container": "#107100", "inverse-on-surface": "#2e3134", "tertiary-container": "#8cf1be", "on-secondary-fixed-variant": "#544600", "on-tertiary-fixed": "#002113", "on-primary-fixed-variant": "#095300", "surface-container-lowest": "#0b0e11", "on-background": "#e1e2e7", "tertiary-fixed": "#92f7c3", "on-surface": "#e1e2e7", "surface-tint": "#2ae500", "forest-dark": "#0E1F14", "on-surface-variant": "#baccb0", "surface-container-low": "#191c1f", pitch: "#52B788", "surface-container-high": "#272a2d", "on-error-container": "#ffdad6", "primary-fixed-dim": "#2ae500", "tertiary-fixed-dim": "#75daa8", "secondary-container": "#ffdb3c", "surface-container-highest": "#323538", "surface-bright": "#37393d", "surface-container": "#1d2023", "on-primary-fixed": "#022100", amber: "#FBBF24", "secondary-fixed-dim": "#e9c400", smoke: "#a0baae", "primary-container": "#39ff14", neon: "#39FF14", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, fontFamily: {"label-md": ["jetbrainsMono"], "body-sm": ["Pixelify Sans"], "label-lg": ["jetbrainsMono"], "headline-sm": ["'Press Start 2P'"], "headline-lg": ["'Press Start 2P'"], "body-lg": ["Pixelify Sans"], "headline-md": ["Press Start 2P"], code: ["jetbrainsMono"], "body-md": ["rubik"], "display-lg": ["Press Start 2P"], "label-caps": ["IBM Plex Mono"], "data-mono": ["IBM Plex Mono"]}, fontSize: {"body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}]}, spacing: {"margin-desktop": "32px", sm: "8px", lg: "24px", base: "4px", xs: "4px", md: "16px", xl: "48px", gutter: "16px", "margin-mobile": "16px"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+</head>
+<body class="min-h-screen text-parchment font-body-md selection:bg-neon selection:text-abyss">
+<div class="scanline-overlay"></div>
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-2 bg-crt-black border-b-4 border-forest">
+<h1 class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</h1>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-neon hover:text-parchment transition-colors" data-icon="volume_up">volume_up</button>
+<button class="material-symbols-outlined text-neon hover:text-parchment transition-colors" data-icon="settings">settings</button>
+</div>
+</header>
+<!-- Side Navigation Anchor (Hidden on Mobile) -->
+<nav class="hidden md:flex flex-col fixed left-0 top-0 h-full z-40 bg-forest-dark border-r-4 border-pitch w-64 pt-20">
+<div class="px-6 py-8 flex flex-col items-center border-b-4 border-pitch mb-4">
+<div class="w-20 h-20 bg-abyss border-2 border-neon mb-4 overflow-hidden">
+<img alt="Manager Portrait" class="w-full h-full" data-alt="A detailed 32-bit pixel art portrait of a professional football manager with a sharp jawline and focused expression. The manager wears a dark green tracksuit with neon accents. The background is a simple dark forest green gradient, maintaining a retro arcade game aesthetic with vibrant color contrast and sharp edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXTSKzGtjwj7tB0u7vN34ONZk2x_zvTssloBtZYXMhfo6kvlr5aO-TsjpBaTrsijTWNgeGGpQAZQrVDpgeK5sNiRWzfjf_yQhRaCTBQM05NOe6Oq1BO5TbZOwNlhkvzan2FK1meEkxZvG08eJJwyEd74BV2_jgKhobEbFCKTLG4C3HLuwqCYo1-c6WnfzVwubQl4k7hOsy0OX37CvTteWwIuXjbR6om4KPD0HnP7nzdmpGtnIEBU9nkN_OeEokrfuTXdv0v3BzNSY"/>
+</div>
+<p class="font-headline-md text-headline-md text-trophy">MANAGER</p>
+<p class="font-label-lg text-label-lg text-smoke">Lvl 99 Pro</p>
+</div>
+<div class="flex flex-col flex-grow">
+<a class="text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-forest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined align-middle mr-2" data-icon="groups">groups</span> Squad
+            </a>
+<a class="bg-forest text-neon border-l-4 border-neon px-4 py-3 font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined align-middle mr-2" data-icon="sports_soccer">sports_soccer</span> Match
+            </a>
+<a class="text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-forest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined align-middle mr-2" data-icon="storefront">storefront</span> Market
+            </a>
+<a class="text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-forest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined align-middle mr-2" data-icon="history">history</span> History
+            </a>
+<a class="text-smoke px-4 py-3 font-label-lg text-label-lg hover:bg-forest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined align-middle mr-2" data-icon="stadium">stadium</span> Stadium
+            </a>
+</div>
+<div class="p-4 mt-auto">
+<button class="w-full py-3 bg-forest border-2 border-pitch text-parchment font-headline-sm text-headline-sm hover:border-neon hover:text-neon active:translate-y-1 transition-all">LEAGUE TABLE</button>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="md:ml-64 pt-20 pb-24 px-margin-mobile md:px-margin-desktop min-h-screen flex flex-col justify-center">
+<div class="max-w-6xl mx-auto w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<!-- Left Profile: UNITED FC -->
+<div class="lg:col-span-4 flex flex-col items-center lg:items-end">
+<div class="mb-6 text-center lg:text-right">
+<h2 class="font-headline-lg text-headline-lg text-parchment mb-2">UNITED FC</h2>
+<div class="inline-block px-4 py-1 bg-neon text-abyss font-headline-md text-headline-md">90 OVR</div>
+</div>
+<div class="w-48 h-48 bg-forest-dark border-4 border-pitch p-4 flex items-center justify-center mb-8 relative">
+<img alt="UNITED FC Crest" class="w-full h-full object-contain" data-alt="A bold 32-bit pixel art shield crest for a football team named United FC. The crest features a dominant white and neon green geometric pattern on a dark emerald background. The style is reminiscent of 90s Sega Saturn sports titles with high-contrast outlines and a sense of aggressive athletic energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxX07YGCqj4FdsoB6Qv7zdg-kYwOgXqYmK5iIeQS_k216tAlOYidmYpSKty-AvO0fGZtfNh5EZoXNpusZy0-B5fILSiPw12halsKe4tZYsRBZD7Bo6Urw2VWrhQbCLtECvw07zhF0aJecc-qIv_Z1LmnJtyyjVDKrS6u9lrW7M2TISuMnJa8-DxnZeBjy12eJrpXbb2eNBuVW7XJ5eagb38ui73yEXkJQjSmCJlS4U98WuyOj9sKXFHlJT12Tlxez0vjiMHPOCZ9A"/>
+</div>
+<!-- Stats -->
+<div class="w-full max-w-xs space-y-4 font-label-lg text-label-lg">
+<div class="space-y-1">
+<div class="flex justify-between text-smoke"><span>GOL</span><span>92</span></div>
+<div class="h-3 w-full bg-abyss border border-smoke">
+<div class="h-full bg-neon" style="width: 92%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-smoke"><span>DEF</span><span>88</span></div>
+<div class="h-3 w-full bg-abyss border border-smoke">
+<div class="h-full bg-neon" style="width: 88%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-smoke"><span>MEI</span><span>86</span></div>
+<div class="h-3 w-full bg-abyss border border-smoke">
+<div class="h-full bg-neon" style="width: 86%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-smoke"><span>ATA</span><span>94</span></div>
+<div class="h-3 w-full bg-abyss border border-smoke">
+<div class="h-full bg-neon" style="width: 94%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center: VS & Probability -->
+<div class="lg:col-span-4 flex flex-col items-center justify-center py-8">
+<div class="text-[80px] md:text-[120px] font-headline-lg text-trophy drop-shadow-[0_8px_0_rgba(0,0,0,1)] tracking-widest italic animate-pulse">VS</div>
+<div class="w-full max-w-sm mt-8 p-4 bg-forest-dark border-2 border-pitch text-center">
+<p class="font-headline-sm text-headline-sm text-smoke mb-4">WIN PROBABILITY</p>
+<div class="flex h-8 w-full border-2 border-abyss overflow-hidden">
+<div class="bg-neon flex items-center justify-center text-abyss font-bold" style="width: 55%">55%</div>
+<div class="bg-danger flex items-center justify-center text-parchment font-bold" style="width: 45%">45%</div>
+</div>
+<div class="flex justify-between mt-2 font-label-md text-label-md">
+<span class="text-neon">UNITED</span>
+<span class="text-danger">FLAMENGO</span>
+</div>
+</div>
+</div>
+<!-- Right Profile: FLAMENGO -->
+<div class="lg:col-span-4 flex flex-col items-center lg:items-start">
+<div class="mb-6 text-center lg:text-left">
+<h2 class="font-headline-lg text-headline-lg text-parchment mb-2">FLAMENGO</h2>
+<div class="inline-block px-4 py-1 bg-danger text-parchment font-headline-md text-headline-md">88 OVR</div>
+</div>
+<div class="w-48 h-48 bg-crt-black border-4 border-danger-dark p-4 flex items-center justify-center mb-8 relative">
+<img alt="FLAMENGO Crest" class="w-full h-full object-contain" data-alt="A fierce 32-bit pixel art crest for Flamengo football club. The design features a heavy red and black vertical stripe pattern enclosed in a thick metallic silver border. The aesthetic captures the intense rivalry of classic arcade soccer games, with vibrant saturation and sharp, blocky pixelation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2Dil2-kQmx34ltoBLEocSQD5gzmUcN91AjU4mT61xC3vUsu_q20FrYZp4SiEV3ddkl26ZjqtbVaGkPGUYQY8jC8PTYd1OVQ9I2Aks6LRIzBCIaur2hBL_0hcqFFJFI74cG40glcXzvZghjYpav4BMS7LcrgST-QWa9GRAm_7OcKBsrjAFIiHi1VCefPjHQStCb4FlgCckWPYUf6bCm8jmV_jMu6X1yIySOCYGoOU7r__gmk-WCbKSkt0lmRpaiIb8w5nQvpHL3ZY"/>
+</div>
+<div class="px-6 py-4 bg-abyss border-2 border-danger-dark text-danger font-headline-sm text-headline-sm mb-8 tracking-tighter">
+                        ATAQUE TOTAL
+                    </div>
+<div class="flex flex-col gap-4 items-center lg:items-start w-full max-w-xs">
+<p class="font-headline-sm text-headline-sm text-smoke underline underline-offset-8 decoration-2 mb-2">LAST 5 MATCHES</p>
+<div class="flex gap-2">
+<div class="w-10 h-10 bg-neon text-abyss flex items-center justify-center font-headline-sm text-headline-sm pixel-border">V</div>
+<div class="w-10 h-10 bg-amber text-abyss flex items-center justify-center font-headline-sm text-headline-sm pixel-border">E</div>
+<div class="w-10 h-10 bg-amber text-abyss flex items-center justify-center font-headline-sm text-headline-sm pixel-border">E</div>
+<div class="w-10 h-10 bg-danger text-parchment flex items-center justify-center font-headline-sm text-headline-sm pixel-border">D</div>
+<div class="w-10 h-10 bg-neon text-abyss flex items-center justify-center font-headline-sm text-headline-sm pixel-border">V</div>
+</div>
+</div>
+</div>
+</div>
+<!-- CTA Area -->
+<div class="mt-16 flex flex-col items-center gap-8">
+<button class="px-12 py-6 bg-forest border-4 border-pitch text-parchment font-headline-lg text-headline-lg hover:border-neon hover:text-neon hover:bg-forest-dark active:translate-y-2 active:border-b-0 transition-all pixel-border-neon group">
+<span class="group-hover:animate-pulse">ENTRAR EM CAMPO</span>
+</button>
+<!-- Tips Panel -->
+<div class="w-full max-w-2xl bg-forest-dark border-4 border-pitch p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 bg-pitch text-abyss font-headline-sm text-headline-sm">DICA DO MISTER</div>
+<div class="flex gap-6 items-center">
+<div class="w-16 h-16 bg-abyss border-2 border-neon shrink-0">
+<img alt="Mister Icon" class="w-full h-full" data-alt="A close-up 32-bit pixel art icon of an experienced football coach wearing a whistle and a green cap. The lighting is moody and directional, typical of 90s Japanese arcade games. The coach has a stern but wise expression, rendered in high-contrast greens and blacks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkwdCQ3_orNnHTrQHnnzzhXEvYombZ56Igba2t72N84t4Kr_6p_KikNgBK9_z1lPmGRk8D4vE7rdlV250NIQNbuzH57BtpVLJK85XZYqPFXlM9g9YE3UOf8lF89JACM0O9zh7kR_HNxYc38RiMRQX6DQctMSlsBIdXkwn8agQ-cVFAaDpTZju8AQkKioKErypD6Xi7r4nVgC46hoJSeJJNN5ke0avVWMn0tBP8QSLbMjAao8xEOZkBi0drN0GVy2DQf2CfniNjXP4"/>
+</div>
+<p class="font-label-lg text-label-lg text-smoke leading-relaxed">
+                            "FLAMENGO É PERIGOSO NO CONTRA-ATAQUE. MANTENHA A LINHA DEFENSIVA BAIXA E EXPLORE O CANSAÇO DOS LATERAIS DELES NO SEGUNDO TEMPO."
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Anchor (Mobile Only) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center md:hidden bg-crt-black border-t-4 border-pitch">
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:text-neon" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-forest text-neon border-t-2 border-neon p-2" href="#">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label-md text-label-md">Match</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:text-neon" href="#">
+<span class="material-symbols-outlined" data-icon="shield">shield</span>
+<span class="font-label-md text-label-md">Club</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke p-2 hover:text-neon" href="#">
+<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
+<span class="font-label-md text-label-md">Office</span>
+</a>
+</footer>
+</body></html>

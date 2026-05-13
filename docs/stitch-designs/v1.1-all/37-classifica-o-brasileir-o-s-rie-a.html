@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT - BRASILEIRÃO SÉRIE A</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @font-face {
+            font-family: 'jetbrainsMono';
+            src: url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+        }
+        
+        body {
+            background-color: #111417; /* crt-black */
+            overflow-x: hidden;
+        }
+
+        .crt-scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 118, 0.06));
+            z-index: 100;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .pixel-border-inset {
+            box-shadow: inset -2px -2px 0px 0px #52B788, inset 2px 2px 0px 0px #0E1F14;
+        }
+
+        .active-glow {
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0E1F14;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #52B788;
+            border: 2px solid #0E1F14;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-error": "#690005", parchment: "#F1FAEE", "inverse-primary": "#106e00", "outline-variant": "#3c4b35", outline: "#85967c", "on-surface-variant": "#baccb0", "on-surface": "#e1e2e7", error: "#ffb4ab", "secondary-fixed-dim": "#e9c400", "forest-dark": "#0E1F14", primary: "#efffe3", "crt-black": "#111417", tertiary: "#e9ffef", smoke: "#a0baae", amber: "#FBBF24", "surface-container-low": "#191c1f", "on-primary-fixed": "#022100", "primary-fixed-dim": "#2ae500", "tertiary-fixed-dim": "#75daa8", "on-tertiary": "#003823", abyss: "#040805", "on-tertiary-fixed-variant": "#005235", "on-primary-fixed-variant": "#095300", neon: "#39FF14", "on-secondary-fixed-variant": "#544600", "on-background": "#e1e2e7", "tertiary-fixed": "#92f7c3", "primary-container": "#39ff14", "tertiary-container": "#8cf1be", danger: "#FF3333", "surface-container-highest": "#323538", "surface-tint": "#2ae500", "primary-fixed": "#79ff5b", surface: "#111417", secondary: "#fff9ef", "inverse-on-surface": "#2e3134", "error-container": "#93000a", "secondary-fixed": "#ffe16d", "on-secondary-container": "#725f00", "inverse-surface": "#e1e2e7", "surface-variant": "#323538", forest: "#1B4332", "surface-bright": "#37393d", "surface-dim": "#111417", "on-secondary-fixed": "#221b00", "on-tertiary-fixed": "#002113", pitch: "#52B788", "on-primary": "#053900", background: "#111417", "surface-container-high": "#272a2d", "on-tertiary-container": "#006f4a", trophy: "#FFD700", "on-secondary": "#3a3000", "on-primary-container": "#107100", "on-error-container": "#ffdad6", "surface-container-lowest": "#0b0e11", "surface-container": "#1d2023", "danger-dark": "#8B0000", "secondary-container": "#ffdb3c", "trophy-gold": "#FFD700", "pitch-green": "#52B788", "danger-red": "#FF3333"}, fontFamily: {"headline-sm": ["Press Start 2P"], "label-md": ["jetbrainsMono"], "body-sm": ["Pixelify Sans"], "body-md": ["Rubik"], "body-lg": ["Pixelify Sans"], "label-lg": ["jetbrainsMono"], "headline-lg": ["Press Start 2P"], "headline-md": ["Press Start 2P"], code: ["jetbrainsMono"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"], "display-lg": ["Press Start 2P"]}, fontSize: {"headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "400"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}]}, spacing: {sm: "8px", xs: "4px", base: "4px", xl: "48px", "margin-mobile": "16px", lg: "24px", "margin-desktop": "32px", md: "16px", gutter: "16px"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+</head>
+<body class="bg-crt-black text-parchment font-body-md antialiased custom-scrollbar">
+<div class="crt-scanlines"></div>
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-forest-dark border-b-4 border-pitch">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg text-neon italic tracking-tighter">OléFUT</span>
+</div>
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2">
+<span class="font-label-lg text-label-lg text-trophy font-bold">$12.5M</span>
+<span class="font-label-lg text-label-lg text-parchment">OCT 1995</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-neon hover:text-parchment transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-neon hover:text-parchment transition-colors" data-icon="settings">settings</button>
+<div class="w-8 h-8 bg-forest border-2 border-neon overflow-hidden">
+<img alt="Manager Avatar" data-alt="A detailed 16-bit pixel art portrait of a professional football manager in a sharp dark suit. The character has short dark hair and a focused expression, rendered in a retro SNES aesthetic with vibrant neon highlights. The background is a simple dark stadium hallway illuminated by cool green fluorescent lights, maintaining a nostalgic arcade atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoFE0Qh3eHFjwkQTtwN6-S9v-fsgY0EVYcOR4d3ggaUKT7L6DZGUbzpkcw7Ed6YABx-3J1JK3Kssn42-m7CGrwB_H-vYoixPKdRURt_VISkNZzAedmXpM0JTzcY3MrK4tAj9qi9kGzVAsGUvgRM8Tu-Fm9ko0CLs8wDmuLeOBOE4T349c-jY3wWoZK1K6mv3QxjHUSkd41RqwPQ_AjATH9LIdEoKs1gu3vPJJ_5K8ZeX-YROPcLmtK_9F_aYSFk6OW2faVTFvZmkg"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-crt-black border-r-4 border-pitch pt-20 pb-8 flex flex-col z-40">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-12 h-12 bg-forest flex items-center justify-center border-2 border-neon">
+<span class="material-symbols-outlined text-neon text-3xl" data-icon="sports_soccer">sports_soccer</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-neon">SC BRUTALIST</h2>
+<p class="font-label-md text-label-md text-smoke">Elite Division</p>
+</div>
+</div>
+<nav class="flex-grow">
+<ul class="space-y-1">
+<li>
+<a class="text-smoke flex items-center gap-3 px-6 py-4 hover:bg-surface-container-highest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="text-smoke flex items-center gap-3 px-6 py-4 hover:bg-surface-container-highest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Squad</span>
+</a>
+</li>
+<li>
+<a class="bg-forest text-neon border-l-4 border-neon flex items-center gap-3 px-6 py-4 active:bg-forest-dark transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-md text-label-md">League</span>
+</a>
+</li>
+<li>
+<a class="text-smoke flex items-center gap-3 px-6 py-4 hover:bg-surface-container-highest hover:text-parchment transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="px-4">
+<button class="w-full bg-forest border-2 border-pitch text-parchment font-headline-sm text-[10px] py-4 hover:border-neon hover:text-neon active:translate-y-1 active:border-b-0 transition-all">
+                NEXT MATCH
+            </button>
+</div>
+<div class="mt-8 pt-4 border-t border-forest px-6">
+<a class="text-smoke flex items-center gap-3 hover:text-danger transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-8 pb-12">
+<header class="mb-8">
+<h1 class="font-headline-lg text-headline-lg text-neon mb-6 border-b-4 border-forest-dark pb-4">BRASILEIRÃO SÉRIE A</h1>
+<!-- Filters & Tabs -->
+<div class="flex flex-col gap-4 mb-8">
+<div class="flex gap-2">
+<button class="bg-neon text-crt-black px-4 py-2 font-headline-sm text-[10px]">BRA</button>
+<button class="bg-forest-dark border-2 border-pitch text-smoke px-4 py-2 font-headline-sm text-[10px] hover:text-neon">EUR</button>
+<button class="bg-forest-dark border-2 border-pitch text-smoke px-4 py-2 font-headline-sm text-[10px] hover:text-neon">SAM</button>
+</div>
+<div class="flex gap-2">
+<button class="border-b-4 border-neon text-neon px-4 py-2 font-label-lg">SÉRIE A</button>
+<button class="text-smoke px-4 py-2 font-label-lg hover:text-parchment">SÉRIE B</button>
+<button class="text-smoke px-4 py-2 font-label-lg hover:text-parchment">SÉRIE C</button>
+<button class="text-smoke px-4 py-2 font-label-lg hover:text-parchment">SÉRIE D</button>
+</div>
+</div>
+<!-- Legend -->
+<div class="flex flex-wrap gap-4 bg-forest-dark p-4 border-2 border-pitch">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-neon border border-abyss"></span>
+<span class="font-label-md text-[10px] text-smoke">LIBERTADORES</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-trophy border border-abyss"></span>
+<span class="font-label-md text-[10px] text-smoke">SUL-AMERICANA</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-primary-fixed border border-abyss"></span>
+<span class="font-label-md text-[10px] text-smoke">ACESSO</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-danger border border-abyss"></span>
+<span class="font-label-md text-[10px] text-smoke">REBAIXAMENTO</span>
+</div>
+</div>
+</header>
+<!-- Standings Table Container -->
+<div class="bg-crt-black border-4 border-pitch relative overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-forest-dark border-b-4 border-pitch">
+<tr>
+<th class="p-4 font-headline-sm text-[10px] text-neon">#</th>
+<th class="p-4 font-headline-sm text-[10px] text-neon">TIME</th>
+<th class="p-4 font-headline-sm text-[10px] text-neon text-center">P</th>
+<th class="p-4 font-headline-sm text-[10px] text-neon text-center">J</th>
+<th class="p-4 font-headline-sm text-[10px] text-neon text-center">V</th>
+<th class="p-4 font-headline-sm text-[10px] text-neon text-center">E</th>
+<th class="p-4 font-headline-sm text-[10px] text-neon text-center">D</th>
+<th class="p-4 font-headline-sm text-[10px] text-neon text-center">GP</th>
+<th class="p-4 font-headline-sm text-[10px] text-neon text-center">GC</th>
+<th class="p-4 font-headline-sm text-[10px] text-neon text-center">SG</th>
+</tr>
+</thead>
+<tbody class="font-code">
+<!-- User Team: Row 1 -->
+<tr class="bg-forest border-l-8 border-neon active-glow group">
+<td class="p-4 font-bold text-neon">01</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-crt-black border border-neon p-1">
+<img alt="United FC" class="w-full h-full" data-alt="A detailed 16-bit pixel art football crest for United FC. The design features a prominent central shield in deep forest green and neon green accents, with a stylized 'U' and 'F' entwined in a bold, geometric font. The aesthetic is purely retro arcade style with sharp edges and highly saturated colors that stand out against the dark pitch-black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEOsvSlUebH6u8E6M-7Cfti5YVrC5m8rWrLr1dbm2TSJVhDuDTBD4T51DWJjTBe0SDHRPEteFcN8xyl898sd7RD6CLug8hXDrU8qlr8O4BzZCOv0lyT0WoE-TkrEvpINHsh3Crd-pjnMvx5gTldKCpLktesZCaOwWo_C7WQQf7x1hACS2h_Sn_sQr31hcb5eQoK7s9iH0Ty2cz3LOMJ8K-zkq2GJR-Xubn1WqlsDAvd-GuB-D21KN2SEUk04CwML5J9Wz0MLtclDk"/>
+</div>
+<span class="font-headline-sm text-[12px] text-parchment group-hover:text-neon">UNITED FC</span>
+</td>
+<td class="p-4 text-center font-bold text-neon">64</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center text-neon">20</td>
+<td class="p-4 text-center">4</td>
+<td class="p-4 text-center">4</td>
+<td class="p-4 text-center">52</td>
+<td class="p-4 text-center">18</td>
+<td class="p-4 text-center text-neon">+34</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-forest-dark border-l-8 border-neon">
+<td class="p-4">02</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-forest-dark border border-pitch p-1">
+<img alt="Flamengo" class="w-full h-full" data-alt="A retro 16-bit pixel art crest for a football club featuring red and black horizontal stripes within a classic shield shape. The logo includes small yellow star details above the shield. The style is reminiscent of classic 90s football management games on Sega Genesis, with vibrant colors and deliberate pixelation on a dark background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD23UE7rVvLLDsCeTbSJGBod8-JYNeaEcKwUkbrEbM-DnACaTq0wXyCyLKUt586T7nMOwdNL3ZgtTEuffIHmlRmn7KmDg9nBXYQaIPp2NuolYJU2ghYXEox0y30did8MUHSdzeNhw18Doei5U1LNbjYlFNjyscIWciWSC0jv6s2JuKkGKJgKzXyfSdFEZ_JWiruAPDfJ7W_cB8zw384c-bQ7GJi-nnNEL_FdGnsg2HiZViXXeKH06iOW1r9Lel50OHnr6AD8a8usw4"/>
+</div>
+<span class="font-headline-sm text-[12px] text-smoke">FLAMENGO</span>
+</td>
+<td class="p-4 text-center font-bold text-parchment">61</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center">18</td>
+<td class="p-4 text-center">7</td>
+<td class="p-4 text-center">3</td>
+<td class="p-4 text-center">48</td>
+<td class="p-4 text-center">22</td>
+<td class="p-4 text-center">+26</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-forest-dark border-l-8 border-neon">
+<td class="p-4">03</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-forest-dark border border-pitch p-1">
+<img alt="Palmeiras" class="w-full h-full" data-alt="A detailed 16-bit pixel art football logo for Palmeiras. The crest is circular with a white and green color scheme, featuring a central shield and stylized lettering. The design reflects an arcade football aesthetic with saturated green tones and sharp pixel definition, glowing slightly against a deep black atmospheric background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiMygvyvO5yOKjREM3DElghT10nfRd8LbjxLuB8NJG-0TgKH4ropRJ-wwI3V5EX55dGqmSzEebKqtf1oPNi_w-jfZpsr3C09_bKQzcPw88fvngZV2YQGrClolJTkjIMhMc_dTiESI3q_GHfyjJ-1a0NJx8T44i_lTt8vDsQo0HmtfObg6ZUZ4X6lACooZOAxB1HJyW7m0-Yk3jNkHBwQrdOu1QR53U_GT6831Na-b9eETbk80kY0tk8noZTA2KoJ2JVGyj6Dfvrw8"/>
+</div>
+<span class="font-headline-sm text-[12px] text-smoke">PALMEIRAS</span>
+</td>
+<td class="p-4 text-center font-bold text-parchment">59</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center">17</td>
+<td class="p-4 text-center">8</td>
+<td class="p-4 text-center">3</td>
+<td class="p-4 text-center">45</td>
+<td class="p-4 text-center">20</td>
+<td class="p-4 text-center">+25</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-forest-dark border-l-8 border-neon">
+<td class="p-4">04</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-forest-dark border border-pitch p-1">
+<img alt="São Paulo" class="w-full h-full" data-alt="A retro 90s pixel art football crest for São Paulo. The shield is heart-shaped with red, white, and black sectors containing stylized pixelated letters. The visual style is grainy and high-contrast, designed to look like a sprite from a 16-bit console sporting game on a dark CRT monitor background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxk2D5oolNfIY2TatJ-ter865eLjZtsORGgR1L703KP4i-GctwZKvGGyhBBtzEmCBcYvOJdt2pleXa_OQQGfOTqqzT8b6gYs6ICyM1DriEVgcLDnzSQuD2By7ByPvU1F75dn-RAP3rrn-v9K1vh_F6fLsGejbx63b0LtiKA4COCNqDPPT5qHPn27ej9cYMRwslfsQNzsa5CZqGkaiD6RMnfkPRYEx_6CpA6DV3M_QDr1fjR8fFKpvX2z3db6ozCKnxLQLX2jq9XZU"/>
+</div>
+<span class="font-headline-sm text-[12px] text-smoke">SÃO PAULO</span>
+</td>
+<td class="p-4 text-center font-bold text-parchment">55</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center">16</td>
+<td class="p-4 text-center">7</td>
+<td class="p-4 text-center">5</td>
+<td class="p-4 text-center">40</td>
+<td class="p-4 text-center">24</td>
+<td class="p-4 text-center">+16</td>
+</tr>
+<!-- Row 5 (Sul-Americana) -->
+<tr class="border-b border-forest-dark border-l-8 border-trophy">
+<td class="p-4">05</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-forest-dark border border-pitch p-1">
+<img alt="Atlético MG" class="w-full h-full" data-alt="A striking 16-bit pixel art crest for a football club with black and white vertical stripes. The shield design is sharp and geometric, evoking the gritty aesthetic of early 90s sports arcade games. The crest stands out with a white outline against the dark crt-black background, maintaining a nostalgic and professional gaming UI feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmoHIeMDgkx6RcPiqH5lJ-GgsEzBvmydpsedqtrRDFsn6-60fr03u31k8B8_OQOQ5-UJ6DcJHksf-y_v_syOZruerCf7HX2ArL3mH__sBTdaJm0-ekamnYrJSON-rKznftY2rtjFsAzZEhm3-bpoedmeBFN60AQWz8H5ea-dctYVA8VSqAdHZoznahvd3ZT2Ce__3NBdS60z7WBHwAuuOzOtydTWdUWvZjukxglmb75ar1SMq3qrmnQfF4w3DCo6zp0s3LfunjDPI"/>
+</div>
+<span class="font-headline-sm text-[12px] text-smoke">ATLÉTICO MG</span>
+</td>
+<td class="p-4 text-center font-bold text-parchment">52</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center">15</td>
+<td class="p-4 text-center">7</td>
+<td class="p-4 text-center">6</td>
+<td class="p-4 text-center">42</td>
+<td class="p-4 text-center">29</td>
+<td class="p-4 text-center">+13</td>
+</tr>
+<!-- Row 6 -->
+<tr class="border-b border-forest-dark border-l-8 border-trophy">
+<td class="p-4">06</td>
+<td class="p-4 flex items-center gap-4">
+<div class="w-8 h-8 bg-forest-dark border border-pitch p-1">
+<img alt="Internacional" class="w-full h-full" data-alt="A retro pixel art football crest in solid red with white trim. The circular logo features intertwined stylized letters and is rendered in a high-saturation SNES-era visual style. The lighting is flat but punchy, making it perfect for a 90s arcade manager interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4jSpz_G7mPA-LwthLNOquDwfKl88LvPAq92nXka_Wq0fWfedd4bav8ag_UwkaAD9vv9uLU3pFL0_YDXZ9QXp1dGmPnh-4AZ-pXW7_Ns3_f1xPqYh0ICMzEr39gjn3dTwMZYaOaIQgNp4kVRds2UItG6BN0PT41uCApaynUN5fZOHx2qgOr2P1FqSLoJmBS5hCqWe6XvPl_aWNdqQRwymaf41ZDfXG4JpN6BdV6H5GxvVNgLp3DE_IVF-WTfVMaHHAmO45iHE8lok"/>
+</div>
+<span class="font-headline-sm text-[12px] text-smoke">INTERNACIONAL</span>
+</td>
+<td class="p-4 text-center font-bold text-parchment">50</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center">14</td>
+<td class="p-4 text-center">8</td>
+<td class="p-4 text-center">6</td>
+<td class="p-4 text-center">38</td>
+<td class="p-4 text-center">25</td>
+<td class="p-4 text-center">+13</td>
+</tr>
+<!-- Spacer row to skip to bottom -->
+<tr class="bg-abyss/50">
+<td class="p-2 text-center text-smoke font-label-md" colspan="10">...</td>
+</tr>
+<!-- Row 17 (Rebaixamento) -->
+<tr class="border-b border-forest-dark border-l-8 border-danger">
+<td class="p-4 text-danger">17</td>
+<td class="p-4 flex items-center gap-4 opacity-75">
+<div class="w-8 h-8 bg-forest-dark border border-pitch p-1">
+<img alt="Vitória" class="w-full h-full" data-alt="A simplified 16-bit pixel art football shield with red and black quarters. The design is bold and aggressive, fitting a 90s console aesthetic. The colors are slightly muted to reflect a lower league standing, set against a dark, atmospheric UI background with scanline details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkbtwiAsLTMydBgJJ6X0muhg5d-Dtl6D_NjY54z8tiyj2EW6HJtOzugQE3f5c1p9fsfLK2I-QUWd0PCOUUzrDbiSwhh4_v3VWz-bh8mS7Ag5rlHo-AtRtXDH5uLA-e2xzMNDQyGSvivWtFnkQgyYm5Rmh_Foj7lEi9eTVi9lUVXaraqzqFTbTIhEbXLshlOgHEda5bpqF1PLxELX6464iH3vhMRqyIxwDCUb4tkpWDLaeANqyiOaW0Fo6uW892LRmLPdkzJUbPEWI"/>
+</div>
+<span class="font-headline-sm text-[12px] text-smoke">VITÓRIA</span>
+</td>
+<td class="p-4 text-center font-bold text-danger">28</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center">7</td>
+<td class="p-4 text-center">7</td>
+<td class="p-4 text-center text-danger">14</td>
+<td class="p-4 text-center">22</td>
+<td class="p-4 text-center">40</td>
+<td class="p-4 text-center text-danger">-18</td>
+</tr>
+<!-- Row 18 -->
+<tr class="border-b border-forest-dark border-l-8 border-danger">
+<td class="p-4 text-danger">18</td>
+<td class="p-4 flex items-center gap-4 opacity-75">
+<div class="w-8 h-8 bg-forest-dark border border-pitch p-1">
+<img alt="Corinthians" class="w-full h-full" data-alt="A detailed 16-bit pixel art football crest featuring a black and white circular shield with nautical elements like an anchor and oars. The style is classic arcade manager UI, with high contrast and sharp edges. The logo is centrally placed within a dark frame on a CRT-styled interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCi6cduFnvOQjbdqSLqfW5A_FvoYwH0hUxp7q-9mCzQkN_8KPn0cSAP4S-1IngMzEZk625EulqvBYOZlySkdnne3v6zSmEXZ7IY3lJTgR2WGwmsTHfMKN9sGsh10xx2YLn5T8q9bcYFCe2LdcFiYwwFjSM-5lwNHITtCEFhQOamep4OZ9NEThOYgoMVIKIu8U0RJ7Rj0ZbE1MLcnZt_fYxC0k9DRza25sLblfBCGstBJlZa5WZ4zIH6KX516HrJMdWLFBeghxt4vxU"/>
+</div>
+<span class="font-headline-sm text-[12px] text-smoke">CORINTHIANS</span>
+</td>
+<td class="p-4 text-center font-bold text-danger">26</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center">6</td>
+<td class="p-4 text-center">8</td>
+<td class="p-4 text-center text-danger">14</td>
+<td class="p-4 text-center">19</td>
+<td class="p-4 text-center">38</td>
+<td class="p-4 text-center text-danger">-19</td>
+</tr>
+<!-- Row 19 -->
+<tr class="border-b border-forest-dark border-l-8 border-danger">
+<td class="p-4 text-danger">19</td>
+<td class="p-4 flex items-center gap-4 opacity-75">
+<div class="w-8 h-8 bg-forest-dark border border-pitch p-1">
+<img alt="Cuiabá" class="w-full h-full" data-alt="A pixel-perfect 16-bit crest for a football club featuring green and yellow colors. The design is compact and geometric, characteristic of early 90s game sprites. It is rendered with high saturation and sits in a dark UI slot with subtle scanline effects." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACrv91OIZeBNjkpx3KYXNepDwSufrbhkObWelg4TO6kielkm3CSw4gzprA8-R0YJPgwCScZlAChyx8QOPNyE8lDo3czTrqw_psYipCgy3CSRJg05THSCuryZGMuA8ucmOyXFcflXyKguBBXIXdffcG3jYkp6N8FOnWFJYvvaumivuGIAYgx5Tdc35MS4_0SFxYwUzHsuAkMX3PNW5alP6MU3UXksKuVTOQn3dX08ItTKtKGntheS9X7BIVA3XWU9VxfrQJ9QEMqJs"/>
+</div>
+<span class="font-headline-sm text-[12px] text-smoke">CUIABÁ</span>
+</td>
+<td class="p-4 text-center font-bold text-danger">24</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center">5</td>
+<td class="p-4 text-center">9</td>
+<td class="p-4 text-center text-danger">14</td>
+<td class="p-4 text-center">21</td>
+<td class="p-4 text-center">45</td>
+<td class="p-4 text-center text-danger">-24</td>
+</tr>
+<!-- Row 20 -->
+<tr class="border-l-8 border-danger">
+<td class="p-4 text-danger">20</td>
+<td class="p-4 flex items-center gap-4 opacity-75">
+<div class="w-8 h-8 bg-forest-dark border border-pitch p-1">
+<img alt="Atlético GO" class="w-full h-full" data-alt="A simplified 16-bit pixel art crest for Atlético GO. The shield has red and black vertical stripes with a bold black top border containing stylized white letters. The aesthetic is raw and brutalist, matching the retro arcade manager theme, and is presented on a dark textured background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdaE-i9qaMCADkBgJQgdTIJEWbXNi9uqfDd3a_3NMBJWfQiZhlAYn5i89iJZ1MgPAV8UK79tfAZGjLH3tSF3vC-IY70cRMWFyh18lgOEdvpD89k5qb6O0xKdL_mgOULldCJVNYqB7u3Uwpj3I8eLH2LByuVFEuQi_DjDiKPC_9-X6HFz2AaQLVuOjazCqkCO_F1Oot7_gFeTsq0F3iaWsT9oJCD8213PV1eofC6QArIMxj6oU9P3EasTnGvF3HkZP-5-n278w5E7k"/>
+</div>
+<span class="font-headline-sm text-[12px] text-smoke">ATLÉTICO GO</span>
+</td>
+<td class="p-4 text-center font-bold text-danger">18</td>
+<td class="p-4 text-center">28</td>
+<td class="p-4 text-center">4</td>
+<td class="p-4 text-center">6</td>
+<td class="p-4 text-center text-danger">18</td>
+<td class="p-4 text-center">15</td>
+<td class="p-4 text-center">52</td>
+<td class="p-4 text-center text-danger">-37</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Floating Stats Panel (Asymmetric Element) -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-forest-dark border-2 border-pitch p-6 flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-[10px] text-neon mb-2">TOP SCORER</h3>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-crt-black border-2 border-neon overflow-hidden">
+<img alt="Top Scorer" data-alt="A high-quality 16-bit pixel art avatar of a football striker with blonde hair and a confident look, wearing a green and white jersey. The portrait is detailed and sharp, fitting the golden age of arcade games. The lighting is dramatic, highlighting the player against a dark stadium background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMHx7VRi3Z8KNj8kEDHvaJwL_a2JqcHBzQMkHPE3cMzyiCM7215-eH6UK7iMO0snSNT8P_Uj-uv1cymWTGvVjlKX2f0SZAF9OFkp2tnaC1aW1YL2o-8OGtQXNVhHK3GnDVrOZkx5N8zqpUZpS-BHDsO2zRffLG6pJu65M_2ZYRhCYJzrzBLnVeNQVY_sONDQ5euW7F05ONBXrkUo6rmQKttQtIE67xpl-ivtk7w_An6cikN275GNMxJAg7oHUb6H1RxXWLmhJmBMM"/>
+</div>
+<div>
+<p class="font-headline-md text-[14px]">R. AUGUSTO</p>
+<p class="font-label-md text-smoke">United FC • 22 Goals</p>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="material-symbols-outlined text-neon text-4xl" data-icon="military_tech">military_tech</span>
+</div>
+</div>
+<div class="bg-forest-dark border-2 border-pitch p-6">
+<h3 class="font-headline-sm text-[10px] text-neon mb-4">SEASON PROGRESS</h3>
+<div class="space-y-4">
+<div class="flex justify-between font-label-md text-[10px]">
+<span>ROUND 28/38</span>
+<span>73%</span>
+</div>
+<div class="h-4 bg-abyss border border-smoke p-0.5">
+<div class="h-full bg-neon" style="width: 73%"></div>
+</div>
+<p class="font-label-md text-[10px] text-smoke leading-tight">
+                        Next: <span class="text-parchment">VS FLAMENGO (A)</span>
+</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Mobile Nav (Fallback) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-forest-dark border-t-4 border-pitch flex justify-around items-center h-16 z-50 px-4">
+<button class="flex flex-col items-center text-smoke hover:text-neon">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="text-[8px] font-headline-sm">HOME</span>
+</button>
+<button class="flex flex-col items-center text-smoke hover:text-neon">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-[8px] font-headline-sm">SQUAD</span>
+</button>
+<button class="flex flex-col items-center text-neon">
+<span class="material-symbols-outlined" data-icon="leaderboard" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="text-[8px] font-headline-sm">LEAGUE</span>
+</button>
+<button class="flex flex-col items-center text-smoke hover:text-neon">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-[8px] font-headline-sm">HIST</span>
+</button>
+</div>
+</body></html>

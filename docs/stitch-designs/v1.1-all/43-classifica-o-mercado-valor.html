@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&amp;family=Lexend:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pixel-border-inset {
+            box-shadow: inset -4px -4px 0px 0px #040805, inset 4px 4px 0px 0px #52B788;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"forest-dark": "#0E1F14", "surface-bright": "#37393d", "secondary-container": "#ffdb3c", "surface-variant": "#323538", "on-tertiary-fixed": "#002113", trophy: "#FFD700", "on-primary-container": "#107100", "on-tertiary": "#003823", "on-surface-variant": "#baccb0", "on-secondary-fixed": "#221b00", abyss: "#040805", "on-secondary": "#3a3000", "on-primary-fixed-variant": "#095300", "tertiary-fixed-dim": "#75daa8", "surface-container-low": "#191c1f", "primary-container": "#39ff14", amber: "#FBBF24", "surface-tint": "#2ae500", "inverse-primary": "#106e00", neon: "#39FF14", secondary: "#fff9ef", outline: "#85967c", "on-error": "#690005", parchment: "#F1FAEE", "inverse-on-surface": "#2e3134", "tertiary-container": "#8cf1be", "inverse-surface": "#e1e2e7", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#e9c400", error: "#ffb4ab", danger: "#FF3333", tertiary: "#e9ffef", "on-primary-fixed": "#022100", background: "#111417", "crt-black": "#111417", "surface-container-high": "#272a2d", "on-surface": "#e1e2e7", "on-secondary-container": "#725f00", forest: "#1B4332", "surface-container-lowest": "#0b0e11", "error-container": "#93000a", "secondary-fixed": "#ffe16d", pitch: "#52B788", "surface-container-highest": "#323538", "primary-fixed-dim": "#2ae500", primary: "#efffe3", "tertiary-fixed": "#92f7c3", "on-tertiary-container": "#006f4a", "on-primary": "#053900", "surface-dim": "#111417", "danger-dark": "#8B0000", "surface-container": "#1d2023", "on-tertiary-fixed-variant": "#005235", "primary-fixed": "#79ff5b", surface: "#111417", smoke: "#a0baae", "on-background": "#e1e2e7", "on-secondary-fixed-variant": "#544600", "outline-variant": "#3c4b35", "pitch-green": "#52B788", "trophy-gold": "#FFD700", "danger-red": "#FF3333"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "4px", "margin-desktop": "32px", "margin-mobile": "16px", "container-max": "1280px", gutter: "16px", sm: "8px", md: "16px", xs: "4px", xl: "48px", lg: "24px", base: "4px"}, fontFamily: {"label-lg": ["JetBrains Mono"], "headline-lg": ["Press Start 2P"], "body-sm": ["Pixelify Sans"], code: ["JetBrains Mono"], "body-lg": ["Pixelify Sans"], "body-md": ["Rubik"], "headline-sm": ["Press Start 2P"], "label-md": ["JetBrains Mono"], "headline-md": ["Press Start 2P"], "display-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "label-caps": ["IBM Plex Mono"]}, fontSize: {"display-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "400"}], "data-mono": ["16px", {lineHeight: "1.2", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "1.5", fontWeight: "400"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700"}], "headline-md": ["20px", {lineHeight: "1.4", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="text-on-surface font-body-md min-h-screen pb-24 md:pb-0 md:pl-64">
+<!-- Top Navigation -->
+<header class="bg-forest-dark dark:bg-abyss fixed top-0 left-0 right-0 z-50 flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 border-b-4 border-pitch">
+<h1 class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</h1>
+<div class="flex items-center gap-4">
+<button class="active:translate-y-0.5 transition-transform text-neon">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="active:translate-y-0.5 transition-transform text-neon">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="hidden md:flex flex-col gap-4 py-8 px-4 bg-forest-dark dark:bg-abyss fixed left-0 top-16 h-full w-64 border-r-4 border-pitch">
+<div class="mb-8 flex items-center gap-3">
+<div class="w-12 h-12 border-2 border-neon bg-pitch overflow-hidden">
+<img alt="Manager Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqS5A-OBk8_QOs4omDpNa9P4EgnAyHrgmbBVGo43P7Anx3NYBRE-unogdL7Y-SmNoVgzBRW3dMO8n_fz1Vs1I5e7rUta_OprULIfv6zYGayMiq8rMvaeXbksba9tz-55OOiD9797BZfTIda4v3r6QYUJOrP7b0xHszYwKaCgZYukEW5_PISpTgkokXRiGzaUGiBa15hoZhoSXaHlTmDbnghYV6ITlJ6h6e92ACIFOHYckP5UOpxpcuNvTi4_00DoYOA296DrNVHjI"/>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-neon">TREINADOR</p>
+<p class="font-label-md text-label-md text-smoke">Época 94/95</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="text-smoke p-2 hover:bg-surface-variant hover:text-neon active:scale-95 transition-all font-label-lg text-label-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="text-smoke p-2 hover:bg-surface-variant hover:text-neon active:scale-95 transition-all font-label-lg text-label-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">groups</span> Equipa
+            </a>
+<a class="text-smoke p-2 hover:bg-surface-variant hover:text-neon active:scale-95 transition-all font-label-lg text-label-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">swap_horiz</span> Transferências
+            </a>
+<a class="bg-pitch text-on-primary-container border-2 border-neon p-2 active:scale-95 transition-all font-label-lg text-label-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">leaderboard</span> Tabela
+            </a>
+<a class="text-smoke p-2 hover:bg-surface-variant hover:text-neon active:scale-95 transition-all font-label-lg text-label-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">payments</span> Finanças
+            </a>
+</nav>
+<button class="mt-auto bg-forest border-2 border-pitch text-parchment py-3 hover:border-neon hover:text-neon active:scale-95 transition-all font-headline-sm">
+            NOVO JOGO
+        </button>
+</aside>
+<!-- Main Content Area -->
+<main class="pt-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Header Section -->
+<div class="lg:col-span-12 mb-4">
+<div class="bg-forest-dark border-2 border-pitch p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-neon mb-2">TRANSFER GURU: LIGA MUNDIAL</h2>
+<p class="font-body-sm text-smoke uppercase tracking-widest">Análise de Valor de Mercado e Atividade Financeira</p>
+</div>
+<div class="flex gap-2">
+<div class="bg-abyss border border-neon p-3 flex flex-col items-end">
+<span class="font-label-md text-smoke">SALDO TOTAL</span>
+<span class="font-headline-sm text-trophy">€1.240.000.000</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Standings Table (Transfer Guru Variation) -->
+<section class="lg:col-span-8 flex flex-col gap-4">
+<div class="bg-abyss border-2 border-pitch">
+<div class="bg-pitch text-on-primary-fixed p-2 px-4 font-headline-sm flex justify-between items-center">
+<span>RANKING FINANCEIRO E DESPORTIVO</span>
+<span class="material-symbols-outlined">monetization_on</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-forest-dark text-smoke border-b-2 border-pitch font-label-md">
+<tr>
+<th class="p-4">#</th>
+<th class="p-4">EQUIPA</th>
+<th class="p-4">VALOR PLANTEL</th>
+<th class="p-4">ÚLTIMA COMPRA</th>
+<th class="p-4 text-right">PTS</th>
+</tr>
+</thead>
+<tbody class="font-label-lg divide-y divide-pitch/20">
+<!-- Team 1 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="p-4 font-headline-sm text-trophy">01</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-forest border border-smoke p-1">
+<img alt="Real Madrid" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXrYP9GScOu578lPtoOSDI0TeExeVxXfFoGY1_uMyapB7BdY5dYZZC1wHWKZmJf8jAL-WaPpEr0QhYFAEpXqfsF-Gs6VFWn4f_Whk0mQnpjEOlXZ34enNgH93HZW695Vf26t_iVcYyyh79vNoyukUXopCzSj6ZHNF9668MPIPL_sM3JRPHsFnRYAk9_YcQ4z4YFyVItM1yUMiEfACPyAX_vrdb9kLc-Q4fMRzh9w2R2YJFRx8bw5KTNzsZGaBjsMtS_eUKbZXmpCw"/>
+</div>
+<span class="group-hover:text-neon">Real Madrid CF</span>
+</div>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-1 text-neon">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+                                        €1.14B
+                                    </div>
+</td>
+<td class="p-4">
+<span class="bg-forest-dark border border-pitch text-parchment text-[10px] px-2 py-1 uppercase">Mbappé (€0)</span>
+</td>
+<td class="p-4 text-right font-headline-sm">82</td>
+</tr>
+<!-- Team 2 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="p-4 font-headline-sm text-smoke">02</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-forest border border-smoke p-1">
+<img alt="Man City" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxCqJnCz7O_TER0v16IhxYKwRxFqrskKnNx0afk0QBtECV0JAQZL3pWgVXugAe-Eqh6Qt2oMfc4PemBWMD73v1x9qqkcxyZ8VG_l1Dg6nZYH-Ld-Kc6UCDx_RsxA0EvcjlC1-5nGVGr0QOA2PS1uZlxAsC1PcsWl6XUIQ4mMuiXWT5SVEkf_lPotv2mOHTBvB762yN6R6r3eOf81AlqMgDeS_XtI_BlNK7QgbnMhf1ifXBkUsmiKJQJPq2SohneDtIl6sQd2bN-RI"/>
+</div>
+<span class="group-hover:text-neon">Manchester City</span>
+</div>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-1 text-neon">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+                                        €1.27B
+                                    </div>
+</td>
+<td class="p-4">
+<span class="bg-forest-dark border border-pitch text-parchment text-[10px] px-2 py-1 uppercase">Gvardiol (€90M)</span>
+</td>
+<td class="p-4 text-right font-headline-sm">79</td>
+</tr>
+<!-- Team 3 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="p-4 font-headline-sm text-smoke">03</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-forest border border-smoke p-1">
+<img alt="Arsenal" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_mPbsMlaoQOm5lfZOwXChRH1AoByuNN80sG4bLpIwe_K7leAuq5B266QYhHAdgNvZ2_ym6f2dXIpTJ3AMW95SHku6XAA02Ab3Qxa_wDyt2-fR4GU6ceo7qYg2VZdkiZ6t9ABzOq422Z_7bGRzi_X5cvooCNKXhzG-ntvz-37lDEnZyFpitdq9FiHRYmzD9yGJabK_eliLIxn4C1rcHjbF5cmHe8gfPbEFO5vN6VyiFU-TIeoyFHlkbt4HK6giFn_jC82IRb-hdW8"/>
+</div>
+<span class="group-hover:text-neon">Arsenal FC</span>
+</div>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-1 text-neon">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+                                        €1.12B
+                                    </div>
+</td>
+<td class="p-4">
+<span class="bg-forest-dark border border-pitch text-parchment text-[10px] px-2 py-1 uppercase">Rice (€116M)</span>
+</td>
+<td class="p-4 text-right font-headline-sm">77</td>
+</tr>
+<!-- Team 4 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="p-4 font-headline-sm text-smoke">04</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-forest border border-smoke p-1">
+<img alt="Liverpool" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvM96bCPvt9HGYIwiJiSXjTPWadJbumInEpvHjv-_Z3trw_ATbP_kLroNzchVrLgukT4p00gwSZdLD1nFoj9hi0WBZFCFtBcdLPA8yYuw-l-ul66ml-GU1VeV6HeVjiEwOrpu36y7nkHjThj_63MYLKt3sC2pGsnASRtQMfq9OWc3VtJ7mq4EBITpOBoQ9NN_NmDQZnptF6_67TD6-P-Lpwn62WThDj3OLSn18IYBykEkygWWN7GG3RQFElR1Ze2mMgnBYCXtnqGA"/>
+</div>
+<span class="group-hover:text-neon">Liverpool FC</span>
+</div>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-1 text-neon">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+                                        €920M
+                                    </div>
+</td>
+<td class="p-4">
+<span class="bg-forest-dark border border-pitch text-parchment text-[10px] px-2 py-1 uppercase">Mac Allister (€42M)</span>
+</td>
+<td class="p-4 text-right font-headline-sm">75</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Market Activity Feed -->
+<section class="lg:col-span-4 flex flex-col gap-4">
+<div class="bg-forest-dark border-2 border-pitch flex flex-col h-full">
+<div class="bg-abyss text-neon p-3 font-headline-sm border-b-2 border-pitch flex items-center justify-between">
+<span>FEED DE MERCADO</span>
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-neon"></span>
+</span>
+</div>
+<div class="p-4 flex flex-col gap-4 overflow-y-auto max-h-[600px]">
+<!-- Feed Item 1 -->
+<div class="border-l-4 border-trophy bg-abyss p-3 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-1 bg-trophy text-abyss font-headline-sm text-[8px] uppercase">BREAKING</div>
+<p class="font-label-md text-smoke mb-1">HÁ 2 MINUTOS</p>
+<p class="font-body-sm text-parchment"><span class="text-neon">PSG</span> fecha acordo por <span class="text-trophy">João Neves</span>.</p>
+<p class="font-headline-sm text-[10px] text-neon mt-2">€70.000.000</p>
+</div>
+<!-- Feed Item 2 -->
+<div class="border-l-4 border-pitch bg-abyss p-3">
+<p class="font-label-md text-smoke mb-1">HÁ 15 MINUTOS</p>
+<p class="font-body-sm text-parchment"><span class="text-neon">Al-Nassr</span> sondagem por <span class="text-trophy">Ederson</span>.</p>
+<p class="font-headline-sm text-[10px] text-smoke mt-2">PROPOSTA: €45M</p>
+</div>
+<!-- Feed Item 3 -->
+<div class="border-l-4 border-danger bg-abyss p-3">
+<p class="font-label-md text-smoke mb-1">HÁ 40 MINUTOS</p>
+<p class="font-body-sm text-parchment"><span class="text-neon">Barcelona</span> falha inscrição de reforços.</p>
+<p class="font-headline-sm text-[10px] text-danger mt-2">LIMITES FPF EXCEDIDOS</p>
+</div>
+<!-- Market Visual -->
+<div class="mt-4 border-2 border-pitch relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-50 contrast-125" data-alt="A pixel-art style depiction of a high-tech football transfer headquarters in a dark neon aesthetic. Multiple CRT monitors display green scrolling financial data and player silhouettes. In the center, a golden trophy glows intensely, surrounded by floating digital currency symbols in neon green. The atmosphere is atmospheric and dark, with a strong focus on high-contrast lighting and a retro-vaporwave color palette of deep greens and blacks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdU8g-0BGbXlzz8kOqxMZEa3YLnF8PwNVZNibd-B7ayLowQyB17QVLYkhXGWRn9YTKfSIswBbZ70mx5DViI5pNFI7nGZlaYj30rjAMk7oi5kkfB_MRb51AI7MJ3S6UcN8GT7st38RgAyUX6vZd9yhoH4_ij-zxV_o7hRhCrpxPFOqqcFlidBIVeP8-noY8RfE3WWlyafqq4zlFUsBIxhMkl42UcWj6ShdmkvOvOr8cNDhX_4PwAISDCYu9jj0hPFFzJoFVi6N2IrI"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="font-headline-md text-neon text-center px-4 drop-shadow-lg">JANELA ABERTA</span>
+</div>
+</div>
+</div>
+<div class="mt-auto p-4 border-t-2 border-pitch bg-abyss">
+<button class="w-full bg-pitch text-on-primary-fixed py-3 font-headline-sm hover:bg-neon transition-colors active:translate-y-1">
+                        NEGOCIAR AGORA
+                    </button>
+</div>
+</div>
+</section>
+<!-- Financial Summary Bento -->
+<div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-gutter mt-4">
+<div class="bg-abyss border-2 border-pitch p-4 flex items-center gap-4">
+<div class="bg-forest p-3 border-2 border-neon text-neon">
+<span class="material-symbols-outlined text-[32px]">trending_up</span>
+</div>
+<div>
+<p class="font-label-md text-smoke">VALORIZAÇÃO LIGA</p>
+<p class="font-headline-md text-neon">+12.4%</p>
+</div>
+</div>
+<div class="bg-abyss border-2 border-pitch p-4 flex items-center gap-4">
+<div class="bg-forest p-3 border-2 border-trophy text-trophy">
+<span class="material-symbols-outlined text-[32px]">workspace_premium</span>
+</div>
+<div>
+<p class="font-label-md text-smoke">MAIOR INVESTIDOR</p>
+<p class="font-headline-md text-trophy">REAL MADRID</p>
+</div>
+</div>
+<div class="bg-abyss border-2 border-pitch p-4 flex items-center gap-4">
+<div class="bg-forest p-3 border-2 border-danger text-danger">
+<span class="material-symbols-outlined text-[32px]">account_balance_wallet</span>
+</div>
+<div>
+<p class="font-label-md text-smoke">DÍVIDA LÍQUIDA</p>
+<p class="font-headline-md text-danger">€450M</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 bg-forest-dark border-t-4 border-pitch z-50">
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">Jogo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon" href="#">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-md text-label-md">Plantel</span>
+</a>
+<div class="flex flex-col items-center justify-center bg-pitch text-on-primary-container rounded-none border-2 border-neon px-4 py-1 active:inset-shadow transition-all">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">Tabela</span>
+</div>
+<a class="flex flex-col items-center justify-center text-smoke px-4 py-1 hover:text-neon" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Mensagens</span>
+</a>
+</nav>
+<!-- Contextual FAB (Only for Main Dashboards/Primary Actions) -->
+<button class="fixed bottom-24 right-6 md:bottom-8 md:right-8 bg-neon text-on-primary-fixed w-14 h-14 rounded-none border-4 border-abyss pixel-border-inset flex items-center justify-center active:scale-95 transition-all shadow-xl">
+<span class="material-symbols-outlined font-bold">add</span>
+</button>
+</body></html>
