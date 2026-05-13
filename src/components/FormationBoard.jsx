@@ -9,7 +9,7 @@ const JERSEY_R = 22;
 
 /**
  * FormationBoard — Drag/drop visual editor for tactical positioning
- * ELIFOOT classic style: campo verde + 11 camisas com nome/posição/número
+ * OléFUT classic style: campo verde + 11 camisas com nome/posição/número
  *
  * Props:
  *  - team: { id, name, squad[], formation, formationLayout? }

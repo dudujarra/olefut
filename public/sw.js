@@ -71,8 +71,8 @@ self.addEventListener('push', (event) => {
     const data = event.data.json();
     const options = {
         body: data.body || 'Novidades no seu time!',
-        icon: '/elifoot-web/sprites/trophies/trophy-set.png',
-        badge: '/elifoot-web/favicon.svg',
+        icon: '/olefut/sprites/trophies/trophy-set.png',
+        badge: '/olefut/favicon.svg',
         tag: data.tag || 'elifoot-update',
         data: { url: data.url || '/' },
         actions: [

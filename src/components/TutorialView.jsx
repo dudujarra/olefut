@@ -18,7 +18,7 @@ import {
 
 const STEPS = [
     {
-        title: 'BEM-VINDO AO OLÉ FUT',
+        title: 'BEM-VINDO AO OLÉFUT',
         body: 'Você é o manager do seu clube brasileiro favorito. Conduza sua equipe da Série D ao topo do mundo. Decisões táticas, transferências e gestão financeira — tudo em suas mãos.',
         icon: <SoccerBall size={64} weight="duotone" color="#39FF14" />
     },

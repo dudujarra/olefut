@@ -1,45 +1,91 @@
-# ⚽ ELIFOOT RPG
+# ⚽ OléFUT
 
-> **Manager brasileiro + RPG depth + narrativa emergente.**
-> Open source. Browser-zero-install. Spec-Driven Development discipline.
+> **Football Manager + RPG depth + Brazilian flavor.**
+> 100% Spec-Driven Development. Zero vibe coding. Open source.
 
-🎮 **[Jogue agora](https://dudujarra.github.io/elifoot-web/)** — sem download, sem login.
+🎮 **Live demo**: https://dudujarra.github.io/olefut/
 
-[![CI](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-1157%2F1157-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
-[![Specs](https://img.shields.io/badge/specs-124-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
-[![Bugs regression](https://img.shields.io/badge/bugs%20regression-17-orange)](https://github.com/dudujarra/elifoot-web/blob/main/BUGS.md)
-[![Clubes BR](https://img.shields.io/badge/clubes%20BR-88-green)](https://github.com/dudujarra/elifoot-web/blob/main/src/engine/db/brazil.js)
-[![License](https://img.shields.io/badge/license-MIT-purple)](LICENSE)
-
----
-
-## O que é
-
-Simulador de carreira de técnico/jogador no futebol brasileiro. Pega 1 dos **170 clubes reais** (BR + EU + SA), gerencia plantel, finanças, tática e diretoria. Cada save vira uma **história única** via:
-
-- **Sistema de cartas RPG** — 40 cartas tieradas (comum/incomum/raro/lendária) com weighted draw + renown gate
-- **Crônica do Save** — narrativa auto-gerada exportável (PNG/PDF) por temporada
-- **Hall de Lendas** — 6 slots permanentes por clube (Ídolo Eterno, Carrasco, Cria da Base, Traidor, etc) + Heritage Traits herdáveis em regens
-- **LLM Bridge offline** — WebLLM browser-side para narrativa contextual (opt-in, sem API paga)
-- **5 camadas narrativas** — Agente / Eventual / Relacional / Narrativa / Mito (SPEC-049)
-
-**Diferencial**: nicho **"manager BR + RPG + narrativa emergente + open source + zero install"** — vago entre Brasfoot (nostalgia arcade) e Football Manager (simulação enciclopédica).
-
-**Status**: v1.0 released. Próxima fase = polish gameplay (ver [GAME-DESIGN-ROADMAP](specs/GAME-DESIGN-ROADMAP-2026-05-12.md)).
+[![CI](https://github.com/dudujarra/olefut/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/olefut/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-1619%2F1619-brightgreen)](https://github.com/dudujarra/olefut/tree/main/tests)
+[![Specs](https://img.shields.io/badge/specs-124%2B-blue)](https://github.com/dudujarra/olefut/tree/main/specs)
+[![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/olefut/blob/main/specs/SPEC-RULES.md)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
 
-## Quick Start
+> 🥋 **Antes de tocar código: leia [`CLAUDE.md`](CLAUDE.md) + [`AKITA_RULES.md`](AKITA_RULES.md) + [`CONTRIBUTING.md`](CONTRIBUTING.md).**
+
+---
+
+## 🎯 O que é
+
+**OléFUT** = simulador futebol brasileiro com profundidade RPG. Gerencia 1 de **170 clubes reais** (BR + EU + SA), treina elenco, negocia contratos, sobe divisões, constrói legado. 100% offline. Sem signup. Sem cobrança.
+
+Construído via **SDD (Spec-Driven Development)** + **Protocolo AKITA**. Cada feature: spec → harness → implementação → validação. Zero código sem teste.
+
+---
+
+## 🎮 Gameplay
+
+### Modo Treinador
+- 4 divisões, 5 zonas regionais
+- 8 formações × 6 táticas (1600 combinações rock-paper-scissors)
+- Match Engine ao vivo, narração lance a lance
+- 15 traits por jogador (Decisivo, Líder Nato, Cavalo de Aço…)
+- Vestiário dinâmico (capitão estabiliza, cancer contamina)
+- Career stats, Youth Academy 5 níveis, 5 sponsor tiers, 30 achievements
+- Promo/Relegation automático
+
+### Modo Jogador
+- Carreira do banco à titularidade
+- Relacionamentos: diretoria, torcida, sponsors, companheiros
+- Stress + energia recursos limitados
+- Star Rating + Renome por performance
+
+### Sabor BR
+- 90+ strings atmosfera regional (sol/chuva/calor/vestiário)
+- 20 clubes BR com voz própria (Vasco, Sport Recife, Cruzeiro…)
+- 4 eventos sazonais (Carnaval, Janela, Copa do Brasil, final ano)
+- Derbies emergentes + memória histórica
+
+---
+
+## 🏗️ Stack
+
+| Camada | Tech |
+|--------|------|
+| Engine | JavaScript ES2022 puro (headless, zero-UI) |
+| UI | React 19 + Vite 8 |
+| Tests | Vitest 4 |
+| CI/CD | GitHub Actions (lint + tests + build + deploy) |
+| Deploy | GitHub Pages (auto on main) |
+| LLM | WebLLM browser-side (opcional, SPEC-119) |
+
+---
+
+## 📊 Estado (snapshot 2026-05-12)
+
+| Métrica | Valor |
+|---------|-------|
+| Tests | 1619/1619 ✅ |
+| Specs | 124+ |
+| Build | ~600ms, initial 376KB (gzip 110KB) |
+| Lint | 0 errors |
+| Clubes reais | 170 (10 países) |
+| AKITA commits | 313+ |
+
+---
+
+## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/dudujarra/elifoot-web.git
-cd elifoot-web
+git clone https://github.com/dudujarra/olefut.git
+cd olefut
 npm install
 npm run dev          # http://localhost:5173
 ```
 
-Build + preview:
+Build produção:
 ```bash
 npm run build
 npm run preview
@@ -47,131 +93,100 @@ npm run preview
 
 ---
 
-## Stack
-
-| Camada | Tech |
-|--------|------|
-| Engine | JavaScript ES2022 puro (headless, zero React) |
-| UI | React 19 + Vite 8 |
-| Tests | Vitest 4 + Playwright (E2E) |
-| LLM | @mlc-ai/web-llm (offline browser-side) |
-| CI/CD | GitHub Actions → GitHub Pages |
-| Design | 32-bit SNES theme (Pacaembu palette) |
-
----
-
-## Roadmap (game design first)
-
-Após 37+ PRs de refactor técnico (engine 1525→437 LOC, AutoPlay 1280→490 LOC), foco muda para **gameplay**:
-
-- **Fase A (15h) — Jogável**: sidebar reduzida, onboarding 90s, PreMatch decision-ready, PostMortem painel
-- **Fase B (35h) — Prazeroso**: match dramatization, mid-match decisions, Crônica fim-temporada
-- **Fase C (60h) — Memorável**: LLM real (3 use cases), modo unificado, StateChamp wire-up, mod hooks
-- **Fase D — Launch**: marketing histórias, Discord, content trimestral
-
-Roadmap completo: [`specs/GAME-DESIGN-ROADMAP-2026-05-12.md`](specs/GAME-DESIGN-ROADMAP-2026-05-12.md)
-
-5 camadas narrativas operacionais: [`specs/SPEC-049-narrative-layers-mvp.md`](specs/SPEC-049-narrative-layers-mvp.md)
-
----
-
-## Testing
+## 🧪 Testing
 
 ```bash
-npm test                  # default suite (1157 tests)
-npm run test:regression   # bugs regression
-npm run test:specs        # spec harnesses
-npm run test:soak         # deep soak (100 seasons isolated)
-npm run test:e2e          # Playwright E2E (8 flows)
+npm test                 # full suite
+npm run test:specs       # spec harnesses
+npm run test:regression  # regression tests
+npm run test:watch       # watch mode
 ```
 
 ---
 
-## Architecture
+## 🐛 Bug Workflow (Mandamento Akita #6)
+
+> **Bug = ticket + fix + regression test (3 artefatos pareados).**
+
+```bash
+npm run bug:full "Lesão duplica weeks"
+```
+
+CI auto-roda series em todo PR. Templates forçam 3-artefact checklist.
+
+---
+
+## 📁 Arquitetura
 
 ```
 src/
-├── engine/              # Headless simulation (zero React)
-│   ├── engine.js        # Orchestrator (437 LOC, refactored from 1525)
-│   ├── data.js          # Player/squad generation
-│   ├── db/              # 170 clubes (BR/EU/SA)
-│   ├── tournaments/     # League, KnockoutCup, ContinentalCup, StateChampionship
-│   ├── decks/           # MatchCards (40 cartas tieradas)
-│   └── systems/         # 40+ sistemas (Achievements, ChallengeModes, etc)
-├── services/            # 64 services (extracted from engine)
-│   ├── MatchSimulator.js
-│   ├── AutoPlayService.js (490 LOC, refactored from 1280)
-│   ├── LLMNarrativeService.js
-│   ├── ChronicleService.js
-│   └── ...
-├── components/          # React UI (20+ views)
-└── styles/              # luxury-arcade.css + design tokens
+├── engine/          # Headless engine (zero React)
+│   ├── engine.js
+│   ├── data.js
+│   ├── db/          # 170 clubes BR/EU/SA
+│   ├── tournaments/
+│   └── [40+ systems] PlayerCareer, InjurySystem, BoardSystem...
+├── components/      # React UI (read-only)
+├── services/        # AutoPlayLab, GameInitializer, SaveService
+├── context/         # GameContext (ponte Engine↔React)
+└── styles/          # design-tokens, animations (SNES theme)
 
-specs/                   # 124 SPECs (SDD source of truth)
-├── GAME-DESIGN-ROADMAP-2026-05-12.md   # game design master
-├── MASTER-ROADMAP-FOUNDATION-FIRST.md  # technical foundation
-├── SPEC-049-narrative-layers-mvp.md    # 5 camadas
-├── refactor/            # 21 RFCT specs
-└── ui/                  # 7 UI specs
-
-tests/
-├── unit/                # vitest
-├── specs/               # SPEC-XXX harnesses
-├── regression/          # BUG-XXX (17 files)
-├── e2e/                 # Playwright (8 flows)
-└── characterization/    # golden master
+specs/               # 124+ specs (SDD source of truth)
+tests/               # 1619 tests (unit + integration + regression + e2e)
 ```
+
+Detalhes: [`CLAUDE.md`](CLAUDE.md).
 
 ---
 
-## Bug workflow (Akita Mandamento #6)
+## 🥋 Protocolo AKITA — 7 mandamentos
 
-> **Bug = ticket + fix + regression test (3 artefatos pareados)**
-
-```bash
-npm run bug:full "lesão duplica weeks"   # ciclo completo
-```
-
-CI auto-roda regression em todos PRs. Templates forçam 3-artefact checklist.
-
-Tracker: [`BUGS.md`](BUGS.md) | Changelog: [`CHANGELOG.md`](CHANGELOG.md)
-
----
-
-## Protocolo AKITA
-
-7 mandamentos universais (filosofia anti-vibe-coding):
-
-1. **SDD obrigatório** — sem spec, sem trabalho
-2. **Sem harness, sem spec** — toda spec entrega harness executável no mesmo PR
-3. **Anti-vibe coding** — proibido one-shot prompt sem entender resultado
-4. **CLAUDE.md central** — single source of truth técnica
-5. **GitHub público dia 1** — build in public
-6. **Bug = ticket + fix + regression test** — 3 artefatos pareados
-7. **LLM local default** — API paga proibida
-
-Detalhes: [`AKITA_RULES.md`](AKITA_RULES.md) | Contribuindo: [`CONTRIBUTING.md`](CONTRIBUTING.md)
+1. **SDD obrigatório** — Sem spec, sem trabalho.
+2. **Sem harness, sem spec** — Toda spec entrega harness no mesmo PR.
+3. **Anti-vibe coding** — Dev pensa, IA digita.
+4. **CLAUDE.md central** — Single source of truth técnica.
+5. **GitHub público dia 1** — Build in public.
+6. **Bug = ticket + fix + regression test** — 3 artefatos pareados.
+7. **LLM local default** — API paga proibida.
 
 Commits: `AKITA-XXX: Título — Descrição` (pre-commit hook valida).
 
 ---
 
-## Docs
+## 🎨 Direção Arte — SNES Pacaembu Edition
 
-| Documento | Função |
-|-----------|--------|
-| [`CLAUDE.md`](CLAUDE.md) | Fonte única técnica (agentes leem primeiro) |
-| [`AKITA_RULES.md`](AKITA_RULES.md) | Constituição (7 mandamentos) |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Workflow contribuidores |
-| [`specs/GAME-DESIGN-ROADMAP-2026-05-12.md`](specs/GAME-DESIGN-ROADMAP-2026-05-12.md) | Game design master |
-| [`specs/SPEC-RULES.md`](specs/SPEC-RULES.md) | Governance SDD |
-| [`docs/SDD_ELIFOOT_RPG.md`](docs/SDD_ELIFOOT_RPG.md) | Mecânicas implementadas |
-| [`docs/MANUAL_COMPLETO.md`](docs/MANUAL_COMPLETO.md) | Manual do jogador |
-| [`BUGS.md`](BUGS.md) | Bug tracker |
-| [`CHANGELOG.md`](CHANGELOG.md) | Histórico de releases |
+32-bit Super Nintendo era. Paleta Pacaembu (verde grama 90s). Tokens em `src/styles/tokens/`. Sprites pixel-art em `public/sprites/` (170 club badges + 9 animações + 7 backdrops atmosféricos). Todos assets abstract/fictional (IP-safe).
 
 ---
 
-## License
+## 🤝 Contributing
 
-MIT © Eduardo Jarra (Dudu) — dudujarra@corapost.com
+1. Issue criada (BUG-XXX ou FEAT-XXX)
+2. Branch `bug/<id>` ou `feat/<id>`
+3. SPEC vinculada
+4. Harness no mesmo PR
+5. CI verde
+6. Commit format `AKITA-XXX: Título — Descrição`
+
+---
+
+## 📜 License
+
+MIT — fork, customize, ship your own football manager.
+
+---
+
+## 🙏 Credits
+
+Built by [@dudujarra](https://github.com/dudujarra) with **Claude Code** (Anthropic) sob Protocolo AKITA.
+
+Inspirado por:
+- **Elifoot 98** (Miguel Vasconcelos, BR classic) — homenagem ao jogo que ensinou uma geração brasileira o que é management football
+- Football Manager (Sports Interactive)
+- Hattrick (online manager classic)
+
+---
+
+**🎮 [Joga grátis](https://dudujarra.github.io/olefut/)** — sem signup, sem cookie, sem cobrança.
+
+Feito com ❤️ + ⚽ + 🥋 disciplina Akita.

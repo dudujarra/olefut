@@ -1,4 +1,4 @@
-# CLAUDE.md — ELIFOOT RPG (fonte única de verdade técnica)
+# CLAUDE.md — OléFUT (fonte única de verdade técnica)
 
 > **Mandamento Akita #4**: `CLAUDE.md` no root = fonte única de verdade técnica.
 > Toda decisão arquitetural, comando, fluxo, dependência mora aqui.

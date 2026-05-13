@@ -106,7 +106,7 @@ export function ChronicleView() {
             // Footer
             ctx.fillStyle = '#8E9E94';
             ctx.font = '12px monospace';
-            ctx.fillText(`ELIFOOT · gerado em ${new Date().toLocaleString('pt-BR')}`, 30, height - 20);
+            ctx.fillText(`OléFUT · gerado em ${new Date().toLocaleString('pt-BR')}`, 30, height - 20);
 
             canvas.toBlob(blob => {
                 const url = URL.createObjectURL(blob);
