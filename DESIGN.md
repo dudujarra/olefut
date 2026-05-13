@@ -271,6 +271,6 @@ const design = await readMCPResource('stitch', 'DESIGN.md');
 
 ---
 
-**Auto-generated**: 2026-05-13T04:47:39.865Z
+**Auto-generated**: 2026-05-13T16:54:54.112Z
 **Generator**: `scripts/generate-design-md.cjs`
 **Source**: SPEC-178
