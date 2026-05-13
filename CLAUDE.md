@@ -41,15 +41,21 @@
 7. Atualizar seção PROGRESSO do MASTER-ROADMAP
 ```
 
-### Estado atual do roadmap (snapshot 2026-05-12)
+### Estado atual do roadmap (snapshot 2026-05-13)
 
-| Bloco | Status | Próximo passo |
-|-------|--------|---------------|
-| 1 Fundação | 🔵 em andamento (4/15 sub-tasks done) | RFCT-005 MythService skeleton + reads |
-| 2 Integração | ⏸️ bloqueado por Bloco 1 | — |
-| 3 Polish + Launch | ⏸️ bloqueado por Bloco 2 | — |
+| Bloco | Status | Notas |
+|-------|--------|-------|
+| 1 Fundação | ✅ DONE | engine 1525→431, AutoPlay 1280→490, doc auto-gen |
+| 2 Integração | ✅ DONE | feature audit, gap fixes, LLM bridge, E2E tests, tutorial |
+| 3 Polish + Launch | 🟡 PARTIAL | UI sweep + perf done; playtest + launch pendentes |
+| Pós-Foundation V1 | ✅ DONE | Game Design Fase A/B/C (26 PRs) |
+| Pós-Foundation V2 | ✅ DONE | F1-F6 brutal-driven (sabor BR, star player, win streak, legends, handicap, mid-match) |
+| AutoPlayLab Platform | ✅ DONE | 46 presets, 9 categorias |
+| Rebrand OléFUT | ✅ DONE | repo renomeado, 176 arquivos, storage migration shim |
 
-**DoD do Bloco 1**: engine.js ≤400 LOC, AutoPlayService ≤400 LOC, bundle initial ≤300KB e total ≤2.5MB, README/CLAUDE.md auto-gen, golden master preservado.
+**Pendente real**: playtest 5 humanos BR (mandamento brutal #7), browser smoke test manual, launch real (Fase D).
+
+**Repo público**: https://github.com/dudujarra/olefut · **Live**: https://dudujarra.github.io/olefut/
 
 ---
 
