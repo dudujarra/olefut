@@ -1,28 +1,43 @@
-/* PressView — semantic CSS + design tokens */
-
-/* === COMPONENT TOKENS === */
-
-.ef-press {
-  --ef-press-info: #40BAF7;
-  --ef-press-border-soft: #2D3748;
-}
+/* PressView — Stitch v1.1 port
+ * Match: docs/stitch-designs/v1.1-all/81-coletiva-de-imprensa-ol-fut-pressview.html
+ * AKITA-387 — brand-locked, tokens-only (zero raw hex).
+ * Press Start 2P + Pixelify Sans + IBM Plex Mono.
+ */
 
 /* === ROOT === */
+
+.ef-press {
+  --ef-press-pitch:        var(--color-tertiary, var(--primitive-color-green-pitch));
+  --ef-press-neon:         var(--color-primary,  var(--primitive-color-green-neon));
+  --ef-press-forest:       var(--primitive-color-green-forest);
+  --ef-press-forest-dark:  var(--primitive-color-green-forest-dark);
+  --ef-press-trophy:       var(--color-secondary, var(--primitive-color-gold-trophy));
+  --ef-press-danger:       var(--color-danger,    var(--primitive-color-red-danger));
+  --ef-press-crt-black:    var(--primitive-color-neutral-crt-black);
+  --ef-press-parchment:    var(--primitive-color-neutral-parchment);
+  --ef-press-smoke:        var(--primitive-color-neutral-smoke);
+}
 
 .ef-press__root {
   image-rendering: pixelated;
   -webkit-image-rendering: pixelated;
-  background-color: var(--bg-dark);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background-color: var(--color-bg, var(--ef-press-crt-black));
   min-height: 100dvh;
   padding: 24px;
   overflow-y: auto;
 }
 
+.ef-press__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .ef-press__error {
   padding: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* === HEADER === */
@@ -31,7 +46,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--ef-press-info);
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: var(--primitive-border-thin) solid var(--ef-press-pitch);
 }
 
 .ef-press__header-identity {
@@ -43,117 +60,300 @@
 .ef-press__header-icon-box {
   width: 48px;
   height: 48px;
-  background-color: var(--bg-panel);
+  background-color: var(--ef-press-forest-dark);
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid var(--ef-press-border-soft);
+  border: var(--primitive-border-thin) solid var(--ef-press-pitch);
 }
 
 .ef-press__header-title {
   margin: 0 0 4px 0;
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .ef-press__header-subtitle {
-  font-size: 0.8rem;
+  font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-/* === QUESTION CARD === */
+.ef-press__live-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ef-press__live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--ef-press-crt-black);
+  border: var(--primitive-border-hairline) solid var(--ef-press-danger);
+}
+
+.ef-press__live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ef-press-danger);
+  box-shadow: 0 0 6px var(--ef-press-danger);
+  animation: ef-press-blink 1s linear infinite;
+}
+
+@keyframes ef-press-blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ef-press__live-dot { animation: none; }
+}
+
+.ef-press__live-label {
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--ef-press-danger);
+}
+
+/* === HERO (manager press room visual) === */
+
+.ef-press__hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: var(--primitive-border-thick) solid var(--ef-press-pitch);
+  background-color: var(--primitive-color-neutral-abyss);
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+}
+
+.ef-press__hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  background: linear-gradient(
+    to top,
+    var(--primitive-color-neutral-abyss),
+    transparent
+  );
+}
+
+.ef-press__hero-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ef-press__hero-tag {
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  color: var(--ef-press-crt-black);
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+.ef-press__hero-tag--room  { background: var(--ef-press-neon); }
+.ef-press__hero-tag--feed  { background: var(--ef-press-trophy); }
+
+/* === REPORTER QUESTION CARD === */
 
 .ef-press__question-card {
-  border-left: 4px solid var(--accent);
+  position: relative;
+  border: var(--primitive-border-thin) solid var(--ef-press-neon);
+}
+
+.ef-press__reporter-tag {
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  padding: 2px 12px;
+  background: var(--ef-press-neon);
+  color: var(--ef-press-crt-black);
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .ef-press__context-tag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background-color: var(--bg-dark);
-  border: 1px solid var(--accent);
+  background-color: var(--ef-press-forest-dark);
+  border: var(--primitive-border-hairline) solid var(--ef-press-trophy);
   padding: 6px 12px;
-  font-size: 0.8rem;
-  margin-bottom: 20px;
-  font-weight: bold;
+  font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .ef-press__question-row {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   align-items: flex-start;
 }
 
 .ef-press__question-mic-box {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  background-color: var(--bg-dark);
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  background-color: var(--primitive-color-neutral-surface-variant, #323538);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--ef-press-border-soft);
+  border: var(--primitive-border-thin) solid var(--ef-press-pitch);
 }
 
 .ef-press__question-text {
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-family: var(--font-body, 'Pixelify Sans'), system-ui, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.55;
   margin: 0;
   font-weight: 500;
   font-style: italic;
+  color: var(--ef-press-parchment);
 }
 
-/* === ANSWER OPTIONS === */
+/* === ANSWER OPTIONS (2-col grid) === */
+
+.ef-press__answer-panel {
+  border-top: var(--primitive-border-hairline) solid var(--ef-press-pitch);
+}
 
 .ef-press__answer-label {
-  font-size: 0.9rem;
-  margin-bottom: 20px;
-  font-weight: bold;
-  border-bottom: 1px solid var(--ef-press-border-soft);
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  font-weight: 700;
+  border-bottom: var(--primitive-border-hairline) solid var(--ef-press-pitch);
   padding-bottom: 8px;
+  text-transform: uppercase;
 }
 
-.ef-press__answer-list {
-  display: flex;
-  flex-direction: column;
+.ef-press__answer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .ef-press__answer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+/* Stitch option button — overrides shared .ef-press-option via .ef-press scope */
+.ef-press .ef-press__option {
+  background-color: var(--ef-press-forest);
+  border: var(--primitive-border-thin) solid var(--ef-press-pitch);
+  padding: 14px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.05s ease;
+  text-align: left;
+  color: var(--ef-press-parchment);
+}
+
+.ef-press .ef-press__option:hover {
+  border-color: var(--ef-press-neon);
+  background-color: var(--ef-press-forest);
+}
+
+.ef-press .ef-press__option:active {
+  background-color: var(--ef-press-forest-dark);
+  border-color: var(--ef-press-trophy);
+  transform: scale(0.98);
+}
+
+.ef-press .ef-press__option-letter {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--primitive-border-thin) solid var(--ef-press-pitch);
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.7rem;
+  color: var(--ef-press-neon);
+  background: transparent;
+  transition: background 0.18s ease, color 0.18s ease;
+  min-width: 32px;
+}
+
+.ef-press .ef-press__option:hover .ef-press__option-letter {
+  background: var(--ef-press-neon);
+  color: var(--ef-press-crt-black);
+}
+
+.ef-press .ef-press__option-text {
+  font-family: var(--font-body, 'Pixelify Sans'), system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--ef-press-parchment);
+  font-weight: 500;
 }
 
 /* === ANSWERED PANEL === */
 
 .ef-press__answered-panel {
-  border-left: 4px solid var(--primary);
+  border-left: var(--primitive-border-thick) solid var(--ef-press-neon);
 }
 
 .ef-press__answered-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  font-weight: bold;
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .ef-press__answered-quote {
-  background-color: var(--bg-panel);
-  border: 1px solid var(--ef-press-border-soft);
-  padding: 20px;
-  margin-bottom: 24px;
+  background-color: var(--ef-press-forest-dark);
+  border: var(--primitive-border-hairline) solid var(--ef-press-pitch);
+  padding: 18px;
+  margin-bottom: 20px;
 }
 
 .ef-press__answered-quote-text {
+  font-family: var(--font-body, 'Pixelify Sans'), system-ui, sans-serif;
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.55;
   margin: 0;
+  font-style: italic;
 }
 
 /* === EFFECTS === */
 
 .ef-press__effects {
-  background-color: var(--bg-dark);
-  border: 1px solid var(--primary);
-  padding: 16px;
-  margin-bottom: 24px;
+  background-color: var(--ef-press-crt-black);
+  border: var(--primitive-border-hairline) solid var(--ef-press-neon);
+  padding: 14px 16px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -163,28 +363,34 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
-  font-weight: bold;
+  font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .ef-press__effects-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 10px;
 }
 
 .ef-press__effect-chip {
-  background-color: var(--bg-panel);
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  display: flex;
+  background-color: var(--ef-press-forest-dark);
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid var(--ef-press-border-soft);
+  border: var(--primitive-border-hairline) solid var(--ef-press-pitch);
+  font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
 }
 
 .ef-press__effect-key {
   text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
 }
 
 /* === DASHBOARD BUTTON === */
@@ -192,5 +398,39 @@
 .ef-press__dashboard-button {
   width: 100%;
   justify-content: center;
-  padding: 16px;
+  padding: 14px;
+}
+
+/* === RESPONSIVE === */
+
+@media (max-width: 720px) {
+  .ef-press__root {
+    padding: 12px;
+  }
+
+  .ef-press__header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .ef-press__live-row {
+    justify-content: space-between;
+  }
+
+  .ef-press__header-title {
+    font-size: 0.8rem;
+  }
+
+  .ef-press__reporter-tag {
+    left: 12px;
+  }
+
+  .ef-press__question-text {
+    font-size: 0.95rem;
+  }
+
+  .ef-press .ef-press__option-text {
+    font-size: 0.88rem;
+  }
 }
