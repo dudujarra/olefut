@@ -1,5 +1,7 @@
 /**
  * LineageView — SPEC-166: Painel Linhagem & Legado
+ * Stitch v1.1 port (AKITA-390): match docs/stitch-designs/v1.1-all/82-lineageview-hall-de-lendas.html
+ * Tokens-only — zero raw hex, brand fonts (Press Start 2P / Pixelify Sans / IBM Plex Mono).
  */
 
 import { useState } from 'react';
@@ -31,19 +33,19 @@ export function filterGrowthEvents(weekEvents) {
 }
 
 const SLOT_META = {
-    idoloEterno:  { label: 'Ídolo Eterno',  icon: Crown,         criteria: 'Mais jogos + maior amor da torcida', accent: 'var(--accent)' },
-    carrasco:     { label: 'Carrasco',       icon: Sword,         criteria: 'Mais gols marcados contra este clube', accent: 'var(--danger)' },
-    goleirao:     { label: 'Goleador',       icon: Trophy,        criteria: 'Maior número de gols na história', accent: 'var(--primary)' },
-    criaDaBase:   { label: 'Cria da Base',   icon: GraduationCap, criteria: 'Formado internamente com maior impacto', accent: 'var(--ef-lin-info)' },
+    idoloEterno:  { label: 'Ídolo Eterno',  icon: Crown,         criteria: 'Mais jogos + maior amor da torcida', accent: 'var(--color-secondary)' },
+    carrasco:     { label: 'Carrasco',       icon: Sword,         criteria: 'Mais gols marcados contra este clube', accent: 'var(--color-danger)' },
+    goleirao:     { label: 'Goleador',       icon: Trophy,        criteria: 'Maior número de gols na história', accent: 'var(--color-primary)' },
+    criaDaBase:   { label: 'Cria da Base',   icon: GraduationCap, criteria: 'Formado internamente com maior impacto', accent: 'var(--color-text-primary)' },
     traidor:      { label: 'Traidor',        icon: Skull,         criteria: 'Saiu para rival direto', accent: 'var(--ef-lin-purple)' },
-    lendaTragica: { label: 'Lenda Trágica', icon: Heart,         criteria: 'Lesão longa ou carreira interrompida', accent: 'var(--ef-lin-orange)' },
+    lendaTragica: { label: 'Lenda Trágica', icon: Heart,         criteria: 'Lesão longa ou carreira interrompida', accent: 'var(--color-warning)' },
 };
 
 const SLOT_ORDER = ['idoloEterno', 'goleirao', 'criaDaBase', 'carrasco', 'traidor', 'lendaTragica'];
 
 const TRAIT_META = {
-    garra:           { label: 'Garra',           color: 'var(--danger)' },
-    talento_natural: { label: 'Talento Natural', color: 'var(--accent)' },
+    garra:           { label: 'Garra',           color: 'var(--color-danger)' },
+    talento_natural: { label: 'Talento Natural', color: 'var(--color-secondary)' },
     lealdade:        { label: 'Lealdade',        color: 'var(--ef-lin-info)' },
     frieza:          { label: 'Frieza',          color: 'var(--ef-lin-purple)' },
 };
@@ -147,39 +149,64 @@ function HallTab({ hall }) {
                     const meta = SLOT_META[slotKey];
                     const Icon = meta.icon;
                     const filled = hall.slots?.[slotKey];
+                    const accent = filled ? meta.accent : 'var(--color-text-secondary)';
                     return (
                         <div
                             key={slotKey}
                             className={`ef-hall-slot${filled ? ' ef-hall-slot--filled' : ''}`}
-                            style={filled ? { borderColor: meta.accent } : undefined}
+                            style={{ borderColor: accent, color: accent }}
                         >
-                            <div className="ef-hall-slot__header">
-                                <Icon size={20} color={filled ? meta.accent : 'var(--ef-lin-muted)'} weight={filled ? 'fill' : 'regular'} />
-                                <h3 className="ef-hall-slot__title">
+                            <div className="ef-hall-slot__inner" style={{ borderColor: accent }}>
+                                <div className="ef-hall-slot__icon-wrap">
+                                    <Icon
+                                        size={56}
+                                        color={accent}
+                                        weight={filled ? 'fill' : 'regular'}
+                                    />
+                                </div>
+                                <span
+                                    className="ef-hall-slot__pill"
+                                    style={{ background: accent }}
+                                >
                                     {meta.label.toUpperCase()}
-                                </h3>
+                                </span>
+                                {filled ? (
+                                    <>
+                                        <div className="ef-hall-slot__name">
+                                            {filled.playerName}
+                                        </div>
+                                        <div
+                                            className="ef-hall-slot__stats"
+                                            style={{ borderTopColor: accent }}
+                                        >
+                                            <div className="ef-hall-slot__stat-block">
+                                                <span className="ef-hall-slot__stat-label" style={{ color: accent }}>JOGOS</span>
+                                                <span className="ef-hall-slot__stat-value">{filled.stats?.apps ?? 0}</span>
+                                            </div>
+                                            <div className="ef-hall-slot__stat-block">
+                                                <span className="ef-hall-slot__stat-label" style={{ color: accent }}>GOLS</span>
+                                                <span className="ef-hall-slot__stat-value">{filled.stats?.goals ?? 0}</span>
+                                            </div>
+                                            {slotKey === 'carrasco' && (
+                                                <div className="ef-hall-slot__stat-block">
+                                                    <span className="ef-hall-slot__stat-label" style={{ color: accent }}>v/CLUBE</span>
+                                                    <span className="ef-hall-slot__stat-value">{filled.stats?.goalsVsThisClub ?? 0}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="ef-hall-slot__placeholder">—</div>
+                                        <div
+                                            className="ef-hall-slot__criteria"
+                                            style={{ borderTopColor: accent }}
+                                        >
+                                            {meta.criteria}
+                                        </div>
+                                    </>
+                                )}
                             </div>
-                            {filled ? (
-                                <>
-                                    <div className="ef-hall-slot__name" style={{ color: meta.accent }}>
-                                        {filled.playerName}
-                                    </div>
-                                    <div className="ef-hall-slot__stats">
-                                        <span>JOGOS: {filled.stats?.apps ?? 0}</span>
-                                        <span>GOLS: {filled.stats?.goals ?? 0}</span>
-                                        {slotKey === 'carrasco' && (
-                                            <span>v/CLUBE: {filled.stats?.goalsVsThisClub ?? 0}</span>
-                                        )}
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div className="ef-hall-slot__placeholder">—</div>
-                                    <div className="ef-hall-slot__criteria">
-                                        {meta.criteria}
-                                    </div>
-                                </>
-                            )}
                         </div>
                     );
                 })}
@@ -193,7 +220,7 @@ function HeritageTab({ players, hasHall }) {
         return (
             <EfPanel padding="lg" className="ef-anim-slide-down">
                 <div className="ef-empty-state">
-                    <Dna size={48} color="var(--ef-lin-muted)" className="ef-empty-state__icon" />
+                    <Dna size={48} color="var(--color-text-secondary)" className="ef-empty-state__icon" />
                     <p className="ef-empty-state__title">
                         AGUARDANDO PRÓXIMA GERAÇÃO
                     </p>
@@ -227,7 +254,7 @@ function HeritageTab({ players, hasHall }) {
                     <div key={p.id} className="ef-heritage-card">
                         <div className="ef-heritage-card__row">
                             <div className="ef-heritage-card__identity">
-                                <Dna size={18} color="var(--primary)" weight="fill" />
+                                <Dna size={18} color="var(--color-primary)" weight="fill" />
                                 <span className="ef-heritage-card__name">{p.name}</span>
                             </div>
                             <div className="ef-heritage-card__meta">
@@ -268,7 +295,7 @@ function HumiliationTab({ events, week }) {
         return (
             <EfPanel padding="lg" className="ef-anim-slide-down">
                 <div className="ef-empty-state">
-                    <Shield size={48} color="var(--primary)" className="ef-empty-state__icon" />
+                    <Shield size={48} color="var(--color-primary)" className="ef-empty-state__icon" />
                     <p className="ef-empty-state__title">
                         SEM VEXAMES NA SEMANA {week ?? '—'}
                     </p>
@@ -316,7 +343,7 @@ function GrowthTab({ events, week }) {
         return (
             <EfPanel padding="lg" className="ef-anim-slide-down">
                 <div className="ef-empty-state">
-                    <Star size={48} color="var(--ef-lin-muted)" className="ef-empty-state__icon" />
+                    <Star size={48} color="var(--color-text-secondary)" className="ef-empty-state__icon" />
                     <p className="ef-empty-state__title">
                         SEM EVOLUÇÕES NA SEMANA {week ?? '—'}
                     </p>
