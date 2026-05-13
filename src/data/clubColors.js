@@ -22,21 +22,21 @@ export const SPRITE_GRID = { cols: 5, rows: 4 };
 // Sprite atlas configs: each sheet has url + cols + rows
 export const SPRITE_SHEETS = {
     // Brasil 5x4 = 20 each (80 total)
-    a:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-a.png',  cols: 5, rows: 4 },
-    b:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-b.png',  cols: 5, rows: 4 },
-    c:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-c.png',  cols: 5, rows: 5 },
-    d:   { url: '/elifoot-web/sprites/clubs/spritesheet-serie-d.png',  cols: 5, rows: 5 },
+    a:   { url: '/olefut/sprites/clubs/spritesheet-serie-a.png',  cols: 5, rows: 4 },
+    b:   { url: '/olefut/sprites/clubs/spritesheet-serie-b.png',  cols: 5, rows: 4 },
+    c:   { url: '/olefut/sprites/clubs/spritesheet-serie-c.png',  cols: 5, rows: 5 },
+    d:   { url: '/olefut/sprites/clubs/spritesheet-serie-d.png',  cols: 5, rows: 5 },
     // Europe 5x2 = 10 each (50 total)
-    eng: { url: '/elifoot-web/sprites/clubs/spritesheet-eng.png',      cols: 5, rows: 3 },
-    esp: { url: '/elifoot-web/sprites/clubs/spritesheet-esp.png',      cols: 5, rows: 3 },
-    ita: { url: '/elifoot-web/sprites/clubs/spritesheet-ita.png',      cols: 5, rows: 3 },
-    ger: { url: '/elifoot-web/sprites/clubs/spritesheet-ger.png',      cols: 5, rows: 3 },
-    fra: { url: '/elifoot-web/sprites/clubs/spritesheet-fra.png',      cols: 5, rows: 3 },
+    eng: { url: '/olefut/sprites/clubs/spritesheet-eng.png',      cols: 5, rows: 3 },
+    esp: { url: '/olefut/sprites/clubs/spritesheet-esp.png',      cols: 5, rows: 3 },
+    ita: { url: '/olefut/sprites/clubs/spritesheet-ita.png',      cols: 5, rows: 3 },
+    ger: { url: '/olefut/sprites/clubs/spritesheet-ger.png',      cols: 5, rows: 3 },
+    fra: { url: '/olefut/sprites/clubs/spritesheet-fra.png',      cols: 5, rows: 3 },
     // South America 5x3 = 15 cells, 10 used (Stitch padded extras)
-    arg: { url: '/elifoot-web/sprites/clubs/spritesheet-arg.png',      cols: 5, rows: 3 },
-    uru: { url: '/elifoot-web/sprites/clubs/spritesheet-uru.png',      cols: 5, rows: 3 },
-    chi: { url: '/elifoot-web/sprites/clubs/spritesheet-chi.png',      cols: 5, rows: 3 },
-    col: { url: '/elifoot-web/sprites/clubs/spritesheet-col.png',      cols: 5, rows: 3 }
+    arg: { url: '/olefut/sprites/clubs/spritesheet-arg.png',      cols: 5, rows: 3 },
+    uru: { url: '/olefut/sprites/clubs/spritesheet-uru.png',      cols: 5, rows: 3 },
+    chi: { url: '/olefut/sprites/clubs/spritesheet-chi.png',      cols: 5, rows: 3 },
+    col: { url: '/olefut/sprites/clubs/spritesheet-col.png',      cols: 5, rows: 3 }
 };
 
 /**
