@@ -12,6 +12,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
+import { Brain, ChartBar, Lightning, Trophy, TrendUp } from '@phosphor-icons/react';
 
 // Colors for bar visualization
 const BAR_COLORS = [
@@ -115,7 +116,7 @@ export function BrainDashboard({ controllerRef }) {
                 }}
             >
                 <h3 style={{ fontSize: '0.9rem', margin: 0 }}>
-                    🧠 Brain ML Dashboard
+                    <Brain size={14} weight="fill" style={{verticalAlign:'-2px',marginRight:'6px'}} />Brain ML Dashboard
                     <span style={{ fontSize: '0.72rem', color: '#888', marginLeft: '8px' }}>
                         {totalUpdates} updates • {stateKeys.length} states • {allActions.length} actions
                     </span>
@@ -153,7 +154,7 @@ export function BrainDashboard({ controllerRef }) {
 
                         {/* Learning Overview */}
                         <div style={cardStyle}>
-                            <div style={titleStyle}>📊 Aprendizado</div>
+                            <div style={titleStyle}><ChartBar size={12} weight="bold" style={{verticalAlign:'-2px',marginRight:'4px'}} />Aprendizado</div>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', fontSize: '0.72rem' }}>
                                 <MiniStat label="Q Updates" value={totalUpdates} />
                                 <MiniStat label="States" value={stateKeys.length} />
@@ -177,7 +178,7 @@ export function BrainDashboard({ controllerRef }) {
 
                     {/* Row 1.5: Convergence Metrics (Phase D) */}
                     <div style={{ ...cardStyle, marginBottom: '10px' }}>
-                        <div style={titleStyle}>⚡ Convergência ML (Fase D)</div>
+                        <div style={titleStyle}><Lightning size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />Convergência ML (Fase D)</div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', fontSize: '0.72rem' }}>
                             <MiniStat label="Replay Buffer" value={replayBuffer} color="var(--color-learning-violet)" />
                             <MiniStat label="High Impact" value={replayImpactful} color="var(--color-amber-warning)" />
@@ -255,7 +256,7 @@ export function BrainDashboard({ controllerRef }) {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '10px' }}>
                         {/* Top Q-Value Actions */}
                         <div style={cardStyle}>
-                            <div style={titleStyle}>🏆 Top Ações (Q-value total)</div>
+                            <div style={titleStyle}><Trophy size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />Top Ações (Q-value total)</div>
                             {topActions.length === 0 && <div style={{ fontSize: '0.7rem', color: '#888' }}>Sem dados — rode o autoplay</div>}
                             {topActions.map((a, i) => (
                                 <div key={String(a.action)} style={{
@@ -273,7 +274,7 @@ export function BrainDashboard({ controllerRef }) {
 
                         {/* Reward Sparkline */}
                         <div style={cardStyle}>
-                            <div style={titleStyle}>📈 Reward Curve (últimas {rewardHistory.length} decisões)</div>
+                            <div style={titleStyle}><TrendUp size={12} weight="bold" style={{verticalAlign:'-2px',marginRight:'4px'}} />Reward Curve (últimas {rewardHistory.length} decisões)</div>
                             {rewardHistory.length === 0 && <div style={{ fontSize: '0.7rem', color: '#888' }}>Sem dados — rode o autoplay</div>}
                             {rewardHistory.length > 0 && (
                                 <div style={{ display: 'flex', alignItems: 'flex-end', height: '60px', gap: '1px' }}>

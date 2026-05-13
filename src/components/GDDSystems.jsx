@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { EfButton } from './ui/EfButton';
+import { Clock, Warning, CurrencyDollar, ClipboardText, WarningCircle, SmileySad, Flame, SoccerBall } from '@phosphor-icons/react';
 
 /**
  * §12.4 Octalysis #6: Scarcity Emphasis
@@ -14,32 +15,36 @@ export function ScarcityBanner({ engine }) {
 
     // Transfer window closing (weeks 1-4 and 20-22 are windows)
     if (seasonWeek >= 18 && seasonWeek <= 20) {
-        items.push({ emoji: '⏰', text: `Janela fecha em ${22 - seasonWeek} semanas!`, color: 'var(--color-amber-warning)' });
+        items.push({ Icon: Clock, text: `Janela fecha em ${22 - seasonWeek} semanas!`, color: 'var(--color-amber-warning)' });
     }
     if (seasonWeek >= 21 && seasonWeek <= 22) {
-        items.push({ emoji: '🚨', text: 'ÚLTIMA CHANCE — janela fecha!', color: 'var(--color-red-bright)' });
+        items.push({ Icon: Warning, text: 'ÚLTIMA CHANCE — janela fecha!', color: 'var(--color-red-bright)' });
     }
 
     // Budget scarcity
     if ((team.balance || 0) < 500000 && seasonWeek > 5) {
-        items.push({ emoji: '💸', text: `Caixa crítico: R$${Math.round((team.balance || 0) / 1000)}k`, color: 'var(--color-red-bright)' });
+        items.push({ Icon: CurrencyDollar, text: `Caixa crítico: R$${Math.round((team.balance || 0) / 1000)}k`, color: 'var(--color-red-bright)' });
     }
 
     // Expiring contracts
     const expiring = team.squad?.filter(p => p.contract && p.contract.weeksLeft <= 4) || [];
     if (expiring.length > 0) {
-        items.push({ emoji: '📋', text: `${expiring.length} contrato${expiring.length > 1 ? 's' : ''} expirando!`, color: 'var(--color-amber-warning)' });
+        items.push({ Icon: ClipboardText, text: `${expiring.length} contrato${expiring.length > 1 ? 's' : ''} expirando!`, color: 'var(--color-amber-warning)' });
     }
 
     if (items.length === 0) return null;
 
     return (
         <div className="scarcity-banner">
-            {items.map((item, i) => (
-                <span key={i} className="scarcity-item" style={{ color: item.color }}>
-                    {item.emoji} {item.text}
-                </span>
-            ))}
+            {items.map((item, i) => {
+                const IconComp = item.Icon;
+                return (
+                    <span key={i} className="scarcity-item" style={{ color: item.color }}>
+                        <IconComp size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />
+                        {item.text}
+                    </span>
+                );
+            })}
         </div>
     );
 }
@@ -65,9 +70,9 @@ export function DreadIndicator({ engine }) {
 
     return (
         <div className={`dread-indicator ${isRelegation ? 'dread-critical' : 'dread-warning'}`}>
-            {isRelegation && <span className="dread-pulse">⚠️ ZONA DE REBAIXAMENTO — {total - pos}º do fundo</span>}
-            {isClose && !isRelegation && <span>😰 Perto da zona — {pos + 1}º lugar</span>}
-            {isFiring && <span className="dread-pulse">🔥 DIRETORIA FURIOSA — Demissão iminente ({boardConf}%)</span>}
+            {isRelegation && <span className="dread-pulse"><WarningCircle size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />ZONA DE REBAIXAMENTO — {total - pos}º do fundo</span>}
+            {isClose && !isRelegation && <span><SmileySad size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />Perto da zona — {pos + 1}º lugar</span>}
+            {isFiring && <span className="dread-pulse"><Flame size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />DIRETORIA FURIOSA — Demissão iminente ({boardConf}%)</span>}
         </div>
     );
 }
@@ -138,42 +143,42 @@ const TUTORIAL_STEPS = [
     {
         id: 'welcome',
         target: null,
-        title: 'Bem-vindo ao OléFUT! ⚽',
+        title: 'Bem-vindo ao OléFUT!',
         text: 'Você é o novo treinador. Vamos aprender o básico em 5 passos rápidos.',
         action: null,
     },
     {
         id: 'formation',
         target: 'Táticas',
-        title: '1️⃣ Escolha sua Formação',
+        title: '1. Escolha sua Formação',
         text: 'Role até a seção de táticas e escolha uma formação. 4-3-3 é equilibrada para começar.',
         action: 'Clique em uma formação',
     },
     {
         id: 'training',
         target: 'Treino',
-        title: '2️⃣ Treine o Elenco',
+        title: '2. Treine o Elenco',
         text: 'Treinos semanais melhoram os atributos dos jogadores. Escolha um tipo de treino.',
         action: 'Clique em um treino',
     },
     {
         id: 'play',
         target: 'Jogar',
-        title: '3️⃣ Avance a Semana',
+        title: '3. Avance a Semana',
         text: 'Clique no botão "Jogar Rodada" para simular a partida. Observe o resultado!',
         action: 'Clique em Jogar Rodada',
     },
     {
         id: 'adjust',
         target: null,
-        title: '4️⃣ Reaja e Ajuste',
+        title: '4. Reaja e Ajuste',
         text: 'Depois do jogo, leia os eventos, verifique lesões, e ajuste a tática se necessário.',
         action: null,
     },
     {
         id: 'done',
         target: null,
-        title: '5️⃣ Pronto! 🎉',
+        title: '5. Pronto!',
         text: 'Você domina o básico. Explore transferências, base, e scouts para ir além. Boa sorte, treinador!',
         action: null,
     },

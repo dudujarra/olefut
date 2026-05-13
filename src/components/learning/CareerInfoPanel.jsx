@@ -12,16 +12,28 @@
 import { useState, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
 import { HexagonChart } from '../HexagonChart';
+import {
+    Crown, Star, Sparkle, ClipboardText, Plant,
+    SoccerBall, Trophy, ChartBar, Calendar, ArrowUp, ArrowDown
+} from '@phosphor-icons/react';
+
+function RepIcon({ rep }) {
+    if (rep >= 80) return <Crown size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />;
+    if (rep >= 60) return <Star size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />;
+    if (rep >= 40) return <Sparkle size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />;
+    if (rep >= 20) return <ClipboardText size={12} weight="bold" style={{verticalAlign:'-2px',marginRight:'4px'}} />;
+    return <Plant size={12} weight="bold" style={{verticalAlign:'-2px',marginRight:'4px'}} />;
+}
 
 const DIV_NAMES = { 1: 'Série A', 2: 'Série B', 3: 'Série C', 4: 'Série D' };
 const DIV_COLOR = { 1: 'var(--accent)', 2: 'var(--color-learning-silver-stat)', 3: 'var(--color-learning-bronze-stat)', 4: 'var(--color-learning-leather)' };
 
 function formatRep(rep) {
-    if (rep >= 80) return { label: '👑 Lendário', color: 'var(--accent)' };
-    if (rep >= 60) return { label: '⭐ Renomado', color: 'var(--color-learning-amber-bright)' };
-    if (rep >= 40) return { label: '✨ Conhecido', color: 'var(--color-learning-lightgreen)' };
-    if (rep >= 20) return { label: '📋 Iniciante', color: 'var(--color-learning-skyblue)' };
-    return { label: '🌱 Desconhecido', color: '#888' };
+    if (rep >= 80) return { label: 'Lendário', color: 'var(--accent)' };
+    if (rep >= 60) return { label: 'Renomado', color: 'var(--color-learning-amber-bright)' };
+    if (rep >= 40) return { label: 'Conhecido', color: 'var(--color-learning-lightgreen)' };
+    if (rep >= 20) return { label: 'Iniciante', color: 'var(--color-learning-skyblue)' };
+    return { label: 'Desconhecido', color: 'var(--text-muted)' };
 }
 
 export default function CareerInfoPanel({ controllerRef }) {
@@ -109,7 +121,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                     alignItems: 'center'
                 }}
             >
-                <span>🏟️ CARREIRA INFO {open ? '▼' : '▶'}</span>
+                <span><SoccerBall size={14} weight="fill" style={{verticalAlign:'-2px',marginRight:'6px'}} />CARREIRA INFO {open ? '▼' : '▶'}</span>
                 <span style={{ fontSize: '0.72rem', color: '#888' }}>
                     Season {snapshot.seasonNumber} · Wk {snapshot.currentWeek}
                 </span>
@@ -151,7 +163,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                         </div>
                         <div>
                             <div style={{ fontSize: '0.7rem', color: '#888' }}>REPUTAÇÃO</div>
-                            <div style={{ color: repBadge.color, fontWeight: 700 }}>{repBadge.label}</div>
+                            <div style={{ color: repBadge.color, fontWeight: 700 }}><RepIcon rep={snapshot.reputation} />{repBadge.label}</div>
                             <div style={{ fontSize: '0.7rem', color: '#888' }}>{snapshot.reputation}/100</div>
                         </div>
                     </div>
@@ -159,8 +171,8 @@ export default function CareerInfoPanel({ controllerRef }) {
                     {/* Titles + insights row */}
                     <div style={{ display: 'flex', gap: '12px', marginTop: '8px', flexWrap: 'wrap' }}>
                         <div style={{ flex: 1, minWidth: '180px' }}>
-                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
-                                🏆 TÍTULOS ({snapshot.titles.length})
+                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                                <Trophy size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />TÍTULOS ({snapshot.titles.length})
                             </div>
                             {snapshot.titles.length === 0 ? (
                                 <div style={{ fontSize: '0.7rem', color: '#888', fontStyle: 'italic' }}>
@@ -178,8 +190,8 @@ export default function CareerInfoPanel({ controllerRef }) {
                         </div>
 
                         <div style={{ flex: 1, minWidth: '180px' }}>
-                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
-                                📊 INSIGHTS CARREIRA
+                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                                <ChartBar size={12} weight="bold" style={{verticalAlign:'-2px',marginRight:'4px'}} />INSIGHTS CARREIRA
                             </div>
                             <div style={{ fontSize: '0.7rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
                                 <span>Maior streak V:</span>
@@ -201,8 +213,8 @@ export default function CareerInfoPanel({ controllerRef }) {
                     {/* Top scorers */}
                     {snapshot.topScorers.length > 0 && (
                         <div style={{ marginTop: '8px' }}>
-                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
-                                ⚽ ARTILHEIROS (TEMPORADA ATUAL)
+                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                                <SoccerBall size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />ARTILHEIROS (TEMPORADA ATUAL)
                             </div>
                             <div style={{ background: 'var(--color-shadow-deep)', padding: '8px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 {/* Destaque o Top 1 com o Hexagon Chart */}
@@ -212,15 +224,15 @@ export default function CareerInfoPanel({ controllerRef }) {
                                             <HexagonChart player={snapshot.topScorers[0]} size={120} showLabels={true} />
                                         </div>
                                         <div style={{ flex: 1 }}>
-                                            <div style={{ color: 'var(--accent)', fontSize: '0.7rem', fontWeight: 700, marginBottom: '4px' }}>🏆 DESTAQUE DA TEMPORADA</div>
+                                            <div style={{ color: 'var(--accent)', fontSize: '0.7rem', fontWeight: 700, marginBottom: '4px' }}><Trophy size={11} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />DESTAQUE DA TEMPORADA</div>
                                             <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-main)' }}>{snapshot.topScorers[0].name}</div>
                                             <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: '8px' }}>
                                                 {snapshot.topScorers[0].position} · OVR {snapshot.topScorers[0].ovr}
                                             </div>
                                             <div style={{ fontSize: '0.8rem' }}>
-                                                <strong style={{ color: 'var(--color-success-mid)' }}>{snapshot.topScorers[0].goals} ⚽</strong>{' '}
-                                                <span style={{ color: '#888' }}>
-                                                    {snapshot.topScorers[0].assists}🅰️ · {snapshot.topScorers[0].apps}j
+                                                <strong style={{ color: 'var(--color-success-mid)' }}>{snapshot.topScorers[0].goals}G</strong>{' '}
+                                                <span style={{ color: 'var(--text-muted)' }}>
+                                                    {snapshot.topScorers[0].assists}A · {snapshot.topScorers[0].apps}j
                                                 </span>
                                             </div>
                                         </div>
@@ -241,9 +253,9 @@ export default function CareerInfoPanel({ controllerRef }) {
                                             {p.name} ({p.position} · OVR {p.ovr})
                                         </span>
                                         <span>
-                                            <strong style={{ color: 'var(--color-success-mid)' }}>{p.goals} ⚽</strong>{' '}
-                                            <span style={{ color: '#888' }}>
-                                                {p.assists}🅰️ · {p.apps}j
+                                            <strong style={{ color: 'var(--color-success-mid)' }}>{p.goals}G</strong>{' '}
+                                            <span style={{ color: 'var(--text-muted)' }}>
+                                                {p.assists}A · {p.apps}j
                                             </span>
                                         </span>
                                     </div>
@@ -255,8 +267,8 @@ export default function CareerInfoPanel({ controllerRef }) {
                     {/* Last seasons compact */}
                     {snapshot.seasons.length > 0 && (
                         <div style={{ marginTop: '8px' }}>
-                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
-                                📅 ÚLTIMAS {snapshot.seasons.length} TEMPORADAS
+                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                                <Calendar size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />ÚLTIMAS {snapshot.seasons.length} TEMPORADAS
                             </div>
                             <div style={{
                                 display: 'flex',
@@ -267,16 +279,19 @@ export default function CareerInfoPanel({ controllerRef }) {
                                 }}>
                                 {snapshot.seasons.map((s, i) => {
                                     const div = DIV_NAMES[s.division] || `D${s.division}`;
-                                    const titleEmoji = s.title === 'Promovido' ? '⬆️' : s.title?.startsWith('Campeão') ? '🏆' : s.title === 'Rebaixado' ? '⬇️' : '';
+                                    let TitleIcon = null;
+                                    if (s.title === 'Promovido') TitleIcon = ArrowUp;
+                                    else if (s.title?.startsWith('Campeão')) TitleIcon = Trophy;
+                                    else if (s.title === 'Rebaixado') TitleIcon = ArrowDown;
                                     return (
                                         <div key={i} style={{
                                             fontSize: '0.65rem',
                                             padding: '2px 6px',
-                                            background: titleEmoji ? 'var(--color-forest-pulse)' : 'transparent',
-                                            border: titleEmoji ? '1px solid var(--accent)' : '1px solid var(--color-bg-deep)',
-                                            fontFamily: 'monospace'
+                                            background: TitleIcon ? 'var(--color-forest-pulse)' : 'transparent',
+                                            border: TitleIcon ? '1px solid var(--accent)' : '1px solid var(--color-bg-deep)',
+                                            fontFamily: 'var(--font-mono)'
                                         }} title={s.title || s.record}>
-                                            {titleEmoji} {div} · {s.position}º
+                                            {TitleIcon && <TitleIcon size={10} weight="fill" style={{verticalAlign:'-1px',marginRight:'3px'}} />}{div} · {s.position}º
                                         </div>
                                     );
                                 })}

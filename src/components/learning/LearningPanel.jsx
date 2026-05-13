@@ -12,6 +12,7 @@
  */
 import { useState, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
+import { TrendUp } from '@phosphor-icons/react';
 
 function Sparkline({ data, width = 200, height = 40, color = 'var(--color-success-mid)' }) {
     if (!Array.isArray(data) || data.length < 2) {
@@ -147,7 +148,7 @@ export default function LearningPanel({ controllerRef }) {
                     alignItems: 'center'
                 }}
             >
-                <span>📈 LEARNING REAL-TIME (SPEC-123) {open ? '▼' : '▶'}</span>
+                <span><TrendUp size={14} weight="bold" style={{verticalAlign:'-2px',marginRight:'6px'}} />LEARNING REAL-TIME (SPEC-123) {open ? '▼' : '▶'}</span>
                 <span style={{ fontSize: '0.72rem', color: '#888' }}>
                     {brainSummary.states} states · {brainSummary.totalUpdates} upd · {memory.length} mem
                     {brainSummary.replayBuffer > 0 && ` · ${brainSummary.replayBuffer} replay`}

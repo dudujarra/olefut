@@ -4,6 +4,7 @@
  * Substitui linhas 38-63 de DashboardView legacy.
  */
 
+import { Flame, Snowflake } from '@phosphor-icons/react';
 import { EfPanel, EfTooltip, EfClubBadge } from '../ui';
 import { getClubColors } from '../../data/clubColors';
 import './dashboard.css';
@@ -28,7 +29,11 @@ export function DashboardHeader({ team, stats, boardStatus, board, balance, seas
                         )}
                         <span className="ef-dash-header-meta">
                             {stats.position}º · Série {['A','B','C','D'][division - 1]} · {stats.wins}V {stats.draws}E {stats.losses}D
-                            {stats.streak > 0 ? ` 🔥${stats.streak}` : stats.streak < 0 ? ` ❄️${Math.abs(stats.streak)}` : ''}
+                            {stats.streak > 0 ? (
+                                <> <Flame size={12} weight="fill" style={{verticalAlign:'-2px'}} />{stats.streak}</>
+                            ) : stats.streak < 0 ? (
+                                <> <Snowflake size={12} weight="bold" style={{verticalAlign:'-2px'}} />{Math.abs(stats.streak)}</>
+                            ) : null}
                         </span>
                     </div>
                 </div>
