@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400;500;700&amp;family=Pixelify+Sans:wght@400;500;700&amp;family=IBM+Plex+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @font-face {
+            font-family: 'jetbrainsMono';
+            src: local('JetBrains Mono');
+        }
+        @font-face {
+            font-family: 'rubik';
+            src: local('Rubik');
+        }
+
+        .crt-scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .pixel-border-heavy {
+            box-shadow: 
+                0 4px 0 0 #52B788,
+                0 -4px 0 0 #52B788,
+                4px 0 0 0 #52B788,
+                -4px 0 0 0 #52B788;
+        }
+
+        .pixel-border-neon {
+            box-shadow: 
+                0 2px 0 0 #39FF14,
+                0 -2px 0 0 #39FF14,
+                2px 0 0 0 #39FF14,
+                -2px 0 0 0 #39FF14;
+        }
+
+        .button-press:active {
+            transform: translateY(4px);
+            box-shadow: inset 0 4px 0 0 #111417;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {parchment: "#F1FAEE", "surface-container-highest": "#323538", neon: "#39FF14", forest: "#1B4332", pitch: "#52B788", "forest-dark": "#0E1F14", amber: "#FBBF24", smoke: "#A0BAAE", "crt-black": "#111417", trophy: "#FFD700", abyss: "#040805", error: "#ffb4ab", surface: "#111417", "on-secondary-fixed-variant": "#544600", "on-primary": "#053900", "inverse-on-surface": "#2e3134", "surface-variant": "#323538", "on-surface": "#e1e2e7", "on-error": "#690005", secondary: "#fff9ef", "secondary-container": "#ffdb3c", "surface-bright": "#37393d", tertiary: "#e9ffef", "inverse-surface": "#e1e2e7", "surface-container-high": "#272a2d", primary: "#efffe3", background: "#111417", "on-tertiary-fixed": "#002113", "secondary-fixed-dim": "#e9c400", "on-tertiary-fixed-variant": "#005235", danger: "#FF3333", "primary-fixed": "#79ff5b", "surface-dim": "#111417", "on-secondary-fixed": "#221b00", "surface-tint": "#2ae500", outline: "#85967c", "on-primary-fixed-variant": "#095300", "primary-container": "#39ff14", "on-primary-container": "#107100", "inverse-primary": "#106e00", "tertiary-fixed-dim": "#75daa8", "danger-dark": "#8B0000", "surface-container": "#1d2023", "on-error-container": "#ffdad6", "error-container": "#93000a", "on-background": "#e1e2e7", "surface-container-low": "#191c1f", "on-secondary": "#3a3000", "secondary-fixed": "#ffe16d", "on-surface-variant": "#baccb0", "on-tertiary": "#003823", "tertiary-fixed": "#92f7c3", "on-tertiary-container": "#006f4a", "surface-container-lowest": "#0b0e11", "outline-variant": "#3c4b35", "on-secondary-container": "#725f00", "primary-fixed-dim": "#2ae500", "on-primary-fixed": "#022100", "tertiary-container": "#8cf1be"}, spacing: {"container-max": "1200px", unit: "4px", "margin-desktop": "32px", "margin-mobile": "16px", gutter: "16px", xl: "32px", lg: "24px", sm: "8px", xs: "4px", md: "16px", base: "4px"}, fontFamily: {"label-md": ["jetbrainsMono"], "headline-sm": ["'Press Start 2P'"], "headline-md": ["Press Start 2P"], "headline-lg": ["Press Start 2P"], "body-md": ["Pixelify Sans"], "body-lg": ["Pixelify Sans"], "data-mono": ["IBM Plex Mono"], "badge-display": ["Press Start 2P"], "micro-pixel": ["Press Start 2P"], "stats-mono": ["IBM Plex Mono"]}, fontSize: {"label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "headline-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "0.05em", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["20px", {lineHeight: "28px", fontWeight: "400"}], "data-mono": ["14px", {lineHeight: "20px", fontWeight: "500"}], "badge-display": ["10px", {lineHeight: "12px", fontWeight: "400"}], "micro-pixel": ["10px", {lineHeight: "1.0", fontWeight: "400"}], "stats-mono": ["14px", {lineHeight: "1.0", fontWeight: "500"}]}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+</head>
+<body class="bg-abyss text-parchment font-body-md overflow-hidden min-h-screen relative">
+<!-- Background Layer -->
+<div class="fixed inset-0 z-0">
+<img alt="Conference Room" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8Ka0B_sDOk6jrNs0Wb6Yw1pxh7iowO2PevkWk4hCEzcA1YanmFjZFRzp0q3-olGL4fU1HmhxkoTFk6wnpJFWfPjeP7feHQQtjMFHsxngmMzDd-52UjdlGaEXfSLBl6uwHkGkF5IVhqPa4nUJ_aff6x7rGnS3_gnZ2WMZSdeDhgBpMTmlR_uDlZdVLO3lldQlvla-r4APnZ9lntRxkND5GZV4qBmIH8ovESD2_7K32o24JchOaQpAwUnmglrdWCTZKa__G4CgSYm0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-abyss via-forest-dark/80 to-transparent"></div>
+<div class="absolute inset-0 crt-scanlines opacity-20"></div>
+</div>
+<!-- Top Navigation Bar (Shared Component Logic) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop bg-forest-dark border-b-4 border-pitch">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-neon text-3xl" style="font-variation-settings: 'FILL' 1;">mic</span>
+<h1 class="font-headline-md text-headline-md text-neon tracking-tighter">COLETIVA DE IMPRENSA</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-4">
+<span class="font-label-md text-label-md text-smoke hover:text-neon cursor-pointer transition-colors">SQUAD</span>
+<span class="font-label-md text-label-md text-smoke hover:text-neon cursor-pointer transition-colors">TACTICS</span>
+<span class="font-label-md text-label-md text-smoke hover:text-neon cursor-pointer transition-colors">LEAGUE</span>
+<span class="font-label-md text-label-md text-smoke hover:text-neon cursor-pointer transition-colors">SCOUT</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-smoke hover:text-neon cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-smoke hover:text-neon cursor-pointer">account_circle</span>
+</div>
+</div>
+</header>
+<main class="relative z-10 pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-5xl mx-auto flex flex-col gap-12 h-full justify-center">
+<!-- Central Question Section -->
+<section class="flex flex-col gap-6">
+<!-- Pós-Jogo Tag -->
+<div class="flex">
+<div class="bg-trophy text-crt-black px-4 py-1 font-headline-sm text-headline-sm pixel-border-neon border-trophy">
+                    PÓS-JOGO
+                </div>
+</div>
+<!-- Question Panel -->
+<div class="bg-forest-dark p-8 pixel-border-heavy relative">
+<div class="flex gap-6 items-start">
+<div class="bg-crt-black border-2 border-neon p-2 shrink-0">
+<span class="material-symbols-outlined text-neon text-4xl">mic_external_on</span>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-smoke font-label-md text-label-md">REPÓRTER ESPORTIVO</span>
+<p class="font-body-lg text-body-lg italic text-parchment leading-relaxed">
+                            "Sua equipe perdeu 3 seguidos. Que mensagem você envia para a torcida e para o elenco neste momento de crise?"
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Options Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<button class="button-press group relative bg-forest border-2 border-pitch p-6 flex items-center justify-between hover:border-neon transition-all">
+<span class="text-left font-label-md text-body-md text-parchment group-hover:text-neon">1. Confio no processo. Os resultados virão.</span>
+<span class="material-symbols-outlined text-smoke group-hover:text-neon">chevron_right</span>
+</button>
+<button class="button-press group relative bg-forest border-2 border-pitch p-6 flex items-center justify-between hover:border-neon transition-all">
+<span class="text-left font-label-md text-body-md text-parchment group-hover:text-neon">2. Mudanças drásticas são necessárias agora.</span>
+<span class="material-symbols-outlined text-smoke group-hover:text-neon">chevron_right</span>
+</button>
+<button class="button-press group relative bg-forest border-2 border-pitch p-6 flex items-center justify-between hover:border-neon transition-all">
+<span class="text-left font-label-md text-body-md text-parchment group-hover:text-neon">3. Não é o momento de apontar culpados.</span>
+<span class="material-symbols-outlined text-smoke group-hover:text-neon">chevron_right</span>
+</button>
+<button class="button-press group relative bg-forest border-2 border-pitch p-6 flex items-center justify-between hover:border-neon transition-all">
+<span class="text-left font-label-md text-body-md text-parchment group-hover:text-neon">4. O foco total está no próximo treinamento.</span>
+<span class="material-symbols-outlined text-smoke group-hover:text-neon">chevron_right</span>
+</button>
+</section>
+<!-- Stats Impact (Feedback Card) - Floating Overlay Style -->
+<aside class="fixed bottom-28 right-margin-desktop hidden lg:flex flex-col gap-2 w-64 p-4 bg-crt-black border-2 border-neon pixel-border-neon z-40">
+<div class="flex items-center gap-2 border-b border-forest pb-2 mb-2">
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-headline-sm text-headline-sm text-neon">PREVISÃO IMPACTO</span>
+</div>
+<div class="flex justify-between items-center py-1">
+<span class="text-smoke font-label-md text-label-md">MORALE</span>
+<span class="text-neon font-headline-sm">+5</span>
+</div>
+<div class="flex justify-between items-center py-1">
+<span class="text-smoke font-label-md text-label-md">IMPRENSA</span>
+<span class="text-danger font-headline-sm">-2</span>
+</div>
+<div class="flex justify-between items-center py-1">
+<span class="text-smoke font-label-md text-label-md">TORCIDA</span>
+<span class="text-neon font-headline-sm">+10</span>
+</div>
+<div class="mt-2 h-2 bg-forest-dark border border-smoke overflow-hidden">
+<div class="h-full bg-neon w-[75%]"></div>
+</div>
+</aside>
+</main>
+<!-- Bottom Navigation Bar (Shared Component logic: Press Tab Active) -->
+<nav class="fixed bottom-0 w-full flex justify-around items-center h-20 bg-crt-black border-t-4 border-pitch z-50">
+<div class="flex flex-col items-center justify-center text-smoke p-2 group cursor-pointer">
+<span class="material-symbols-outlined group-hover:text-neon">home</span>
+<span class="font-label-md text-label-md group-hover:text-neon">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2 group cursor-pointer">
+<span class="material-symbols-outlined group-hover:text-neon">sports_soccer</span>
+<span class="font-label-md text-label-md group-hover:text-neon">Matches</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2 group cursor-pointer">
+<span class="material-symbols-outlined group-hover:text-neon">swap_horizontal_circle</span>
+<span class="font-label-md text-label-md group-hover:text-neon">Transfers</span>
+</div>
+<div class="flex flex-col items-center justify-center text-smoke p-2 group cursor-pointer">
+<span class="material-symbols-outlined group-hover:text-neon">groups</span>
+<span class="font-label-md text-label-md group-hover:text-neon">Staff</span>
+</div>
+<!-- ACTIVE TAB: Press -->
+<div class="flex flex-col items-center justify-center bg-forest text-neon rounded-none p-2 border-2 border-neon translate-y-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic</span>
+<span class="font-label-md text-label-md">Press</span>
+</div>
+</nav>
+<!-- Floating UI Decoration Elements -->
+<div class="fixed top-24 left-8 pointer-events-none opacity-50 hidden md:block">
+<div class="text-neon font-label-md text-label-md mb-2">LIVE FEED // UPLINK STABLE</div>
+<div class="flex gap-1">
+<div class="w-1 h-4 bg-neon animate-pulse"></div>
+<div class="w-1 h-4 bg-neon opacity-50"></div>
+<div class="w-1 h-4 bg-neon opacity-20"></div>
+</div>
+</div>
+</body></html>

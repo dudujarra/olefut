@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400;500;700&amp;family=Pixelify+Sans:wght@400;500;700&amp;family=IBM+Plex+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            color: #dae6d0;
+            overflow-x: hidden;
+        }
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .beveled {
+            border: 4px solid #52B788;
+            box-shadow: inset -4px -4px 0px 0px #0E1F14, inset 4px 4px 0px 0px #39FF14;
+        }
+        .beveled-inset {
+            border: 4px solid #0E1F14;
+            box-shadow: inset 4px 4px 0px 0px #071105, inset -2px -2px 0px 0px #1B4332;
+        }
+        .progress-block {
+            display: inline-block;
+            width: 12px;
+            height: 24px;
+            margin-right: 2px;
+            background-color: #39FF14;
+        }
+        .progress-block-empty {
+            display: inline-block;
+            width: 12px;
+            height: 24px;
+            margin-right: 2px;
+            background-color: #2d3828;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"tertiary-fixed-dim": "#75daa8", surface: "#111417", smoke: "#A0BAAE", forest: "#1B4332", "forest-dark": "#0E1F14", pitch: "#52B788", neon: "#39FF14", parchment: "#F1FAEE", trophy: "#FFD700", "crt-black": "#111417", abyss: "#040805", error: "#ffb4ab", "on-secondary-fixed-variant": "#544600", "on-primary": "#053900", "inverse-on-surface": "#2e3134", "surface-variant": "#323538", "on-surface": "#e1e2e7", "on-error": "#690005", secondary: "#fff9ef", "secondary-container": "#ffdb3c", "surface-bright": "#37393d", tertiary: "#e9ffef", "inverse-surface": "#e1e2e7", "surface-container-high": "#272a2d", primary: "#efffe3", background: "#111417", "on-tertiary-fixed": "#002113", "secondary-fixed-dim": "#e9c400", "on-tertiary-fixed-variant": "#005235", danger: "#FF3333", "primary-fixed": "#79ff5b", "surface-dim": "#111417", "on-secondary-fixed": "#221b00", "surface-tint": "#2ae500", outline: "#85967c", "on-primary-fixed-variant": "#095300", "primary-container": "#39ff14", "on-primary-container": "#107100", "inverse-primary": "#106e00", "danger-dark": "#8B0000", "surface-container": "#1d2023", "on-error-container": "#ffdad6", "error-container": "#93000a", "on-background": "#e1e2e7", "surface-container-low": "#191c1f", "on-secondary": "#3a3000", "secondary-fixed": "#ffe16d", "on-surface-variant": "#baccb0", "on-tertiary": "#003823", "tertiary-fixed": "#92f7c3", "on-tertiary-container": "#006f4a", "surface-container-lowest": "#0b0e11", "surface-container-highest": "#323538", amber: "#FBBF24", "outline-variant": "#3c4b35", "on-secondary-container": "#725f00", "primary-fixed-dim": "#2ae500", "on-primary-fixed": "#022100", "tertiary-container": "#8cf1be"}, fontFamily: {"headline-sm": ["Press Start 2P"], "headline-md": ["Press Start 2P"], "headline-lg": ["Press Start 2P"], "body-md": ["Pixelify Sans"], "label-md": ["JetBrains Mono"], "label-lg": ["JetBrains Mono"], "data-mono": ["IBM Plex Mono"], "badge-display": ["Press Start 2P"], "body-lg": ["Pixelify Sans"], "micro-pixel": ["Press Start 2P"], "stats-mono": ["IBM Plex Mono"]}, fontSize: {"data-mono": ["14px", {lineHeight: "20px", fontWeight: "500"}], "headline-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "0.05em", fontWeight: "400"}], "badge-display": ["10px", {lineHeight: "12px", fontWeight: "400"}], "body-lg": ["20px", {lineHeight: "28px", fontWeight: "400"}], "micro-pixel": ["10px", {lineHeight: "1.0", fontWeight: "400"}], "stats-mono": ["14px", {lineHeight: "1.0", fontWeight: "500"}]}, spacing: {xl: "32px", gutter: "16px", "margin-mobile": "16px", lg: "24px", sm: "8px", "margin-desktop": "32px", xs: "4px", md: "16px", unit: "4px", base: "4px", "container-max": "1200px"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+</head>
+<body class="font-body-md selection:bg-neon selection:text-abyss">
+<div class="crt-overlay"></div>
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-0 h-full z-40 w-64 bg-forest-dark border-r-4 border-pitch">
+<div class="p-6">
+<h1 class="font-headline-md text-headline-md text-trophy tracking-tighter">OléFUT</h1>
+<div class="mt-8 flex items-center gap-3 p-4 bg-abyss border-2 border-pitch">
+<div class="w-10 h-10 bg-forest flex items-center justify-center">
+<span class="material-symbols-outlined text-neon" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+<div>
+<p class="font-headline-sm text-[10px] text-parchment uppercase">Manager Avatar</p>
+<p class="font-label-md text-neon">Elite Tier</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2 space-y-2">
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest hover:text-pitch transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-lg uppercase">Squad</span>
+</a>
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest hover:text-pitch transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+<span class="font-label-lg uppercase">Transfer</span>
+</a>
+<a class="text-smoke px-4 py-3 flex items-center gap-3 hover:bg-forest hover:text-pitch transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label-lg uppercase">Matches</span>
+</a>
+<!-- Active State -->
+<a class="bg-forest text-neon border-l-4 border-neon px-4 py-3 flex items-center gap-3 transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="font-label-lg uppercase">Club</span>
+</a>
+</nav>
+<div class="p-4 border-t-2 border-pitch">
+<button class="w-full py-3 bg-forest border-2 border-pitch text-parchment font-headline-sm text-[10px] active:translate-y-1 hover:text-neon transition-colors">
+                CLAIM REWARDS
+            </button>
+<div class="mt-4 flex flex-col gap-1">
+<a class="text-smoke px-4 py-1 flex items-center gap-3 text-xs hover:text-neon" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+<span class="font-label-md">Support</span>
+</a>
+<a class="text-smoke px-4 py-1 flex items-center gap-3 text-xs hover:text-neon" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</div>
+</div>
+</aside>
+<div class="md:ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-8 py-4 bg-forest-dark border-b-4 border-pitch">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg text-neon tracking-tighter">OléFUT</span>
+<nav class="hidden lg:flex gap-6">
+<a class="text-parchment font-label-md uppercase hover:text-neon transition-colors" href="#">Season</a>
+<a class="text-parchment font-label-md uppercase hover:text-neon transition-colors" href="#">Live</a>
+<a class="text-neon font-bold border-b-2 border-neon font-label-md uppercase" href="#">Rankings</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="px-4 py-1 bg-abyss border-2 border-neon flex items-center gap-2">
+<span class="material-symbols-outlined text-trophy text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-headline-sm text-[12px] text-neon">2,450 PTS</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-parchment cursor-pointer hover:text-neon" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-parchment cursor-pointer hover:text-neon" data-icon="settings">settings</span>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 p-8 bg-surface">
+<!-- Achievements Header Dashboard -->
+<section class="beveled bg-forest-dark p-8 mb-12 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="space-y-4">
+<h2 class="font-headline-md text-neon uppercase tracking-widest">Hall of Fame</h2>
+<div class="flex items-end gap-4">
+<span class="font-headline-lg text-parchment">2,450</span>
+<span class="font-label-lg text-smoke mb-1">TOTAL CAREER POINTS</span>
+</div>
+</div>
+<div class="w-full md:w-1/3 space-y-2">
+<div class="flex justify-between font-headline-sm text-[10px] text-neon">
+<span>COMPLETION</span>
+<span>64%</span>
+</div>
+<div class="beveled-inset bg-abyss h-10 p-1 flex items-center overflow-hidden">
+<div class="flex">
+<!-- 64% representation with blocks -->
+<div class="progress-block"></div><div class="progress-block"></div><div class="progress-block"></div><div class="progress-block"></div><div class="progress-block"></div>
+<div class="progress-block"></div><div class="progress-block"></div><div class="progress-block"></div><div class="progress-block"></div><div class="progress-block"></div>
+<div class="progress-block"></div><div class="progress-block"></div><div class="progress-block"></div><div class="progress-block-empty"></div><div class="progress-block-empty"></div>
+<div class="progress-block-empty"></div><div class="progress-block-empty"></div><div class="progress-block-empty"></div><div class="progress-block-empty"></div><div class="progress-block-empty"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Achievement Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: Unlocked -->
+<div class="beveled bg-forest p-6 flex flex-col justify-between group transition-transform hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="w-16 h-16 bg-trophy flex items-center justify-center border-2 border-abyss rotate-3 group-hover:rotate-6 transition-transform">
+<span class="material-symbols-outlined text-abyss text-4xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<span class="material-symbols-outlined text-neon text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="mt-8 space-y-2">
+<h3 class="font-headline-md text-neon uppercase">Hat-Trick Hero</h3>
+<p class="font-body-sm text-parchment leading-relaxed">Score 3 goals with one player in a single elite division match.</p>
+</div>
+<div class="mt-6 flex flex-col gap-4">
+<div class="flex justify-between items-center font-label-md text-neon">
+<span>REWARD</span>
+<span class="text-trophy">500 PTS</span>
+</div>
+<div class="bg-abyss border-2 border-neon px-4 py-2 font-headline-sm text-[10px] text-center text-neon">
+                            COMPLETED 100%
+                        </div>
+</div>
+</div>
+<!-- Card 2: Locked -->
+<div class="beveled bg-surface-container-high border-smoke p-6 flex flex-col justify-between opacity-60 grayscale">
+<div class="flex justify-between items-start">
+<div class="w-16 h-16 bg-smoke flex items-center justify-center border-2 border-abyss -rotate-3">
+<span class="material-symbols-outlined text-abyss text-4xl">military_tech</span>
+</div>
+<span class="material-symbols-outlined text-smoke text-3xl">lock</span>
+</div>
+<div class="mt-8 space-y-2">
+<h3 class="font-headline-md text-smoke uppercase">Transfer King</h3>
+<p class="font-body-sm text-smoke leading-relaxed">Sign a player with OVR 90+ from the Global Transfer Market.</p>
+</div>
+<div class="mt-6 flex flex-col gap-4">
+<div class="flex justify-between items-center font-label-md text-smoke">
+<span>REWARD</span>
+<span class="text-smoke">1000 PTS</span>
+</div>
+<div class="bg-abyss border-2 border-smoke px-4 py-2 font-headline-sm text-[10px] text-center text-smoke">
+                            LOCKED 0%
+                        </div>
+</div>
+</div>
+<!-- Card 3: In Progress -->
+<div class="beveled bg-forest-dark p-6 flex flex-col justify-between border-pitch group">
+<div class="flex justify-between items-start">
+<div class="w-16 h-16 bg-parchment flex items-center justify-center border-2 border-abyss">
+<span class="material-symbols-outlined text-abyss text-4xl" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<span class="material-symbols-outlined text-smoke text-3xl">pending</span>
+</div>
+<div class="mt-8 space-y-2">
+<h3 class="font-headline-md text-parchment uppercase">Iron Defense</h3>
+<p class="font-body-sm text-smoke leading-relaxed">Keep 10 clean sheets in consecutive league tournament matches.</p>
+</div>
+<div class="mt-6 flex flex-col gap-4">
+<div class="flex justify-between items-center font-label-md text-neon">
+<span>REWARD</span>
+<span class="text-trophy">250 PTS</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-md text-[10px] text-smoke">
+<span>PROGRESS</span>
+<span>7/10</span>
+</div>
+<div class="beveled-inset bg-abyss h-4 p-[2px] flex items-center">
+<div class="h-full bg-neon" style="width: 70%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4: Extra Entry -->
+<div class="beveled bg-forest-dark p-6 flex flex-col justify-between border-pitch group">
+<div class="flex justify-between items-start">
+<div class="w-16 h-16 bg-neon flex items-center justify-center border-2 border-abyss rotate-6">
+<span class="material-symbols-outlined text-abyss text-4xl" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<span class="material-symbols-outlined text-smoke text-3xl">pending</span>
+</div>
+<div class="mt-8 space-y-2">
+<h3 class="font-headline-md text-parchment uppercase">Speed Demon</h3>
+<p class="font-body-sm text-smoke leading-relaxed">Perform a sprint of 50m+ with a winger and provide an assist.</p>
+</div>
+<div class="mt-6 flex flex-col gap-4">
+<div class="flex justify-between items-center font-label-md text-neon">
+<span>REWARD</span>
+<span class="text-trophy">300 PTS</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-md text-[10px] text-smoke">
+<span>PROGRESS</span>
+<span>1/1</span>
+</div>
+<div class="beveled-inset bg-abyss h-4 p-[2px] flex items-center">
+<div class="h-full bg-neon" style="width: 100%;"></div>
+</div>
+</div>
+<button class="w-full bg-neon text-abyss font-headline-sm text-[10px] py-2 hover:bg-trophy transition-colors">CLAIM 300 PTS</button>
+</div>
+</div>
+<!-- Card 5: Locked -->
+<div class="beveled bg-surface-container-high border-smoke p-6 flex flex-col justify-between opacity-60 grayscale">
+<div class="flex justify-between items-start">
+<div class="w-16 h-16 bg-smoke flex items-center justify-center border-2 border-abyss">
+<span class="material-symbols-outlined text-abyss text-4xl">stadium</span>
+</div>
+<span class="material-symbols-outlined text-smoke text-3xl">lock</span>
+</div>
+<div class="mt-8 space-y-2">
+<h3 class="font-headline-md text-smoke uppercase">Home Ground</h3>
+<p class="font-body-sm text-smoke leading-relaxed">Upgrade your stadium to Tier 4 'Mega-Arena' status.</p>
+</div>
+<div class="mt-6 flex flex-col gap-4">
+<div class="flex justify-between items-center font-label-md text-smoke">
+<span>REWARD</span>
+<span class="text-smoke">2500 PTS</span>
+</div>
+<div class="bg-abyss border-2 border-smoke px-4 py-2 font-headline-sm text-[10px] text-center text-smoke">
+                            LOCKED
+                        </div>
+</div>
+</div>
+<!-- Card 6: Locked -->
+<div class="beveled bg-surface-container-high border-smoke p-6 flex flex-col justify-between opacity-60 grayscale">
+<div class="flex justify-between items-start">
+<div class="w-16 h-16 bg-smoke flex items-center justify-center border-2 border-abyss">
+<span class="material-symbols-outlined text-abyss text-4xl">rewarded_ads</span>
+</div>
+<span class="material-symbols-outlined text-smoke text-3xl">lock</span>
+</div>
+<div class="mt-8 space-y-2">
+<h3 class="font-headline-md text-smoke uppercase">Sponsor Giant</h3>
+<p class="font-body-sm text-smoke leading-relaxed">Secure a multi-season deal with a Global Brand Sponsor.</p>
+</div>
+<div class="mt-6 flex flex-col gap-4">
+<div class="flex justify-between items-center font-label-md text-smoke">
+<span>REWARD</span>
+<span class="text-smoke">1500 PTS</span>
+</div>
+<div class="bg-abyss border-2 border-smoke px-4 py-2 font-headline-sm text-[10px] text-center text-smoke">
+                            LOCKED
+                        </div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Decorative Bar (Retro UI) -->
+<footer class="h-12 bg-abyss border-t-4 border-pitch flex items-center px-8 justify-between">
+<div class="flex gap-4">
+<span class="text-[10px] font-label-md text-neon">SYSTEM_STATUS: OK</span>
+<span class="text-[10px] font-label-md text-smoke">|</span>
+<span class="text-[10px] font-label-md text-neon">CONNECTION: STABLE</span>
+</div>
+<div class="text-[10px] font-headline-sm text-pitch">© 1994 OléFUT ENTERTAINMENT SYSTEMS</div>
+</footer>
+</div>
+</body></html>

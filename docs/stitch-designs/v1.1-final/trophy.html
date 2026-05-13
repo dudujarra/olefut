@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OléFUT - Trophy Ceremony</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400;500;700&amp;family=Pixelify+Sans:wght@400;500;700&amp;family=IBM+Plex+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0c1609;
+            overflow: hidden;
+            image-rendering: pixelated;
+        }
+        /* CRT Scanline Effect */
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        /* Confetti Pattern */
+        .confetti-overlay {
+            background-image: 
+                radial-gradient(circle at 20% 30%, #FFD700 2px, transparent 0),
+                radial-gradient(circle at 70% 10%, #39FF14 3px, transparent 0),
+                radial-gradient(circle at 40% 80%, #FBBF24 2px, transparent 0),
+                radial-gradient(circle at 90% 50%, #FF3333 4px, transparent 0),
+                radial-gradient(circle at 10% 90%, #39FF14 2px, transparent 0);
+            background-size: 200px 200px;
+            opacity: 0.6;
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-tertiary-fixed-variant": "#005235", "surface-container-low": "#191c1f", "surface-container-highest": "#323538", surface: "#111417", "surface-variant": "#323538", background: "#111417", neon: "#39FF14", "outline-variant": "#3c4b35", "on-secondary-container": "#725f00", danger: "#FF3333", "surface-container": "#1d2023", "surface-dim": "#111417", "on-background": "#e1e2e7", forest: "#1B4332", "tertiary-fixed-dim": "#75daa8", "on-secondary-fixed-variant": "#544600", "on-surface-variant": "#baccb0", error: "#ffb4ab", "forest-dark": "#0E1F14", "secondary-fixed-dim": "#e9c400", trophy: "#FFD700", "tertiary-fixed": "#92f7c3", "secondary-fixed": "#ffe16d", parchment: "#F1FAEE", "surface-container-high": "#272a2d", "on-secondary-fixed": "#221b00", "secondary-container": "#ffdb3c", "on-secondary": "#3a3000", "inverse-on-surface": "#2e3134", "tertiary-container": "#8cf1be", "surface-bright": "#37393d", pitch: "#52B788", "error-container": "#93000a", "on-primary-fixed-variant": "#095300", "on-tertiary-fixed": "#002113", "inverse-surface": "#e1e2e7", "crt-black": "#111417", "on-primary-container": "#107100", "on-surface": "#e1e2e7", "primary-container": "#39ff14", "surface-tint": "#2ae500", "on-error-container": "#ffdad6", outline: "#85967c", "on-tertiary-container": "#006f4a", "on-tertiary": "#003823", "danger-dark": "#8B0000", "on-error": "#690005", "on-primary-fixed": "#022100", "surface-container-lowest": "#0b0e11", amber: "#FBBF24", "on-primary": "#053900", tertiary: "#e9ffef", primary: "#efffe3", abyss: "#040805", "primary-fixed-dim": "#2ae500", "inverse-primary": "#106e00", secondary: "#fff9ef", "primary-fixed": "#79ff5b", smoke: "#A0BAAE"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {gutter: "16px", "container-max": "1200px", "margin-mobile": "16px", unit: "4px", "margin-desktop": "32px", xl: "32px", lg: "24px", sm: "8px", xs: "4px", md: "16px", base: "4px"}, fontFamily: {"headline-md": ["Press Start 2P"], code: ["JetBrains Mono"], "label-md": ["JetBrains Mono"], "label-lg": ["JetBrains Mono"], "body-sm": ["Rubik"], "headline-sm": ["Press Start 2P"], "body-md": ["Pixelify Sans"], "body-lg": ["Pixelify Sans"], "headline-lg": ["Press Start 2P"], "data-mono": ["IBM Plex Mono"], "badge-display": ["Press Start 2P"], "micro-pixel": ["Press Start 2P"], "stats-mono": ["IBM Plex Mono"]}, fontSize: {"headline-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], code: ["14px", {lineHeight: "20px", fontWeight: "400"}], "label-md": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500"}], "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "500"}], "body-sm": ["14px", {lineHeight: "20px", fontWeight: "400"}], "headline-sm": ["12px", {lineHeight: "16px", fontWeight: "400"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "body-lg": ["20px", {lineHeight: "28px", fontWeight: "400"}], "headline-lg": ["24px", {lineHeight: "32px", letterSpacing: "0.05em", fontWeight: "400"}], "data-mono": ["14px", {lineHeight: "20px", fontWeight: "500"}], "badge-display": ["10px", {lineHeight: "12px", fontWeight: "400"}], "micro-pixel": ["10px", {lineHeight: "1.0", fontWeight: "400"}], "stats-mono": ["14px", {lineHeight: "1.0", fontWeight: "500"}]}}}};</script>
+</head>
+<body class="h-screen w-screen overflow-hidden relative font-body-md text-parchment selection:bg-neon selection:text-crt-black">
+<!-- CRT Overlay Layer -->
+<div class="crt-overlay fixed inset-0 pointer-events-none z-50"></div>
+<!-- Stadium Background with Crowd -->
+<div class="absolute inset-0 z-0">
+<img alt="Stadium Celebration" class="w-full h-full object-cover brightness-[0.3] contrast-125 grayscale-[0.2]" data-alt="A massive, cheering soccer stadium crowd at night seen from a distance. The scene is rendered in a high-contrast 32-bit pixel art style reminiscent of 90s arcade sports games. Explosions of bright green and yellow fireworks light up the dark forest-dark sky. The atmosphere is electric, heavy with a thick atmosphere of nostalgia and competitive victory." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdtIhSe91hnbsqFfHfgD_mOeTLw0de5O7iT7DkXYbvzxbpW03dRbSc2pAWNIT9lABN1Q88HD_QkwtmtK7UBC9nkukkKQmNbWyOug5_P7GVazSE5UD1Onkhn14wbdVRo0WYZ6gO0eQMxRpJNdHdTJl0DfzHYcdp3UbdCdzcWdTC2AGdhzVwaZBrP2Q2I6CUq6JzYesTXXM0RmQgM705ZK1w9cQBLoQ79lVNZKxbnhVHfK2Y2WJUDdQA7BmSm1bWM6y4nBMqItBqr34"/>
+<!-- Confetti Animation Layer -->
+<div class="absolute inset-0 confetti-overlay opacity-40"></div>
+<!-- Gradient Vignette -->
+<div class="absolute inset-0 bg-gradient-to-t from-abyss via-transparent to-abyss opacity-80"></div>
+</div>
+<!-- Top AppBar (from JSON context) -->
+<header class="fixed top-0 left-0 w-full z-40 bg-forest-dark border-b-4 border-pitch flex justify-between items-center px-4 md:px-8 py-4">
+<div class="font-headline-lg text-headline-lg text-trophy uppercase tracking-tighter">TROPHY ROOM</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-neon cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-neon cursor-pointer">help</span>
+</div>
+</header>
+<!-- Main Content: Ceremony -->
+<main class="relative z-10 flex flex-col items-center justify-center h-full pt-20 pb-12 px-margin-mobile md:px-margin-desktop">
+<!-- Victory Title -->
+<div class="mb-8 text-center animate-pulse">
+<h1 class="font-headline-lg text-headline-lg text-neon drop-shadow-[4px_4px_0px_#111417] uppercase tracking-widest mb-2">CAMPEÃO</h1>
+<p class="font-headline-sm text-headline-sm text-trophy uppercase">Série A - OléFUT</p>
+</div>
+<!-- Trophy Centerpiece -->
+<div class="relative group mb-10">
+<!-- Glow Effect -->
+<div class="absolute -inset-8 bg-trophy/20 blur-3xl rounded-full animate-pulse"></div>
+<div class="relative w-48 h-64 md:w-64 md:h-80 flex items-center justify-center">
+<img alt="Série A Gold Trophy" class="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255,215,0,0.8)]" data-alt="A majestic, gleaming gold championship trophy standing tall in the center of a stadium pitch. The trophy is designed with intricate 32-bit pixel art textures, showing sharp highlights and deep amber shadows. It reflects the intense neon green stadium lights. The style is strictly 90s video game aesthetic, featuring bold outlines and vibrant saturated colors against a dark, atmospheric background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxnDzj8MUnTEV-ToymwUon7mIC7-H4YCUKV-jP-53bTvV0gPkd1zCoPJTB_fqAy1iN7HJXUxFRjilFhWb7fEnLi9cu0DA9hIrnp5oSix6M4AQdhbWUpH8XSNMQSfJjw-7QDfAc-VjZbSFVrKZ6BkwKEjWtCu761LFS_z_I5T3jSFE4BeZZi-vIGMocKLmokp76G0x6dBwXeyyMxQVH6g5szejla2tC_ojWZBKFrbHwDvPzk8vCDuuzEhh8mCA6PNGAivavUY_zfNg"/>
+</div>
+<!-- Victory Badge -->
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-amber border-4 border-pitch px-4 py-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-crt-black font-bold">military_tech</span>
+<span class="text-crt-black font-headline-sm text-headline-sm uppercase">1st PLACE</span>
+</div>
+</div>
+<!-- Stats Panel (CRT Style) -->
+<div class="w-full max-w-xl bg-crt-black/90 border-4 border-pitch p-6 relative">
+<!-- Panel Header -->
+<div class="absolute -top-4 left-6 bg-forest px-3 py-1 border-2 border-neon">
+<span class="font-headline-sm text-headline-sm text-neon">TEMPORADA 94/95</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
+<div class="flex flex-col items-center border-r-2 border-smoke/30 last:border-0">
+<span class="font-label-md text-label-md text-smoke mb-1 uppercase">VITÓRIAS</span>
+<span class="font-headline-md text-headline-md text-neon">32</span>
+</div>
+<div class="flex flex-col items-center border-r-2 border-smoke/30 last:border-0">
+<span class="font-label-md text-label-md text-smoke mb-1 uppercase">EMPATES</span>
+<span class="font-headline-md text-headline-md text-parchment">4</span>
+</div>
+<div class="flex flex-col items-center border-r-2 border-smoke/30 last:border-0">
+<span class="font-label-md text-label-md text-smoke mb-1 uppercase">DERROTAS</span>
+<span class="font-headline-md text-headline-md text-danger">2</span>
+</div>
+<div class="flex flex-col items-center border-r-0">
+<span class="font-label-md text-label-md text-smoke mb-1 uppercase">GOLS</span>
+<span class="font-headline-md text-headline-md text-trophy">108</span>
+</div>
+</div>
+<!-- Progress/Meter Aesthetic -->
+<div class="mt-6 flex flex-col gap-2">
+<div class="flex justify-between font-label-md text-label-md text-smoke">
+<span>DOMÍNIO DA LIGA</span>
+<span>92%</span>
+</div>
+<div class="w-full h-4 bg-forest-dark border border-smoke/50 p-1 flex">
+<div class="h-full bg-neon w-[92%] flex">
+<!-- Pixel blocks effect -->
+<div class="w-full h-full opacity-30 bg-[linear-gradient(90deg,transparent_90%,#111417_90%)] bg-[length:10px_100%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="mt-12 w-full flex justify-center">
+<button class="group relative px-12 py-5 bg-forest border-4 border-pitch hover:border-neon active:scale-95 transition-all">
+<div class="absolute -inset-1 border-2 border-neon opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="font-headline-md text-headline-md text-parchment group-hover:text-neon uppercase tracking-widest">CONTINUAR</span>
+<!-- Arcade blinking cursor hint -->
+<span class="inline-block w-4 h-6 bg-neon ml-2 animate-[pulse_0.5s_infinite]"></span>
+</button>
+</div>
+</main>
+<!-- SideNavBar (Suppressed as per rules for Transactional/Success screens, but UI structure ready) -->
+<!-- We hide the main navigation to prioritize the Ceremony Canvas per 'Relevance Check' and 'UX Goal' -->
+<!-- Ambient Pixel Art Accents -->
+<div class="fixed bottom-4 left-4 z-40 opacity-50">
+<div class="flex items-center gap-2 font-label-md text-label-md text-pitch uppercase">
+<span class="material-symbols-outlined text-headline-sm">sports_soccer</span>
+<span>OLÉFUT ENGINE v2.0</span>
+</div>
+</div>
+<div class="fixed bottom-4 right-4 z-40 opacity-50">
+<div class="flex items-center gap-2 font-label-md text-label-md text-pitch uppercase">
+<span>BIT-MODE: 32</span>
+<span class="material-symbols-outlined text-headline-sm">memory</span>
+</div>
+</div>
+</body></html>
