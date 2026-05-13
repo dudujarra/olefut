@@ -1,0 +1,189 @@
+/* MonitorView — semantic CSS + design tokens */
+
+.ef-mon {
+  --ef-mon-info: #40BAF7;
+  --ef-mon-muted-text: #8E9E94;
+}
+
+.ef-mon__header {
+  border-bottom: 2px solid var(--ef-mon-info);
+}
+
+.ef-mon__header-icon {
+  color: var(--ef-mon-info);
+}
+
+.ef-mon__stats-panel {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.ef-mon__stats-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.ef-mon__stat-col {
+  text-align: center;
+}
+
+.ef-mon__stat-label {
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+}
+
+.ef-mon__stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.ef-mon__stat-value--alert {
+  color: var(--danger);
+}
+
+.ef-mon__stat-value--neutral {
+  color: var(--text-main);
+}
+
+.ef-mon__since {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+/* === FILTERS === */
+
+.ef-mon__toolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ef-mon__filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ef-mon__filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-mon__action-group {
+  display: flex;
+  gap: 8px;
+}
+
+.ef-mon__export-btn {
+  border-color: var(--ef-mon-info);
+}
+
+.ef-mon__clear-btn {
+  border-color: var(--danger);
+}
+
+/* === EMPTY STATE === */
+
+.ef-mon__empty {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* === ENTRIES === */
+
+.ef-mon__entries {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-mon__entry {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-mon__entry--critical,
+.ef-mon__entry--error {
+  border-left: 4px solid var(--danger);
+}
+
+.ef-mon__entry--warning {
+  border-left: 4px solid var(--accent);
+}
+
+.ef-mon__entry--info {
+  border-left: 4px solid var(--ef-mon-info);
+}
+
+.ef-mon__entry--default {
+  border-left: 4px solid var(--ef-mon-muted-text);
+}
+
+.ef-mon__entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-mon__entry-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ef-mon__sev--critical,
+.ef-mon__sev--error {
+  color: var(--danger);
+}
+
+.ef-mon__sev--warning {
+  color: var(--accent);
+}
+
+.ef-mon__sev--info {
+  color: var(--ef-mon-info);
+}
+
+.ef-mon__sev--default {
+  color: var(--ef-mon-muted-text);
+}
+
+.ef-mon__entry-ts {
+  font-size: 0.8rem;
+}
+
+.ef-mon__entry-msg {
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.ef-mon__entry-details {
+  margin-top: 4px;
+}
+
+.ef-mon__entry-summary {
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  outline: none;
+}
+
+.ef-mon__entry-url {
+  font-size: 0.8rem;
+}
