@@ -1,18 +1,18 @@
 ---
-name: elifoot-game-design
+name: olefut-game-design
 description: >
-  Scientific game design framework for Elifoot — a browser-based football management simulator.
+  Scientific game design framework for OléFUT — a browser-based football management simulator.
   Covers match engine mathematics (Dixon-Coles, Poisson, xG), player development science
   (inverted-U aging curves, position-specific heterogeneity), game balance theory (MDA framework,
   Csikszentmihalyi flow, feedback loops), NPC AI (utility scoring, behavior trees), event deck
   probability (Fisher-Yates, shuffle bags, pity mechanics), transfer market econometrics,
   deterministic simulation (seeded PRNG), save system versioning, and procedural narrative.
-  Use when modifying ANY game logic, engine, UI, or system in the Elifoot project.
+  Use when modifying ANY game logic, engine, UI, or system in the OléFUT project.
 ---
 
-# Elifoot Game Design — Scientific Foundation
+# OléFUT Game Design — Scientific Foundation
 
-> This skill codifies the academic and scientific principles behind every system in Elifoot.
+> This skill codifies the academic and scientific principles behind every system in OléFUT.
 > It is NOT a generic architecture map — it is the theoretical backbone that justifies
 > every design decision in the engine.
 
@@ -22,14 +22,14 @@ description: >
 
 ### 1.1 MDA Framework (Hunicke, LeBlanc, Zubek 2004)
 
-Every feature in Elifoot must be evaluated through the MDA lens:
+Every feature in OléFUT must be evaluated through the MDA lens:
 
 ```
 Mechanics → Dynamics → Aesthetics
 (rules)     (behavior)  (emotion)
 ```
 
-| Layer | Elifoot Example |
+| Layer | OléFUT Example |
 |-------|----------------|
 | **Mechanic** | Player stats are integers 1-99; match uses card deck probability |
 | **Dynamic** | A 90-rated striker scores more often → player feels team-building matters |
@@ -52,7 +52,7 @@ Anxiety
      Skill →
 ```
 
-**Application in Elifoot**:
+**Application in OléFUT**:
 - `DifficultyModes.js` must implement **Dynamic Difficulty Adjustment (DDA)**
 - Monitor player's win rate over rolling 10-match window
 - If win% > 70%: increase NPC tactical intelligence, market competition
@@ -61,9 +61,9 @@ Anxiety
 
 ### 1.3 Bartle Player Types (1996)
 
-Elifoot serves primarily **Achievers** and **Explorers**:
+OléFUT serves primarily **Achievers** and **Explorers**:
 
-| Type | Elifoot Features | Priority |
+| Type | OléFUT Features | Priority |
 |------|-----------------|----------|
 | **Achiever** | Trophies, records, long-term goals, prestige system | ⭐⭐⭐⭐⭐ |
 | **Explorer** | Deep engine mechanics, hidden traits, youth scouting | ⭐⭐⭐⭐ |
@@ -74,7 +74,7 @@ Elifoot serves primarily **Achievers** and **Explorers**:
 
 ### 1.4 Feedback Loop Theory (Schell, Koster)
 
-| Loop Type | Effect | Elifoot Usage |
+| Loop Type | Effect | OléFUT Usage |
 |-----------|--------|---------------|
 | **Positive** (reinforcing) | Winner gets stronger | Trophy money → better players → more trophies |
 | **Negative** (balancing) | Leader gets handicapped | Salary cap pressure, player poaching, complacency |
@@ -82,7 +82,7 @@ Elifoot serves primarily **Achievers** and **Explorers**:
 **Critical balance**: Pure positive loops create runaway leaders.
 Pure negative loops feel unfair ("rubber banding").
 
-**Elifoot rule**: Use positive loops for **short-term** reward (match momentum, form streaks)
+**OléFUT rule**: Use positive loops for **short-term** reward (match momentum, form streaks)
 and negative loops for **long-term** balance (wage inflation, aging, rival investment).
 
 ---
@@ -267,7 +267,7 @@ Where weights (w) vary by club archetype:
 
 The `NPCAISystem.js` uses **Utility AI** (not FSM, not behavior trees):
 
-| Architecture | Pros | Cons | Use in Elifoot |
+| Architecture | Pros | Cons | Use in OléFUT |
 |-------------|------|------|----------------|
 | FSM | Simple, predictable | Rigid, combinatorial explosion | ❌ Too simple |
 | Behavior Tree | Hierarchical, debuggable | Hard to balance priorities | ❌ Overkill for management |
@@ -318,7 +318,7 @@ function mulberry32(seed) {
 
 ### 6.2 Why Not Mersenne Twister?
 
-Mulberry32 is preferred for Elifoot because:
+Mulberry32 is preferred for OléFUT because:
 - 10x faster than MT19937
 - 4 bytes state vs 2.5KB state
 - Sufficient quality for game simulation (not cryptography)
@@ -355,9 +355,9 @@ SaveV1 → migrateV1toV2() → SaveV2 → migrateV2toV3() → SaveV3 → ... →
 
 ### 8.1 Emergent Narrative Theory
 
-Elifoot uses **emergent narrative** (bottom-up) not **authored narrative** (top-down):
+OléFUT uses **emergent narrative** (bottom-up) not **authored narrative** (top-down):
 
-| Approach | Example | Elifoot |
+| Approach | Example | OléFUT |
 |----------|---------|---------|
 | Authored | Linear story, cutscenes | ❌ Not a story game |
 | **Emergent** | Stories arise from systems interacting | ✅ "My 17-year-old scored the winner in the cup final" |
@@ -452,7 +452,7 @@ src/hooks/           ← Custom hooks for components
 ### 12.1 The "One More Match" Architecture
 
 Football Manager's core loop is the most addictive in gaming because it has
-**no natural stopping point**. Elifoot MUST replicate this:
+**no natural stopping point**. OléFUT MUST replicate this:
 
 ```
 ┌──────────────────────────────────────────────────┐
@@ -462,7 +462,7 @@ Football Manager's core loop is the most addictive in gaming because it has
 └──────────────────────────────────────────────────┘
 ```
 
-| Phase | Elifoot Implementation | Emotional State |
+| Phase | OléFUT Implementation | Emotional State |
 |-------|----------------------|-----------------|
 | **Plan** | Pick formation, set instructions, manage squad | Agency, control |
 | **Execute** | Advance to match day | Anticipation |
@@ -487,7 +487,7 @@ Dopamine spike = f(anticipation) NOT f(reward)
 This is why the moment before the match result loads is more exciting
 than the result itself.
 
-**Elifoot must create anticipation peaks**:
+**OléFUT must create anticipation peaks**:
 1. Pre-match: "Can my 17-year-old handle this?"
 2. Transfer deadline: "Will the deal go through?"
 3. Season finale: "Will we get promoted?"
@@ -506,7 +506,7 @@ Every session must complete the habit cycle:
 TRIGGER → ACTION → VARIABLE REWARD → INVESTMENT
 ```
 
-| Stage | Elifoot |
+| Stage | OléFUT |
 |-------|---------|
 | **Trigger** | Internal: "I wonder how my team did" / External: push notification (future PWA) |
 | **Action** | Open game, advance to next match (LOW FRICTION — 1-2 clicks) |
@@ -518,7 +518,7 @@ the player WILL come back to see if he reaches his potential.
 
 ### 12.4 Octalysis Framework (Yu-kai Chou) — 8 Core Drives
 
-| # | Core Drive | Elifoot Implementation | Status |
+| # | Core Drive | OléFUT Implementation | Status |
 |---|-----------|----------------------|--------|
 | 1 | **Epic Meaning** | "Build a dynasty from nothing" narrative | ✅ Career mode |
 | 2 | **Accomplishment** | Trophies, records, prestige points | ⚠️ Needs expansion |
@@ -545,7 +545,7 @@ Fun = the brain's reward for successfully recognizing and mastering patterns
 When the player discovers that "pressing + fast wingers = more goals," that IS fun.
 When they've mastered all patterns, the game stops being fun → **content exhaustion**.
 
-**Elifoot antidote**: Systems must interact in ways that create NEW patterns:
+**OléFUT antidote**: Systems must interact in ways that create NEW patterns:
 - Season 1: Learn basic tactics
 - Season 3: Discover youth development matters
 - Season 5: Master transfer market economics
@@ -560,7 +560,7 @@ GOOD: Few rules that interact deeply (Chess, Go)
 BAD:  Many rules that don't interact (manual reading simulator)
 ```
 
-| Metric | Definition | Elifoot Target |
+| Metric | Definition | OléFUT Target |
 |--------|-----------|---------------|
 | **Complexity** | Rules to memorize | LOW — pick team, set tactics, play |
 | **Depth** | Meaningful decisions per session | HIGH — every match has 5+ strategic choices |
@@ -607,7 +607,7 @@ Each new career must feel different. Variance sources:
 
 ### 14.2 Challenge Variants (MISSING — HIGH PRIORITY)
 
-**What every successful game has that Elifoot needs**:
+**What every successful game has that OléFUT needs**:
 
 | Challenge Mode | Description | Replayability |
 |---------------|-------------|--------------|
@@ -665,7 +665,7 @@ FM's calendar structure means there's ALWAYS something next:
 Match → Transfer window opens → Youth graduation → Cup draw → Derby day → ...
 ```
 
-**Elifoot season calendar must never have "dead zones"**:
+**OléFUT season calendar must never have "dead zones"**:
 - Every week has at minimum: 1 match + 1 off-pitch event
 - Between seasons: transfer window activity, pre-season friendlies, new youth
 - End of season: awards, contract renewals, staff changes
@@ -681,7 +681,7 @@ The more a player invests in their save, the harder it is to abandon:
 | **Identity** ("I'm a Corinthians manager") | Role identification |
 | **Knowledge** (learned the engine) | Mastery investment |
 
-**Elifoot must maximize ownership feelings**:
+**OléFUT must maximize ownership feelings**:
 - Show development history: "Player X: Discovered age 16, OVR 52 → Age 24, OVR 87"
 - Track YOUR coaching record: wins, draws, losses, trophies across career
 - Name the stadium after you at 500 wins
@@ -700,7 +700,7 @@ The more a player invests in their save, the harder it is to abandon:
 
 ### 15.4 Appointment Mechanics (for future PWA/mobile)
 
-When Elifoot becomes a PWA, implement:
+When OléFUT becomes a PWA, implement:
 - **Season summary push notifications**: "Your team finished 3rd — transfer window opens"
 - **Never punish absence** — game is offline-first, no timers
 - **Welcome back summary**: "While you were away: 3 matches simulated, 2 wins, 1 youth graduated"
@@ -757,7 +757,7 @@ Even spreadsheet screens need life:
 
 ### 17.1 vs. Football Manager
 
-| Feature | FM | Elifoot | Priority |
+| Feature | FM | OléFUT | Priority |
 |---------|----|---------|----|
 | Deep match engine | ✅ 2D/3D | ✅ Card deck (unique!) | — |
 | Scouting uncertainty | ✅ Hidden stats | ⚠️ Partial | 🔴 HIGH |
@@ -770,7 +770,7 @@ Even spreadsheet screens need life:
 
 ### 17.2 vs. Mobile Games (Top Eleven, OSM)
 
-| Feature | Mobile Games | Elifoot | Priority |
+| Feature | Mobile Games | OléFUT | Priority |
 |---------|-------------|---------|----------|
 | Quick sessions (5 min) | ✅ | ⚠️ Needs tuning | 🔴 HIGH |
 | Live events/seasons | ✅ | ❌ Missing | 🟡 MED (future) |
@@ -832,14 +832,14 @@ Layer 5 (After 2 seasons): Introduce advanced tactics, custom training
 
 Football Manager has TWO products because the full game overwhelms casual players:
 
-| FM Full | FM Touch | Elifoot Target |
+| FM Full | FM Touch | OléFUT Target |
 |---------|---------|---------------|
 | Press conferences | None | Optional toggle |
 | Detailed training | Auto-managed | Simple → Advanced toggle |
 | Full staff management | Automated | Simplified |
 | Slow season progression | Fast | Fast (< 5 min/match) |
 
-**Elifoot philosophy**: ONE product with scalable complexity.
+**OléFUT philosophy**: ONE product with scalable complexity.
 Default = FM Touch speed. Advanced = opt-in depth.
 
 ### 19.3 The "Aha Moment"
@@ -850,7 +850,7 @@ Every successful product has a moment where the user "gets it":
 |---------|-----------|
 | Instagram | First photo gets a like |
 | Uber | Car arrives in 3 minutes |
-| **Elifoot** | Your tactical change wins a losing match |
+| **OléFUT** | Your tactical change wins a losing match |
 
 **Design the first season to GUARANTEE this moment happens**:
 - Pre-set a match in week 2-3 where the opponent is slightly stronger
@@ -974,7 +974,7 @@ This makes all economic decisions intuitively comparable.
 
 ### 22.1 Player Fantasy
 
-The core fantasy of Elifoot is: **"I am the manager who builds something from nothing."**
+The core fantasy of OléFUT is: **"I am the manager who builds something from nothing."**
 
 Every system must reinforce this:
 - Transfers: YOU chose this player
@@ -989,7 +989,7 @@ is a consequence of THEIR decisions, not random chance.
 
 The three innate psychological needs for sustained engagement:
 
-| Need | Elifoot Implementation |
+| Need | OléFUT Implementation |
 |------|----------------------|
 | **Autonomy** | Freedom to choose formation, tactics, transfers, strategy |
 | **Competence** | Clear feedback: you see WHY you won/lost, stats explain causality |

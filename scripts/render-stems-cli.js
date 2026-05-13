@@ -14,7 +14,7 @@ import fs from 'fs';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function renderStemsViaHeadless() {
-  console.log('🎵 ELIFOOT Audio Rendering (Headless Puppeteer)');
+  console.log('🎵 OléFUT Audio Rendering (Headless Puppeteer)');
 
   let browser;
 

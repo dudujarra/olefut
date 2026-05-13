@@ -14,7 +14,7 @@
 A auditoria AKITA-233 identificou que ~10 botões críticos da UI não comunicam
 seu efeito sem que o jogador clique. Falta de tooltip = jogador descobre custo
 apenas depois de gastar dinheiro/tempo, ferindo o princípio de "informed choice"
-do design do ELIFOOT (Mandamento Akita #3 — anti vibe).
+do design do OléFUT (Mandamento Akita #3 — anti vibe).
 
 Bloco 2.5 do `MASTER-ROADMAP-FOUNDATION-FIRST.md` exige uma rodada de polish
 no tutorial / onboarding antes de qualquer feature nova. Tooltips contextuais

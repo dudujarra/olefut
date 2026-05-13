@@ -1,4 +1,4 @@
-# ELIFOOT RPG — Roadmap pra virar JOGO (não codebase)
+# OléFUT — Roadmap pra virar JOGO (não codebase)
 
 > **Data**: 2026-05-12
 > **Auditor**: Claude Opus 4.7 (sessão investigativa 30min)
@@ -9,7 +9,7 @@
 
 ## 1. TL;DR — Onde estamos vs onde precisamos chegar
 
-**O jogo hoje (player perspective).** ELIFOOT é um simulador de gestão de futebol BR de 1ª temporada que abre num menu retrô SNES, te deixa escolher 1 de 170 clubes e te derruba num dashboard com 7 painéis simultâneos (finanças, treino, tática, staff, scouting, base, diretoria) + um botão "JOGAR PARTIDA" que dispara uma simulação Top-Down sem visual de campo (apenas log textual de eventos com emoji + animações de gol). Há **modo Manager** (default) e **modo Jogador** (RPG carreira individual — sub-jogo separado e oculto, ~5% dos usuários). 13 views no sidebar — quase todas listas e tabelas; nenhuma cinemática, nenhum mini-game, nenhuma surpresa proativa. Em 2 horas você joga ~10 temporadas via "JOGAR PARTIDA → ver resultado → JOGAR PARTIDA". Não há tutorial real (5 telas de texto que terminam antes do primeiro clique no jogo), nem narrativa orgânica que conecte as semanas. O "diferencial" anunciado (5 camadas narrativas, LLM bridge, Hall de Lendas) **não tem UI ou está atrás de modo escondido**.
+**O jogo hoje (player perspective).** OléFUT é um simulador de gestão de futebol BR de 1ª temporada que abre num menu retrô SNES, te deixa escolher 1 de 170 clubes e te derruba num dashboard com 7 painéis simultâneos (finanças, treino, tática, staff, scouting, base, diretoria) + um botão "JOGAR PARTIDA" que dispara uma simulação Top-Down sem visual de campo (apenas log textual de eventos com emoji + animações de gol). Há **modo Manager** (default) e **modo Jogador** (RPG carreira individual — sub-jogo separado e oculto, ~5% dos usuários). 13 views no sidebar — quase todas listas e tabelas; nenhuma cinemática, nenhum mini-game, nenhuma surpresa proativa. Em 2 horas você joga ~10 temporadas via "JOGAR PARTIDA → ver resultado → JOGAR PARTIDA". Não há tutorial real (5 telas de texto que terminam antes do primeiro clique no jogo), nem narrativa orgânica que conecte as semanas. O "diferencial" anunciado (5 camadas narrativas, LLM bridge, Hall de Lendas) **não tem UI ou está atrás de modo escondido**.
 
 **O que precisa virar.** Um RPG manager BR de bolso que entrega num ciclo de 5 minutos: 1 decisão táctica com tradeoff legível, 1 partida com **dramatização** (não só log), 1 surpresa narrativa por semana (carta/notícia/proposta), 1 número subindo visível (XP / renome / cofre). Replayable porque **cada save vira história diferente** — não porque você grinda XP de 4 jogadores. Tem que ser **5-min onboardable, 1-hora satisfying, 20-hora memorável** num save. Não FM2024. Não Brasfoot. Um nicho próprio: "RPG de manager brasileiro com narrativa emergente e cartas". Compartilhável: print da Crônica do Save vira post de Reddit.
 
@@ -19,17 +19,17 @@
 
 ## 2. Honest competitive landscape
 
-| Concorrente | Onde ELIFOOT GANHA | Onde ELIFOOT PERDE feio |
+| Concorrente | Onde OléFUT GANHA | Onde OléFUT PERDE feio |
 |---|---|---|
-| **Football Manager 2024** | brevidade (FM = 50h aprendizado, ELIFOOT = 10min); BR-flavor real (170 clubes BR/SA); free; browser-zero-install | depth tático (FM tem 200+ instruções, ELIFOOT tem 8 formações × 6 táticas = 48 combos); scouting real; press conferences ricas; modding |
-| **Brasfoot (clássico BR)** | UI moderna; 170 clubes reais (vs 100 do Brasfoot); narrativa de carreira; código open source | **NOSTALGIA BR** — Brasfoot tem 25 anos de saudade que ELIFOOT não vai capturar; reconhecimento de marca; já-tem-no-celular |
-| **OléFút** | engine sob controle (ELIFOOT pode pivotar); SDD/qualidade engenharia | direção de arte coesa; pacing testado; comunidade existente |
+| **Football Manager 2024** | brevidade (FM = 50h aprendizado, OléFUT = 10min); BR-flavor real (170 clubes BR/SA); free; browser-zero-install | depth tático (FM tem 200+ instruções, OléFUT tem 8 formações × 6 táticas = 48 combos); scouting real; press conferences ricas; modding |
+| **Brasfoot (clássico BR)** | UI moderna; 170 clubes reais (vs 100 do Brasfoot); narrativa de carreira; código open source | **NOSTALGIA BR** — Brasfoot tem 25 anos de saudade que OléFUT não vai capturar; reconhecimento de marca; já-tem-no-celular |
+| **OléFút** | engine sob controle (OléFUT pode pivotar); SDD/qualidade engenharia | direção de arte coesa; pacing testado; comunidade existente |
 | **Soccer Manager Worlds** (free indie) | offline, sem login, sem cash-grab; tema BR cultural | multiplayer; ligas online; 10 anos de polish em UX; descoberta de jogadores via marketplace |
 | **Soccer Story** (indie steam) | gratuito; web-first | pixel-art coesa; mini-jogos; trilha sonora; **storyline** |
 
-**Onde ELIFOOT tem chance única**: o slot **"manager BR + RPG + narrativa emergente + open source + zero install"** está VAZIO. Brasfoot é arcade-arcade, FM é simulação enciclopédica, Steam tem footy story-driven mas internacional. ELIFOOT pode ser o "Football, Tactics & Glory + sabor BR + crônica auto-gerada".
+**Onde OléFUT tem chance única**: o slot **"manager BR + RPG + narrativa emergente + open source + zero install"** está VAZIO. Brasfoot é arcade-arcade, FM é simulação enciclopédica, Steam tem footy story-driven mas internacional. OléFUT pode ser o "Football, Tactics & Glory + sabor BR + crônica auto-gerada".
 
-**Onde ELIFOOT perde feio HOJE**: não há "alma BR" no produto além do nome dos clubes. Não tem comemoração de gol diferente quando é o Flamengo. Não tem texto de carta que mencione "torcida de Recife", "calor de Manaus", "lama de Cuiabá". Os 170 clubes são strings + cores. **Brasilidade é só nome**.
+**Onde OléFUT perde feio HOJE**: não há "alma BR" no produto além do nome dos clubes. Não tem comemoração de gol diferente quando é o Flamengo. Não tem texto de carta que mencione "torcida de Recife", "calor de Manaus", "lama de Cuiabá". Os 170 clubes são strings + cores. **Brasilidade é só nome**.
 
 ---
 
@@ -55,7 +55,7 @@ Trace baseado em leitura de `StartView.jsx`, `DashboardView.jsx`, `MatchView.jsx
 ## 4. Top 5 game design problems (NÃO bugs)
 
 ### #1 — Não tem **dramatização** da partida (mata o jogo)
-A partida é o coração de qualquer manager. Em ELIFOOT ela é **logs textuais em uma coluna scrollada** sem hierarquia visual. Gol é a única coisa destacada (sprite burst + sound). Tudo o mais (chute trave, falta, drible) tem mesmo peso visual. O asset `pitch-topdown-32bit.png` existe mas **não está integrado**. Jogador não sente *eu fiz isso*, sente *o computador rolou dados*.
+A partida é o coração de qualquer manager. Em OléFUT ela é **logs textuais em uma coluna scrollada** sem hierarquia visual. Gol é a única coisa destacada (sprite burst + sound). Tudo o mais (chute trave, falta, drible) tem mesmo peso visual. O asset `pitch-topdown-32bit.png` existe mas **não está integrado**. Jogador não sente *eu fiz isso*, sente *o computador rolou dados*.
 
 **Sintoma**: jogador clica "PULAR" / aumenta velocidade pra 100ms em 2 partidas. Match Engine vira loading screen.
 
@@ -94,7 +94,7 @@ O texto da auditoria interna afirma "Brazilian flavor", mas:
 - Nomes de jogadores random não têm sabor (poderia ter "Júnior", "Tite", "Zico" como base)
 - Música é Tone.js sintética, não samba/funk/forró/sertanejo
 
-**Sintoma**: ELIFOOT é "manager BR" só pela bandeira no menu. Um inglês jogando não sentiria diferença vs um espanhol.
+**Sintoma**: OléFUT é "manager BR" só pela bandeira no menu. Um inglês jogando não sentiria diferença vs um espanhol.
 
 **Causa**: Brasilidade está nos **dados** (170 clubes) mas não na **experiência**. Falta camada cultural.
 
@@ -124,7 +124,7 @@ View Crônica existe, templates por temporada existem (`ChronicleSystem.js`). É
 SPEC-119, SPEC-167. Sistema que pode gerar narrativa pós-jogo, conselho do auxiliar, reação da diretoria — tudo offline no navegador. **Diferencial real** que nenhum manager tem. **Amplificar**: usar pra **3 use cases concretos memoráveis** (não 30 features): (a) crônica de partida pós-jogo com referência ao seu plantel real; (b) conselho do auxiliar antes do jogo decisivo; (c) frase do torcedor após classificação. Hoje LLM existe mas só roda em advice opcional.
 
 ### #5 — **SDD + AKITA rigor**
-Não-feature, é meta. Mas é o único projeto manager BR open-source com 1131 testes, 120 specs, golden master, AKITA discipline. **Amplificar**: comunidade. Modders podem **adicionar clubes, cartas, NPCs, narrativas** via PR. Brasfoot é fechado. FM é fechado. ELIFOOT pode ser o "Skyrim do manager BR" via comunidade open. Hoje GitHub está público mas sem **convite explícito a moddar** + sem **API pra adicionar carta sem editar engine**.
+Não-feature, é meta. Mas é o único projeto manager BR open-source com 1131 testes, 120 specs, golden master, AKITA discipline. **Amplificar**: comunidade. Modders podem **adicionar clubes, cartas, NPCs, narrativas** via PR. Brasfoot é fechado. FM é fechado. OléFUT pode ser o "Skyrim do manager BR" via comunidade open. Hoje GitHub está público mas sem **convite explícito a moddar** + sem **API pra adicionar carta sem editar engine**.
 
 ---
 
@@ -132,7 +132,7 @@ Não-feature, é meta. Mas é o único projeto manager BR open-source com 1131 t
 
 > **Premissa de tempo**: Dudu trabalha sozinho com agentes (Claude + Antigravity). ~10-15h/semana sustainable (não burnout). Domingo OFF (mandamento brutal #10).
 >
-> **Premissa de escopo**: ELIFOOT não vai ser FM. Tem que ser **um jogo claro, focado, lançável**. Cada fase abaixo entrega VALOR ao player, não dívida técnica zerada.
+> **Premissa de escopo**: OléFUT não vai ser FM. Tem que ser **um jogo claro, focado, lançável**. Cada fase abaixo entrega VALOR ao player, não dívida técnica zerada.
 >
 > **Premissa de SDD**: todo bullet vira SPEC + harness antes de codar. Mas as SPECS são curtas (1-page max) e focadas em **outcome jogável**, não "wire-up de feature".
 
@@ -209,7 +209,7 @@ O MASTER-ROADMAP-FOUNDATION-FIRST diz "zero feature nova até BLOCO 1 terminar".
 A AKITA-FEATURE-AUDIT lista 18 features yellow + 11 red. Tentação: spec cada uma, escrever harness, fechar gap. **Vai gastar 60h sem mover ponteiro do jogo**. Em vez: aceitar que algumas features (LiveOps, NewsSystem, etc) são **mortas — deletar**. Outras (Heritage, Hall, Humiliation) são **engine sem UI** — ou ganhe UI **agregada** (B4 do roadmap acima, 1 view única) ou aceite que ficam invisíveis (delete spec).
 
 ### Não-3 — **NÃO tentar virar FM2024**
-Tem ~1000 mecânicas, 200 instruções táticas, 50 ligas internacionais. ELIFOOT no caminho dessa direção morre por ambição. **Manter o escopo BR + RPG + Crônica**. Cortar features que não servem essa identidade (ex: Continental Cup ampla é nice-to-have, não core). FM tem 25 anos de polish e empresa de 200 pessoas. Indie BR sozinho não compete em depth, compete em **alma**.
+Tem ~1000 mecânicas, 200 instruções táticas, 50 ligas internacionais. OléFUT no caminho dessa direção morre por ambição. **Manter o escopo BR + RPG + Crônica**. Cortar features que não servem essa identidade (ex: Continental Cup ampla é nice-to-have, não core). FM tem 25 anos de polish e empresa de 200 pessoas. Indie BR sozinho não compete em depth, compete em **alma**.
 
 ---
 
@@ -222,7 +222,7 @@ Tem ~1000 mecânicas, 200 instruções táticas, 50 ligas internacionais. ELIFOO
 1. **SPEC-A1**: documentar "ViewUnlockSystem calibrado pra novato" — sidebar 1ª temp mostra só 4 entradas (DASHBOARD, PLANTEL, TABELA, JOGAR no dashboard). Marcos de unlock: 1ª vitória → COLETIVA; fim temp → CRÔNICA + CONQUISTAS; 5 contratações → MERCADO já tava; 2ª temp → SAVES; etc.
 2. **Implementar** em `ViewUnlockSystem.js` + `Sidebar.jsx`. Tests: spec test verifica que `getViewAccess('press')` retorna `false` na semana 1.
 3. **SPEC-A2**: documentar onboarding 90s — array de 4 tooltips contextuais, trigger no `DashboardView` 1ª-temp `seasonWeek === 1`.
-4. **Implementar** com componente `<OnboardingCoach>` que reusa `Tooltip` existente. Dismissable. Persist em localStorage `elifoot_onboarding_done`.
+4. **Implementar** com componente `<OnboardingCoach>` que reusa `Tooltip` existente. Dismissable. Persist em localStorage `olefut_onboarding_done`.
 5. **Test harness**: regression test que simula primeiro clique de novo player, verifica que tooltip 1 aparece.
 6. **PR único**: "AKITA-X: A1+A2 — sidebar reduzida + onboarding 90s". Commit lints, build, test verde.
 
@@ -246,7 +246,7 @@ Tem ~1000 mecânicas, 200 instruções táticas, 50 ligas internacionais. ELIFOO
 
 ## Conclusão brutal (para o Dudu)
 
-ELIFOOT tem **infraestrutura de jogo AAA** num **conteúdo de jogo demo**. Os 1131 testes, 120 specs, 40 sistemas, AKITA discipline — são o **palco mais ensaiado do mundo pra um show que ainda não foi escrito**. A próxima inversão é simples: **pare de construir o palco**, comece a escrever as cenas.
+OléFUT tem **infraestrutura de jogo AAA** num **conteúdo de jogo demo**. Os 1131 testes, 120 specs, 40 sistemas, AKITA discipline — são o **palco mais ensaiado do mundo pra um show que ainda não foi escrito**. A próxima inversão é simples: **pare de construir o palco**, comece a escrever as cenas.
 
 A boa notícia: o palco aguenta. O motor é sólido. Não vai quebrar quando você apertar. A má notícia: o BLOCO 1 do MASTER-ROADMAP está te enganando — não é "fundação faltando", é "produto inexistente". Continue refatorando 5h por semana sustainable, mas **as outras 5-10h são pra game design, não pra dívida técnica**.
 

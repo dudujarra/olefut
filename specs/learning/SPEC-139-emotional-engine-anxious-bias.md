@@ -170,6 +170,6 @@ describe('SPEC-139: Emotional Engine ANXIOUS bias fix', () => {
 ## Harness
 ```bash
 #!/bin/bash
-cd /Users/dudujarra/Documents/ELIFOOT
+cd /Users/dudujarra/Documents/OléFUT
 npm test -- --reporter=verbose 2>&1 | grep "SPEC-139"
 ```

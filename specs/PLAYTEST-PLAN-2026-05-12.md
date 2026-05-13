@@ -1,4 +1,4 @@
-# Playtest Plan — ELIFOOT RPG (V2 release)
+# Playtest Plan — OléFUT (V2 release)
 
 > **Data**: 2026-05-12
 > **Goal**: Validar SPEC-F6.2 (mandamento brutal #7 satisfeito após sessão)

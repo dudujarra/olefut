@@ -133,5 +133,5 @@ describe('SPEC-142: Division OVR Audit', () => {
 
 ## Harness
 ```bash
-cd /Users/dudujarra/Documents/ELIFOOT && npm test -- --reporter=verbose 2>&1 | grep "SPEC-142"
+cd /Users/dudujarra/Documents/OléFUT && npm test -- --reporter=verbose 2>&1 | grep "SPEC-142"
 ```

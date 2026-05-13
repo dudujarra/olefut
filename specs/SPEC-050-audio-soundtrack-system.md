@@ -6,7 +6,7 @@
 
 ## O que é
 
-Sistema automatizado que gera **72 faixas de áudio** para ELIFOOT RPG:
+Sistema automatizado que gera **72 faixas de áudio** para OléFUT:
 - **4 contexto** (menu, dashboard, player home, chronicle)
 - **2 pré-jogo** (formação, buildup)
 - **50 match grooves** (cada match = unique, dinâmico)

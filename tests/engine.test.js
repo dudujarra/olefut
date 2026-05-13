@@ -1,5 +1,5 @@
 /**
- * engine.test.js — Testes automatizados para bugs do Elifoot
+ * engine.test.js — Testes automatizados para bugs do OléFUT
  *
  * Cobre os 6 bugs do tracker AKITA-018:
  * BUG-001: scoutRegionAction alias

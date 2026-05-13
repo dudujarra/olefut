@@ -22,7 +22,7 @@ npm run autoplay -- --seasons 20 --export-telemetry --export-dataset
 
 ## Output esperado
 
-Arquivo `elifoot-autoplay-v2-*.json` com campos validados:
+Arquivo `olefut-autoplay-v2-*.json` com campos validados:
 
 ```json
 {
@@ -158,7 +158,7 @@ describe('SPEC-143: Deep Soak v2 Assertions', () => {
 
 ## Harness
 ```bash
-cd /Users/dudujarra/Documents/ELIFOOT
+cd /Users/dudujarra/Documents/OléFUT
 npm run autoplay:soak -- --seasons 20 2>&1
 node scripts/extract-finetune-dataset.js docs/playtest/latest
 ```

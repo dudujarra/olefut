@@ -1,13 +1,13 @@
 ---
-name: elifoot-debug
+name: olefut-debug
 description: |
-  Workflow Akita Mandamento #6 para debug de bugs no ELIFOOT RPG.
+  Workflow Akita Mandamento #6 para debug de bugs no OléFUT.
   Bug = ticket + fix + regression test (3 artefatos pareados sempre).
 
   Trigger quando Dudu mencionar: "debug elifoot", "bug elifoot", "tem bug", "achei bug",
   "quebrou", "não funciona", "está errado", "regression", "rodar tests serial",
   "criar ticket", "novo bug", "fix bug", "BUG-XXX", ou qualquer suspeita de bug
-  no engine/UI do ELIFOOT.
+  no engine/UI do OléFUT.
 
   Também trigger quando rodar tests em série, criar issue GitHub, ou validar fix
   contra suite completa.
@@ -15,9 +15,9 @@ description: |
   Em dúvida: trigger. Skill é cérebro do bug workflow do projeto.
 ---
 
-# ELIFOOT Debug Skill — Akita Bug Workflow
+# OléFUT Debug Skill — Akita Bug Workflow
 
-Operating bug workflow do ELIFOOT RPG. Mandamento Akita #6: **Bug = ticket + fix + regression test (3 artefatos pareados, sempre)**.
+Operating bug workflow do OléFUT. Mandamento Akita #6: **Bug = ticket + fix + regression test (3 artefatos pareados, sempre)**.
 
 ## Translation Table
 

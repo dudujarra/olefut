@@ -1,4 +1,4 @@
-# ELIFOOT — Game Design Deep Research V2 (Aprofundamento)
+# OléFUT — Game Design Deep Research V2 (Aprofundamento)
 
 **Data**: 2026-05-08
 **Estado**: Companion to GAME-DESIGN-RESEARCH.md v1.0
@@ -38,9 +38,9 @@ Genre = "armchair manager". Core fantasy: **"sou eu que decido"**. Power fantasy
 - **Killer (10%)**: quer destruir AI máxima dificuldade, beat records. Métrica: hard mode adoption.
 - **Storyteller (15%, NOVO emergente)**: quer narrativa pessoal, RP. Crusader Kings demographic. Métrica: tempo player mode + chronicle reads.
 
-**Insight**: ELIFOOT v2.0 atende Achiever+Explorer ok, **falha Storyteller** (CK demographic — diferencial proposed).
+**Insight**: OléFUT v2.0 atende Achiever+Explorer ok, **falha Storyteller** (CK demographic — diferencial proposed).
 
-### 1.2 Personas brasileiras específicas (ELIFOOT target)
+### 1.2 Personas brasileiras específicas (OléFUT target)
 
 #### Persona 1: "O Saudosista" (40%)
 - 30-44 anos, masc, classe média
@@ -49,7 +49,7 @@ Genre = "armchair manager". Core fantasy: **"sou eu que decido"**. Power fantasy
 - Trigger compra: pixel-art autêntico SNES + simulação BR profunda
 - Tolera complexidade alta (jogou CM 01-02)
 - **Desconfia**: F2P/microtransações (ferramenta detrair)
-- ELIFOOT atende: ✅ tema SNES, ✅ texto-driven, ⚠️ profundidade BR ainda rasa
+- OléFUT atende: ✅ tema SNES, ✅ texto-driven, ⚠️ profundidade BR ainda rasa
 
 #### Persona 2: "O Tático Frustrado FM" (25%)
 - 25-40 anos, masc/fem, hardcore
@@ -57,27 +57,27 @@ Genre = "armchair manager". Core fantasy: **"sou eu que decido"**. Power fantasy
 - Quer simulação **tática profunda** sem 3D ruim
 - Compraria FM se tivesse modo texto puro CM-style
 - **Desconfia**: jogos "casuais demais", arcade
-- ELIFOOT atende: ⚠️ profundidade tática rasa (6 tactics, 8 formations) — **gap maior**
+- OléFUT atende: ⚠️ profundidade tática rasa (6 tactics, 8 formations) — **gap maior**
 
 #### Persona 3: "O Storyteller CK3" (15%)
 - 25-40 anos, masc/fem, narrative gamer
 - Joga Crusader Kings, RimWorld, Dwarf Fortress
 - Quer **stories emergentes**, drama, RP
 - Compraria FM Touch player career mas acha shallow
-- ELIFOOT atende: ✅ stress system + relationships (CK3 inspirado), ⚠️ events density baixa
+- OléFUT atende: ✅ stress system + relationships (CK3 inspirado), ⚠️ events density baixa
 
 #### Persona 4: "O Casual Mobile BR" (15%)
 - 18-35 anos, joga 5-15min/sessão metrô/almoço
 - Brasfoot mobile veterano
 - Quer loop curto **sem perder progresso save**
 - Não quer aprender 50 mecânicas
-- ELIFOOT atende: ⚠️ web responsive WIP, ✅ sessão curta possível
+- OléFUT atende: ⚠️ web responsive WIP, ✅ sessão curta possível
 
 #### Persona 5: "O Coletor Achievement" (5%)
 - 20-40 anos, achievement hunter
 - Quer 100% conquistas
 - Joga 100+ horas
-- ELIFOOT atende: ⚠️ AchievementsSystem existe mas sem UI
+- OléFUT atende: ⚠️ AchievementsSystem existe mas sem UI
 
 ### 1.3 Player journey por persona (sessão típica)
 
@@ -129,7 +129,7 @@ Day 90: <5%
 
 ### 1.5 Engagement Skinner-box (ético)
 
-Football managers já usam variable reinforcement (random match outcomes). ELIFOOT pode adicionar **eticamente**:
+Football managers já usam variable reinforcement (random match outcomes). OléFUT pode adicionar **eticamente**:
 
 - **Daily check-in** opcional: "novo dia, 1 evento off-pitch + manchete radialista" (FOMO leve)
 - **Weekly challenges**: "vença 3 jogos seguidos = bonus prestige" (achiever)
@@ -480,7 +480,7 @@ Forces user to adapt strategy long saves.
 
 ### 5.1 3 progression axes
 
-ELIFOOT precisa progressão em 3 eixos paralelos:
+OléFUT precisa progressão em 3 eixos paralelos:
 
 **Axis 1 — Player skill/manager career (vertical)**
 - Manager: started Série D → ascend to Série A → Champions winner
@@ -723,7 +723,7 @@ Legendary (401+): Top clubs + Champions
 
 ### 7.1 Full feature matrix (50+ features)
 
-| Feature | FM 2025 | CM 01/02 | Brasfoot 2022 | Top Eleven | ELIFOOT v2.0 | ELIFOOT target v3.0 |
+| Feature | FM 2025 | CM 01/02 | Brasfoot 2022 | Top Eleven | OléFUT v2.0 | OléFUT target v3.0 |
 |---|---|---|---|---|---|---|
 | Match engine 3D | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ (no compete) |
 | Match engine 2D | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ |
@@ -768,12 +768,12 @@ Legendary (401+): Top clubs + Champions
 | Tutorial | ⚠️ | ⚠️ | ⚠️ | ✅ | ❌ | ✅ |
 | Difficulty modes | ❌ | ❌ | ❌ | ⚠️ | ❌ | ✅ |
 
-★ = diferencial competitivo único ELIFOOT
+★ = diferencial competitivo único OléFUT
 
 ### 7.2 Diferenciais consolidados v3.0
 
 ```
-ELIFOOT v3.0 = "FM moderno + CM 01-02 saudosismo + CK3 narrative + Brasfoot cultural"
+OléFUT v3.0 = "FM moderno + CM 01-02 saudosismo + CK3 narrative + Brasfoot cultural"
 
 5 USPs (Unique Selling Points):
 1. Player career mode com profundidade RPG (FM tem mas raso)
@@ -805,7 +805,7 @@ Hattrick = manager game online ativo desde 1997. Modelo:
 - "Supporter" R$ 9,90-14,90/mês opcional
 - Benefits: histórico estatísticas detalhadas, custom logo, manager ratings, preferences extra
 
-### 8.3 ELIFOOT proposed (long-term)
+### 8.3 OléFUT proposed (long-term)
 
 **Tier Free** (sempre):
 - Save unlimited
@@ -939,7 +939,7 @@ Year 3: 50k users
 
 ### 10.1 Princípios
 
-**Não real-time**: ELIFOOT é manager turn-based. Realtime = scope explosion.
+**Não real-time**: OléFUT é manager turn-based. Realtime = scope explosion.
 
 **Async multiplayer**: 2-4 managers compartilham save/league.
 
@@ -1145,7 +1145,7 @@ Current build: 530KB JS / 63KB CSS.
 
 ### Resumo geral
 
-ELIFOOT v2.0 = **engine sólido, game design 5/10**.
+OléFUT v2.0 = **engine sólido, game design 5/10**.
 
 Para chegar a **8-9/10**, executar:
 
@@ -1170,7 +1170,7 @@ Para chegar a **8-9/10**, executar:
 
 ### Diferencial competitivo final
 
-**ELIFOOT v3.0** = único jogo do mundo combinando:
+**OléFUT v3.0** = único jogo do mundo combinando:
 1. ✅ Profundidade tática FM-style
 2. ✅ Saudosismo CM 01-02 (texto-driven, DB BR)
 3. ✅ Player career RPG depth (NBA 2K MyCareer-inspired)

@@ -1,4 +1,4 @@
-# Design System: ELIFOOT WEB (ISS Deluxe Luxury Edition)
+# Design System: OléFUT WEB (ISS Deluxe Luxury Edition)
 
 ## 1. Visual Theme & Atmosphere
 A high-end, Awwwards-tier translation of the retro "SNES International Superstar Soccer Deluxe" aesthetic. It replaces pixelated 16-bit nostalgia with a "Luxury Arcade" cockpit mode. The atmosphere feels like a premium broadcast overlay or a modern tactical engine — deep OLED stadium greens, high contrast geometric interfaces, liquid glass refraction, and aggressive but clean sports typography. It is densely packed but elegantly separated.

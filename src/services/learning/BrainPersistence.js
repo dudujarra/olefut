@@ -11,7 +11,7 @@
  *   4. Fallback: se exceder limite, poda os brains com menos updates
  */
 
-const STORAGE_KEY_PREFIX = 'elifoot_npc_brains';
+const STORAGE_KEY_PREFIX = 'olefut_npc_brains';
 const MAX_STATES_PER_BRAIN = 30;   // compact Q-tables
 const MAX_MEMORIES_PER_BRAIN = 10; // compact episodic memory
 const ESTIMATED_LIMIT_BYTES = 4_500_000; // 90% of 5MB localStorage

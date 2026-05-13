@@ -19,7 +19,7 @@ const DEFAULT_TIMEOUT_MS = 3000;
 const CACHE_MAX = 100;
 
 // SPEC-174: localStorage key for persisted user toggle.
-const LLM_TOGGLE_STORAGE_KEY = 'elifoot_llm_enabled';
+const LLM_TOGGLE_STORAGE_KEY = 'olefut_llm_enabled';
 
 function readPersistedToggle() {
     try {
@@ -306,7 +306,7 @@ export class LLMNarrativeService {
      * @param {object} [opts.bridge] — instance with .status() and .decide(prompt). Defaults to null (template-only).
      * @param {number} [opts.timeoutMs=3000]
      * @param {boolean} [opts.enableLLM] — explicit opt-in for real LLM. If omitted,
-     *   reads persisted toggle from localStorage (`elifoot_llm_enabled`).
+     *   reads persisted toggle from localStorage (`olefut_llm_enabled`).
      * @param {boolean} [opts.skipPersistence=false] — disable localStorage reads/writes (for tests).
      */
     constructor(opts = {}) {

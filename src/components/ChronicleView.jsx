@@ -53,7 +53,7 @@ export function ChronicleView() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `elifoot-save-${Date.now()}.json`;
+        a.download = `olefut-save-${Date.now()}.json`;
         a.click();
         URL.revokeObjectURL(url);
     }

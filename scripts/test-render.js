@@ -14,7 +14,7 @@ import http from 'http';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function renderTestStems() {
-  console.log('🎵 ELIFOOT Audio Test Render (4 stems)');
+  console.log('🎵 OléFUT Audio Test Render (4 stems)');
 
   let browser;
   let server;
@@ -121,7 +121,7 @@ function createTestRendererHTML() {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ELIFOOT Test Render</title>
+  <title>OléFUT Test Render</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.9.17/Tone.js"></script>
 </head>
 <body>

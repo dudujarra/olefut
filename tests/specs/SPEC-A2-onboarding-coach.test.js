@@ -45,14 +45,14 @@ describe('SPEC-A2: Onboarding Coach', () => {
 
     // Rule 3: localStorage keys defined
     describe('rule 3: localStorage keys', () => {
-        it('STORAGE_KEY_DONE is namespaced elifoot_', () => {
-            expect(STORAGE_KEY_DONE).toMatch(/^elifoot_/);
-            expect(STORAGE_KEY_DONE).toBe('elifoot_onboarding_done');
+        it('STORAGE_KEY_DONE is namespaced olefut_', () => {
+            expect(STORAGE_KEY_DONE).toMatch(/^olefut_/);
+            expect(STORAGE_KEY_DONE).toBe('olefut_onboarding_done');
         });
 
-        it('STORAGE_KEY_STEP is namespaced elifoot_', () => {
-            expect(STORAGE_KEY_STEP).toMatch(/^elifoot_/);
-            expect(STORAGE_KEY_STEP).toBe('elifoot_onboarding_step');
+        it('STORAGE_KEY_STEP is namespaced olefut_', () => {
+            expect(STORAGE_KEY_STEP).toMatch(/^olefut_/);
+            expect(STORAGE_KEY_STEP).toBe('olefut_onboarding_step');
         });
 
         it('localStorage roundtrip works', () => {

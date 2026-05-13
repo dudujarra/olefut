@@ -1,4 +1,4 @@
-# ELIFOOT — Squad + Positions Deep Research
+# OléFUT — Squad + Positions Deep Research
 
 **Data**: 2026-05-08
 **Escopo**: Position taxonomy completa BR + FIFA + FM, attributes per-position, formation mapping, SofaScore data integration strategy
@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-ELIFOOT atual usa **4 macro-posições** (GOL/DEF/MEI/ATA) — inadequado pra simulação séria. Pesquisa propõe **18 posições granulares** (BR Portuguese terminology + FIFA codes) + **5 atributos pentagon** SofaScore-style + integração API SofaScore real (170 clubes × ~30 jogadores reais).
+OléFUT atual usa **4 macro-posições** (GOL/DEF/MEI/ATA) — inadequado pra simulação séria. Pesquisa propõe **18 posições granulares** (BR Portuguese terminology + FIFA codes) + **5 atributos pentagon** SofaScore-style + integração API SofaScore real (170 clubes × ~30 jogadores reais).
 
 **Diferencial v3.5**: cada jogador real BR puxado SofaScore com pentagon stats reais (Attacking/Technical/Tactical/Defending/Creativity 0-100) + posição detalhada (não 4 categorias, **18 posições**) + altura/peso/pé preferido/valor mercado.
 
@@ -35,7 +35,7 @@ ELIFOOT atual usa **4 macro-posições** (GOL/DEF/MEI/ATA) — inadequado pra si
 
 ## 1. Position Taxonomy Completa
 
-### 18 posições padronizadas ELIFOOT
+### 18 posições padronizadas OléFUT
 
 Combina FIFA codes + BR terminology + FM-style depth.
 
@@ -98,7 +98,7 @@ Combina FIFA codes + BR terminology + FM-style depth.
 - Inverted winger (canhoto na direita, destro na esquerda)
 - Regista (volante distribuidor)
 
-### Terminologia ELIFOOT escolhida
+### Terminologia OléFUT escolhida
 
 ```
 GOL  Goleiro
@@ -343,10 +343,10 @@ function calculateFit(player, requiredPos) {
 - Cache aggressive: store JSON local
 - Re-scrape: 1× por mês (atributos mudam pouco)
 
-### Mapping SofaScore → ELIFOOT 18 positions
+### Mapping SofaScore → OléFUT 18 positions
 
 ```javascript
-const SOFASCORE_TO_ELIFOOT = {
+const SOFASCORE_TO_OléFUT = {
     'G':   'GK',
     // Defenders
     'D':   'CB',     // generic D → CB
@@ -476,7 +476,7 @@ const SOFASCORE_TO_ELIFOOT = {
 1. Itera 170 clubes (com `sofascore_team_id` em clubColors.js)
 2. Pra cada, fetch `/team/{id}/players`
 3. Pra cada player, fetch `/player/{id}/attribute-overviews`
-4. Mapeia position SofaScore → ELIFOOT 18-pos
+4. Mapeia position SofaScore → OléFUT 18-pos
 5. Computa sub-attrs derivados
 6. Salva `public/data/squads/{teamSlug}.json`
 
@@ -503,7 +503,7 @@ async function fetchSquad(teamId) {
         const attrs = await fetch(`https://api.sofascore.com/api/v1/player/${p.id}/attribute-overviews`).then(r => r.json());
         return { ...p, pentagon: attrs.averageAttributeOverviews?.[0] };
     }));
-    return enriched.map(mapToElifootPlayer);
+    return enriched.map(mapToOléFUTPlayer);
 }
 
 for (const club of CLUBS_WITH_SOFASCORE_IDS) {

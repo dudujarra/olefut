@@ -10,7 +10,7 @@ const teamsJsonPath = new URL('./teams.json', import.meta.url).pathname;
 const teamsMap = JSON.parse(fs.readFileSync(teamsJsonPath, 'utf8'));
 
 async function main() {
-    console.log(chalk.blue.bold('⚽ Elifoot Squad Scraper v1.0'));
+    console.log(chalk.blue.bold('⚽ OléFUT Squad Scraper v1.0'));
     console.log(chalk.gray('Conectando à API do Sofascore e processando elencos...\n'));
 
     let allPlayers = [];

@@ -6,8 +6,8 @@
 
 **Última atualização**: 2026-05-12
 **Owner**: Dudu (Eduardo Jarra) — dudujarra@corapost.com
-**Repo público**: https://github.com/dudujarra/elifoot-web
-**Demo**: https://dudujarra.github.io/elifoot-web/
+**Repo público**: https://github.com/dudujarra/olefut
+**Demo**: https://dudujarra.github.io/olefut/
 
 ---
 
@@ -152,7 +152,7 @@ tests/
 
 docs/                         # Doc auxiliar (não-canônica)
 ├── MANUAL_COMPLETO.md
-├── SDD_ELIFOOT_RPG.md
+├── SDD_OléFUT_RPG.md
 ├── brand-guidelines.md
 ├── design-tokens.css/.json
 ├── art-direction-bible.md
@@ -301,7 +301,7 @@ Fonte canônica: [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-NARRATIVE-M
 | [`BUGS.md`](BUGS.md) | Bug tracker (Mandamento #6) |
 | [`CHANGELOG.md`](CHANGELOG.md) | Histórico de releases |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Workflow para contribuidores |
-| [`docs/SDD_ELIFOOT_RPG.md`](docs/SDD_ELIFOOT_RPG.md) | SDD vivo (Mandamento #7) — mecânicas implementadas |
+| [`docs/SDD_OléFUT_RPG.md`](docs/SDD_OléFUT_RPG.md) | SDD vivo (Mandamento #7) — mecânicas implementadas |
 | [`docs/MANUAL_COMPLETO.md`](docs/MANUAL_COMPLETO.md) | Manual do jogador |
 | [`docs/brand-guidelines.md`](docs/brand-guidelines.md) | Identidade visual |
 | [`README.md`](README.md) | Apresentação humano-amigável |

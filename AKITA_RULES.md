@@ -1,4 +1,4 @@
-# MODO AKITA — Constituição do Projeto Elifoot
+# MODO AKITA — Constituição do Projeto OléFUT
 
 > **⚠️ AVISO PARA A INTELIGÊNCIA ARTIFICIAL:**
 > Antes de executar qualquer alteração neste repositório, você **deve** ativar o Modo Akita.
@@ -80,7 +80,7 @@ Todo projeto novo nasce em repo GitHub público. **Build in public.**
 - Branches por SPEC (`spec/SPEC-XXX-nome`) ou BUG (`bug/BUG-XXX`)
 - PRs revisáveis, linkados a SPEC/BUG
 - CI rodando em cada PR (lint + test + build)
-- Demo pública (`https://dudujarra.github.io/elifoot-web/`)
+- Demo pública (`https://dudujarra.github.io/olefut/`)
 
 ---
 
@@ -160,7 +160,7 @@ Se quebrar, agente para tudo e corrige antes de prosseguir. Entregar código que
 
 ### SDD vivo
 
-Toda mecânica nova é registrada em [`docs/SDD_ELIFOOT_RPG.md`](docs/SDD_ELIFOOT_RPG.md) com:
+Toda mecânica nova é registrada em [`docs/SDD_OléFUT_RPG.md`](docs/SDD_OléFUT_RPG.md) com:
 
 - Nome da mecânica
 - Arquivo e método onde foi implementada

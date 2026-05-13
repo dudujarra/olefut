@@ -6,7 +6,7 @@
 
 ## O que é
 
-Sistema de tooltips reusável para explicar todo elemento interativo do ELIFOOT (stats, botões, badges, traits, tabs). Resolve gap user "TUDO precisa ter explicação no mouse hover".
+Sistema de tooltips reusável para explicar todo elemento interativo do OléFUT (stats, botões, badges, traits, tabs). Resolve gap user "TUDO precisa ter explicação no mouse hover".
 
 ## Input
 

@@ -28,7 +28,7 @@ GitHub Actions pipeline. Roda lint, tests, coverage, build em todo PR/commit. Re
 ## GitHub Actions Workflow
 
 ```yaml
-name: ELIFOOT CI/CD
+name: OléFUT CI/CD
 
 on:
   push:

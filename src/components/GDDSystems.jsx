@@ -111,13 +111,13 @@ export function useKeyboardNav({ changeView, onAdvanceWeek, currentView }) {
  */
 export const IronmanMode = {
     isActive: () => {
-        try { return localStorage.getItem('elifoot_ironman') === 'true'; } catch { return false; } // storage unavailable
+        try { return localStorage.getItem('olefut_ironman') === 'true'; } catch { return false; } // storage unavailable
     },
     activate: () => {
-        try { localStorage.setItem('elifoot_ironman', 'true'); } catch { /* ignore */ }
+        try { localStorage.setItem('olefut_ironman', 'true'); } catch { /* ignore */ }
     },
     deactivate: () => {
-        try { localStorage.removeItem('elifoot_ironman'); } catch { /* ignore */ }
+        try { localStorage.removeItem('olefut_ironman'); } catch { /* ignore */ }
     },
     /**
      * In ironman mode, autosave after every match week.
@@ -202,12 +202,12 @@ export function TutorialOverlay({ visible, onDismiss }) {
                 )}
                 <div className="tutorial-buttons" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
                     <EfButton variant="secondary" size="sm" onClick={() => {
-                        try { localStorage.setItem('elifoot_tutorial_done', 'true'); } catch { /* storage full */ }
+                        try { localStorage.setItem('olefut_tutorial_done', 'true'); } catch { /* storage full */ }
                         onDismiss();
                     }}>Pular tutorial</EfButton>
                     <EfButton variant="primary" size="sm" onClick={() => {
                         if (isLast) {
-                            try { localStorage.setItem('elifoot_tutorial_done', 'true'); } catch { /* storage full */ }
+                            try { localStorage.setItem('olefut_tutorial_done', 'true'); } catch { /* storage full */ }
                             onDismiss();
                         } else {
                             setStep(s => s + 1);
