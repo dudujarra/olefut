@@ -1,5 +1,5 @@
 /**
- * Stitch — Elifoot UI Component Library
+ * Stitch — OléFUT UI Component Library
  *
  * Naming: Ef prefix, PascalCase.
  * All components consume tokens from src/styles/tokens/.
