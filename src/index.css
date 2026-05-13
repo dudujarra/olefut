@@ -23,6 +23,23 @@
 @import './styles/styleguide-view.css';
 @import './styles/autoplay-view.css';
 @import './styles/ef-banner.css';
+@import './styles/sidebar.css';
+@import './styles/tooltip.css';
+@import './styles/start-view.css';
+@import './styles/challenges-widget.css';
+@import './styles/floating-bug-button.css';
+@import './styles/match-ball-sprite.css';
+@import './styles/match-scoreboard.css';
+@import './styles/match-highlight-modal.css';
+@import './styles/match-post-mortem.css';
+@import './styles/mid-match-card-modal.css';
+@import './styles/seasonal-event-modal.css';
+@import './styles/chronicle-season-end-modal.css';
+@import './styles/star-impact-toast.css';
+@import './styles/onboarding-coach.css';
+@import './styles/view-onboarding.css';
+@import './styles/gdd-systems-aug.css';
+@import './styles/autoplay-lab-view.css';
 
 /* SPEC-A11y Focus visible (WCAG 2.1 AA) */
 *:focus-visible {
@@ -684,3 +701,19 @@ h1, h2, h3, h4 {
     transition: none !important;
   }
 }
+@import './styles/sidebar.css';
+@import './styles/tooltip.css';
+@import './styles/start-view.css';
+@import './styles/challenges-widget.css';
+@import './styles/floating-bug-button.css';
+@import './styles/match-ball-sprite.css';
+@import './styles/match-scoreboard.css';
+@import './styles/match-highlight-modal.css';
+@import './styles/match-post-mortem.css';
+@import './styles/mid-match-card-modal.css';
+@import './styles/seasonal-event-modal.css';
+@import './styles/chronicle-season-end-modal.css';
+@import './styles/star-impact-toast.css';
+@import './styles/onboarding-coach.css';
+@import './styles/view-onboarding.css';
+@import './styles/gdd-systems-aug.css';

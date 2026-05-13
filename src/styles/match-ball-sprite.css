@@ -1,0 +1,10 @@
+/* MatchBallSprite — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes MatchBallSprite-specific component tokens + utility classes.
+ */
+
+.ef-match-ball-s {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add MatchBallSprite-specific BEM classes below as inline styles are extracted */

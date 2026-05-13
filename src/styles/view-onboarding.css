@@ -1,0 +1,10 @@
+/* ViewOnboarding — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes ViewOnboarding-specific component tokens + utility classes.
+ */
+
+.ef-view-onboard {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add ViewOnboarding-specific BEM classes below as inline styles are extracted */

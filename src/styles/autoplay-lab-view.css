@@ -1,0 +1,10 @@
+/* AutoPlayLabView — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes AutoPlayLabView-specific component tokens + utility classes.
+ */
+
+.ef-autoplay-lab {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add AutoPlayLabView-specific BEM classes below as inline styles are extracted */

@@ -1,0 +1,10 @@
+/* ChallengesWidget — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes ChallengesWidget-specific component tokens + utility classes.
+ */
+
+.ef-challenges-w {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add ChallengesWidget-specific BEM classes below as inline styles are extracted */

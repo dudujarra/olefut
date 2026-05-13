@@ -1,0 +1,10 @@
+/* MatchHighlightModal — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes MatchHighlightModal-specific component tokens + utility classes.
+ */
+
+.ef-match-highli {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add MatchHighlightModal-specific BEM classes below as inline styles are extracted */

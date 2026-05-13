@@ -1,0 +1,10 @@
+/* Tooltip — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes Tooltip-specific component tokens + utility classes.
+ */
+
+.ef-tooltip {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add Tooltip-specific BEM classes below as inline styles are extracted */
