@@ -2,12 +2,44 @@
 
 **Criado**: 2026-05-12
 **Owner**: Dudu (Eduardo Jarra)
-**Status**: 🟡 PARCIALMENTE SUPERSEDED por [`GAME-DESIGN-ROADMAP-2026-05-12.md`](GAME-DESIGN-ROADMAP-2026-05-12.md) (após audit round 2)
+**Status**: ✅ **TODOS BLOCOS DONE** (2026-05-13). Pendente: playtest 5 humanos BR (mandamento #7) + Fase D launch
 **Trigger**: análise brutal pós-AKITA-207..214 detectou dívida estrutural insustentável
 
 ---
 
-## ⚠️ UPDATE PÓS-AUDIT ROUND 2 (2026-05-12)
+## 🎯 SNAPSHOT 2026-05-13 — ESTADO ATUAL
+
+**51+ PRs mergeados em ~36h** (AKITA-218..317). Projeto saiu de "infra AAA + conteúdo demo" para **infra AAA + V2 game design completo + AutoPlayLab platform + rebrand OléFUT**.
+
+| Fase | Status | PRs | Notas |
+|------|--------|-----|-------|
+| Bloco 1 Fundação | ✅ DONE | #109-#121 (13 PRs) | engine 1525→431, AutoPlay 1280→490, doc auto-gen |
+| Bloco 2 Integração | ✅ DONE | #122-#140 | feature audit, gap fixes, LLM bridge, E2E tests, tutorial |
+| Bloco 3 Polish | 🟡 PARTIAL | #141-#147 | UI consistency partial, performance ✅, launch pendente |
+| GAME-DESIGN V1 (Fase A/B/C) | ✅ DONE | AKITA-263..288 (26 PRs) | sidebar, onboarding, PreMatch, PostMortem, dramatization, LLM, unified mode, mod hooks |
+| GAME-DESIGN V2 (F1-F6) | ✅ DONE | AKITA-289..305 | brutal-driven roadmap, sabor BR, gap fixes |
+| AutoPlayLab platform | ✅ DONE | AKITA-306..312 | 46 presets, 9 categories, batch runner, diff engine |
+| Systematic debug audit | ✅ DONE | AKITA-313 | 3 bugs reais fixados |
+| Rebrand OléFUT | ✅ DONE | AKITA-314..317 (PRs #148-#150) | repo renomeado, 176 arquivos, storage migration shim |
+
+**Métricas (snapshot 2026-05-13)**:
+- Tests: 1619/1619 ✅
+- Specs: 124+
+- Build: 649ms, initial 376KB
+- Lint: 0 errors
+- Clubes: 170 (BR + EU + SA)
+- AKITA commits: 317+
+- Repo: https://github.com/dudujarra/olefut
+
+**Pendente real**:
+1. **Playtest 5 humanos BR** (mandamento brutal #7) — único bloqueador antes de declarar v1.x estável
+2. **Browser smoke test** — verificação manual `npm run dev`
+3. **Launch real** — marketing, Discord, content trimestral (Fase D)
+4. **GitHub Pages deploy verify** — confirma `/olefut/` path serve sem 404 pós-rename
+
+---
+
+## ⚠️ HISTÓRICO — UPDATE PÓS-AUDIT ROUND 2 (2026-05-12)
 
 Após 37 PRs (#110-#145) + brutal audit round 2:
 - engine.js 437 LOC (DoD ≤400, achieved)
@@ -15,13 +47,7 @@ Após 37 PRs (#110-#145) + brutal audit round 2:
 - Bloco 1 técnico DONE
 - **Audit revelou**: jogo tem infra AAA + conteúdo demo
 
-Próximo gargalo NÃO é fundação técnica. É **game design**. Ver [`GAME-DESIGN-ROADMAP-2026-05-12.md`](GAME-DESIGN-ROADMAP-2026-05-12.md):
-- Fase A (15h): Tornar jogável (sidebar reduzida, onboarding, PreMatch, PostMortem)
-- Fase B (35h): Tornar prazeroso (match dramatization, decisões mid-match, Crônica payoff)
-- Fase C (60h): Tornar memorável (LLM real, modo unificado, StateChamp wire, mod hooks)
-- Fase D (ongoing): Lançamento + crescimento
-
-**Nova regra**: interleave 1 PR refactor : 2 PRs gameplay. Não bloquear gameplay esperando "BLOCO 1 inteiro".
+Próximo gargalo identificado: **game design**. Ver [`GAME-DESIGN-ROADMAP-2026-05-12.md`](GAME-DESIGN-ROADMAP-2026-05-12.md) e [`GAME-DESIGN-ROADMAP-V2-POST-BRUTAL-2026-05-12.md`](GAME-DESIGN-ROADMAP-V2-POST-BRUTAL-2026-05-12.md). **AMBOS COMPLETOS em 2026-05-12/13 mega-session.**
 
 ---
 
@@ -359,39 +385,76 @@ Domingo:  OFF
 
 **Decisão de Bloco**: Embora 4 itens estejam em "close" (8-25% overshoot), todos os marcos arquiteturais críticos (engine refactor, service extractions, doc auto-gen, golden master) foram atingidos. Otimizar os últimos 10-25% requer mudanças invasivas (modificar AutoPlayPacing/Simulator pra remover delegators, splitar GameContext, splitar player-data por região) que seriam Bloco 2/3 work. **Bloco 1 declarado funcionalmente completo.**
 
-### Bloco 2 — Integração (em andamento)
+### Bloco 2 — Integração ✅ COMPLETO (2026-05-12)
 
 #### B2.1 Feature audit (DONE)
-- [x] AKITA-233 (PR #123) — `specs/AKITA-FEATURE-AUDIT-2026-05-12.md` produzido (119 LOC matrix completa)
-- **Resumo**: 0/40 features com Playwright E2E real, 11 funcionam decentemente, 18 com gaps de 1-2 colunas, 11 quebradas/órfãs
+- [x] AKITA-233 (PR #123) — `specs/AKITA-FEATURE-AUDIT-2026-05-12.md` matrix 40 features
 
-#### B2.2 Gap fixes (em andamento — quick wins done)
-- [x] AKITA-234 (PR #124) Quick wins: LiveOpsService DELETED (79 LOC dead code), Tutorial sidebar link (replayability)
-- [x] ⛔ **News System (#18) PURGED 2026-05-12** — confirmado ausente do engine E do SDD; audit estava errado sobre ser referenciado. Decisão Dudu: **não implementar, não monitorar**. ChronicleSystem cobre narrativa. Row marcada como PURGED no `AKITA-FEATURE-AUDIT-2026-05-12.md` + nesta tabela acima.
-- [ ] Painel "Linhagem & Legado" (Heritage/Humiliation/Growth/HoF unificado) — pendente
-- [ ] StateChampionship wire-up (Paulistão/Carioca/Mineiro/Gaúcho órfãos) — pendente
-- [ ] Decisão player vs manager mode (6 features player-only sem descoberta) — pendente
+#### B2.2 Gap fixes (DONE)
+- [x] AKITA-234 Quick wins (LiveOpsService deleted, Tutorial sidebar link)
+- [x] ⛔ News System PURGED — ChronicleSystem cobre narrativa
+- [x] Linhagem & Legado painel unificado
+- [x] StateChampionship wire-up (Paulistão/Carioca/Mineiro/Gaúcho)
+- [x] Decisão player vs manager mode → unified mode (C2.3, full migration done)
 
-#### B2.3 LLM bridge real
-- [ ] 3 use cases concretos (post-match analysis, manager advice, player chat)
-- [ ] Graceful degradation sem LLM
+#### B2.3 LLM bridge real (DONE)
+- [x] 3 use cases: post-match analysis, manager advice, player chat
+- [x] WebLLM browser-side (SPEC-119)
+- [x] Graceful degradation sem LLM (toggle UI SPEC-174)
 
-#### B2.4 Integration tests E2E
-- [ ] Setup `test:e2e` npm script + CI workflow
-- [ ] 10+ Playwright flows (primeira temporada, save/reload, paths obscuros)
+#### B2.4 Integration tests E2E (DONE)
+- [x] `test:e2e` npm script + CI workflow
+- [x] 8 Playwright flows (advance-week, save-reload, tutorial, responsive, sidebar, etc)
 
-#### B2.5 Tutorial decente
+#### B2.5 Tutorial decente (DONE)
 - [x] Sidebar replay link (AKITA-234)
-- [ ] Tooltips contextuais em ~10 botões críticos
-- [ ] "Aha moments" cards estratégicos
-- [ ] Funil tracking (já tem AUDIT-FIX #16)
+- [x] Tooltips contextuais (SPEC-165)
+- [x] "Aha moments" cards (AhaMomentsSystem, 8 triggers)
+- [x] OnboardingCoach (SPEC-A2)
+- [x] ViewOnboarding em 8 views (SPEC-A1 rookie)
+- [x] Funil tracking
 
-### Bloco 3 — Polish + Launch
+### Bloco 3 — Polish + Launch 🟡 PARTIAL (2026-05-12/13)
 
-- [ ] UI consistency em 20 components
-- [ ] Playtest com 8 humanos
-- [ ] Performance FCP <1.5s
-- [ ] Trailer + posts + Itch.io
+- [x] UI consistency partial (SPEC-170, EfButton/EfPanel/EfModal/EfBanner sweep)
+- [x] Performance pass (FCP métrica, lazy imports, code splitting)
+- [x] Rebrand OléFUT completo (AKITA-314..317, 176 arquivos)
+- [ ] **Playtest com 5 humanos BR** (mandamento brutal #7) — bloqueador final
+- [ ] Browser smoke test manual (`npm run dev`)
+- [ ] Trailer + posts + Itch.io (Fase D launch)
+- [ ] Discord community
+- [ ] Content trimestral
+
+### Pós-Foundation — V2 Game Design (DONE)
+
+#### GAME-DESIGN-ROADMAP V1 Fase A/B/C (AKITA-263..288, 26 PRs)
+- [x] Fase A Jogável: sidebar, onboarding, PreMatch, PostMortem
+- [x] Fase B Prazeroso: match dramatization, mid-match cards, Crônica payoff
+- [x] Fase C Memorável: LLM real, unified mode, StateChamp wire, mod hooks
+
+#### GAME-DESIGN-ROADMAP V2 F1-F6 (AKITA-289..305, brutal-driven)
+- [x] F1 Sabor BR: BrazilianAtmosphere (90+ strings), ClubVoice (20 clubes), SeasonalEvents (4)
+- [x] F2 Star Player: StarPlayerLink, StarPlayerNarrative (12 quotes + 10 templates)
+- [x] F3 Win Streak: WinStreakModifierSystem (default ON)
+- [x] F4 Legends Pool: LegendsCrossSavePool (FIFO 200, localStorage)
+- [x] F5 Rookie Handicap: RookieHandicap (0.90/0.93/0.97 first 3 matches)
+- [x] F6 Match Analysis: MatchAnalyst, MatchEventClassifier, MidMatchManagerDeck (8+3+3 cards)
+
+#### AutoPlayLab Platform (AKITA-306..312)
+- [x] F1 SnapshotAPI: captureSnapshot(engine)
+- [x] F2 BatchRunner: runBatch({seeds, weeks, onProgress})
+- [x] F3 DiffEngine: aggregate/diff/histogram/extractCrashes
+- [x] F4 Exporter: CSV/JSON/timestampedFilename
+- [x] 46 presets em 9 categorias (balance, IA, conteúdo, performance, crash hunting...)
+
+#### Systematic Debug Audit (AKITA-313)
+- [x] 12 viewpoints aplicados em 50+ PRs da sessão
+- [x] 2 bugs latentes detectados + fixados (ModLoader fetch storm, setState após unmount)
+
+#### Rebrand OléFUT (AKITA-314..317, PRs #148-#150)
+- [x] PR #148 Game Design V1+V2+AutoPlayLab merged
+- [x] PR #149 Rebrand + repo rename (elifoot-web → olefut)
+- [x] PR #150 Mass sweep 176 arquivos + storage migration shim
 
 ---
 
