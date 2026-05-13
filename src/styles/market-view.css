@@ -332,3 +332,184 @@
   flex-direction: column;
   gap: 8px;
 }
+
+/* ============================================================
+   AKITA-383 — Stitch v1.1 (80) port: budget badge + player cards
+   Reference: docs/stitch-designs/v1.1-all/80-mercado-de-transfer-ncias-ol-fut.html
+   Brand-locked: tokens var(--*) per SPEC-178; zero raw hex.
+   ============================================================ */
+
+/* Header right (badge + sair button) */
+.ef-market__header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Stitch budget badge — abyss bg + trophy gold border */
+.ef-market__budget-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 8px 16px;
+  background: var(--color-bg-tertiary);
+  border: 2px solid var(--color-secondary);
+  min-width: 160px;
+}
+
+.ef-market__budget-badge--negative {
+  border-color: var(--color-danger);
+}
+
+.ef-market__budget-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.ef-market__budget-value {
+  font-size: 1.35rem;
+  font-weight: bold;
+  color: var(--color-secondary);
+  line-height: 1.1;
+}
+
+.ef-market__budget-badge--negative .ef-market__budget-value {
+  color: var(--color-danger);
+}
+
+/* Stitch player card grid (replaces list rows on buy tab) */
+.ef-market__card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.ef-market__player-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  transition: border-color 120ms ease-out, transform 80ms ease-out;
+}
+
+.ef-market__player-card:hover {
+  border-color: var(--color-border-highlight);
+}
+
+.ef-market__card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ef-market__card-portrait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.ef-market__card-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.ef-market__card-ovr {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.ef-market__card-ovr--elite {
+  color: var(--color-secondary);
+}
+
+.ef-market__card-pos {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  color: var(--color-bg);
+  background: var(--color-tertiary);
+  border: 1px solid var(--color-bg);
+}
+
+.ef-market__card-pos--ata {
+  background: var(--color-primary);
+}
+
+.ef-market__card-pos--gol {
+  background: var(--color-warning);
+}
+
+.ef-market__card-pos--def,
+.ef-market__card-pos--zag,
+.ef-market__card-pos--mei {
+  background: var(--color-tertiary);
+}
+
+.ef-market__card-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 8px;
+}
+
+.ef-market__card-name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.ef-market__card-meta {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.ef-market__card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-market__card-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--color-secondary);
+}
+
+@media (max-width: 640px) {
+  .ef-market__header-right {
+    width: 100%;
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .ef-market__budget-badge {
+    align-items: center;
+    width: 100%;
+  }
+
+  .ef-market__card-grid {
+    grid-template-columns: 1fr;
+  }
+}
