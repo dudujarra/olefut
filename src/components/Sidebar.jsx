@@ -34,7 +34,8 @@ const NAV_ITEMS_MANAGER = [
     { view: 'chronicle',    icon: Scroll, label: 'CRÔNICA' },
     { view: 'saves',        icon: FloppyDisk, label: 'SAVES' },
     { view: 'autoplay',     icon: Robot, label: 'AUTOPLAY' },
-    { view: 'tutorial',     icon: GraduationCap, label: 'TUTORIAL' }
+    { view: 'tutorial',     icon: GraduationCap, label: 'TUTORIAL' },
+    { view: 'autoplaylab',  icon: GraduationCap, label: 'LAB' }
 ];
 
 const NAV_ITEMS_PLAYER = [

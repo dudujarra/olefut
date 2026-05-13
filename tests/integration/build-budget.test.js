@@ -15,7 +15,7 @@ import { join } from 'node:path';
 const DIST = join(process.cwd(), 'dist', 'assets');
 const INITIAL_LIMIT = 500_000;
 const SINGLE_CHUNK_LIMIT = 500_000;
-const TOTAL_LIMIT = 3_200_000;
+const TOTAL_LIMIT = 3_400_000; // bumped pra AutoPlayLab + V2 deliverables (F1-F4)
 // Data-only chunks are excluded from per-chunk code size checks (they are JSON, not code)
 const DATA_CHUNKS = /^(player-data|realPlayers_)/;
 
