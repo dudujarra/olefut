@@ -14,7 +14,6 @@ import { useGame } from '../context/GameContext';
 import { ViewOnboarding } from './ViewOnboarding';
 import { ChronicleService } from '../services/ChronicleService';
 import { EfPanel, EfButton } from './ui';
-import bgNewspaper from '../assets/environments/bg_newspaper.png';
 import '../styles/chronicle-view.css';
 
 import {
@@ -206,11 +205,7 @@ export function ChronicleView() {
     const logFile = `SAVE_LOG_${(bio?.seasonNumber ?? 1).toString().padStart(4, '0')}.TXT`;
 
     return (
-        <div
-            className="ef-anim-fade-in ef-scene-shell ef-chron"
-            /* eslint-disable-next-line no-restricted-syntax -- dynamic per-instance bg image */
-            style={{ backgroundImage: `url(${bgNewspaper})` }}
-        >
+        <div className="ef-anim-fade-in ef-scene-shell ef-chron">
             <ViewOnboarding viewId="chronicle" />
             <div className="ef-view-container">
 

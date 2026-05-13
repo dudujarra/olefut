@@ -3,7 +3,6 @@ import { useGame } from '../context/GameContext';
 import { drawCard, enrichCardWithAtmosphere } from '../engine/MatchEventsDeck';
 import { BenchEventsDeck } from '../engine/BenchEventsDeck';
 import { EfClubBadge, EfPanel, EfButton } from './ui';
-import bgMatchStadium from '../assets/environments/bg_match_stadium.png';
 import { rng as systemRng } from '../engine/rng.js';
 import '../styles/player-match-view.css';
 
@@ -163,7 +162,7 @@ export function PlayerMatchView() {
     const resultText = eventResult ? eventResult.replace(/^(SUCCESS|FAIL)\|/, '') : '';
 
     return (
-        <div className="ef-anim-fade-in ef-scene-shell ef-pmatch" style={{ backgroundImage: `url(${bgMatchStadium})` }}>
+        <div className="ef-anim-fade-in ef-scene-shell ef-pmatch">
             <div className="ef-pmatch__container">
                 {isBenched && (
                     <div className="ef-bench-banner">

@@ -16,7 +16,6 @@ import {
     getAchievementPoints
 } from '../services/CosmeticShopService';
 import { EfPanel, EfButton } from './ui';
-import bgManagerOffice from '../assets/environments/bg_cosmetic_shop.png';
 import '../styles/cosmetic-shop-view.css';
 
 import {
@@ -77,10 +76,7 @@ export function CosmeticShopView() {
     });
 
     return (
-        <div
-            className="ef-anim-fade-in ef-scene-shell ef-cosmetic-shop"
-            style={{ backgroundImage: `url(${bgManagerOffice})` }}
-        >
+        <div className="ef-anim-fade-in ef-scene-shell ef-cosmetic-shop">
             <div className="ef-view-container">
 
                 {/* HEADER */}

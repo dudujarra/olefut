@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { EfButton, EfPanel } from './ui';
-import bgTrophyCeremony from '../assets/environments/bg_trophy_ceremony.png';
 import '../styles/trophy-ceremony.css';
 import {
     Trophy, Medal, SoccerBall, HandsClapping, ArrowRight, MedalMilitary, Cpu
@@ -93,8 +92,7 @@ export default function TrophyCeremony({ trophy, team, season, onDismiss, visibl
 
     return (
         <div className="trophy-ceremony-overlay ef-art-champion-celebration ef-trophy-shell"
-             role="dialog" aria-label="Cerimônia de troféu"
-             style={{ backgroundImage: `url(${bgTrophyCeremony})` }}>
+             role="dialog" aria-label="Cerimônia de troféu">
 
             {/* CRT scanline + confetti + vignette layers (Stitch v1.1) */}
             <div className="ef-trophy-ceremony__crt-overlay" aria-hidden="true" />
