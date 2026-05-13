@@ -56,7 +56,7 @@ export function FloatingBugButton() {
                     onClose={() => setOpen(false)}
                     title={
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <Bug size={24} color="#FFD700" /> SISTEMA DE REPORT
+                            <Bug size={24} color="var(--accent)" /> SISTEMA DE REPORT
                         </div>
                     }
                     size="md"
@@ -114,7 +114,7 @@ export function FloatingBugButton() {
                             />
 
                             <div className="ef-fab-hint">
-                                <Note size={16} color="#40BAF7" />
+                                <Note size={16} color="var(--info)" />
                                 Salvo localmente. Acesse o Monitor no menu principal para visualizar ou exportar.
                             </div>
                         </>

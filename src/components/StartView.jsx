@@ -67,7 +67,7 @@ export function StartView() {
                 <EfPanel padding="lg" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
                     {/* Modo de Jogo */}
-                    <div style={{ display: 'flex', gap: '12px' }}>
+                    <div className="ef-h-flex-gap-md">
                         <EfButton
                             variant={mode === 'manager' ? 'primary' : 'secondary'}
                             onClick={() => setMode('manager')}
@@ -146,7 +146,7 @@ export function StartView() {
 
                     {/* Seleção de Time */}
                     <div className="ef-start-team-row">
-                        <MapPin size={24} color="#40BAF7" />
+                        <MapPin size={24} color="var(--info)" />
                         <select
                             id="select-team"
                             value={teamId}
@@ -169,7 +169,7 @@ export function StartView() {
                         <div className="ef-start-field-label">
                             DIFICULDADE DO MOTOR SIMULADOR:
                         </div>
-                        <div style={{ display: 'flex', gap: '8px' }}>
+                        <div className="ef-h-flex-gap-sm">
                             {Object.values(DIFFICULTY_MODES).map(d => (
                                 <EfButton
                                     key={d.id}
@@ -198,7 +198,7 @@ export function StartView() {
                             <Lightning size={24} weight="fill" /> COMEÇAR CARREIRA
                         </EfButton>
 
-                        <div style={{ display: 'flex', gap: '12px' }}>
+                        <div className="ef-h-flex-gap-md">
                             {!isTutorialDone() && (
                                 <EfButton
                                     variant="secondary"
@@ -213,7 +213,7 @@ export function StartView() {
                                 variant="secondary"
                                 size="md"
                                 onClick={handleAutoPlay}
-                                style={{ flex: 1, justifyContent: 'center', color: '#FF3333', borderColor: '#FF3333' }}
+                                style={{ flex: 1, justifyContent: 'center', color: 'var(--danger)', borderColor: 'var(--danger)' }}
                                 title="Inicia bot AutoPlay"
                             >
                                 <Robot size={20} /> AUTOPLAY

@@ -1,0 +1,637 @@
+/* MatchView — comprehensive semantic CSS */
+
+/* === PRE-MATCH PHASES === */
+
+.ef-match-prematch__steps {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.ef-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.ef-step--active {
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.ef-step--done {
+  color: var(--color-primary);
+}
+
+.ef-step__bubble {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid currentColor;
+  background: var(--color-bg);
+}
+
+.ef-match-prematch__step1,
+.ef-match-prematch__step2,
+.ef-match-prematch__step3 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Starters list (Step 1) */
+.ef-match-prematch__starters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ef-match-prematch__starters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-match-prematch__starter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.ef-match-prematch__starter--low-energy {
+  border-color: var(--color-danger);
+}
+
+.ef-match-prematch__starter-left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ef-match-prematch__starter-pos {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.ef-match-prematch__starter-name {
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.ef-match-prematch__starter-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-match-prematch__starter-energy {
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+}
+
+.ef-match-prematch__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Tactics (Step 2) */
+.ef-match-prematch__formation-buttons,
+.ef-match-prematch__tactic-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-match-prematch__tactic-desc {
+  padding: 12px;
+  background: var(--color-bg-secondary);
+  border-left: 2px solid var(--color-primary);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.ef-match-prematch__talk-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-match-prematch__talk-done {
+  padding: 12px;
+  background: var(--color-bg-secondary);
+  border: 1px dashed var(--color-primary);
+  color: var(--color-primary);
+  text-align: center;
+}
+
+/* Confirmation (Step 3) */
+.ef-match-prematch__confirm-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ef-match-prematch__team-name {
+  font-weight: bold;
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+}
+
+.ef-match-prematch__confirm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-match-prematch__condition {
+  padding: 12px;
+  background: var(--color-bg-secondary);
+  border-left: 2px solid var(--color-secondary);
+  font-size: 0.9rem;
+}
+
+.ef-match-prematch__sectors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.ef-match-prematch__sector {
+  padding: 12px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.ef-match-prematch__talk-status {
+  padding: 12px;
+  background: var(--color-bg-secondary);
+  border: 1px dashed var(--color-border);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.ef-match-prematch__talk-status--done {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.ef-match-prematch__launch-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-match-prematch__launch-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* === SCOREBOARD === */
+
+.ef-match-scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 24px;
+  padding: 24px;
+  background: var(--color-bg);
+}
+
+.ef-match-scoreboard__goal-burst {
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-primary);
+  text-align: center;
+  animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.ef-match-scoreboard__header {
+  font-weight: bold;
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.ef-match-scoreboard__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.ef-match-scoreboard__team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 100px;
+}
+
+.ef-match-scoreboard__team-name {
+  font-weight: bold;
+  color: var(--color-text-primary);
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.ef-match-scoreboard__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* === LIVE MATCH === */
+
+.ef-match-live__log {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.ef-match-live__event {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--color-bg);
+  border-left: 2px solid var(--color-secondary);
+  font-size: 0.9rem;
+}
+
+.ef-match-live__minute {
+  font-weight: bold;
+  font-family: var(--font-mono);
+  color: var(--color-primary);
+  min-width: 40px;
+}
+
+.ef-match-live__controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.ef-match-live__speed-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ef-match-live__phase-btn {
+  padding: 8px 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.ef-match-live__phase-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
+
+/* === HALF TIME === */
+
+.ef-match-halftime__header {
+  text-align: center;
+  border: 2px solid var(--color-secondary);
+  margin-bottom: 24px;
+}
+
+.ef-match-halftime__title-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.ef-match-halftime__title-icon {
+  color: var(--color-warning);
+}
+
+.ef-match-halftime__title {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.ef-match-halftime__scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 16px;
+}
+
+.ef-match-halftime__team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-match-halftime__team-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.ef-match-halftime__score-box {
+  background: var(--color-bg-secondary);
+}
+
+.ef-match-halftime__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.ef-match-halftime__tactics-panel,
+.ef-match-halftime__subs-panel {
+  /* Inherits from EfPanel */
+}
+
+.ef-match-halftime__section-icon,
+.ef-match-halftime__warning-icon {
+  color: var(--color-secondary);
+}
+
+.ef-match-halftime__warning-icon {
+  color: var(--color-warning);
+}
+
+.ef-match-halftime__tactics-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-match-halftime__subs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-match-halftime__player-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.ef-match-halftime__player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.ef-match-halftime__player-name {
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.ef-match-halftime__player-pos {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.ef-match-halftime__player-energy {
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+}
+
+.ef-match-halftime__resume-btn {
+  padding: 20px;
+  font-size: 1.2rem;
+  width: 100%;
+  justify-content: center;
+}
+
+/* === FULL TIME === */
+
+.ef-match-fulltime__header {
+  text-align: center;
+  border: 2px solid var(--color-secondary);
+  margin-bottom: 24px;
+}
+
+.ef-match-fulltime__title-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.ef-match-fulltime__title-icon {
+  color: var(--color-primary);
+}
+
+.ef-match-fulltime__title {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.ef-match-fulltime__scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ef-match-fulltime__team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-match-fulltime__team-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.ef-match-fulltime__score-box {
+  background: var(--color-bg-secondary);
+}
+
+.ef-match-fulltime__motm {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: 1px solid var(--color-warning);
+  background: var(--color-bg-secondary);
+  font-weight: bold;
+}
+
+.ef-match-fulltime__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.ef-match-fulltime__goals-panel,
+.ef-match-fulltime__stats-panel,
+.ef-match-fulltime__board-panel {
+  /* Inherits from EfPanel */
+}
+
+.ef-match-fulltime__goals-icon,
+.ef-match-fulltime__stats-icon {
+  color: var(--color-text-primary);
+}
+
+.ef-match-fulltime__goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-match-fulltime__goal-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.ef-match-fulltime__goal-minute {
+  font-weight: bold;
+  color: var(--color-primary);
+  min-width: 40px;
+}
+
+.ef-match-fulltime__goal-text {
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+}
+
+.ef-match-fulltime__no-goals {
+  font-size: 0.9rem;
+  padding: 12px;
+  text-align: center;
+  background: var(--color-bg-secondary);
+}
+
+.ef-match-fulltime__stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-match-fulltime__board-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  border: 1px solid;
+}
+
+.ef-match-fulltime__board-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ef-match-fulltime__board-label {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.ef-match-fulltime__board-value {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.ef-match-fulltime__board-percent {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.ef-match-fulltime__actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ef-match-fulltime__action-btn {
+  flex: 1;
+  min-width: 240px;
+  padding: 16px;
+  font-size: 1.1rem;
+  justify-content: center;
+}
+
+/* === EVENT OVERLAY === */
+
+.ef-event-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 32px;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-primary);
+  text-align: center;
+  z-index: 9999;
+}
+
+.ef-event-redcard {
+  border-color: var(--color-danger);
+}
+
+.ef-event-foul {
+  border-color: var(--color-warning);
+}
+
+.ef-event-injury {
+  border-color: var(--color-danger);
+}
+
+.ef-event-sub {
+  border-color: var(--color-secondary);
+}
+
+.ef-event-save {
+  border-color: var(--color-primary);
+}

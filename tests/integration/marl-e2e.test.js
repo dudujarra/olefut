@@ -53,8 +53,17 @@ describe('MARL E2E Integration', () => {
         it('generatePersonality produces unique outputs', () => {
             const p1 = generatePersonality('GUARDIOLA');
             const p2 = generatePersonality('GUARDIOLA');
-            // Same archetype but gaussian noise makes them different
-            expect(p1.ocean.O).not.toBe(p2.ocean.O);
+            // Same archetype but gaussian noise makes them different.
+            // GUARDIOLA tem O=0.9 e C=0.9 — ambos podem clamp em 1.0 ocasionalmente
+            // (noise stddev=0.08 sobre base 0.9 → ~5% chance de cada um clampar).
+            // Comparar TODAS as dimensões: probabilidade de TODAS coincidirem é ~0.
+            const oceanDiffers =
+                p1.ocean.O !== p2.ocean.O ||
+                p1.ocean.C !== p2.ocean.C ||
+                p1.ocean.E !== p2.ocean.E ||
+                p1.ocean.A !== p2.ocean.A ||
+                p1.ocean.N !== p2.ocean.N;
+            expect(oceanDiffers).toBe(true);
             expect(p1.traits).toBeDefined();
             expect(p1.traits.ambition).toBeGreaterThanOrEqual(0);
         });

@@ -46,7 +46,7 @@ export function MatchBallSprite({ intensity = 'idle', visible = true }) {
                 pointerEvents: 'none',
                 animation: `ef-ball-travel ${duration} ease-in-out infinite alternate`,
                 zIndex: 2,
-                color: '#FDFBF7',
+                color: 'var(--text-main)',
                 opacity: 0.85,
                 filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.4))',
             }}

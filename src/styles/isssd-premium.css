@@ -1,6 +1,8 @@
 /**
- * OléFUT Luxury Arcade Design System
+ * Olé FUT — ISSSD-Premium 32-bit Design System
+ * Inspired by International Super Star Soccer Deluxe (Konami, SNES 1995)
  * The single source of truth for UI standardization.
+ * See: docs/brand-guidelines.md (v1.1+) — SPEC-176
  */
 
 :root {
@@ -18,6 +20,7 @@
   --accent-dark: #CCAA00;
   
   --danger: #FF1744; /* Crimson Red */
+  --danger-aaa: #FF8080; /* AAA-compliant for small text (#FF8080 / #111417 = 7.61:1) */
   --danger-dark: #CC1236;
   
   --info: #00E5FF; /* Electric Blue */
@@ -25,6 +28,38 @@
   
   --text-main: #FDFBF7; /* Chalk White */
   --text-muted: #8E9E94; /* Silver Green */
+  --color-soft-border: #2D3748; /* Cleanup pass token */
+  --color-bg-deep: #0E1418; /* Cleanup pass token */
+  --color-shadow-deep: #040805; /* Cleanup pass token */
+  --color-soft-text: #E2E8F0;
+  --color-input-error-bg: #FF9999;
+  --color-input-error-deep: #880000;
+  --color-success-mid: #6ABC3A;
+  --color-panel-tone: #1E2124;
+  --color-tooltip-bg: #1A1C20;
+  --color-gold-arcade: #C7A75D;
+  --color-purple-wonder: #C084FC;
+  --color-purple-dark: #2D162D;
+  --color-amber-warning: #f59e0b;
+  --color-red-bright: #ef4444;
+  --color-yellow-warn-bg: #2D2916;
+  --color-emerald-confirm: #10B981;
+  --color-forest-pulse: #1B4332;
+  --color-learning-teal: #14b8a6;
+  --color-learning-blue: #3b82f6;
+  --color-learning-blue-dark: #2563eb;
+  --color-learning-violet: #a78bfa;
+  --color-learning-pink: #ec4899;
+  --color-learning-lime: #84cc16;
+  --color-learning-orange: #f97316;
+  --color-learning-red-dark: #dc2626;
+  --color-learning-amber-bright: #FFA500;
+  --color-learning-bronze-stat: #CD7F32;
+  --color-learning-silver-stat: #C0C0C0;
+  --color-learning-skyblue: #87CEEB;
+  --color-learning-lightgreen: #90EE90;
+  --color-learning-leather: #8B7355;
+  --color-learning-cyan: #22d3ee;
   --text-inverse: #040805;
 
   /* Borders & Shadows */
@@ -73,11 +108,6 @@ h1, h2, h3, h4 {
   font-family: 'Press Start 2P', monospace; 
   text-transform: uppercase;
   letter-spacing: 0.05em;
-}
-
-.pixel-font {
-  font-family: 'Press Start 2P', monospace;
-  image-rendering: pixelated;
 }
 
 /* ==========================================================================
@@ -2084,391 +2114,3 @@ h1, h2, h3, h4 {
   gap: 8px;
 }
 
-/* ==========================================================================
-   B3.1 UI Consistency Final Plus — LineageView Utilities (SPEC-175 omissão)
-   Extracted from LineageView (Hall de Lendas, Heritage, Humiliation, Growth)
-   inline styles. Same pattern as SPEC-170/172/173/175.
-   ========================================================================== */
-
-/* --- Tab badge (count indicator inside a tab button) -------------------- */
-
-.ef-tab-badge {
-  margin-left: 8px;
-  background-color: #1A1F24;
-  color: var(--text-main, #FDFBF7);
-  padding: 2px 8px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  border: 1px solid #2D3748;
-}
-.ef-tab-badge--active {
-  background-color: #000;
-  color: var(--primary, #39FF14);
-}
-
-/* --- Lineage tabs cluster (horizontal scrollable button row) ------------ */
-
-.ef-lineage-tabs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-/* --- Panel intro paragraph (small muted text above grid/list) ----------- */
-
-.ef-panel-intro {
-  margin: 0 0 24px 0;
-  font-size: 0.8rem;
-  color: var(--text-muted, #8E9E94);
-  font-family: var(--font-mono);
-  line-height: 1.6;
-}
-
-/* --- Panel sub-heading (uppercase accent mono, top of panel) ------------ */
-
-.ef-panel-subhead {
-  margin: 0 0 16px 0;
-  font-size: 0.95rem;
-  color: var(--accent, #FFD700);
-  font-family: var(--font-mono);
-}
-.ef-panel-subhead--primary { color: var(--primary, #39FF14); }
-.ef-panel-subhead--danger  { color: var(--danger,  #FF3333); }
-
-/* --- Hall of Legends slot grid ------------------------------------------ */
-
-.ef-hall-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
-}
-.ef-hall-slot {
-  padding: 14px;
-  background-color: #1A1F24;
-  border: 1px dashed #2D3748;
-  opacity: 0.65;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.ef-hall-slot--filled {
-  opacity: 1;
-  border: 2px solid var(--accent, #FFD700);
-}
-.ef-hall-slot__header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.ef-hall-slot__title {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--text-muted, #8E9E94);
-  font-family: var(--font-sans);
-  font-weight: bold;
-  letter-spacing: 0.05em;
-}
-.ef-hall-slot--filled .ef-hall-slot__title { color: var(--text-main, #FDFBF7); }
-.ef-hall-slot__name {
-  font-size: 1rem;
-  color: var(--accent, #FFD700);
-  font-family: var(--font-mono);
-  font-weight: bold;
-}
-.ef-hall-slot__stats {
-  display: flex;
-  gap: 12px;
-  font-size: 0.7rem;
-  color: var(--text-muted, #8E9E94);
-  font-family: var(--font-mono);
-}
-.ef-hall-slot__placeholder {
-  font-size: 1.4rem;
-  color: var(--text-muted, #8E9E94);
-  font-family: var(--font-mono);
-}
-.ef-hall-slot__criteria {
-  font-size: 0.7rem;
-  color: var(--text-muted, #8E9E94);
-  font-family: var(--font-mono);
-  line-height: 1.5;
-}
-
-/* --- Heritage regen card (player row + trait grid) ---------------------- */
-
-.ef-heritage-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.ef-heritage-card {
-  padding: 14px;
-  background-color: #1A1F24;
-  border: 1px solid #2D3748;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.ef-heritage-card__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.ef-heritage-card__identity {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.ef-heritage-card__name {
-  font-size: 0.95rem;
-  color: var(--text-main, #FDFBF7);
-  font-weight: bold;
-  font-family: var(--font-mono);
-}
-.ef-heritage-card__meta {
-  display: flex;
-  gap: 12px;
-  font-size: 0.7rem;
-  color: var(--text-muted, #8E9E94);
-  font-family: var(--font-mono);
-}
-.ef-heritage-traits {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 10px;
-}
-.ef-heritage-trait {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.ef-heritage-trait__label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  color: var(--text-muted, #8E9E94);
-  font-family: var(--font-mono);
-}
-.ef-heritage-trait__value {
-  font-weight: bold;
-}
-
-/* Bar specific to heritage traits (6px tall like .ef-progress--sm but with
-   the standard border treatment used inside cards). */
-.ef-heritage-bar {
-  height: 6px;
-  background-color: var(--bg-dark, #0D1117);
-  border: 1px solid #2D3748;
-  position: relative;
-}
-.ef-heritage-bar__fill {
-  height: 100%;
-  transition: width 0.3s ease;
-}
-
-/* --- Event row (humiliation / growth) — colored left border ------------- */
-/* Variant of .ef-list-row but renders as a stacked vertical list (instead   */
-/* of the space-between row) for textual event entries.                     */
-
-.ef-event-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.ef-event-row {
-  padding: 12px 14px;
-  background-color: #1A1F24;
-  border-left: 4px solid #2D3748;
-  font-size: 0.85rem;
-  color: var(--text-main, #FDFBF7);
-  font-family: var(--font-mono);
-  line-height: 1.5;
-}
-.ef-event-row--danger  { border-left-color: var(--danger,  #FF3333); }
-.ef-event-row--primary { border-left-color: var(--primary, #39FF14); }
-.ef-event-row--accent  { border-left-color: var(--accent,  #FFD700); }
-
-/* --- Empty-state title + paragraph helpers (used inside .ef-empty-state) - */
-
-.ef-empty-state__title {
-  margin: 0 0 8px 0;
-  font-size: 0.95rem;
-  font-weight: bold;
-  color: var(--text-main, #FDFBF7);
-}
-.ef-empty-state__p {
-  margin: 0 0 8px 0;
-}
-.ef-empty-state__p--last {
-  margin: 0;
-}
-.ef-empty-state__p--small {
-  font-size: 0.75rem;
-}
-.ef-empty-state__icon {
-  margin-bottom: 16px;
-}
-
-
-/* ─── SPEC-A2: OnboardingCoach ─── */
-.ef-onboarding-coach {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 320px;
-  max-width: calc(100vw - 48px);
-  background: #0E1418;
-  border: 2px solid #C7A75D;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  padding: 16px;
-  z-index: 200;
-  font-family: var(--font-mono, monospace);
-  color: var(--text-main, #FDFBF7);
-}
-.ef-onboarding-coach__header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.ef-onboarding-coach__icon {
-  color: #C7A75D;
-  display: inline-flex;
-}
-.ef-onboarding-coach__title {
-  flex: 1;
-  font-size: 0.85rem;
-  font-weight: bold;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #C7A75D;
-}
-.ef-onboarding-coach__close {
-  background: transparent;
-  border: 1px solid #2D3748;
-  color: #FDFBF7;
-  padding: 4px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.ef-onboarding-coach__close:hover {
-  background: #2D3748;
-}
-.ef-onboarding-coach__body {
-  margin: 0 0 16px 0;
-  font-size: 0.8rem;
-  line-height: 1.4;
-}
-.ef-onboarding-coach__footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-.ef-onboarding-coach__progress {
-  font-size: 0.7rem;
-  color: #8A9099;
-  letter-spacing: 0.05em;
-}
-.ef-onboarding-coach__next {
-  background: #C7A75D;
-  color: #0E1418;
-  border: none;
-  padding: 6px 12px;
-  font-family: inherit;
-  font-size: 0.75rem;
-  font-weight: bold;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.ef-onboarding-coach__next:hover {
-  background: #D9BB75;
-}
-
-/* ─── SPEC-B1: Match Pitch Backdrop + Event Tiers ─── */
-.ef-match-pitch-bg {
-  background-image: url('/sprites/pitch-topdown-32bit.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-}
-.ef-match-pitch-bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(13, 17, 23, 0.72);
-  pointer-events: none;
-  z-index: 0;
-}
-.ef-match-pitch-bg > * {
-  position: relative;
-  z-index: 1;
-}
-.ef-match-event--highlight {
-  border-left: 3px solid #FFD700;
-  padding-left: 12px;
-  font-weight: bold;
-  background: rgba(255, 215, 0, 0.08);
-}
-.ef-match-event--tactical {
-  border-left: 3px solid #40BAF7;
-  padding-left: 12px;
-  background: rgba(64, 186, 247, 0.05);
-}
-.ef-match-event--minor {
-  border-left: 2px solid #2D3748;
-  padding-left: 12px;
-  opacity: 0.85;
-}
-
-/* ─── SPEC-B1.3: Match ball sprite animation ─── */
-@keyframes ef-ball-travel {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  25% {
-    transform: translateX(40vw) translateY(-20px);
-  }
-  50% {
-    transform: translateX(70vw) translateY(0);
-  }
-  75% {
-    transform: translateX(40vw) translateY(-15px);
-  }
-  100% {
-    transform: translateX(0) translateY(0);
-  }
-}
-
-/* ─── SPEC-F1.1: Highlight modal pulse anim ─── */
-@keyframes ef-highlight-pulse {
-  0% {
-    transform: scale(0.85);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* ─── SPEC-F1.3: StarImpactToast fade ─── */
-@keyframes ef-toast-fade {
-  0% { opacity: 0; transform: translateX(20px); }
-  15% { opacity: 1; transform: translateX(0); }
-  85% { opacity: 1; transform: translateX(0); }
-  100% { opacity: 0; transform: translateX(20px); }
-}

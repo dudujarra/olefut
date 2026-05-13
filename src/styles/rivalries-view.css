@@ -1,0 +1,146 @@
+/* RivalriesView — semantic CSS + design tokens */
+
+.ef-riv {
+  --ef-riv-orange: #FF8C00;
+  --ef-riv-derby-bg: #1A0E0E;
+  --ef-riv-border-soft: #2D3748;
+  --ef-riv-fallback-muted: #888;
+}
+
+.ef-riv__error {
+  padding: 24px;
+}
+
+.ef-riv__header {
+  border-bottom: 2px solid var(--accent);
+}
+
+.ef-riv__header-icon {
+  color: var(--accent);
+}
+
+/* === NEXT DERBY === */
+
+.ef-riv__derby {
+  border: 2px solid var(--danger);
+  background-color: var(--ef-riv-derby-bg);
+}
+
+.ef-riv__derby-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ef-riv__derby-body {
+  flex: 1;
+}
+
+.ef-riv__derby-label {
+  font-size: 0.7rem;
+  color: var(--danger);
+  font-family: var(--font-sans);
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.ef-riv__derby-title {
+  font-size: 1.2rem;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-weight: bold;
+}
+
+.ef-riv__derby-meta {
+  font-size: 0.8rem;
+  color: var(--ef-riv-orange);
+  font-family: var(--font-mono);
+  margin-top: 4px;
+}
+
+/* === RIVALRY LIST === */
+
+.ef-riv__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ef-riv__row-identity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ef-riv__badge-fallback {
+  width: 48px;
+  height: 48px;
+  background-color: var(--bg-dark);
+}
+
+.ef-riv__row-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.ef-riv__row-stats {
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-riv__stat-bold {
+  font-weight: bold;
+}
+
+/* === RIVALRY LABEL PILLS === */
+
+.ef-riv__pill--consolidated {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.ef-riv__pill--new-classic {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.ef-riv__pill--growing {
+  color: var(--ef-riv-orange);
+  border-color: var(--ef-riv-orange);
+}
+
+.ef-riv__pill--start {
+  color: var(--ef-riv-fallback-muted);
+  border-color: var(--ef-riv-fallback-muted);
+}
+
+/* === FORMER COMPANIONS === */
+
+.ef-riv__companions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.ef-riv__companion-card {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--ef-riv-border-soft);
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-riv__companion-name {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.ef-riv__companion-pos {
+  margin-left: 8px;
+  font-size: 0.85rem;
+}

@@ -118,9 +118,10 @@ function updateReadme(metrics) {
 // Update CLAUDE.md snapshot
 // ============================================================
 
-function updateClaudeMd(metrics) {
+function updateClaudeMd(metrics, opts = {}) {
     let content = fs.readFileSync(CLAUDE_MD, 'utf8');
     const before = content;
+    const skipCommitCount = !!opts.skipCommitCount;
 
     // | Tests | **NNNN/NNNN** ✅
     content = content.replace(
@@ -147,10 +148,15 @@ function updateClaudeMd(metrics) {
     );
 
     // | AKITA commits | **NNN** |  (also tolerates legacy "~170+" without bold)
-    content = content.replace(
-        /\| AKITA commits \| (?:\*\*)?~?\d+\+?(?:\*\*)?( [^|]*)?\|/,
-        `| AKITA commits | **${metrics.akitaCommitCount}** |`
-    );
+    // skipCommitCount: em modo --check, ignora drift natural deste contador
+    // (cresce a cada commit; sempre dispara false-positive em CI). Mantém
+    // update no modo write para snapshot manual.
+    if (!skipCommitCount) {
+        content = content.replace(
+            /\| AKITA commits \| (?:\*\*)?~?\d+\+?(?:\*\*)?( [^|]*)?\|/,
+            `| AKITA commits | **${metrics.akitaCommitCount}** |`
+        );
+    }
 
     // | Services criados | **NN** | (snapshot table)
     content = content.replace(
@@ -214,7 +220,7 @@ console.log(`   Bug regression:  ${metrics.bugRegressionCount}`);
 console.log(`   AKITA commits:   ${metrics.akitaCommitCount}`);
 
 const readmeChanged = updateReadme(metrics);
-const claudeChanged = updateClaudeMd(metrics);
+const claudeChanged = updateClaudeMd(metrics, { skipCommitCount: checkMode });
 
 if (checkMode) {
     if (readmeChanged || claudeChanged) {

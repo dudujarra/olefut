@@ -8,18 +8,18 @@
 import { PlayerAvatar } from '../../utils/avatar';
 
 const POSITION_COLOR = {
-    GOL: '#FFD700',
-    DEF: '#40BAF7',
-    MEI: '#39FF14',
-    ATA: '#FF3333'
+    GOL: 'var(--accent)',
+    DEF: 'var(--info)',
+    MEI: 'var(--primary)',
+    ATA: 'var(--danger)'
 };
 
 function MiniBar({ value, max = 100, label }) {
     const pct = Math.max(0, Math.min(100, (value / max) * 100));
-    let color = '#FF3333';
-    if (pct >= 80) color = '#39FF14';
-    else if (pct >= 60) color = '#6ABC3A';
-    else if (pct >= 35) color = '#FFD700';
+    let color = 'var(--danger)';
+    if (pct >= 80) color = 'var(--primary)';
+    else if (pct >= 60) color = 'var(--color-success-mid)';
+    else if (pct >= 35) color = 'var(--accent)';
 
     return (
         <div className="ef-minibar">

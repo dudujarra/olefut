@@ -4,6 +4,7 @@ import { ViewOnboarding } from './ViewOnboarding';
 import { ChronicleService } from '../services/ChronicleService';
 import { EfPanel, EfButton } from './ui';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';
+import '../styles/chronicle-view.css';
 
 import {
     Article, ArrowLeft, Image as ImageIcon, FileCode,
@@ -13,10 +14,9 @@ import {
 export function ChronicleView() {
     const { gameState, getEngine, changeView, getDashboardView } = useGame();
     const engine = getEngine();
-    const [view, setView] = useState('season'); // 'season' | 'lifetime'
+    const [view, setView] = useState('season');
     const [content, setContent] = useState('');
 
-    // Fallback service for lifetime view
     const chronicle = new ChronicleService({
         narrativeService: engine?._narrativeService,
         mythService: engine?._mythService,
@@ -24,14 +24,10 @@ export function ChronicleView() {
         careerService: engine?._careerService
     });
 
-    // BUG-081 (SPEC-158): aceitável — content derivado de engine.chronicles + view.
-    // Engine é external store; chronicle.generateSeasonChronicle pode ter efeitos.
-    // Effect (não useMemo) preserva async safety. Mudança de view ou chronicles dispara.
     /* eslint-disable react-hooks/set-state-in-effect */
     React.useEffect(() => {
         if (!engine) return;
         if (view === 'season') {
-            // AKITA-142: use engine.chronicles[] from ChronicleSystem (SPEC-082)
             const chronicles = engine.chronicles || [];
             if (chronicles.length > 0) {
                 const lines = chronicles.map(c =>
@@ -59,7 +55,6 @@ export function ChronicleView() {
     }
 
     async function handleExportPNG() {
-        // Render content to canvas → PNG
         try {
             const canvas = document.createElement('canvas');
             const width = 800;
@@ -70,16 +65,13 @@ export function ChronicleView() {
             canvas.height = height;
             const ctx = canvas.getContext('2d');
 
-            // Background — Bento Grid Theme
             ctx.fillStyle = '#161B22';
             ctx.fillRect(0, 0, width, height);
 
-            // Border
             ctx.strokeStyle = '#2D3748';
             ctx.lineWidth = 2;
             ctx.strokeRect(1, 1, width - 2, height - 2);
 
-            // Text
             ctx.fillStyle = '#FDFBF7';
             ctx.font = '16px monospace';
             let y = 40;
@@ -103,7 +95,6 @@ export function ChronicleView() {
                 y += lineHeight;
             }
 
-            // Footer
             ctx.fillStyle = '#8E9E94';
             ctx.font = '12px monospace';
             ctx.fillText(`OléFUT · gerado em ${new Date().toLocaleString('pt-BR')}`, 30, height - 20);
@@ -122,15 +113,14 @@ export function ChronicleView() {
     }
 
     return (
-        <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgNewspaper})` }}>
+        <div className="ef-anim-fade-in ef-scene-shell ef-chron" style={{ backgroundImage: `url(${bgNewspaper})` }}>
             <ViewOnboarding viewId="chronicle" />
             <div className="ef-view-container">
 
-                {/* HEADER */}
-                <EfPanel padding="lg" className="ef-view-header" style={{ borderBottom: '2px solid #40BAF7' }}>
+                <EfPanel padding="lg" className="ef-view-header ef-chron__header">
                     <div className="ef-view-header__identity">
                         <div className="ef-view-header__icon-box">
-                            <Article size={28} color="#40BAF7" />
+                            <Article size={28} className="ef-chron__header-icon" />
                         </div>
                         <div>
                             <h2 className="ef-view-header__title">CRÔNICA DO SAVE</h2>
@@ -142,15 +132,8 @@ export function ChronicleView() {
                     </EfButton>
                 </EfPanel>
 
-                {/* VIEW TABS + EXPORT */}
-                <div style={{
-                    display: 'flex',
-                    gap: '12px',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                <div className="ef-chron__toolbar">
+                    <div className="ef-chron__tab-group">
                         <EfButton
                             variant={view === 'season' ? 'primary' : 'secondary'}
                             onClick={() => setView('season')}
@@ -160,39 +143,32 @@ export function ChronicleView() {
                         <EfButton
                             variant={view === 'lifetime' ? 'primary' : 'secondary'}
                             onClick={() => setView('lifetime')}
-                            style={view === 'lifetime' ? { backgroundColor: '#FFD700', color: '#000', borderColor: '#FFD700' } : {}}
+                            className={view === 'lifetime' ? 'ef-chron__btn-lifetime-active' : ''}
                         >
                             <InfinityIcon size={16} /> SAVE INTEIRO
                         </EfButton>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div className="ef-chron__export-group">
                         <EfButton
                             variant="secondary"
                             onClick={handleExportPNG}
-                            className="ef-text-primary"
-                            style={{ borderColor: '#2D3748' }}
+                            className="ef-text-primary ef-chron__btn-export"
                         >
                             <ImageIcon size={16} /> EXPORTAR PNG
                         </EfButton>
                         <EfButton
                             variant="secondary"
                             onClick={handleExportJSON}
-                            className="ef-text-info"
-                            style={{ borderColor: '#2D3748' }}
+                            className="ef-text-info ef-chron__btn-export"
                         >
                             <FileCode size={16} /> EXPORTAR JSON
                         </EfButton>
                     </div>
                 </div>
 
-                {/* CHRONICLE CONTENT */}
-                <EfPanel padding="lg" className="ef-anim-slide-down" style={{ minHeight: '400px' }}>
-                    <div className="ef-mono ef-text-main" style={{
-                        whiteSpace: 'pre-wrap',
-                        fontSize: '0.9rem',
-                        lineHeight: 1.8
-                    }}>
+                <EfPanel padding="lg" className="ef-anim-slide-down ef-chron__panel">
+                    <div className="ef-mono ef-text-main ef-chron__content">
                         {content || 'CARREGANDO CRÔNICA...'}
                     </div>
                 </EfPanel>

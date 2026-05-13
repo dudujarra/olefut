@@ -3,6 +3,7 @@ import { useGame } from '../context/GameContext';
 import { COSMETICS, getCosmeticState, purchaseCosmetic, equipCosmetic, getAchievementPoints } from '../services/CosmeticShopService';
 import { EfPanel, EfButton } from './ui';
 import bgManagerOffice from '../assets/environments/bg_cosmetic_shop.png';
+import '../styles/cosmetic-shop-view.css';
 
 import {
     Storefront, ArrowLeft, Star, Lock, LockOpen, CheckCircle,
@@ -57,10 +58,10 @@ export function CosmeticShopView() {
             <div className="ef-view-container">
 
                 {/* HEADER */}
-                <EfPanel padding="lg" className="ef-view-header" style={{ borderBottom: '2px solid #40BAF7' }}>
+                <EfPanel padding="lg" className="ef-view-header ef-cosmetic-shop__header-panel">
                     <div className="ef-view-header__identity">
                         <div className="ef-view-header__icon-box">
-                            <Storefront size={28} color="#40BAF7" />
+                            <Storefront size={28} color="var(--info)" />
                         </div>
                         <div>
                             <h2 className="ef-view-header__title">LOJA DE COSMÉTICOS</h2>
@@ -73,37 +74,26 @@ export function CosmeticShopView() {
                 </EfPanel>
 
                 {/* POINTS DISPLAY */}
-                <EfPanel padding="lg" style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    border: '2px solid #FFD700',
-                    backgroundColor: '#1B4332'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                        <div style={{
-                            width: '64px', height: '64px',
-                            backgroundColor: '#FFD700',
-                            display: 'flex', justifyContent: 'center', alignItems: 'center',
-                            boxShadow: '0 0 20px #1B4332'
-                        }}>
+                <EfPanel padding="lg" className="ef-cosmetic-shop__points-panel">
+                    <div className="ef-cosmetic-shop__points-left">
+                        <div className="ef-cosmetic-shop__points-icon-box">
                             <Star size={36} color="#000" weight="fill" />
                         </div>
-                        <div>
-                            <span className="ef-mono ef-text-accent" style={{ fontSize: '0.9rem', display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>
+                        <div className="ef-cosmetic-shop__points-info">
+                            <span className="ef-cosmetic-shop__points-label">
                                 PONTOS DISPONÍVEIS
                             </span>
-                            <span className="ef-mono ef-text-main" style={{ fontSize: '2.5rem', fontWeight: '800' }}>
+                            <span className="ef-cosmetic-shop__points-value">
                                 {points}
                             </span>
                         </div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
-                        <div className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>
+                    <div className="ef-cosmetic-shop__points-right">
+                        <div className="ef-cosmetic-shop__progress-label">
                             PROGRESSO DE COLEÇÃO
                         </div>
-                        <div className="ef-mono ef-text-info" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
-                            {state.owned.length} <span style={{ color: '#2D3748' }}>/</span> {COSMETICS.length}
+                        <div className="ef-cosmetic-shop__progress-value">
+                            {state.owned.length} <span className="ef-cosmetic-shop__progress-separator">/</span> {COSMETICS.length}
                         </div>
                     </div>
                 </EfPanel>
@@ -112,67 +102,61 @@ export function CosmeticShopView() {
                 {Object.entries(grouped).map(([type, items]) => (
                     <EfPanel key={type} padding="lg">
                         {/* Category header */}
-                        <div className="ef-panel-cat-header">
+                        <div className="ef-cosmetic-shop__category-header">
                             {TYPE_ICONS[type]} {TYPE_LABELS[type] || type.toUpperCase()}
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px' }}>
+                        <div className="ef-cosmetic-shop__cards-grid">
                             {items.map(item => {
                                 const owned = state.owned.includes(item.id);
                                 const equipped = state.equipped[item.type] === item.id;
                                 const canAfford = points >= item.cost;
 
                                 const cardCls = equipped
-                                    ? 'ef-cosmetic-card ef-cosmetic-card--equipped'
+                                    ? 'ef-cosmetic-shop__card ef-cosmetic-shop__card--equipped'
                                     : owned
-                                        ? 'ef-cosmetic-card ef-cosmetic-card--owned'
-                                        : 'ef-cosmetic-card';
+                                        ? 'ef-cosmetic-shop__card ef-cosmetic-shop__card--owned'
+                                        : 'ef-cosmetic-shop__card';
 
                                 return (
                                     <div key={item.id} className={cardCls}>
                                         {equipped && (
-                                            <div className="ef-cosmetic-card__equipped-banner">
+                                            <div className="ef-cosmetic-shop__card-equipped-banner">
                                                 <CheckCircle weight="fill" /> EQUIPADO
                                             </div>
                                         )}
 
                                         {/* Item icon */}
-                                        <div className="ef-cosmetic-card__icon">
+                                        <div className="ef-cosmetic-shop__card-icon">
                                             {item.emoji}
                                         </div>
 
-                                        <div className="ef-cosmetic-card__name">
+                                        <div className="ef-cosmetic-shop__card-name">
                                             {item.name}
                                         </div>
 
                                         {!owned && (
-                                            <div className="ef-cosmetic-card__price">
+                                            <div className="ef-cosmetic-shop__card-price">
                                                 <Star weight="fill" /> {item.cost}
                                             </div>
                                         )}
 
-                                        <div style={{ marginTop: 'auto' }}>
+                                        <div className="ef-cosmetic-shop__card-actions">
                                             {owned ? (
                                                 <EfButton
+                                                    className="ef-cosmetic-shop__card-button"
                                                     variant={equipped ? "primary" : "secondary"}
                                                     onClick={() => !equipped && handleEquip(item.id)}
                                                     disabled={equipped}
-                                                    style={{ width: '100%', justifyContent: 'center' }}
                                                 >
                                                     {equipped ? 'EM USO' : 'EQUIPAR'}
                                                 </EfButton>
                                             ) : (
                                                 <EfButton
+                                                    className={`ef-cosmetic-shop__card-button ${canAfford ? 'ef-cosmetic-shop__card-button--purchasable' : 'ef-cosmetic-shop__card-button--unpurchasable'}`}
                                                     variant={canAfford ? "primary" : "secondary"}
                                                     onClick={() => canAfford && handlePurchase(item.id)}
                                                     disabled={!canAfford}
-                                                    style={{
-                                                        width: '100%',
-                                                        justifyContent: 'center',
-                                                        backgroundColor: canAfford ? '#FFD700' : 'transparent',
-                                                        color: canAfford ? '#000' : '#8E9E94',
-                                                        borderColor: canAfford ? '#FFD700' : '#2D3748'
-                                                    }}
                                                 >
                                                     {canAfford ? <><LockOpen size={16} /> DESBLOQUEAR</> : <><Lock size={16} /> PONTOS INSUF.</>}
                                                 </EfButton>

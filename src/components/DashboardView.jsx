@@ -3,7 +3,6 @@ import { AnimatedStat } from '../hooks/useCountUp';
 import { Help } from './Help';
 import { useGame } from '../context/GameContext';
 import { FORMATIONS, TACTICS, TEAM_TALKS, TRAINING_TYPES } from '../engine/ManagerSystems';
-import { getTacticModifierParts } from '../engine/TacticFormatter';
 import { STAFF_ROLES, SCOUT_REGIONS, getStadiumInfo } from '../engine/StadiumSystem';
 import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
 import { ChallengesWidget } from './ChallengesWidget';
@@ -14,10 +13,6 @@ import { ScarcityBanner, DreadIndicator, useKeyboardNav, TutorialOverlay, Ironma
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import { EfModal } from './ui/EfModal';
-import { OnboardingCoach } from './OnboardingCoach';
-import { getUnifiedView } from '../engine/UnifiedModeBridge';
-import { getWeeklyQuote } from '../engine/StarPlayerNarrative';
-import { evaluateAhaMoments, markAhaSeen } from '../engine/AhaMomentsSystem';
 import { 
   Users, ShoppingCart, ChartBar, SoccerBall, TrendUp, TrendDown, Heartbeat,
   Newspaper, Lightning, Envelope, Wallet, Bank, Building, GraduationCap, Binoculars, 
@@ -27,6 +22,7 @@ import {
 import '../styles/trophy-ceremony.css';
 import '../styles/progressive-disclosure.css';
 import '../styles/gdd-systems.css';
+import '../styles/dashboard-view.css';
 
 export function DashboardView() {
     const { gameState, changeView, getEngine, forceUpdate } = useGame();
@@ -42,33 +38,10 @@ export function DashboardView() {
         try { return !localStorage.getItem('olefut_tutorial_done') && (engine?.seasonNumber || 1) === 1; }
         catch { return false; }
     });
-    // Gap fix #2: aha moments state
-    const [ahaMoment, setAhaMoment] = useState(null);
     // SPEC-167: manager advice panel state
     const [advicePanel, setAdvicePanel] = useState({ open: false, loading: false, text: '' });
 
     useKeyboardNav({ changeView, currentView: gameState?.view || 'dashboard' });
-
-    // Gap fix #2: aha moments detector (week change)
-    /* eslint-disable react-hooks/set-state-in-effect */
-    React.useEffect(() => {
-        if (!engine || ahaMoment) return;
-        try {
-            const stats = engine.managerStats || {};
-            const teamData = engine.getTeam?.(gameState.teamId);
-            const ctx = {
-                matchesPlayed: (stats.wins || 0) + (stats.draws || 0) + (stats.losses || 0),
-                firstInjuryDetected: (engine.weekInjuries?.length || 0) > 0 && (stats.matchesPlayed || 0) <= 5,
-                lowMoraleStreak: (stats.lossStreak || 0),
-                balance: teamData?.balance || engine.manager?.money || 100000,
-            };
-            const triggered = evaluateAhaMoments(ctx);
-            if (triggered.length > 0) {
-                setAhaMoment(triggered[0]);
-            }
-        } catch { /* defensive */ }
-    }, [engine?.currentWeek]);
-    /* eslint-enable react-hooks/set-state-in-effect */
 
     // BUG-081 (SPEC-158): aceitável — abre modais em resposta a eventos da engine (unlock/achievement).
     // Event-subscriber side-effect. setState dispara render que mostra modal.
@@ -139,99 +112,35 @@ export function DashboardView() {
     const handleRejectOffer = (playerId) => { engine.rejectTransferOffer(playerId); setLog('Oferta recusada.'); forceUpdate(); };
 
     return (
-        <div style={{ padding: '24px', width: '100%', height: '100%', overflowY: 'auto', backgroundColor: 'var(--bg-dark, #0D1117)' }}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="ef-dashboard-container">
+            <div className="ef-dashboard-inner">
                 <TrophyCeremony trophy={engine.trophyCeremony?.trophy} season={engine.trophyCeremony?.season} visible={!!engine.trophyCeremony} onDismiss={() => { engine.trophyCeremony = null; forceUpdate(); }} />
 
-                {/* SPEC-A2: Onboarding Coach — semana 1 da 1ª temporada apenas */}
-                <OnboardingCoach
-                    show={(engine?.seasonNumber || 1) === 1 && (engine?.currentWeek || 1) === 1}
-                    onComplete={() => forceUpdate()}
-                />
-
-                {/* Gap fix #2: Aha moment banner */}
-                {ahaMoment && (
-                    <EfPanel padding="md" style={{ border: '1px solid #FFD700', backgroundColor: '#1A1408' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <Lightbulb size={24} color="#FFD700" weight="fill" />
-                            <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: '0.7rem', color: '#FFD700', fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.1em', marginBottom: '4px' }}>
-                                    DICA ESTRATÉGICA
-                                </div>
-                                <div style={{ fontSize: '0.95rem', color: '#FDFBF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold', marginBottom: '4px' }}>
-                                    {ahaMoment.title}
-                                </div>
-                                <div style={{ fontSize: '0.8rem', color: '#8E9E94', fontFamily: 'var(--font-sans)' }}>
-                                    {ahaMoment.body}
-                                </div>
-                            </div>
-                            <EfButton variant="secondary" size="sm" onClick={() => { markAhaSeen(ahaMoment.id); setAhaMoment(null); }}>
-                                ENTENDI
-                            </EfButton>
-                        </div>
-                    </EfPanel>
-                )}
-
-                {/* SPEC-C2.3 + F4.2: Unified Mode — Star Progress panel com frase semanal */}
-                {(() => {
-                    const view = getUnifiedView(engine);
-                    if (!view.isUnified || !view.star) return null;
-                    const s = view.star;
-                    // SPEC-F4.2: frase semanal rotativa
-                    const quoteSeed = (engine?.currentWeek || 0) + Math.floor((engine?.currentWeek || 0) / 4) + (s.id || 0);
-                    const weeklyQuote = getWeeklyQuote({ name: s.name }, quoteSeed);
-                    return (
-                        <EfPanel padding="md" style={{ border: '1px solid #FFD700', backgroundColor: '#1A1408' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                <div style={{ flex: 1 }}>
-                                    <div style={{ fontSize: '0.7rem', color: '#FFD700', fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.1em', marginBottom: '4px' }}>
-                                        ESTRELA DO CLUBE
-                                    </div>
-                                    <div style={{ fontSize: '1.1rem', color: '#FDFBF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
-                                        {s.name} <span style={{ fontSize: '0.8rem', color: '#8E9E94' }}>({s.position} · {s.age}a · OVR {s.skills.technique})</span>
-                                    </div>
-                                    <div style={{ display: 'flex', gap: '12px', marginTop: '8px', fontSize: '0.75rem', color: '#8E9E94', fontFamily: 'var(--font-mono)' }}>
-                                        <span>Carreira: {s.careerApps}j · {s.careerGoals}g</span>
-                                        <span style={{ color: '#39FF14' }}>Boss {s.relationships.boss}</span>
-                                        <span style={{ color: '#40BAF7' }}>Torcida {s.relationships.fans}</span>
-                                        <span style={{ color: '#FFD700' }}>Equipe {s.relationships.teammates}</span>
-                                    </div>
-                                    {weeklyQuote && (
-                                        <div style={{ marginTop: '10px', fontSize: '0.8rem', color: '#C7A75D', fontFamily: 'var(--font-sans)', fontStyle: 'italic', borderLeft: '2px solid #C7A75D', paddingLeft: '10px' }}>
-                                            "{weeklyQuote}"
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </EfPanel>
-                    );
-                })()}
-
                 {/* === HEADER — LUXURY BENTO === */}
-                <EfPanel variant="hero" padding="lg" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <div style={{ display: 'inline-block', background: '#1A1F24', color: '#888', padding: '4px 12px', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.05em', marginBottom: '12px' }}>
+                <EfPanel variant="hero" padding="lg" className="ef-dashboard-header">
+                    <div className="ef-dashboard-header__left">
+                        <div className="ef-dashboard-team-badge">
                             {pos}º • SÉRIE {['A','B','C','D'][team.division - 1]}
                         </div>
-                        <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '2rem', fontWeight: '800', margin: '0 0 8px 0', color: '#FDFBF7' }}>
+                        <h2 className="ef-dashboard-team-name">
                             {team.name}
                         </h2>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#8E9E94', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span className="ef-dashboard-team-stats">
                             {stats.wins}V {stats.draws}E {stats.losses}D
-                            {stats.streak > 0 ? <span style={{display: 'flex', alignItems: 'center', color: '#39FF14'}}><TrendUp weight="bold"/> {stats.streak}</span> : stats.streak < 0 ? <span style={{display: 'flex', alignItems: 'center', color: '#FF3333'}}><TrendDown weight="bold"/> {Math.abs(stats.streak)}</span> : ''}
+                            {stats.streak > 0 ? <span className="ef-dashboard-team-stats__win"><TrendUp weight="bold"/> {stats.streak}</span> : stats.streak < 0 ? <span className="ef-dashboard-team-stats__loss"><TrendDown weight="bold"/> {Math.abs(stats.streak)}</span> : ''}
                         </span>
                     </div>
-                    <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 'bold', color: team.balance > 0 ? '#39FF14' : '#FF3333' }}>
+                    <div className="ef-dashboard-header__right">
+                        <div className={`ef-dashboard-balance ${team.balance > 0 ? 'ef-dashboard-balance--positive' : 'ef-dashboard-balance--negative'}`}>
                             R$ {(team.balance / 1000000).toFixed(1)}M
                         </div>
                         {boardStatus && (
-                            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: boardStatus.color, background: '#1A1F24', padding: '6px 12px', display: 'inline-flex', alignItems: 'center', gap: '6px' }} title={`Diretoria: ${boardStatus.label} (${engine.board?.confidence ?? 60}%).`}>
+                            <div className="ef-dashboard-board-status" title={`Diretoria: ${boardStatus.label} (${engine.board?.confidence ?? 60}%).`}>
                                 <span>{boardStatus.emoji}</span> {boardStatus.label}
                             </div>
                         )}
-                        <div style={{ marginTop: '12px', width: '200px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#8E9E94', marginBottom: '6px' }}>
+                        <div className="ef-dashboard-season-progress">
+                            <div className="ef-dashboard-season-progress__info">
                                 <span>SEM {seasonWeek}/38</span>
                                 <span>TEMP {engine.seasonNumber}</span>
                             </div>
@@ -244,19 +153,19 @@ export function DashboardView() {
 
                 {/* === ALERTS === */}
                 {(injured.length > 0 || expiringContracts.length > 0 || avgEnergy < 50 || (engine.transferOffers?.length ?? 0) > 0) && (
-                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                        {injured.length > 0 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><Heartbeat color="#FF3333" weight="fill" /><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#FF3333', fontWeight: 'bold' }}>{injured.length} LESIONADO{injured.length > 1 ? 'S' : ''}</span></EfPanel>}
-                        {expiringContracts.length > 0 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D2916', borderColor: '#FFD700', gap: '8px' }}><Newspaper color="#FFD700" weight="fill" /><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#FFD700', fontWeight: 'bold' }}>{expiringContracts.length} CONTRATO{expiringContracts.length > 1 ? 'S' : ''}</span></EfPanel>}
-                        {avgEnergy < 50 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#2D1616', borderColor: '#FF3333', gap: '8px' }}><Lightning color="#FF3333" weight="fill" /><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#FF3333', fontWeight: 'bold' }}>CANSADO ({avgEnergy.toFixed(0)}%)</span></EfPanel>}
-                        {(engine.transferOffers?.length ?? 0) > 0 && <EfPanel padding="sm" style={{ display: 'inline-flex', alignItems: 'center', background: '#16242D', borderColor: '#40BAF7', gap: '8px', cursor: 'pointer' }} onClick={() => setTab('transfers')}><Envelope color="#40BAF7" weight="fill" /><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#40BAF7', fontWeight: 'bold' }}>{(engine.transferOffers?.length ?? 0)} OFERTA{(engine.transferOffers?.length ?? 0) > 1 ? 'S' : ''}</span></EfPanel>}
+                    <div className="ef-dashboard-alerts">
+                        {injured.length > 0 && <EfPanel padding="sm" className="ef-dashboard-alert ef-dashboard-alert--injury"><Heartbeat color="var(--danger)" weight="fill" /><span className="ef-dashboard-alert__text ef-dashboard-alert__text--danger">{injured.length} LESIONADO{injured.length > 1 ? 'S' : ''}</span></EfPanel>}
+                        {expiringContracts.length > 0 && <EfPanel padding="sm" className="ef-dashboard-alert ef-dashboard-alert--contract"><Newspaper color="var(--accent)" weight="fill" /><span className="ef-dashboard-alert__text ef-dashboard-alert__text--secondary">{expiringContracts.length} CONTRATO{expiringContracts.length > 1 ? 'S' : ''}</span></EfPanel>}
+                        {avgEnergy < 50 && <EfPanel padding="sm" className="ef-dashboard-alert ef-dashboard-alert--energy"><Lightning color="var(--danger)" weight="fill" /><span className="ef-dashboard-alert__text ef-dashboard-alert__text--danger">CANSADO ({avgEnergy.toFixed(0)}%)</span></EfPanel>}
+                        {(engine.transferOffers?.length ?? 0) > 0 && <EfPanel padding="sm" className="ef-dashboard-alert ef-dashboard-alert--transfer" style={{ cursor: 'pointer' }} onClick={() => setTab('transfers')}><Envelope color="var(--info)" weight="fill" /><span className="ef-dashboard-alert__text ef-dashboard-alert__text--info">{(engine.transferOffers?.length ?? 0)} OFERTA{(engine.transferOffers?.length ?? 0) > 1 ? 'S' : ''}</span></EfPanel>}
                     </div>
                 )}
 
                 {/* === BENTO GRID LAYOUT === */}
-                <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '24px', alignItems: 'start' }}>
+                <div className="ef-dashboard-main-grid">
                     {/* LEFT COLUMN: Navigation & Actions */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        <EfPanel padding="md" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div className="ef-dashboard-nav">
+                        <EfPanel padding="md" className="ef-dashboard-nav__tabs">
                             {[{id:'overview',label:'Visão Geral'},{id:'tactics',label:'Táticas'},{id:'training',label:'Treino'},{id:'club',label:'Clube'},...((engine.transferOffers?.length ?? 0) > 0 ? [{id:'transfers',label:'Ofertas'}] : [])].map(t => (
                                 <EfButton key={t.id} variant={tab === t.id ? 'primary' : 'secondary'} size="md" onClick={() => setTab(t.id)} style={{ width: '100%', justifyContent: 'flex-start', fontFamily: 'var(--font-sans)', fontWeight: '600' }}>
                                     {t.label}
@@ -264,7 +173,7 @@ export function DashboardView() {
                             ))}
                         </EfPanel>
 
-                        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div className="ef-dashboard-nav__actions">
                             {/* SPEC-167: Conselho do Auxiliar */}
                             <EfButton variant="secondary" size="md" title="Sugestão tática do auxiliar técnico baseada no adversário" style={{ width: '100%', justifyContent: 'center', fontFamily: 'var(--font-sans)', fontWeight: '600', gap: '8px' }} onClick={handleAuxiliarAdvice}>
                                 <GraduationCap weight="bold" /> Conselho do Auxiliar
@@ -285,18 +194,18 @@ export function DashboardView() {
                     </div>
 
                     {/* RIGHT COLUMN: Content Area */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                    <div className="ef-dashboard-content">
                         {/* NEXT MATCH INFO (Always visible above tabs) */}
-                        <EfPanel padding="md" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#161B22' }}>
-                            <div>
-                                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#8E9E94', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Formação Atual</span>
-                                <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 'bold', color: '#FDFBF7' }}>{team.formation}</span>
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#555' }}>•</span>
-                                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: '600', color: '#39FF14' }}>{TACTICS[engine.currentTactic]?.name}</span>
+                        <EfPanel padding="md" className="ef-dashboard-match-info">
+                            <div className="ef-dashboard-match-info__left">
+                                <span className="ef-dashboard-match-info__label">Formação Atual</span>
+                                <div className="ef-dashboard-match-info__formation">
+                                    <span className="ef-dashboard-match-info__formation-name">{team.formation}</span>
+                                    <span className="ef-dashboard-match-info__separator">•</span>
+                                    <span className="ef-dashboard-match-info__tactics">{TACTICS[engine.currentTactic]?.name}</span>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', gap: '24px' }}>
+                            <div className="ef-dashboard-match-info__right">
                                 <div className="ef-stat-cell"><span className="ef-stat-cell__value ef-text-accent"><AnimatedStat value={sectors.goalkeeper} /></span><span className="ef-stat-cell__label"><Help id="sector.gol" />GOL</span></div>
                                 <div className="ef-stat-cell"><span className="ef-stat-cell__value ef-text-info"><AnimatedStat value={sectors.defense} /></span><span className="ef-stat-cell__label"><Help id="sector.def" />DEF</span></div>
                                 <div className="ef-stat-cell"><span className="ef-stat-cell__value ef-text-primary"><AnimatedStat value={sectors.midfield} /></span><span className="ef-stat-cell__label"><Help id="sector.mei" />MEI</span></div>
@@ -306,13 +215,13 @@ export function DashboardView() {
 
                         {/* TAB CONTENTS */}
                         {tab === 'overview' && (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+                            <div className="ef-dashboard-overview">
                                 {/* Left Sub-column */}
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                                <div className="ef-dashboard-overview__left">
                                     {seasonWeek <= 2 && engine.seasonNumber === 1 && (
-                                        <EfPanel padding="md" style={{ borderColor: '#40BAF7', background: '#0D1A24' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#40BAF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold', marginBottom: '12px' }}><Lightbulb weight="fill" /> PLAYBOOK DO TREINADOR</div>
-                                            <div style={{ fontSize: '0.85rem', color: '#8E9E94', lineHeight: 1.6, fontFamily: 'var(--font-sans)' }}>
+                                        <EfPanel padding="md" className="ef-dashboard-playbook">
+                                            <div className="ef-dashboard-playbook__title"><Lightbulb weight="fill" /> PLAYBOOK DO TREINADOR</div>
+                                            <div className="ef-dashboard-playbook__content">
                                                 <p>1️⃣ <strong>Táticas:</strong> escolha formação e tática antes de jogar</p>
                                                 <p>2️⃣ <strong>Treino:</strong> treine o plantel toda semana para melhorar atributos</p>
                                                 <p>3️⃣ <strong>Plantel:</strong> escale seus melhores 11 e monitore energia</p>
@@ -328,33 +237,33 @@ export function DashboardView() {
                                     <EfPanel padding="md">
                                         <div className="ef-panel-section-label"><Wallet weight="fill" /> FINANÇAS</div>
                                         {engine.weeklyFinance ? (
-                                            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
+                                            <table className="ef-dashboard-finance__table">
                                                 <tbody>
                                                     {engine.weeklyFinance.details.map((d, i) => (
-                                                        <tr key={i} style={{ borderBottom: '1px solid #1A1F24' }}>
-                                                            <td style={{ color: '#8E9E94', padding: '8px 0' }}>{d.label}</td>
-                                                            <td style={{ textAlign: 'right', padding: '8px 0', color: d.type === 'income' ? '#39FF14' : '#FF3333' }}>
+                                                        <tr key={i} className="ef-dashboard-finance__row">
+                                                            <td className="ef-dashboard-finance__label">{d.label}</td>
+                                                            <td className={`ef-dashboard-finance__value ${d.type === 'income' ? 'ef-dashboard-finance__value--income' : 'ef-dashboard-finance__value--expense'}`}>
                                                                 {d.type === 'income' ? '+' : '-'}R$ {(d.amount / 1000).toFixed(0)}K
                                                             </td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
                                             </table>
-                                        ) : <p style={{ color: '#8E9E94', fontSize: '0.8rem', fontFamily: 'var(--font-sans)' }}>Jogue a próxima partida para ver o relatório.</p>}
+                                        ) : <p className="ef-dashboard-finance__empty">Jogue a próxima partida para ver o relatório.</p>}
                                     </EfPanel>
 
                                     {engine.activeLoan && (
-                                        <EfPanel padding="md" style={{ background: '#2D2916', borderColor: '#FFD700' }}>
+                                        <EfPanel padding="md" className="ef-dashboard-loan">
                                             <div className="ef-panel-section-label ef-text-accent"><Bank weight="fill" /> EMPRÉSTIMO ATIVO</div>
-                                            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
+                                            <table className="ef-dashboard-loan__table">
                                                 <tbody>
-                                                    <tr style={{ borderBottom: '1px solid #1B4332' }}><td style={{ color: '#8E9E94', padding: '8px 0' }}>Principal</td><td style={{ textAlign: 'right', padding: '8px 0', color: '#FDFBF7' }}>R$ {(engine.activeLoan.principal / 1_000_000).toFixed(1)}M</td></tr>
-                                                    <tr style={{ borderBottom: '1px solid #1B4332' }}><td style={{ color: '#8E9E94', padding: '8px 0' }}>Parcela</td><td style={{ textAlign: 'right', padding: '8px 0', color: '#FF3333' }}>R$ {(engine.activeLoan.weeklyPayment / 1000).toFixed(0)}K</td></tr>
-                                                    <tr><td style={{ color: '#8E9E94', padding: '8px 0' }}>Restante</td><td style={{ textAlign: 'right', padding: '8px 0', color: '#FDFBF7' }}>{engine.activeLoan.weeksRemaining} sem</td></tr>
+                                                    <tr className="ef-dashboard-loan__row"><td className="ef-dashboard-loan__label">Principal</td><td className="ef-dashboard-loan__value">R$ {(engine.activeLoan.principal / 1_000_000).toFixed(1)}M</td></tr>
+                                                    <tr className="ef-dashboard-loan__row"><td className="ef-dashboard-loan__label">Parcela</td><td className="ef-dashboard-loan__value ef-dashboard-loan__value--danger">R$ {(engine.activeLoan.weeklyPayment / 1000).toFixed(0)}K</td></tr>
+                                                    <tr className="ef-dashboard-loan__row"><td className="ef-dashboard-loan__label">Restante</td><td className="ef-dashboard-loan__value">{engine.activeLoan.weeksRemaining} sem</td></tr>
                                                 </tbody>
                                             </table>
                                             {team.balance >= engine.activeLoan.totalOwed && (
-                                                <EfButton variant="primary" size="md" style={{ marginTop: '16px', width: '100%', justifyContent: 'center', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }} onClick={() => { engine.payOffLoan(); forceUpdate(); }}>
+                                                <EfButton variant="primary" size="md" className="ef-dashboard-loan__payoff-btn" onClick={() => { engine.payOffLoan(); forceUpdate(); }}>
                                                     Quitar Antecipadamente
                                                 </EfButton>
                                             )}
@@ -362,24 +271,17 @@ export function DashboardView() {
                                     )}
                                 </div>
                                 {/* Right Sub-column */}
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                                <div className="ef-dashboard-overview__right">
                                     {(engine.weekEvents?.length ?? 0) > 0 && (
                                         <EfPanel padding="md">
                                             <div className="ef-panel-section-label"><Newspaper weight="fill" /> EVENTOS DA SEMANA</div>
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                            <div className="ef-dashboard-events">
                                                 {(engine.weekEvents || []).map((ev, i) => {
                                                     const evText = typeof ev === 'string' ? ev : (ev?.text || ev?.msg || '');
                                                     const isGood = evText.includes('📈') || evText.includes('🎉') || evText.includes('📚') || evText.includes('🇧🇷') || evText.includes('🎂');
                                                     const isBad = evText.includes('📉') || evText.includes('☠️') || evText.includes('👴') || evText.includes('🕺') || evText.includes('🥊');
                                                     return (
-                                                        <div key={i} style={{ 
-                                                            padding: '12px', 
-                                                            background: isGood ? '#162D1C' : isBad ? '#2D1616' : '#1A1F24', 
-                                                            borderLeft: `4px solid ${isGood ? '#39FF14' : isBad ? '#FF3333' : '#4A5059'}`,
-                                                            fontFamily: 'var(--font-sans)',
-                                                            fontSize: '0.85rem',
-                                                            color: isGood ? '#39FF14' : isBad ? '#FF3333' : '#FDFBF7'
-                                                        }}>
+                                                        <div key={i} className={`ef-dashboard-event ${isGood ? 'ef-dashboard-event--good' : isBad ? 'ef-dashboard-event--bad' : 'ef-dashboard-event--neutral'}`}>
                                                             {evText}
                                                         </div>
                                                     );
@@ -389,13 +291,13 @@ export function DashboardView() {
                                     )}
 
                                     {typeof engine.boardTension === 'number' && (
-                                        <EfPanel padding="md" style={{ borderColor: engine.boardTension < -20 ? '#FF3333' : engine.boardTension > 40 ? '#39FF14' : '#FFD700', background: engine.boardTension < -20 ? '#2D1616' : engine.boardTension > 40 ? '#162D1C' : '#2D2916' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px', color: engine.boardTension < -20 ? '#FF3333' : engine.boardTension > 40 ? '#39FF14' : '#FFD700' }}><WarningCircle weight="fill" /> TENSÃO DA DIRETORIA</div>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-sans)', fontSize: '0.9rem', fontWeight: 'bold' }}>
-                                                <span style={{ color: '#FDFBF7' }}>
+                                        <EfPanel padding="md" className={`ef-dashboard-board-tension ${engine.boardTension < -20 ? 'ef-dashboard-board-tension--danger' : engine.boardTension > 40 ? 'ef-dashboard-board-tension--stable' : 'ef-dashboard-board-tension--warning'}`}>
+                                            <div className={`ef-dashboard-board-tension__title ${engine.boardTension < -20 ? 'ef-dashboard-board-tension__title--danger' : engine.boardTension > 40 ? 'ef-dashboard-board-tension__title--stable' : 'ef-dashboard-board-tension__title--warning'}`}><WarningCircle weight="fill" /> TENSÃO DA DIRETORIA</div>
+                                            <div className="ef-dashboard-board-tension__content">
+                                                <span className="ef-dashboard-board-tension__status">
                                                     {engine.boardTension >= 40 ? 'Estável' : engine.boardTension >= 0 ? 'Atenção' : engine.boardTension >= -40 ? 'Pressão' : 'Crise'}
                                                 </span>
-                                                <strong style={{ color: engine.boardTension >= 0 ? '#39FF14' : '#FF3333', fontSize: '1.2rem', fontFamily: 'var(--font-mono)' }}>
+                                                <strong className={`ef-dashboard-board-tension__value ${engine.boardTension >= 0 ? 'ef-dashboard-board-tension__value--positive' : 'ef-dashboard-board-tension__value--negative'}`}>
                                                     {engine.boardTension > 0 ? '+' : ''}{engine.boardTension}
                                                 </strong>
                                             </div>
@@ -408,7 +310,7 @@ export function DashboardView() {
                                     {stats.rollingForm && stats.rollingForm.length > 0 && (
                                         <EfPanel padding="md">
                                             <div className="ef-panel-section-label"><ChartLineUp weight="fill" /> FORMA RECENTE</div>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                            <div className="ef-dashboard-form-chips">
                                                 {stats.rollingForm.map((r, i) => (
                                                     <span key={i} className={`ef-form-chip ef-form-chip--${r.toLowerCase()}`}>{r}</span>
                                                 ))}
@@ -420,43 +322,37 @@ export function DashboardView() {
                         )}
 
                         {tab === 'tactics' && (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+                            <div className="ef-dashboard-tactics-grid">
                                 <EfPanel padding="lg">
-                                    <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '24px', color: '#FDFBF7' }}>FORMAÇÃO</div>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                    <div className="ef-dashboard-tactics__section-title">FORMAÇÃO</div>
+                                    <div className="ef-dashboard-tactics__buttons">
                                         {Object.keys(FORMATIONS).map(f => (
-                                            <EfButton key={f} variant={team.formation === f ? 'primary' : 'secondary'} size="md" onClick={() => { engine.setFormation(f); forceUpdate(); }} style={{ fontFamily: 'var(--font-mono)' }}>{f}</EfButton>
+                                            <EfButton key={f} variant={team.formation === f ? 'primary' : 'secondary'} size="md" onClick={() => { engine.setFormation(f); forceUpdate(); }}>
+                                              {f}
+                                            </EfButton>
                                         ))}
                                     </div>
-                                    <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', margin: '32px 0 24px 0', color: '#FDFBF7' }}>TÁTICA DE JOGO</div>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                    <div className="ef-dashboard-tactics__section-title ef-dashboard-tactics__section-title--secondary">TÁTICA DE JOGO</div>
+                                    <div className="ef-dashboard-tactics__buttons">
                                         {Object.entries(TACTICS).map(([k, v]) => (
-                                            <EfButton key={k} variant={engine.currentTactic === k ? 'primary' : 'secondary'} size="md" onClick={() => { engine.setTactic(k); forceUpdate(); }} style={{ fontFamily: 'var(--font-sans)', fontWeight: '600' }}>{v.name}</EfButton>
+                                            <EfButton key={k} variant={engine.currentTactic === k ? 'primary' : 'secondary'} size="md" onClick={() => { engine.setTactic(k); forceUpdate(); }}>
+                                              {v.name}
+                                            </EfButton>
                                         ))}
                                     </div>
-                                    <p style={{ color: '#8E9E94', fontSize: '0.85rem', marginTop: '16px', lineHeight: 1.5, fontFamily: 'var(--font-sans)' }}>{TACTICS[engine.currentTactic]?.description}</p>
-                                    {/* SPEC-B5: modifiers concretos para feedback de consequência */}
-                                    {(() => {
-                                        const parts = getTacticModifierParts(engine.currentTactic);
-                                        return (
-                                            <div style={{ marginTop: '8px', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
-                                                <span style={{ color: '#39FF14', marginRight: '12px' }}>ATA {parts.ata}</span>
-                                                <span style={{ color: '#40BAF7' }}>DEF {parts.def}</span>
-                                            </div>
-                                        );
-                                    })()}
+                                    <p className="ef-dashboard-tactics__description">{TACTICS[engine.currentTactic]?.description}</p>
                                 </EfPanel>
 
                                 <EfPanel padding="lg">
                                     <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem', marginBottom: '24px' }}><Megaphone weight="fill" /> PRELEÇÃO</div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                    <div className="ef-dashboard-talks">
                                         {TEAM_TALKS.map(t => {
                                             const moral = t.effect?.moralBoost ?? 0;
                                             const energy = t.effect?.energyCost ?? 0;
                                             const moralTxt = moral > 0 ? `moral +${moral}` : moral < 0 ? `moral ${moral}` : 'moral neutra';
                                             const energyTxt = energy > 0 ? `, custa ${energy} energia` : energy < 0 ? `, recupera energia` : '';
                                             return (
-                                            <EfButton key={t.id} variant="secondary" size="md" title={`${t.name}: ${moralTxt}${energyTxt}. "${t.text}"`} style={{ justifyContent: 'flex-start', padding: '16px', fontFamily: 'var(--font-sans)', fontWeight: '600' }} onClick={() => handleTeamTalk(t.id)}>
+                                            <EfButton key={t.id} variant="secondary" size="md" title={`${t.name}: ${moralTxt}${energyTxt}. "${t.text}"`} className="ef-dashboard-talk-btn" onClick={() => handleTeamTalk(t.id)}>
                                                 {t.name}
                                             </EfButton>
                                             );
@@ -468,12 +364,12 @@ export function DashboardView() {
 
                         {tab === 'training' && (
                             <EfPanel padding="lg">
-                                <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', marginBottom: '24px', color: '#FDFBF7' }}>TREINO SEMANAL</div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+                                <div className="ef-dashboard-training__title">TREINO SEMANAL</div>
+                                <div className="ef-dashboard-training__grid">
                                     {TRAINING_TYPES.map(t => (
-                                        <EfButton key={t.id} variant={engine.currentTraining === t.id ? 'primary' : 'secondary'} size="lg" title={`Treino ${t.name}: ${t.description} (drena energia do plantel)`} style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '24px', gap: '12px' }} onClick={() => handleTrain(t.id)}>
-                                            <span style={{ fontSize: '0.9rem', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>{t.name}</span>
-                                            <span style={{ fontSize: '0.75rem', color: engine.currentTraining === t.id ? '#1A8A0A' : '#8E9E94', whiteSpace: 'normal', textAlign: 'left', lineHeight: 1.4, fontFamily: 'var(--font-sans)', fontWeight: 'normal' }}>{t.description}</span>
+                                        <EfButton key={t.id} variant={engine.currentTraining === t.id ? 'primary' : 'secondary'} size="lg" title={`Treino ${t.name}: ${t.description} (drena energia do plantel)`} className="ef-dashboard-training-btn" onClick={() => handleTrain(t.id)}>
+                                            <span className="ef-dashboard-training-btn__name">{t.name}</span>
+                                            <span className={`ef-dashboard-training-btn__desc ${engine.currentTraining === t.id ? 'ef-dashboard-training-btn__desc--active' : ''}`}>{t.description}</span>
                                         </EfButton>
                                     ))}
                                 </div>
@@ -481,48 +377,48 @@ export function DashboardView() {
                         )}
 
                         {tab === 'club' && (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                                    <EfPanel padding="md" style={{ background: '#161B22' }}>
-                                        <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem' }}><Building weight="fill" /> {stadiumInfo.name}</div>
-                                        <div style={{ fontSize: '0.85rem', color: '#8E9E94', marginBottom: '16px', fontFamily: 'var(--font-sans)' }}>Cap: {stadiumInfo.capacity.toLocaleString()} • R$ {stadiumInfo.ticketPrice}/ingresso</div>
+                            <div className="ef-dashboard-club-grid">
+                                <div className="ef-dashboard-club__left">
+                                    <EfPanel padding="md" className="ef-dashboard-club__panel">
+                                        <div className="ef-panel-section-label ef-panel-section-label--strong"><Building weight="fill" /> {stadiumInfo.name}</div>
+                                        <div className="ef-dashboard-club-facility__info">Cap: {stadiumInfo.capacity.toLocaleString()} • R$ {stadiumInfo.ticketPrice}/ingresso</div>
                                         <div className="ef-progress ef-progress--sm" style={{ marginBottom: '16px' }}>
                                             <div className="ef-progress__fill ef-progress__fill--info" style={{ width: `${(engine.stadiumLevel / 5) * 100}%` }} />
                                         </div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: '#8E9E94' }}>NÍVEL {engine.stadiumLevel}/5</span>
+                                        <div className="ef-dashboard-club-facility__actions">
+                                            <span className="ef-dashboard-club-facility__level">NÍVEL {engine.stadiumLevel}/5</span>
                                             {engine.stadiumLevel < 5 && (
-                                                <EfButton variant="primary" size="sm" title="Aumenta capacidade do estádio (mais bilheteria por jogo). Consome do caixa." onClick={() => { const r = engine.upgradeStadium(); setLog(r.msg); forceUpdate(); }} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>UPGRADE</EfButton>
+                                                <EfButton variant="primary" size="sm" title="Aumenta capacidade do estádio (mais bilheteria por jogo). Consome do caixa." onClick={() => { const r = engine.upgradeStadium(); setLog(r.msg); forceUpdate(); }}>UPGRADE</EfButton>
                                             )}
                                         </div>
                                     </EfPanel>
 
-                                    <EfPanel padding="md" style={{ background: '#161B22' }}>
-                                        <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem' }}><GraduationCap weight="fill" /> BASE Nv.{engine.academyLevel}</div>
-                                        <div style={{ fontSize: '0.85rem', color: '#8E9E94', marginBottom: '16px', fontFamily: 'var(--font-sans)' }}>Produz {engine.academyLevel + 1} jovens/temporada</div>
+                                    <EfPanel padding="md" className="ef-dashboard-club__panel">
+                                        <div className="ef-panel-section-label ef-panel-section-label--strong"><GraduationCap weight="fill" /> BASE Nv.{engine.academyLevel}</div>
+                                        <div className="ef-dashboard-club-facility__info">Produz {engine.academyLevel + 1} jovens/temporada</div>
                                         <div className="ef-progress ef-progress--sm" style={{ marginBottom: '16px' }}>
                                             <div className="ef-progress__fill ef-progress__fill--accent" style={{ width: `${(engine.academyLevel / 5) * 100}%` }} />
                                         </div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: '#8E9E94' }}>NÍVEL {engine.academyLevel}/5</span>
+                                        <div className="ef-dashboard-club-facility__actions">
+                                            <span className="ef-dashboard-club-facility__level">NÍVEL {engine.academyLevel}/5</span>
                                             {engine.academyLevel < 5 && (
-                                                <EfButton variant="primary" size="sm" title="Melhora a base — produz mais e melhores jovens por temporada. Consome do caixa." onClick={() => { const r = engine.upgradeAcademy(); setLog(r.msg); forceUpdate(); }} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>UPGRADE</EfButton>
+                                                <EfButton variant="primary" size="sm" title="Melhora a base — produz mais e melhores jovens por temporada. Consome do caixa." onClick={() => { const r = engine.upgradeAcademy(); setLog(r.msg); forceUpdate(); }}>UPGRADE</EfButton>
                                             )}
                                         </div>
                                     </EfPanel>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                                    <EfPanel padding="md" style={{ background: '#161B22' }}>
-                                        <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem' }}><Users weight="fill" /> STAFF</div>
-                                        <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)', fontSize: '0.85rem' }}>
+                                <div className="ef-dashboard-club__right">
+                                    <EfPanel padding="md" className="ef-dashboard-club__panel">
+                                        <div className="ef-panel-section-label ef-panel-section-label--strong"><Users weight="fill" /> STAFF</div>
+                                        <table className="ef-dashboard-club-staff__table">
                                             <tbody>
                                                 {STAFF_ROLES.map(role => {
                                                     const member = engine.staff?.getStaff(role.id);
                                                     return (
-                                                        <tr key={role.id} style={{ borderBottom: '1px solid #1A1F24' }}>
-                                                            <td style={{ padding: '12px 0', color: '#8E9E94' }}>{role.name}</td>
-                                                            <td style={{ textAlign: 'right', padding: '12px 0' }}>
-                                                                {member ? <strong style={{ color: '#39FF14' }}>{member.name}</strong> : <EfButton variant="secondary" size="sm" title={`Contrata ${role.name} (paga salário semanal; ativa o bônus do cargo)`} onClick={() => { const r = engine.hireStaff(role.id); setLog(r.msg); forceUpdate(); }} style={{ fontWeight: 'bold' }}>Contratar</EfButton>}
+                                                        <tr key={role.id} className="ef-dashboard-club-staff__row">
+                                                            <td className="ef-dashboard-club-staff__label">{role.name}</td>
+                                                            <td className="ef-dashboard-club-staff__value">
+                                                                {member ? <strong className="ef-dashboard-club-staff__name">{member.name}</strong> : <EfButton variant="secondary" size="sm" title={`Contrata ${role.name} (paga salário semanal; ativa o bônus do cargo)`} onClick={() => { const r = engine.hireStaff(role.id); setLog(r.msg); forceUpdate(); }}>Contratar</EfButton>}
                                                             </td>
                                                         </tr>
                                                     );
@@ -531,22 +427,22 @@ export function DashboardView() {
                                         </table>
                                     </EfPanel>
 
-                                    <EfPanel padding="md" style={{ background: '#161B22' }}>
-                                        <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem' }}><Binoculars weight="fill" /> SCOUTING</div>
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
+                                    <EfPanel padding="md" className="ef-dashboard-club__panel">
+                                        <div className="ef-panel-section-label ef-panel-section-label--strong"><Binoculars weight="fill" /> SCOUTING</div>
+                                        <div className="ef-dashboard-club-scouting__regions">
                                             {SCOUT_REGIONS.map(r => (
-                                                <EfButton key={r.id} variant="secondary" size="sm" onClick={() => { const res = engine.scoutRegionAction(r.id); setLog(res.msg); forceUpdate(); }} style={{ fontFamily: 'var(--font-sans)', fontWeight: '600' }}>
+                                                <EfButton key={r.id} variant="secondary" size="sm" onClick={() => { const res = engine.scoutRegionAction(r.id); setLog(res.msg); forceUpdate(); }}>
                                                     {r.name}
                                                 </EfButton>
                                             ))}
                                         </div>
                                         {engine.scoutedPlayers?.length > 0 && (
-                                            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)', fontSize: '0.85rem' }}>
+                                            <table className="ef-dashboard-club-scouting__table">
                                                 <tbody>
                                                     {engine.scoutedPlayers.map((p, i) => (
-                                                        <tr key={i} style={{ borderBottom: '1px solid #1A1F24' }}>
-                                                            <td style={{ padding: '8px 0', color: '#FDFBF7' }}>{p.name} <span style={{ color: '#8E9E94', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>({p.position}, OVR {p.ovr})</span></td>
-                                                            <td style={{ textAlign: 'right', padding: '8px 0' }}><EfButton variant="primary" size="sm" onClick={() => { const r = engine.signScoutedPlayer(i); setLog(r?.msg); forceUpdate(); }} style={{ fontWeight: 'bold' }}>Assinar</EfButton></td>
+                                                        <tr key={i} className="ef-dashboard-club-scouting__row">
+                                                            <td className="ef-dashboard-club-scouting__player">{p.name} <span className="ef-dashboard-club-scouting__meta">({p.position}, OVR {p.ovr})</span></td>
+                                                            <td className="ef-dashboard-club-scouting__actions"><EfButton variant="primary" size="sm" onClick={() => { const r = engine.signScoutedPlayer(i); setLog(r?.msg); forceUpdate(); }}>Assinar</EfButton></td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -559,19 +455,19 @@ export function DashboardView() {
 
                         {tab === 'transfers' && (engine.transferOffers?.length ?? 0) > 0 && (
                             <EfPanel padding="lg">
-                                <div className="ef-panel-section-label ef-panel-section-label--strong" style={{ fontSize: '1rem', marginBottom: '24px' }}><Envelope weight="fill" /> OFERTAS RECEBIDAS</div>
-                                <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)', fontSize: '0.9rem' }}>
+                                <div className="ef-panel-section-label ef-panel-section-label--strong"><Envelope weight="fill" /> OFERTAS RECEBIDAS</div>
+                                <table className="ef-dashboard-transfers__table">
                                     <tbody>
                                         {engine.transferOffers.map((offer, i) => (
-                                            <tr key={i} style={{ borderBottom: '1px solid #1A1F24' }}>
-                                                <td style={{ padding: '16px 0' }}>
-                                                    <strong style={{ color: '#FDFBF7', fontSize: '1rem' }}>{offer.playerName}</strong> <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#8E9E94' }}>(OVR {offer.playerOvr})</span>
-                                                    <div style={{ fontSize: '0.8rem', color: '#8E9E94', marginTop: '6px', fontFamily: 'var(--font-sans)' }}>{offer.buyerClub} • <span style={{ fontFamily: 'var(--font-mono)', color: '#39FF14' }}>R$ {(offer.offerAmount / 1000000).toFixed(1)}M</span></div>
+                                            <tr key={i} className="ef-dashboard-transfers__row">
+                                                <td className="ef-dashboard-transfers__offer">
+                                                    <strong className="ef-dashboard-transfers__player-name">{offer.playerName}</strong> <span className="ef-dashboard-transfers__ovr">(OVR {offer.playerOvr})</span>
+                                                    <div className="ef-dashboard-transfers__offer-detail">{offer.buyerClub} • <span className="ef-dashboard-transfers__amount">R$ {(offer.offerAmount / 1000000).toFixed(1)}M</span></div>
                                                 </td>
-                                                <td style={{ textAlign: 'right', verticalAlign: 'middle', padding: '16px 0' }}>
-                                                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-                                                        <EfButton variant="primary" size="sm" title="Aceitar oferta (irreversível: jogador sai do plantel imediatamente)" onClick={() => handleAcceptOffer(offer.playerId)} style={{ fontWeight: 'bold' }}>ACEITAR</EfButton>
-                                                        <EfButton variant="danger" size="sm" title="Recusar oferta (cuidado: jogador pode ficar insatisfeito e pedir saída)" onClick={() => handleRejectOffer(offer.playerId)} style={{ fontWeight: 'bold' }}>RECUSAR</EfButton>
+                                                <td className="ef-dashboard-transfers__actions">
+                                                    <div className="ef-dashboard-transfers__buttons">
+                                                        <EfButton variant="primary" size="sm" title="Aceitar oferta (irreversível: jogador sai do plantel imediatamente)" onClick={() => handleAcceptOffer(offer.playerId)}>ACEITAR</EfButton>
+                                                        <EfButton variant="danger" size="sm" title="Recusar oferta (cuidado: jogador pode ficar insatisfeito e pedir saída)" onClick={() => handleRejectOffer(offer.playerId)}>RECUSAR</EfButton>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -584,9 +480,9 @@ export function DashboardView() {
                 </div>
 
                 {/* BOTTOM NAVIGATION */}
-                <div style={{ display: 'flex', gap: '16px', marginTop: 'auto', paddingTop: '24px' }}>
+                <div className="ef-dashboard-bottom-nav">
                     {[{view:'squad',icon:<Users weight="fill"/>,label:'Plantel'},{view:'market',icon:<ShoppingCart weight="fill"/>,label:'Mercado'},{view:'standings',icon:<ChartBar weight="fill"/>,label:'Tabela'}].map(n => (
-                        <EfButton key={n.view} variant="secondary" size="lg" className="ef-flex-1" style={{ justifyContent: 'center', padding: '24px', fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '1rem', gap: '8px' }} onClick={() => changeView(n.view)}>
+                        <EfButton key={n.view} variant="secondary" size="lg" className="ef-flex-1 ef-dashboard-bottom-nav__btn" onClick={() => changeView(n.view)}>
                             {n.icon} {n.label}
                         </EfButton>
                     ))}
@@ -616,13 +512,13 @@ export function DashboardView() {
                 {/* SPEC-167: Auxiliar advice modal */}
                 {advicePanel.open && (
                     <EfModal title="Conselho do Auxiliar" onClose={() => setAdvicePanel({ open: false, loading: false, text: '' })}>
-                        <div style={{ borderLeft: '4px solid #40BAF7', paddingLeft: '16px', marginBottom: '24px', minHeight: '60px' }}>
+                        <div className="ef-dashboard-advice-panel">
                             {advicePanel.loading
-                                ? <p style={{ margin: 0, fontSize: '0.95rem', color: '#8E9E94', fontFamily: 'var(--font-sans)', fontStyle: 'italic' }}>Analisando...</p>
-                                : <p style={{ margin: 0, fontSize: '1rem', lineHeight: 1.6, fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>{advicePanel.text}</p>
+                                ? <p className="ef-dashboard-advice-panel__loading">Analisando...</p>
+                                : <p className="ef-dashboard-advice-panel__text">{advicePanel.text}</p>
                             }
                         </div>
-                        <EfButton variant="primary" size="md" onClick={() => setAdvicePanel({ open: false, loading: false, text: '' })} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                        <EfButton variant="primary" size="md" onClick={() => setAdvicePanel({ open: false, loading: false, text: '' })}>
                             FECHAR
                         </EfButton>
                     </EfModal>
@@ -630,12 +526,12 @@ export function DashboardView() {
 
                 {/* SPEC-167: Última narrativa pós-jogo */}
                 {engine.lastMatchNarrative && (
-                    <div style={{ marginTop: '24px' }}>
-                        <EfPanel padding="md" style={{ borderColor: '#40BAF7', background: '#0D1A24' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#40BAF7', fontFamily: 'var(--font-sans)', fontWeight: 'bold', marginBottom: '8px' }}>
+                    <div className="ef-dashboard-narrative-wrapper">
+                        <EfPanel padding="md" className="ef-dashboard-narrative">
+                            <div className="ef-dashboard-narrative__title">
                                 <Newspaper weight="fill" /> CRÔNICA DA PARTIDA
                             </div>
-                            <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: 1.6, fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>{engine.lastMatchNarrative}</p>
+                            <p className="ef-dashboard-narrative__text">{engine.lastMatchNarrative}</p>
                         </EfPanel>
                     </div>
                 )}
@@ -643,20 +539,19 @@ export function DashboardView() {
                 {/* AUDIT-FIX #17: Pacing Friction Modal */}
                 {pacingQueue.length > 0 && (() => {
                     const evt = pacingQueue[0];
-                    const sevColors = { critical: '#FF3333', warning: '#FFD700', info: '#40BAF7' };
-                    const borderColor = sevColors[evt.severity] || '#40BAF7';
+                    const severityClass = { critical: 'ef-dashboard-pacing__alert--critical', warning: 'ef-dashboard-pacing__alert--warning', info: 'ef-dashboard-pacing__alert--info' }[evt.severity] || 'ef-dashboard-pacing__alert--info';
                     return (
                         <EfModal title={evt.title} onClose={() => {}}>
-                            <div style={{ borderLeft: `4px solid ${borderColor}`, paddingLeft: '16px', marginBottom: '24px' }}>
-                                <p style={{ margin: 0, fontSize: '1rem', lineHeight: 1.6, fontFamily: 'var(--font-sans)', color: '#FDFBF7' }}>{evt.body}</p>
+                            <div className={`ef-dashboard-pacing__alert ${severityClass}`}>
+                                <p className="ef-dashboard-pacing__body">{evt.body}</p>
                             </div>
-                            <div style={{ display: 'flex', gap: '12px' }}>
+                            <div className="ef-dashboard-pacing__buttons">
                                 {evt.action && (
                                     <EfButton variant="primary" size="md" onClick={() => {
                                         setPacingQueue([]);
                                         if (evt.action === 'tactics') setTab('tactics');
                                         else changeView(evt.action);
-                                    }} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                                    }}>
                                         RESOLVER AGORA
                                     </EfButton>
                                 )}
@@ -669,7 +564,7 @@ export function DashboardView() {
                                         engine.checkPressConference();
                                         if (!engine.pressQuestion) changeView('match'); else forceUpdate();
                                     }
-                                }} style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>
+                                }}>
                                     {pacingQueue.length > 1 ? 'PRÓXIMO ALERTA' : 'ENTENDIDO — JOGAR'}
                                 </EfButton>
                             </div>

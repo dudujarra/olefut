@@ -1,0 +1,10 @@
+/* ChronicleSeasonEndModal — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes ChronicleSeasonEndModal-specific component tokens + utility classes.
+ */
+
+.ef-chronicle-se {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add ChronicleSeasonEndModal-specific BEM classes below as inline styles are extracted */

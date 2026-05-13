@@ -1,0 +1,10 @@
+/* StartView — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes StartView-specific component tokens + utility classes.
+ */
+
+.ef-start-view {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add StartView-specific BEM classes below as inline styles are extracted */

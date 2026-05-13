@@ -1,0 +1,324 @@
+/* SquadView — semantic CSS + design tokens */
+
+.ef-squad__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-squad__identity {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.ef-squad__tag-wrap {
+  margin-bottom: 12px;
+}
+
+.ef-squad__header-actions {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.ef-squad__action-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ef-squad__btn-bold {
+  font-weight: bold;
+}
+
+.ef-squad__manager-stats {
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.ef-squad__toolbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--bg-panel);
+}
+
+.ef-squad__tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.ef-squad__filters {
+  display: flex;
+  gap: 8px;
+}
+
+.ef-squad__btn-tab {
+  font-weight: bold;
+  gap: 8px;
+}
+
+.ef-squad__panel-table {
+  overflow-x: auto;
+  background: var(--bg-panel);
+  border: 1px solid var(--bg-panel);
+}
+
+.ef-squad__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ef-squad__thead {
+  background: var(--bg-panel);
+  border-bottom: 2px solid var(--color-soft-border);
+}
+
+.ef-squad__th {
+  text-align: center;
+  padding: 16px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.ef-squad__th--narrow {
+  width: 60px;
+}
+
+.ef-squad__th--pos {
+  width: 70px;
+}
+
+.ef-squad__th--name {
+  text-align: left;
+}
+
+.ef-squad__th--ovr {
+  width: 70px;
+}
+
+.ef-squad__th--energy {
+  width: 120px;
+}
+
+.ef-squad__th--mor {
+  width: 80px;
+}
+
+.ef-squad__th--action {
+  width: 100px;
+}
+
+.ef-squad__th--sortable {
+  cursor: pointer;
+}
+
+.ef-squad__row {
+  background: var(--bg-panel);
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  border-bottom: 1px solid var(--bg-panel);
+}
+
+.ef-squad__row--selected {
+  border-left-color: var(--primary);
+}
+
+.ef-squad__row--injured {
+  opacity: 0.6;
+}
+
+.ef-squad__badge-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-purple-dark);
+  padding: 6px 12px;
+  border: 1px solid var(--color-purple-wonder);
+  color: var(--color-purple-wonder);
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.ef-squad__warning-panel {
+  background: var(--color-yellow-warn-bg);
+  border-color: var(--accent);
+}
+
+/* Wave 2 extractions */
+
+.ef-squad__td {
+  text-align: center;
+  padding: 12px;
+}
+
+.ef-squad__td--left {
+  text-align: left;
+  padding: 12px;
+}
+
+.ef-squad__row-zebra {
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--bg-panel);
+}
+
+.ef-squad__section-header-pad {
+  padding: 24px;
+  margin-bottom: 0;
+  border-bottom: 2px solid var(--color-soft-border);
+}
+
+.ef-squad__section-header-mb {
+  margin-bottom: 24px;
+}
+
+.ef-squad__section-header-accent {
+  color: var(--accent);
+}
+
+.ef-squad__h3-accent {
+  color: var(--accent);
+}
+
+.ef-squad__grid-md {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.ef-squad__grid-lg {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.ef-squad__stat-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--color-soft-border);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ef-squad__loan-row {
+  background: var(--bg-panel);
+  padding: 16px;
+  border: 1px solid var(--border-panel);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-squad__flex-gap {
+  display: flex;
+  gap: 8px;
+}
+
+.ef-squad__action-block {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Wave 4 — table cells and rows */
+
+.ef-squad__header-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.ef-squad__tab-toolbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--bg-panel);
+}
+
+.ef-squad__name-cell {
+  text-align: left;
+  padding: 12px;
+}
+
+.ef-squad__name-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ef-squad__name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.ef-squad__injury-icon {
+  margin-left: 4px;
+}
+
+.ef-squad__pos-mono {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.ef-squad__ovr-cell {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 12px;
+}
+
+.ef-squad__flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.ef-squad__flex-center-gap {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.ef-squad__details-row {
+  background: var(--bg-dark);
+}
+
+.ef-squad__details-cell {
+  padding: 24px;
+  border-bottom: 1px solid var(--color-soft-border);
+}
+
+.ef-squad__details-flex {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.ef-squad__details-box {
+  background: var(--bg-panel);
+  padding: 16px;
+  border: 1px solid var(--color-soft-border);
+}
+
+.ef-squad__details-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-squad__tab-btn {
+  font-weight: bold;
+  gap: 8px;
+}

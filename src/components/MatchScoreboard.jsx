@@ -21,7 +21,7 @@ export function MatchScoreboard({
     return (
         <EfPanel padding="md" style={{ position: 'relative', marginBottom: '24px', overflow: 'hidden', border: `2px solid ${colors.border}` }}>
             {goalBurstActive && (
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#1B4332', animation: 'pulse 1s infinite', pointerEvents: 'none', zIndex: 1 }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'var(--color-forest-pulse)', animation: 'pulse 1s infinite', pointerEvents: 'none', zIndex: 1 }} />
             )}
 
             <div className="ef-sans ef-text-accent" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '24px', marginBottom: '16px', fontSize: '0.85rem', fontWeight: 'bold', position: 'relative', zIndex: 2 }}>

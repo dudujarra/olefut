@@ -102,8 +102,8 @@ export function SeasonalEventModal() {
             <div style={{
                 maxWidth: '560px',
                 width: '100%',
-                backgroundColor: '#0E1418',
-                border: '2px solid #39FF14',
+                backgroundColor: 'var(--color-bg-deep)',
+                border: '2px solid var(--primary)',
                 padding: '24px',
                 position: 'relative',
             }}>
@@ -116,8 +116,8 @@ export function SeasonalEventModal() {
                         top: '10px',
                         right: '10px',
                         background: 'transparent',
-                        border: '1px solid #2D3748',
-                        color: '#FDFBF7',
+                        border: '1px solid var(--color-soft-border)',
+                        color: 'var(--text-main)',
                         padding: '4px',
                         cursor: 'pointer',
                         display: 'inline-flex',
@@ -127,10 +127,10 @@ export function SeasonalEventModal() {
                 </button>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                    <CalendarBlank size={20} color="#39FF14" weight="fill" />
+                    <CalendarBlank size={20} color="var(--primary)" weight="fill" />
                     <span id="ef-seasonal-title" style={{
                         fontSize: '0.75rem',
-                        color: '#39FF14',
+                        color: 'var(--primary)',
                         fontFamily: 'var(--font-sans)',
                         fontWeight: 'bold',
                         letterSpacing: '0.1em',
@@ -140,7 +140,7 @@ export function SeasonalEventModal() {
                 </div>
 
                 <p style={{
-                    color: '#FDFBF7',
+                    color: 'var(--text-main)',
                     fontFamily: 'var(--font-sans)',
                     fontSize: '1rem',
                     lineHeight: 1.5,
@@ -158,11 +158,11 @@ export function SeasonalEventModal() {
                                 type="button"
                                 onClick={() => handleChoose(opt)}
                                 style={{
-                                    backgroundColor: '#161B22',
-                                    border: '1px solid #2D3748',
+                                    backgroundColor: 'var(--bg-panel)',
+                                    border: '1px solid var(--color-soft-border)',
                                     padding: '12px 16px',
                                     fontFamily: 'var(--font-sans)',
-                                    color: '#FDFBF7',
+                                    color: 'var(--text-main)',
                                     cursor: 'pointer',
                                     textAlign: 'left',
                                     fontSize: '0.9rem',
@@ -170,7 +170,7 @@ export function SeasonalEventModal() {
                             >
                                 <div style={{ fontWeight: 'bold', marginBottom: chip ? '4px' : 0 }}>{opt.label}</div>
                                 {chip && (
-                                    <div style={{ fontSize: '0.75rem', color: '#8E9E94', fontFamily: 'var(--font-mono)' }}>
+                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                                         {chip}
                                     </div>
                                 )}

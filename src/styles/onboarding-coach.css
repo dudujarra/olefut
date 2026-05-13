@@ -1,0 +1,10 @@
+/* OnboardingCoach — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes OnboardingCoach-specific component tokens + utility classes.
+ */
+
+.ef-onboarding-c {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add OnboardingCoach-specific BEM classes below as inline styles are extracted */

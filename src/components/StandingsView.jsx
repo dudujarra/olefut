@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
 import { useGame } from '../context/GameContext';
-import { ViewOnboarding } from './ViewOnboarding';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgOffice from '../assets/environments/bg_league_table.png';
 import { Trophy, CaretUp, CaretDown, AirplaneTilt, MapPin } from '@phosphor-icons/react';
+import '../styles/standings-view.css';
 
 function getZoneClass(position, totalTeams, division) {
     const isLast = position > totalTeams - 4;
@@ -25,12 +25,12 @@ function getZoneClass(position, totalTeams, division) {
     return '';
 }
 
-function getZoneBorderColor(zoneClass) {
-    if (zoneClass.includes('libertadores')) return '#39FF14';
-    if (zoneClass.includes('suda')) return '#FFD700';
-    if (zoneClass.includes('promotion')) return '#40BAF7';
-    if (zoneClass.includes('rebaixamento')) return '#FF3333';
-    return 'transparent';
+function getZoneRowModifierClass(zoneClass) {
+    if (zoneClass.includes('libertadores')) return 'ef-standings__row--zone-libertadores';
+    if (zoneClass.includes('suda')) return 'ef-standings__row--zone-suda';
+    if (zoneClass.includes('promotion')) return 'ef-standings__row--zone-promotion';
+    if (zoneClass.includes('rebaixamento')) return 'ef-standings__row--zone-rebaixamento';
+    return 'ef-standings__row--zone-default';
 }
 
 const SERIE_NAMES = { 1: 'SÉRIE A', 2: 'SÉRIE B', 3: 'SÉRIE C', 4: 'SÉRIE D' };
@@ -71,19 +71,18 @@ export function StandingsView() {
     const back = gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
 
     return (
-        <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgOffice})` }}>
-            <ViewOnboarding viewId="standings" />
-            <div className="ef-layout-container" style={{ maxWidth: '1000px' }}>
+        <div className="ef-anim-fade-in ef-layout-pitch ef-standings" style={{ backgroundImage: `url(${bgOffice})` }}>
+            <div className="ef-layout-container ef-standings__container">
 
                 {/* HERO PANEL */}
-                <EfPanel variant="elev" padding="md" className="ef-flex-row" style={{ justifyContent: 'space-between' }}>
+                <EfPanel variant="elev" padding="md" className="ef-flex-row ef-standings__hero-panel">
                     <div className="ef-flex-row">
                         <Trophy size={32} color="var(--primary)" weight="duotone" />
                         <div>
-                            <h2 className="ef-sans" style={{ margin: 0, fontSize: '1.4rem', color: 'var(--text-main)' }}>
+                            <h2 className="ef-sans ef-standings__hero-title">
                                 Classificação
                             </h2>
-                            <div className="ef-mono ef-text-muted" style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div className="ef-mono ef-text-muted ef-standings__hero-meta">
                                 {activeState
                                     ? (stateTournaments.find(t => t.id === activeState)?.name || activeState.toUpperCase())
                                     : `${activeZone} / ${SERIE_NAMES[activeDiv] || `DIV ${activeDiv}`}`}
@@ -94,8 +93,8 @@ export function StandingsView() {
                 </EfPanel>
 
                 {/* BENTO CONTROLS */}
-                <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap" style={{ gap: '12px' }}>
-                    <div style={{ display: 'flex', gap: '8px', flex: '1 1 auto', alignItems: 'center' }}>
+                <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap ef-standings__controls">
+                    <div className="ef-standings__control-group">
                         <MapPin size={16} color="var(--text-muted)" />
                         {zones.map(z => (
                             <EfButton
@@ -103,14 +102,14 @@ export function StandingsView() {
                                 variant={activeZone === z ? 'primary' : 'secondary'}
                                 size="sm"
                                 onClick={() => { setActiveZone(z); setActiveDiv(1); setActiveState(null); }}
-                                style={{ flex: 1, minWidth: '60px' }}
+                                className="ef-standings__btn-zone"
                             >
                                 {z}
                             </EfButton>
                         ))}
                     </div>
                     {divs.length > 1 && (
-                        <div style={{ display: 'flex', gap: '8px', flex: '1 1 auto', alignItems: 'center', borderLeft: '2px solid var(--border-panel)', paddingLeft: '12px' }}>
+                        <div className="ef-standings__control-group ef-standings__control-group--divs">
                             <Trophy size={16} color="var(--text-muted)" />
                             {divs.map(d => (
                                 <EfButton
@@ -118,7 +117,7 @@ export function StandingsView() {
                                     variant={!activeState && activeDiv === d ? 'primary' : 'secondary'}
                                     size="sm"
                                     onClick={() => { setActiveDiv(d); setActiveState(null); }}
-                                    style={{ flex: 1 }}
+                                    className="ef-standings__btn-div"
                                 >
                                     {SERIE_NAMES[d] || `DIV ${d}`}
                                 </EfButton>
@@ -129,16 +128,16 @@ export function StandingsView() {
 
                 {/* SPEC-168: estaduais brasileiros (jan-abril, weeks 1-16) */}
                 {activeZone === 'BRA' && stateTournaments.length > 0 && (
-                    <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap" style={{ gap: '8px', alignItems: 'center' }}>
+                    <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap ef-standings__states">
                         <Trophy size={16} color="var(--text-muted)" />
-                        <span className="ef-mono ef-text-muted" style={{ fontSize: '0.75rem' }}>ESTADUAIS</span>
+                        <span className="ef-mono ef-text-muted ef-standings__states-label">ESTADUAIS</span>
                         {stateTournaments.map(st => (
                             <EfButton
                                 key={st.id}
                                 variant={activeState === st.id ? 'primary' : 'secondary'}
                                 size="sm"
                                 onClick={() => setActiveState(activeState === st.id ? null : st.id)}
-                                style={{ flex: '1 1 auto' }}
+                                className="ef-standings__btn-state"
                             >
                                 {st.name}
                             </EfButton>
@@ -147,7 +146,7 @@ export function StandingsView() {
                 )}
 
                 {/* LEGEND BENTO */}
-                <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap" style={{ justifyContent: 'center', gap: '16px' }}>
+                <EfPanel variant="sunk" padding="sm" className="ef-flex-row-wrap ef-standings__legend">
                     {activeState && (
                         <div className="ef-legend-chip">
                             <Trophy size={14} color="var(--accent)" weight="fill" />
@@ -157,47 +156,44 @@ export function StandingsView() {
                     {!activeState && activeDiv === 1 && (
                         <>
                             <div className="ef-legend-chip">
-                                <AirplaneTilt size={14} color="#39FF14" weight="fill" />
+                                <AirplaneTilt size={14} weight="fill" className="ef-standings__legend-icon--libertadores" />
                                 <span className="ef-text-muted">LIBERTADORES</span>
                             </div>
                             <div className="ef-legend-chip">
-                                <AirplaneTilt size={14} color="#FFD700" weight="fill" />
+                                <AirplaneTilt size={14} weight="fill" className="ef-standings__legend-icon--suda" />
                                 <span className="ef-text-muted">SUL-AMERICANA</span>
                             </div>
                         </>
                     )}
                     {!activeState && activeDiv > 1 && activeDiv <= 4 && (
                         <div className="ef-legend-chip">
-                            <CaretUp size={16} color="#40BAF7" weight="bold" />
+                            <CaretUp size={16} weight="bold" className="ef-standings__legend-icon--promotion" />
                             <span className="ef-text-muted">ACESSO</span>
                         </div>
                     )}
                     {!activeState && activeDiv < 4 && (
                         <div className="ef-legend-chip">
-                            <CaretDown size={16} color="#FF3333" weight="bold" />
+                            <CaretDown size={16} weight="bold" className="ef-standings__legend-icon--rebaixamento" />
                             <span className="ef-text-muted">REBAIXAMENTO</span>
                         </div>
                     )}
                 </EfPanel>
 
                 {/* TABLE */}
-                <div className="ef-panel ef-panel-default ef-panel-p-none" style={{ overflowX: 'auto', background: 'var(--bg-dark)' }}>
+                <div className="ef-panel ef-panel-default ef-panel-p-none ef-standings__table-wrap">
                     <table className="ef-table">
-                        <thead style={{ background: 'var(--bg-panel)' }}>
-                            {/* BUG-084: <Tooltip> renders <span>; wrapping <th> emits <span> inside <tr>
-                                  which triggers a React hydration warning ("validateDOMNesting").
-                                  Replaced with native title= attribute — accessible, zero DOM noise. */}
+                        <thead className="ef-standings__table-head">
                             <tr>
-                                <th style={{ textAlign:'center', width: '40px' }}>#</th>
-                                <th style={{ textAlign:'left' }}>TIME</th>
-                                <th title="Pontos" style={{ textAlign:'center', color: 'var(--accent)' }}>P</th>
-                                <th title="Jogos" style={{ textAlign:'center' }}>J</th>
-                                <th title="Vitórias" style={{ textAlign:'center', color: 'var(--primary)' }}>V</th>
-                                <th title="Empates" style={{ textAlign:'center', color: 'var(--accent)' }}>E</th>
-                                <th title="Derrotas" style={{ textAlign:'center', color: 'var(--danger)' }}>D</th>
-                                <th title="Gols Pró" style={{ textAlign:'center' }}>GP</th>
-                                <th title="Gols Contra" style={{ textAlign:'center' }}>GC</th>
-                                <th title="Saldo" style={{ textAlign:'center' }}>SG</th>
+                                <th className="ef-standings__th--pos">#</th>
+                                <th className="ef-standings__th--team">TIME</th>
+                                <th title="Pontos" className="ef-standings__th ef-standings__th--points">P</th>
+                                <th title="Jogos" className="ef-standings__th">J</th>
+                                <th title="Vitórias" className="ef-standings__th ef-standings__th--wins">V</th>
+                                <th title="Empates" className="ef-standings__th ef-standings__th--draws">E</th>
+                                <th title="Derrotas" className="ef-standings__th ef-standings__th--losses">D</th>
+                                <th title="Gols Pró" className="ef-standings__th">GP</th>
+                                <th title="Gols Contra" className="ef-standings__th">GC</th>
+                                <th title="Saldo" className="ef-standings__th">SG</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -209,37 +205,33 @@ export function StandingsView() {
                                     ? (pos <= 4 ? 'zone-promotion' : '')
                                     : getZoneClass(pos, standings.length, activeDiv);
                                 const isUser = s.teamId === userTeam?.id;
-                                const zoneBorderColor = getZoneBorderColor(zoneClass);
-                                
-                                // Solid colors enforcing Zero-Transparency
-                                const rowBg = isUser ? '#102A10' : (i % 2 === 0 ? 'var(--bg-dark)' : 'var(--bg-panel)');
-                                
+                                const zoneRowClass = getZoneRowModifierClass(zoneClass);
+                                const stripeClass = isUser
+                                    ? 'ef-standings__row--user'
+                                    : (i % 2 === 0 ? 'ef-standings__row--even' : 'ef-standings__row--odd');
+
                                 const sg = s.goalsFor - s.goalsAgainst;
                                 return (
-                                    <tr key={s.teamId} style={{
-                                        background: rowBg,
-                                        borderLeft: `4px solid ${zoneBorderColor}`,
-                                        borderBottom: '1px solid var(--border-panel)'
-                                    }}>
-                                        <td className={`ef-mono ${pos <= 4 ? 'ef-text-accent' : 'ef-text-muted'}`} style={{ padding:'12px 6px', textAlign:'center' }}>
+                                    <tr key={s.teamId} className={`ef-standings__row ${zoneRowClass} ${stripeClass}`}>
+                                        <td className={`ef-mono ef-standings__cell ${pos <= 4 ? 'ef-text-accent' : 'ef-text-muted'}`}>
                                             {pos}
                                         </td>
-                                        <td style={{ padding:'12px 6px', textAlign:'left' }}>
-                                            <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
+                                        <td className="ef-standings__cell--team">
+                                            <div className="ef-standings__team-wrap">
                                                 {t?.name && <EfClubBadge name={t.name} size="sm" />}
-                                                <span className="ef-sans" style={{ color: isUser ? 'var(--primary)' : 'var(--text-main)', fontWeight: isUser ? 700 : 500 }}>
+                                                <span className={`ef-sans ${isUser ? 'ef-standings__team-name--user' : 'ef-standings__team-name'}`}>
                                                     {t?.name || `TIME ${s.teamId}`}
                                                 </span>
                                             </div>
                                         </td>
-                                        <td className="ef-mono ef-text-accent" style={{ padding:'12px 6px', textAlign:'center', fontWeight: 'bold' }}>{s.points}</td>
-                                        <td className="ef-mono ef-text-muted" style={{ padding:'12px 6px', textAlign:'center' }}>{s.played}</td>
-                                        <td className="ef-mono ef-text-primary" style={{ padding:'12px 6px', textAlign:'center' }}>{s.won}</td>
-                                        <td className="ef-mono ef-text-accent" style={{ padding:'12px 6px', textAlign:'center' }}>{s.drawn}</td>
-                                        <td className="ef-mono ef-text-danger" style={{ padding:'12px 6px', textAlign:'center' }}>{s.lost}</td>
-                                        <td className="ef-mono ef-text-muted" style={{ padding:'12px 6px', textAlign:'center' }}>{s.goalsFor}</td>
-                                        <td className="ef-mono ef-text-muted" style={{ padding:'12px 6px', textAlign:'center' }}>{s.goalsAgainst}</td>
-                                        <td className={`ef-mono ${sg >= 0 ? 'ef-text-primary' : 'ef-text-danger'}`} style={{ padding:'12px 6px', textAlign:'center', fontWeight: 600 }}>
+                                        <td className="ef-mono ef-text-accent ef-standings__cell ef-standings__cell--points">{s.points}</td>
+                                        <td className="ef-mono ef-text-muted ef-standings__cell">{s.played}</td>
+                                        <td className="ef-mono ef-text-primary ef-standings__cell">{s.won}</td>
+                                        <td className="ef-mono ef-text-accent ef-standings__cell">{s.drawn}</td>
+                                        <td className="ef-mono ef-text-danger ef-standings__cell">{s.lost}</td>
+                                        <td className="ef-mono ef-text-muted ef-standings__cell">{s.goalsFor}</td>
+                                        <td className="ef-mono ef-text-muted ef-standings__cell">{s.goalsAgainst}</td>
+                                        <td className={`ef-mono ef-standings__cell ef-standings__cell--diff ${sg >= 0 ? 'ef-text-primary' : 'ef-text-danger'}`}>
                                             {sg >= 0 ? '+' : ''}{sg}
                                         </td>
                                     </tr>
@@ -252,4 +244,3 @@ export function StandingsView() {
         </div>
     );
 }
-

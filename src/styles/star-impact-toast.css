@@ -1,0 +1,10 @@
+/* StarImpactToast — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes StarImpactToast-specific component tokens + utility classes.
+ */
+
+.ef-star-impact- {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add StarImpactToast-specific BEM classes below as inline styles are extracted */

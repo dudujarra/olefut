@@ -60,19 +60,19 @@ export function ViewOnboarding({ viewId }) {
                 left: '24px',
                 width: '300px',
                 maxWidth: 'calc(100vw - 48px)',
-                backgroundColor: '#0E1418',
-                border: '2px solid #40BAF7',
+                backgroundColor: 'var(--color-bg-deep)',
+                border: '2px solid var(--info)',
                 padding: '14px',
                 zIndex: 200,
                 boxShadow: '0 4px 16px rgba(0,0,0,0.7)',
             }}
         >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <ChatCircle size={14} color="#40BAF7" weight="fill" />
+                <ChatCircle size={14} color="var(--info)" weight="fill" />
                 <span style={{
                     flex: 1,
                     fontSize: '0.7rem',
-                    color: '#40BAF7',
+                    color: 'var(--info)',
                     fontFamily: 'var(--font-sans)',
                     fontWeight: 'bold',
                     letterSpacing: '0.1em',
@@ -83,7 +83,7 @@ export function ViewOnboarding({ viewId }) {
                     type="button"
                     onClick={close}
                     aria-label="Fechar tutorial"
-                    style={{ background: 'transparent', border: '1px solid #2D3748', color: '#FDFBF7', padding: '2px 4px', cursor: 'pointer' }}
+                    style={{ background: 'transparent', border: '1px solid var(--color-soft-border)', color: 'var(--text-main)', padding: '2px 4px', cursor: 'pointer' }}
                 >
                     <X size={10} weight="bold" />
                 </button>
@@ -91,22 +91,22 @@ export function ViewOnboarding({ viewId }) {
             <p style={{
                 margin: '0 0 10px 0',
                 fontSize: '0.8rem',
-                color: '#FDFBF7',
+                color: 'var(--text-main)',
                 fontFamily: 'var(--font-sans)',
                 lineHeight: 1.4,
             }}>
                 {currentStep}
             </p>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.7rem', color: '#8E9E94', fontFamily: 'var(--font-mono)' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                     {step + 1}/{content.steps.length}
                 </span>
                 <button
                     type="button"
                     onClick={next}
                     style={{
-                        background: '#40BAF7',
-                        color: '#0E1418',
+                        background: 'var(--info)',
+                        color: 'var(--color-bg-deep)',
                         border: 'none',
                         padding: '5px 12px',
                         fontFamily: 'var(--font-sans)',

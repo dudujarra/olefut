@@ -14,13 +14,13 @@ import { EfPanel } from '../ui/EfPanel';
 import { HexagonChart } from '../HexagonChart';
 
 const DIV_NAMES = { 1: 'Série A', 2: 'Série B', 3: 'Série C', 4: 'Série D' };
-const DIV_COLOR = { 1: '#FFD700', 2: '#C0C0C0', 3: '#CD7F32', 4: '#8B7355' };
+const DIV_COLOR = { 1: 'var(--accent)', 2: 'var(--color-learning-silver-stat)', 3: 'var(--color-learning-bronze-stat)', 4: 'var(--color-learning-leather)' };
 
 function formatRep(rep) {
-    if (rep >= 80) return { label: '👑 Lendário', color: '#FFD700' };
-    if (rep >= 60) return { label: '⭐ Renomado', color: '#FFA500' };
-    if (rep >= 40) return { label: '✨ Conhecido', color: '#90EE90' };
-    if (rep >= 20) return { label: '📋 Iniciante', color: '#87CEEB' };
+    if (rep >= 80) return { label: '👑 Lendário', color: 'var(--accent)' };
+    if (rep >= 60) return { label: '⭐ Renomado', color: 'var(--color-learning-amber-bright)' };
+    if (rep >= 40) return { label: '✨ Conhecido', color: 'var(--color-learning-lightgreen)' };
+    if (rep >= 20) return { label: '📋 Iniciante', color: 'var(--color-learning-skyblue)' };
     return { label: '🌱 Desconhecido', color: '#888' };
 }
 
@@ -95,15 +95,15 @@ export default function CareerInfoPanel({ controllerRef }) {
     return (
         <EfPanel variant="sunk" padding="md" style={{
             marginTop: '0.5rem',
-            background: '#1B4332',
-            border: '1px solid #FFD700',
+            background: 'var(--color-forest-pulse)',
+            border: '1px solid var(--accent)',
         }}>
             <div
                 onClick={() => setOpen(o => !o)}
                 style={{
                     cursor: 'pointer',
                     fontWeight: 700,
-                    color: '#FFD700',
+                    color: 'var(--accent)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
@@ -121,7 +121,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                     <div style={{
                         marginTop: '8px',
                         padding: '8px',
-                        background: '#040805',
+                        background: 'var(--color-shadow-deep)',
                         display: 'flex',
                         gap: '12px',
                         flexWrap: 'wrap'
@@ -135,7 +135,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                         </div>
                         <div>
                             <div style={{ fontSize: '0.7rem', color: '#888' }}>POSIÇÃO</div>
-                            <div style={{ fontWeight: 700, fontSize: '1.2rem', color: snapshot.position <= 4 ? '#6ABC3A' : snapshot.position >= 17 ? '#c44' : '#FFD700' }}>
+                            <div style={{ fontWeight: 700, fontSize: '1.2rem', color: snapshot.position <= 4 ? 'var(--color-success-mid)' : snapshot.position >= 17 ? '#c44' : 'var(--accent)' }}>
                                 {snapshot.position}º
                             </div>
                         </div>
@@ -145,7 +145,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                         </div>
                         <div>
                             <div style={{ fontSize: '0.7rem', color: '#888' }}>BALANÇO</div>
-                            <div style={{ fontWeight: 700, color: snapshot.balance < 0 ? '#c44' : '#6ABC3A' }}>
+                            <div style={{ fontWeight: 700, color: snapshot.balance < 0 ? '#c44' : 'var(--color-success-mid)' }}>
                                 R$ {(snapshot.balance / 1_000_000).toFixed(1)}M
                             </div>
                         </div>
@@ -191,7 +191,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                                 <span>Clean sheets:</span>
                                 <strong>{snapshot.insights.cleanSheets ?? 0}</strong>
                                 <span>Promoções:</span>
-                                <strong style={{ color: '#6ABC3A' }}>{snapshot.insights.promotionsWon ?? 0}</strong>
+                                <strong style={{ color: 'var(--color-success-mid)' }}>{snapshot.insights.promotionsWon ?? 0}</strong>
                                 <span>Rebaixamentos:</span>
                                 <strong style={{ color: '#c44' }}>{snapshot.insights.relegationsTaken ?? 0}</strong>
                             </div>
@@ -204,21 +204,21 @@ export default function CareerInfoPanel({ controllerRef }) {
                             <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
                                 ⚽ ARTILHEIROS (TEMPORADA ATUAL)
                             </div>
-                            <div style={{ background: '#040805', padding: '8px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            <div style={{ background: 'var(--color-shadow-deep)', padding: '8px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 {/* Destaque o Top 1 com o Hexagon Chart */}
                                 {snapshot.topScorers.length > 0 && (
-                                    <div style={{ display: 'flex', gap: '16px', alignItems: 'center', padding: '8px', background: '#0A140C', border: '1px solid #1B4332' }}>
+                                    <div style={{ display: 'flex', gap: '16px', alignItems: 'center', padding: '8px', background: 'var(--color-bg-deep)', border: '1px solid var(--color-forest-pulse)' }}>
                                         <div style={{ width: '120px', height: '120px', flexShrink: 0 }}>
                                             <HexagonChart player={snapshot.topScorers[0]} size={120} showLabels={true} />
                                         </div>
                                         <div style={{ flex: 1 }}>
-                                            <div style={{ color: '#FFD700', fontSize: '0.7rem', fontWeight: 700, marginBottom: '4px' }}>🏆 DESTAQUE DA TEMPORADA</div>
-                                            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#FDFBF7' }}>{snapshot.topScorers[0].name}</div>
+                                            <div style={{ color: 'var(--accent)', fontSize: '0.7rem', fontWeight: 700, marginBottom: '4px' }}>🏆 DESTAQUE DA TEMPORADA</div>
+                                            <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-main)' }}>{snapshot.topScorers[0].name}</div>
                                             <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: '8px' }}>
                                                 {snapshot.topScorers[0].position} · OVR {snapshot.topScorers[0].ovr}
                                             </div>
                                             <div style={{ fontSize: '0.8rem' }}>
-                                                <strong style={{ color: '#6ABC3A' }}>{snapshot.topScorers[0].goals} ⚽</strong>{' '}
+                                                <strong style={{ color: 'var(--color-success-mid)' }}>{snapshot.topScorers[0].goals} ⚽</strong>{' '}
                                                 <span style={{ color: '#888' }}>
                                                     {snapshot.topScorers[0].assists}🅰️ · {snapshot.topScorers[0].apps}j
                                                 </span>
@@ -234,14 +234,14 @@ export default function CareerInfoPanel({ controllerRef }) {
                                         justifyContent: 'space-between',
                                         fontSize: '0.7rem',
                                         padding: '4px',
-                                        borderBottom: i < snapshot.topScorers.length - 2 ? '1px solid #0E1F14' : 'none'
+                                        borderBottom: i < snapshot.topScorers.length - 2 ? '1px solid var(--color-bg-deep)' : 'none'
                                     }}>
                                         <span>
                                             <strong style={{ color: '#888' }}>{i + 2}.</strong>{' '}
                                             {p.name} ({p.position} · OVR {p.ovr})
                                         </span>
                                         <span>
-                                            <strong style={{ color: '#6ABC3A' }}>{p.goals} ⚽</strong>{' '}
+                                            <strong style={{ color: 'var(--color-success-mid)' }}>{p.goals} ⚽</strong>{' '}
                                             <span style={{ color: '#888' }}>
                                                 {p.assists}🅰️ · {p.apps}j
                                             </span>
@@ -262,7 +262,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                                 display: 'flex',
                                 gap: '4px',
                                 flexWrap: 'wrap',
-                                background: '#040805',
+                                background: 'var(--color-shadow-deep)',
                                 padding: '4px',
                                 }}>
                                 {snapshot.seasons.map((s, i) => {
@@ -272,8 +272,8 @@ export default function CareerInfoPanel({ controllerRef }) {
                                         <div key={i} style={{
                                             fontSize: '0.65rem',
                                             padding: '2px 6px',
-                                            background: titleEmoji ? '#1B4332' : 'transparent',
-                                            border: titleEmoji ? '1px solid #FFD700' : '1px solid #0E1F14',
+                                            background: titleEmoji ? 'var(--color-forest-pulse)' : 'transparent',
+                                            border: titleEmoji ? '1px solid var(--accent)' : '1px solid var(--color-bg-deep)',
                                             fontFamily: 'monospace'
                                         }} title={s.title || s.record}>
                                             {titleEmoji} {div} · {s.position}º

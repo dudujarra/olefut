@@ -14,21 +14,21 @@ export function ScarcityBanner({ engine }) {
 
     // Transfer window closing (weeks 1-4 and 20-22 are windows)
     if (seasonWeek >= 18 && seasonWeek <= 20) {
-        items.push({ emoji: '⏰', text: `Janela fecha em ${22 - seasonWeek} semanas!`, color: '#f59e0b' });
+        items.push({ emoji: '⏰', text: `Janela fecha em ${22 - seasonWeek} semanas!`, color: 'var(--color-amber-warning)' });
     }
     if (seasonWeek >= 21 && seasonWeek <= 22) {
-        items.push({ emoji: '🚨', text: 'ÚLTIMA CHANCE — janela fecha!', color: '#ef4444' });
+        items.push({ emoji: '🚨', text: 'ÚLTIMA CHANCE — janela fecha!', color: 'var(--color-red-bright)' });
     }
 
     // Budget scarcity
     if ((team.balance || 0) < 500000 && seasonWeek > 5) {
-        items.push({ emoji: '💸', text: `Caixa crítico: R$${Math.round((team.balance || 0) / 1000)}k`, color: '#ef4444' });
+        items.push({ emoji: '💸', text: `Caixa crítico: R$${Math.round((team.balance || 0) / 1000)}k`, color: 'var(--color-red-bright)' });
     }
 
     // Expiring contracts
     const expiring = team.squad?.filter(p => p.contract && p.contract.weeksLeft <= 4) || [];
     if (expiring.length > 0) {
-        items.push({ emoji: '📋', text: `${expiring.length} contrato${expiring.length > 1 ? 's' : ''} expirando!`, color: '#f59e0b' });
+        items.push({ emoji: '📋', text: `${expiring.length} contrato${expiring.length > 1 ? 's' : ''} expirando!`, color: 'var(--color-amber-warning)' });
     }
 
     if (items.length === 0) return null;

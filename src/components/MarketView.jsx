@@ -1,6 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useGame } from '../context/GameContext';
-import { ViewOnboarding } from './ViewOnboarding';
 import { SCOUT_REGIONS } from '../engine/StadiumSystem';
 import { PlayerAvatar } from '../utils/avatar';
 import { Tooltip } from './Tooltip';
@@ -9,6 +8,7 @@ import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import bgOffice from '../assets/environments/bg_transfer_market.png';
 import { ShoppingCart, Bank, CurrencyDollar, MagnifyingGlass, Funnel, Users, Storefront, ChartLineUp, Handshake, GlobeHemisphereWest, CheckCircle } from '@phosphor-icons/react';
+import '../styles/market-view.css';
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate, getDashboardView } = useGame();
@@ -98,18 +98,17 @@ export function MarketView() {
 
     return (
         <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgOffice})` }}>
-            <ViewOnboarding viewId="market" />
-            <div className="ef-layout-container" style={{ maxWidth: '1100px' }}>
+            <div className="ef-layout-container ef-market__container">
 
                 {/* HEADER HERO */}
-                <EfPanel variant="elev" padding="md" className="ef-flex-row" style={{ justifyContent: 'space-between' }}>
-                    <div className="ef-flex-row">
+                <EfPanel variant="elev" padding="md" className="ef-flex-row ef-market__header">
+                    <div className="ef-flex-row ef-market__header-left">
                         <EfClubBadge name={team.name} size="md" />
                         <div>
-                            <h2 className="ef-sans ef-text-main" style={{ margin: 0, fontSize: '1.4rem' }}>
+                            <h2 className="ef-sans ef-text-main ef-market__title">
                                 Mercado de Transferências
                             </h2>
-                            <div className="ef-mono ef-text-muted" style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div className="ef-mono ef-market__subtitle">
                                 DIRETORIA FINANCEIRA
                             </div>
                         </div>
@@ -118,21 +117,21 @@ export function MarketView() {
                 </EfPanel>
 
                 {/* FINANCES BENTO */}
-                <EfPanel variant="sunk" padding="md" className="ef-flex-row" style={{ justifyContent: 'space-around' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                        <div className="ef-mono ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem' }}>
+                <EfPanel variant="sunk" padding="md" className="ef-market__finances">
+                    <div className="ef-market__finance-cell">
+                        <div className="ef-market__finance-label">
                             <Bank size={16} /> SALDO DISPONÍVEL
                         </div>
-                        <div className={`ef-mono ${team.balance > 0 ? 'ef-text-primary' : 'ef-text-danger'}`} style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>
+                        <div className={`ef-mono ef-market__finance-value ${team.balance > 0 ? 'ef-market__finance-value--positive' : 'ef-market__finance-value--negative'}`}>
                             R$ {(team.balance / 1000000).toFixed(1)}M
                         </div>
                     </div>
-                    <div style={{ width: '2px', background: 'var(--border-panel)', alignSelf: 'stretch' }} />
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                        <div className="ef-mono ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem' }}>
+                    <div className="ef-market__finance-divider" />
+                    <div className="ef-market__finance-cell">
+                        <div className="ef-market__finance-label">
                             <Users size={16} /> ELENCO
                         </div>
-                        <div className="ef-mono ef-text-main" style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>
+                        <div className="ef-mono ef-market__finance-value">
                             {team.squad.length}
                         </div>
                     </div>
@@ -141,20 +140,20 @@ export function MarketView() {
                 {/* NOTIFICATION LOG */}
                 {log && (
                     <div className="ef-anim-pulse-glow ef-toast-success" onClick={() => setLog('')}>
-                        <CheckCircle size={20} weight="fill" color="#10B981" />
+                        <CheckCircle size={20} weight="fill" color="var(--color-emerald-confirm)" />
                         {log}
                     </div>
                 )}
 
                 {/* TAB SELECTORS */}
-                <div style={{ display: 'flex', gap: '8px' }}>
-                    <EfButton variant={tab === 'buy' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('buy')} style={{flex: 1}}>
+                <div className="ef-market__tabs">
+                    <EfButton className="ef-market__tab-button" variant={tab === 'buy' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('buy')}>
                         <ShoppingCart size={20} /> COMPRAR
                     </EfButton>
-                    <EfButton variant={tab === 'sell' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('sell')} style={{flex: 1}}>
+                    <EfButton className="ef-market__tab-button" variant={tab === 'sell' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('sell')}>
                         <CurrencyDollar size={20} /> VENDER
                     </EfButton>
-                    <EfButton variant={tab === 'scout' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('scout')} style={{flex: 1}}>
+                    <EfButton className="ef-market__tab-button" variant={tab === 'scout' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('scout')}>
                         <GlobeHemisphereWest size={20} /> SCOUTING
                     </EfButton>
                 </div>
@@ -162,33 +161,24 @@ export function MarketView() {
                 {/* === BUY TAB === */}
                 {tab === 'buy' && (
                     <EfPanel variant="default" padding="md">
-                        <div className="ef-mono ef-text-main" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', fontSize: '0.85rem' }}>
-                            <Storefront size={20} color="var(--primary)" /> JOGADORES DISPONÍVEIS
+                        <div className="ef-market__section-title">
+                            <Storefront size={20} /> JOGADORES DISPONÍVEIS
                         </div>
 
-                        <div style={{ display:'flex', gap:'8px', marginBottom:'16px', flexWrap:'wrap' }}>
-                            <div style={{ flex: 1, position: 'relative' }}>
-                                <MagnifyingGlass size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+                        <div className="ef-market__search-bar">
+                            <div className="ef-market__search-input-wrapper">
+                                <MagnifyingGlass size={16} className="ef-market__search-input-icon" />
                                 <input
                                     type="text"
                                     placeholder="NOME DO JOGADOR..."
                                     value={marketSearch}
                                     onChange={(e) => setMarketSearch(e.target.value)}
-                                    className="ef-mono"
-                                    style={{
-                                        width: '100%', padding: '12px 12px 12px 36px',
-                                        background: 'var(--bg-sunk)', border: '2px solid var(--border-panel)',
-                                        color: 'var(--text-main)', fontSize: '0.8rem', outline: 'none',
-                                        }}
+                                    className="ef-mono ef-market__search-input"
                                 />
                             </div>
-                            <div style={{ display: 'flex', position: 'relative', width: '160px' }}>
-                                <Funnel size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-                                <select value={marketFilter} onChange={(e) => setMarketFilter(e.target.value)} className="ef-mono" style={{
-                                    width: '100%', padding: '12px 12px 12px 36px',
-                                    background: 'var(--bg-sunk)', border: '2px solid var(--border-panel)',
-                                    color: 'var(--text-main)', fontSize: '0.8rem', outline: 'none', appearance: 'none',
-                                    }}>
+                            <div className="ef-market__filter-wrapper">
+                                <Funnel size={16} className="ef-market__filter-icon" />
+                                <select value={marketFilter} onChange={(e) => setMarketFilter(e.target.value)} className="ef-mono ef-market__filter-select">
                                     <option value="all">TODAS POS</option>
                                     <option value="GOL">GOL</option>
                                     <option value="DEF">DEF</option>
@@ -196,13 +186,9 @@ export function MarketView() {
                                     <option value="ATA">ATA</option>
                                 </select>
                             </div>
-                            <div style={{ display: 'flex', position: 'relative', width: '180px' }}>
-                                <ChartLineUp size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-                                <select value={marketSort} onChange={(e) => setMarketSort(e.target.value)} className="ef-mono" style={{
-                                    width: '100%', padding: '12px 12px 12px 36px',
-                                    background: 'var(--bg-sunk)', border: '2px solid var(--border-panel)',
-                                    color: 'var(--text-main)', fontSize: '0.8rem', outline: 'none', appearance: 'none',
-                                    }}>
+                            <div className="ef-market__sort-wrapper">
+                                <ChartLineUp size={16} className="ef-market__sort-icon" />
+                                <select value={marketSort} onChange={(e) => setMarketSort(e.target.value)} className="ef-mono ef-market__sort-select">
                                     <option value="ovr">MAIOR OVR</option>
                                     <option value="price">MAIOR PREÇO</option>
                                     <option value="age">MAIS VELHO</option>
@@ -216,32 +202,32 @@ export function MarketView() {
                                 NENHUM JOGADOR ENCONTRADO.
                             </div>
                         ) : (
-                            <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
+                            <div className="ef-market__list">
                                 {filteredMarket.map(p => (
                                     <div key={p.id} className={`ef-anim-fade-in ef-list-row ${p.ovr >= 80 ? 'ef-list-row--accent' : 'ef-list-row--neutral'}`}>
-                                                    <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
-                                                        <PlayerAvatar name={p.name} size={40} />
-                                                        <div>
-                                                            <div className="ef-player-name">
-                                                                {p.name.toUpperCase()}
-                                                            </div>
-                                                            <div className="ef-player-meta">
-                                                                <span className="ef-pos-badge">{p.position}</span>
-                                                                <span>OVR <strong className={p.ovr >= 80 ? 'ef-text-accent' : 'ef-text-main'}>{p.ovr}</strong></span>
-                                                                <span>•</span>
-                                                                <span>{p.age} ANOS</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div style={{ display:'flex', alignItems:'center', gap:'24px' }}>
-                                                        <span className="ef-mono ef-text-primary" style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                                                            R$ {(p.value / 1000000).toFixed(1)}M
-                                                        </span>
-                                                        <EfButton variant="primary" size="md" title={`Compra ${p.name} por R$ ${(p.value / 1000000).toFixed(1)}M (debita do caixa, gera salário semanal)`} onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
-                                                            COMPRAR
-                                                        </EfButton>
-                                                    </div>
+                                        <div className="ef-market__player-info">
+                                            <PlayerAvatar name={p.name} size={40} />
+                                            <div className="ef-market__player-details">
+                                                <div className="ef-player-name">
+                                                    {p.name.toUpperCase()}
                                                 </div>
+                                                <div className="ef-player-meta">
+                                                    <span className="ef-pos-badge">{p.position}</span>
+                                                    <span>OVR <strong className={p.ovr >= 80 ? 'ef-text-accent' : 'ef-text-main'}>{p.ovr}</strong></span>
+                                                    <span>•</span>
+                                                    <span>{p.age} ANOS</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="ef-market__player-price">
+                                            <span className="ef-market__price-amount">
+                                                R$ {(p.value / 1000000).toFixed(1)}M
+                                            </span>
+                                            <EfButton variant="primary" size="md" title={`Compra ${p.name} por R$ ${(p.value / 1000000).toFixed(1)}M (debita do caixa, gera salário semanal)`} onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
+                                                COMPRAR
+                                            </EfButton>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         )}
@@ -251,8 +237,8 @@ export function MarketView() {
                 {/* === SELL TAB === */}
                 {tab === 'sell' && (
                     <EfPanel variant="default" padding="md">
-                        <div className="ef-mono ef-text-main" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', fontSize: '0.85rem' }}>
-                            <Handshake size={20} color="var(--accent)" /> SEU ELENCO (VENDÁVEIS)
+                        <div className="ef-market__section-title">
+                            <Handshake size={20} /> SEU ELENCO (VENDÁVEIS)
                         </div>
 
                         {sellable.length === 0 ? (
@@ -260,12 +246,12 @@ export function MarketView() {
                                 NENHUM JOGADOR VENDÁVEL. TIRE-OS DA TITULARIDADE PRIMEIRO.
                             </div>
                         ) : (
-                            <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
+                            <div className="ef-market__list">
                                 {sellable.map(p => (
                                     <div key={p.id} className="ef-list-row">
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                        <div className="ef-market__player-info">
                                             <PlayerAvatar name={p.name} size={40} />
-                                            <div>
+                                            <div className="ef-market__player-details">
                                                 <div className="ef-player-name">
                                                     {p.name.toUpperCase()}
                                                 </div>
@@ -277,8 +263,8 @@ export function MarketView() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style={{ display:'flex', alignItems:'center', gap:'24px' }}>
-                                            <span className="ef-mono ef-text-primary" style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                                        <div className="ef-market__player-price">
+                                            <span className="ef-market__price-amount">
                                                 ~R$ {((p.ovr * 100000) / 1000000).toFixed(1)}M
                                             </span>
                                             <EfButton variant="danger" size="md" title="Inicia negociação de venda (3 rodadas; comprador pode pedir desconto, jogador sai do plantel se fechar)" onClick={() => handleSell(p)}>VENDER</EfButton>
@@ -289,17 +275,14 @@ export function MarketView() {
                         )}
 
                         {negotiation && (
-                            <div className="ef-anim-fade-in" style={{
-                                marginTop: '16px', padding: '24px',
-                                background: '#2E1A05', border: '2px solid var(--accent)',
-                                }}>
-                                <div className="ef-mono ef-text-accent" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontSize: '0.75rem' }}>
+                            <div className="ef-anim-fade-in ef-market__negotiation-panel">
+                                <div className="ef-market__negotiation-msg">
                                     <Handshake size={16} /> {negotiation.msg}
                                 </div>
-                                <div className="ef-mono ef-text-main" style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '24px' }}>
+                                <div className="ef-market__negotiation-amount">
                                     R$ {(negotiation.counterAmount / 1000000).toFixed(1)}M
                                 </div>
-                                <div style={{ display:'flex', gap:'8px' }}>
+                                <div className="ef-market__negotiation-actions">
                                     <EfButton variant="primary" size="md" title="Aceitar valor atual e fechar venda (irreversível)" onClick={confirmSell}>ACEITAR</EfButton>
                                     <EfButton variant="secondary" size="md" title="Pedir contra-proposta +15% (máximo 3 tentativas, encerra negociação após)" onClick={() => {
                                         const newAmount = Math.floor(negotiation.counterAmount * 1.15);
@@ -325,33 +308,33 @@ export function MarketView() {
                 {/* === SCOUT TAB === */}
                 {tab === 'scout' && (
                     <EfPanel variant="default" padding="md">
-                        <div className="ef-mono ef-text-main" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', fontSize: '0.85rem' }}>
-                            <GlobeHemisphereWest size={20} color="var(--primary)" /> AGÊNCIA DE SCOUTING (OLHEIROS)
+                        <div className="ef-market__section-title">
+                            <GlobeHemisphereWest size={20} /> AGÊNCIA DE SCOUTING (OLHEIROS)
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+                        <div className="ef-market__scout-grid">
                             {SCOUT_REGIONS.map(r => (
-                                <EfButton key={r.id} variant="secondary" size="lg" title={`Manda olheiro para ${r.name} (custo R$ ${(r.cost/1000).toFixed(0)}K, debita do caixa, retorna lista de jogadores)`} onClick={() => handleScout(r.id)} style={{ justifyContent: 'flex-start', padding: '16px', height: 'auto' }}>
+                                <EfButton key={r.id} className="ef-market__scout-button" variant="secondary" size="lg" title={`Manda olheiro para ${r.name} (custo R$ ${(r.cost/1000).toFixed(0)}K, debita do caixa, retorna lista de jogadores)`} onClick={() => handleScout(r.id)}>
                                     {/* r.emoji is semantic data (region flag), not decorative icon — kept per SPEC-163 exception */}
-                                    <span aria-hidden="true" style={{ fontSize: '2rem', marginRight: '16px' }}>{r.emoji}</span>
-                                    <div style={{ textAlign: 'left' }}>
-                                        <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold', marginBottom: '4px' }}>{r.name.toUpperCase()}</div>
-                                        <div className="ef-mono ef-text-accent" style={{ fontSize: '0.75rem' }}>CUSTO: R$ {(r.cost/1000).toFixed(0)}K</div>
+                                    <span className="ef-market__scout-emoji" aria-hidden="true">{r.emoji}</span>
+                                    <div className="ef-market__scout-info">
+                                        <div className="ef-sans ef-market__scout-region-name">{r.name.toUpperCase()}</div>
+                                        <div className="ef-mono ef-market__scout-cost">CUSTO: R$ {(r.cost/1000).toFixed(0)}K</div>
                                     </div>
                                 </EfButton>
                             ))}
                         </div>
 
                         {engine.scoutedPlayers?.length > 0 && (
-                            <div style={{ marginTop:'32px' }}>
-                                <div className="ef-mono ef-text-accent" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', fontSize: '0.85rem' }}>
+                            <div className="ef-market__scouted-section">
+                                <div className="ef-market__scouted-title">
                                     <Users size={16} /> JOGADORES ENCONTRADOS
                                 </div>
-                                <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
+                                <div className="ef-market__scouted-list">
                                     {engine.scoutedPlayers.map((p, i) => (
                                         <div key={i} className="ef-anim-fade-in ef-list-row ef-list-row--primary">
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                            <div className="ef-market__player-info">
                                                 <PlayerAvatar name={p.name} size={40} />
-                                                <div>
+                                                <div className="ef-market__player-details">
                                                     <div className="ef-player-name">
                                                         {p.name.toUpperCase()}
                                                     </div>

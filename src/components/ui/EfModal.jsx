@@ -42,7 +42,7 @@ export function EfModal({
             style={{
                 position: 'fixed',
                 inset: 0,
-                background: '#040805',
+                background: 'var(--color-shadow-deep)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -57,10 +57,10 @@ export function EfModal({
                     width: '100%',
                     maxWidth: SIZE_MAP[size] || SIZE_MAP.md,
                     maxHeight: '90vh',
-                    backgroundColor: '#1E2124',
+                    backgroundColor: 'var(--color-panel-tone)',
                     border: '4px solid',
-                    borderColor: '#4A5059 #111417 #111417 #4A5059',
-                    boxShadow: '0 16px 0 #040805',
+                    borderColor: 'var(--border-panel) var(--bg-dark) var(--bg-dark) var(--border-panel)',
+                    boxShadow: '0 16px 0 var(--color-shadow-deep)',
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'hidden',
@@ -75,7 +75,7 @@ export function EfModal({
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         padding: '12px 16px',
-                        background: '#111417',
+                        background: 'var(--bg-dark)',
                         borderBottom: '4px solid #000',
                         color: '#FFF',
                         textShadow: '2px 2px 0 #000'
@@ -83,7 +83,7 @@ export function EfModal({
                         <h3 id="ef-modal-title" style={{
                             margin: 0,
                             fontSize: '0.85rem',
-                            color: '#FFD700',
+                            color: 'var(--accent)',
                             lineHeight: 1.5
                         }}>
                             {title}
@@ -92,9 +92,9 @@ export function EfModal({
                             onClick={onClose}
                             aria-label="Fechar"
                             style={{
-                                background: '#FF3333',
+                                background: 'var(--danger)',
                                 border: '2px solid',
-                                borderColor: '#FF9999 #880000 #880000 #FF9999',
+                                borderColor: 'var(--color-input-error-bg) var(--color-input-error-deep) var(--color-input-error-deep) var(--color-input-error-bg)',
                                 color: '#FFF',
                                 fontSize: '10px',
                                 fontFamily: "'Press Start 2P', monospace",
@@ -126,8 +126,8 @@ export function EfModal({
                 {footer && (
                     <div style={{
                         padding: '12px 16px',
-                        borderTop: '4px solid #111417',
-                        background: '#1A1C20',
+                        borderTop: '4px solid var(--bg-dark)',
+                        background: 'var(--color-tooltip-bg)',
                         display: 'flex',
                         justifyContent: 'flex-end',
                         gap: '12px'

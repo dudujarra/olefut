@@ -1,0 +1,105 @@
+/* Shared utility classes for inline-style replacements */
+
+.ef-h-flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.ef-h-flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ef-h-flex-gap-sm {
+  display: flex;
+  gap: 8px;
+}
+
+.ef-h-flex-gap-md {
+  display: flex;
+  gap: 12px;
+}
+
+.ef-h-flex-gap-lg {
+  display: flex;
+  gap: 16px;
+}
+
+.ef-h-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ef-h-grid-auto-md {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.ef-h-grid-auto-lg {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.ef-h-text-center {
+  text-align: center;
+}
+
+.ef-h-text-right {
+  text-align: right;
+}
+
+.ef-h-bold {
+  font-weight: bold;
+}
+
+.ef-h-mb-sm {
+  margin-bottom: 8px;
+}
+
+.ef-h-mb-md {
+  margin-bottom: 12px;
+}
+
+.ef-h-mb-lg {
+  margin-bottom: 16px;
+}
+
+.ef-h-mt-sm {
+  margin-top: 8px;
+}
+
+.ef-h-mt-md {
+  margin-top: 12px;
+}
+
+.ef-h-w-full {
+  width: 100%;
+}
+
+.ef-h-justify-between {
+  justify-content: space-between;
+}
+
+.ef-h-flex-wrap {
+  flex-wrap: wrap;
+}
+
+.ef-h-bg-panel {
+  background: var(--bg-panel);
+}
+
+.ef-h-border-soft {
+  border: 1px solid var(--color-soft-border);
+}
+
+.ef-h-pad-md {
+  padding: 16px;
+}
+
+.ef-h-pad-lg {
+  padding: 24px;
+}

@@ -1,0 +1,65 @@
+/* EfBanner — semantic CSS + design tokens */
+
+.ef-banner {
+  --ef-banner-stripe: #0F1A14;
+  --ef-banner-promo: #2D5A3D;
+  --ef-banner-relegation: #6B0000;
+  --ef-banner-fired: #000000;
+  --ef-banner-hired: #002E63;
+  --ef-banner-retirement: #4A0E7A;
+  --ef-banner-offer: #C8941F;
+  --ef-banner-sponsor: #6ABC3A;
+  --ef-banner-motm: #F7B538;
+  --ef-banner-hattrick: #D62828;
+  --ef-banner-injury: #4A0000;
+  position: fixed;
+  inset: 0;
+  background: var(--color-shadow-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: ef-fade-in 200ms ease-out, ef-fade-out 400ms ease-out forwards;
+  cursor: pointer;
+}
+
+.ef-banner__card {
+  padding: 32px 48px;
+  border: 4px solid;
+  border-color: var(--border-panel) var(--bg-dark) var(--bg-dark) var(--border-panel);
+  box-shadow: 0 8px 0 var(--color-shadow-deep), 0 0 40px var(--bg-dark);
+  text-align: center;
+  min-width: 320px;
+  max-width: 600px;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.ef-banner__sprite {
+  margin: 0 auto 16px;
+}
+
+.ef-banner__icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.ef-banner__title {
+  margin: 0;
+  font-size: 32px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: 'Press Start 2P', monospace;
+  text-shadow: 2px 2px 0 var(--color-shadow-deep);
+}
+
+.ef-banner__subtitle {
+  margin: 12px 0 0;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.ef-banner__hint {
+  margin-top: 20px;
+  font-size: 10px;
+  font-family: 'Press Start 2P', monospace;
+}

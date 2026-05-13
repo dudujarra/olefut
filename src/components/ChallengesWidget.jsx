@@ -25,7 +25,7 @@ export function ChallengesWidget() {
     };
 
     return (
-        <EfPanel padding="md" style={{ marginBottom: '16px', border: '1px solid #40BAF7' }}>
+        <EfPanel padding="md" style={{ marginBottom: '16px', border: '1px solid var(--info)' }}>
             <h3 className="ef-widget-title">
                 <Lightning size={16} weight="fill" /> DESAFIOS DA SEMANA
                 <span className="ef-widget-title__hint">

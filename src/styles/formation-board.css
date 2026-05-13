@@ -1,0 +1,81 @@
+/* FormationBoard — semantic CSS + design tokens */
+
+.ef-form {
+  --ef-form-info: #40BAF7;
+  --ef-form-soft-border: #2D3748;
+  --ef-form-muted-text: #8E9E94;
+  --ef-form-field: #1E3A2F;
+  --ef-form-field-lines: #111417;
+  --ef-form-jersey-blue: #1E40AF;
+  --ef-form-jersey-gold: #B8860B;
+  --ef-form-jersey-stroke-gold: #8B6508;
+  --ef-form-jersey-stroke-blue: #1E3A8A;
+  --ef-form-shadow-deep: #040805;
+  --ef-form-info-bg: #0E1F14;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ef-form__empty-text {
+  color: var(--ef-form-muted-text);
+  font-family: var(--font-mono);
+}
+
+.ef-form__toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: var(--bg-panel);
+  padding: 12px;
+  border: 1px solid var(--ef-form-soft-border);
+}
+
+.ef-form__toolbar-label {
+  font-size: 0.85rem;
+  color: var(--ef-form-muted-text);
+  font-family: var(--font-mono);
+  margin-right: 8px;
+}
+
+.ef-form__toolbar-spacer {
+  flex: 1;
+}
+
+.ef-form__btn-icon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-form__field {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 600 / 400;
+  position: relative;
+  background: var(--ef-form-field);
+  border: 4px solid var(--bg-panel);
+  overflow: hidden;
+  touch-action: none;
+  margin: 0 auto;
+  box-shadow: inset 0 0 40px var(--ef-form-shadow-deep);
+  cursor: default;
+}
+
+.ef-form__field--dragging {
+  cursor: grabbing;
+}
+
+.ef-form__field-svg {
+  display: block;
+}
+
+.ef-form__hint {
+  font-size: 0.8rem;
+  color: var(--ef-form-muted-text);
+  text-align: center;
+  font-family: var(--font-mono);
+  padding: 8px;
+  background-color: var(--ef-form-info-bg);
+}

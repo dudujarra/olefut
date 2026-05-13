@@ -1,0 +1,236 @@
+/* LiveSquadEditModal — semantic CSS + design tokens */
+
+.ef-livesq {
+  --ef-livesq-info: #40BAF7;
+  --ef-livesq-soft-border: #2D3748;
+  --ef-livesq-muted-text: #8E9E94;
+  --ef-livesq-success-bg: #1B4332;
+  --ef-livesq-error-bg: #8B0000;
+}
+
+.ef-livesq__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-livesq__footer-btn {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+}
+
+.ef-livesq__body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ef-livesq__status-bar {
+  display: flex;
+  gap: 12px;
+}
+
+.ef-livesq__status-cell {
+  flex: 1;
+  background-color: var(--bg-dark);
+  padding: 12px;
+  border: 1px solid var(--ef-livesq-soft-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ef-livesq__status-cell--alert {
+  border-color: var(--danger);
+}
+
+.ef-livesq__status-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--ef-livesq-muted-text);
+  font-family: var(--font-mono);
+}
+
+.ef-livesq__status-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: var(--font-mono);
+  color: var(--text-main);
+}
+
+.ef-livesq__status-value--alert {
+  color: var(--danger);
+}
+
+.ef-livesq__feedback {
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-livesq__feedback--success {
+  background-color: var(--ef-livesq-success-bg);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.ef-livesq__feedback--error {
+  background-color: var(--ef-livesq-error-bg);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.ef-livesq__section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--ef-livesq-muted-text);
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+}
+
+.ef-livesq__tactic-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ef-livesq__sub-block {
+  border-top: 1px solid var(--ef-livesq-soft-border);
+  padding-top: 20px;
+}
+
+.ef-livesq__player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.ef-livesq__player-list--reserves {
+  max-height: 200px;
+}
+
+.ef-livesq__player-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: var(--bg-dark);
+  border: 1px solid var(--ef-livesq-soft-border);
+  transition: all 0.15s ease;
+}
+
+.ef-livesq__player-row--clickable {
+  cursor: pointer;
+}
+
+.ef-livesq__player-row--clickable:hover {
+  border-color: var(--ef-livesq-info);
+}
+
+.ef-livesq__player-row--reserve {
+  padding: 8px 12px;
+}
+
+.ef-livesq__player-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ef-livesq__pos-badge {
+  background-color: var(--bg-panel);
+  color: var(--ef-livesq-muted-text);
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  width: 36px;
+  text-align: center;
+}
+
+.ef-livesq__player-name {
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.ef-livesq__player-energy {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+.ef-livesq__energy--low { color: var(--danger); }
+.ef-livesq__energy--mid { color: var(--accent); }
+.ef-livesq__energy--high { color: var(--primary); }
+
+.ef-livesq__player-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.ef-livesq__player-stats {
+  color: var(--ef-livesq-muted-text);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+
+.ef-livesq__player-stats strong {
+  color: var(--text-main);
+}
+
+.ef-livesq__player-stats--energy {
+  color: var(--primary);
+}
+
+.ef-livesq__selected-banner {
+  background-color: var(--ef-livesq-error-bg);
+  border: 1px solid var(--danger);
+  padding: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-livesq__selected-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-livesq__selected-text {
+  color: var(--danger);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.ef-livesq__selected-name {
+  font-family: var(--font-sans);
+}
+
+.ef-livesq__no-reserves {
+  color: var(--ef-livesq-muted-text);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 24px 0;
+  font-family: var(--font-mono);
+}
+
+.ef-livesq__sub-action {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

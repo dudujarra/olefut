@@ -11,18 +11,13 @@
 // (Below we still keep a local error[] inspection for noise-free debug output.)
 import { test, expect } from './_fixtures.js';
 
+// SPEC-A1 Rookie Sidebar (AKITA-264): save fresco mostra só CORE_VIEWS + TUTORIAL.
+// MERCADO/CONQUISTAS/etc desbloqueiam após win/season conditions. E2E roda
+// save fresco → testa subset garantido visível.
 const NAV_LABELS = [
     'DASHBOARD',
     'PLANTEL',
-    'MERCADO',
     'TABELA',
-    'CONQUISTAS',
-    'COLETIVA',
-    'LOJA',
-    'RIVALIDADES',
-    'CRÔNICA',
-    'SAVES',
-    'AUTOPLAY',
     'TUTORIAL'
 ];
 
@@ -31,6 +26,7 @@ async function startCareer(page) {
         try {
             localStorage.clear();
             localStorage.setItem('olefut_tutorial_done', 'true');
+                localStorage.setItem('olefut_onboarding_done', 'true');
         } catch { /* ignore */ }
     });
     await page.goto('/');

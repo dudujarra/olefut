@@ -1,20 +1,5 @@
 /**
  * LineageView — SPEC-166: Painel Linhagem & Legado
- *
- * View unificada que surfa 4 sistemas atualmente invisíveis na UI:
- *  - Hall de Lendas (SPEC-078)
- *  - Heritage Traits (SPEC-079)
- *  - Humiliation Cascade (SPEC-076) — efêmero (semana atual apenas)
- *  - Growth Events (SPEC-134)         — efêmero (semana atual apenas)
- *
- * READ-ONLY: zero mudança comportamental na engine. Apenas consome dados
- * existentes em engine.hallOfLegends, team.squad[].heritageTraits, e
- * engine.weekEvents[].
- *
- * Audit gap fix: AKITA-233 + Bloco 2.2 do Foundation-First Roadmap.
- *
- * UI consistency: refactor pra utility classes em luxury-arcade.css
- * (pattern SPEC-170/172/173/175). Era omissão do batch B3.1.
  */
 
 import { useState } from 'react';
@@ -22,12 +7,11 @@ import { useGame } from '../context/GameContext';
 import { ViewOnboarding } from './ViewOnboarding';
 import { EfPanel, EfButton } from './ui';
 import bgNewspaper from '../assets/environments/bg_newspaper.png';
+import '../styles/lineage-view.css';
 import {
     TreeStructure, ArrowLeft, Trophy, Dna, Skull, Lightning,
     Star, Crown, Sword, GraduationCap, Shield, Heart
 } from '@phosphor-icons/react';
-
-// ─── Filter helpers (exportados pra harness) ────────────────────────────
 
 const HUMILIATION_PREFIXES = ['💀', '🛡️'];
 const GROWTH_PREFIXES = ['⭐', '⚡', '🔥', '📈', '💪', '🧬'];
@@ -46,27 +30,23 @@ export function filterGrowthEvents(weekEvents) {
     );
 }
 
-// ─── Slot metadata (label, icon, gradient) ──────────────────────────────
-
 const SLOT_META = {
-    idoloEterno:  { label: 'Ídolo Eterno',  icon: Crown,         criteria: 'Mais jogos + maior amor da torcida', accent: '#FFD700' },
-    carrasco:     { label: 'Carrasco',       icon: Sword,         criteria: 'Mais gols marcados contra este clube', accent: '#FF3333' },
-    goleirao:     { label: 'Goleador',       icon: Trophy,        criteria: 'Maior número de gols na história', accent: '#39FF14' },
-    criaDaBase:   { label: 'Cria da Base',   icon: GraduationCap, criteria: 'Formado internamente com maior impacto', accent: '#40BAF7' },
-    traidor:      { label: 'Traidor',        icon: Skull,         criteria: 'Saiu para rival direto', accent: '#8E5BFF' },
-    lendaTragica: { label: 'Lenda Trágica', icon: Heart,         criteria: 'Lesão longa ou carreira interrompida', accent: '#FF8C00' },
+    idoloEterno:  { label: 'Ídolo Eterno',  icon: Crown,         criteria: 'Mais jogos + maior amor da torcida', accent: 'var(--accent)' },
+    carrasco:     { label: 'Carrasco',       icon: Sword,         criteria: 'Mais gols marcados contra este clube', accent: 'var(--danger)' },
+    goleirao:     { label: 'Goleador',       icon: Trophy,        criteria: 'Maior número de gols na história', accent: 'var(--primary)' },
+    criaDaBase:   { label: 'Cria da Base',   icon: GraduationCap, criteria: 'Formado internamente com maior impacto', accent: 'var(--ef-lin-info)' },
+    traidor:      { label: 'Traidor',        icon: Skull,         criteria: 'Saiu para rival direto', accent: 'var(--ef-lin-purple)' },
+    lendaTragica: { label: 'Lenda Trágica', icon: Heart,         criteria: 'Lesão longa ou carreira interrompida', accent: 'var(--ef-lin-orange)' },
 };
 
 const SLOT_ORDER = ['idoloEterno', 'goleirao', 'criaDaBase', 'carrasco', 'traidor', 'lendaTragica'];
 
 const TRAIT_META = {
-    garra:           { label: 'Garra',           color: '#FF3333' },
-    talento_natural: { label: 'Talento Natural', color: '#FFD700' },
-    lealdade:        { label: 'Lealdade',        color: '#40BAF7' },
-    frieza:          { label: 'Frieza',          color: '#8E5BFF' },
+    garra:           { label: 'Garra',           color: 'var(--danger)' },
+    talento_natural: { label: 'Talento Natural', color: 'var(--accent)' },
+    lealdade:        { label: 'Lealdade',        color: 'var(--ef-lin-info)' },
+    frieza:          { label: 'Frieza',          color: 'var(--ef-lin-purple)' },
 };
-
-// ─── Component ──────────────────────────────────────────────────────────
 
 export function LineageView() {
     const { getEngine, changeView, getDashboardView } = useGame();
@@ -75,7 +55,7 @@ export function LineageView() {
 
     if (!engine) {
         return (
-            <div className="ef-mono ef-text-main" style={{ padding: '24px' }}>
+            <div className="ef-mono ef-text-main ef-lin__error">
                 ENGINE NÃO INICIALIZADO.
             </div>
         );
@@ -86,7 +66,6 @@ export function LineageView() {
     const hall = engine.hallOfLegends || { slots: {}, filledCount: 0 };
     const filledCount = hall.filledCount || Object.keys(hall.slots || {}).length;
 
-    // Heritage: regens jovens com traits aplicados.
     const heritagePlayers = (team?.squad || []).filter(
         p => p.heritageTraits && (p._heritageApplied || p.age <= 21)
     );
@@ -103,15 +82,14 @@ export function LineageView() {
     ];
 
     return (
-        <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgNewspaper})` }}>
+        <div className="ef-anim-fade-in ef-scene-shell ef-lin" style={{ backgroundImage: `url(${bgNewspaper})` }}>
             <ViewOnboarding viewId="lineage" />
             <div className="ef-view-container">
 
-                {/* HEADER */}
-                <EfPanel padding="lg" className="ef-view-header" style={{ borderBottom: '2px solid #FFD700' }}>
+                <EfPanel padding="lg" className="ef-view-header ef-lin__header">
                     <div className="ef-view-header__identity">
                         <div className="ef-view-header__icon-box">
-                            <TreeStructure size={28} color="#FFD700" />
+                            <TreeStructure size={28} className="ef-lin__header-icon" />
                         </div>
                         <div>
                             <h2 className="ef-view-header__title">LINHAGEM &amp; LEGADO</h2>
@@ -125,7 +103,6 @@ export function LineageView() {
                     </EfButton>
                 </EfPanel>
 
-                {/* TABS */}
                 <div className="ef-lineage-tabs">
                     {tabs.map(t => {
                         const Icon = t.icon;
@@ -148,7 +125,6 @@ export function LineageView() {
                     })}
                 </div>
 
-                {/* TAB CONTENT */}
                 {tab === 'hall' && <HallTab hall={hall} />}
                 {tab === 'heritage' && <HeritageTab players={heritagePlayers} hasHall={filledCount > 0} />}
                 {tab === 'humiliation' && <HumiliationTab events={humiliationEvents} week={engine.currentWeek} />}
@@ -157,8 +133,6 @@ export function LineageView() {
         </div>
     );
 }
-
-// ─── Tab: Hall ──────────────────────────────────────────────────────────
 
 function HallTab({ hall }) {
     return (
@@ -180,7 +154,7 @@ function HallTab({ hall }) {
                             style={filled ? { borderColor: meta.accent } : undefined}
                         >
                             <div className="ef-hall-slot__header">
-                                <Icon size={20} color={filled ? meta.accent : '#8E9E94'} weight={filled ? 'fill' : 'regular'} />
+                                <Icon size={20} color={filled ? meta.accent : 'var(--ef-lin-muted)'} weight={filled ? 'fill' : 'regular'} />
                                 <h3 className="ef-hall-slot__title">
                                     {meta.label.toUpperCase()}
                                 </h3>
@@ -214,14 +188,12 @@ function HallTab({ hall }) {
     );
 }
 
-// ─── Tab: Heritage ──────────────────────────────────────────────────────
-
 function HeritageTab({ players, hasHall }) {
     if (players.length === 0) {
         return (
             <EfPanel padding="lg" className="ef-anim-slide-down">
                 <div className="ef-empty-state">
-                    <Dna size={48} color="#8E9E94" className="ef-empty-state__icon" />
+                    <Dna size={48} color="var(--ef-lin-muted)" className="ef-empty-state__icon" />
                     <p className="ef-empty-state__title">
                         AGUARDANDO PRÓXIMA GERAÇÃO
                     </p>
@@ -255,7 +227,7 @@ function HeritageTab({ players, hasHall }) {
                     <div key={p.id} className="ef-heritage-card">
                         <div className="ef-heritage-card__row">
                             <div className="ef-heritage-card__identity">
-                                <Dna size={18} color="#39FF14" weight="fill" />
+                                <Dna size={18} color="var(--primary)" weight="fill" />
                                 <span className="ef-heritage-card__name">{p.name}</span>
                             </div>
                             <div className="ef-heritage-card__meta">
@@ -291,14 +263,12 @@ function HeritageTab({ players, hasHall }) {
     );
 }
 
-// ─── Tab: Humiliation ───────────────────────────────────────────────────
-
 function HumiliationTab({ events, week }) {
     if (events.length === 0) {
         return (
             <EfPanel padding="lg" className="ef-anim-slide-down">
                 <div className="ef-empty-state">
-                    <Shield size={48} color="#39FF14" className="ef-empty-state__icon" />
+                    <Shield size={48} color="var(--primary)" className="ef-empty-state__icon" />
                     <p className="ef-empty-state__title">
                         SEM VEXAMES NA SEMANA {week ?? '—'}
                     </p>
@@ -341,14 +311,12 @@ function HumiliationTab({ events, week }) {
     );
 }
 
-// ─── Tab: Growth ────────────────────────────────────────────────────────
-
 function GrowthTab({ events, week }) {
     if (events.length === 0) {
         return (
             <EfPanel padding="lg" className="ef-anim-slide-down">
                 <div className="ef-empty-state">
-                    <Star size={48} color="#8E9E94" className="ef-empty-state__icon" />
+                    <Star size={48} color="var(--ef-lin-muted)" className="ef-empty-state__icon" />
                     <p className="ef-empty-state__title">
                         SEM EVOLUÇÕES NA SEMANA {week ?? '—'}
                     </p>
@@ -356,10 +324,7 @@ function GrowthTab({ events, week }) {
                         Eventos de crescimento (breakthrough, hot streak, peak season) aparecem
                         aqui quando ocorrem. Chance por semana:
                     </p>
-                    <p
-                        className="ef-empty-state__p ef-empty-state__p--last ef-empty-state__p--small"
-                        style={{ textAlign: 'left', display: 'inline-block' }}
-                    >
+                    <p className="ef-empty-state__p ef-empty-state__p--last ef-empty-state__p--small ef-lin__empty-block">
                         • Jovens (&lt;21): 4% por semana<br/>
                         • Peak (23-27, &gt;15 jogos): 8%<br/>
                         • Treino intenso: 12% (≥4 treinos recentes)<br/>

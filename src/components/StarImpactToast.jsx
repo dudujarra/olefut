@@ -49,11 +49,11 @@ export function StarImpactToast({ starName, changes, visible, onDismiss, duratio
                 position: 'fixed',
                 top: '88px',
                 right: '24px',
-                backgroundColor: '#0E1418',
-                border: '1px solid #FFD700',
+                backgroundColor: 'var(--color-bg-deep)',
+                border: '1px solid var(--accent)',
                 padding: '10px 14px',
                 fontFamily: 'var(--font-sans)',
-                color: '#FDFBF7',
+                color: 'var(--text-main)',
                 fontSize: '0.85rem',
                 fontWeight: 'bold',
                 zIndex: 990,
@@ -64,7 +64,7 @@ export function StarImpactToast({ starName, changes, visible, onDismiss, duratio
                 animation: 'ef-toast-fade 2.4s ease-in-out forwards',
             }}
         >
-            <Star size={16} color="#FFD700" weight="fill" />
+            <Star size={16} color="var(--accent)" weight="fill" />
             <span>{text}</span>
         </div>
     );

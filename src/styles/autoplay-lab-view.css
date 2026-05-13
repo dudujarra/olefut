@@ -1,0 +1,64 @@
+/* AutoPlayLabView — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes AutoPlayLabView-specific component tokens + utility classes.
+ */
+
+.ef-autoplay-lab {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add AutoPlayLabView-specific BEM classes below as inline styles are extracted */
+
+.ef-aplab__scene {
+  min-height: 100dvh;
+  background-color: var(--bg-dark);
+}
+
+.ef-aplab__container {
+  max-width: 1100px;
+  padding: 24px;
+}
+
+.ef-aplab__panel-mb {
+  margin-bottom: 20px;
+}
+
+.ef-aplab__panel-gold-bottom {
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--color-gold-arcade);
+}
+
+.ef-aplab__label-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ef-aplab__label-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+}
+
+.ef-aplab__action-row {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ef-aplab__grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ef-aplab__inline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}

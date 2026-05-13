@@ -2,40 +2,23 @@ import { useState } from 'react';
 import { TACTICS } from '../engine/ManagerSystems';
 import { Help } from './Help';
 import { EfTooltip, EfModal, EfButton } from './ui';
-import { 
+import {
     ArrowsLeftRight, Strategy, Lightning, Users, CheckCircle, Warning, XCircle, Play
 } from '@phosphor-icons/react';
+import '../styles/live-squad-edit-modal.css';
 
 const MAX_LIVE_SUBS = 5;
 
-/**
- * LiveSquadEditModal — Modal aberto durante pause da partida ao vivo
- *
- * Permite:
- * - Substituições live (até 5/jogo, FIFA realista)
- * - Mudança tática (sem cooldown)
- * - Visualização energia/moral plantel atual
- *
- * Limitação v1.0: subs visuais + state commit, não recalcula resultado
- * (engine sync). Refactor para generator é v1.3.
- */
+function energyMod(energy) {
+    if (energy < 50) return 'low';
+    if (energy < 75) return 'mid';
+    return 'high';
+}
+
 export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount, onSubMade, onClose }) {
     const [selectedOut, setSelectedOut] = useState(null);
     const [tactic, setTactic] = useState(engine.currentTactic);
     const [feedback, setFeedback] = useState('');
-
-    const colors = {
-        bg: '#0D1117',
-        panelBg: '#161B22',
-        panelElevated: '#1A1F24',
-        border: '#2D3748',
-        text: '#FDFBF7',
-        textMuted: '#8E9E94',
-        accent: '#39FF14',
-        secondary: '#40BAF7',
-        warning: '#FFD700',
-        danger: '#FF3333'
-    };
 
     if (!team) return null;
 
@@ -59,7 +42,6 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                 setFeedback(`error:${result?.msg || 'Erro na substituição.'}`);
             }
         } else {
-            // Fallback inline if engine method missing
             outPlayer.isTitular = false;
             inPlayer.isTitular = true;
             inPlayer.energy = Math.min(100, inPlayer.energy + 10);
@@ -87,69 +69,46 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
             open={true}
             onClose={onClose}
             title={
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Strategy size={24} color={colors.secondary} /> 
+                <div className="ef-livesq__title">
+                    <Strategy size={24} color="var(--ef-livesq-info)" />
                     <span>GESTÃO TÁTICA ({currentMinute}')</span>
                 </div>
             }
             size="md"
             footer={
-                <EfButton variant="primary" onClick={onClose} size="lg" style={{ width: '100%', display: 'flex', gap: '8px' }}>
+                <EfButton variant="primary" onClick={onClose} size="lg" className="ef-livesq__footer-btn">
                     RETOMAR PARTIDA <Play weight="fill" />
                 </EfButton>
             }
         >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                
-                {/* Status Bar */}
-                <div style={{ display: 'flex', gap: '12px' }}>
+            <div className="ef-livesq ef-livesq__body">
+                <div className="ef-livesq__status-bar">
                     <EfTooltip content="Limite FIFA: 5 substituições por jogo">
-                        <div style={{
-                            flex: 1,
-                            backgroundColor: colors.bg,
-                            padding: '12px',
-                            border: `1px solid ${subsLeft <= 0 ? colors.danger : colors.border}`,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '4px'
-                        }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: colors.textMuted, fontFamily: 'var(--font-mono)' }}>
+                        <div className={`ef-livesq__status-cell${subsLeft <= 0 ? ' ef-livesq__status-cell--alert' : ''}`}>
+                            <div className="ef-livesq__status-label">
                                 <ArrowsLeftRight size={16} /> SUBSTITUIÇÕES
                             </div>
-                            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', fontFamily: 'var(--font-mono)', color: subsLeft <= 0 ? colors.danger : colors.text }}>
+                            <div className={`ef-livesq__status-value${subsLeft <= 0 ? ' ef-livesq__status-value--alert' : ''}`}>
                                 {liveSubsCount} / {MAX_LIVE_SUBS}
                             </div>
                         </div>
                     </EfTooltip>
                 </div>
 
-                {/* Feedback */}
                 {feedback && (
-                    <div style={{
-                        backgroundColor: isFeedbackSuccess ? '#1B4332' : '#8B0000',
-                        border: `1px solid ${isFeedbackSuccess ? colors.accent : colors.danger}`,
-                        color: isFeedbackSuccess ? colors.accent : colors.danger,
-                        padding: '12px 16px',
-                        fontSize: '0.9rem',
-                        fontFamily: 'var(--font-mono)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                    }}>
+                    <div className={`ef-livesq__feedback ef-livesq__feedback--${isFeedbackSuccess ? 'success' : 'error'}`}>
                         {isFeedbackSuccess ? <CheckCircle size={20} /> : <Warning size={20} />}
                         {cleanFeedback}
                     </div>
                 )}
 
-                {/* Tactic switch */}
                 <div>
                     <Help id="btn.set_tactics">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', color: colors.textMuted, marginBottom: '12px', fontFamily: 'var(--font-mono)' }}>
+                        <div className="ef-livesq__section-label">
                             <Strategy size={16} /> TÁTICA ATUAL
                         </div>
                     </Help>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    <div className="ef-livesq__tactic-grid">
                         {Object.entries(TACTICS).map(([k, v]) => (
                             <EfTooltip key={k} content={v.description || `Tática ${v.name}`}>
                                 <EfButton
@@ -164,47 +123,28 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                     </div>
                 </div>
 
-                {/* Substituição UI */}
                 {subsLeft > 0 && (
-                    <div style={{ borderTop: `1px solid ${colors.border}`, paddingTop: '20px' }}>
+                    <div className="ef-livesq__sub-block">
                         {!selectedOut && (
                             <div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', color: colors.textMuted, marginBottom: '12px', fontFamily: 'var(--font-mono)' }}>
+                                <div className="ef-livesq__section-label">
                                     <Users size={16} /> SUBSTITUIR QUEM?
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxHeight: '250px', overflowY: 'auto', paddingRight: '4px' }}>
+                                <div className="ef-livesq__player-list">
                                     {titulares.map(p => {
-                                        const energyColor = p.energy < 50 ? colors.danger : p.energy < 75 ? colors.warning : colors.accent;
+                                        const eMod = energyMod(p.energy);
                                         return (
-                                            <div key={p.id} style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'center',
-                                                padding: '10px 12px',
-                                                backgroundColor: colors.bg,
-                                                border: `1px solid ${colors.border}`,
-                                                cursor: 'pointer',
-                                                transition: 'all 0.15s ease'
-                                            }} 
-                                            onClick={() => setSelectedOut(p)}
-                                            onMouseEnter={e => e.currentTarget.style.borderColor = colors.secondary}
-                                            onMouseLeave={e => e.currentTarget.style.borderColor = colors.border}
+                                            <div key={p.id}
+                                                className="ef-livesq__player-row ef-livesq__player-row--clickable"
+                                                onClick={() => setSelectedOut(p)}
                                             >
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                    <span style={{ 
-                                                        backgroundColor: colors.panelElevated, 
-                                                        color: colors.textMuted, 
-                                                        padding: '2px 6px', 
-                                                        fontSize: '0.75rem', 
-                                                        fontFamily: 'var(--font-mono)',
-                                                        width: '36px',
-                                                        textAlign: 'center'
-                                                    }}>
+                                                <div className="ef-livesq__player-identity">
+                                                    <span className="ef-livesq__pos-badge">
                                                         {p.position}
                                                     </span>
-                                                    <span style={{ fontFamily: 'var(--font-sans)', fontWeight: '600' }}>{p.name}</span>
+                                                    <span className="ef-livesq__player-name">{p.name}</span>
                                                 </div>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: energyColor, fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
+                                                <div className={`ef-livesq__player-energy ef-livesq__energy--${eMod}`}>
                                                     <Lightning size={14} weight="fill" /> {p.energy}%
                                                 </div>
                                             </div>
@@ -216,58 +156,35 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
 
                         {selectedOut && (
                             <div>
-                                <div style={{
-                                    backgroundColor: '#8B0000',
-                                    border: `1px solid ${colors.danger}`,
-                                    padding: '12px',
-                                    marginBottom: '16px',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center'
-                                }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <XCircle size={20} color={colors.danger} />
-                                        <span style={{ color: colors.danger, fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>SAINDO:</span>
-                                        <strong style={{ fontFamily: 'var(--font-sans)' }}>{selectedOut.name} ({selectedOut.position})</strong>
+                                <div className="ef-livesq__selected-banner">
+                                    <div className="ef-livesq__selected-row">
+                                        <XCircle size={20} color="var(--danger)" />
+                                        <span className="ef-livesq__selected-text">SAINDO:</span>
+                                        <strong className="ef-livesq__selected-name">{selectedOut.name} ({selectedOut.position})</strong>
                                     </div>
                                     <EfButton variant="secondary" size="sm" onClick={() => setSelectedOut(null)}>CANCELAR</EfButton>
                                 </div>
-                                
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', color: colors.textMuted, marginBottom: '12px', fontFamily: 'var(--font-mono)' }}>
+
+                                <div className="ef-livesq__section-label">
                                     <Users size={16} /> ESCOLHER RESERVA
                                 </div>
-                                
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxHeight: '200px', overflowY: 'auto', paddingRight: '4px' }}>
+
+                                <div className="ef-livesq__player-list ef-livesq__player-list--reserves">
                                     {reserves.length === 0 && (
-                                        <div style={{ color: colors.textMuted, fontSize: '0.85rem', textAlign: 'center', padding: '24px 0', fontFamily: 'var(--font-mono)' }}>
+                                        <div className="ef-livesq__no-reserves">
                                             NENHUM RESERVA COM ENERGIA DISPONÍVEL
                                         </div>
                                     )}
                                     {reserves.map(p => (
-                                        <div key={p.id} style={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            padding: '8px 12px',
-                                            backgroundColor: colors.bg,
-                                            border: `1px solid ${colors.border}`
-                                        }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                <span style={{ 
-                                                    backgroundColor: colors.panelElevated, 
-                                                    color: colors.textMuted, 
-                                                    padding: '2px 6px', 
-                                                    fontSize: '0.75rem', 
-                                                    fontFamily: 'var(--font-mono)',
-                                                    width: '36px',
-                                                    textAlign: 'center'
-                                                }}>
+                                        <div key={p.id} className="ef-livesq__player-row ef-livesq__player-row--reserve">
+                                            <div className="ef-livesq__player-identity">
+                                                <span className="ef-livesq__pos-badge">
                                                     {p.position}
                                                 </span>
-                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                    <span style={{ fontFamily: 'var(--font-sans)', fontWeight: '600' }}>{p.name}</span>
-                                                    <span style={{ color: colors.textMuted, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
-                                                        OVR: <strong style={{ color: colors.text }}>{p.ovr}</strong> • ENERGIA: <strong style={{ color: colors.accent }}>{p.energy}%</strong>
+                                                <div className="ef-livesq__player-meta">
+                                                    <span className="ef-livesq__player-name">{p.name}</span>
+                                                    <span className="ef-livesq__player-stats">
+                                                        OVR: <strong>{p.ovr}</strong> • ENERGIA: <strong className="ef-livesq__player-stats--energy">{p.energy}%</strong>
                                                     </span>
                                                 </div>
                                             </div>
@@ -275,7 +192,7 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                                                 variant="primary"
                                                 size="sm"
                                                 onClick={() => handleSub(selectedOut, p)}
-                                                style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                                                className="ef-livesq__sub-action"
                                             >
                                                 ENTRAR <ArrowsLeftRight size={14} />
                                             </EfButton>

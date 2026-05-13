@@ -1,0 +1,48 @@
+/* ChronicleView — semantic CSS + design tokens */
+
+.ef-chron {
+  --ef-chron-info: #40BAF7;
+  --ef-chron-border-soft: #2D3748;
+}
+
+.ef-chron__header {
+  border-bottom: 2px solid var(--ef-chron-info);
+}
+
+.ef-chron__header-icon {
+  color: var(--ef-chron-info);
+}
+
+.ef-chron__toolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ef-chron__tab-group,
+.ef-chron__export-group {
+  display: flex;
+  gap: 8px;
+}
+
+.ef-chron__btn-lifetime-active {
+  background-color: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+.ef-chron__btn-export {
+  border-color: var(--ef-chron-border-soft);
+}
+
+.ef-chron__panel {
+  min-height: 400px;
+}
+
+.ef-chron__content {
+  white-space: pre-wrap;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}

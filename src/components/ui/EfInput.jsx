@@ -72,13 +72,13 @@ export function EfInput({
                         paddingLeft: icon ? '32px' : sizing.padding.split(' ')[1],
                         fontSize: sizing.fontSize,
                         fontFamily: 'monospace',
-                        color: '#E2E8F0',
-                        background: '#111417',
+                        color: 'var(--color-soft-text)',
+                        background: 'var(--bg-dark)',
                         border: '4px solid',
                         borderColor: error
-                            ? '#FF3333'
-                            : '#111417 #4A5059 #4A5059 #111417',
-                        boxShadow: 'inset 2px 2px 0 #040805',
+                            ? 'var(--danger)'
+                            : 'var(--bg-dark) var(--border-panel) var(--border-panel) var(--bg-dark)',
+                        boxShadow: 'inset 2px 2px 0 var(--color-shadow-deep)',
                         outline: 'none',
                         transition: 'border-color 0.1s',
                         opacity: disabled ? 0.5 : 1,
@@ -86,13 +86,13 @@ export function EfInput({
                     }}
                     onFocus={(e) => {
                         if (!error) {
-                            e.target.style.borderColor = '#40BAF7';
+                            e.target.style.borderColor = 'var(--info)';
                         }
                     }}
                     onBlur={(e) => {
                         e.target.style.borderColor = error
-                            ? '#FF3333'
-                            : '#111417 #4A5059 #4A5059 #111417';
+                            ? 'var(--danger)'
+                            : 'var(--bg-dark) var(--border-panel) var(--border-panel) var(--bg-dark)';
                     }}
                     {...rest}
                 />
@@ -101,7 +101,7 @@ export function EfInput({
             {error && (
                 <span style={{
                     fontSize: '0.45rem',
-                    color: '#FF3333',
+                    color: 'var(--danger)',
                     fontFamily: "'Press Start 2P', monospace"
                 }}>
                     ⚠ {error}

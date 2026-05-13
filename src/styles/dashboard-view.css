@@ -1,0 +1,1177 @@
+
+/* Dashboard Layout */
+.ef-dashboard-container {
+  padding: 24px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--color-bg);
+}
+
+.ef-dashboard-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Header / Hero */
+.ef-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-dashboard-header__left {
+  display: flex;
+  flex-direction: column;
+}
+
+.ef-dashboard-team-badge {
+  display: inline-block;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  border: 1px solid var(--color-border);
+}
+
+.ef-dashboard-team-name {
+  font-family: var(--font-body);
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-team-stats {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-dashboard-team-stats__win {
+  display: flex;
+  align-items: center;
+  color: var(--color-success);
+}
+
+.ef-dashboard-team-stats__loss {
+  display: flex;
+  align-items: center;
+  color: var(--color-danger);
+}
+
+.ef-dashboard-header__right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.ef-dashboard-balance {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.ef-dashboard-balance--positive {
+  color: var(--color-success);
+}
+
+.ef-dashboard-balance--negative {
+  color: var(--color-danger);
+}
+
+.ef-dashboard-board-status {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: var(--color-bg-secondary);
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-border);
+}
+
+.ef-dashboard-season-progress {
+  margin-top: 12px;
+  width: 200px;
+}
+
+.ef-dashboard-season-progress__info {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+
+/* Alerts */
+.ef-dashboard-alerts {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-dashboard-alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-dashboard-alert--injury {
+  background: #2D1616;
+  border-color: var(--color-danger);
+}
+
+.ef-dashboard-alert--contract {
+  background: #2D2916;
+  border-color: var(--color-secondary);
+}
+
+.ef-dashboard-alert--energy {
+  background: #2D1616;
+  border-color: var(--color-danger);
+}
+
+.ef-dashboard-alert--transfer {
+  background: #16242D;
+  border-color: var(--notification-info-border);
+}
+
+.ef-dashboard-alert__text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.ef-dashboard-alert__text--danger {
+  color: var(--color-danger);
+}
+
+.ef-dashboard-alert__text--secondary {
+  color: var(--color-secondary);
+}
+
+.ef-dashboard-alert__text--info {
+  color: var(--notification-info-color);
+}
+
+/* Main Grid */
+.ef-dashboard-main-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Left Column: Navigation */
+.ef-dashboard-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ef-dashboard-nav__tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-dashboard-nav__actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Right Column: Content */
+.ef-dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Next Match Info */
+.ef-dashboard-match-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-bg-secondary);
+}
+
+.ef-dashboard-match-info__left {
+  display: flex;
+  flex-direction: column;
+}
+
+.ef-dashboard-match-info__label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  display: block;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.ef-dashboard-match-info__formation {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.ef-dashboard-match-info__formation-name {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-match-info__tactics {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-success);
+}
+
+.ef-dashboard-match-info__right {
+  display: flex;
+  gap: 24px;
+}
+
+/* Tab Content - Overview */
+.ef-dashboard-overview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.ef-dashboard-overview__left,
+.ef-dashboard-overview__right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ef-dashboard-playbook {
+  border-color: var(--notification-info-border);
+  background: #0D1A24;
+}
+
+.ef-dashboard-playbook__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--notification-info-color);
+  font-family: var(--font-body);
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.ef-dashboard-playbook__content {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  font-family: var(--font-body);
+}
+
+.ef-dashboard-playbook__content p {
+  margin: 0 0 8px 0;
+}
+
+/* Finance Table */
+.ef-dashboard-finance__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.ef-dashboard-finance__row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ef-dashboard-finance__label {
+  color: var(--color-text-secondary);
+  padding: 8px 0;
+}
+
+.ef-dashboard-finance__value {
+  text-align: right;
+  padding: 8px 0;
+}
+
+.ef-dashboard-finance__value--income {
+  color: var(--color-success);
+}
+
+.ef-dashboard-finance__value--expense {
+  color: var(--color-danger);
+}
+
+/* Loan Panel */
+.ef-dashboard-loan {
+  background: #2D2916;
+  border-color: var(--color-secondary);
+}
+
+.ef-dashboard-loan__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.ef-dashboard-loan__row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ef-dashboard-loan__label {
+  color: var(--color-text-secondary);
+  padding: 8px 0;
+}
+
+.ef-dashboard-loan__value {
+  text-align: right;
+  padding: 8px 0;
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-loan__value--danger {
+  color: var(--color-danger);
+}
+
+/* Week Events */
+.ef-dashboard-events__item {
+  padding: 12px;
+  border-left: 4px solid;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.ef-dashboard-events__item--good {
+  background: #162D1C;
+  border-left-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.ef-dashboard-events__item--bad {
+  background: #2D1616;
+  border-left-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.ef-dashboard-events__item--neutral {
+  background: var(--color-bg-secondary);
+  border-left-color: var(--color-text-secondary);
+  color: var(--color-text-primary);
+}
+
+/* Board Tension */
+.ef-dashboard-board-tension {
+  border-color: var(--color-secondary);
+  background: #2D2916;
+}
+
+.ef-dashboard-board-tension--danger {
+  border-color: var(--color-danger);
+  background: #2D1616;
+}
+
+.ef-dashboard-board-tension--success {
+  border-color: var(--color-success);
+  background: #162D1C;
+}
+
+.ef-dashboard-board-tension__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.ef-dashboard-board-tension__title--danger {
+  color: var(--color-danger);
+}
+
+.ef-dashboard-board-tension__title--success {
+  color: var(--color-success);
+}
+
+.ef-dashboard-board-tension__title--warning {
+  color: var(--color-secondary);
+}
+
+.ef-dashboard-board-tension__status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.ef-dashboard-board-tension__status-text {
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-board-tension__score {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+}
+
+.ef-dashboard-board-tension__score--positive {
+  color: var(--color-success);
+}
+
+.ef-dashboard-board-tension__score--negative {
+  color: var(--color-danger);
+}
+
+/* Form Chips */
+.ef-form-chip {
+  font-family: var(--font-mono);
+  padding: 4px 8px;
+  border-radius: 0;
+  font-size: 0.75rem;
+}
+
+.ef-form-chip--v {
+  background: var(--color-success);
+  color: var(--color-bg);
+}
+
+.ef-form-chip--d {
+  background: var(--color-secondary);
+  color: var(--color-bg);
+}
+
+.ef-form-chip--l {
+  background: var(--color-danger);
+  color: var(--color-text-primary);
+}
+
+/* Tab: Tactics */
+.ef-dashboard-tactics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.ef-dashboard-tactics__section-title {
+  font-family: var(--font-body);
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  margin-bottom: 24px;
+}
+
+.ef-dashboard-tactics__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ef-dashboard-tactics__description {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  margin-top: 16px;
+  line-height: 1.5;
+  font-family: var(--font-body);
+}
+
+/* Tab: Training */
+.ef-dashboard-training {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.ef-dashboard-training__title {
+  font-family: var(--font-body);
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  margin-bottom: 24px;
+}
+
+/* Tab: Club */
+.ef-dashboard-club {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.ef-dashboard-club__left,
+.ef-dashboard-club__right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ef-dashboard-club-panel {
+  background: var(--color-bg-secondary);
+}
+
+.ef-dashboard-club-panel__title {
+  font-family: var(--font-body);
+  font-weight: bold;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ef-dashboard-club-panel__info {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+  font-family: var(--font-body);
+}
+
+.ef-dashboard-club-panel__progress {
+  margin-bottom: 16px;
+}
+
+.ef-dashboard-club-panel__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-dashboard-club-panel__level {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+}
+
+/* Staff Table */
+.ef-dashboard-staff__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.ef-dashboard-staff__row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ef-dashboard-staff__cell {
+  padding: 12px 0;
+}
+
+.ef-dashboard-staff__name {
+  color: var(--color-success);
+  font-weight: bold;
+}
+
+/* Scouting */
+.ef-dashboard-scout__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ef-dashboard-scout__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.ef-dashboard-scout__row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ef-dashboard-scout__player-name {
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-scout__player-info {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+
+/* Tab: Transfers */
+.ef-dashboard-transfers__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.ef-dashboard-transfers__row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ef-dashboard-transfers__cell {
+  padding: 16px 0;
+  vertical-align: middle;
+}
+
+.ef-dashboard-transfers__player-name {
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.ef-dashboard-transfers__player-info {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+  font-family: var(--font-body);
+}
+
+.ef-dashboard-transfers__offer-amount {
+  font-family: var(--font-mono);
+  color: var(--color-success);
+}
+
+.ef-dashboard-transfers__actions {
+  text-align: right;
+  vertical-align: middle;
+  padding: 16px 0;
+}
+
+.ef-dashboard-transfers__action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* Bottom Navigation */
+.ef-dashboard-bottom-nav {
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+/* Event Toast */
+.event-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  padding: 16px 24px;
+  background: var(--color-success);
+  color: var(--color-bg);
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  z-index: 1000;
+}
+
+/* Modals */
+.ef-dashboard-press-modal__question {
+  margin-bottom: 24px;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-family: var(--font-body);
+}
+
+.ef-dashboard-press-modal__options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-dashboard-advice-modal__content {
+  border-left: 4px solid var(--notification-info-border);
+  padding-left: 16px;
+  margin-bottom: 24px;
+  min-height: 60px;
+}
+
+.ef-dashboard-advice-modal__loading {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-style: italic;
+}
+
+.ef-dashboard-advice-modal__text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+/* Pacing Friction Modal */
+.ef-dashboard-pacing-modal__content {
+  border-left: 4px solid;
+  padding-left: 16px;
+  margin-bottom: 24px;
+}
+
+.ef-dashboard-pacing-modal__critical {
+  border-left-color: var(--color-danger);
+}
+
+.ef-dashboard-pacing-modal__warning {
+  border-left-color: var(--color-secondary);
+}
+
+.ef-dashboard-pacing-modal__info {
+  border-left-color: var(--notification-info-border);
+}
+
+.ef-dashboard-pacing-modal__text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-pacing-modal__actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Match Narrative */
+.ef-dashboard-narrative {
+  margin-top: 24px;
+}
+
+.ef-dashboard-narrative__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--notification-info-color);
+  font-family: var(--font-body);
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.ef-dashboard-narrative__text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+/* Finance Empty State */
+.ef-dashboard-finance__empty {
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  font-family: var(--font-body);
+  margin: 0;
+}
+
+/* Loan Payoff Button */
+.ef-dashboard-loan__payoff-btn {
+  margin-top: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Week Events */
+.ef-dashboard-events {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-dashboard-event {
+  padding: 12px;
+  border-left: 4px solid;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.ef-dashboard-event--good {
+  background: #162D1C;
+  border-left-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.ef-dashboard-event--bad {
+  background: #2D1616;
+  border-left-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.ef-dashboard-event--neutral {
+  background: var(--color-bg-secondary);
+  border-left-color: var(--color-text-secondary);
+  color: var(--color-text-primary);
+}
+
+/* Board Tension (updated variants) */
+.ef-dashboard-board-tension--stable {
+  border-color: var(--color-success);
+  background: #162D1C;
+}
+
+.ef-dashboard-board-tension__title--stable {
+  color: var(--color-success);
+}
+
+.ef-dashboard-board-tension__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.ef-dashboard-board-tension__status {
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-board-tension__value {
+  font-size: 1.2rem;
+  font-family: var(--font-mono);
+}
+
+.ef-dashboard-board-tension__value--positive {
+  color: var(--color-success);
+}
+
+.ef-dashboard-board-tension__value--negative {
+  color: var(--color-danger);
+}
+
+/* Recent Form Chips */
+.ef-dashboard-form-chips {
+  display: flex;
+  gap: 8px;
+}
+
+/* Tactics Tab */
+.ef-dashboard-tactics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.ef-dashboard-tactics__section-title {
+  font-family: var(--font-body);
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 24px;
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-tactics__section-title--secondary {
+  margin: 32px 0 24px 0;
+}
+
+.ef-dashboard-tactics__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ef-dashboard-tactics__description {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  margin-top: 16px;
+  line-height: 1.5;
+  font-family: var(--font-body);
+}
+
+.ef-dashboard-talks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-dashboard-talk-btn {
+  justify-content: flex-start;
+  padding: 16px;
+}
+
+/* Training Tab */
+.ef-dashboard-training__title {
+  font-family: var(--font-body);
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 24px;
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-training__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.ef-dashboard-training-btn {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  gap: 12px;
+}
+
+.ef-dashboard-training-btn__name {
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  font-weight: bold;
+}
+
+.ef-dashboard-training-btn__desc {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  white-space: normal;
+  text-align: left;
+  line-height: 1.4;
+  font-family: var(--font-body);
+  font-weight: normal;
+}
+
+.ef-dashboard-training-btn__desc--active {
+  color: var(--color-success);
+}
+
+/* Club Tab */
+.ef-dashboard-club-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.ef-dashboard-club__left,
+.ef-dashboard-club__right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ef-dashboard-club__panel {
+  background: #161B22;
+}
+
+.ef-dashboard-club-facility__info {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+  font-family: var(--font-body);
+}
+
+.ef-dashboard-club-facility__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-dashboard-club-facility__level {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+}
+
+/* Staff Table */
+.ef-dashboard-club-staff__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.ef-dashboard-club-staff__row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ef-dashboard-club-staff__label {
+  padding: 12px 0;
+  color: var(--color-text-secondary);
+}
+
+.ef-dashboard-club-staff__value {
+  text-align: right;
+  padding: 12px 0;
+}
+
+.ef-dashboard-club-staff__name {
+  color: var(--color-success);
+}
+
+/* Scouting */
+.ef-dashboard-club-scouting__regions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ef-dashboard-club-scouting__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.ef-dashboard-club-scouting__row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ef-dashboard-club-scouting__player {
+  padding: 8px 0;
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-club-scouting__meta {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+
+.ef-dashboard-club-scouting__actions {
+  text-align: right;
+  padding: 8px 0;
+}
+
+/* Transfers Tab */
+.ef-dashboard-transfers__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.ef-dashboard-transfers__row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ef-dashboard-transfers__offer {
+  padding: 16px 0;
+}
+
+.ef-dashboard-transfers__player-name {
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+
+.ef-dashboard-transfers__ovr {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.ef-dashboard-transfers__offer-detail {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+  font-family: var(--font-body);
+}
+
+.ef-dashboard-transfers__amount {
+  font-family: var(--font-mono);
+  color: var(--color-success);
+}
+
+.ef-dashboard-transfers__actions {
+  text-align: right;
+  vertical-align: middle;
+  padding: 16px 0;
+}
+
+.ef-dashboard-transfers__buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* Bottom Navigation */
+.ef-dashboard-bottom-nav {
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.ef-dashboard-bottom-nav__btn {
+  justify-content: center;
+  padding: 24px;
+  font-size: 1rem;
+  gap: 8px;
+}
+
+/* Advice Panel Modal */
+.ef-dashboard-advice-panel {
+  border-left: 4px solid var(--notification-info-border);
+  padding-left: 16px;
+  margin-bottom: 24px;
+  min-height: 60px;
+}
+
+.ef-dashboard-advice-panel__loading {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-style: italic;
+}
+
+.ef-dashboard-advice-panel__text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+/* Narrative Wrapper */
+.ef-dashboard-narrative-wrapper {
+  margin-top: 24px;
+}
+
+.ef-dashboard-narrative {
+  border-color: var(--notification-info-border);
+  background: #0D1A24;
+}
+
+/* Pacing Friction Modal */
+.ef-dashboard-pacing__alert {
+  border-left: 4px solid;
+  padding-left: 16px;
+  margin-bottom: 24px;
+}
+
+.ef-dashboard-pacing__alert--critical {
+  border-left-color: var(--color-danger);
+}
+
+.ef-dashboard-pacing__alert--warning {
+  border-left-color: var(--color-secondary);
+}
+
+.ef-dashboard-pacing__alert--info {
+  border-left-color: var(--notification-info-border);
+}
+
+.ef-dashboard-pacing__body {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+.ef-dashboard-pacing__buttons {
+  display: flex;
+  gap: 12px;
+}

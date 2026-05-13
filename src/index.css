@@ -1,7 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap');
-@import './styles/luxury-arcade.css';
+@import './styles/isssd-premium.css';
 @import './styles/animations.css';
+@import './styles/ef-helpers.css';
 @import './styles/mobile.css';
+@import './styles/match-view.css';
+@import './styles/market-view.css';
+@import './styles/cosmetic-shop-view.css';
+@import './styles/save-slots-view.css';
+@import './styles/trophy-ceremony.css';
+@import './styles/standings-view.css';
+@import './styles/press-view.css';
+@import './styles/achievements-view.css';
+@import './styles/tutorial-view.css';
+@import './styles/rivalries-view.css';
+@import './styles/chronicle-view.css';
+@import './styles/lineage-view.css';
+@import './styles/hexagon-chart.css';
+@import './styles/monitor-view.css';
+@import './styles/pre-match-screen.css';
+@import './styles/formation-board.css';
+@import './styles/live-squad-edit-modal.css';
+@import './styles/player-match-view.css';
+@import './styles/styleguide-view.css';
+@import './styles/autoplay-view.css';
+@import './styles/ef-banner.css';
+@import './styles/sidebar.css';
+@import './styles/tooltip.css';
+@import './styles/start-view.css';
+@import './styles/challenges-widget.css';
+@import './styles/floating-bug-button.css';
+@import './styles/match-ball-sprite.css';
+@import './styles/match-scoreboard.css';
+@import './styles/match-highlight-modal.css';
+@import './styles/match-post-mortem.css';
+@import './styles/mid-match-card-modal.css';
+@import './styles/seasonal-event-modal.css';
+@import './styles/chronicle-season-end-modal.css';
+@import './styles/star-impact-toast.css';
+@import './styles/onboarding-coach.css';
+@import './styles/view-onboarding.css';
+@import './styles/gdd-systems-aug.css';
+@import './styles/autoplay-lab-view.css';
+@import './styles/squad-view.css';
 
 /* SPEC-A11y Focus visible (WCAG 2.1 AA) */
 *:focus-visible {
@@ -663,3 +703,19 @@ h1, h2, h3, h4 {
     transition: none !important;
   }
 }
+@import './styles/sidebar.css';
+@import './styles/tooltip.css';
+@import './styles/start-view.css';
+@import './styles/challenges-widget.css';
+@import './styles/floating-bug-button.css';
+@import './styles/match-ball-sprite.css';
+@import './styles/match-scoreboard.css';
+@import './styles/match-highlight-modal.css';
+@import './styles/match-post-mortem.css';
+@import './styles/mid-match-card-modal.css';
+@import './styles/seasonal-event-modal.css';
+@import './styles/chronicle-season-end-modal.css';
+@import './styles/star-impact-toast.css';
+@import './styles/onboarding-coach.css';
+@import './styles/view-onboarding.css';
+@import './styles/gdd-systems-aug.css';

@@ -1,0 +1,10 @@
+/* GDDSystems — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes GDDSystems-specific component tokens + utility classes.
+ */
+
+.ef-gdd-systems- {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add GDDSystems-specific BEM classes below as inline styles are extracted */

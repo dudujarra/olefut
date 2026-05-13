@@ -15,8 +15,8 @@ import { EfPanel } from '../ui/EfPanel';
 
 // Colors for bar visualization
 const BAR_COLORS = [
-    '#6ABC3A', '#3b82f6', '#f59e0b', '#ef4444', '#a78bfa',
-    '#14b8a6', '#f97316', '#ec4899', '#22d3ee', '#84cc16'
+    'var(--color-success-mid)', 'var(--color-learning-blue)', 'var(--color-amber-warning)', 'var(--color-red-bright)', 'var(--color-learning-violet)',
+    'var(--color-learning-teal)', 'var(--color-learning-orange)', 'var(--color-learning-pink)', 'var(--color-learning-cyan)', 'var(--color-learning-lime)'
 ];
 
 const EMPTY = {
@@ -140,7 +140,7 @@ export function BrainDashboard({ controllerRef }) {
                                         <div key={trait} style={{ fontSize: '0.7rem' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <span style={{ textTransform: 'capitalize' }}>{String(trait)}</span>
-                                                <span style={{ color: '#6ABC3A', fontWeight: 700 }}>{pct}%</span>
+                                                <span style={{ color: 'var(--color-success-mid)', fontWeight: 700 }}>{pct}%</span>
                                             </div>
                                             <div style={barBg}>
                                                 <div style={{ ...barFill, width: `${pct}%`, background: traitColor(trait) }} />
@@ -159,18 +159,18 @@ export function BrainDashboard({ controllerRef }) {
                                 <MiniStat label="States" value={stateKeys.length} />
                                 <MiniStat label="Actions" value={allActions.length} />
                                 <MiniStat label="Memórias" value={memory.length} />
-                                <MiniStat label="Q min" value={qMin.toFixed(1)} color="#ef4444" />
-                                <MiniStat label="Q max" value={qMax.toFixed(1)} color="#6ABC3A" />
+                                <MiniStat label="Q min" value={qMin.toFixed(1)} color="var(--color-red-bright)" />
+                                <MiniStat label="Q max" value={qMax.toFixed(1)} color="var(--color-success-mid)" />
                                 <MiniStat label="Reward média"
                                     value={rewardHistory.length > 0
                                         ? (rewardHistory.reduce((s, r) => s + r.reward, 0) / rewardHistory.length).toFixed(1)
                                         : '—'}
-                                    color="#3b82f6" />
+                                    color="var(--color-learning-blue)" />
                                 <MiniStat label="Reward acum."
                                     value={cumulativeReward.length > 0
                                         ? cumulativeReward[cumulativeReward.length - 1].toFixed(0)
                                         : '0'}
-                                    color={cumulativeReward.length > 0 && cumulativeReward[cumulativeReward.length - 1] > 0 ? '#6ABC3A' : '#ef4444'} />
+                                    color={cumulativeReward.length > 0 && cumulativeReward[cumulativeReward.length - 1] > 0 ? 'var(--color-success-mid)' : 'var(--color-red-bright)'} />
                             </div>
                         </div>
                     </div>
@@ -179,15 +179,15 @@ export function BrainDashboard({ controllerRef }) {
                     <div style={{ ...cardStyle, marginBottom: '10px' }}>
                         <div style={titleStyle}>⚡ Convergência ML (Fase D)</div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', fontSize: '0.72rem' }}>
-                            <MiniStat label="Replay Buffer" value={replayBuffer} color="#a78bfa" />
-                            <MiniStat label="High Impact" value={replayImpactful} color="#f59e0b" />
-                            <MiniStat label="Active Traces" value={activeTraces} color="#3b82f6" />
+                            <MiniStat label="Replay Buffer" value={replayBuffer} color="var(--color-learning-violet)" />
+                            <MiniStat label="High Impact" value={replayImpactful} color="var(--color-amber-warning)" />
+                            <MiniStat label="Active Traces" value={activeTraces} color="var(--color-learning-blue)" />
                             <MiniStat label="Emotional" value={emotionalState} color={
-                                emotionalState === 'CALM' ? '#6ABC3A' :
-                                emotionalState === 'CONFIDENT' ? '#3b82f6' :
-                                emotionalState === 'ANXIOUS' ? '#f59e0b' :
-                                emotionalState === 'TILTED' ? '#ef4444' :
-                                emotionalState === 'DESPERATE' ? '#dc2626' : '#888'
+                                emotionalState === 'CALM' ? 'var(--color-success-mid)' :
+                                emotionalState === 'CONFIDENT' ? 'var(--color-learning-blue)' :
+                                emotionalState === 'ANXIOUS' ? 'var(--color-amber-warning)' :
+                                emotionalState === 'TILTED' ? 'var(--color-red-bright)' :
+                                emotionalState === 'DESPERATE' ? 'var(--color-learning-red-dark)' : '#888'
                             } />
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', marginTop: '8px' }}>
@@ -195,20 +195,20 @@ export function BrainDashboard({ controllerRef }) {
                             <div style={{ fontSize: '0.68rem' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
                                     <span style={{ color: '#888' }}>α (learning rate)</span>
-                                    <span style={{ color: '#14b8a6', fontWeight: 700 }}>{effectiveAlpha.toFixed(4)}</span>
+                                    <span style={{ color: 'var(--color-learning-teal)', fontWeight: 700 }}>{effectiveAlpha.toFixed(4)}</span>
                                 </div>
                                 <div style={barBg}>
-                                    <div style={{ ...barFill, width: `${(effectiveAlpha / 0.1) * 100}%`, background: '#14b8a6' }} />
+                                    <div style={{ ...barFill, width: `${(effectiveAlpha / 0.1) * 100}%`, background: 'var(--color-learning-teal)' }} />
                                 </div>
                             </div>
                             {/* Epsilon decay bar */}
                             <div style={{ fontSize: '0.68rem' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
                                     <span style={{ color: '#888' }}>ε (exploration)</span>
-                                    <span style={{ color: '#ec4899', fontWeight: 700 }}>{effectiveEpsilon.toFixed(4)}</span>
+                                    <span style={{ color: 'var(--color-learning-pink)', fontWeight: 700 }}>{effectiveEpsilon.toFixed(4)}</span>
                                 </div>
                                 <div style={barBg}>
-                                    <div style={{ ...barFill, width: `${(effectiveEpsilon / 0.15) * 100}%`, background: '#ec4899' }} />
+                                    <div style={{ ...barFill, width: `${(effectiveEpsilon / 0.15) * 100}%`, background: 'var(--color-learning-pink)' }} />
                                 </div>
                             </div>
                         </div>
@@ -261,10 +261,10 @@ export function BrainDashboard({ controllerRef }) {
                                 <div key={String(a.action)} style={{
                                     display: 'flex', justifyContent: 'space-between',
                                     fontSize: '0.7rem', padding: '2px 0',
-                                    borderBottom: '1px solid #0E1F14'
+                                    borderBottom: '1px solid var(--color-bg-deep)'
                                 }}>
                                     <span>{i + 1}. {String(a.action)}</span>
-                                    <strong style={{ color: a.totalQ >= 0 ? '#6ABC3A' : '#ef4444' }}>
+                                    <strong style={{ color: a.totalQ >= 0 ? 'var(--color-success-mid)' : 'var(--color-red-bright)' }}>
                                         {a.totalQ >= 0 ? '+' : ''}{Number(a.totalQ).toFixed(1)}
                                     </strong>
                                 </div>
@@ -289,7 +289,7 @@ export function BrainDashboard({ controllerRef }) {
                                                     flex: 1,
                                                     height: `${height}px`,
                                                     minHeight: '2px',
-                                                    background: r.reward >= 0 ? '#6ABC3A' : '#ef4444',
+                                                    background: r.reward >= 0 ? 'var(--color-success-mid)' : 'var(--color-red-bright)',
                                                     }}
                                             />
                                         );
@@ -314,8 +314,8 @@ export function BrainDashboard({ controllerRef }) {
                                             padding: '3px 6px',
                                             fontSize: '0.6rem',
                                             fontFamily: 'monospace',
-                                            background: '#3b82f6',
-                                            border: `1px solid #2563eb`,
+                                            background: 'var(--color-learning-blue)',
+                                            border: `1px solid var(--color-learning-blue-dark)`,
                                             color: intensity > 0.5 ? '#fff' : '#888'
                                         }}
                                     >
@@ -334,15 +334,15 @@ export function BrainDashboard({ controllerRef }) {
                                 <div key={i} style={{
                                     display: 'flex', justifyContent: 'space-between', gap: '8px',
                                     padding: '3px 0', fontSize: '0.68rem',
-                                    borderBottom: '1px solid #0E1F14'
+                                    borderBottom: '1px solid var(--color-bg-deep)'
                                 }}>
                                     <span style={{ color: '#888' }}>wk{m.week ?? '?'}</span>
                                     <span style={{ flex: 1 }}>{String(m.action || m.decision || '?')}</span>
-                                    <span style={{ color: m.result === 'W' ? '#6ABC3A' : m.result === 'L' ? '#ef4444' : '#f59e0b' }}>
+                                    <span style={{ color: m.result === 'W' ? 'var(--color-success-mid)' : m.result === 'L' ? 'var(--color-red-bright)' : 'var(--color-amber-warning)' }}>
                                         {String(m.result || '')}
                                     </span>
                                     {m.reward != null && (
-                                        <strong style={{ color: m.reward >= 0 ? '#6ABC3A' : '#ef4444', minWidth: '35px', textAlign: 'right' }}>
+                                        <strong style={{ color: m.reward >= 0 ? 'var(--color-success-mid)' : 'var(--color-red-bright)', minWidth: '35px', textAlign: 'right' }}>
                                             {m.reward >= 0 ? '+' : ''}{Number(m.reward).toFixed(1)}
                                         </strong>
                                     )}
@@ -366,7 +366,7 @@ function MiniStat({ label, value, color }) {
     return (
         <div style={{ textAlign: 'center', padding: '4px' }}>
             <div style={{ fontSize: '0.6rem', color: '#888', textTransform: 'uppercase' }}>{String(label)}</div>
-            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: color || '#E2E8F0' }}>{String(value)}</div>
+            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: color || 'var(--color-soft-text)' }}>{String(value)}</div>
         </div>
     );
 }
@@ -374,21 +374,21 @@ function MiniStat({ label, value, color }) {
 // Styles
 const cardStyle = {
     padding: '8px 10px',
-    background: '#111417',
-    border: '1px solid #111417',
+    background: 'var(--bg-dark)',
+    border: '1px solid var(--bg-dark)',
     };
 
 const titleStyle = {
     fontSize: '0.72rem',
     fontWeight: 700,
-    color: '#FFD700',
+    color: 'var(--accent)',
     marginBottom: '6px',
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
 };
 
 const barBg = {
-    background: '#0E1F14',
+    background: 'var(--color-bg-deep)',
     height: '6px',
     overflow: 'hidden',
 };
@@ -400,21 +400,21 @@ const barFill = {
 
 function traitColor(trait) {
     const map = {
-        ambition: '#f59e0b',
-        riskAversion: '#ef4444',
-        riskAppetite: '#ef4444',
-        loyalty: '#3b82f6',
-        creativity: '#a78bfa',
-        patience: '#14b8a6',
-        temperament: '#14b8a6',
-        tacticalFlex: '#a78bfa',
-        O: '#f59e0b',
-        C: '#3b82f6',
-        E: '#ef4444',
-        A: '#14b8a6',
-        N: '#a78bfa',
+        ambition: 'var(--color-amber-warning)',
+        riskAversion: 'var(--color-red-bright)',
+        riskAppetite: 'var(--color-red-bright)',
+        loyalty: 'var(--color-learning-blue)',
+        creativity: 'var(--color-learning-violet)',
+        patience: 'var(--color-learning-teal)',
+        temperament: 'var(--color-learning-teal)',
+        tacticalFlex: 'var(--color-learning-violet)',
+        O: 'var(--color-amber-warning)',
+        C: 'var(--color-learning-blue)',
+        E: 'var(--color-red-bright)',
+        A: 'var(--color-learning-teal)',
+        N: 'var(--color-learning-violet)',
     };
-    return map[trait] || '#6ABC3A';
+    return map[trait] || 'var(--color-success-mid)';
 }
 
 export default BrainDashboard;

@@ -1,0 +1,320 @@
+{
+  "_meta": {
+    "name": "OléFUT ISSSD-Premium 32-bit Design Tokens",
+    "version": "1.0",
+    "source": "docs/brand-guidelines.md v1.1",
+    "description": "Three-layer token architecture: Primitive (raw values) → Semantic (purpose) → Component (specific use)",
+    "lastUpdated": "2026-05-13"
+  },
+  "primitive": {
+    "colors": {
+      "green": {
+        "neon": "#39FF14",
+        "pitch": "#52B788",
+        "forest": "#1B4332",
+        "forestDark": "#0E1F14"
+      },
+      "gold": {
+        "trophy": "#FFD700",
+        "amber": "#FBBF24"
+      },
+      "red": {
+        "danger": "#FF3333",
+        "darkDanger": "#8B0000"
+      },
+      "neutral": {
+        "crtBlack": "#111417",
+        "abyss": "#040805",
+        "midnightGreen": "#0E1F14",
+        "smoke": "#a0baae",
+        "parchment": "#F1FAEE"
+      }
+    },
+    "typography": {
+      "fontFamilies": {
+        "display": "'Press Start 2P', monospace",
+        "body": "'Pixelify Sans', system-ui, sans-serif",
+        "mono": "'IBM Plex Mono', monospace"
+      },
+      "fontSizes": {
+        "h1": { "desktop": "1.2rem", "mobile": "0.9rem", "description": "Título de tela" },
+        "h2": { "desktop": "0.85rem", "mobile": "0.7rem", "description": "Seção/subtítulo" },
+        "h3": { "desktop": "1.1rem", "mobile": "1rem", "description": "Card header" },
+        "body": { "desktop": "0.85rem", "mobile": "0.8rem", "description": "Texto geral" },
+        "stat": { "desktop": "1rem", "mobile": "0.9rem", "description": "Números, placares" },
+        "caption": { "desktop": "0.7rem", "mobile": "0.65rem", "description": "Labels, timestamps" },
+        "badge": { "desktop": "0.45rem", "mobile": "0.4rem", "description": "Badges, tags" }
+      },
+      "fontWeights": {
+        "normal": 400,
+        "semibold": 600,
+        "bold": 700
+      },
+      "lineHeights": {
+        "tight": 1.0,
+        "close": 1.2,
+        "normal": 1.25,
+        "relaxed": 1.3,
+        "loose": 1.4,
+        "spacious": 1.5
+      },
+      "letterSpacing": {
+        "tighter": "-0.02em",
+        "tight": "-0.01em",
+        "normal": "0",
+        "press-start": "0.5px"
+      }
+    },
+    "spacing": {
+      "xs": "0.25rem",
+      "sm": "0.5rem",
+      "md": "1rem",
+      "lg": "1.5rem",
+      "xl": "2rem",
+      "2xl": "3rem"
+    },
+    "borders": {
+      "hairline": "1px",
+      "thin": "2px",
+      "thick": "4px"
+    },
+    "borderStyles": {
+      "solid": "solid",
+      "inset": "inset",
+      "outset": "outset"
+    }
+  },
+  "semantic": {
+    "color": {
+      "primary": {
+        "value": "#39FF14",
+        "description": "Neon Arcade Green — CTAs, success, highlights, glow effects"
+      },
+      "secondary": {
+        "value": "#FFD700",
+        "description": "Gold Trophy — titles, achievements, premium elements"
+      },
+      "tertiary": {
+        "value": "#52B788",
+        "description": "Pitch Green — organic elements, panel backgrounds"
+      },
+      "danger": {
+        "value": "#FF3333",
+        "description": "Cartão Vermelho — alerts, injuries, errors, danger states"
+      },
+      "warning": {
+        "value": "#FBBF24",
+        "description": "Amber — warnings, notifications, transitions"
+      },
+      "success": {
+        "value": "#39FF14",
+        "description": "Victory, positive outcomes"
+      },
+      "bg": {
+        "primary": {
+          "value": "#111417",
+          "description": "CRT Black — main background"
+        },
+        "secondary": {
+          "value": "#0E1F14",
+          "description": "Midnight Green — panel backgrounds, recessed areas"
+        },
+        "tertiary": {
+          "value": "#040805",
+          "description": "Abyss — deep shadows, vignette overlays"
+        }
+      },
+      "text": {
+        "primary": {
+          "value": "#F1FAEE",
+          "description": "Parchment — main text, high contrast"
+        },
+        "secondary": {
+          "value": "#a0baae",
+          "description": "Smoke — secondary text, captions, muted elements"
+        },
+        "muted": {
+          "value": "#555555",
+          "description": "Disabled state text"
+        }
+      },
+      "border": {
+        "default": {
+          "value": "#2D6A4F",
+          "description": "Deep Forest — default panel/button borders"
+        },
+        "highlight": {
+          "value": "#39FF14",
+          "description": "Neon — hover/focus borders"
+        },
+        "disabled": {
+          "value": "#333333",
+          "description": "Disabled state borders"
+        }
+      }
+    },
+    "typography": {
+      "fontDisplay": {
+        "fontFamily": "'Press Start 2P', monospace",
+        "fontWeight": 400,
+        "letterSpacing": "0.5px",
+        "description": "Headers, badges, display text (use sparingly)"
+      },
+      "fontBody": {
+        "fontFamily": "'Pixelify Sans', system-ui, sans-serif",
+        "fontWeight": 400,
+        "letterSpacing": "0",
+        "description": "Main text, menus, descriptions"
+      },
+      "fontMono": {
+        "fontFamily": "'IBM Plex Mono', monospace",
+        "fontWeight": 600,
+        "letterSpacing": "0",
+        "description": "Numbers, stats, tabular data"
+      }
+    },
+    "sizing": {
+      "contentWidth": {
+        "mobile": "100%",
+        "tablet": "768px",
+        "desktop": "1024px"
+      }
+    }
+  },
+  "component": {
+    "button": {
+      "default": {
+        "background": "#1B4332",
+        "border": "2px solid #2D6A4F",
+        "color": "#F1FAEE",
+        "description": "Default button state"
+      },
+      "hover": {
+        "background": "#2D6A4F",
+        "border": "2px solid #39FF14",
+        "color": "#39FF14",
+        "description": "Hover interactive state"
+      },
+      "active": {
+        "background": "#0E1F14",
+        "border": "2px inset #39FF14",
+        "color": "#FFD700",
+        "description": "Pressed/active state"
+      },
+      "disabled": {
+        "background": "#111417",
+        "border": "2px solid #333333",
+        "color": "#555555",
+        "description": "Disabled state"
+      },
+      "danger": {
+        "background": "#8B0000",
+        "border": "2px solid #FF3333",
+        "color": "#FF3333",
+        "description": "Destructive/danger action"
+      }
+    },
+    "panel": {
+      "background": "#0E1F14",
+      "border": "2px solid #2D6A4F",
+      "color": "#F1FAEE",
+      "description": "Card/panel container"
+    },
+    "card": {
+      "background": "#0E1F14",
+      "border": "2px solid #2D6A4F",
+      "borderHighlight": "1px solid rgba(57, 255, 20, 0.2)",
+      "color": "#F1FAEE",
+      "description": "Collectible card frame (ISSSD aesthetic)"
+    },
+    "input": {
+      "background": "#0E1F14",
+      "border": "2px solid #2D6A4F",
+      "color": "#F1FAEE",
+      "placeholderColor": "#a0baae",
+      "description": "Text input, textarea"
+    },
+    "notification": {
+      "success": {
+        "borderColor": "#39FF14",
+        "accentColor": "#39FF14",
+        "backgroundColor": "rgba(57, 255, 20, 0.05)",
+        "icon": "✅"
+      },
+      "warning": {
+        "borderColor": "#FBBF24",
+        "accentColor": "#FBBF24",
+        "backgroundColor": "rgba(251, 191, 36, 0.05)",
+        "icon": "⚠️"
+      },
+      "danger": {
+        "borderColor": "#FF3333",
+        "accentColor": "#FF3333",
+        "backgroundColor": "rgba(255, 51, 51, 0.05)",
+        "icon": "❌"
+      },
+      "info": {
+        "borderColor": "#4A90E2",
+        "accentColor": "#4A90E2",
+        "backgroundColor": "rgba(74, 144, 226, 0.05)",
+        "icon": "ℹ️"
+      }
+    },
+    "badge": {
+      "success": {
+        "background": "#39FF14",
+        "color": "#111417"
+      },
+      "warning": {
+        "background": "#FBBF24",
+        "color": "#111417"
+      },
+      "danger": {
+        "background": "#FF3333",
+        "color": "#F1FAEE"
+      }
+    },
+    "frame": {
+      "bevel": {
+        "highlightColor": "#2D6A4F",
+        "shadowColor": "#040805",
+        "description": "3D bevel effect: light top-left, dark bottom-right (ISSSD aesthetic)"
+      },
+      "metallic": {
+        "baseColor": "#FFD700",
+        "highlightColor": "#FFFFFF",
+        "shadowColor": "#8B7500",
+        "description": "Gold metallic trophy frame"
+      }
+    }
+  },
+  "accessibility": {
+    "contrastRatios": {
+      "parchmentOnCrtBlack": { "ratio": "15.2:1", "wcag": "AAA" },
+      "neonGreenOnCrtBlack": { "ratio": "11.8:1", "wcag": "AAA" },
+      "goldOnCrtBlack": { "ratio": "12.6:1", "wcag": "AAA" },
+      "dangerOnCrtBlack": { "ratio": "5.1:1", "wcag": "AA" }
+    }
+  },
+  "rules": {
+    "forbiddenTechniques": [
+      "rgba() transparency — use dithering or solid layers",
+      "CSS gradients (linear-gradient, radial-gradient)",
+      "border-radius — pixel-perfect corners only",
+      "blur(), backdrop-filter — no glassmorphism",
+      "Pure white (#FFFFFF) as background — use #F1FAEE or #111417"
+    ],
+    "typography": [
+      "Press Start 2P — headers, badges, display only (never long paragraphs)",
+      "Pixelify Sans — all readable text, menus, descriptions",
+      "IBM Plex Mono — numeric data, stats, tabular formats",
+      "Never use Inter, Roboto, Outfit — generic fonts forbidden"
+    ],
+    "components": [
+      "No border-radius — always 100% square",
+      "No box-shadow CSS — profundidade via border colors only",
+      "Backgrounds always solid — never transparent",
+      "Fixed ISSSD frame pattern: .ef-card-frame (immutable) → .ef-card-content (mutable)"
+    ]
+  }
+}

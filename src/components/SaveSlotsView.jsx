@@ -9,6 +9,7 @@ import {
 } from '../services/SaveSlotsService';
 import { EfPanel, EfButton } from './ui';
 import bgManagerOffice from '../assets/environments/bg_manager_office.png';
+import '../styles/save-slots-view.css';
 
 import {
     FloppyDisk, ArrowLeft, DownloadSimple, UploadSimple,
@@ -60,10 +61,10 @@ export function SaveSlotsView() {
             <div className="ef-view-container ef-view-container--narrow">
 
                 {/* HEADER */}
-                <EfPanel padding="lg" className="ef-view-header" style={{ borderBottom: '2px solid #40BAF7' }}>
+                <EfPanel padding="lg" className="ef-view-header ef-save-slots__header-panel">
                     <div className="ef-view-header__identity">
                         <div className="ef-view-header__icon-box">
-                            <FloppyDisk size={28} color="#40BAF7" />
+                            <FloppyDisk size={28} color="var(--info)" />
                         </div>
                         <div>
                             <h2 className="ef-view-header__title">MEMORY CARD</h2>
@@ -76,46 +77,31 @@ export function SaveSlotsView() {
                 </EfPanel>
 
                 {/* SLOTS */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div className="ef-save-slots__container">
                     {slots.map(slot => (
-                        <EfPanel key={slot.slot} padding="lg" style={{
-                            borderLeft: `4px solid ${slot.empty ? '#2D3748' : '#39FF14'}`
-                        }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
-                                <div>
-                                    <div className="ef-sans ef-text-main" style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '12px' }}>
+                        <EfPanel key={slot.slot} padding="lg" className={`ef-save-slots__slot-panel ${!slot.empty ? 'ef-save-slots__slot-panel--filled' : ''}`}>
+                            <div className="ef-save-slots__slot-header">
+                                <div className="ef-save-slots__slot-info">
+                                    <div className="ef-save-slots__slot-number">
                                         SLOT {slot.slot}
                                     </div>
                                     {slot.empty ? (
-                                        <div className="ef-mono" style={{
-                                            fontSize: '0.9rem',
-                                            color: slot.corrupted ? '#FF3333' : '#8E9E94',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '8px'
-                                        }}>
+                                        <div className={`ef-save-slots__slot-status ${slot.corrupted ? 'ef-save-slots__slot-status--corrupted' : ''}`}>
                                             {slot.corrupted ? (
-                                                <><WarningCircle size={16} color="#FF3333" /> CORROMPIDO</>
+                                                <><WarningCircle size={16} color="var(--danger)" /> CORROMPIDO</>
                                             ) : (
                                                 <><FileCode size={16} /> VAZIO</>
                                             )}
                                         </div>
                                     ) : (
-                                        <div>
-                                            <div className="ef-sans ef-text-primary" style={{
-                                                fontSize: '1rem',
-                                                marginBottom: '8px',
-                                                fontWeight: 'bold',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '8px'
-                                            }}>
+                                        <div className="ef-save-slots__slot-data">
+                                            <div className="ef-save-slots__slot-title">
                                                 <CheckCircle size={16} /> {slot.managerName} — {slot.teamName}
                                             </div>
-                                            <div className="ef-mono ef-text-muted" style={{ fontSize: '0.8rem', marginBottom: '4px' }}>
+                                            <div className="ef-save-slots__slot-info-row">
                                                 TEMPORADA {slot.seasonNumber} • SEMANA {slot.week}
                                             </div>
-                                            <div className="ef-sans ef-text-muted" style={{ fontSize: '0.75rem' }}>
+                                            <div className="ef-save-slots__slot-info-row--date">
                                                 SALVO EM: {new Date(slot.savedAt).toLocaleString('pt-BR')}
                                             </div>
                                         </div>
@@ -123,14 +109,15 @@ export function SaveSlotsView() {
                                 </div>
 
                                 {/* Memory card icon indicator */}
-                                <div className={`ef-slot-card__mc ${slot.empty ? 'ef-slot-card__mc--empty' : 'ef-slot-card__mc--filled'}`}>
+                                <div className={`ef-save-slots__slot-icon ${!slot.empty ? 'ef-save-slots__slot-icon--filled' : ''}`}>
                                     <FloppyDisk size={24} weight={slot.empty ? "regular" : "fill"} />
                                 </div>
                             </div>
 
                             {/* ACTION BUTTONS */}
-                            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                            <div className="ef-save-slots__actions">
                                 <EfButton
+                                    className="ef-save-slots__action-button"
                                     variant="primary"
                                     onClick={() => handleSave(slot.slot)}
                                 >
@@ -140,18 +127,16 @@ export function SaveSlotsView() {
                                 {!slot.empty && (
                                     <>
                                         <EfButton
+                                            className="ef-save-slots__action-button ef-save-slots__action-button--export"
                                             variant="secondary"
                                             onClick={() => handleExport(slot.slot)}
-                                            className="ef-text-info"
-                                            style={{ borderColor: '#40BAF7' }}
                                         >
                                             <DownloadSimple size={16} /> EXPORTAR
                                         </EfButton>
                                         <EfButton
+                                            className="ef-save-slots__action-button ef-save-slots__action-button--delete"
                                             variant="secondary"
                                             onClick={() => handleDelete(slot.slot)}
-                                            className="ef-text-danger"
-                                            style={{ borderColor: '#FF3333' }}
                                         >
                                             <Trash size={16} /> DELETAR
                                         </EfButton>
@@ -159,10 +144,9 @@ export function SaveSlotsView() {
                                 )}
 
                                 <EfButton
+                                    className="ef-save-slots__action-button ef-save-slots__action-button--import"
                                     variant="secondary"
                                     onClick={() => setImportingSlot(slot.slot)}
-                                    className="ef-text-accent"
-                                    style={{ borderColor: '#FFD700' }}
                                 >
                                     <UploadSimple size={16} /> IMPORTAR
                                 </EfButton>
@@ -170,26 +154,15 @@ export function SaveSlotsView() {
 
                             {/* IMPORT FILE INPUT */}
                             {importingSlot === slot.slot && (
-                                <div style={{
-                                    marginTop: '20px',
-                                    padding: '20px',
-                                    backgroundColor: '#0D1117',
-                                    border: '1px dashed #FFD700'
-                                }}>
-                                    <div className="ef-sans ef-text-main" style={{ fontSize: '0.9rem', marginBottom: '12px', fontWeight: 'bold' }}>
+                                <div className="ef-save-slots__import-section">
+                                    <div className="ef-save-slots__import-label">
                                         Selecione o arquivo de save (.json):
                                     </div>
                                     <input
                                         type="file"
                                         accept="application/json"
                                         onChange={(e) => handleImport(slot.slot, e.target.files?.[0])}
-                                        className="ef-mono ef-text-main"
-                                        style={{
-                                            marginBottom: '16px',
-                                            display: 'block',
-                                            width: '100%',
-                                            fontSize: '0.85rem'
-                                        }}
+                                        className="ef-save-slots__file-input"
                                     />
                                     <EfButton
                                         variant="secondary"

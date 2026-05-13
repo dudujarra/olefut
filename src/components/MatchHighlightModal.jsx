@@ -76,7 +76,7 @@ export function MatchHighlightModal({ context, onDismiss, autoDismissMs = 3000 }
             <div style={{
                 maxWidth: '600px',
                 width: '90%',
-                backgroundColor: '#0E1418',
+                backgroundColor: 'var(--color-bg-deep)',
                 border: `3px solid ${color}`,
                 padding: '32px',
                 textAlign: 'center',
@@ -98,7 +98,7 @@ export function MatchHighlightModal({ context, onDismiss, autoDismissMs = 3000 }
                 </div>
                 <div style={{
                     fontSize: '1.4rem',
-                    color: '#FDFBF7',
+                    color: 'var(--text-main)',
                     fontFamily: 'var(--font-sans)',
                     fontWeight: 'bold',
                     lineHeight: 1.3,

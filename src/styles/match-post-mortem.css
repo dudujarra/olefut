@@ -1,0 +1,10 @@
+/* MatchPostMortem — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes MatchPostMortem-specific component tokens + utility classes.
+ */
+
+.ef-match-post-m {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add MatchPostMortem-specific BEM classes below as inline styles are extracted */

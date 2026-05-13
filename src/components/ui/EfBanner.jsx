@@ -1,22 +1,17 @@
 /**
  * EfBanner — full-screen narrative moment overlay.
- *
- * Tipos: champion | promotion | relegation | fired | hired | retirement |
- *        offer | sponsor | motm | hattrick | injury | suspension | clean-sheet
- *
- * Auto-dismiss após duration (default 2500ms) ou click.
- * Usa pixel-art sprites + ef-pop-in + ef-anim-pulse-glow.
  */
 
 import { useEffect } from 'react';
+import '../../styles/ef-banner.css';
 
 const BANNER_CONFIG = {
     champion: {
         icon: '🏆',
         title: 'CAMPEÃO!',
         subtitle: 'Título conquistado',
-        bg: '#FFD700',
-        color: '#0F1A14',
+        bg: 'var(--accent)',
+        color: 'var(--ef-banner-stripe)',
         spriteClass: 'ef-anim-trophy-unlock',
         duration: 4000
     },
@@ -24,96 +19,96 @@ const BANNER_CONFIG = {
         icon: '⬆️',
         title: 'PROMOÇÃO',
         subtitle: 'Subiu de divisão',
-        bg: '#2D5A3D',
-        color: '#FFFFFF',
+        bg: 'var(--ef-banner-promo)',
+        color: 'var(--text-main)',
         duration: 3000
     },
     relegation: {
         icon: '⬇️',
         title: 'REBAIXAMENTO',
         subtitle: 'Caiu de divisão',
-        bg: '#6B0000',
-        color: '#FFFFFF',
+        bg: 'var(--ef-banner-relegation)',
+        color: 'var(--text-main)',
         duration: 3000
     },
     fired: {
         icon: '💼',
         title: 'DEMITIDO',
         subtitle: 'Diretoria encerrou contrato',
-        bg: '#000000',
-        color: '#FFFFFF',
+        bg: 'var(--ef-banner-fired)',
+        color: 'var(--text-main)',
         duration: 3500
     },
     hired: {
         icon: '🤝',
         title: 'CONTRATADO',
         subtitle: 'Novo desafio',
-        bg: '#002E63',
-        color: '#FFFFFF',
+        bg: 'var(--ef-banner-hired)',
+        color: 'var(--text-main)',
         duration: 3000
     },
     retirement: {
         icon: '🎖️',
         title: 'APOSENTADORIA',
         subtitle: 'Fim de carreira lendária',
-        bg: '#4A0E7A',
-        color: '#FFFFFF',
+        bg: 'var(--ef-banner-retirement)',
+        color: 'var(--text-main)',
         duration: 4500
     },
     offer: {
         icon: '📨',
         title: 'PROPOSTA',
         subtitle: 'Nova oferta recebida',
-        bg: '#C8941F',
-        color: '#0F1A14',
+        bg: 'var(--ef-banner-offer)',
+        color: 'var(--ef-banner-stripe)',
         duration: 2500
     },
     sponsor: {
         icon: '💰',
         title: 'PATROCÍNIO',
         subtitle: 'Contrato fechado',
-        bg: '#6ABC3A',
-        color: '#0F1A14',
+        bg: 'var(--ef-banner-sponsor)',
+        color: 'var(--ef-banner-stripe)',
         duration: 2500
     },
     motm: {
         icon: '⭐',
         title: 'CRAQUE DA PARTIDA',
         subtitle: 'MVP',
-        bg: '#F7B538',
-        color: '#0F1A14',
+        bg: 'var(--ef-banner-motm)',
+        color: 'var(--ef-banner-stripe)',
         duration: 3000
     },
     hattrick: {
         icon: '🎩',
         title: 'HAT-TRICK!',
         subtitle: 'Três gols na mesma partida',
-        bg: '#D62828',
-        color: '#0F1A14',
+        bg: 'var(--ef-banner-hattrick)',
+        color: 'var(--ef-banner-stripe)',
         duration: 3500
     },
     injury: {
         icon: '🩹',
         title: 'LESÃO',
         subtitle: 'Departamento médico',
-        bg: '#4A0000',
-        color: '#FFFFFF',
+        bg: 'var(--ef-banner-injury)',
+        color: 'var(--text-main)',
         duration: 2500
     },
     suspension: {
         icon: '🟥',
         title: 'SUSPENSÃO',
         subtitle: 'Cartões acumulados',
-        bg: '#000000',
-        color: '#FFFFFF',
+        bg: 'var(--ef-banner-fired)',
+        color: 'var(--text-main)',
         duration: 2500
     },
     cleanSheet: {
         icon: '🛡️',
         title: 'JOGO SEM SOFRER GOLS',
         subtitle: 'Defesa intransponível',
-        bg: '#2D5A3D',
-        color: '#FFFFFF',
+        bg: 'var(--ef-banner-promo)',
+        color: 'var(--text-main)',
         duration: 2000
     }
 };
@@ -131,62 +126,25 @@ export function EfBanner({ type, customTitle, customSubtitle, onDismiss }) {
             onClick={onDismiss}
             role="dialog"
             aria-label={cfg.title}
-            style={{
-                position: 'fixed',
-                inset: 0,
-                background: '#040805',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 10000,
-                animation: 'ef-fade-in 200ms ease-out, ef-fade-out 400ms ease-out forwards',
-                animationDelay: `0ms, ${cfg.duration - 400}ms`,
-                cursor: 'pointer'
-            }}
+            className="ef-banner"
+            style={{ animationDelay: `0ms, ${cfg.duration - 400}ms` }}
         >
             <div
-                className="ef-anim-pop-in"
-                style={{
-                    background: cfg.bg,
-                    color: cfg.color,
-                    padding: '32px 48px',
-
-                    border: '4px solid',
-                    borderColor: '#4A5059 #111417 #111417 #4A5059',
-                    boxShadow: '0 8px 0 #040805, 0 0 40px #111417',
-                    textAlign: 'center',
-                    minWidth: '320px',
-                    maxWidth: '600px',
-                    fontFamily: "'Press Start 2P', monospace"
-                }}
+                className="ef-anim-pop-in ef-banner__card"
+                style={{ background: cfg.bg, color: cfg.color }}
             >
                 {cfg.spriteClass ? (
-                    <div className={cfg.spriteClass} style={{margin: '0 auto 16px'}} />
+                    <div className={`${cfg.spriteClass} ef-banner__sprite`} />
                 ) : (
-                    <div style={{fontSize: '64px', marginBottom: '16px'}} className="ef-anim-pulse-glow">{cfg.icon}</div>
+                    <div className="ef-banner__icon ef-anim-pulse-glow">{cfg.icon}</div>
                 )}
-                <h2 style={{
-                    margin: 0,
-                    fontSize: '32px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                    fontFamily: "'Press Start 2P', monospace",
-                    textShadow: '2px 2px 0 #040805'
-                }}>
+                <h2 className="ef-banner__title">
                     {customTitle || cfg.title}
                 </h2>
-                <p style={{
-                    margin: '12px 0 0',
-                    fontSize: '14px',
-                    fontStyle: 'italic'
-                }}>
+                <p className="ef-banner__subtitle">
                     {customSubtitle || cfg.subtitle}
                 </p>
-                <div style={{
-                    marginTop: '20px',
-                    fontSize: '10px',
-                    fontFamily: "'Press Start 2P', monospace"
-                }}>
+                <div className="ef-banner__hint">
                     CLIQUE PARA CONTINUAR
                 </div>
             </div>

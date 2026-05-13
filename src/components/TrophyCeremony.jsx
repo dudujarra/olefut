@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { EfButton, EfPanel } from './ui';
 import bgTrophyCeremony from '../assets/environments/bg_trophy_ceremony.png';
+import '../styles/trophy-ceremony.css';
 import {
     Trophy, Medal, SoccerBall, HandsClapping, ArrowRight
 } from '@phosphor-icons/react';
@@ -77,7 +78,7 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
              style={{ backgroundImage: `url(${bgTrophyCeremony})` }}>
             {/* Phase 0-1: Trophy reveal */}
             {phase >= 1 && (
-                <div className="trophy-reveal ef-anim-pop-in" aria-live="polite" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div className="trophy-reveal ef-anim-pop-in ef-trophy-ceremony__reveal" aria-live="polite">
                     <div className="ef-trophy-reveal-wrap">
                         <div className="ef-trophy-pulse-bg" />
                         <img
@@ -89,11 +90,11 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
 
                     <div className="ef-trophy-banner">
                         <div className="ef-trophy-banner__title-row">
-                            <Trophy size={32} color="#FFD700" weight="fill" />
+                            <Trophy size={32} color="var(--accent)" weight="fill" />
                             <h1 className="ef-trophy-banner__title">
                                 {trophy.name}
                             </h1>
-                            <Trophy size={32} color="#FFD700" weight="fill" />
+                            <Trophy size={32} color="var(--accent)" weight="fill" />
                         </div>
                         <div className="ef-trophy-banner__sub">
                             CAMPEÃO — TEMPORADA {season?.year || '—'}
@@ -126,9 +127,9 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
                             <div className="ef-trophy-stat-cell">
                                 <div className="ef-trophy-stat-cell__label">GOLS</div>
                                 <div className="ef-trophy-stat-cell__goals">
-                                    <span style={{ color: '#39FF14' }}>{season.goalsFor || 0}</span>
+                                    <span className="ef-trophy-ceremony__goals-for">{season.goalsFor || 0}</span>
                                     <span className="ef-trophy-stat-cell__goals-sep">:</span>
-                                    <span style={{ color: '#FF3333' }}>{season.goalsAgainst || 0}</span>
+                                    <span className="ef-trophy-ceremony__goals-against">{season.goalsAgainst || 0}</span>
                                 </div>
                             </div>
                         </div>
@@ -149,11 +150,11 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
                         <Medal size={20} weight="fill" /> REGISTRADO NO HALL DA FAMA DA SUA CARREIRA
                     </div>
                     <EfButton
+                        className="ef-trophy-ceremony__continue-button"
                         variant="primary"
                         size="lg"
                         onClick={onDismiss}
                         aria-label="Fechar cerimônia"
-                        style={{ padding: '16px 48px', fontSize: '1.2rem', display: 'flex', gap: '12px' }}
                     >
                         CONTINUAR <ArrowRight weight="bold" />
                     </EfButton>
@@ -162,10 +163,10 @@ export default function TrophyCeremony({ trophy, season, onDismiss, visible }) {
 
             {/* Crowd atmosphere */}
             <div className="trophy-crowd ef-trophy-crowd">
-                <HandsClapping size={64} weight="duotone" color="#FDFBF7" className="ef-anim-crowd-wave" />
-                <HandsClapping size={64} weight="duotone" color="#FDFBF7" className="ef-anim-crowd-flag-wave" style={{ animationDelay: '0.5s' }} />
-                <HandsClapping size={64} weight="duotone" color="#FDFBF7" className="ef-anim-crowd-wave" style={{ animationDelay: '0.2s' }} />
-                <HandsClapping size={64} weight="duotone" color="#FDFBF7" className="ef-anim-crowd-flag-wave" style={{ animationDelay: '0.7s' }} />
+                <HandsClapping size={64} weight="duotone" color="var(--text-main)" className="ef-anim-crowd-wave ef-trophy-ceremony__crowd-clap" />
+                <HandsClapping size={64} weight="duotone" color="var(--text-main)" className="ef-anim-crowd-flag-wave ef-trophy-ceremony__crowd-clap--delayed-500" />
+                <HandsClapping size={64} weight="duotone" color="var(--text-main)" className="ef-anim-crowd-wave ef-trophy-ceremony__crowd-clap--delayed-200" />
+                <HandsClapping size={64} weight="duotone" color="var(--text-main)" className="ef-anim-crowd-flag-wave ef-trophy-ceremony__crowd-clap--delayed-700" />
             </div>
         </div>
     );

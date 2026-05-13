@@ -14,6 +14,7 @@ async function startCareer(page, managerName) {
         try {
             localStorage.clear();
             localStorage.setItem('olefut_tutorial_done', 'true');
+                localStorage.setItem('olefut_onboarding_done', 'true');
         } catch { /* ignore */ }
     });
     await page.reload();

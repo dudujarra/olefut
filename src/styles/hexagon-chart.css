@@ -1,0 +1,40 @@
+/* HexagonChart — semantic CSS + design tokens */
+
+.ef-hex {
+  --ef-hex-azure: #3A7DCE;
+  --ef-hex-purple: #7B2CBF;
+  --ef-hex-salmon: #E59866;
+  --ef-hex-info: #40BAF7;
+  --ef-hex-red: #D62828;
+  --ef-hex-forest-dark: #2D5A3D;
+  --ef-hex-forest-pitch: #1B4332;
+  --ef-hex-axis: #0E1F14;
+  --ef-hex-outline: #0F1A14;
+}
+
+.ef-hex__ring {
+  fill: none;
+  stroke: var(--ef-hex-axis);
+  stroke-width: 1;
+}
+
+.ef-hex__axis {
+  stroke: var(--ef-hex-axis);
+  stroke-width: 1;
+}
+
+.ef-hex__player-polygon {
+  fill: var(--ef-hex-forest-pitch);
+  stroke: var(--primary);
+  stroke-width: 2;
+  opacity: 0.8;
+}
+
+.ef-hex__vertex-dot {
+  stroke: var(--ef-hex-outline);
+  stroke-width: 1;
+}
+
+.ef-hex__value-text {
+  fill: #fff;
+}

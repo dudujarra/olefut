@@ -1,0 +1,10 @@
+/* FloatingBugButton — semantic CSS marker
+ * Component primarily consumes global tokens from isssd-premium.css.
+ * This file scopes FloatingBugButton-specific component tokens + utility classes.
+ */
+
+.ef-floating-bug {
+  /* Component-local tokens (extend as needed) */
+}
+
+/* Add FloatingBugButton-specific BEM classes below as inline styles are extracted */

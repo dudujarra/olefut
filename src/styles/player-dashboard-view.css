@@ -1,0 +1,533 @@
+/* PlayerDashboardView — comprehensive semantic CSS */
+
+/* === HEADER SECTION === */
+
+.ef-player-dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-player-dashboard__header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.ef-player-dashboard__player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-player-dashboard__player-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.ef-player-dashboard__player-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.ef-player-dashboard__header-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.ef-player-dashboard__money {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+}
+
+.ef-player-dashboard__action-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 200px;
+}
+
+.ef-player-dashboard__action-slots-label {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  justify-content: space-between;
+}
+
+.ef-player-dashboard__action-slots-bar {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+/* === ALERTS SECTION === */
+
+.ef-player-dashboard__alerts {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-player-dashboard__alert-panel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-danger);
+  padding: 12px;
+}
+
+.ef-player-dashboard__alert-text {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--color-danger);
+}
+
+/* === LAYOUT GRID === */
+
+.ef-player-dashboard__container {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.ef-player-dashboard__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ef-player-dashboard__nav-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-player-dashboard__advance-button {
+  margin-top: auto;
+}
+
+.ef-player-dashboard__content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* === STATUS BAR === */
+
+.ef-player-dashboard__status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-bg-secondary);
+}
+
+.ef-player-dashboard__status-cells {
+  display: flex;
+  gap: 32px;
+}
+
+.ef-player-dashboard__overview-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ef-player-dashboard__cell-value {
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-player-dashboard__cell-value--critical {
+  color: var(--color-danger);
+}
+
+.ef-player-dashboard__cell-value--healthy {
+  color: var(--color-primary);
+}
+
+.ef-player-dashboard__cell-label {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.ef-player-dashboard__status-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* === TAB CONTENT: OVERVIEW === */
+
+.ef-player-dashboard__overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.ef-player-dashboard__overview-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ef-player-dashboard__panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  color: var(--color-text-secondary);
+}
+
+.ef-player-dashboard__relationships {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-player-dashboard__rel-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.ef-player-dashboard__rel-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.ef-player-dashboard__rel-value {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+}
+
+.ef-player-dashboard__bar {
+  height: 8px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.ef-player-dashboard__bar-fill {
+  height: 100%;
+  background: currentColor;
+}
+
+.ef-player-dashboard__bar-fill--danger {
+  background: var(--color-danger);
+}
+
+.ef-player-dashboard__bar-fill--accent {
+  background: var(--color-secondary);
+}
+
+.ef-player-dashboard__bar-fill--info {
+  background: #40BAF7;
+}
+
+/* === ATTRIBUTES SECTION === */
+
+.ef-player-dashboard__attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-player-dashboard__skill-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.ef-player-dashboard__skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.ef-player-dashboard__skill-progress {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+}
+
+.ef-player-dashboard__skill-bar {
+  height: 8px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+/* === OFF-PITCH EVENT PANEL === */
+
+.ef-player-dashboard__event-panel {
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-secondary);
+}
+
+.ef-player-dashboard__event-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: var(--color-secondary);
+}
+
+.ef-player-dashboard__event-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+/* === TAB CONTENT: SKILLS === */
+
+.ef-player-dashboard__training-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.ef-player-dashboard__sub-attrs-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ef-player-dashboard__sub-attrs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.ef-player-dashboard__sub-attr-category {
+  background: var(--color-bg);
+  padding: 12px;
+}
+
+.ef-player-dashboard__sub-attr-category-title {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: var(--color-secondary);
+}
+
+.ef-player-dashboard__sub-attr-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.ef-player-dashboard__sub-attr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--color-text-primary);
+}
+
+.ef-player-dashboard__sub-attr-level {
+  font-weight: bold;
+  color: #40BAF7;
+  font-family: var(--font-mono);
+}
+
+.ef-player-dashboard__bar--xs {
+  height: 6px;
+}
+
+/* === TAB CONTENT: STORE === */
+
+.ef-player-dashboard__store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.ef-player-dashboard__shop-card {
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ef-player-dashboard__shop-card--owned {
+  border-color: var(--color-primary);
+}
+
+.ef-player-dashboard__shop-card--disabled {
+  opacity: 0.5;
+}
+
+.ef-player-dashboard__card-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-primary);
+}
+
+.ef-player-dashboard__card-description {
+  font-size: 0.75rem;
+  margin-bottom: 16px;
+  flex: 1;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+.ef-player-dashboard__card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+.ef-player-dashboard__card-cost {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ef-player-dashboard__card-cost--affordable {
+  color: var(--color-primary);
+}
+
+.ef-player-dashboard__card-cost--unavailable {
+  color: var(--color-danger);
+}
+
+.ef-player-dashboard__card-requirement {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ef-player-dashboard__card-requirement--met {
+  color: #40BAF7;
+}
+
+.ef-player-dashboard__card-requirement--unmet {
+  color: var(--color-danger);
+}
+
+/* === TAB CONTENT: LIFESTYLE === */
+
+.ef-player-dashboard__lifestyle-status {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+  background: var(--color-bg);
+  padding: 12px;
+}
+
+.ef-player-dashboard__lifestyle-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-player-dashboard__lifestyle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* === BOTTOM NAVIGATION === */
+
+.ef-player-dashboard__bottom-nav {
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.ef-player-dashboard__nav-button {
+  flex: 1;
+}
+
+/* === MODALS & TOASTS === */
+
+.ef-player-dashboard__event-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  padding: 16px 24px;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-primary);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.ef-player-dashboard__modal-text {
+  margin-bottom: 24px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+.ef-player-dashboard__modal-option {
+  justify-content: flex-start;
+  padding: 16px;
+}
+
+.ef-player-dashboard__modal-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-player-dashboard__mental-break-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--color-danger);
+}
+
+.ef-player-dashboard__mental-break-desc {
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+/* === ERROR STATE === */
+
+.ef-player-dashboard__error {
+  padding: 24px;
+  color: var(--color-text-primary);
+}
