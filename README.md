@@ -3,12 +3,12 @@
 > **Football Manager + RPG depth + Brazilian flavor.**
 > 100% Spec-Driven Development. Zero vibe coding. Open source.
 
-🎮 **Live demo**: https://dudujarra.github.io/elifoot-web/
+🎮 **Live demo**: https://dudujarra.github.io/olefut/
 
-[![CI](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/elifoot-web/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-1619%2F1619-brightgreen)](https://github.com/dudujarra/elifoot-web/tree/main/tests)
-[![Specs](https://img.shields.io/badge/specs-124%2B-blue)](https://github.com/dudujarra/elifoot-web/tree/main/specs)
-[![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/elifoot-web/blob/main/specs/SPEC-RULES.md)
+[![CI](https://github.com/dudujarra/olefut/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/olefut/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-1619%2F1619-brightgreen)](https://github.com/dudujarra/olefut/tree/main/tests)
+[![Specs](https://img.shields.io/badge/specs-124%2B-blue)](https://github.com/dudujarra/olefut/tree/main/specs)
+[![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/olefut/blob/main/specs/SPEC-RULES.md)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
@@ -79,8 +79,8 @@ Construído via **SDD (Spec-Driven Development)** + **Protocolo AKITA**. Cada fe
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/dudujarra/elifoot-web.git
-cd elifoot-web
+git clone https://github.com/dudujarra/olefut.git
+cd olefut
 npm install
 npm run dev          # http://localhost:5173
 ```
@@ -187,6 +187,6 @@ Inspirado por:
 
 ---
 
-**🎮 [Joga grátis](https://dudujarra.github.io/elifoot-web/)** — sem signup, sem cookie, sem cobrança.
+**🎮 [Joga grátis](https://dudujarra.github.io/olefut/)** — sem signup, sem cookie, sem cobrança.
 
 Feito com ❤️ + ⚽ + 🥋 disciplina Akita.
