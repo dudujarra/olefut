@@ -23,7 +23,7 @@ Escopo limitado:
 ## Input
 
 - Estado atual: 3 components com centenas de blocos `style={{...}}` inline duplicando padrões (font-family mono, section labels, progress bars, list rows, form chips, stat cells).
-- Design system canônico: `ELIFOOT_DESIGN_SYSTEM.md` + tokens em `src/styles/tokens/` + classes em `src/styles/luxury-arcade.css`.
+- Design system canônico: `OléFUT_DESIGN_SYSTEM.md` + tokens em `src/styles/tokens/` + classes em `src/styles/luxury-arcade.css`.
 - Mandamento brutal #4: zero inline style em código novo. Esta SPEC reduz o débito existente nos 3 components de maior visibilidade.
 
 ---

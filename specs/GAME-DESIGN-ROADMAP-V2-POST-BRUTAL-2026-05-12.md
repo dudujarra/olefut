@@ -218,7 +218,7 @@ Hoje OnboardingCoach só week 1. Expandir:
 
 - 8 mecânicas tutorialed: TÁTICA, FORMAÇÃO, MERCADO, TREINO, CONTRATO, SCOUT, BASE, DIRETORIA
 - Trigger event-based: primeira vez player abre MarketView → tooltip Market
-- Storage `elifoot_onboarding_seen_*` por mecânica
+- Storage `olefut_onboarding_seen_*` por mecânica
 - Skip-all opção
 
 ### F5.2 — "Aha moments" cards estratégicos (3h)
@@ -244,7 +244,7 @@ Resolve **Brutalidade #7**: 0 playtest humano, mandamento brutal #7 violado.
 - Helper `Telemetry.event(type, payload)` em `src/utils/telemetry.js`
 - Eventos chave: `save_start`, `match_played`, `season_end`, `view_opened`, `view_abandoned`, `card_shown`, `card_chosen`, `feature_used_first_time`
 - Opt-in dialog na primeira abertura: "Permitir telemetria anônima local? (Apenas conta agregado, nada enviado)"
-- Storage local JSON em `localStorage.elifoot_telemetry`
+- Storage local JSON em `localStorage.olefut_telemetry`
 - Helper `Telemetry.export()` dump JSON pra debug
 
 ### F6.2 — Playtest 5 humanos BR (5h não-código + 2h análise)

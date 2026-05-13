@@ -1,16 +1,16 @@
-# ELIFOOT 8-Bit Design Handoff — Claude Sign Brief
+# OléFUT 8-Bit Design Handoff — Claude Sign Brief
 
 **Para**: Claude Sign (design specialist)
 **De**: Dudu Jarra + Claude Code (após sessão UX completa)
 **Data**: 2026-05-08
 **Versão**: 1.0
-**Live ref**: https://dudujarra.github.io/elifoot-web/
+**Live ref**: https://dudujarra.github.io/olefut/
 
 ---
 
 ## 🎯 Mission
 
-Transformar **ELIFOOT RPG** de visual moderno-clean para estética **8-bit retro** sem perder usabilidade. Inspiração: NES/SNES era + Football Manager classics + Elifoot 98 nostalgia.
+Transformar **OléFUT** de visual moderno-clean para estética **8-bit retro** sem perder usabilidade. Inspiração: NES/SNES era + Football Manager classics + Elifoot 98 nostalgia.
 
 ---
 
@@ -117,7 +117,7 @@ TEXT
 
 ### 2. Dashboard
 ```
-┌──[ ELIFOOT ]──────[Dudu | Sem 5/38 | 💾🔊🔄]┐
+┌──[ OléFUT ]──────[Dudu | Sem 5/38 | 💾🔊🔄]┐
 ├────────────────────────────────────────────┤
 │  ╔══════════════════════════════════════╗  │
 │  ║ [⚽] FLAMENGO          R$ 350.0M      ║  │
@@ -149,7 +149,7 @@ TEXT
 
 ### 3. Match Live
 ```
-┌──[ ELIFOOT ]──────[Dudu | Sem 5/38]──┐
+┌──[ OléFUT ]──────[Dudu | Sem 5/38]──┐
 ├──────────────────────────────────────┤
 │  ┌────────────────────────────────┐  │
 │  │ FLAMENGO     2 — 1     SANTOS  │  │
@@ -198,7 +198,7 @@ TEXT
 ## 🎨 Asset List (a ser gerado)
 
 ### Sprites (pixel-art, 16×16 ou 32×32)
-1. **Logo ELIFOOT** (grande, 256×64px)
+1. **Logo OléFUT** (grande, 256×64px)
 2. **Bola futebol** — animação rolling 8 frames
 3. **Goal animation** — 12 frames (kick → ball → net → cheer)
 4. **Card amarelo/vermelho** — 16×24
@@ -338,7 +338,7 @@ TEXT
 
 - [ ] Todas telas usam palette 8-bit definida
 - [ ] Fonts Press Start 2P + VT323 carregadas e aplicadas
-- [ ] Logo ELIFOOT em pixel-art
+- [ ] Logo OléFUT em pixel-art
 - [ ] 24 ícones sprite-sheet aplicados
 - [ ] Stadium 5 levels visualmente distintos
 - [ ] Goal animation triggers em ⚽ event
@@ -359,11 +359,11 @@ TEXT
 - Components: 8 React JSX files em `src/components/`
 - Existing UX: dark mode glassmorphism — substituir
 - Existing tests: 597 pass — não quebrar
-- Live demo: https://dudujarra.github.io/elifoot-web/
+- Live demo: https://dudujarra.github.io/olefut/
 
 ### Para Gemini Flash (arte):
 Use prompts:
-1. "8-bit pixel art logo for soccer manager game 'ELIFOOT', NES style, green palette, 256x64px, transparent background"
+1. "8-bit pixel art logo for soccer manager game 'OléFUT', NES style, green palette, 256x64px, transparent background"
 2. "8-bit pixel art soccer ball sprite, 32x32px, white with black hexagons, NES era style"
 3. "8-bit pixel art football stadium, 5 progressive levels: small municipal field → premium temple, 64x64px each, top-down view"
 4. "Pixel-art player jersey sprites, 16x24px, 8 different colors (red/blue/green/yellow/black/white/orange/purple), NES era"

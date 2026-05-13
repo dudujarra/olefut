@@ -1,4 +1,4 @@
-# CONTRIBUTING — ELIFOOT RPG
+# CONTRIBUTING — OléFUT
 
 > **Antes de tudo**: leia [`CLAUDE.md`](CLAUDE.md) (arquitetura) e [`AKITA_RULES.md`](AKITA_RULES.md) (constituição).
 > Este projeto opera 100% sob **SDD (Spec-Driven Development) + Protocolo AKITA**.
@@ -138,7 +138,7 @@ Já vem no template `.github/PULL_REQUEST_TEMPLATE.md`. Linha mestre:
 - Arquitetura: [`CLAUDE.md`](CLAUDE.md)
 - Mandamentos: [`AKITA_RULES.md`](AKITA_RULES.md)
 - SDD: [`specs/SPEC-RULES.md`](specs/SPEC-RULES.md)
-- SDD vivo (o que está implementado): [`docs/SDD_ELIFOOT_RPG.md`](docs/SDD_ELIFOOT_RPG.md)
+- SDD vivo (o que está implementado): [`docs/SDD_OléFUT_RPG.md`](docs/SDD_OléFUT_RPG.md)
 - Bug aberto: [`BUGS.md`](BUGS.md)
 - Roadmap: [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-NARRATIVE-MASTER.md)
 

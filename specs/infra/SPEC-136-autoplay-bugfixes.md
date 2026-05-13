@@ -205,7 +205,7 @@ describe('SPEC-136: Autoplay Bugfixes', () => {
 ```bash
 #!/bin/bash
 # harness/SPEC-136-validate.sh
-cd /Users/dudujarra/Documents/ELIFOOT
+cd /Users/dudujarra/Documents/OléFUT
 npm test -- --testNamePattern="SPEC-136" 2>&1
 exit $?
 ```

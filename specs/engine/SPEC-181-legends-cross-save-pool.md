@@ -124,7 +124,7 @@ Save novo, busca coach:
 ## Regras de validação
 
 ### 1. Storage
-- [ ] `localStorage.elifoot_legends_pool` usa key fixa
+- [ ] `localStorage.olefut_legends_pool` usa key fixa
 - [ ] Schema versionado com `version: 1`
 - [ ] Migrações futuras via `version` bump
 
@@ -207,7 +207,7 @@ export function importPool(json)    // user restore
 ```
 
 ### Storage key
-`localStorage.elifoot_legends_pool` — JSON serialized.
+`localStorage.olefut_legends_pool` — JSON serialized.
 
 ### Dependências internas
 - `HallOfLegendsSystem.js` — não acoplado, recebe entry pronta
@@ -238,7 +238,7 @@ describe('SPEC-181: Legends Cross-Save Pool', () => {
   test('rule 4: excludeSaveId filters current save', () => {});
 
   test('rule 5.1: corrupted JSON → graceful reset', () => {
-    localStorage.setItem('elifoot_legends_pool', '{invalid');
+    localStorage.setItem('olefut_legends_pool', '{invalid');
     const pool = LegendsPool.getPool();
     expect(pool.length).toBe(0);
   });

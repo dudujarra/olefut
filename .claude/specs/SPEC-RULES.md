@@ -1,4 +1,4 @@
-# SPEC-RULES.md — Spec-Driven Development (SDD) para ELIFOOT RPG
+# SPEC-RULES.md — Spec-Driven Development (SDD) para OléFUT
 
 **Data de adoção**: 2026-05-07  
 **Escopo**: 100% do projeto. Todas as features, bugs, testes, infra, docs.  
@@ -7,7 +7,7 @@
 
 ---
 
-## O que é SDD no ELIFOOT
+## O que é SDD no OléFUT
 
 SDD é o **sistema operacional** do projeto.
 
@@ -279,7 +279,7 @@ Processo:
 
 ## Por que SDD agora
 
-ELIFOOT foi implementado sem specs. Resultado:
+OléFUT foi implementado sem specs. Resultado:
 - ❌ Impossível validar se bug está "realmente" errado
 - ❌ Fixes podem quebrar outra coisa sem saber
 - ❌ Não há testes de regressão definidos
@@ -297,7 +297,7 @@ Decisão: Dudu, 2026-05-07. SDD completo em 6 weeks.
 
 ## Para todos os agentes
 
-Ao iniciar sessão em ELIFOOT:
+Ao iniciar sessão em OléFUT:
 
 1. Verificar se trabalho solicitado tem spec: `ls .claude/specs/*/SPEC-*.md`
 2. Se sim: seguir a spec

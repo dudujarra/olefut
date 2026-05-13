@@ -29,7 +29,7 @@
 
 import { rng as systemRng } from '../../engine/rng.js';
 
-const STORAGE_KEY = 'elifoot_emotion_sarsa';
+const STORAGE_KEY = 'olefut_emotion_sarsa';
 
 // SARSA(λ) hyperparameters
 const ALPHA = 0.08;      // learning rate (slightly lower than Q-learning for stability)

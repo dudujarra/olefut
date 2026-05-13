@@ -79,7 +79,7 @@ export function Sidebar() {
     const modeLabel = gameState.mode === 'player' ? 'MODO JOGADOR' : 'MODO TÉCNICO';
 
     return (
-        <aside className="elifoot-sidebar ef-sidebar">
+        <aside className="olefut-sidebar ef-sidebar">
             <div className="ef-sidebar__inner">
                 {/* Mode label */}
                 <div className="ef-sidebar__mode">

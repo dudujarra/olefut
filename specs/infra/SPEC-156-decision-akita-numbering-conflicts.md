@@ -30,7 +30,7 @@ Sessão de 2026-05-11 produziu dois commits diferentes com `AKITA-203` (um em ma
 **Positivas**:
 - Sem retrabalho de histórico existente.
 - Próximas sessões evitam colisão via fetch precoce.
-- Memory feedback `~/.claude/projects/-Users-dudujarra-Documents-ELIFOOT/memory/feedback_session_overhead.md` documenta a regra.
+- Memory feedback `~/.claude/projects/-Users-dudujarra-Documents-OléFUT/memory/feedback_session_overhead.md` documenta a regra.
 
 **Negativas / tradeoffs aceitos**:
 - Histórico do projeto tem 2 commits com `AKITA-203` permanentemente.
@@ -53,6 +53,6 @@ Reabrir se:
 
 ## 7. Referências
 
-- Feedback memory: `~/.claude/projects/-Users-dudujarra-Documents-ELIFOOT/memory/feedback_session_overhead.md`
+- Feedback memory: `~/.claude/projects/-Users-dudujarra-Documents-OléFUT/memory/feedback_session_overhead.md`
 - Sessão pós-mortem que motivou: 2026-05-11
 - Commits afetados: `b84d540` (main AKITA-203) + `ab9b9a3` (branch AKITA-203)

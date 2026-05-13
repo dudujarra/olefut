@@ -1,6 +1,6 @@
 // Regression test for BUG-010
 // scripts/debug-bug.sh: bash interpretava 008+ como octal inválido
-// Issue: https://github.com/dudujarra/elifoot-web/issues/5
+// Issue: https://github.com/dudujarra/olefut/issues/5
 // Validação: escript não falha em BUG-008 ou superior
 import { describe, test, expect } from 'vitest';
 import { execSync } from 'child_process';

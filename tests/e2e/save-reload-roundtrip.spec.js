@@ -13,7 +13,7 @@ async function startCareer(page, managerName) {
     await page.evaluate(() => {
         try {
             localStorage.clear();
-            localStorage.setItem('elifoot_tutorial_done', 'true');
+            localStorage.setItem('olefut_tutorial_done', 'true');
         } catch { /* ignore */ }
     });
     await page.reload();
@@ -27,7 +27,7 @@ async function startCareer(page, managerName) {
 
 test.describe('SPEC-164 §2: Save Reload Roundtrip', () => {
 
-    test('save manual via 💾 grava elifoot_save_v1 com gameState.started=true', async ({ page }) => {
+    test('save manual via 💾 grava olefut_save_v1 com gameState.started=true', async ({ page }) => {
         const managerName = 'Manager Persist';
         await startCareer(page, managerName);
 
@@ -43,10 +43,10 @@ test.describe('SPEC-164 §2: Save Reload Roundtrip', () => {
         // Round-trip do save: payload em localStorage deve conter gameState com
         // started=true e manager correto + versão atual + checksum.
         const payload = await page.evaluate(() => {
-            const raw = localStorage.getItem('elifoot_save_v1');
+            const raw = localStorage.getItem('olefut_save_v1');
             return raw ? JSON.parse(raw) : null;
         });
-        expect(payload, 'elifoot_save_v1 ausente após save manual').toBeTruthy();
+        expect(payload, 'olefut_save_v1 ausente após save manual').toBeTruthy();
         expect(payload.gameState).toBeTruthy();
         expect(payload.gameState.started).toBe(true);
         expect(payload.gameState.manager).toBe(managerName);
@@ -56,13 +56,13 @@ test.describe('SPEC-164 §2: Save Reload Roundtrip', () => {
         expect(Array.isArray(payload.engine.teams)).toBe(true);
     });
 
-    test('reload preserva chave elifoot_save_v1 (round-trip de storage)', async ({ page }) => {
+    test('reload preserva chave olefut_save_v1 (round-trip de storage)', async ({ page }) => {
         const managerName = 'Reload Persist';
         await startCareer(page, managerName);
         await page.locator('header.top-bar button[title^="Salvar manual"]').click();
         await page.waitForSelector('text=Salvo!', { timeout: 5_000 });
 
-        const before = await page.evaluate(() => localStorage.getItem('elifoot_save_v1'));
+        const before = await page.evaluate(() => localStorage.getItem('olefut_save_v1'));
         expect(before).toBeTruthy();
 
         await page.reload();
@@ -70,7 +70,7 @@ test.describe('SPEC-164 §2: Save Reload Roundtrip', () => {
         // Não asseguramos render do dashboard porque é responsabilidade de outra spec
         // de game-engine; aqui isolamos o contrato de persistência.
         await page.waitForLoadState('domcontentloaded');
-        const after = await page.evaluate(() => localStorage.getItem('elifoot_save_v1'));
+        const after = await page.evaluate(() => localStorage.getItem('olefut_save_v1'));
         expect(after).toBeTruthy();
         const parsed = JSON.parse(after);
         expect(parsed.gameState.manager).toBe(managerName);

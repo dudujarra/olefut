@@ -6,7 +6,7 @@
  * Notificações são opt-in e só disparam para eventos significativos.
  */
 
-const CACHE_NAME = 'elifoot-v1';
+const CACHE_NAME = 'olefut-v1';
 const STATIC_ASSETS = [
     '/',
     '/index.html',
@@ -73,7 +73,7 @@ self.addEventListener('push', (event) => {
         body: data.body || 'Novidades no seu time!',
         icon: '/olefut/sprites/trophies/trophy-set.png',
         badge: '/olefut/favicon.svg',
-        tag: data.tag || 'elifoot-update',
+        tag: data.tag || 'olefut-update',
         data: { url: data.url || '/' },
         actions: [
             { action: 'open', title: '🏟️ Abrir jogo' },
@@ -95,7 +95,7 @@ self.addEventListener('notificationclick', (event) => {
     event.waitUntil(
         clients.matchAll({ type: 'window' }).then((clientList) => {
             for (const client of clientList) {
-                if (client.url.includes('elifoot') && 'focus' in client) {
+                if ((client.url.includes('olefut') || client.url.includes('elifoot')) && 'focus' in client) {
                     return client.focus();
                 }
             }

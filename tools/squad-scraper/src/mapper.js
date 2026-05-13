@@ -1,5 +1,5 @@
 /**
- * Traduz a posição do Sofascore para a engine do Elifoot
+ * Traduz a posição do Sofascore para a engine do OléFUT
  * G = Goalkeeper (GOL)
  * D = Defender (DEF)
  * M = Midfielder (MEI)
@@ -65,7 +65,7 @@ export function generateOvr(tier, age) {
 }
 
 /**
- * Mapeia o Payload do Sofascore para a Interface da Engine do Elifoot
+ * Mapeia o Payload do Sofascore para a Interface da Engine do OléFUT
  */
 export function mapPlayer(sofaPlayer, teamName, tier) {
     const age = calculateAge(sofaPlayer.player.dateOfBirthTimestamp);

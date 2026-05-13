@@ -56,13 +56,13 @@
 ### Tests + CI
 - **597/597 tests passing** (76 files, +18 asserts esta sessão)
 - **Build**: 394KB JS / 13KB CSS (gzip 115KB)
-- **CI**: ELIFOOT CI ✅, Regression Series ✅
-- **Deploy**: GitHub Pages live https://dudujarra.github.io/elifoot-web/
+- **CI**: OléFUT CI ✅, Regression Series ✅
+- **Deploy**: GitHub Pages live https://dudujarra.github.io/olefut/
 
 ### Commits AKITA
 - AKITA-027: Build inicial (12 modules + 28 harnesses)
 - AKITA-028: Bug debug workflow + tests serial
-- AKITA-029: Skill elifoot-debug
+- AKITA-029: Skill olefut-debug
 - AKITA-030: Sweep batch 1 (BUG-007 a 010)
 - AKITA-031: Sweep batch 2 (BUG-011 a 014)
 - AKITA-032: README full
@@ -137,7 +137,7 @@ package.json                        (+ test:series/regression/specs scripts + bu
 
 ## 🎯 Estado final
 
-### Live (https://dudujarra.github.io/elifoot-web/)
+### Live (https://dudujarra.github.io/olefut/)
 - ✅ Tema modern (default)
 - ✅ Tema 8-bit (toggle 🎨 ↔ 🕹️)
 - ✅ Persist state (refresh preserva carreira)

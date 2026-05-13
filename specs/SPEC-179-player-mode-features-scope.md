@@ -41,7 +41,7 @@ A hipótese de trabalho era que `dist/audio` fosse um build artifact local **nã
 
 `.gitignore` ignora `dist/` ✅, mas isso é **irrelevante** — a fonte do problema (`public/audio/*.wav`) já está versionada.
 
-`.github/workflows/deploy.yml` roda `npm run build` + `actions/upload-pages-artifact path: dist`. O artifact deployado ao GitHub Pages **inclui** os 465 MB de WAVs. Ou seja: **todo visitante do https://dudujarra.github.io/elifoot-web/ baixa 465 MB de samples WAV**.
+`.github/workflows/deploy.yml` roda `npm run build` + `actions/upload-pages-artifact path: dist`. O artifact deployado ao GitHub Pages **inclui** os 465 MB de WAVs. Ou seja: **todo visitante do https://dudujarra.github.io/olefut/ baixa 465 MB de samples WAV**.
 
 `src/audio/AudioController.jsx` confirma o uso: linha 35 (`const STEMS_BASE_PATH = '/audio/fase1';`) + linha 122 (`fetch(\`${STEMS_BASE_PATH}/${subgenre}/master.wav\`)`). 8 subgêneros × ~50 MB master WAV ≈ 400 MB lazy-loaded conforme troca de view. O fallback "Master not found" só loga warning — não é música procedural.
 

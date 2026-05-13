@@ -1,5 +1,5 @@
 // P1-6: Sound effects via Web Audio API (sem assets externos)
-// Toggle: localStorage 'elifoot_sound' = '1' (default ON)
+// Toggle: localStorage 'olefut_sound' = '1' (default ON)
 
 let audioCtx = null;
 
@@ -15,14 +15,14 @@ function getAudioCtx() {
 
 export function isSoundEnabled() {
     try {
-        const v = localStorage.getItem('elifoot_sound');
+        const v = localStorage.getItem('olefut_sound');
         return v === null || v === '1';
     } catch { return true; }
 }
 
 export function setSoundEnabled(enabled) {
     try {
-        localStorage.setItem('elifoot_sound', enabled ? '1' : '0');
+        localStorage.setItem('olefut_sound', enabled ? '1' : '0');
     } catch { /* ignore */ }
 }
 

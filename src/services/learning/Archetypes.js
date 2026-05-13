@@ -3,7 +3,7 @@ import { rng as systemRng } from '../../engine/rng.js';
 /**
  * MARL Personalities — Fase 1 (Completa)
  *
- * Define o "DNA psicológico" de cada treinador-bot no Elifoot.
+ * Define o "DNA psicológico" de cada treinador-bot no OléFUT.
  *
  * Modelo OCEAN (Big Five) adaptado:
  *   O — openness:         0-1  Abertura a novas táticas/formações

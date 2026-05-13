@@ -1,7 +1,7 @@
 // Regression test for BUG-019
 // Tab "Clube" crashava: TypeError "engine.staff?.getStaff is not a function"
 // StaffManager não tinha método getStaff() chamado por DashboardView.jsx
-// Issue: https://github.com/dudujarra/elifoot-web/issues/17
+// Issue: https://github.com/dudujarra/olefut/issues/17
 import { describe, test, expect } from 'vitest';
 import { StaffManager, STAFF_ROLES } from '../../src/engine/StadiumSystem.js';
 

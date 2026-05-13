@@ -52,7 +52,7 @@ function ensureTeams() {
     }
 }
 
-// Position translator from SoFIFA to Elifoot (GOL, DEF, MEI, ATA)
+// Position translator from SoFIFA to OléFUT (GOL, DEF, MEI, ATA)
 const mapSofifaPosition = (pos) => {
     pos = pos.toUpperCase();
     if (["GL", "GK"].includes(pos)) return "GOL";

@@ -1,4 +1,4 @@
-# 📖 ELIFOOT RPG — Manual Completo
+# 📖 OléFUT — Manual Completo
 
 > Versão: 1.0 | Data: 2026-05-07 | Protocolo: AKITA
 
@@ -6,9 +6,9 @@
 
 ## PARTE 1: O JOGO
 
-### 1.1 O que é o Elifoot RPG?
+### 1.1 O que é o OléFUT RPG?
 
-Um **soccer manager RPG** no estilo clássico dos jogos Elifoot, reconstruído como aplicação web moderna. Você assume o papel de um **treinador** (ou **jogador**) e gerencia todos os aspectos de um clube de futebol: escalação, tática, contratações, finanças, base, estádio e competições.
+Um **soccer manager RPG** no estilo clássico dos jogos OléFUT, reconstruído como aplicação web moderna. Você assume o papel de um **treinador** (ou **jogador**) e gerencia todos os aspectos de um clube de futebol: escalação, tática, contratações, finanças, base, estádio e competições.
 
 O jogo é baseado em **turnos semanais**: cada semana você toma decisões, treina o elenco e joga uma partida. As temporadas duram 38 rodadas.
 
@@ -503,11 +503,11 @@ npm run test:ci       # Testes + build
 ## 11.3 Bug Sweep Skill
 
 ```bash
-./scripts/elifoot-bug-sweep.sh          # Sweep completo
-./scripts/elifoot-bug-sweep.sh scan     # Só varredura
-./scripts/elifoot-bug-sweep.sh test     # Só testes
-./scripts/elifoot-bug-sweep.sh ci       # Testes + build
-./scripts/elifoot-bug-sweep.sh report   # Gera relatório
+./scripts/olefut-bug-sweep.sh          # Sweep completo
+./scripts/olefut-bug-sweep.sh scan     # Só varredura
+./scripts/olefut-bug-sweep.sh test     # Só testes
+./scripts/olefut-bug-sweep.sh ci       # Testes + build
+./scripts/olefut-bug-sweep.sh report   # Gera relatório
 ```
 
 ### 8 Checks Estáticos:
@@ -559,7 +559,7 @@ Diga **"caça bug"**, **"debugga"**, **"QA"** ou **"testa tudo"** ao agente.
 
 1. **Todo bug gera ticket** → `BUGS.md`
 2. **Todo ticket gera teste** → `tests/`
-3. **Todo fix roda sweep** → `./scripts/elifoot-bug-sweep.sh`
+3. **Todo fix roda sweep** → `./scripts/olefut-bug-sweep.sh`
 4. **Testes estáticos** validam padrões no source code (imports, refs, state resets)
 5. **Testes unitários** validam contratos de métodos da engine
 

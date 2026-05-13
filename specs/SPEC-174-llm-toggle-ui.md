@@ -16,7 +16,7 @@ Toggle visível no header do jogo (ao lado dos botões 🔊 som e 📊 monitor) 
 **Default**: OFF — todas as narrativas (`postMatchAnalysis`, `managerAdvice`, `boardReaction`) vêm dos templates determinísticos pt-BR. Zero download, zero VRAM, zero latência.
 
 **Opt-in**: ao clicar no toggle, o serviço:
-1. Persiste a preferência em `localStorage['elifoot_llm_enabled'] = '1'`.
+1. Persiste a preferência em `localStorage['olefut_llm_enabled'] = '1'`.
 2. **Lazy-carrega** o módulo `AutoPlayLLMBridge` (dynamic import — não estava no bundle inicial).
 3. Chama `bridge.setMode('webllm')` + `bridge.init()` que baixa o modelo `Llama-3.2-1B-Instruct-q4f16_1-MLC` via `@mlc-ai/web-llm` (~500MB do CDN). Download é assíncrono, **não bloqueia** o jogo.
 4. Mostra toast pt-BR no canto: "Auxiliar IA carregando modelo (~500MB)…" → quando pronto: "Auxiliar IA pronto. Roda local, sem custo, sem API."
@@ -67,7 +67,7 @@ getLLMStatus(): { enabled: boolean, bridgeReady: boolean, bridgeStatus: object |
 E persistência:
 
 ```typescript
-localStorage['elifoot_llm_enabled'] = '1' | (chave removida quando OFF)
+localStorage['olefut_llm_enabled'] = '1' | (chave removida quando OFF)
 ```
 
 ### Comportamento
@@ -88,7 +88,7 @@ localStorage['elifoot_llm_enabled'] = '1' | (chave removida quando OFF)
 - `isLLMEnabled()` é `false` por padrão (sem localStorage, sem opt explícito).
 - `enableLLM()` flipa flag para `true`, persiste em `localStorage`.
 - `disableLLM()` zera flag, limpa `localStorage`.
-- Construtor lê localStorage existente: `localStorage.setItem('elifoot_llm_enabled', '1')` → nova instância já vem `enabled=true`.
+- Construtor lê localStorage existente: `localStorage.setItem('olefut_llm_enabled', '1')` → nova instância já vem `enabled=true`.
 - `managerAdvice()` retorna template (rule 4: ≥20 chars BR-PT) quando `enabled=false`, sem chamar bridge.
 - `enableLLM({ bridgeLoader })` injetável aceita um mock; bridge é construído e `setMode('webllm')` é chamado.
 - `disableLLM()` mantém instância do bridge em cache (não re-baixa em próximo opt-in).

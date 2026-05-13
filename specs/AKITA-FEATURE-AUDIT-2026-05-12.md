@@ -1,11 +1,11 @@
 # Bloco 2.1 Feature Audit — 2026-05-12
 
 **Owner**: Claude Code autonomous (AKITA-233)
-**Source-of-truth**: docs/SDD_ELIFOOT_RPG.md + specs/MASTER-ROADMAP-FOUNDATION-FIRST.md (lista de 40 features em B2.1)
+**Source-of-truth**: docs/SDD_OléFUT_RPG.md + specs/MASTER-ROADMAP-FOUNDATION-FIRST.md (lista de 40 features em B2.1)
 **Worktree audited**: `/tmp/bloco2-progresso` (main @ d381c53 + AKITA-232 doc update)
 **Methodology**: read SDD → grep engine/services → grep components → check `App.jsx` + `Sidebar.jsx` for reachability → check `tests/e2e/`, `tests/specs/`, `tests/regression/` for E2E coverage.
 
-> **Nota sobre discrepância de "40 features"**: SDD_ELIFOOT_RPG.md lista ~18 mecânicas implementadas + 11 backlog (29). Os "40" do MASTER-ROADMAP-FOUNDATION-FIRST.md (linhas 108–147) são a planilha B2.1 canônica e foi essa lista que eu auditei. As ~40 cartas RPG do MatchEventsDeck são uma feature singular ("RPG Match Cards"), não 40 features distintas.
+> **Nota sobre discrepância de "40 features"**: SDD_OléFUT_RPG.md lista ~18 mecânicas implementadas + 11 backlog (29). Os "40" do MASTER-ROADMAP-FOUNDATION-FIRST.md (linhas 108–147) são a planilha B2.1 canônica e foi essa lista que eu auditei. As ~40 cartas RPG do MatchEventsDeck são uma feature singular ("RPG Match Cards"), não 40 features distintas.
 
 ---
 
@@ -52,7 +52,7 @@
 | 23 | Sector Duels | ✅ `services/SectorService.js` + `engine.js` (`getSectorService`) | partial — usado dentro do simulador, sem painel | hidden — efeito de gameplay, não-feature-de-tela | unit-only (system-integration) | Não há "sector duels view"; é mecânica invisível interna do match |
 | 24 | Playstyles (Caneleiro/Fairplay/etc) | ✅ `engine/data.js:88` (PLAYSTYLES) + `MatchSimulator.js:336-340` (afeta cartões/expulsão) | partial — visível em `SquadView.jsx:297` ("PERFIL: {personality} • {playstyle}") | ✅ Sidebar → PLANTEL | unit-only (`tests/specs/playstyles.test.js`) | OK funcionalmente; falta tooltip explicando cada playstyle |
 | 25 | Yellow/Red Cards | partial — `MatchSimulator.js:348` push `{type:'yellow'}`; expulsões em linha 401-412. `careerStats.totalCards` track | partial — `MatchView.jsx:149` overlay visual de redcard ('🟥'); `events.cards` log; **sem painel de "histórico de cartões"** | ✅ MATCH | none | Cards são tracked mas não há lista "jogadores suspensos próxima partida"; suspensão automática? não vi código |
-| 26 | Tutorial | ✅ Conteúdo em `components/TutorialView.jsx` (5 steps) | ✅ View funcional | partial — só acessível via `StartView` ANTES de começar carreira; **uma vez `elifoot_tutorial_done`, fica oculto** (StartView.jsx:8). Não há "replay tutorial" via sidebar | none | Tutorial não-replay; falta entry-point no menu para repetir |
+| 26 | Tutorial | ✅ Conteúdo em `components/TutorialView.jsx` (5 steps) | ✅ View funcional | partial — só acessível via `StartView` ANTES de começar carreira; **uma vez `olefut_tutorial_done`, fica oculto** (StartView.jsx:8). Não há "replay tutorial" via sidebar | none | Tutorial não-replay; falta entry-point no menu para repetir |
 | 27 | MARL / Adaptive Brain | ✅ `services/learning/AdaptiveBrain.js`, `LLMBridge.js`, `DAggerBootstrap.js`, `ThompsonBandit.js`, `EmotionalEngine.js` (massivo) | ✅ `components/learning/BrainDashboard.jsx` integrado em `AutoPlayView.jsx:532` | partial — só acessível via AUTOPLAY view (não tem entrada própria no sidebar) | unit-only (`tests/unit/`, `tests/integration/marl-e2e.test.js`, `SPEC-115-117-adaptive-bot.test.js`) | Sistema mais complexo do repo, mas escondido atrás do bot autônomo. Em sessão de manager normal, **nunca aparece** |
 | 28 | Chronicle System | ✅ `engine/ChronicleSystem.js` (templates por season) + `services/ChronicleService.js` | ✅ `components/ChronicleView.jsx` | ✅ Sidebar → CRÔNICA | unit-only (`SPEC-082-chronicle-system.test.js`, `SPEC-ChronicleService.test.js`) | OK; falta playwright |
 | 29 | Heritage Traits | ✅ `engine/HeritageTraitSystem.js` + `services/InheritanceService.js` chamado em `engine.js:71-72` e usado em `SeasonProcessor.js:469-478` | 🔴 **SEM UI** — `grep heritage` em `src/components/` retorna 0 resultados | unreachable — efeito narrativo aparece como `weekEvents.push('🧬 ...')` mas sem painel | unit-only (`SPEC-079-heritage-trait-system.test.js`, `SPEC-InheritanceService.test.js`) | Player jamais sabe que traits foram herdados de pai → filho |

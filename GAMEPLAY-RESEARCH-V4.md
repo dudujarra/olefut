@@ -1,4 +1,4 @@
-# ELIFOOT — Gameplay Research V4 (Pós v3.5)
+# OléFUT — Gameplay Research V4 (Pós v3.5)
 
 **Data**: 2026-05-09
 **Estado**: Pós v3.2-v3.5 mass-shipped (PR #68)
@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-ELIFOOT pós-v3.5 = **decision density 0.8 → 2.5/min** (3× boost). Mas ainda **gap fatal**: match passivity. RFCT-005 (engine sync→generator) bloqueia SPEC-090 (mid-match real-time). Sem isso, gameplay continua "watch + 1 sub".
+OléFUT pós-v3.5 = **decision density 0.8 → 2.5/min** (3× boost). Mas ainda **gap fatal**: match passivity. RFCT-005 (engine sync→generator) bloqueia SPEC-090 (mid-match real-time). Sem isso, gameplay continua "watch + 1 sub".
 
 **3 frentes prioritárias v4.0**:
 1. **RFCT-005 engine refactor** (sync → generator) — desbloqueia mid-match
@@ -356,7 +356,7 @@ Cult appeal. Niche but engaged audience.
 
 ## Conclusão
 
-ELIFOOT v3.5 = **gameplay decent, depth crescente**.
+OléFUT v3.5 = **gameplay decent, depth crescente**.
 
 v4.0 = **gameplay excellent, depth genre-leading**.
 

@@ -1,7 +1,7 @@
 // Regression test for BUG-011
 // regression.yml step "Comment on PR" falhava 403 (Resource not accessible)
 // Fix: adicionar permissions: pull-requests/issues write no workflow
-// Issue: https://github.com/dudujarra/elifoot-web/issues/7
+// Issue: https://github.com/dudujarra/olefut/issues/7
 import { describe, test, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';

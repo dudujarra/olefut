@@ -57,4 +57,4 @@ Como vai ser validada? Arquivo `tests/specs/SPEC-XXX.test.js` cobrindo:
 - [ ] Implementação contra spec
 - [ ] Harness no mesmo PR (Regra 0)
 - [ ] `npm run lint && npm test && npm run build` 0 erros
-- [ ] `docs/SDD_ELIFOOT_RPG.md` atualizado se mecânica nova
+- [ ] `docs/SDD_OléFUT_RPG.md` atualizado se mecânica nova

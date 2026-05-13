@@ -35,10 +35,10 @@ const dir = process.argv[2] || join(__dirname, '../docs/playtest/20250610/07');
 console.log(`\n📂 Lendo arquivos de: ${dir}\n`);
 
 const teleFiles = readdirSync(dir)
-    .filter(f => f.startsWith('elifoot-telemetry') && f.endsWith('.json'))
+    .filter(f => f.startsWith('olefut-telemetry') && f.endsWith('.json'))
     .sort();
 const autoFiles = readdirSync(dir)
-    .filter(f => f.startsWith('elifoot-autoplay') && f.endsWith('.json'))
+    .filter(f => f.startsWith('olefut-autoplay') && f.endsWith('.json'))
     .sort();
 
 if (teleFiles.length === 0) {

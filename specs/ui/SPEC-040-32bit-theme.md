@@ -6,12 +6,12 @@
 
 ## O que é
 
-Terceiro tema visual ELIFOOT inspirado em SNES (16-bit / "32-bit" era), entre os temas modern (default) e 8-bit (NES). Cycle tri-state: 🎨 modern → 🕹️ 8-bit → 🎮 32-bit → 🎨.
+Terceiro tema visual OléFUT inspirado em SNES (16-bit / "32-bit" era), entre os temas modern (default) e 8-bit (NES). Cycle tri-state: 🎨 modern → 🕹️ 8-bit → 🎮 32-bit → 🎨.
 
 ## Input
 
 - Body class: `theme-32bit`
-- localStorage key: `elifoot_theme` (valores: `modern`|`8bit`|`32bit`)
+- localStorage key: `olefut_theme` (valores: `modern`|`8bit`|`32bit`)
 - Toggle: header button cycle (App.jsx `cycleTheme()`)
 
 ## Output

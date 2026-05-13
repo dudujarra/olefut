@@ -1,7 +1,7 @@
 import { rng as systemRng } from './rng.js';
 /**
  * InjurySystem.js — Lesões e recuperação
- * Inspirado em FM (severity tiers) + Elifoot (simplicidade)
+ * Inspirado em FM (severity tiers) + OléFUT (simplicidade)
  */
 
 const INJURY_TYPES = [

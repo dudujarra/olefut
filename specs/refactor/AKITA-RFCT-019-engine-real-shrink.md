@@ -159,7 +159,7 @@ Cada sub-PR deve manter:
 - Cada Grupo A-I tem service correspondente com lógica real (não vazia)
 - 1036+ tests verdes em cada sub-PR
 - Golden master preservado entre todos sub-PRs
-- Documentação atualizada (`docs/SDD_ELIFOOT_RPG.md` + master roadmap PROGRESSO)
+- Documentação atualizada (`docs/SDD_OléFUT_RPG.md` + master roadmap PROGRESSO)
 
 ## 9. Definition of Stop
 

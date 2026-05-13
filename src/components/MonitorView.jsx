@@ -58,7 +58,7 @@ export function MonitorView() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `elifoot-monitor-${Date.now()}.json`;
+        a.download = `olefut-monitor-${Date.now()}.json`;
         a.click();
         URL.revokeObjectURL(url);
     }

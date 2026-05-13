@@ -2,14 +2,14 @@
  * SPEC-164 §5 — Tutorial completável (5 passos)
  *
  * Limpa localStorage, abre o tutorial pelo botão da StartView e avança pelos
- * 5 steps. Espera-se sair para start view e ter `elifoot_tutorial_done` setado.
+ * 5 steps. Espera-se sair para start view e ter `olefut_tutorial_done` setado.
  */
 // SPEC-176: shared fixture auto-fails on uncaught pageerror / console.error.
 import { test, expect } from './_fixtures.js';
 
 test.describe('SPEC-164 §5: Tutorial Completable', () => {
 
-    test('tutorial avança pelos 5 passos e grava elifoot_tutorial_done', async ({ page }) => {
+    test('tutorial avança pelos 5 passos e grava olefut_tutorial_done', async ({ page }) => {
         await page.addInitScript(() => { try { localStorage.clear(); } catch { /* ignore */ } });
         await page.goto('/');
 
@@ -46,7 +46,7 @@ test.describe('SPEC-164 §5: Tutorial Completable', () => {
         // Voltamos para a start view; manager input visível de novo
         await page.waitForSelector('#input-name', { timeout: 10_000 });
 
-        const tutDone = await page.evaluate(() => localStorage.getItem('elifoot_tutorial_done'));
+        const tutDone = await page.evaluate(() => localStorage.getItem('olefut_tutorial_done'));
         expect(tutDone).toBeTruthy();
     });
 });

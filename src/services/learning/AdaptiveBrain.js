@@ -13,7 +13,7 @@ import { LearnedGoalRelevance } from './LearnedGoalRelevance.js';
  *   - Bayesian fallback for cold-start
  *   - Goal hierarchy modulated by personality traits
  *
- * Persists to localStorage 'elifoot_autoplay_brain'.
+ * Persists to localStorage 'olefut_autoplay_brain'.
  *
  * Usage:
  *   const brain = new AdaptiveBrain('GUARDIOLA');
@@ -22,7 +22,7 @@ import { LearnedGoalRelevance } from './LearnedGoalRelevance.js';
  *   brain.observe(state, action, reward, nextState);
  */
 
-const STORAGE_KEY = 'elifoot_autoplay_brain';
+const STORAGE_KEY = 'olefut_autoplay_brain';
 const ALPHA = 0.1;       // learning rate
 const GAMMA = 0.9;       // discount factor
 const BASE_EPSILON = 0.15;    // base exploration rate

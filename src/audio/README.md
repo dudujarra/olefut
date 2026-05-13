@@ -1,4 +1,4 @@
-# ELIFOOT Audio System
+# OléFUT Audio System
 
 Hybrid Tone.js synthesis + pre-rendered stems architecture.
 

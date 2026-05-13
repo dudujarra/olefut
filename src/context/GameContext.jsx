@@ -22,7 +22,7 @@ export const useGame = () => useContext(GameContext);
 // AKITA-056 (v1.5): SAVE_VERSION 9 → 10 (chronicle export — fim roadmap v1.x).
 // AKITA-127 (v1.6): SAVE_VERSION 10 → 11 (Sul-Americana + real promo/rel counts + ecosystem fix).
 // Saves v<11 são auto-invalidados (start fresh).
-const SAVE_KEY = 'elifoot_save_v1';
+const SAVE_KEY = 'olefut_save_v1';
 const SAVE_VERSION = 11;
 
 /**

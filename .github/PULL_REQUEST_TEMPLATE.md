@@ -39,7 +39,7 @@ Toda mudança de comportamento entrega no mesmo PR um harness executável que pr
 - [ ] SPEC-XXX vinculada e aprovada antes desta PR
 - [ ] Validações da spec todas marcadas
 - [ ] Forbidden cases da spec não introduzidos
-- [ ] `docs/SDD_ELIFOOT_RPG.md` atualizado se mecânica nova foi adicionada
+- [ ] `docs/SDD_OléFUT_RPG.md` atualizado se mecânica nova foi adicionada
 
 ## 🏗️ Isolamento (Mandamento Engine ↔ UI)
 

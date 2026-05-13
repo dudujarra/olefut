@@ -1,4 +1,4 @@
-name: ELIFOOT CI
+name: OléFUT CI
 
 on:
   push:

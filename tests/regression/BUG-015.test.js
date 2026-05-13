@@ -1,6 +1,6 @@
 // Regression test for BUG-015
 // MatchView crashava ao acelerar partida ("TypeError: Cannot read properties of undefined (reading 'minute')")
-// Issue: https://github.com/dudujarra/elifoot-web/issues/12
+// Issue: https://github.com/dudujarra/olefut/issues/12
 import { describe, test, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';

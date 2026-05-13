@@ -1,7 +1,7 @@
 // Regression test for AKITA-204 — AdaptiveBrain skipAutoRestore opt-in.
 //
 // Bug latente: todos NPCs criados pelo engine compartilhavam STORAGE_KEY
-// ('elifoot_autoplay_brain'). Constructor chamava _restore() que lia desse
+// ('olefut_autoplay_brain'). Constructor chamava _restore() que lia desse
 // key, hidratando TODO NPC com a mesma persona persistida (a do último save
 // do autoplay). Quebrava SPEC-117 unique-OCEAN contract.
 //

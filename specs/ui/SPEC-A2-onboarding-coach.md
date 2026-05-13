@@ -12,7 +12,7 @@
 Componente overlay `<OnboardingCoach>` que mostra 4 dicas contextuais sequenciais no Dashboard durante a **semana 1 da 1ª temporada**. Cada dica:
 - Texto curto (≤80 chars)
 - Botão "PRÓXIMA" / "FECHAR"
-- Persiste progresso em `localStorage.elifoot_onboarding_step` e `elifoot_onboarding_done`
+- Persiste progresso em `localStorage.olefut_onboarding_step` e `olefut_onboarding_done`
 - Dismissable a qualquer momento
 
 Resolve falha do TutorialView (texto antes do jogo, ninguém lê). Aqui é **dentro do jogo**.
@@ -24,7 +24,7 @@ Resolve falha do TutorialView (texto antes do jogo, ninguém lê). Aqui é **den
 - `gameState.view === 'dashboard'`
 - `engine.currentWeek === 1`
 - `engine.seasonNumber === 1`
-- `localStorage.elifoot_onboarding_done !== 'true'`
+- `localStorage.olefut_onboarding_done !== 'true'`
 
 ---
 
@@ -45,7 +45,7 @@ Resolve falha do TutorialView (texto antes do jogo, ninguém lê). Aqui é **den
 
 ### 1. Trigger
 - [ ] Renderiza só quando `week === 1 && season === 1 && !done`
-- [ ] Não renderiza após `localStorage.elifoot_onboarding_done === 'true'`
+- [ ] Não renderiza após `localStorage.olefut_onboarding_done === 'true'`
 
 ### 2. Progressão
 - [ ] Step inicial = 1 (ou valor restaurado de localStorage)
@@ -53,8 +53,8 @@ Resolve falha do TutorialView (texto antes do jogo, ninguém lê). Aqui é **den
 - [ ] Step 4 → botão "ENTENDI" marca done
 
 ### 3. Persistência
-- [ ] Mudança de step grava `elifoot_onboarding_step`
-- [ ] Conclusão grava `elifoot_onboarding_done=true`
+- [ ] Mudança de step grava `olefut_onboarding_step`
+- [ ] Conclusão grava `olefut_onboarding_done=true`
 - [ ] Dismiss antecipado também marca done (não-pestering)
 
 ### 4. Acessibilidade
@@ -116,7 +116,7 @@ describe('SPEC-A2: Onboarding Coach', () => {
 ## Rollback
 
 - Remover render do DashboardView → componente unmount
-- `localStorage.removeItem('elifoot_onboarding_done')` reativa
+- `localStorage.removeItem('olefut_onboarding_done')` reativa
 
 ---
 
