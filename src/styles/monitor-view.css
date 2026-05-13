@@ -1,17 +1,226 @@
-/* MonitorView — semantic CSS + design tokens */
+/* MonitorView — semantic CSS + design tokens (Stitch v1.1 port)
+ * Match: docs/stitch-designs/v1.1-all/65-monitor-telemetria-ol-fut.html
+ * Tokens-only (zero raw hex). Press Start 2P + Pixelify Sans + IBM Plex Mono.
+ * SPEC-MonitorService / AKITA-393
+ */
 
 .ef-mon {
-  --ef-mon-info: #40BAF7;
-  --ef-mon-muted-text: #8E9E94;
+  --ef-mon-info: #40BAF7;          /* electric blue (matches isssd-premium.ef-text-info) */
+  --ef-mon-muted-text: var(--color-text-secondary);
+  --ef-mon-scanline: rgba(0, 0, 0, 0.1);
+  --ef-mon-glow-soft: rgba(57, 255, 20, 0.18);
+  --ef-mon-glow-warn: rgba(251, 191, 36, 0.18);
+  --ef-mon-glow-danger: rgba(255, 51, 51, 0.22);
+  position: relative;
 }
 
+/* CRT scanline veil — atmospheric only, pointer-events none */
+.ef-mon__scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    var(--ef-mon-scanline) 50%,
+    transparent 50%
+  );
+  background-size: 100% 4px;
+  z-index: 1;
+  opacity: 0.35;
+}
+
+.ef-mon .ef-view-container,
+.ef-mon .ef-view-container--wide {
+  position: relative;
+  z-index: 2;
+}
+
+/* ============ HEADER ============ */
+
 .ef-mon__header {
-  border-bottom: 2px solid var(--ef-mon-info);
+  border-bottom: var(--primitive-border-thin) solid var(--color-tertiary);
+}
+
+.ef-mon__icon-box {
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
 }
 
 .ef-mon__header-icon {
-  color: var(--ef-mon-info);
+  color: var(--color-primary);
 }
+
+.ef-mon__title {
+  color: var(--color-primary);
+  letter-spacing: 0.04em;
+}
+
+.ef-mon__subtitle {
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.18em;
+}
+
+.ef-mon__header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-mon__uptime {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
+}
+
+.ef-mon__uptime-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+}
+
+.ef-mon__uptime-value {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.ef-mon__sys-active {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+}
+
+.ef-mon__sys-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary);
+  animation: ef-mon-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes ef-mon-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+/* ============ METRIC CARDS ============ */
+
+.ef-mon__metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ef-mon__metric {
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.ef-mon__metric:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px var(--ef-mon-glow-soft);
+}
+
+.ef-mon__metric--info        { color: var(--color-text-primary); }
+.ef-mon__metric--ok          { border-color: var(--color-tertiary); }
+.ef-mon__metric--engine      { color: var(--color-primary); }
+.ef-mon__metric--warn        { border-color: var(--color-warning); color: var(--color-warning); }
+.ef-mon__metric--danger {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+  box-shadow: 0 0 14px var(--ef-mon-glow-danger);
+}
+
+.ef-mon__metric-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.ef-mon__metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.12em;
+}
+
+.ef-mon__metric--warn .ef-mon__metric-label   { color: var(--color-warning); }
+.ef-mon__metric--danger .ef-mon__metric-label { color: var(--color-danger); }
+
+.ef-mon__metric-value {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+
+.ef-mon__metric--engine .ef-mon__metric-value { color: var(--color-primary); }
+.ef-mon__metric--danger .ef-mon__metric-value { color: var(--color-danger); }
+
+.ef-mon__metric-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-tertiary);
+}
+
+.ef-mon__metric-bar-fill {
+  height: 100%;
+  background: var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary);
+  transition: width 0.4s ease;
+}
+
+.ef-mon__metric-status {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ef-mon__metric--ok .ef-mon__metric-status     { color: var(--color-primary); }
+.ef-mon__metric--danger .ef-mon__metric-status { animation: ef-mon-pulse 1.4s ease-in-out infinite; }
+
+.ef-mon__metric-bars {
+  display: flex;
+  gap: 4px;
+}
+
+.ef-mon__metric-pip {
+  width: 10px;
+  height: 18px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-tertiary);
+}
+
+.ef-mon__metric-pip--on {
+  background: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
+/* ============ STATS PANEL ============ */
 
 .ef-mon__stats-panel {
   display: flex;
@@ -37,28 +246,32 @@
   align-items: center;
   gap: 4px;
   justify-content: center;
+  letter-spacing: 0.08em;
 }
 
 .ef-mon__stat-value {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: bold;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
 }
 
 .ef-mon__stat-value--alert {
-  color: var(--danger);
+  color: var(--color-danger);
 }
 
 .ef-mon__stat-value--neutral {
-  color: var(--text-main);
+  color: var(--color-text-primary);
 }
 
 .ef-mon__since {
   display: flex;
   align-items: center;
   font-size: 0.8rem;
+  letter-spacing: 0.06em;
 }
 
-/* === FILTERS === */
+/* ============ TOOLBAR / FILTERS ============ */
 
 .ef-mon__toolbar {
   display: flex;
@@ -83,6 +296,7 @@
 .ef-mon__action-group {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .ef-mon__export-btn {
@@ -90,10 +304,160 @@
 }
 
 .ef-mon__clear-btn {
-  border-color: var(--danger);
+  border-color: var(--color-danger);
 }
 
-/* === EMPTY STATE === */
+/* ============ KERNEL LOG TABLE ============ */
+
+.ef-mon__kernel-panel {
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ef-mon__kernel-head {
+  background: var(--color-tertiary);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-mon__kernel-title {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--color-bg);
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.ef-mon__kernel-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.ef-mon__kernel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-bg);
+}
+
+.ef-mon__kernel-body {
+  max-height: 420px;
+  overflow-y: auto;
+  background: var(--color-bg);
+}
+
+.ef-mon__kernel-table {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.ef-mon__kernel-table thead {
+  position: sticky;
+  top: 0;
+  background: var(--color-bg-secondary);
+  border-bottom: var(--primitive-border-thin) solid var(--color-tertiary);
+}
+
+.ef-mon__kernel-table th {
+  padding: 12px 14px;
+  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-right: 1px solid var(--color-tertiary);
+}
+
+.ef-mon__kernel-table th:last-child {
+  border-right: none;
+}
+
+.ef-mon__kernel-table td {
+  padding: 10px 14px;
+  border-right: 1px solid var(--color-tertiary);
+  vertical-align: middle;
+}
+
+.ef-mon__kernel-table td:last-child {
+  border-right: none;
+}
+
+.ef-mon__kernel-row {
+  border-bottom: 1px solid var(--color-tertiary);
+  transition: background 0.1s ease;
+}
+
+.ef-mon__kernel-row:hover {
+  background: var(--color-bg-secondary);
+}
+
+.ef-mon__kernel-ts {
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.ef-mon__kernel-cat {
+  white-space: nowrap;
+}
+
+.ef-mon__kernel-msg {
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ef-mon__kernel-msg--critical,
+.ef-mon__kernel-msg--error {
+  color: var(--color-danger);
+}
+
+.ef-mon__kernel-msg--warning {
+  color: var(--color-warning);
+}
+
+.ef-mon__sev-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border: 1px solid;
+}
+
+.ef-mon__sev-pill--info {
+  color: var(--ef-mon-info);
+  border-color: var(--ef-mon-info);
+  background: rgba(64, 186, 247, 0.1);
+}
+
+.ef-mon__sev-pill--warning {
+  color: var(--color-warning);
+  border-color: var(--color-warning);
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.ef-mon__sev-pill--error,
+.ef-mon__sev-pill--critical {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+  background: rgba(255, 51, 51, 0.12);
+}
+
+.ef-mon__sev-pill--default {
+  color: var(--color-text-secondary);
+  border-color: var(--color-text-secondary);
+  background: rgba(160, 186, 174, 0.08);
+}
+
+/* ============ EMPTY STATE ============ */
 
 .ef-mon__empty {
   text-align: center;
@@ -101,14 +465,258 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  padding: 48px 16px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
 }
 
-/* === ENTRIES === */
+/* ============ FLUX + HEALTH ROW ============ */
+
+.ef-mon__flux-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .ef-mon__flux-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ef-mon__flux,
+.ef-mon__health {
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ef-mon__panel-title {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+}
+
+.ef-mon__flux-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.ef-mon__flux-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+}
+
+.ef-mon__flux-legend-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--color-primary);
+}
+
+.ef-mon__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 140px;
+  flex: 1;
+  padding: 0 4px;
+}
+
+.ef-mon__bar {
+  flex: 1;
+  background: rgba(57, 255, 20, 0.25);
+  border-top: 1px solid var(--color-primary);
+  min-height: 4px;
+  transition: height 0.4s ease;
+}
+
+.ef-mon__bar--peak {
+  box-shadow: 0 0 10px var(--color-primary);
+}
+
+.ef-mon__flux-axis {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-tertiary);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
+}
+
+.ef-mon__health {
+  align-items: center;
+}
+
+.ef-mon__gauge {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0 16px;
+}
+
+.ef-mon__gauge-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ef-mon__gauge-track {
+  stroke: var(--color-bg);
+}
+
+.ef-mon__gauge-arc {
+  stroke: var(--color-primary);
+  filter: drop-shadow(0 0 6px var(--color-primary));
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.ef-mon__gauge-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ef-mon__gauge-value {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--color-primary);
+  letter-spacing: 0.02em;
+}
+
+.ef-mon__gauge-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ef-mon__health-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.ef-mon__health-cell {
+  background: var(--color-bg);
+  border: 1px solid var(--color-tertiary);
+  padding: 8px;
+  text-align: center;
+}
+
+.ef-mon__health-cell-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+}
+
+.ef-mon__health-cell-value {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ============ NODE STRIP ============ */
+
+.ef-mon__node-strip {
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ef-mon__node-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ef-mon__node-icon {
+  width: 56px;
+  height: 56px;
+  border: var(--primitive-border-thin) solid var(--color-primary);
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+}
+
+.ef-mon__node-name {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+  letter-spacing: 0.04em;
+}
+
+.ef-mon__node-status {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.ef-mon__node-right {
+  text-align: right;
+}
+
+.ef-mon__node-addr {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  letter-spacing: 0.06em;
+}
+
+.ef-mon__node-addr-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+/* ============ DETAILED ENTRY CARDS ============ */
 
 .ef-mon__entries {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.ef-mon__entries-title {
+  margin-bottom: 4px;
 }
 
 .ef-mon__entry {
@@ -119,11 +727,11 @@
 
 .ef-mon__entry--critical,
 .ef-mon__entry--error {
-  border-left: 4px solid var(--danger);
+  border-left: 4px solid var(--color-danger);
 }
 
 .ef-mon__entry--warning {
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--color-warning);
 }
 
 .ef-mon__entry--info {
@@ -144,15 +752,16 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .ef-mon__sev--critical,
 .ef-mon__sev--error {
-  color: var(--danger);
+  color: var(--color-danger);
 }
 
 .ef-mon__sev--warning {
-  color: var(--accent);
+  color: var(--color-warning);
 }
 
 .ef-mon__sev--info {
@@ -186,4 +795,21 @@
 
 .ef-mon__entry-url {
   font-size: 0.8rem;
+}
+
+/* ============ FOOTER ============ */
+
+.ef-mon__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--color-tertiary);
+  margin-top: 16px;
 }
