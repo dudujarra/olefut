@@ -10,6 +10,7 @@
 @import './styles/standings-view.css';
 @import './styles/press-view.css';
 @import './styles/achievements-view.css';
+@import './styles/tutorial-view.css';
 
 /* SPEC-A11y Focus visible (WCAG 2.1 AA) */
 *:focus-visible {
