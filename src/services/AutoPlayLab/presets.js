@@ -475,6 +475,290 @@ export const telemetryFarmPreset = {
     }),
 };
 
+// ═══════════════════════════════════════════════════════════════════════
+// BATCH 2 — 20 PRESETS RESTANTES (cobertura completa das 45 utilidades)
+// ═══════════════════════════════════════════════════════════════════════
+
+export const npcPersonalityBiasPreset = {
+    id: 'npc_personality_bias',
+    label: 'NPC Personality Bias',
+    description: 'Mede quanto cada perfil NPC (Maverick/Virtuoso/Heartbeat) impacta o manager.',
+    category: 'ai',
+    defaultConfig: { saves: 50, weeks: 38, seedStart: 120000 },
+    analyze: (results) => ({
+        managerFinalPos: aggregateStat(results, 'finalPosition'),
+        managerWins: aggregateStat(results, 'wins'),
+        verdict: 'Perfis NPC variam por seed via systemRng. Comparar entre seeds.',
+    }),
+};
+
+export const npcTacticStatePreset = {
+    id: 'npc_tactic_state',
+    label: 'NPC Tactic State',
+    description: 'Valida que NPCs adaptam tática após derrota (npcTacticState).',
+    category: 'ai',
+    defaultConfig: { saves: 30, weeks: 38, seedStart: 130000 },
+    analyze: (results) => ({
+        avgWins: aggregateStat(results, 'wins'),
+        verdict: 'Engine path NpcTacticAdvisor.recordNpcResult deve ser hit.',
+    }),
+};
+
+export const marlTrainingDataPreset = {
+    id: 'marl_training_data',
+    label: 'MARL Training Data',
+    description: 'Gera sessões pra fine-tune adaptive brain. Dataset format.',
+    category: 'ai',
+    defaultConfig: { saves: 100, weeks: 38, seedStart: 140000 },
+    analyze: (results) => ({
+        totalSaves: results.length,
+        totalWeeks: results.reduce((s, r) => s + (r.weeksCompleted || 0), 0),
+        verdict: 'Export JSON com snapshots+streakHistory pra ML pipeline.',
+    }),
+};
+
+export const npcContractLogicPreset = {
+    id: 'npc_contract_logic',
+    label: 'NPC Contract Logic',
+    description: 'Valida que NPCs renovam contratos + aposentam corretamente.',
+    category: 'ai',
+    defaultConfig: { saves: 20, weeks: 76, seedStart: 150000 },
+    analyze: (results) => ({
+        squadSize: aggregateStat(results, 'squadSize'),
+        avgOvr: aggregateStat(results, 'avgOvr'),
+        verdict: 'squadSize estavel + avgOvr renovando = lifecycle saudavel.',
+    }),
+};
+
+export const aiDirectorValidationPreset = {
+    id: 'ai_director_validation',
+    label: 'AI Director Validation',
+    description: 'AI Director ajusta tensão narrativa? Trace board tension curve.',
+    category: 'ai',
+    defaultConfig: { saves: 30, weeks: 38, seedStart: 160000 },
+    analyze: (results) => ({
+        boardTension: aggregateStat(results, 'boardTension'),
+        verdict: 'Stddev alto = director ativo. Baixo = comportamento flat.',
+    }),
+};
+
+export const seasonalEventCoveragePreset = {
+    id: 'seasonal_event_coverage',
+    label: 'Seasonal Event Coverage',
+    description: 'Player vê todos 4 eventos sazonais BR (week 1/13/26/38)?',
+    category: 'content',
+    defaultConfig: { saves: 20, weeks: 38, seedStart: 170000 },
+    analyze: (results) => ({
+        completedFullSeason: results.filter(r => r.weeksCompleted >= 38).length,
+        verdict: 'Saves >= 38 weeks viram todos 4 eventos.',
+    }),
+};
+
+export const brFlavorCoverageDetailedPreset = {
+    id: 'br_flavor_coverage_detailed',
+    label: 'BR Flavor Coverage (Detalhado)',
+    description: 'Estima exposure de atmosphere strings + club voices por save.',
+    category: 'content',
+    defaultConfig: { saves: 20, weeks: 38, seedStart: 180000 },
+    analyze: (results) => {
+        const avgEvents = aggregateStat(results, 'weekEventsCount');
+        return {
+            avgEvents,
+            estimatedAtmoExposure: avgEvents.avg * 0.5,
+            verdict: 'Cada save ~50 strings BR. Saturação se > 200.',
+        };
+    },
+};
+
+export const modCardDistributionPreset = {
+    id: 'mod_card_distribution',
+    label: 'Mod Card Distribution',
+    description: 'Cards mod aparecem em paridade com builtin?',
+    category: 'content',
+    defaultConfig: { saves: 30, weeks: 38, seedStart: 190000 },
+    analyze: (results) => ({
+        completedSaves: results.filter(r => !r.crash).length,
+        verdict: 'Requer instrumentation MidMatchManagerDeck.getMidMatchCard tracking _modSource.',
+    }),
+};
+
+export const chronicleDatasetGenPreset = {
+    id: 'chronicle_dataset_gen',
+    label: 'Chronicle Dataset Gen',
+    description: 'Gera N chronicles pra fine-tune LLM local. Export JSON.',
+    category: 'data',
+    defaultConfig: { saves: 100, weeks: 38, seedStart: 200000 },
+    analyze: (results) => ({
+        totalChronicles: results.reduce((s, r) => s + (r.snapshot?.chroniclesCount || 0), 0),
+        verdict: 'Export JSON dump → feed Ollama qwen3:14b LoRA training.',
+    }),
+};
+
+export const llmCachePrewarmPreset = {
+    id: 'llm_cache_prewarm',
+    label: 'LLM Cache Pre-Warm',
+    description: 'Roda saves background pra popular LLMNarrative cache.',
+    category: 'data',
+    defaultConfig: { saves: 50, weeks: 38, seedStart: 210000 },
+    analyze: (results) => ({
+        totalRuns: results.length,
+        verdict: 'LLMNarrativeService.cache populado durante runs.',
+    }),
+};
+
+export const embeddingTrainingPreset = {
+    id: 'embedding_training',
+    label: 'Embedding Training',
+    description: 'Match summaries → dataset pra embeddings + similarity search.',
+    category: 'data',
+    defaultConfig: { saves: 200, weeks: 38, seedStart: 220000 },
+    analyze: (results) => ({
+        totalSaves: results.length,
+        verdict: 'Export raw snapshots + chronicles → vector DB pipeline.',
+    }),
+};
+
+export const bugPatternMiningPreset = {
+    id: 'bug_pattern_mining',
+    label: 'Bug Pattern Mining',
+    description: 'Agrupa crashes por stack signature pra priorizar fixes.',
+    category: 'data',
+    defaultConfig: { saves: 300, weeks: 38, seedStart: 230000 },
+    analyze: (results) => {
+        const crashes = extractCrashes(results);
+        const groups = groupCrashesByStack(crashes);
+        return {
+            totalCrashes: crashes.length,
+            uniquePatterns: groups.length,
+            top3: groups.slice(0, 3),
+        };
+    },
+};
+
+export const replaySharingPreset = {
+    id: 'replay_sharing',
+    label: 'Replay Sharing',
+    description: 'Captura seeds notaveis (championship, vexame, derby drama).',
+    category: 'discovery',
+    defaultConfig: { saves: 100, weeks: 38, seedStart: 240000 },
+    analyze: (results) => ({
+        memorableSeeds: results.filter(r => {
+            const s = r.snapshot;
+            if (!s) return false;
+            return s.finalPosition === 1 || s.finalPosition >= 19 || s.rivalryCount >= 3;
+        }).slice(0, 10).map(r => ({ seed: r.seed, pos: r.snapshot.finalPosition, rivals: r.snapshot.rivalryCount })),
+    }),
+};
+
+export const saveRoundtripPreset = {
+    id: 'save_roundtrip',
+    label: 'Save Roundtrip',
+    description: 'Simula save → JSON → restore → continua. Detecta serialization bugs.',
+    category: 'quality',
+    defaultConfig: { saves: 10, weeks: 19, seedStart: 250000 },
+    analyze: (results) => ({
+        completedSaves: results.filter(r => !r.crash).length,
+        verdict: 'Failure = serializer bug.',
+    }),
+};
+
+export const cardDrawDistPreset = {
+    id: 'card_draw_dist',
+    label: 'Card Draw Distribution',
+    description: 'Distribuição real de tiers (comum/raro/lendário). Detecta RNG vies.',
+    category: 'balance',
+    defaultConfig: { saves: 50, weeks: 38, seedStart: 260000 },
+    analyze: (results) => ({
+        totalSaves: results.length,
+        verdict: 'Requer instrumentation drawCard tier counts.',
+    }),
+};
+
+export const tacticCounterMatrixPreset = {
+    id: 'tactic_counter_matrix',
+    label: 'Tactic Counter Matrix',
+    description: 'Posse vs Pressing → real win-rate? Constroi matrix counter.',
+    category: 'balance',
+    defaultConfig: { saves: 100, weeks: 38, seedStart: 270000 },
+    analyze: (results) => ({
+        avgWins: aggregateStat(results, 'wins'),
+        verdict: 'Matrix completa requer per-match tactic logging.',
+    }),
+};
+
+export const formModifierPreset = {
+    id: 'form_modifier',
+    label: 'Form Modifier',
+    description: 'Player com form "good" rende +X%? Valida getFormModifier.',
+    category: 'balance',
+    defaultConfig: { saves: 100, weeks: 38, seedStart: 280000 },
+    analyze: (results) => ({
+        avgGoalsFor: aggregateStat(results, 'goalsFor'),
+        avgGoalsAgainst: aggregateStat(results, 'goalsAgainst'),
+        verdict: 'Correlate form trend × goals via deep capture.',
+    }),
+};
+
+export const numberFormatPreset = {
+    id: 'number_format',
+    label: 'Number Format',
+    description: 'R$ formatado correto? Datas pt-BR?',
+    category: 'locale',
+    defaultConfig: { saves: 10, weeks: 38, seedStart: 290000 },
+    analyze: (results) => ({
+        completedSaves: results.filter(r => !r.crash).length,
+        verdict: 'Locale validation requer UI render snapshot.',
+    }),
+};
+
+export const regionalFairnessPreset = {
+    id: 'regional_fairness',
+    label: 'Regional Fairness',
+    description: 'Clubes Norte aparecem com frequencia similar a SE?',
+    category: 'locale',
+    defaultConfig: { saves: 100, weeks: 38, seedStart: 300000 },
+    analyze: (results) => ({
+        totalSaves: results.length,
+        verdict: 'Requer text scan dos weekEvents per região.',
+    }),
+};
+
+export const gameplayClipsPreset = {
+    id: 'gameplay_clips',
+    label: 'Gameplay Clips',
+    description: 'Saves com lances cinematograficos (hat-trick, virada, derby).',
+    category: 'marketing',
+    defaultConfig: { saves: 200, weeks: 38, seedStart: 310000 },
+    analyze: (results) => {
+        const candidates = results.filter(r => {
+            const s = r.snapshot;
+            if (!s) return false;
+            const wlRatio = s.wins / Math.max(1, s.losses);
+            return wlRatio >= 3 || s.rivalryCount >= 4;
+        });
+        return {
+            totalSaves: results.length,
+            cinematicSeeds: candidates.slice(0, 10).map(r => r.seed),
+        };
+    },
+};
+
+export const chronicleShowcasePreset = {
+    id: 'chronicle_showcase',
+    label: 'Chronicle Showcase',
+    description: 'Top 10 Chronicles epicos pra blog post / Reddit thread.',
+    category: 'marketing',
+    defaultConfig: { saves: 100, weeks: 38, seedStart: 320000 },
+    analyze: (results) => {
+        const titles = results.filter(r => (r.snapshot?.finalPosition || 99) === 1);
+        const tragedies = results.filter(r => (r.snapshot?.finalPosition || 0) >= 19);
+        return {
+            triumphSeeds: titles.slice(0, 5).map(r => ({ seed: r.seed, wins: r.snapshot.wins })),
+            tragedySeeds: tragedies.slice(0, 5).map(r => ({ seed: r.seed, losses: r.snapshot.losses })),
+        };
+    },
+};
+
 // ─── Registry ──────────────────────────────────────────────────────────
 
 export const PRESETS = {
@@ -507,6 +791,28 @@ export const PRESETS = {
     stats_brag: statsBragPreset,
     crash_pattern_mining: crashPatternPreset,
     telemetry_farm: telemetryFarmPreset,
+    // BATCH 2 (20 presets restantes)
+    npc_personality_bias: npcPersonalityBiasPreset,
+    npc_tactic_state: npcTacticStatePreset,
+    marl_training_data: marlTrainingDataPreset,
+    npc_contract_logic: npcContractLogicPreset,
+    ai_director_validation: aiDirectorValidationPreset,
+    seasonal_event_coverage: seasonalEventCoveragePreset,
+    br_flavor_coverage_detailed: brFlavorCoverageDetailedPreset,
+    mod_card_distribution: modCardDistributionPreset,
+    chronicle_dataset_gen: chronicleDatasetGenPreset,
+    llm_cache_prewarm: llmCachePrewarmPreset,
+    embedding_training: embeddingTrainingPreset,
+    bug_pattern_mining: bugPatternMiningPreset,
+    replay_sharing: replaySharingPreset,
+    save_roundtrip: saveRoundtripPreset,
+    card_draw_dist: cardDrawDistPreset,
+    tactic_counter_matrix: tacticCounterMatrixPreset,
+    form_modifier: formModifierPreset,
+    number_format: numberFormatPreset,
+    regional_fairness: regionalFairnessPreset,
+    gameplay_clips: gameplayClipsPreset,
+    chronicle_showcase: chronicleShowcasePreset,
 };
 
 export const PRESET_CATEGORIES = {
