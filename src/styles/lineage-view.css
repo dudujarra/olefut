@@ -1,0 +1,25 @@
+/* LineageView — semantic CSS + design tokens */
+
+.ef-lin {
+  --ef-lin-info: #40BAF7;
+  --ef-lin-purple: #8E5BFF;
+  --ef-lin-orange: #FF8C00;
+  --ef-lin-muted: #8E9E94;
+}
+
+.ef-lin__error {
+  padding: 24px;
+}
+
+.ef-lin__header {
+  border-bottom: 2px solid var(--accent);
+}
+
+.ef-lin__header-icon {
+  color: var(--accent);
+}
+
+.ef-lin__empty-block {
+  text-align: left;
+  display: inline-block;
+}
