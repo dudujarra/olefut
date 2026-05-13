@@ -20,6 +20,7 @@
   --accent-dark: #CCAA00;
   
   --danger: #FF1744; /* Crimson Red */
+  --danger-aaa: #FF8080; /* AAA-compliant for small text (#FF8080 / #111417 = 7.61:1) */
   --danger-dark: #CC1236;
   
   --info: #00E5FF; /* Electric Blue */

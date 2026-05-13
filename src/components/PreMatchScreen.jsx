@@ -6,7 +6,7 @@ import { EfClubBadge, EfPanel, EfButton, EfModal } from './ui';
 import bgLockerRoom from '../assets/environments/bg_locker_room.png';
 import { Sword, MapPin, Trophy, ShieldChevron, Warning, GameController, Lightbulb } from '@phosphor-icons/react';
 import { suggestTactic } from '../engine/TacticSuggester';
-import '../styles/prematch-screen.css';
+import '../styles/pre-match-screen.css';
 
 const SECTOR_MOD = { goalkeeper: 'gol', defense: 'def', midfield: 'mei', attack: 'ata' };
 
