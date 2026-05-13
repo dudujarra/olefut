@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Stitch Comparison — OléFUT ISSSD-Premium (Original vs Refined)</title>
+<style>
+  :root {
+    --bg: #0E1F14;
+    --panel: #111417;
+    --border: #2D6A4F;
+    --neon: #39FF14;
+    --gold: #FFD700;
+    --parchment: #F1FAEE;
+    --smoke: #A0BAAE;
+    --danger: #FF3333;
+    --old-tint: #5a4f1a;
+    --new-tint: #1a5a3e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--parchment);
+    font-family: 'Pixelify Sans', system-ui, sans-serif;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--gold);
+    font-size: 1.4rem;
+    text-align: center;
+    margin: 8px 0 4px;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--smoke);
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+  }
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    padding: 8px 16px;
+    border: 2px solid;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+  }
+  .legend-old { border-color: var(--old-tint); color: var(--old-tint); background: rgba(90, 79, 26, 0.1); }
+  .legend-new { border-color: var(--neon); color: var(--neon); background: rgba(57, 255, 20, 0.05); }
+  .pair {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid var(--border);
+  }
+  .pair-title {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--neon);
+    font-size: 1rem;
+    margin-bottom: 16px;
+    text-shadow: 2px 2px 0 #000;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .col {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    padding: 12px;
+  }
+  .col-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+  .col-old .col-label { background: var(--old-tint); color: var(--parchment); }
+  .col-new .col-label { background: var(--neon); color: var(--panel); }
+  .col img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #333;
+    image-rendering: pixelated;
+  }
+  .meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--smoke);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .meta strong { color: var(--gold); }
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 2px solid var(--border);
+    text-align: center;
+    color: var(--smoke);
+    font-size: 0.8rem;
+  }
+  footer a { color: var(--neon); }
+  .links {
+    text-align: center;
+    margin-bottom: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+  }
+  .links a {
+    color: var(--neon);
+    margin: 0 12px;
+  }
+
+  /* === Comment system === */
+  .comment-zone {
+    margin-top: 16px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px dashed var(--border);
+  }
+  .comment-zone label {
+    display: block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .comment-zone textarea {
+    width: 100%;
+    min-height: 60px;
+    background: var(--panel);
+    color: var(--parchment);
+    border: 2px solid var(--border);
+    padding: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    resize: vertical;
+  }
+  .comment-zone textarea:focus {
+    border-color: var(--neon);
+    outline: none;
+  }
+  .verdict-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .verdict-btn {
+    padding: 6px 12px;
+    background: transparent;
+    color: var(--smoke);
+    border: 2px solid var(--border);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.55rem;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .verdict-btn:hover {
+    border-color: var(--neon);
+    color: var(--neon);
+  }
+  .verdict-btn.active {
+    background: var(--neon);
+    color: var(--panel);
+    border-color: var(--neon);
+  }
+  .verdict-btn[data-verdict="keep-old"].active { background: var(--old-tint); color: var(--parchment); border-color: var(--old-tint); }
+  .verdict-btn[data-verdict="reject"].active { background: var(--danger); color: var(--panel); border-color: var(--danger); }
+  .verdict-btn[data-verdict="mix"].active { background: var(--gold); color: var(--panel); border-color: var(--gold); }
+  .general-comment {
+    margin-top: 32px;
+    padding: 24px;
+    background: var(--panel);
+    border: 4px solid var(--neon);
+  }
+  .general-comment h2 {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--neon);
+    font-size: 1.1rem;
+    margin: 0 0 16px 0;
+  }
+  .general-comment textarea {
+    min-height: 140px;
+    width: 100%;
+    background: var(--bg);
+    color: var(--parchment);
+    border: 2px solid var(--border);
+    padding: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    resize: vertical;
+  }
+  .rating-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    align-items: center;
+  }
+  .rating-row label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    color: var(--gold);
+  }
+  .star {
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--smoke);
+  }
+  .star.active { color: var(--gold); }
+  .export-bar {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+  .export-bar button {
+    padding: 12px 16px;
+    background: var(--neon);
+    color: var(--panel);
+    border: 2px solid var(--neon);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #000;
+  }
+  .export-bar button:hover { background: var(--gold); border-color: var(--gold); }
+  .export-bar button.reset { background: transparent; color: var(--smoke); border-color: var(--smoke); box-shadow: none; }
+  .export-bar button.reset:hover { color: var(--danger); border-color: var(--danger); }
+  .toast {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background: var(--gold);
+    color: var(--panel);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.8rem;
+    border: 2px solid var(--panel);
+    box-shadow: 4px 4px 0 #000;
+    z-index: 200;
+    display: none;
+  }
+  .toast.show { display: block; animation: slideIn 0.3s; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translate(-50%, -20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+</style>
+</head>
+<body>
+
+<h1>🎮 OléFUT Stitch Comparison</h1>
+<p class="subtitle">Original (Rubik) vs Refined (Press Start 2P + Pixelify Sans + IBM Plex Mono)</p>
+
+<div class="links">
+  <a href="https://stitch.withgoogle.com/projects/1129586751616590793" target="_blank">📂 Original Project</a>
+  <a href="https://stitch.withgoogle.com/projects/2768243260696315508" target="_blank">📂 Duplicate (Refined)</a>
+</div>
+
+<div class="legend">
+  <div class="legend-item legend-old">⚠ OLD — Rubik body / surface #0c1609</div>
+  <div class="legend-item legend-new">✓ REFINED — Pixelify Sans / surface #111417 / SPEC-183</div>
+</div>
+
+<!-- 1. Dashboard -->
+<div class="pair">
+  <div class="pair-title">1 · DASHBOARD (Escritório do Mister)</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uiH61_95PJ-IRHx5p2VZjulhNu3S8gNcrMVvrHoIasq5BJs15HgJzoOUwyvUK5jjX4jXrrlsaoQE2Xd2w2Fq96z0GKJL7VhYMXbu_IA_VcpYocsSzV-CCORLZw8Ks0Z72U1tcmpikzkjR3bBVshgrDyOJqK5MXQi-EYFhdP0nc1_EeD0qLT5h2XoK8i8EyyuDsX6AERt5wvaIQayzFSaXxDNJJkz-1-zrZIRNPihaK571gPZRRSi4aUYmU" alt="Dashboard OLD">
+      <div class="meta">Project <strong>1129…</strong> · screen <strong>6d195eea…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ujwXwOtF6sqMnFkRmZ_OKxR1lGJ2KtcuwfArIshpynkcZXzlMvJ5NpguQfwiX8lwYEWZI40e022QvPgwlJ507Tb-sa0jEgsO7X2wKnu7c-l0FoC7acHT01MuMmmT7WyymPSdzZfNag5Ke_pCgr1wKOtgUWRRyL_JDQdMAvmYAaYUul8vwCrEdJdw11r5y85e0hvu14a28XjpjnaDg1mgThcIy0e5zxgQajWx_7Y4crSlWxFu2RbnNegsQ" alt="Dashboard REFINED">
+      <div class="meta">Project <strong>2768…</strong> · screen <strong>8314a287…</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Match -->
+<div class="pair">
+  <div class="pair-title">2 · MATCH (AO VIVO — United FC vs Flamengo)</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uiTqgZySUOzwUayA1JDoQtvBTEGceyEEoeVfFfmjQOwAr1VFKHCTvDn_uvyFI5f0ciYA3pcJGcQ4GXp11xcaW9oyTQyyUBk3BYpYoTS42sYjBt_QxLbivsm2s7jftqqaz51jh5VO2nl8ilVmsF2JN-7mKyuOq8Xq7iAfvwKXpdq65txa890UPcWwIcS5phupGY51mvwbbzyUw-0m_GnD2YmKWJQsz_euXhZH9kauduiWZh8vRh9OWBtEqQ" alt="Match OLD">
+      <div class="meta">screen <strong>6a725d22…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uhT3MaEl0QQEpo_NlfsHcEI8LcUkKFWIBAtNW3iVpLeNxx7sV8BKLOnQkX6ossOyXNi4B16Iug5kEcJBu-jYNNJ9J5LLCuuSGkKwicj6gmzccmFrNS78VLhenWcaLfMJ6FmAC7z0pQRIPhYbKgwk1kfYq_ZaNKg_HiRgwZXP8ZbyD_WogLXOrgaxiv5WlscToRrjpllOrPJIwSR0PJgnzLHTIds3XU-iXCPwI9knhSYXxpm0F2EG7PAGJ0" alt="Match REFINED">
+      <div class="meta">screen <strong>6815534e…</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Squad -->
+<div class="pair">
+  <div class="pair-title">3 · SQUAD (Plantel)</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ugYUzEyFETl-B6eOq6I0LcvRxi_GoEGI-6jYOchsphtnyGFhhjOmLwKRKop4e8BCgDtcauAE24-e5G9_hS5XR5JDEhwyaknyXlbqHOuUtFwPWoH9ziuAyQz7Lugkh9-9TE04eDjoeAdnf1viG-iMa7REm0FSDykjRqBFG6BTw2JYmEEImq9N28LybHhtV33CHJaXdAPFL60z_qYCyD0unzqVJ04snpwTp2hTBd5ParWXIC4rxWRhRbH13k" alt="Squad OLD">
+      <div class="meta">screen <strong>01a1f46a…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ujkfUDhynEvcHwgqb8NHzPh4l51J2Mp8ECl-R5WQ3fhhXSNFGca-NymoImX671KPRIr2kaThjNmNysuEg0rJMmIAA3Z1AoyqT8DRGQYoFtm5sv5EciVzcnD52gevzY5oVS8tlxq5eSI93BQHvp_uKqMsaWPUeSDlow44_ns6zkWOnHaYmdVTVRYpMwpxA-1ap3iXLQyjF2OdLcC-wSk61uU2ZqugaioFwp63sn-i8jHJvnzeF37W7eF0bU" alt="Squad REFINED">
+      <div class="meta">screen <strong>c5cff57f…</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Market -->
+<div class="pair">
+  <div class="pair-title">4 · MARKET (Mercado de Transferências)</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ujZR5l1l-efDn-9ROcCMFUC1grmuQPrRAnfdGkzEUPd1d7eTmt4Na3-5U15M95IgGNwwSvFMDJyzESfoUMztMNtfpaccmdKy20aJ1uc2zONeLSS2gaOoyJ92OA0CWo8S7uCghMVD4b8xcUD8QFgGL1x0NRYC4FBQyxjIGFjkA0OM5wAjXipOf5u_ZD5aQUv6zlIUORbE6qJ-RPWe2_IyKXDZqSTRS6NfIjIymQQqvCpozDndfK8AYRjQDg" alt="Market OLD">
+      <div class="meta">screen <strong>dad2247e…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uhzMsjwSC3x27PE49Kib0xRxTaHGQ4fklmYmXZfP4dI_2ibTIQVko-Txc4k7ausJF9mFQP1ndY4EaF7S8qf-8dMfyIUlpUUXiVTyfo1OpoRPhRz8-rEcVHoEA70uZGmQWBExZXpAEuKqAgwn46Vzgi4ztHcLNrdWwlByP-hdWZgUdI2IXLdTzLwgS9opgTLsrT7kSi353mcOdklH7mcL1sv9AunAHITWvBq5J18aOXtZ0BWVJIqbZu3154" alt="Market REFINED">
+      <div class="meta">screen <strong>99f8fe4a…</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. Standings -->
+<div class="pair">
+  <div class="pair-title">5 · STANDINGS (Classificação Brasileirão)</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ugCDW3uZBeuhWmsGIxFKjs4H-iOdhSfN7TTgronhD8ZTAhQ6fhC-odfhQyoqwbjHem8KA8Ls_Zeas5MGX2TN26_MRoMHpIEtwihTvBYJE8WkJ25CsEwVgwpWs0uL4mSQK94Y49cVhLIIS-gFIv5uLdvxD5ZwpgsJa2Eo9bVJq9bKPcxbBIWXNO1e9iWTCpWi8AmgMUCCNCxbjQuYNVlGrWr2yRJpi_SkU7ORVdpqVv1JPfQDN0cEhPFK70" alt="Standings OLD">
+      <div class="meta">screen <strong>61a3673b…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uiZw_wpbqq5eCu2FgcXC6Byr5J-oSCyoBp7LC6z3m99lbYxp6A1AGMYrhifuPLhVIzW4r_TxZ8uQKkptswe1rKX3w-UTMJiQE-IRQVEWbK7zTh70iNHIyFFzMTtNpTfJ7g_YJxwgOtszK8y9UMDCRlaS3jL4VsAKIYYq2KDjVLuR-NDBjPIfne_0ZfkuRRpnLhh6cCWpq-qz_eKcyPHzlKvJvCx93USFRei-h4aM1PSt4U0EzjsSbpVuQ" alt="Standings REFINED">
+      <div class="meta">screen <strong>eb22574e…</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. PreMatch -->
+<div class="pair">
+  <div class="pair-title">6 · PRE-MATCH (PRE-JOGO)</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ujaELyN-pyPuV6jSKrbE-rP__HfqBXpoL5gLz3TVRUWOxEZ6iW1DOiQzUFbANo0Ae-5pTgaDTCZlz4QlaK7dfiEURiCyio3rdg_Kg0QocCGirKvwWuwBPPZ7wQaTvHIVicdO8tod0OAiawsS3zJho2btS87ZkWzSFmzi1OhcHcE1fo4blL9DZ9lVBFYS0NB5Yzz8tnBW-NRZLd5nxfFi6LeuKwg9j848SwIpL6BjsSJlQBXdS9553KsPao" alt="PreMatch OLD">
+      <div class="meta">screen <strong>1a37ba98…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ug_vEBbjTU03XxjEmBRmoNApp6yRqk5G04Sb8i9_akFb-pIh_oILt3zysgCviBk9firNzl6MpO8dq7ERHy7sxUafyl_pjTL_1jRLp0Fgf9WGJ8Djmtl_-PSXqjj-8GWtvMCl2hp-PoUKdDuRn-8n0vybqehEGC-3a-ZKCrnIIS1yfIiHjg3r4tabLx4cqP9F2ISJygdE6Y3qeYt21prg2NwKneiMpjLAQEoChzM1XuAkEIOHnaM0eg_POg" alt="PreMatch REFINED">
+      <div class="meta">screen <strong>8398a4d8…</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. Trophy -->
+<div class="pair">
+  <div class="pair-title">7 · TROPHY CEREMONY (🏆 CAMPEÃO)</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uhKKsmuoYrYTRLjPZyRoCNXXQz7gdhXJ-xZcRtxP9nEz4Fc6Y0IBjFa3obBXzpP2KezdgQEXNQiErrx0-s2EHWFVfrHhriieWmhVue1gw2kMTjSj5C2A1zGTEGu7K3as_pT5gc439vfn8qnSLc7KtJqpThd2UzW9A8VXtrP9xFu9XLpr7nSF8gJvbPPehYQV24acNliKTnk1DhZ5OFzb9DgGhgvUkUT9hTJaonliMhiQgDupOTpqaTTew" alt="Trophy OLD">
+      <div class="meta">screen <strong>2823e5a0…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uhf6uY2v9NtE32FZyQG3CVyPdKHeiPp8lonG0DMqOiSSVm3XUw0XQU_Bw8RfMYmmd1GeILHjVpriN8SoOYUS2wirTdNTCuNq-6Urt393L9tj0Lbd4-KLO7Pe85ofh5IQRnwPp2Y59S3xl86OFWOUiTwCkNw3PsjiQSfcsJ4-mvjCQMJkcH4Ujav5NLDmLqCggN8Nv5heqXfj2VaVhXXFd8NNG_76lR4QFC4zvdkRy03CuOZA3rFn00nIQ" alt="Trophy REFINED">
+      <div class="meta">screen <strong>057986b1…</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Press -->
+<div class="pair">
+  <div class="pair-title">8 · PRESS (Coletiva de Imprensa)</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uimwQg6bkMaiArnEXHGvLre0JTIwmP1yQe5bRaEA5iMKPa2u0MbdUUkXbsdRCI7ESiapj8AWkPLPq_x3Yyswye_C5JDVpSLkLVthchdvu920kY7y844ZgNZn76vkPfhyCai_Bv2pkcRvmV3jum5C_-O5DO1CMDO5pYIZ8D9zi4ivz19RCvTSr2goI70WqFOhNwU3Cf9UPSwuvR_cokbwdz004XVPW_3HxWY0ndThju55xZpBlSJhF8h-so" alt="Press OLD">
+      <div class="meta">screen <strong>a1d11242…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uhB71rIme8290v8MpnnMWNvZ5C-2nCfjVe7Pj0ZQsHalF64g69pXsjV2rXJgxQFYrARIZcTxYv2ahHFc_o4v8armFWgjwZurIO39QLSd2QzRYWr1Fi889AWyaMZWhG_Hu1aFDaXdd8z2fr-aBh0mNI-YevIbDEtbF6kI9K4RJHnvHC5krybcoHMQS1tt1PkCcB_XvyywASDcQr-ZeD1MM44BEnNPoEU2G4SBg6uDghp_bUEhXlgrlT4MQ" alt="Press REFINED">
+      <div class="meta">screen <strong>8b52b59f…</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- 9. Tutorial Step 1 -->
+<div class="pair">
+  <div class="pair-title">9 · TUTORIAL STEP 1 (Bem-vindo)</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0uje0dFGduXyP9vItFg96ugOPCGfaB9KD-Vu01nqAKQiN75BcLeqk-lyWU-s6uN-GHmx8xtXcO1SL9UiETY167UWM7OJ3X8ObAHD6RDWqu1x6xObCAK3biOanOgWAI0UlsvS9svInpck6jxXXT6w2u2jSbXUEvIoYvTmC7eNscaK0KP4qvMgKyy2nEkRVkrbn1tTcDF9l7kbgIsANsoP_kXnBcnovzGADzxoFg0QYHFPHLRiy_cbr_3w71M" alt="Tutorial OLD">
+      <div class="meta">screen <strong>0433882d…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ugzRMwC0bIwR0RZHrhavBMhduvEzXqCzkyQxJ9XWcBIGlpzf3t5BOUUu-PV583GDNsC6hJB5FhM4fe5ADJccJNb0cpAXfnq8-C8jJNVko99_nbCSqXM_XgXSGh_BE_Nu-gVqQ6v2ynOBgKMSa_HirLt2sFihO6UksCY0FtrPTI6oU37QimX5tNxFPzSHDz62_WnE63Eu7qp68EOek1nuAS_CBRyIUQVAIJwTBFeg-UEFQoLBEy__HQ_QLE" alt="Tutorial REFINED">
+      <div class="meta">screen <strong>becb9fa0…</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- 10. Achievements -->
+<div class="pair">
+  <div class="pair-title">10 · ACHIEVEMENTS</div>
+  <div class="grid">
+    <div class="col col-old">
+      <span class="col-label">OLD</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ugb8MlgG9XRnTv03sE23M5ZgI2HpqE4OiG3CjkkPYT7AD5k-NChtU7JMtrMd2cCAMgs3sAa9wflro2QXbjTZBFOFTzXJhmJemBAaWm4CKMxTIwL0TUML2IVyJPZgTnjU7nbipI0b9TSekqiPYTTjAmb4aeyqtM68_zi2wZb8p2q0CSm_S_YDUG6BiLzHIUJwFoqLmAV7mG76rhi6UHmdNPrtgQS4jn3kr45UU9xQiCNO6C1sVaXqmABZSE" alt="Achievements OLD">
+      <div class="meta">screen <strong>f1e0cb1b…</strong></div>
+    </div>
+    <div class="col col-new">
+      <span class="col-label">REFINED</span>
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ug4arEcTgwScgCtjk9RVaH1cWsJg-Hw-yrWPTFMWJmBe67RdKghXUtVtX1d9YJNhbOsEC8k1IM8DSK9mjXM_xCPU-dDzGUHB4bPjYyUz1TZNuD9wAqgev6iEhvNmpNyhw9SZTNXrWpN645-qsRUvmhYZ9rWuIsckXKwXF0GQQL9D3_DrS6Ch5ibHKkbXgKDgfhnvLQPquMAaDJJ2nmBDrB9kYKzEFwDzuqnnhW7mLodQWfAH8947N_wyfo" alt="Achievements REFINED">
+      <div class="meta">screen <strong>c7eae1d0…</strong></div>
+    </div>
+  </div>
+</div>
+
+<div class="general-comment">
+  <h2>💬 COMENTÁRIO GERAL</h2>
+  <p style="color:var(--smoke);font-size:0.85rem;margin-bottom:12px;">O que você achou do brand refinado em geral? Pontos fortes, fracos, direção a seguir.</p>
+  <textarea id="general-comment" placeholder="Ex: refinado mais limpo, mas fontes pequenas demais em Trophy. Aplicar nas 45 telas restantes."></textarea>
+  <div class="rating-row">
+    <label>RATING REFINED:</label>
+    <span class="star" data-rating="1">★</span>
+    <span class="star" data-rating="2">★</span>
+    <span class="star" data-rating="3">★</span>
+    <span class="star" data-rating="4">★</span>
+    <span class="star" data-rating="5">★</span>
+    <span id="rating-label" style="color:var(--smoke);font-size:0.85rem;font-family:'IBM Plex Mono',monospace;"></span>
+  </div>
+</div>
+
+<div class="export-bar">
+  <button id="export-md">📥 EXPORT MD</button>
+  <button class="reset" id="reset-all">RESET</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PAIRS = [
+  { id: 'dashboard', title: '1 · DASHBOARD' },
+  { id: 'match', title: '2 · MATCH' },
+  { id: 'squad', title: '3 · SQUAD' },
+  { id: 'market', title: '4 · MARKET' },
+  { id: 'standings', title: '5 · STANDINGS' },
+  { id: 'prematch', title: '6 · PRE-MATCH' },
+  { id: 'trophy', title: '7 · TROPHY' },
+  { id: 'press', title: '8 · PRESS' },
+  { id: 'tutorial', title: '9 · TUTORIAL STEP 1' },
+  { id: 'achievements', title: '10 · ACHIEVEMENTS' },
+];
+const STORAGE_KEY = 'olefut-stitch-comparison-v1';
+const VERDICTS = [
+  { key: 'keep-new', label: '✓ KEEP REFINED' },
+  { key: 'keep-old', label: '⚠ KEEP OLD' },
+  { key: 'mix', label: '↻ MIX BOTH' },
+  { key: 'reject', label: '✗ REJECT BOTH' },
+];
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+}
+function save(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+const state = load();
+
+// Inject comment zones into each pair
+document.querySelectorAll('.pair').forEach((pairEl, idx) => {
+  const p = PAIRS[idx];
+  if (!p) return;
+  const zone = document.createElement('div');
+  zone.className = 'comment-zone';
+  zone.innerHTML = `
+    <label>💬 COMENTÁRIO — ${p.title}</label>
+    <textarea data-key="${p.id}-comment" placeholder="O que achou? (ex: tipografia melhor, mas perdi o glow neon)"></textarea>
+    <div class="verdict-row" data-verdict-for="${p.id}">
+      ${VERDICTS.map(v => `<button class="verdict-btn" data-verdict="${v.key}">${v.label}</button>`).join('')}
+    </div>
+  `;
+  pairEl.appendChild(zone);
+});
+
+// Restore values
+document.querySelectorAll('textarea[data-key]').forEach(t => {
+  const k = t.dataset.key;
+  if (state[k]) t.value = state[k];
+  t.addEventListener('input', () => { state[k] = t.value; save(state); });
+});
+document.querySelectorAll('[data-verdict-for]').forEach(row => {
+  const id = row.dataset.verdictFor;
+  const key = `${id}-verdict`;
+  row.querySelectorAll('.verdict-btn').forEach(btn => {
+    if (state[key] === btn.dataset.verdict) btn.classList.add('active');
+    btn.addEventListener('click', () => {
+      row.querySelectorAll('.verdict-btn').forEach(b => b.classList.remove('active'));
+      if (state[key] === btn.dataset.verdict) {
+        delete state[key];
+      } else {
+        btn.classList.add('active');
+        state[key] = btn.dataset.verdict;
+      }
+      save(state);
+    });
+  });
+});
+
+// General comment
+const gen = document.getElementById('general-comment');
+if (state['general-comment']) gen.value = state['general-comment'];
+gen.addEventListener('input', () => { state['general-comment'] = gen.value; save(state); });
+
+// Stars
+const RATING_LABELS = ['', 'Ruim', 'Fraco', 'OK', 'Bom', 'Excelente'];
+function paintStars() {
+  const r = state.rating || 0;
+  document.querySelectorAll('.star').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.rating) <= r);
+  });
+  document.getElementById('rating-label').textContent = r ? `${r}/5 — ${RATING_LABELS[r]}` : '';
+}
+document.querySelectorAll('.star').forEach(s => {
+  s.addEventListener('click', () => {
+    state.rating = parseInt(s.dataset.rating);
+    save(state);
+    paintStars();
+  });
+});
+paintStars();
+
+// Toast
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// Export to markdown
+function exportMd() {
+  const lines = [];
+  lines.push('# Stitch Comparison — Feedback OléFUT');
+  lines.push('');
+  lines.push(`**Date**: ${new Date().toISOString().slice(0, 10)}`);
+  lines.push(`**Rating refined**: ${state.rating ? state.rating + '/5 (' + RATING_LABELS[state.rating] + ')' : 'não avaliado'}`);
+  lines.push('');
+  lines.push('## Comentário geral');
+  lines.push('');
+  lines.push(state['general-comment'] || '_(sem comentário)_');
+  lines.push('');
+  lines.push('## Pareceres por tela');
+  lines.push('');
+  PAIRS.forEach(p => {
+    const c = state[`${p.id}-comment`] || '';
+    const v = state[`${p.id}-verdict`] || '';
+    const vLabel = (VERDICTS.find(x => x.key === v) || {}).label || '_(sem veredicto)_';
+    lines.push(`### ${p.title}`);
+    lines.push(`- **Veredicto**: ${vLabel}`);
+    lines.push(`- **Comentário**: ${c || '_(vazio)_'}`);
+    lines.push('');
+  });
+
+  const md = lines.join('\n');
+
+  // Download as file
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `stitch-comparison-feedback-${new Date().toISOString().slice(0,10)}.md`;
+  a.click();
+
+  // Copy to clipboard
+  navigator.clipboard.writeText(md).then(() => {
+    toast('📋 Copiado pro clipboard + baixou .md');
+  }).catch(() => {
+    toast('📥 Baixou .md (clipboard falhou)');
+  });
+}
+document.getElementById('export-md').addEventListener('click', exportMd);
+
+document.getElementById('reset-all').addEventListener('click', () => {
+  if (!confirm('Resetar todos os comentários? Não dá pra desfazer.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+});
+</script>
+
+<footer>
+  <p>📌 <strong>Brand source</strong>: docs/brand-guidelines.md v1.1 · SPEC-176 ISSSD-Premium 32-bit · SPEC-178 three-layer tokens · SPEC-183 brand alignment</p>
+  <p>📦 <strong>DS asset</strong>: assets/67fd443e10d643409003d98aa9d55c17 (refined) · assets/88a8720bc4f7464e9923da6c676f6074 (old)</p>
+  <p>⚠ Thumbnail URLs expiram. Pra ver Stitch ao vivo: <a href="https://stitch.withgoogle.com/projects/2768243260696315508" target="_blank">duplicado</a> · <a href="https://stitch.withgoogle.com/projects/1129586751616590793" target="_blank">original</a></p>
+  <p>Generated 2026-05-13 · cranky-antonelli-72155b</p>
+</footer>
+
+</body>
+</html>

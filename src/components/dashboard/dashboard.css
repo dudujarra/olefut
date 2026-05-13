@@ -1,17 +1,17 @@
 /**
  * Dashboard sub-components stylesheet.
  *
- * 16-BIT BRUTALIST ARCADE AESTHETIC
- * Uses solid #1E2124/#111417 backgrounds, 4px bevel borders,
- * Press Start 2P for headers, and #FFD700/#39FF14/#FF3333 palette.
+ * 16-BIT BRUTALIST ARCADE AESTHETIC (SPEC-176 ISSSD-Premium 32-bit).
+ * Uses tokens from src/styles/isssd-premium.css — zero raw hex per SPEC-183.
+ * Press Start 2P for headers; --bezel-accent-light/--bezel-primary-light/--bezel-danger-light palette.
  */
 
 /* ========== HEADER ========== */
 .ef-dash-header {
-    background: #1E2124 !important;
+    background: var(--color-panel-tone) !important;
     border: 4px solid !important;
-    border-color: #4A5059 #111417 #111417 #4A5059 !important;
-    border-left: 4px solid #FFD700 !important;
+    border-color: var(--bezel-light) var(--bg-dark) var(--bg-dark) var(--bezel-light) !important;
+    border-left: 4px solid var(--bezel-accent-light) !important;
     /* box-shadow removed for brand compliance */
 }
 
@@ -31,14 +31,14 @@
     font-family: 'Press Start 2P', monospace;
     font-size: 0.9rem;
     margin: 0;
-    color: #FFD700;
-    text-shadow: 3px 3px 0 #000;
+    color: var(--bezel-accent-light);
+    text-shadow: 3px 3px 0 var(--color-pure-black);
 }
 
 .ef-dash-header-nickname {
     display: block;
     font-size: 0.5rem;
-    color: #888;
+    color: var(--color-text-faint);
     font-family: 'Press Start 2P', monospace;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -47,7 +47,7 @@
 .ef-dash-header-meta {
     display: block;
     font-size: 0.5rem;
-    color: #888;
+    color: var(--color-text-faint);
     font-family: 'Press Start 2P', monospace;
     margin-top: 4px;
 }
@@ -60,7 +60,7 @@
     font-size: 0.8rem;
     font-weight: 700;
     font-family: 'Press Start 2P', monospace;
-    text-shadow: 2px 2px 0 #000;
+    text-shadow: 2px 2px 0 var(--color-pure-black);
 }
 
 .ef-dash-board-status {
@@ -74,9 +74,9 @@
 /* ========== PROGRESS BAR ========== */
 .ef-dash-progress-track {
     height: 12px;
-    background: #222;
+    background: var(--color-progress-track);
     border: 4px solid;
-    border-color: #000 #333 #333 #000;
+    border-color: var(--color-pure-black) var(--color-progress-track-light) var(--color-progress-track-light) var(--color-pure-black);
     margin-top: 12px;
     position: relative;
     overflow: hidden;
@@ -84,7 +84,7 @@
 
 .ef-dash-progress-fill {
     height: 100%;
-    background: #111417; /* Replaced gradient */
+    background: var(--bg-dark);
     /* box-shadow removed for brand compliance */
     transition: width 300ms ease-out;
 }
@@ -93,7 +93,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.45rem;
-    color: #888;
+    color: var(--color-text-faint);
     font-family: 'Press Start 2P', monospace;
     margin-top: 6px;
 }
@@ -120,26 +120,26 @@
 }
 
 .ef-dash-alert-danger {
-    background: #1A0A0A;
-    color: #FF3333;
-    border-color: #FF3333 #AA1111 #AA1111 #FF3333;
+    background: var(--ef-dash-alert-danger-bg);
+    color: var(--bezel-danger-light);
+    border-color: var(--bezel-danger-light) var(--bezel-danger-dark) var(--bezel-danger-dark) var(--bezel-danger-light);
 }
 
 .ef-dash-alert-warning {
-    background: #1A1A0A;
-    color: #FFD700;
-    border-color: #FFD700 #AA8800 #AA8800 #FFD700;
+    background: var(--ef-dash-alert-warning-bg);
+    color: var(--bezel-accent-light);
+    border-color: var(--bezel-accent-light) var(--bezel-accent-dark) var(--bezel-accent-dark) var(--bezel-accent-light);
 }
 
 .ef-dash-alert-info {
-    background: #0A0A1A;
-    color: #40BAF7;
-    border-color: #40BAF7 #2070A0 #2070A0 #40BAF7;
+    background: var(--ef-dash-alert-info-bg);
+    color: var(--color-info-alt);
+    border-color: var(--color-info-alt) var(--color-info-alt-dark) var(--color-info-alt-dark) var(--color-info-alt);
     cursor: pointer;
 }
 
 .ef-dash-alert-info:hover {
-    background: #0F1530;
+    background: var(--ef-dash-alert-info-hover-bg);
 }
 
 /* ========== STATUS FOOTER ========== */
@@ -148,9 +148,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 12px;
-    background: #111417;
+    background: var(--bg-dark);
     border: 4px solid;
-    border-color: #4A5059 #111417 #111417 #4A5059;
+    border-color: var(--bezel-light) var(--bg-dark) var(--bg-dark) var(--bezel-light);
     font-family: 'Press Start 2P', monospace;
     font-size: 0.45rem;
     margin-top: 8px;
@@ -160,16 +160,16 @@
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    color: #888;
+    color: var(--color-text-faint);
 }
 
 .ef-dash-footer-label {
-    color: #FFD700;
+    color: var(--bezel-accent-light);
     margin-right: 4px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
 }
 
 .ef-dash-footer-build {
-    color: #555;
+    color: var(--color-text-fainter);
 }

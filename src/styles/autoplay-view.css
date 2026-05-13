@@ -89,3 +89,342 @@
   display: block;
   margin-bottom: 4px;
 }
+
+/* SPEC-184 — static patterns extracted from inline style */
+
+.ef-ap__setup-info {
+  font-size: 0.8rem;
+  color: var(--ef-ap-info-grey);
+  margin-bottom: 1rem;
+}
+
+.ef-ap__chip-row-wrap {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.ef-ap__chip-row-wrap--mb-1 {
+  margin-bottom: 1rem;
+}
+
+.ef-ap__setup-zone-btn {
+  font-size: 0.75rem;
+}
+
+.ef-ap__setup-select {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.ef-ap__setup-diff-btn {
+  flex: 1;
+  font-size: 0.7rem;
+}
+
+.ef-ap__setup-submit {
+  width: 100%;
+}
+
+.ef-ap__danger-btn {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.ef-ap__accent-btn-bold {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.ef-ap__danger-btn-bold {
+  border-color: var(--danger);
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.ef-ap__llm-panel {
+  margin-top: 0.5rem;
+  background: var(--ef-ap-forest-success);
+  border: 1px solid var(--ef-ap-success-green);
+}
+
+.ef-ap__llm-header {
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--ef-ap-success-green);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-ap__llm-mode-tag {
+  font-size: 0.72rem;
+  color: var(--ef-ap-info-grey);
+}
+
+.ef-ap__llm-ready {
+  color: var(--primary);
+}
+
+.ef-ap__llm-error-detail {
+  margin-top: 4px;
+  font-size: 0.65rem;
+  color: var(--ef-ap-info-grey-2);
+}
+
+.ef-ap__llm-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.ef-ap__llm-load-btn {
+  font-size: 0.7rem;
+  border-color: var(--ef-ap-success-green);
+  color: var(--ef-ap-success-green);
+}
+
+.ef-ap__llm-reset-btn {
+  font-size: 0.7rem;
+}
+
+.ef-ap__brain-panel {
+  margin-top: 0.5rem;
+  background: var(--ef-ap-forest-success);
+  border: 1px solid var(--accent);
+}
+
+.ef-ap__brain-title {
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.ef-ap__brain-stats-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.ef-ap__brain-top-actions {
+  font-size: 0.72rem;
+  color: var(--ef-ap-info-grey);
+}
+
+.ef-ap__brain-action-item {
+  margin-right: 8px;
+}
+
+.ef-ap__h-mb-8 {
+  margin-bottom: 8px;
+}
+
+.ef-ap__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.ef-ap__insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  font-size: 0.78rem;
+}
+
+.ef-ap__gdd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 6px;
+  font-size: 0.75rem;
+}
+
+.ef-ap__gdd-footer {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: var(--ef-ap-deep-line);
+  border: 3px solid #222;
+  font-size: 0.7rem;
+  color: var(--ef-ap-info-grey);
+  text-align: center;
+}
+
+.ef-ap__telemetry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ef-ap__telemetry-toggle {
+  font-size: 0.8rem;
+  color: var(--ef-ap-info-grey);
+}
+
+.ef-ap__telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+  margin-top: 0.75rem;
+}
+
+.ef-ap__telemetry-card {
+  padding: 0.5rem;
+  background: var(--ef-ap-panel-tone);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.ef-ap__telemetry-card-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.ef-ap__telemetry-card-name {
+  font-size: 0.72rem;
+}
+
+.ef-ap__telemetry-card-desc {
+  font-size: 0.7rem;
+  color: var(--ef-ap-info-grey);
+  margin-bottom: 4px;
+}
+
+.ef-ap__telemetry-signal-top {
+  font-size: 0.68rem;
+}
+
+.ef-ap__telemetry-signal-list {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--ef-ap-deep-line-2);
+}
+
+.ef-ap__telemetry-signal-item {
+  margin-bottom: 3px;
+  font-size: 0.65rem;
+}
+
+.ef-ap__entry-types-line {
+  font-size: 0.7rem;
+  color: var(--ef-ap-info-grey);
+  margin-bottom: 6px;
+}
+
+.ef-ap__entry-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.ef-ap__entry-scroll--tall {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.ef-ap__entry-success {
+  padding: 0.4rem 0.5rem;
+  border-left: 4px solid var(--primary);
+  background: var(--ef-ap-deep-line);
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+}
+
+.ef-ap__entry-anomaly {
+  padding: 0.4rem 0.5rem;
+  border-left: 4px solid var(--danger);
+  background: var(--ef-ap-deep-line);
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+}
+
+.ef-ap__entry-type-success {
+  color: var(--primary);
+}
+
+.ef-ap__entry-type-danger {
+  color: var(--danger);
+}
+
+.ef-ap__entry-msg {
+  margin-top: 2px;
+}
+
+.ef-ap__entry-ctx {
+  font-size: 0.65rem;
+  color: var(--ef-ap-info-grey);
+  margin: 4px 0 0 0;
+  white-space: pre-wrap;
+}
+
+.ef-ap__anomaly-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.ef-ap__anomaly-select {
+  font-size: 0.7rem;
+}
+
+.ef-ap__decisions-list {
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.7rem;
+}
+
+.ef-ap__decision-row {
+  padding: 2px 4px;
+  border-bottom: 1px solid var(--ef-ap-deep-line);
+}
+
+.ef-ap__decision-week {
+  color: var(--ef-ap-info-grey);
+}
+
+.ef-ap__decision-action {
+  color: var(--accent);
+}
+
+.ef-ap__decision-elapsed {
+  color: var(--ef-ap-info-grey);
+}
+
+.ef-ap__pacing-body {
+  padding-left: 16px;
+  margin-bottom: 24px;
+}
+
+.ef-ap__pacing-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.ef-ap__pacing-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.ef-ap__pacing-resolving {
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--ef-ap-info-grey);
+  font-style: italic;
+  padding: 8px;
+}
+
+.ef-ap__gdd-cell-empty {
+  background: var(--ef-ap-bg-danger-deep);
+}
+
+.ef-ap__gdd-cell-count {
+  font-size: 0.8rem;
+  min-width: 28px;
+  text-align: right;
+}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
 @import './styles/isssd-premium.css';
 @import './styles/animations.css';
 @import './styles/ef-helpers.css';
@@ -247,7 +247,7 @@ h1, h2, h3, h4 {
   text-shadow: 0 0 10px var(--primary-glow);
 }
 .top-bar .logo span { color: var(--text-muted); font-weight: 500; font-size: 0.75rem; vertical-align: super; }
-.user-info { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); font-family: 'Geist Mono', 'JetBrains Mono', monospace; }
+.user-info { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono); }
 .user-info strong { color: var(--accent); }
 
 /* === MAIN CONTENT === */

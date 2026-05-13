@@ -531,3 +531,256 @@
   padding: 24px;
   color: var(--color-text-primary);
 }
+
+/* SPEC-184 — static patterns extracted from inline style */
+
+.ef-player-dashboard__rel-icon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-player-dashboard__nav-btn {
+  width: 100%;
+  justify-content: flex-start;
+  font-weight: 600;
+}
+
+.ef-player-dashboard__advance-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 1rem;
+  padding: 24px;
+  font-weight: bold;
+  gap: 8px;
+}
+
+.ef-player-dashboard__panel-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.ef-player-dashboard__col-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ef-player-dashboard__skill-row-mb {
+  margin-bottom: 12px;
+}
+
+.ef-player-dashboard__skill-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.ef-player-dashboard__skill-xp {
+  font-size: 0.75rem;
+}
+
+.ef-player-dashboard__event-panel-inline {
+  border-color: var(--accent);
+  background: var(--color-yellow-warn-bg);
+}
+
+.ef-player-dashboard__event-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.ef-player-dashboard__event-body-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.ef-player-dashboard__training-btn {
+  flex-direction: column;
+  padding: 16px;
+  gap: 8px;
+}
+
+.ef-player-dashboard__subattr-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ef-player-dashboard__subattr-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.ef-player-dashboard__subattrs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.ef-player-dashboard__subattr-cat {
+  background: var(--bg-panel);
+  padding: 12px;
+}
+
+.ef-player-dashboard__subattr-cat-title {
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.ef-player-dashboard__subattr-item-mb {
+  margin-bottom: 12px;
+}
+
+.ef-player-dashboard__subattr-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  margin-bottom: 6px;
+}
+
+.ef-player-dashboard__subattr-train-btn {
+  padding: 4px 8px;
+  font-size: 0.65rem;
+}
+
+.ef-player-dashboard__store-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.ef-player-dashboard__store-card-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-player-dashboard__store-card-desc {
+  font-size: 0.75rem;
+  margin-bottom: 16px;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.ef-player-dashboard__store-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 0.8rem;
+}
+
+.ef-player-dashboard__store-card-req {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ef-player-dashboard__store-card-btn {
+  width: 100%;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.ef-player-dashboard__lifestyle-status-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+  background: var(--bg-panel);
+  padding: 12px;
+}
+
+.ef-player-dashboard__lifestyle-item-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-player-dashboard__lifestyle-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.ef-player-dashboard__lifestyle-card-title {
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-player-dashboard__lifestyle-cost {
+  font-size: 0.8rem;
+  margin-bottom: 16px;
+}
+
+.ef-player-dashboard__bottom-nav-row {
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.ef-player-dashboard__bottom-nav-btn {
+  justify-content: center;
+  padding: 24px;
+  font-weight: bold;
+  font-size: 1rem;
+  gap: 8px;
+}
+
+.ef-player-dashboard__modal-body {
+  margin-bottom: 24px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.ef-player-dashboard__modal-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-player-dashboard__modal-option-btn {
+  justify-content: flex-start;
+  padding: 16px;
+}
+
+.ef-player-dashboard__break-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.ef-player-dashboard__break-desc {
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.ef-player-dashboard__break-option {
+  justify-content: flex-start;
+}

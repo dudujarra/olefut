@@ -121,7 +121,7 @@ export function PlayerDashboardView() {
         return (
             <div className="ef-player-dashboard__rel-bar">
                 <label className="ef-player-dashboard__rel-label ef-sans ef-text-muted">
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>{icon} {label}</span>
+                    <span className="ef-player-dashboard__rel-icon">{icon} {label}</span>
                     <span className="ef-player-dashboard__rel-value ef-mono">{value}%</span>
                 </label>
                 <div className="ef-player-dashboard__bar">
@@ -195,13 +195,13 @@ export function PlayerDashboardView() {
                     <div className="ef-player-dashboard__sidebar">
                         <EfPanel padding="md" className="ef-player-dashboard__nav-panel">
                             {[{id:'overview',label:'Visão Geral'},{id:'skills',label:'Treinamento'},{id:'store',label:'Loja de Traits'},{id:'lifestyle',label:'Lifestyle'}].map(t => (
-                                <EfButton key={t.id} variant={tab === t.id ? 'primary' : 'secondary'} size="md" onClick={() => setTab(t.id)} className="ef-sans" style={{ width: '100%', justifyContent: 'flex-start', fontWeight: '600' }}>
+                                <EfButton key={t.id} variant={tab === t.id ? 'primary' : 'secondary'} size="md" onClick={() => setTab(t.id)} className="ef-sans ef-player-dashboard__nav-btn">
                                     {t.label}
                                 </EfButton>
                             ))}
                         </EfPanel>
 
-                        <EfButton variant="primary" size="lg" className="ef-sans ef-player-dashboard__advance-button" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '24px', fontWeight: 'bold', gap: '8px' }} onClick={handleAdvance}>
+                        <EfButton variant="primary" size="lg" className="ef-sans ef-player-dashboard__advance-button ef-player-dashboard__advance-btn" onClick={handleAdvance}>
                             <SoccerBall weight="fill" /> AVANÇAR SEMANA
                         </EfButton>
                     </div>
@@ -245,9 +245,9 @@ export function PlayerDashboardView() {
                                     </EfPanel>
                                 </div>
 
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                                <div className="ef-player-dashboard__col-stack">
                                     <EfPanel padding="md">
-                                        <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px' }}><Target weight="fill" /> ATRIBUTOS PRINCIPAIS</div>
+                                        <div className="ef-sans ef-text-muted ef-player-dashboard__panel-title-row"><Target weight="fill" /> ATRIBUTOS PRINCIPAIS</div>
                                         {[
                                             { key: 'technique', label: 'Técnica', color: 'var(--info)' },
                                             { key: 'pace',      label: 'Velocidade', color: 'var(--primary)' },
@@ -257,10 +257,10 @@ export function PlayerDashboardView() {
                                             const lvl = player.skills[s.key] ?? 0;
                                             const prog = player.skillProgress?.[s.key] ?? 0;
                                             return (
-                                                <div key={s.key} style={{ marginBottom: '12px' }}>
-                                                    <div className="ef-sans ef-text-main" style={{ display:'flex', justifyContent:'space-between', fontSize:'0.85rem', fontWeight: 'bold', marginBottom: '6px' }}>
+                                                <div key={s.key} className="ef-player-dashboard__skill-row-mb">
+                                                    <div className="ef-sans ef-text-main ef-player-dashboard__skill-head">
                                                         <span>{s.label}</span>
-                                                        <span className="ef-mono">{lvl} <span className="ef-text-muted" style={{ fontSize: '0.75rem' }}>({prog}/100 XP)</span></span>
+                                                        <span className="ef-mono">{lvl} <span className="ef-text-muted ef-player-dashboard__skill-xp">({prog}/100 XP)</span></span>
                                                     </div>
                                                     <div className="ef-bar">
                                                         <div className="ef-bar__fill" style={{ width: `${prog}%`, background: s.color }} />
@@ -271,9 +271,9 @@ export function PlayerDashboardView() {
                                     </EfPanel>
 
                                     {offPitchResult && (
-                                        <EfPanel padding="md" style={{ borderColor: 'var(--accent)', background: 'var(--color-yellow-warn-bg)' }}>
-                                            <div className="ef-sans ef-text-accent" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '8px' }}><WarningCircle weight="fill" /> ÚLTIMO EVENTO</div>
-                                            <p className="ef-sans ef-text-main" style={{ fontSize: '0.85rem', lineHeight: 1.5 }}>{offPitchResult}</p>
+                                        <EfPanel padding="md" className="ef-player-dashboard__event-panel-inline">
+                                            <div className="ef-sans ef-text-accent ef-player-dashboard__event-title-row"><WarningCircle weight="fill" /> ÚLTIMO EVENTO</div>
+                                            <p className="ef-sans ef-text-main ef-player-dashboard__event-body-text">{offPitchResult}</p>
                                         </EfPanel>
                                     )}
                                 </div>
@@ -281,43 +281,43 @@ export function PlayerDashboardView() {
                         )}
 
                         {tab === 'skills' && (
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                            <div className="ef-player-dashboard__col-stack">
                                 <EfPanel padding="md">
-                                    <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px' }}><TrendUp weight="fill" /> TREINAMENTO PRINCIPAL</div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
-                                        <EfButton variant="primary" size="lg" onClick={() => handleTrain('technique')} disabled={!player.canAct} style={{ flexDirection: 'column', padding: '16px', gap: '8px' }}>
+                                    <div className="ef-sans ef-text-muted ef-player-dashboard__panel-title-row"><TrendUp weight="fill" /> TREINAMENTO PRINCIPAL</div>
+                                    <div className="ef-player-dashboard__training-grid">
+                                        <EfButton variant="primary" size="lg" onClick={() => handleTrain('technique')} disabled={!player.canAct} className="ef-player-dashboard__training-btn">
                                             <Target size={24} /> <span>TÉCNICA</span>
                                         </EfButton>
-                                        <EfButton variant="primary" size="lg" onClick={() => handleTrain('pace')} disabled={!player.canAct} style={{ flexDirection: 'column', padding: '16px', gap: '8px' }}>
+                                        <EfButton variant="primary" size="lg" onClick={() => handleTrain('pace')} disabled={!player.canAct} className="ef-player-dashboard__training-btn">
                                             <Lightning size={24} /> <span>VELOCIDADE</span>
                                         </EfButton>
-                                        <EfButton variant="primary" size="lg" onClick={() => handleTrain('power')} disabled={!player.canAct} style={{ flexDirection: 'column', padding: '16px', gap: '8px' }}>
+                                        <EfButton variant="primary" size="lg" onClick={() => handleTrain('power')} disabled={!player.canAct} className="ef-player-dashboard__training-btn">
                                             <Heartbeat size={24} /> <span>FORÇA</span>
                                         </EfButton>
-                                        <EfButton variant="primary" size="lg" onClick={() => handleTrain('vision')} disabled={!player.canAct} style={{ flexDirection: 'column', padding: '16px', gap: '8px' }}>
+                                        <EfButton variant="primary" size="lg" onClick={() => handleTrain('vision')} disabled={!player.canAct} className="ef-player-dashboard__training-btn">
                                             <Brain size={24} /> <span>VISÃO</span>
                                         </EfButton>
                                     </div>
                                 </EfPanel>
 
                                 <EfPanel padding="md">
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                                        <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem' }}><ChartBar weight="fill" /> SUB-ATRIBUTOS ESPECÍFICOS</div>
+                                    <div className="ef-player-dashboard__subattr-header-row">
+                                        <div className="ef-sans ef-text-muted ef-player-dashboard__subattr-title"><ChartBar weight="fill" /> SUB-ATRIBUTOS ESPECÍFICOS</div>
                                         <EfButton size="sm" variant="secondary" onClick={() => setShowSubAttrs(!showSubAttrs)}>{showSubAttrs ? 'OCULTAR' : 'MOSTRAR'}</EfButton>
                                     </div>
                                     {showSubAttrs && player.subAttrs && (
-                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+                                        <div className="ef-player-dashboard__subattrs-grid">
                                             {Object.entries(SUB_ATTRIBUTES).map(([base, subs]) => (
-                                                <div key={base} style={{ background: 'var(--bg-panel)', padding: '12px' }}>
-                                                    <div className="ef-sans ef-text-accent" style={{ fontSize: '0.75rem', fontWeight: 'bold', marginBottom: '12px', textTransform: 'uppercase' }}>{base}</div>
+                                                <div key={base} className="ef-player-dashboard__subattr-cat">
+                                                    <div className="ef-sans ef-text-accent ef-player-dashboard__subattr-cat-title">{base}</div>
                                                     {subs.map(sub => {
                                                         const lvl = player.subAttrs[sub] ?? 0;
                                                         const prog = player.subAttrProgress?.[sub] ?? 0;
                                                         return (
-                                                            <div key={sub} style={{ marginBottom: '12px' }}>
-                                                                <div className="ef-sans ef-text-main" style={{ display:'flex', justifyContent:'space-between', alignItems: 'center', fontSize:'0.75rem', marginBottom: '6px' }}>
+                                                            <div key={sub} className="ef-player-dashboard__subattr-item-mb">
+                                                                <div className="ef-sans ef-text-main ef-player-dashboard__subattr-item-head">
                                                                     <span>{sub} <strong className="ef-mono ef-text-info">{lvl}</strong></span>
-                                                                    <EfButton size="sm" variant="secondary" onClick={() => handleTrainSubAttr(sub)} disabled={!player.canAct} style={{ padding: '4px 8px', fontSize: '0.65rem' }}>TREINAR</EfButton>
+                                                                    <EfButton size="sm" variant="secondary" onClick={() => handleTrainSubAttr(sub)} disabled={!player.canAct} className="ef-player-dashboard__subattr-train-btn">TREINAR</EfButton>
                                                                 </div>
                                                                 <div className="ef-bar ef-bar--xs">
                                                                     <div className="ef-bar__fill" style={{ width: `${prog}%` }} />
@@ -335,8 +335,8 @@ export function PlayerDashboardView() {
 
                         {tab === 'store' && (
                             <EfPanel padding="md">
-                                <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '24px' }}><Storefront weight="fill" /> TRAITS ESPECIAIS</div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+                                <div className="ef-sans ef-text-muted ef-player-dashboard__panel-title-row"><Storefront weight="fill" /> TRAITS ESPECIAIS</div>
+                                <div className="ef-player-dashboard__store-grid-2">
                                     {Object.entries(TRAITS_CATALOG).map(([id, t]) => {
                                         const owned = player.traits?.includes(id);
                                         const canAfford = player.money >= t.cost;
@@ -345,16 +345,16 @@ export function PlayerDashboardView() {
                                         const cardClass = `ef-shop-card${owned ? ' ef-shop-card--owned' : ''}${disabled && !owned ? ' ef-shop-card--disabled' : ''}`;
                                         return (
                                             <div key={id} className={cardClass}>
-                                                <div className="ef-sans ef-text-main" style={{ fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <div className="ef-sans ef-text-main ef-player-dashboard__store-card-title">
                                                     {owned && <CheckCircle weight="fill" size={14} className="ef-text-primary" />}
                                                     {t.name}
                                                 </div>
-                                                <div className="ef-sans ef-text-muted" style={{ fontSize: '0.75rem', marginBottom: '16px', flex: 1, lineHeight: 1.4 }}>{t.description}</div>
-                                                <div className="ef-mono" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '0.8rem' }}>
+                                                <div className="ef-sans ef-text-muted ef-player-dashboard__store-card-desc">{t.description}</div>
+                                                <div className="ef-mono ef-player-dashboard__store-card-footer">
                                                     <span className={canAfford ? 'ef-text-primary' : 'ef-text-danger'}>R$ {t.cost.toLocaleString('pt-BR')}</span>
-                                                    <span className={bossOk ? 'ef-text-info' : 'ef-text-danger'} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><User /> {t.requiredBoss}%</span>
+                                                    <span className={`ef-player-dashboard__store-card-req ${bossOk ? 'ef-text-info' : 'ef-text-danger'}`}><User /> {t.requiredBoss}%</span>
                                                 </div>
-                                                <EfButton size="sm" variant={owned ? 'secondary' : 'primary'} onClick={() => handleBuyTrait(id)} disabled={disabled} style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold' }}>
+                                                <EfButton size="sm" variant={owned ? 'secondary' : 'primary'} onClick={() => handleBuyTrait(id)} disabled={disabled} className="ef-player-dashboard__store-card-btn">
                                                     {owned ? 'ADQUIRIDO' : !canAfford ? 'SEM DINHEIRO' : !bossOk ? 'CONFIANÇA BAIXA' : 'COMPRAR'}
                                                 </EfButton>
                                             </div>
@@ -366,14 +366,14 @@ export function PlayerDashboardView() {
 
                         {tab === 'lifestyle' && (
                             <EfPanel padding="md">
-                                <div className="ef-sans ef-text-muted" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '16px' }}><House weight="fill" /> LIFESTYLE & BENS</div>
-                                <div className="ef-sans ef-text-main" style={{ display: 'flex', gap: '16px', marginBottom: '24px', fontSize: '0.85rem', background: 'var(--bg-panel)', padding: '12px' }}>
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><House color="var(--info)" weight="fill" /> {player.lifestyle?.ownedHouse ? LIFESTYLE_CATALOG[player.lifestyle.ownedHouse]?.name : 'Sem casa'}</span>
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Car color="var(--accent)" weight="fill" /> {player.lifestyle?.ownedCar ? LIFESTYLE_CATALOG[player.lifestyle.ownedCar]?.name : 'Sem carro'}</span>
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Heart color="var(--danger)" weight="fill" /> {player.lifestyle?.isMarried ? 'Casado' : 'Solteiro'}</span>
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Smiley color="var(--primary)" weight="fill" /> Mood {player.lifestyle?.mood ?? 50}%</span>
+                                <div className="ef-sans ef-text-muted ef-player-dashboard__panel-title-row"><House weight="fill" /> LIFESTYLE & BENS</div>
+                                <div className="ef-sans ef-text-main ef-player-dashboard__lifestyle-status-row">
+                                    <span className="ef-player-dashboard__lifestyle-item-row"><House color="var(--info)" weight="fill" /> {player.lifestyle?.ownedHouse ? LIFESTYLE_CATALOG[player.lifestyle.ownedHouse]?.name : 'Sem casa'}</span>
+                                    <span className="ef-player-dashboard__lifestyle-item-row"><Car color="var(--accent)" weight="fill" /> {player.lifestyle?.ownedCar ? LIFESTYLE_CATALOG[player.lifestyle.ownedCar]?.name : 'Sem carro'}</span>
+                                    <span className="ef-player-dashboard__lifestyle-item-row"><Heart color="var(--danger)" weight="fill" /> {player.lifestyle?.isMarried ? 'Casado' : 'Solteiro'}</span>
+                                    <span className="ef-player-dashboard__lifestyle-item-row"><Smiley color="var(--primary)" weight="fill" /> Mood {player.lifestyle?.mood ?? 50}%</span>
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+                                <div className="ef-player-dashboard__lifestyle-grid-2">
                                     {Object.entries(LIFESTYLE_CATALOG).map(([id, it]) => {
                                         const owned = (it.type === 'house' && player.lifestyle?.ownedHouse === id) ||
                                                       (it.type === 'car' && player.lifestyle?.ownedCar === id) ||
@@ -383,13 +383,13 @@ export function PlayerDashboardView() {
                                         const cardClass = `ef-shop-card${owned ? ' ef-shop-card--owned' : ''}${disabled && !owned ? ' ef-shop-card--disabled' : ''}`;
                                         return (
                                             <div key={id} className={cardClass}>
-                                                <div className="ef-sans ef-text-main" style={{ fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <div className="ef-sans ef-text-main ef-player-dashboard__lifestyle-card-title">
                                                     <span aria-hidden>{it.emoji}</span>
                                                     {owned && <CheckCircle weight="fill" size={14} className="ef-text-primary" />}
                                                     {it.name}
                                                 </div>
-                                                <div className={`ef-mono ${canAfford ? 'ef-text-primary' : 'ef-text-danger'}`} style={{ fontSize: '0.8rem', marginBottom: '16px' }}>R$ {it.cost.toLocaleString('pt-BR')}</div>
-                                                <EfButton size="sm" variant={owned ? 'secondary' : 'primary'} onClick={() => handleBuyLifestyle(id)} disabled={disabled} style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold' }}>
+                                                <div className={`ef-mono ef-player-dashboard__lifestyle-cost ${canAfford ? 'ef-text-primary' : 'ef-text-danger'}`}>R$ {it.cost.toLocaleString('pt-BR')}</div>
+                                                <EfButton size="sm" variant={owned ? 'secondary' : 'primary'} onClick={() => handleBuyLifestyle(id)} disabled={disabled} className="ef-player-dashboard__store-card-btn">
                                                     {owned ? 'ADQUIRIDO' : !canAfford ? 'SEM DINHEIRO' : it.oneShot ? 'FAZER' : 'COMPRAR'}
                                                 </EfButton>
                                             </div>
@@ -402,9 +402,9 @@ export function PlayerDashboardView() {
                 </div>
 
                 {/* BOTTOM NAVIGATION */}
-                <div style={{ display: 'flex', gap: '16px', marginTop: 'auto', paddingTop: '24px' }}>
+                <div className="ef-player-dashboard__bottom-nav-row">
                     {[{view:'standings',icon:<ChartBar weight="fill"/>,label:'Tabela'},{view:'achievements',icon:<Target weight="fill"/>,label:'Conquistas'}].map(n => (
-                        <EfButton key={n.view} variant="secondary" size="lg" className="ef-flex-1 ef-sans" style={{ justifyContent: 'center', padding: '24px', fontWeight: 'bold', fontSize: '1rem', gap: '8px' }} onClick={() => changeView(n.view)}>
+                        <EfButton key={n.view} variant="secondary" size="lg" className="ef-flex-1 ef-sans ef-player-dashboard__bottom-nav-btn" onClick={() => changeView(n.view)}>
                             {n.icon} {n.label}
                         </EfButton>
                     ))}
@@ -415,10 +415,10 @@ export function PlayerDashboardView() {
 
                 {offPitchEvent && (
                     <EfModal title="📰 Evento da Semana" onClose={() => setOffPitchEvent(null)}>
-                        <p className="ef-sans" style={{ marginBottom: '24px', fontSize: '1rem', lineHeight: 1.5 }}>{offPitchEvent.text}</p>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <p className="ef-sans ef-player-dashboard__modal-body">{offPitchEvent.text}</p>
+                        <div className="ef-player-dashboard__modal-stack">
                             {offPitchEvent.options.map((opt, i) => (
-                                <EfButton key={i} variant="secondary" onClick={() => handleOffPitchChoice(opt)} className="ef-sans" style={{ justifyContent: 'flex-start', padding: '16px' }}>{opt.label}</EfButton>
+                                <EfButton key={i} variant="secondary" onClick={() => handleOffPitchChoice(opt)} className="ef-sans ef-player-dashboard__modal-option-btn">{opt.label}</EfButton>
                             ))}
                         </div>
                     </EfModal>
@@ -426,12 +426,12 @@ export function PlayerDashboardView() {
 
                 {mentalBreakModal && (
                     <EfModal title="🧠 CRISE MENTAL" onClose={() => {}}>
-                        <p className="ef-sans ef-text-danger" style={{ fontWeight: 'bold', marginBottom: '8px' }}>Stress em {player.stress}%</p>
-                        <p className="ef-sans" style={{ marginBottom: '24px', fontSize: '0.9rem', lineHeight: 1.5 }}>Você não aguenta mais a pressão. Precisa de uma válvula de escape.</p>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            <EfButton variant="secondary" onClick={() => handleMentalBreak('party')} style={{ justifyContent: 'flex-start' }}>🎉 Sair pra festa (Stress -40, Treinador -10)</EfButton>
-                            <EfButton variant="secondary" onClick={() => handleMentalBreak('isolation')} style={{ justifyContent: 'flex-start' }}>🏠 Isolamento total (Stress -30, Time -8)</EfButton>
-                            <EfButton variant="secondary" onClick={() => handleMentalBreak('therapy')} style={{ justifyContent: 'flex-start' }}>🧑‍⚕️ Terapia R$2000 (Stress -20)</EfButton>
+                        <p className="ef-sans ef-text-danger ef-player-dashboard__break-title">Stress em {player.stress}%</p>
+                        <p className="ef-sans ef-player-dashboard__break-desc">Você não aguenta mais a pressão. Precisa de uma válvula de escape.</p>
+                        <div className="ef-player-dashboard__modal-stack">
+                            <EfButton variant="secondary" onClick={() => handleMentalBreak('party')} className="ef-player-dashboard__break-option">🎉 Sair pra festa (Stress -40, Treinador -10)</EfButton>
+                            <EfButton variant="secondary" onClick={() => handleMentalBreak('isolation')} className="ef-player-dashboard__break-option">🏠 Isolamento total (Stress -30, Time -8)</EfButton>
+                            <EfButton variant="secondary" onClick={() => handleMentalBreak('therapy')} className="ef-player-dashboard__break-option">🧑‍⚕️ Terapia R$2000 (Stress -20)</EfButton>
                         </div>
                     </EfModal>
                 )}

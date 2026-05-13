@@ -136,18 +136,18 @@ export function AutoPlayView() {
                         <EfButton variant="secondary" size="sm" onClick={() => changeView('start')}>← VOLTAR</EfButton>
                     </EfPanel>
                     <EfPanel variant="elev" padding="md">
-                        <p style={{ fontSize: '0.8rem', color: 'var(--ef-ap-info-grey)', marginBottom: '1rem' }}>
+                        <p className="ef-ap__setup-info">
                         Configure o bot antes de iniciar o soak test.
                     </p>
 
                     <label className="ef-ap__field-label">ZONA</label>
-                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+                    <div className="ef-ap__chip-row-wrap">
                         {zones.map(z => (
                             <EfButton
                                 key={z}
                                 variant={setupZone === z ? 'primary' : 'secondary'}
                                 onClick={() => { setSetupZone(z); setSetupTeamId(''); }}
-                                style={{ fontSize: '0.75rem' }}
+                                className="ef-ap__setup-zone-btn"
                             >{z}</EfButton>
                         ))}
                     </div>
@@ -170,7 +170,7 @@ export function AutoPlayView() {
                     <select
                         value={setupTeamId}
                         onChange={e => setSetupTeamId(e.target.value)}
-                        style={{ width: '100%', marginBottom: '0.75rem' }}
+                        className="ef-ap__setup-select"
                     >
                         <option value="">Selecione o time...</option>
                         {filteredTeams.map(t => (
@@ -193,13 +193,13 @@ export function AutoPlayView() {
                     </div>
 
                     <label className="ef-ap__field-label">DIFICULDADE</label>
-                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                    <div className="ef-ap__chip-row-wrap ef-ap__chip-row-wrap--mb-1">
                         {Object.values(DIFFICULTY_MODES).map(d => (
                             <EfButton
                                 key={d.id}
                                 variant={setupDifficultyId === d.id ? 'primary' : 'secondary'}
                                 onClick={() => setSetupDifficultyId(d.id)}
-                                style={{ flex: 1, fontSize: '0.7rem' }}
+                                className="ef-ap__setup-diff-btn"
                                 title={d.description}
                             >{d.emoji} {d.name}</EfButton>
                         ))}
@@ -209,7 +209,7 @@ export function AutoPlayView() {
                         variant="primary"
                         onClick={handleSetupStart}
                         disabled={!setupTeamId}
-                        style={{ width: '100%' }}
+                        className="ef-ap__setup-submit"
                     >
                         ⚡ INICIAR AUTOPLAY
                     </EfButton>
@@ -418,7 +418,7 @@ export function AutoPlayView() {
                         variant="secondary"
                         onClick={handleResetBrain}
                         title="Reset Q-table — bot esquece aprendizado, stats permanecem"
-                        style={{ borderColor: 'var(--danger)', color: 'var(--danger)' }}
+                        className="ef-ap__danger-btn"
                     >
                         🧠 Reset Brain
                     </EfButton>
@@ -426,7 +426,7 @@ export function AutoPlayView() {
                         variant="secondary"
                         onClick={handleNewGamePlus}
                         title="NEW GAME+ — salva ML treinado, zera gameplay. Recomeça com o aprendizado intacto."
-                        style={{ borderColor: 'var(--accent)', color: 'var(--accent)', fontWeight: 700 }}
+                        className="ef-ap__accent-btn-bold"
                     >
                         🧠➕ New Game+
                     </EfButton>
@@ -434,21 +434,17 @@ export function AutoPlayView() {
                         variant="secondary"
                         onClick={handleResetAll}
                         title="Reset TUDO — apaga brain + stats + telemetry. Sem volta."
-                        style={{ borderColor: 'var(--danger)', color: 'var(--danger)', fontWeight: 700 }}
+                        className="ef-ap__danger-btn-bold"
                     >
                         🚨 Reset Tudo
                     </EfButton>
                 </div>
 
                 {/* SPEC-119: LLM Bridge panel — buy/sell decision engine */}
-                <EfPanel variant="sunk" padding="md" style={{
-                    marginTop: '0.5rem',
-                    background: 'var(--ef-ap-forest-success)',
-                    border: '1px solid var(--ef-ap-success-green)',
-                }}>
-                    <div style={{ marginBottom: '6px', fontWeight: 700, color: 'var(--ef-ap-success-green)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <EfPanel variant="sunk" padding="md" className="ef-ap__llm-panel">
+                    <div className="ef-ap__llm-header">
                         <span>🤝 BUY/SELL ENGINE (SPEC-119)</span>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--ef-ap-info-grey)' }}>
+                        <span className="ef-ap__llm-mode-tag">
                             mode: <strong>{llmStatus.mode}</strong>
                         </span>
                     </div>
@@ -458,19 +454,19 @@ export function AutoPlayView() {
                             {llmStatus.loadProgress > 0 && llmStatus.loadProgress < 1 && (
                                 <span> ({(llmStatus.loadProgress * 100).toFixed(0)}%)</span>
                             )}
-                            {llmStatus.loadStatus === 'ready' && <span style={{ color: 'var(--primary)' }}> ✓ LLM ativo</span>}
+                            {llmStatus.loadStatus === 'ready' && <span className="ef-ap__llm-ready"> ✓ LLM ativo</span>}
                             {llmStatus.loadStatus === 'error' && llmStatus.error && (
-                                <div style={{ marginTop: '4px', fontSize: '0.65rem', color: 'var(--ef-ap-info-grey-2)' }}>{llmStatus.error}</div>
+                                <div className="ef-ap__llm-error-detail">{llmStatus.error}</div>
                             )}
                         </div>
                     )}
-                    <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
+                    <div className="ef-ap__llm-actions">
                         {llmStatus.mode === 'heuristic' ? (
                             <EfButton
                                 variant="secondary"
                                 size="sm"
                                 onClick={handleLoadLLM}
-                                style={{ fontSize: '0.7rem', borderColor: 'var(--ef-ap-success-green)', color: 'var(--ef-ap-success-green)' }}
+                                className="ef-ap__llm-load-btn"
                                 title="Load WebLLM Llama 3.2 1B (~700MB first time, cached after)"
                             >
                                 🧠 Carregar WebLLM
@@ -480,7 +476,7 @@ export function AutoPlayView() {
                                 variant="secondary"
                                 size="sm"
                                 onClick={handleResetLLM}
-                                style={{ fontSize: '0.7rem' }}
+                                className="ef-ap__llm-reset-btn"
                             >
                                 ↩️ Voltar Heurística
                             </EfButton>
@@ -490,23 +486,19 @@ export function AutoPlayView() {
 
                 {/* SPEC-115/116/117: Brain panel — adaptive learning telemetry */}
                 {stats?.brain && (
-                    <EfPanel variant="sunk" padding="md" style={{
-                        marginTop: '0.5rem',
-                        background: 'var(--ef-ap-forest-success)',
-                        border: '1px solid var(--accent)',
-                    }}>
-                        <div className="ef-arcade-h ef-arcade-h--md" style={{ marginBottom: '6px', fontWeight: 700 }}>
+                    <EfPanel variant="sunk" padding="md" className="ef-ap__brain-panel">
+                        <div className="ef-arcade-h ef-arcade-h--md ef-ap__brain-title">
                             🧠 BRAIN (SPEC-115/116/117)
                         </div>
-                        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '4px' }}>
+                        <div className="ef-ap__brain-stats-row">
                             <span>States: <strong>{stats.brain.states ?? 0}</strong></span>
                             <span>Updates: <strong>{stats.brain.totalUpdates ?? 0}</strong></span>
                         </div>
                         {stats.brain.topActions?.length > 0 && (
-                            <div style={{ fontSize: '0.72rem', color: 'var(--ef-ap-info-grey)' }}>
+                            <div className="ef-ap__brain-top-actions">
                                 Top actions:&nbsp;
                                 {stats.brain.topActions.slice(0, 3).map((a, i) => (
-                                    <span key={i} style={{ marginRight: '8px' }}>
+                                    <span key={i} className="ef-ap__brain-action-item">
                                         {a.action} <strong style={{ color: a.totalQ >= 0 ? 'var(--ef-ap-success-green)' : 'var(--ef-ap-fail-red)' }}>
                                             {a.totalQ >= 0 ? '+' : ''}{a.totalQ.toFixed(1)}
                                         </strong>
@@ -551,8 +543,8 @@ export function AutoPlayView() {
             {/* Live stats grid */}
             {stats && (
                 <EfPanel variant="elev" padding="md" className="ef-ap__panel-mb-sm">
-                    <h3 className="ef-arcade-h ef-arcade-h--lg" style={{ marginBottom: '8px' }}>📊 ESTATÍSTICAS LIVE</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
+                    <h3 className="ef-arcade-h ef-arcade-h--lg ef-ap__h-mb-8">📊 ESTATÍSTICAS LIVE</h3>
+                    <div className="ef-ap__stats-grid">
                         <Stat label="Status" value={stats.running ? '🟢 Rodando' : '⏸️ Pausado'} />
                         <Stat label="Semanas" value={stats.weeksPlayed} />
                         <Stat label="Temporadas" value={stats.seasonsPlayed} />
@@ -572,8 +564,8 @@ export function AutoPlayView() {
             {/* Insights summary */}
             {stats?.insights && (
                 <EfPanel variant="elev" padding="md" className="ef-ap__panel-mb-sm">
-                    <h3 className="ef-arcade-h ef-arcade-h--lg" style={{ marginBottom: '8px' }}>📈 INSIGHTS DA CARREIRA</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px', fontSize: '0.78rem' }}>
+                    <h3 className="ef-arcade-h ef-arcade-h--lg ef-ap__h-mb-8">📈 INSIGHTS DA CARREIRA</h3>
+                    <div className="ef-ap__insights-grid">
                         <Stat label="Títulos" value={stats.insights.titlesWon} color="var(--accent)" />
                         <Stat label="Promoções" value={stats.insights.promotionsWon} color="var(--primary)" />
                         <Stat label="Rebaixamentos" value={stats.insights.relegationsTaken} color="var(--danger)" />
@@ -593,15 +585,10 @@ export function AutoPlayView() {
             {/* §23: GDD Systems Status — LIVE PROOF */}
             {stats && (
                 <EfPanel variant="elev" padding="md" className="ef-ap__panel-mb-sm">
-                    <h3 className="ef-arcade-h ef-arcade-h--md" style={{ marginBottom: '8px' }}>
+                    <h3 className="ef-arcade-h ef-arcade-h--md ef-ap__h-mb-8">
                         🎯 GDD SYSTEMS STATUS — LIVE
                     </h3>
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                        gap: '6px',
-                        fontSize: '0.75rem'
-                    }}>
+                    <div className="ef-ap__gdd-grid">
                         <GDDStatus
                             label="§12.4 #6 Scarcity"
                             emoji="⏰"
@@ -683,15 +670,7 @@ export function AutoPlayView() {
                             count={stats.decisions?.filter(d => d.action === 'UPGRADE_STADIUM' || d.action === 'UPGRADE_ACADEMY').length || 0}
                         />
                     </div>
-                    <div style={{
-                        marginTop: '8px',
-                        padding: '6px 10px',
-                        background: 'var(--ef-ap-deep-line)',
-                        border: '3px solid #222',
-                        fontSize: '0.7rem',
-                        color: 'var(--ef-ap-info-grey)',
-                        textAlign: 'center'
-                    }}>
+                    <div className="ef-ap__gdd-footer">
                         {(() => {
                             const total = 16;
                             const active = [
@@ -731,13 +710,7 @@ export function AutoPlayView() {
                 <EfPanel variant="elev" padding="md" className="ef-ap__panel-mb-sm">
                     <div
                         onClick={() => setTelemetryOpen(!telemetryOpen)}
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            cursor: 'pointer',
-                            userSelect: 'none'
-                        }}
+                        className="ef-ap__telemetry-header"
                     >
                         <h3 className="ef-arcade-h ef-arcade-h--md">
                             📊 Telemetria ({Object.keys(stats.telemetry.results).length} detectores)
@@ -745,48 +718,35 @@ export function AutoPlayView() {
                                 Score Geral: {stats.telemetry.overallScore}
                             </span>
                         </h3>
-                        <span style={{ fontSize: '0.8rem', color: 'var(--ef-ap-info-grey)' }}>
+                        <span className="ef-ap__telemetry-toggle">
                             {telemetryOpen ? '▼ Recolher' : '▶ Expandir'}
                         </span>
                     </div>
                     {telemetryOpen && (
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-                            gap: '8px',
-                            marginTop: '0.75rem'
-                        }}>
+                        <div className="ef-ap__telemetry-grid">
                             {Object.entries(stats.telemetry.results).map(([spec, res]) => (
                                 <div
                                     key={spec}
                                     onClick={() => setExpandedSpec(expandedSpec === spec ? null : spec)}
-                                    style={{
-                                        padding: '0.5rem',
-                                        background: 'var(--ef-ap-panel-tone)',
-                                        border: `3px solid ${scoreColor(res.score)}`,
-                                        cursor: 'pointer',
-                                        fontSize: '0.78rem'
-                                    }}
+                                    className="ef-ap__telemetry-card"
+                                    style={{ border: `3px solid ${scoreColor(res.score)}` }}
                                 >
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                                        <strong style={{ fontSize: '0.72rem' }}>{spec}</strong>
+                                    <div className="ef-ap__telemetry-card-head">
+                                        <strong className="ef-ap__telemetry-card-name">{spec}</strong>
                                         <span style={{ fontWeight: 700, color: scoreColor(res.score) }}>{res.score}</span>
                                     </div>
-                                    <div style={{ fontSize: '0.7rem', color: 'var(--ef-ap-info-grey)', marginBottom: '4px' }}>
+                                    <div className="ef-ap__telemetry-card-desc">
                                         {res.name}
                                     </div>
                                     {res.signals?.[0] && (
-                                        <div style={{
-                                            fontSize: '0.68rem',
-                                            color: scoreColor(100 - (res.signals[0].severity * 100))
-                                        }}>
+                                        <div className="ef-ap__telemetry-signal-top" style={{ color: scoreColor(100 - (res.signals[0].severity * 100)) }}>
                                             ⚠ {res.signals[0].id}
                                         </div>
                                     )}
                                     {expandedSpec === spec && res.signals?.length > 0 && (
-                                        <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed var(--ef-ap-deep-line-2)' }}>
+                                        <div className="ef-ap__telemetry-signal-list">
                                             {res.signals.slice(0, 5).map((s, i) => (
-                                                <div key={i} style={{ marginBottom: '3px', fontSize: '0.65rem' }}>
+                                                <div key={i} className="ef-ap__telemetry-signal-item">
                                                     <strong>{s.id}</strong> ({(s.severity * 100).toFixed(0)}%): {s.msg}
                                                 </div>
                                             ))}
@@ -802,29 +762,20 @@ export function AutoPlayView() {
             {/* Successes catalog */}
             {stats?.successes && stats.successes.length > 0 && (
                 <EfPanel variant="elev" padding="md" className="ef-ap__panel-mb-sm">
-                    <h3 className="ef-arcade-h ef-arcade-h--md ef-arcade-h--primary" style={{ marginBottom: '8px' }}>✅ SUCCESSES ({stats.successes.length})</h3>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--ef-ap-info-grey)', marginBottom: '6px' }}>
+                    <h3 className="ef-arcade-h ef-arcade-h--md ef-arcade-h--primary ef-ap__h-mb-8">✅ SUCCESSES ({stats.successes.length})</h3>
+                    <div className="ef-ap__entry-types-line">
                         Por tipo: {Object.entries(successTypes).map(([t, n]) => `${t}(${n})`).join(' • ')}
                     </div>
-                    <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                    <div className="ef-ap__entry-scroll">
                         {stats.successes.slice(-20).reverse().map((s, i) => (
-                            <div
-                                key={i}
-                                style={{
-                                    padding: '0.4rem 0.5rem',
-                                    borderLeft: '4px solid var(--primary)',
-                                    background: 'var(--ef-ap-deep-line)',
-                                    fontSize: '0.75rem',
-                                    marginBottom: '4px'
-                                }}
-                            >
+                            <div key={i} className="ef-ap__entry-success">
                                 <div className="ef-ap__row-spread">
-                                    <strong style={{ color: 'var(--primary)' }}>{s.type}</strong>
+                                    <strong className="ef-ap__entry-type-success">{s.type}</strong>
                                     <span className="ef-ap__label-tag">
                                         Sem {s.week} • Temp {s.season}
                                     </span>
                                 </div>
-                                <div style={{ marginTop: '2px' }}>{s.msg}</div>
+                                <div className="ef-ap__entry-msg">{s.msg}</div>
                             </div>
                         ))}
                     </div>
@@ -834,13 +785,12 @@ export function AutoPlayView() {
             {/* Anomalies catalog */}
             {stats?.anomalies && stats.anomalies.length > 0 && (
                 <EfPanel variant="elev" padding="md" className="ef-ap__panel-mb-sm">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                    <div className="ef-ap__anomaly-bar">
                         <h3 className="ef-arcade-h ef-arcade-h--md ef-arcade-h--danger">⚠️ ANOMALIES ({stats.anomalies.length})</h3>
                         <select
                             value={anomalyFilter}
                             onChange={e => setAnomalyFilter(e.target.value)}
-                            className="btn btn-sm"
-                            style={{ fontSize: '0.7rem' }}
+                            className="btn btn-sm ef-ap__anomaly-select"
                         >
                             <option value="all">Todas</option>
                             {Object.entries(anomalyTypes).map(([type, count]) => (
@@ -848,27 +798,18 @@ export function AutoPlayView() {
                             ))}
                         </select>
                     </div>
-                    <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                    <div className="ef-ap__entry-scroll--tall">
                         {filteredAnomalies.slice(-30).reverse().map((a, i) => (
-                            <div
-                                key={i}
-                                style={{
-                                    padding: '0.4rem 0.5rem',
-                                    borderLeft: '4px solid var(--danger)',
-                                    background: 'var(--ef-ap-deep-line)',
-                                    fontSize: '0.75rem',
-                                    marginBottom: '4px'
-                                }}
-                            >
+                            <div key={i} className="ef-ap__entry-anomaly">
                                 <div className="ef-ap__row-spread">
-                                    <strong style={{ color: 'var(--danger)' }}>{a.type}</strong>
+                                    <strong className="ef-ap__entry-type-danger">{a.type}</strong>
                                     <span className="ef-ap__label-tag">
                                         Sem {a.week} • Temp {a.season}
                                     </span>
                                 </div>
-                                <div style={{ marginTop: '2px' }}>{a.msg}</div>
+                                <div className="ef-ap__entry-msg">{a.msg}</div>
                                 {a.ctx && Object.keys(a.ctx).length > 0 && (
-                                    <pre style={{ fontSize: '0.65rem', color: 'var(--ef-ap-info-grey)', margin: '4px 0 0 0', whiteSpace: 'pre-wrap' }}>
+                                    <pre className="ef-ap__entry-ctx">
                                         {JSON.stringify(a.ctx, null, 2)}
                                     </pre>
                                 )}
@@ -881,14 +822,14 @@ export function AutoPlayView() {
             {/* Recent decisions */}
             {stats?.decisions && stats.decisions.length > 0 && (
                 <EfPanel variant="elev" padding="md">
-                    <h3 className="ef-arcade-h ef-arcade-h--md" style={{ marginBottom: '8px' }}>📋 ÚLTIMAS DECISÕES (20)</h3>
-                    <div className="ef-mono" style={{ maxHeight: '200px', overflowY: 'auto', fontSize: '0.7rem' }}>
+                    <h3 className="ef-arcade-h ef-arcade-h--md ef-ap__h-mb-8">📋 ÚLTIMAS DECISÕES (20)</h3>
+                    <div className="ef-mono ef-ap__decisions-list">
                         {stats.decisions.slice(-20).reverse().map((d, i) => (
-                            <div key={i} style={{ padding: '2px 4px', borderBottom: '1px solid var(--ef-ap-deep-line)' }}>
-                                <span style={{ color: 'var(--ef-ap-info-grey)' }}>W{d.week}</span>{' '}
-                                <strong style={{ color: 'var(--accent)' }}>{d.action}</strong>{' '}
+                            <div key={i} className="ef-ap__decision-row">
+                                <span className="ef-ap__decision-week">W{d.week}</span>{' '}
+                                <strong className="ef-ap__decision-action">{d.action}</strong>{' '}
                                 <span>{JSON.stringify(d.args)}</span>
-                                {d.elapsedMs > 0 && <span style={{ color: 'var(--ef-ap-info-grey)' }}> ({d.elapsedMs.toFixed(0)}ms)</span>}
+                                {d.elapsedMs > 0 && <span className="ef-ap__decision-elapsed"> ({d.elapsedMs.toFixed(0)}ms)</span>}
                             </div>
                         ))}
                     </div>
@@ -903,11 +844,11 @@ export function AutoPlayView() {
                 const borderColor = sevColors[evt.severity] || 'var(--ef-ap-info)';
                 return (
                     <EfModal title={evt.title} onClose={() => {}}>
-                        <div style={{ borderLeft: `4px solid ${borderColor}`, paddingLeft: '16px', marginBottom: '24px' }}>
-                            <p className="ef-sans ef-text-main" style={{ margin: 0, fontSize: '1rem', lineHeight: 1.6 }}>{evt.body}</p>
+                        <div className="ef-ap__pacing-body" style={{ borderLeft: `4px solid ${borderColor}` }}>
+                            <p className="ef-sans ef-text-main ef-ap__pacing-text">{evt.body}</p>
                         </div>
-                        <div style={{ display: 'flex', gap: '12px' }}>
-                            <div style={{ width: '100%', textAlign: 'center', fontSize: '0.8rem', color: 'var(--ef-ap-info-grey)', fontStyle: 'italic', padding: '8px' }}>
+                        <div className="ef-ap__pacing-actions">
+                            <div className="ef-ap__pacing-resolving">
                                 🤖 Auto-resolvendo (Soak Test)...
                             </div>
                         </div>
@@ -934,16 +875,14 @@ function Stat({ label, value, color }) {
 function GDDStatus({ label, emoji, count }) {
     const fired = count > 0;
     return (
-        <div className={`ef-arcade-cell${fired ? ' ef-arcade-cell--fired' : ''}`} style={!fired ? { background: 'var(--ef-ap-bg-danger-deep)' } : undefined}>
+        <div className={`ef-arcade-cell${fired ? ' ef-arcade-cell--fired' : ' ef-ap__gdd-cell-empty'}`}>
             <span>
                 {fired ? '✅' : '❌'} {emoji} {label}
             </span>
-            <strong style={{
-                color: fired ? 'var(--ef-ap-success-green)' : 'var(--ef-ap-err-red)',
-                fontSize: '0.8rem',
-                minWidth: '28px',
-                textAlign: 'right'
-            }}>
+            <strong
+                className="ef-ap__gdd-cell-count"
+                style={{ color: fired ? 'var(--ef-ap-success-green)' : 'var(--ef-ap-err-red)' }}
+            >
                 {count}×
             </strong>
         </div>

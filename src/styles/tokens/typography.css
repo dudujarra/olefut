@@ -7,7 +7,7 @@
 :root {
   --ef-font-family-display: 'Press Start 2P', monospace;
   --ef-font-family-body: 'Pixelify Sans', system-ui, sans-serif;
-  --ef-font-family-mono: 'IBM Plex Mono', 'Courier Prime', monospace;
+  --ef-font-family-mono: 'IBM Plex Mono', monospace;
   --ef-font-size-caption: 12px;
   --ef-font-size-body: 14px;
   --ef-font-size-body-l: 16px;
