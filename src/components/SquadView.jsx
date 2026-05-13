@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/squad-view.css';
 import { useGame } from '../context/GameContext';
 import { ViewOnboarding } from './ViewOnboarding';
 import { electStarPlayer } from '../engine/StarPlayerLink';
@@ -117,11 +118,11 @@ export function SquadView() {
             <div className="ef-view-container ef-view-container--wide">
 
                 {/* === HEADER — LUXURY BENTO === */}
-                <EfPanel variant="hero" padding="lg" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                <EfPanel variant="hero" padding="lg" className="ef-squad__header">
+                    <div className="ef-squad__identity">
                         <EfClubBadge name={team.name} size="lg" />
                         <div>
-                            <div className="ef-tag-mono" style={{ marginBottom: '12px' }}>
+                            <div className="ef-tag-mono" className="ef-squad__tag-wrap">
                                 <Users weight="fill" /> {sorted.length}/{team.squad.length} JOGADORES NO PLANTEL
                             </div>
                             <h2 className="ef-heading-xl">
@@ -131,8 +132,8 @@ export function SquadView() {
                     </div>
                     <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
                         <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
-                            <EfButton variant="secondary" size="md" onClick={() => changeView(back)} className="ef-sans" style={{ fontWeight: 'bold' }}>VOLTAR</EfButton>
-                            <EfButton variant="primary" size="md" title="Carrega o plantel real do clube via dataset pre-bake (substitui jogadores gerados)" onClick={handleLoadRealSquad} disabled={loadingReal} className="ef-sans" style={{ fontWeight: 'bold' }}>
+                            <EfButton variant="secondary" size="md" onClick={() => changeView(back)} className="ef-sans" className="ef-squad__btn-bold">VOLTAR</EfButton>
+                            <EfButton variant="primary" size="md" title="Carrega o plantel real do clube via dataset pre-bake (substitui jogadores gerados)" onClick={handleLoadRealSquad} disabled={loadingReal} className="ef-sans" className="ef-squad__btn-bold">
                                 {loadingReal ? 'CARREGANDO...' : 'PLANTEL REAL'}
                             </EfButton>
                         </div>
@@ -142,7 +143,7 @@ export function SquadView() {
                             </div>
                         )}
                         {team.manager?.stats && (
-                            <div className="ef-mono ef-text-muted" style={{ fontSize: '0.85rem', marginTop: '4px' }}>
+                            <div className="ef-mono ef-text-muted" className="ef-squad__manager-stats">
                                 {team.manager.stats.wins || 0}V <span className="ef-text-accent">{team.manager.stats.draws || 0}E</span> <span className="ef-text-danger">{team.manager.stats.losses || 0}D</span>
                             </div>
                         )}

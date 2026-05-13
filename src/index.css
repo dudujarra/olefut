@@ -40,6 +40,7 @@
 @import './styles/view-onboarding.css';
 @import './styles/gdd-systems-aug.css';
 @import './styles/autoplay-lab-view.css';
+@import './styles/squad-view.css';
 
 /* SPEC-A11y Focus visible (WCAG 2.1 AA) */
 *:focus-visible {
