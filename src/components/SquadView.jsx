@@ -130,7 +130,7 @@ export function SquadView() {
                             </h2>
                         </div>
                     </div>
-                    <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
+                    <div className="ef-squad__header-right">
                         <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
                             <EfButton variant="secondary" size="md" onClick={() => changeView(back)} className="ef-squad__btn-bold">VOLTAR</EfButton>
                             <EfButton variant="primary" size="md" title="Carrega o plantel real do clube via dataset pre-bake (substitui jogadores gerados)" onClick={handleLoadRealSquad} disabled={loadingReal} className="ef-squad__btn-bold">
@@ -151,14 +151,14 @@ export function SquadView() {
                 </EfPanel>
 
                 {/* Tabs & Filters Bento */}
-                <EfPanel padding="md" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', background: 'var(--bg-panel)' }}>
+                <EfPanel padding="md" className="ef-squad__tab-toolbar">
                     <div className="ef-squad__flex-gap">
                         {[
                             { id: 'plantel', label: 'PLANTEL', icon: <Users size={16} /> },
                             { id: 'stats', label: 'ANÁLISE TÁTICA', icon: <ChartBar size={16} /> },
                             { id: 'contratos', label: 'FINANÇAS', icon: <IdentificationCard size={16} /> }
                         ].map(t => (
-                            <EfButton key={t.id} onClick={() => setTab(t.id)} variant={tab === t.id ? 'primary' : 'secondary'} size="md" className="ef-sans" style={{ fontWeight: 'bold', gap: '8px' }}>
+                            <EfButton key={t.id} onClick={() => setTab(t.id)} variant={tab === t.id ? 'primary' : 'secondary'} size="md" className="ef-squad__tab-btn">
                                 {t.icon} {t.label}
                             </EfButton>
                         ))}
@@ -235,35 +235,35 @@ export function SquadView() {
                                                         {p.naturalPosition || p.position}
                                                     </span>
                                                 </td>
-                                                <td style={{ textAlign:'left', padding: '12px' }}>
-                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                                        <div className="ef-text-main" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 'bold', fontSize: '0.9rem' }}>
+                                                <td className="ef-squad__name-cell">
+                                                    <div className="ef-squad__name-col">
+                                                        <div className="ef-squad__name-row">
                                                             {p.isSuper && <Star weight="fill" color="var(--accent)" size={14} />}
                                                             {p.isWonderkid && <Sparkle weight="fill" color="var(--color-purple-wonder)" size={14} />}
                                                             {p.nickname ? `"${p.nickname}" ${p.name.split(' ').pop()}` : p.name}
                                                             {getFormTrendIcon(p.form?.trend)}
-                                                            {p.injury && <FirstAid weight="fill" color="var(--danger)" size={16} style={{ marginLeft: '4px' }}/>}
+                                                            {p.injury && <FirstAid weight="fill" color="var(--danger)" size={16} className="ef-squad__injury-icon"/>}
                                                         </div>
                                                         {p.specialty && (
-                                                            <div className="ef-mono ef-text-muted" style={{ fontSize: '0.7rem', textTransform: 'uppercase' }}>
+                                                            <div className="ef-squad__pos-mono">
                                                                 {p.specialty}
                                                             </div>
                                                         )}
                                                     </div>
                                                 </td>
-                                                <td className="ef-mono ef-text-main" style={{ textAlign:'center', fontWeight: 'bold', fontSize: '1.1rem', padding: '12px' }}>
+                                                <td className="ef-squad__ovr-cell">
                                                     {p.ovr}
                                                 </td>
                                                 <td className="ef-squad__td">
                                                     {renderHealthBlocks(p.energy)}
                                                 </td>
                                                 <td className="ef-squad__td">
-                                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <div className="ef-squad__flex-center">
                                                         {getMoralIcon(p.moral || 50)}
                                                     </div>
                                                 </td>
                                                 <td className="ef-squad__td">
-                                                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                                                    <div className="ef-squad__flex-center-gap">
                                                         {!p.isTitular && !p.injury && p.age <= 23 && (
                                                             <button title="Emprestar (jovem ganha minutos em outro clube; volta com XP)" onClick={(e) => { e.stopPropagation(); handleLoan(p.id); }} className="ef-icon-btn ef-icon-btn--info">
                                                                 <PaperPlaneRight size={16} weight="bold" />
@@ -286,13 +286,13 @@ export function SquadView() {
                                                 </td>
                                             </tr>
                                             {expandedId === p.id && (
-                                                <tr key={`${p.id}-details`} style={{ background: 'var(--bg-dark)' }}>
-                                                    <td colSpan="7" style={{ padding: '24px', borderBottom: '1px solid var(--color-soft-border)' }}>
-                                                        <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-                                                            <div style={{ background: 'var(--bg-panel)', padding: '16px', border: '1px solid var(--color-soft-border)' }}>
+                                                <tr key={`${p.id}-details`} className="ef-squad__details-row">
+                                                    <td colSpan="7" className="ef-squad__details-cell">
+                                                        <div className="ef-squad__details-flex">
+                                                            <div className="ef-squad__details-box">
                                                                 <HexagonChart player={p} size={180} />
                                                             </div>
-                                                            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                                            <div className="ef-squad__details-col">
                                                                 <div className="ef-sans ef-text-main" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
                                                                     {p.name}
                                                                 </div>
