@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap');
 @import './styles/isssd-premium.css';
 @import './styles/animations.css';
+@import './styles/ef-helpers.css';
 @import './styles/mobile.css';
 @import './styles/match-view.css';
 @import './styles/market-view.css';
