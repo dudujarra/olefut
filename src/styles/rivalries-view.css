@@ -1,10 +1,13 @@
-/* RivalriesView — semantic CSS + design tokens */
+/* RivalriesView — semantic CSS + design tokens (Stitch v1.1 port)
+ * Matches: docs/stitch-designs/v1.1-all/32-rivalidades-ol-fut.html
+ *          docs/stitch-designs/v1.1-all/19-lista-de-derbies-ol-fut-rivalidades.html
+ * Tokens-only (zero raw hex). Press Start 2P + Pixelify Sans + IBM Plex Mono.
+ * SPEC AKITA-392
+ */
 
 .ef-riv {
-  --ef-riv-orange: #FF8C00;
-  --ef-riv-derby-bg: #1A0E0E;
-  --ef-riv-border-soft: #2D3748;
-  --ef-riv-fallback-muted: #888;
+  --ef-riv-muted: var(--color-text-secondary);
+  --ef-riv-warn: var(--color-warning);
 }
 
 .ef-riv__error {
@@ -12,135 +15,430 @@
 }
 
 .ef-riv__header {
-  border-bottom: 2px solid var(--accent);
+  border-bottom: var(--primitive-border-thick) solid var(--color-tertiary);
 }
 
 .ef-riv__header-icon {
-  color: var(--accent);
+  color: var(--color-danger);
 }
 
-/* === NEXT DERBY === */
-
-.ef-riv__derby {
-  border: 2px solid var(--danger);
-  background-color: var(--ef-riv-derby-bg);
-}
-
-.ef-riv__derby-row {
+.ef-riv__header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
-.ef-riv__derby-body {
-  flex: 1;
-}
-
-.ef-riv__derby-label {
-  font-size: 0.7rem;
-  color: var(--danger);
-  font-family: var(--font-sans);
-  font-weight: bold;
+.ef-riv__season-pill {
+  font-family: var(--font-mono);
+  font-size: var(--primitive-font-size-caption-desktop);
   letter-spacing: 0.1em;
-  margin-bottom: 4px;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--color-primary);
+  padding: 6px 12px;
+}
+
+/* ============================================================
+ * Featured Derby section — Stitch "ALERTA DE DÉRBI"
+ * ============================================================ */
+
+.ef-riv__derby-feature {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thick) solid var(--color-danger);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.ef-riv__derby-banner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--color-danger);
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: var(--primitive-font-size-badge-desktop);
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-riv__derby-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+@media (min-width: 900px) {
+  .ef-riv__derby-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .ef-riv__derby-title {
-  font-size: 1.2rem;
-  color: var(--text-main);
-  font-family: var(--font-sans);
-  font-weight: bold;
+  font-family: var(--font-display);
+  font-size: var(--primitive-font-size-h1-desktop);
+  color: var(--color-danger);
+  margin: 0 0 16px;
+  letter-spacing: 0.06em;
+  line-height: var(--primitive-line-height-close);
+}
+
+.ef-riv__derby-desc {
+  font-family: var(--font-body);
+  font-size: var(--primitive-font-size-body-desktop);
+  color: var(--color-text-primary);
+  line-height: var(--primitive-line-height-relaxed);
+  opacity: 0.92;
+  margin: 0 0 16px;
 }
 
 .ef-riv__derby-meta {
-  font-size: 0.8rem;
-  color: var(--ef-riv-orange);
-  font-family: var(--font-mono);
-  margin-top: 4px;
-}
-
-/* === RIVALRY LIST === */
-
-.ef-riv__list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
-.ef-riv__row-identity {
+.ef-riv__derby-meta-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--primitive-font-size-caption-desktop);
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+
+.ef-riv__derby-meta-row--accent {
+  color: var(--ef-riv-warn);
+}
+
+.ef-riv__derby-vs {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px 16px;
+  background: var(--color-bg-tertiary);
+  border: var(--primitive-border-thin) solid var(--color-danger);
+}
+
+.ef-riv__derby-vs-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.ef-riv__derby-vs-name {
+  font-family: var(--font-display);
+  font-size: var(--primitive-font-size-h3-mobile);
+  color: var(--color-text-primary);
+  letter-spacing: 0.06em;
+  text-align: center;
+  word-break: break-word;
+}
+
+.ef-riv__derby-vs-name--away {
+  color: var(--color-danger);
+}
+
+.ef-riv__derby-vs-x {
+  font-family: var(--font-display);
+  font-size: var(--primitive-font-size-h1-desktop);
+  color: var(--color-danger);
+  letter-spacing: 0;
+  font-style: italic;
+  animation: ef-riv-vs-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes ef-riv-vs-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+/* ============================================================
+ * Rivalries grid (3-col cards)
+ * ============================================================ */
+
+.ef-riv__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
+  margin-top: 16px;
+}
+
+.ef-riv-card {
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.ef-riv-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.ef-riv-card__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ef-riv-card__identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
 }
 
 .ef-riv__badge-fallback {
   width: 48px;
   height: 48px;
-  background-color: var(--bg-dark);
+  background: var(--color-bg-tertiary);
+  border: var(--primitive-border-thin) solid var(--ef-riv-muted);
 }
 
-.ef-riv__row-name {
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-bottom: 4px;
-}
-
-.ef-riv__row-stats {
-  font-size: 0.85rem;
+.ef-riv-card__title-wrap {
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ef-riv-card__name {
+  font-family: var(--font-display);
+  font-size: var(--primitive-font-size-h3-mobile);
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: 0.04em;
+  word-break: break-word;
+}
+
+.ef-riv-card__label {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-size: var(--primitive-font-size-badge-desktop);
+  letter-spacing: 0.08em;
+  padding: 4px 8px;
+  background: var(--color-bg-tertiary);
+  border: var(--primitive-border-hairline) solid;
+  text-transform: uppercase;
+  width: max-content;
 }
 
-.ef-riv__stat-bold {
-  font-weight: bold;
+.ef-riv-card__label--consolidated {
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
 }
 
-/* === RIVALRY LABEL PILLS === */
-
-.ef-riv__pill--consolidated {
-  color: var(--danger);
-  border-color: var(--danger);
+.ef-riv-card__label--new-classic {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
-.ef-riv__pill--new-classic {
-  color: var(--accent);
-  border-color: var(--accent);
+.ef-riv-card__label--growing {
+  color: var(--color-warning);
+  border-color: var(--color-warning);
 }
 
-.ef-riv__pill--growing {
-  color: var(--ef-riv-orange);
-  border-color: var(--ef-riv-orange);
+.ef-riv-card__label--start {
+  color: var(--ef-riv-muted);
+  border-color: var(--ef-riv-muted);
 }
 
-.ef-riv__pill--start {
-  color: var(--ef-riv-fallback-muted);
-  border-color: var(--ef-riv-fallback-muted);
-}
-
-/* === FORMER COMPANIONS === */
-
-.ef-riv__companions-grid {
+.ef-riv-card__stats {
+  background: var(--color-bg-tertiary);
+  border: var(--primitive-border-hairline) solid var(--color-border);
+  padding: 12px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  text-align: center;
+}
+
+.ef-riv-card__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ef-riv-card__stat--mid {
+  border-left: var(--primitive-border-hairline) solid var(--color-border);
+  border-right: var(--primitive-border-hairline) solid var(--color-border);
+}
+
+.ef-riv-card__stat-label {
+  font-family: var(--font-mono);
+  font-size: var(--primitive-font-size-badge-desktop);
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.ef-riv-card__stat-value {
+  font-family: var(--font-display);
+  font-size: var(--primitive-font-size-stat-desktop);
+  color: var(--color-text-primary);
+}
+
+.ef-riv-card__stat-value--win {
+  color: var(--color-primary);
+}
+
+.ef-riv-card__stat-value--loss {
+  color: var(--color-danger);
+}
+
+.ef-riv-card__foot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--primitive-font-size-caption-desktop);
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  padding-top: 8px;
+  border-top: var(--primitive-border-hairline) solid var(--color-border);
+}
+
+/* ============================================================
+ * Ex-companheiros horizontal scroll
+ * ============================================================ */
+
+.ef-riv__companions {
+  margin-top: 16px;
+}
+
+.ef-riv__companions-scroll {
+  display: flex;
   gap: 16px;
+  overflow-x: auto;
+  padding: 8px 0 12px;
+  margin-top: 12px;
+  scrollbar-width: thin;
 }
 
 .ef-riv__companion-card {
-  background-color: var(--bg-panel);
-  border: 1px solid var(--ef-riv-border-soft);
-  padding: 16px;
+  flex: 0 0 240px;
+  background: var(--color-bg);
+  border: var(--primitive-border-thin) solid var(--color-border);
+  padding: 14px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.ef-riv__companion-card:hover {
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+.ef-riv__companion-head {
+  display: flex;
   align-items: center;
+  gap: 12px;
+}
+
+.ef-riv__companion-avatar {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thin) solid var(--ef-riv-muted);
+  color: var(--color-text-secondary);
+}
+
+.ef-riv__companion-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .ef-riv__companion-name {
-  font-weight: bold;
-  font-size: 1rem;
+  font-family: var(--font-display);
+  font-size: var(--primitive-font-size-badge-desktop);
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: 0.04em;
+  word-break: break-word;
 }
 
 .ef-riv__companion-pos {
-  margin-left: 8px;
-  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: var(--primitive-font-size-badge-desktop);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ef-riv__companion-meta {
+  border-top: var(--primitive-border-hairline) solid var(--color-border);
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ef-riv__companion-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--primitive-font-size-badge-desktop);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ef-riv__companion-key {
+  color: var(--color-text-secondary);
+}
+
+.ef-riv__companion-val {
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+}
+
+.ef-riv__companion-val--primary {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+ * Responsive (mobile)
+ * ============================================================ */
+
+@media (max-width: 640px) {
+  .ef-riv__header-right {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .ef-riv__derby-title {
+    font-size: var(--primitive-font-size-h1-mobile);
+  }
+
+  .ef-riv__derby-vs {
+    flex-direction: column;
+    gap: 16px;
+  }
 }

@@ -6,7 +6,8 @@ import bgNewspaper from '../assets/environments/bg_newspaper.png';
 import '../styles/rivalries-view.css';
 
 import {
-    Fire, ArrowLeft, Users, Trophy, TrendUp, WarningCircle, Lightning
+    Fire, ArrowLeft, Trophy, TrendUp, WarningCircle, Lightning,
+    UserCircle, Sword, ListBullets
 } from '@phosphor-icons/react';
 
 function getRivalryLabel(matchCount) {
@@ -28,6 +29,7 @@ export function RivalriesView() {
 
     const team = engine.getTeam(engine.manager?.teamId);
     const rivalryHistory = engine.rivalryHistory || {};
+    const seasonLabel = engine.season ? `TEMPORADA ${engine.season}` : 'TEMPORADA ATUAL';
 
     // SPEC-C5.2: detecta próximo derby do calendário
     const nextDerby = findNextDerby(engine, 6);
@@ -62,6 +64,8 @@ export function RivalriesView() {
         .filter(r => r.clubA && r.clubB && r.matches > 0)
         .sort((x, y) => y.matches - x.matches);
 
+    const companions = engine.formerCompanions || [];
+
     return (
         <div className="ef-anim-fade-in ef-scene-shell ef-riv" style={{ backgroundImage: `url(${bgNewspaper})` }}>
             <ViewOnboarding viewId="rivalries" />
@@ -74,37 +78,64 @@ export function RivalriesView() {
                         </div>
                         <div>
                             <h2 className="ef-view-header__title">RIVALIDADES</h2>
-                            <span className="ef-view-header__subtitle">CONFRONTOS HISTÓRICOS E CLÁSSICOS</span>
+                            <span className="ef-view-header__subtitle">
+                                MANTÉM OS AMIGOS PERTO E OS INIMIGOS NO CAMPO
+                            </span>
                         </div>
                     </div>
-                    <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>
-                        <ArrowLeft size={16} /> SAIR
-                    </EfButton>
+                    <div className="ef-riv__header-right">
+                        <span className="ef-riv__season-pill">{seasonLabel}</span>
+                        <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>
+                            <ArrowLeft size={16} /> SAIR
+                        </EfButton>
+                    </div>
                 </EfPanel>
 
                 {nextDerby && nextDerbyTeam && (
-                    <EfPanel padding="lg" className="ef-riv__derby">
-                        <div className="ef-riv__derby-row">
-                            <Lightning size={28} color="var(--danger)" weight="fill" />
-                            <div className="ef-riv__derby-body">
-                                <div className="ef-riv__derby-label">
-                                    PRÓXIMO DERBY — SEMANA {nextDerby.week}
-                                </div>
-                                <div className="ef-riv__derby-title">
-                                    VS {nextDerbyTeam.name}
-                                </div>
+                    <section className="ef-riv__derby-feature">
+                        <div className="ef-riv__derby-banner">
+                            <Lightning size={14} weight="fill" /> ALERTA DE DÉRBI
+                        </div>
+                        <div className="ef-riv__derby-grid">
+                            <div className="ef-riv__derby-text">
+                                <h3 className="ef-riv__derby-title">PRÓXIMO DERBY</h3>
+                                <p className="ef-riv__derby-desc">
+                                    A rivalidade aquece. {team?.name || 'O teu clube'} e {nextDerbyTeam.name} se enfrentam
+                                    em uma semana decisiva da temporada.
+                                </p>
                                 <div className="ef-riv__derby-meta">
-                                    {nextDerby.matchCount} confrontos · {nextDerby.level.toUpperCase()}
+                                    <div className="ef-riv__derby-meta-row">
+                                        <Lightning size={14} weight="fill" />
+                                        <span>SEMANA {nextDerby.week}</span>
+                                    </div>
+                                    <div className="ef-riv__derby-meta-row ef-riv__derby-meta-row--accent">
+                                        <Fire size={14} weight="fill" />
+                                        <span>
+                                            {nextDerby.matchCount} CONFRONTOS · {nextDerby.level.toUpperCase()}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                            <EfClubBadge name={nextDerbyTeam.name} size="lg" />
+                            <div className="ef-riv__derby-vs">
+                                <div className="ef-riv__derby-vs-side">
+                                    <EfClubBadge name={team?.name || 'CASA'} size="lg" />
+                                    <span className="ef-riv__derby-vs-name">{team?.name || 'CASA'}</span>
+                                </div>
+                                <span className="ef-riv__derby-vs-x">VS</span>
+                                <div className="ef-riv__derby-vs-side ef-riv__derby-vs-side--away">
+                                    <EfClubBadge name={nextDerbyTeam.name} size="lg" />
+                                    <span className="ef-riv__derby-vs-name ef-riv__derby-vs-name--away">
+                                        {nextDerbyTeam.name}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                    </EfPanel>
+                    </section>
                 )}
 
                 <EfPanel padding="lg">
                     <div className="ef-panel-cat-header ef-panel-cat-header--accent">
-                        <Users size={20} /> CONFRONTOS DIRETOS ({rivalries.length})
+                        <ListBullets size={20} /> LISTA DE ADVERSÁRIOS ({rivalries.length})
                     </div>
 
                     {rivalries.length === 0 ? (
@@ -112,59 +143,96 @@ export function RivalriesView() {
                             NENHUMA RIVALIDADE DETECTADA. JOGUE MAIS PARTIDAS.
                         </div>
                     ) : (
-                        <div className="ef-riv__list">
+                        <div className="ef-riv__grid">
                             {rivalries.map(r => {
                                 const label = getRivalryLabel(r.matches);
                                 const oppTeam = r.isA ? r.clubB : r.clubA;
                                 return (
-                                    <div key={r.key} className={`ef-rivalry-row ef-rivalry-row--${label.mod}`}>
-                                        <div className="ef-riv__row-identity">
-                                            {oppTeam?.name ? (
-                                                <EfClubBadge name={oppTeam.name} size="md" />
-                                            ) : (
-                                                <div className="ef-riv__badge-fallback" />
-                                            )}
-                                            <div>
-                                                <div className="ef-sans ef-text-main ef-riv__row-name">
-                                                    VS {(oppTeam?.name || '???')}
-                                                </div>
-                                                <div className="ef-mono ef-text-muted ef-riv__row-stats">
-                                                    <span>{r.matches} JOGOS</span> •{' '}
-                                                    <span className="ef-text-primary ef-riv__stat-bold">{r.wins}V</span>{' '}
-                                                    <span className="ef-text-accent ef-riv__stat-bold">{r.draws}E</span>{' '}
-                                                    <span className="ef-text-danger ef-riv__stat-bold">{r.losses}D</span>
+                                    <article
+                                        key={r.key}
+                                        className={`ef-riv-card ef-riv-card--${label.mod}`}
+                                    >
+                                        <header className="ef-riv-card__head">
+                                            <div className="ef-riv-card__identity">
+                                                {oppTeam?.name ? (
+                                                    <EfClubBadge name={oppTeam.name} size="md" />
+                                                ) : (
+                                                    <div className="ef-riv__badge-fallback" />
+                                                )}
+                                                <div className="ef-riv-card__title-wrap">
+                                                    <h4 className="ef-riv-card__name">
+                                                        {(oppTeam?.name || '???').toUpperCase()}
+                                                    </h4>
+                                                    <span className={`ef-riv-card__label ef-riv-card__label--${label.mod}`}>
+                                                        {label.icon} {label.label}
+                                                    </span>
                                                 </div>
                                             </div>
+                                        </header>
+                                        <div className="ef-riv-card__stats">
+                                            <div className="ef-riv-card__stat">
+                                                <span className="ef-riv-card__stat-label">VITÓRIAS</span>
+                                                <span className="ef-riv-card__stat-value ef-riv-card__stat-value--win">
+                                                    {r.wins}
+                                                </span>
+                                            </div>
+                                            <div className="ef-riv-card__stat ef-riv-card__stat--mid">
+                                                <span className="ef-riv-card__stat-label">EMPATES</span>
+                                                <span className="ef-riv-card__stat-value">{r.draws}</span>
+                                            </div>
+                                            <div className="ef-riv-card__stat">
+                                                <span className="ef-riv-card__stat-label">DERROTAS</span>
+                                                <span className="ef-riv-card__stat-value ef-riv-card__stat-value--loss">
+                                                    {r.losses}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className={`ef-pill-mono ef-riv__pill--${label.mod}`}>
-                                            {label.icon} {label.label}
-                                        </div>
-                                    </div>
+                                        <footer className="ef-riv-card__foot">
+                                            <Sword size={12} weight="bold" />
+                                            <span>{r.matches} JOGOS</span>
+                                        </footer>
+                                    </article>
                                 );
                             })}
                         </div>
                     )}
                 </EfPanel>
 
-                {(engine.formerCompanions?.length || 0) > 0 && (
-                    <EfPanel padding="lg">
+                {companions.length > 0 && (
+                    <section className="ef-riv__companions">
                         <div className="ef-panel-cat-header ef-panel-cat-header--info">
-                            <Users size={20} /> EX-COMPANHEIROS ({engine.formerCompanions.length})
+                            <UserCircle size={20} weight="fill" /> EX-COMPANHEIROS EM CAMPO ADVERSÁRIO ({companions.length})
                         </div>
-                        <div className="ef-riv__companions-grid">
-                            {engine.formerCompanions.map((p, i) => (
-                                <div key={i} className="ef-riv__companion-card">
-                                    <div className="ef-sans ef-text-main ef-riv__companion-name">
-                                        {p.name}
-                                        <span className="ef-mono ef-text-info ef-riv__companion-pos">({p.position})</span>
+                        <div className="ef-riv__companions-scroll">
+                            {companions.map((p, i) => (
+                                <article key={`${p.name}-${i}`} className="ef-riv__companion-card">
+                                    <header className="ef-riv__companion-head">
+                                        <div className="ef-riv__companion-avatar">
+                                            <UserCircle size={42} weight="duotone" />
+                                        </div>
+                                        <div className="ef-riv__companion-title">
+                                            <h5 className="ef-riv__companion-name">{p.name}</h5>
+                                            <span className="ef-riv__companion-pos">{p.position}</span>
+                                        </div>
+                                    </header>
+                                    <div className="ef-riv__companion-meta">
+                                        <div className="ef-riv__companion-row">
+                                            <span className="ef-riv__companion-key">OVR</span>
+                                            <span className="ef-riv__companion-val ef-riv__companion-val--primary">
+                                                {p.ovr}
+                                            </span>
+                                        </div>
+                                        <div className="ef-riv__companion-row">
+                                            <span className="ef-riv__companion-key">SAÍDA</span>
+                                            <span className="ef-riv__companion-val">
+                                                TEMP {p.season || '?'}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="ef-pill-mono ef-text-muted">
-                                        OVR {p.ovr} • TEMP {p.season || '?'}
-                                    </div>
-                                </div>
+                                </article>
                             ))}
                         </div>
-                    </EfPanel>
+                    </section>
                 )}
             </div>
         </div>
