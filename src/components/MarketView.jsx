@@ -100,20 +100,28 @@ export function MarketView() {
         <div className="ef-anim-fade-in ef-layout-pitch" style={{ backgroundImage: `url(${bgOffice})` }}>
             <div className="ef-layout-container ef-market__container">
 
-                {/* HEADER HERO */}
+                {/* HEADER HERO — Stitch (80) MERCADO title + budget badge */}
                 <EfPanel variant="elev" padding="md" className="ef-flex-row ef-market__header">
                     <div className="ef-flex-row ef-market__header-left">
                         <EfClubBadge name={team.name} size="md" />
                         <div>
                             <h2 className="ef-sans ef-text-main ef-market__title">
-                                Mercado de Transferências
+                                MERCADO DE TRANSFERÊNCIAS
                             </h2>
                             <div className="ef-mono ef-market__subtitle">
-                                DIRETORIA FINANCEIRA
+                                DIRETORIA FINANCEIRA — {team.name?.toUpperCase()}
                             </div>
                         </div>
                     </div>
-                    <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>SAIR</EfButton>
+                    <div className="ef-market__header-right">
+                        <div className={`ef-market__budget-badge ${team.balance > 0 ? 'ef-market__budget-badge--positive' : 'ef-market__budget-badge--negative'}`}>
+                            <span className="ef-mono ef-market__budget-label">ORÇAMENTO</span>
+                            <span className="ef-mono ef-market__budget-value">
+                                R$ {(team.balance / 1000000).toFixed(1)}M
+                            </span>
+                        </div>
+                        <EfButton variant="secondary" size="md" onClick={() => changeView(getDashboardView())}>SAIR</EfButton>
+                    </div>
                 </EfPanel>
 
                 {/* FINANCES BENTO */}
@@ -202,27 +210,32 @@ export function MarketView() {
                                 NENHUM JOGADOR ENCONTRADO.
                             </div>
                         ) : (
-                            <div className="ef-market__list">
+                            <div className="ef-market__card-grid">
                                 {filteredMarket.map(p => (
-                                    <div key={p.id} className={`ef-anim-fade-in ef-list-row ${p.ovr >= 80 ? 'ef-list-row--accent' : 'ef-list-row--neutral'}`}>
-                                        <div className="ef-market__player-info">
-                                            <PlayerAvatar name={p.name} size={40} />
-                                            <div className="ef-market__player-details">
-                                                <div className="ef-player-name">
-                                                    {p.name.toUpperCase()}
+                                    <div key={p.id} className="ef-anim-fade-in ef-market__player-card">
+                                        <div className="ef-market__card-top">
+                                            <div className="ef-market__card-portrait">
+                                                <PlayerAvatar name={p.name} size={88} />
+                                            </div>
+                                            <div className="ef-market__card-stats">
+                                                <div className={`ef-mono ef-market__card-ovr ${p.ovr >= 80 ? 'ef-market__card-ovr--elite' : ''}`}>
+                                                    {p.ovr}
                                                 </div>
-                                                <div className="ef-player-meta">
-                                                    <span className="ef-pos-badge">{p.position}</span>
-                                                    <span>OVR <strong className={p.ovr >= 80 ? 'ef-text-accent' : 'ef-text-main'}>{p.ovr}</strong></span>
-                                                    <span>•</span>
-                                                    <span>{p.age} ANOS</span>
+                                                <div className={`ef-mono ef-market__card-pos ef-market__card-pos--${p.position?.toLowerCase()}`}>
+                                                    {p.position}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="ef-market__player-price">
-                                            <span className="ef-market__price-amount">
+                                        <div className="ef-market__card-identity">
+                                            <h3 className="ef-sans ef-market__card-name">{p.name.toUpperCase()}</h3>
+                                            <div className="ef-mono ef-market__card-meta">
+                                                {p.age} ANOS
+                                            </div>
+                                        </div>
+                                        <div className="ef-market__card-footer">
+                                            <div className="ef-mono ef-market__card-price">
                                                 R$ {(p.value / 1000000).toFixed(1)}M
-                                            </span>
+                                            </div>
                                             <EfButton variant="primary" size="md" title={`Compra ${p.name} por R$ ${(p.value / 1000000).toFixed(1)}M (debita do caixa, gera salário semanal)`} onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
                                                 COMPRAR
                                             </EfButton>
