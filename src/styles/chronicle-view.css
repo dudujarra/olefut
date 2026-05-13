@@ -1,18 +1,371 @@
-/* ChronicleView — semantic CSS + design tokens */
+/* ChronicleView — semantic CSS + design tokens (Stitch v1.1 port)
+ * Match: docs/stitch-designs/v1.1-all/21-ol-fut-chronicle-cr-nica-do-save.html
+ * Tokens-only (zero raw hex). Press Start 2P + Pixelify Sans + IBM Plex Mono.
+ * SPEC-082 / AKITA-391
+ */
 
 .ef-chron {
   --ef-chron-info: #40BAF7;
-  --ef-chron-border-soft: #2D3748;
+  --ef-chron-border-soft: var(--color-border);
+}
+
+.ef-chron__error {
+  padding: 24px;
 }
 
 .ef-chron__header {
-  border-bottom: 2px solid var(--ef-chron-info);
+  border-bottom: var(--primitive-border-thin) solid var(--ef-chron-info);
 }
 
 .ef-chron__header-icon {
   color: var(--ef-chron-info);
 }
 
+/* ============================================================
+ * Stitch v1.1 — Hero banner (LIVE FEED + STADIUM 01)
+ * ============================================================ */
+
+.ef-chron__hero {
+  position: relative;
+  margin: 24px 0;
+  padding: 24px;
+  background: var(--color-bg-secondary);
+  border: var(--primitive-border-thick) solid var(--color-tertiary);
+  overflow: hidden;
+}
+
+.ef-chron__hero-bg-icon {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  opacity: 0.18;
+  color: var(--color-primary);
+  pointer-events: none;
+}
+
+.ef-chron__hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.ef-chron__hero-tags {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.ef-chron__pill-live {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+}
+
+.ef-chron__pill-status {
+  color: var(--color-secondary);
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.ef-chron__hero-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin: 0 0 12px 0;
+}
+
+.ef-chron__hero-tagline {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  margin: 0;
+  max-width: 640px;
+}
+
+/* ============================================================
+ * Layout grid — 12-col responsive
+ * ============================================================ */
+
+.ef-chron__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 960px) {
+  .ef-chron__grid {
+    grid-template-columns: 4fr 8fr;
+  }
+}
+
+/* ============================================================
+ * Left aside — Toggle + Bio card
+ * ============================================================ */
+
+.ef-chron__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ef-chron__panel-frame {
+  border: var(--primitive-border-thick) solid var(--color-tertiary);
+  background: var(--color-bg);
+  padding: 16px;
+}
+
+.ef-chron__panel-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+}
+
+.ef-chron__toggle-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-chron__toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ef-chron__toggle-btn:hover {
+  background: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.ef-chron__toggle-btn--active {
+  border-color: var(--color-primary);
+  background: var(--color-border);
+  color: var(--color-primary);
+  box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+.ef-chron__toggle-btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Bio card */
+
+.ef-chron__bio {
+  border: var(--primitive-border-thick) solid var(--color-tertiary);
+  background: var(--color-bg-secondary);
+  overflow: hidden;
+}
+
+.ef-chron__bio-banner {
+  position: relative;
+  height: 160px;
+  background: var(--color-bg-tertiary);
+  border-bottom: var(--primitive-border-thick) solid var(--color-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ef-chron__bio-banner-icon {
+  color: var(--color-tertiary);
+  opacity: 0.5;
+}
+
+.ef-chron__bio-tag {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-display);
+  font-size: 11px;
+  padding: 4px 10px;
+  letter-spacing: 0.06em;
+}
+
+.ef-chron__bio-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ef-chron__bio-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(160, 186, 174, 0.25);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.ef-chron__bio-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.ef-chron__bio-label {
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ef-chron__bio-icon {
+  vertical-align: middle;
+}
+
+.ef-chron__bio-value {
+  color: var(--color-secondary);
+}
+
+.ef-chron__bio-value--primary {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+ * Right column — Terminal-style narrative panel
+ * ============================================================ */
+
+.ef-chron__terminal {
+  display: flex;
+  flex-direction: column;
+  border: var(--primitive-border-thick) solid var(--color-tertiary);
+  background: var(--color-bg);
+  min-height: 600px;
+}
+
+.ef-chron__terminal-head {
+  background: var(--color-tertiary);
+  color: var(--color-bg);
+  padding: 6px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.ef-chron__terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.ef-chron__terminal-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--color-bg);
+}
+
+.ef-chron__terminal-body {
+  flex: 1 1 auto;
+  padding: 24px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  overflow-x: auto;
+}
+
+.ef-chron__terminal-empty {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  text-align: center;
+  padding: 48px 16px;
+}
+
+.ef-chron__chapter {
+  border-left: var(--primitive-border-thick) solid var(--color-primary);
+  padding: 8px 0 8px 18px;
+  margin-bottom: 18px;
+}
+
+.ef-chron__chapter-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+  margin: 0 0 8px 0;
+}
+
+.ef-chron__chapter-body {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+}
+
+.ef-chron__paragraph {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  margin: 0 0 12px 0;
+}
+
+.ef-chron__log {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: var(--primitive-border-thin) solid var(--color-primary);
+  background: rgba(14, 31, 20, 0.55);
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 12px 14px;
+  margin-top: 16px;
+}
+
+.ef-chron__log-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ============================================================
+ * Footer actions (export)
+ * ============================================================ */
+
+.ef-chron__terminal-foot {
+  border-top: var(--primitive-border-thick) solid var(--color-tertiary);
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Keep public API surface compatible (toolbar fallback if needed) */
 .ef-chron__toolbar {
   display: flex;
   gap: 12px;
@@ -27,22 +380,6 @@
   gap: 8px;
 }
 
-.ef-chron__btn-lifetime-active {
-  background-color: var(--accent);
-  color: #000;
-  border-color: var(--accent);
-}
-
 .ef-chron__btn-export {
   border-color: var(--ef-chron-border-soft);
-}
-
-.ef-chron__panel {
-  min-height: 400px;
-}
-
-.ef-chron__content {
-  white-space: pre-wrap;
-  font-size: 0.9rem;
-  line-height: 1.8;
 }
