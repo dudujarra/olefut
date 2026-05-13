@@ -1,15 +1,16 @@
-# 🐛 Bug Tracker — OléFUT RPG
+# 🐛 Bug Tracker — OléFUT
 
-> Atualizado: 2026-05-11 | Protocolo: AKITA Mandamento #6 (ticket + fix + regression test)
+> Atualizado: 2026-05-13 | Protocolo: AKITA Mandamento #6 (ticket + fix + regression test)
 > Fonte canônica: arquivos em `tests/regression/`. Cada BUG-XXX precisa ter os 3 artefatos.
 
 ## Estado
 
 | | |
 |---|---|
-| Bugs com regression test em `tests/regression/` | **13 arquivos** (alguns cobrem cascatas) |
+| Bugs com regression test em `tests/regression/` | **17 arquivos** (alguns cobrem cascatas) |
 | Bugs resolvidos com 3-artefact completo | Ver tabela abaixo |
-| Bugs abertos / regressões ativas (2026-05-11) | ✅ 1044/1044 verde após merge main + AKITA-204 (skipAutoRestore fix) |
+| Bugs abertos / regressões ativas (2026-05-13) | ✅ 1619/1619 verde após AKITA-313 systematic debug + AKITA-317 rebrand |
+| V11 latentes fixados (AKITA-313) | ModLoader fetch storm + setState após unmount AutoPlayLabView |
 
 ## Inventário de regression tests
 
