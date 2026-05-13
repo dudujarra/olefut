@@ -117,19 +117,9 @@
   cursor: pointer;
 }
 
-.ef-squad__row {
+.ef-squad__row-zebra {
   background: var(--bg-panel);
-  cursor: pointer;
-  border-left: 4px solid transparent;
   border-bottom: 1px solid var(--bg-panel);
-}
-
-.ef-squad__row--selected {
-  border-left-color: var(--primary);
-}
-
-.ef-squad__row--injured {
-  opacity: 0.6;
 }
 
 .ef-squad__badge-wrap {
@@ -160,11 +150,6 @@
 .ef-squad__td--left {
   text-align: left;
   padding: 12px;
-}
-
-.ef-squad__row-zebra {
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--bg-panel);
 }
 
 .ef-squad__section-header-pad {
@@ -321,4 +306,296 @@
 .ef-squad__tab-btn {
   font-weight: bold;
   gap: 8px;
+}
+
+/* ============================================================
+ * SPEC-176/183 — Stitch SquadView port (v1.1 brand)
+ * Match: docs/stitch-designs/v1.1-all/22-plantel-ol-fut-manager.html
+ * Tokens-only (zero raw hex). Press Start 2P + Pixelify Sans + IBM Plex Mono.
+ * ============================================================ */
+
+/* HEADER — team identity column + capacity bar */
+.ef-squad__identity-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-squad__team-name {
+  margin: 0;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.45);
+}
+
+.ef-squad__capacity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ef-squad__capacity-track {
+  width: 120px;
+  height: 8px;
+  background: var(--color-bg-tertiary, #040805);
+  border: var(--primitive-border-hairline) solid var(--color-text-secondary);
+}
+
+.ef-squad__capacity-fill {
+  height: 100%;
+  background: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+.ef-squad__capacity-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+}
+
+/* TABLE ROW — Stitch borderless zebra */
+.ef-squad__row {
+  background: var(--bg-panel);
+  cursor: pointer;
+  border-left: var(--primitive-border-thick) solid transparent;
+  border-bottom: var(--primitive-border-hairline) solid var(--bg-panel);
+  transition: background 0.15s ease;
+}
+
+.ef-squad__row:hover {
+  background: rgba(27, 67, 50, 0.4); /* forest @ 40% */
+}
+
+.ef-squad__row--selected {
+  border-left-color: var(--color-primary);
+  background: rgba(27, 67, 50, 0.2); /* forest @ 20% */
+}
+
+.ef-squad__row--injured {
+  opacity: 0.6;
+}
+
+/* ST cell — neon dot for non-titular, medical icon for injured */
+.ef-squad__status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-tertiary);
+  opacity: 0.3;
+}
+
+.ef-squad__status-medical {
+  color: var(--color-danger);
+}
+
+/* POS badge — Stitch colored pill */
+.ef-squad__pos-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border: var(--primitive-border-hairline) solid var(--color-tertiary);
+}
+
+.ef-squad__pos-badge--gol {
+  background: var(--primitive-color-green-forest);
+  color: var(--color-primary);
+}
+
+.ef-squad__pos-badge--def {
+  background: var(--primitive-color-red-dark-danger);
+  color: var(--color-text-primary);
+}
+
+.ef-squad__pos-badge--mei {
+  background: var(--primitive-color-green-forest);
+  color: var(--color-primary);
+}
+
+.ef-squad__pos-badge--ata {
+  background: var(--primitive-color-green-forest);
+  color: var(--color-secondary);
+}
+
+/* SUB-LABEL — age or injury info under player name */
+.ef-squad__sub-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.ef-squad__sub-label--danger {
+  color: var(--color-danger);
+}
+
+/* COND cell — % + horizontal bar */
+.ef-squad__td--cond {
+  text-align: left;
+  padding: 12px;
+}
+
+.ef-squad__cond {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ef-squad__cond-pct {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  min-width: 36px;
+}
+
+.ef-squad__cond-pct--ok { color: var(--color-text-primary); }
+.ef-squad__cond-pct--warn { color: var(--color-warning); }
+.ef-squad__cond-pct--danger { color: var(--color-danger); }
+
+.ef-squad__cond-track {
+  width: 80px;
+  height: 6px;
+  background: var(--color-bg-tertiary, #040805);
+}
+
+.ef-squad__cond-fill {
+  height: 100%;
+  transition: width 0.25s ease;
+}
+
+.ef-squad__cond-fill--ok { background: var(--color-primary); }
+.ef-squad__cond-fill--warn { background: var(--color-warning); }
+.ef-squad__cond-fill--danger { background: var(--color-danger); }
+
+/* MOR cell — icon + numeric value */
+.ef-squad__mor {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  width: 100%;
+}
+
+.ef-squad__mor-num {
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+}
+
+/* ACTION PILL — Stitch ESCALAR / BLOQ. button */
+.ef-squad__action-pill {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  background: var(--primitive-color-green-forest);
+  border: var(--primitive-border-thin) solid var(--color-tertiary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+}
+
+.ef-squad__action-pill:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.ef-squad__action-pill--active {
+  background: var(--primitive-color-green-forest);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.ef-squad__action-pill--blocked,
+.ef-squad__action-pill:disabled {
+  background: var(--primitive-color-red-dark-danger);
+  color: var(--color-text-primary);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* FOOTER STATS — Stitch summary trio (média OVR / cond / moral) */
+.ef-squad__summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.ef-squad__summary-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-right: var(--primitive-border-hairline) solid rgba(82, 183, 136, 0.3); /* pitch @ 30% */
+  padding-right: 16px;
+}
+
+.ef-squad__summary-cell:last-child {
+  border-right: 0;
+}
+
+.ef-squad__summary-label {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.ef-squad__summary-value {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.ef-squad__summary-cond {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ef-squad__summary-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--color-bg-secondary);
+  max-width: 100px;
+}
+
+.ef-squad__summary-bar-fill {
+  height: 100%;
+  background: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+.ef-squad__summary-moral {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .ef-squad__summary {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ef-squad__summary-cell {
+    border-right: 0;
+    border-bottom: var(--primitive-border-hairline) solid rgba(82, 183, 136, 0.3);
+    padding-right: 0;
+    padding-bottom: 16px;
+  }
+
+  .ef-squad__summary-cell:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
 }

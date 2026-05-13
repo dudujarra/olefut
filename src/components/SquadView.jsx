@@ -77,19 +77,18 @@ export function SquadView() {
     const back = gameState.mode === 'player' ? 'player_dashboard' : 'dashboard';
     const loanedOut = engine.loanedOut || [];
 
-    const renderHealthBlocks = (energy) => {
-        const blocks = [];
-        for (let i = 0; i < 5; i++) {
-            const threshold = (i + 1) * 20;
-            let color = 'var(--color-soft-border)';
-            if (energy >= threshold || energy > threshold - 10) {
-                color = energy > 60 ? 'var(--primary)' : energy > 30 ? 'var(--accent)' : 'var(--danger)';
-            }
-            blocks.push(
-                <div key={i} className="ef-health-pip" style={{ backgroundColor: color }} />
-            );
-        }
-        return <div className="ef-health-row">{blocks}</div>;
+    // SPEC-176/183: Stitch v1.1 condition bar (% + horizontal fill)
+    const renderConditionBar = (energy) => {
+        const pct = Math.max(0, Math.min(100, Math.round(energy)));
+        const tone = pct > 60 ? 'ok' : pct > 30 ? 'warn' : 'danger';
+        return (
+            <div className="ef-squad__cond">
+                <span className={`ef-squad__cond-pct ef-squad__cond-pct--${tone}`}>{pct}%</span>
+                <div className="ef-squad__cond-track">
+                    <div className={`ef-squad__cond-fill ef-squad__cond-fill--${tone}`} style={{ width: `${pct}%` }} />
+                </div>
+            </div>
+        );
     };
 
     const getMoralIcon = (m) => {
@@ -117,21 +116,29 @@ export function SquadView() {
             <ViewOnboarding viewId="squad" />
             <div className="ef-view-container ef-view-container--wide">
 
-                {/* === HEADER — LUXURY BENTO === */}
+                {/* === HEADER — Stitch v1.1 plantel hero (badge + capacity bar) === */}
                 <EfPanel variant="hero" padding="lg" className="ef-squad__header">
                     <div className="ef-squad__identity">
                         <EfClubBadge name={team.name} size="lg" />
-                        <div>
-                            <div className="ef-squad__tag-wrap">
-                                <Users weight="fill" /> {sorted.length}/{team.squad.length} JOGADORES NO PLANTEL
-                            </div>
-                            <h2 className="ef-heading-xl">
-                                {team.name}
+                        <div className="ef-squad__identity-col">
+                            <h2 className="ef-heading-xl ef-squad__team-name">
+                                {team.name?.toUpperCase()}
                             </h2>
+                            <div className="ef-squad__capacity">
+                                <div className="ef-squad__capacity-track">
+                                    <div
+                                        className="ef-squad__capacity-fill"
+                                        style={{ width: `${Math.min(100, (team.squad.length / 30) * 100)}%` }}
+                                    />
+                                </div>
+                                <span className="ef-squad__capacity-label">
+                                    <Users weight="fill" /> {team.squad.length}/30 JOGADORES NO PLANTEL
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div className="ef-squad__header-right">
-                        <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+                        <div className="ef-squad__action-block">
                             <EfButton variant="secondary" size="md" onClick={() => changeView(back)} className="ef-squad__btn-bold">VOLTAR</EfButton>
                             <EfButton variant="primary" size="md" title="Carrega o plantel real do clube via dataset pre-bake (substitui jogadores gerados)" onClick={handleLoadRealSquad} disabled={loadingReal} className="ef-squad__btn-bold">
                                 {loadingReal ? 'CARREGANDO...' : 'PLANTEL REAL'}
@@ -201,37 +208,36 @@ export function SquadView() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {sorted.map((p, index) => {
+                                {sorted.map((p) => {
                                     const isSelected = p.isTitular;
+                                    const rowCls = [
+                                        'ef-squad__row',
+                                        isSelected ? 'ef-squad__row--selected' : '',
+                                        p.injury ? 'ef-squad__row--injured' : ''
+                                    ].filter(Boolean).join(' ');
                                     return (
                                         <React.Fragment key={p.id}>
-                                            <tr 
-                                                style={{
-                                                    background: index % 2 === 0 ? 'var(--bg-panel)' : 'var(--bg-panel)',
-                                                    opacity: p.injury ? 0.6 : 1,
-                                                    cursor: 'pointer',
-                                                    borderLeft: isSelected ? '4px solid var(--primary)' : '4px solid transparent',
-                                                    borderBottom: '1px solid var(--bg-panel)'
-                                                }}
+                                            <tr
+                                                className={rowCls}
                                                 onClick={() => setExpandedId(expandedId === p.id ? null : p.id)}
                                             >
                                                 <td className="ef-squad__td">
-                                                    <div
-                                                        onClick={(e) => { e.stopPropagation(); toggleTitular(p.id); }}
-                                                        className={`ef-st-toggle${isSelected ? ' ef-st-toggle--active' : ''}${p.injury ? ' ef-st-toggle--disabled' : ''}`}
-                                                        title={p.injury ? 'Lesionado — fora da escalação até recuperar' : 'Alternar Titular/Reserva (titular ganha XP em jogo; reserva acumula desmotivação se não for usado)'}
-                                                    >
-                                                        {isSelected && <CheckCircle weight="bold" color="var(--primary)" size={16} />}
-                                                    </div>
+                                                    {p.injury ? (
+                                                        <FirstAid weight="fill" size={16} className="ef-squad__status-medical" />
+                                                    ) : (
+                                                        <div
+                                                            onClick={(e) => { e.stopPropagation(); toggleTitular(p.id); }}
+                                                            className={`ef-st-toggle${isSelected ? ' ef-st-toggle--active' : ''}`}
+                                                            title={'Alternar Titular/Reserva (titular ganha XP em jogo; reserva acumula desmotivação se não for usado)'}
+                                                        >
+                                                            {isSelected
+                                                                ? <CheckCircle weight="bold" color="var(--primary)" size={16} />
+                                                                : <span className="ef-squad__status-dot" aria-hidden="true" />}
+                                                        </div>
+                                                    )}
                                                 </td>
                                                 <td className="ef-squad__td">
-                                                    <span className="ef-mono" style={{
-                                                        color: 'var(--bg-dark)',
-                                                        background: getPosColor(p.position),
-                                                        padding: '4px 8px',
-                                                        fontSize: '0.75rem',
-                                                        fontWeight: 700
-                                                    }}>
+                                                    <span className={`ef-squad__pos-badge ef-squad__pos-badge--${(p.position || '').toLowerCase()}`}>
                                                         {p.naturalPosition || p.position}
                                                     </span>
                                                 </td>
@@ -242,11 +248,14 @@ export function SquadView() {
                                                             {p.isWonderkid && <Sparkle weight="fill" color="var(--color-purple-wonder)" size={14} />}
                                                             {p.nickname ? `"${p.nickname}" ${p.name.split(' ').pop()}` : p.name}
                                                             {getFormTrendIcon(p.form?.trend)}
-                                                            {p.injury && <FirstAid weight="fill" color="var(--danger)" size={16} className="ef-squad__injury-icon"/>}
                                                         </div>
-                                                        {p.specialty && (
-                                                            <div className="ef-squad__pos-mono">
-                                                                {p.specialty}
+                                                        {p.injury ? (
+                                                            <div className="ef-squad__sub-label ef-squad__sub-label--danger">
+                                                                LESIONADO{p.injury?.weeksRemaining ? ` (${p.injury.weeksRemaining} SEM)` : ''}
+                                                            </div>
+                                                        ) : (
+                                                            <div className="ef-squad__sub-label">
+                                                                {p.age} ANOS{p.specialty ? ` • ${p.specialty}` : ''}
                                                             </div>
                                                         )}
                                                     </div>
@@ -254,16 +263,25 @@ export function SquadView() {
                                                 <td className="ef-squad__ovr-cell">
                                                     {p.ovr}
                                                 </td>
-                                                <td className="ef-squad__td">
-                                                    {renderHealthBlocks(p.energy)}
+                                                <td className="ef-squad__td ef-squad__td--cond">
+                                                    {renderConditionBar(p.energy)}
                                                 </td>
                                                 <td className="ef-squad__td">
-                                                    <div className="ef-squad__flex-center">
+                                                    <div className="ef-squad__mor">
                                                         {getMoralIcon(p.moral || 50)}
+                                                        <span className="ef-mono ef-squad__mor-num">{p.moral || 50}</span>
                                                     </div>
                                                 </td>
                                                 <td className="ef-squad__td">
                                                     <div className="ef-squad__flex-center-gap">
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); if (!p.injury) toggleTitular(p.id); }}
+                                                            disabled={!!p.injury}
+                                                            title={p.injury ? 'Lesionado — fora da escalação até recuperar' : (isSelected ? 'Mover para reservas' : 'Escalar como titular')}
+                                                            className={`ef-squad__action-pill${p.injury ? ' ef-squad__action-pill--blocked' : ''}${isSelected ? ' ef-squad__action-pill--active' : ''}`}
+                                                        >
+                                                            {p.injury ? 'BLOQ.' : (isSelected ? 'TIT.' : 'ESCALAR')}
+                                                        </button>
                                                         {!p.isTitular && !p.injury && p.age <= 23 && (
                                                             <button title="Emprestar (jovem ganha minutos em outro clube; volta com XP)" onClick={(e) => { e.stopPropagation(); handleLoan(p.id); }} className="ef-icon-btn ef-icon-btn--info">
                                                                 <PaperPlaneRight size={16} weight="bold" />
@@ -334,6 +352,44 @@ export function SquadView() {
                         </table>
                     </EfPanel>
                 )}
+
+                {/* === FOOTER STATS — Stitch v1.1 plantel summary === */}
+                {tab === 'plantel' && (() => {
+                    const count = sorted.length || 1;
+                    const sumOvr = sorted.reduce((acc, p) => acc + (p.ovr || 0), 0);
+                    const sumEnergy = sorted.reduce((acc, p) => acc + (p.energy || 0), 0);
+                    const sumMoral = sorted.reduce((acc, p) => acc + (p.moral || 50), 0);
+                    const avgOvr = (sumOvr / count).toFixed(1);
+                    const avgEnergy = Math.round(sumEnergy / count);
+                    const avgMoral = Math.round(sumMoral / count);
+                    const moralLabel = avgMoral > 70 ? 'FORTE' : avgMoral > 40 ? 'NEUTRA' : 'FRACA';
+                    const MoralIcon = avgMoral > 70 ? ArrowCircleUp : avgMoral > 40 ? MinusCircle : ArrowCircleDown;
+                    const moralCls = avgMoral > 70 ? 'ef-text-primary' : avgMoral > 40 ? 'ef-text-muted' : 'ef-text-danger';
+                    return (
+                        <EfPanel padding="md" className="ef-squad__summary">
+                            <div className="ef-squad__summary-cell">
+                                <span className="ef-squad__summary-label">MÉDIA OVR</span>
+                                <span className="ef-squad__summary-value ef-text-accent">{avgOvr}</span>
+                            </div>
+                            <div className="ef-squad__summary-cell">
+                                <span className="ef-squad__summary-label">COND. MÉDIA</span>
+                                <div className="ef-squad__summary-cond">
+                                    <span className="ef-squad__summary-value ef-text-primary">{avgEnergy}%</span>
+                                    <div className="ef-squad__summary-bar">
+                                        <div className="ef-squad__summary-bar-fill" style={{ width: `${avgEnergy}%` }} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="ef-squad__summary-cell">
+                                <span className="ef-squad__summary-label">MORAL EQUIPE</span>
+                                <div className={`ef-squad__summary-moral ${moralCls}`}>
+                                    <MoralIcon weight="fill" size={20} />
+                                    <span className="ef-squad__summary-value">{moralLabel}</span>
+                                </div>
+                            </div>
+                        </EfPanel>
+                    );
+                })()}
 
                 {tab === 'stats' && (
                     <EfPanel padding="md">
