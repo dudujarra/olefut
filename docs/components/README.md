@@ -2,7 +2,7 @@
 
 Reference docs for UI primitives in `src/components/ui/`.
 
-## Primitives
+## Primitives (9/9 documented ✅)
 
 | Component | Doc | File |
 |-----------|-----|------|
@@ -11,15 +11,10 @@ Reference docs for UI primitives in `src/components/ui/`.
 | EfModal | [EfModal.md](EfModal.md) | `src/components/ui/EfModal.jsx` |
 | EfInput | [EfInput.md](EfInput.md) | `src/components/ui/EfInput.jsx` |
 | EfTooltip | [EfTooltip.md](EfTooltip.md) | `src/components/ui/EfTooltip.jsx` |
-
-## Pending Docs
-
-| Component | Status |
-|-----------|--------|
-| EfBanner | ⏳ Has CSS, needs doc |
-| EfCardPlayer | ⏳ Has CSS, needs doc |
-| EfClubBadge | ⏳ Pending |
-| EfStatLine | ⏳ Pending |
+| EfBanner | [EfBanner.md](EfBanner.md) | `src/components/ui/EfBanner.jsx` |
+| EfCardPlayer | [EfCardPlayer.md](EfCardPlayer.md) | `src/components/ui/EfCardPlayer.jsx` |
+| EfClubBadge | [EfClubBadge.md](EfClubBadge.md) | `src/components/ui/EfClubBadge.jsx` |
+| EfStatLine | [EfStatLine.md](EfStatLine.md) | `src/components/ui/EfStatLine.jsx` |
 
 ## Conventions
 
