@@ -1,4 +1,5 @@
 /**
+import '../styles/autoplay-lab-view.css';
  * AutoPlayLabView — F1 UI
  *
  * Single view: dropdown preset + config + RUN + results + export.
@@ -86,12 +87,12 @@ export function AutoPlayLabView() {
     });
 
     return (
-        <div className="ef-anim-fade-in ef-scene-shell" style={{ minHeight: '100dvh', backgroundColor: 'var(--bg-dark)' }}>
-            <div className="ef-view-container" style={{ maxWidth: '1100px', padding: '24px' }}>
+        <div className="ef-aplab__scene">
+            <div className="ef-aplab__container">
 
                 {/* HEADER */}
-                <EfPanel padding="lg" style={{ marginBottom: '20px', borderBottom: '2px solid var(--color-gold-arcade)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <EfPanel padding="lg" className="ef-aplab__panel-gold-bottom">
+                    <div className="ef-aplab__inline">
                         <Flask size={28} color="var(--color-gold-arcade)" weight="fill" />
                         <div style={{ flex: 1 }}>
                             <h2 style={{ margin: 0, fontSize: '1.4rem', color: 'var(--text-main)', fontFamily: 'var(--font-sans)' }}>
@@ -108,9 +109,9 @@ export function AutoPlayLabView() {
                 </EfPanel>
 
                 {/* CONFIG */}
-                <EfPanel padding="md" style={{ marginBottom: '20px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                        <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <EfPanel padding="md" className="ef-aplab__panel-mb">
+                    <div className="ef-aplab__grid-2">
+                        <label className="ef-aplab__label-col">
                             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>PRESET</span>
                             <select
                                 value={presetId}
@@ -140,7 +141,7 @@ export function AutoPlayLabView() {
                             )}
                         </label>
 
-                        <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <label className="ef-aplab__label-col">
                             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>SAVES</span>
                             <input
                                 type="number"
@@ -159,7 +160,7 @@ export function AutoPlayLabView() {
                             />
                         </label>
 
-                        <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <label className="ef-aplab__label-col">
                             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>SEMANAS/SAVE</span>
                             <input
                                 type="number"
@@ -178,7 +179,7 @@ export function AutoPlayLabView() {
                             />
                         </label>
 
-                        <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <label className="ef-aplab__label-col">
                             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }}>SEED START</span>
                             <input
                                 type="number"
@@ -206,7 +207,7 @@ export function AutoPlayLabView() {
                         Random seeds (crash hunting)
                     </label>
 
-                    <div style={{ marginTop: '16px', display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <div className="ef-aplab__action-row">
                         <EfButton variant="primary" size="lg" onClick={handleRun} disabled={running}>
                             <Play size={16} weight="fill" /> {running ? 'RODANDO...' : 'RODAR'}
                         </EfButton>
@@ -233,7 +234,7 @@ export function AutoPlayLabView() {
 
                 {/* RESULTS */}
                 {analysis && (
-                    <EfPanel padding="md" style={{ marginBottom: '20px' }}>
+                    <EfPanel padding="md" className="ef-aplab__panel-mb">
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
                             <div style={{ fontSize: '0.75rem', color: 'var(--color-gold-arcade)', fontFamily: 'var(--font-sans)', fontWeight: 'bold', letterSpacing: '0.1em' }}>
                                 RESULTADOS — {preset?.label?.toUpperCase()}
