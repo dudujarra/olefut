@@ -5,6 +5,7 @@ import { BenchEventsDeck } from '../engine/BenchEventsDeck';
 import { EfClubBadge, EfPanel, EfButton } from './ui';
 import bgMatchStadium from '../assets/environments/bg_match_stadium.png';
 import { rng as systemRng } from '../engine/rng.js';
+import '../styles/player-match-view.css';
 
 import {
     Clock, SoccerBall, Flag, UserMinus, TrendUp, WarningCircle, CheckCircle, Question
@@ -29,7 +30,6 @@ export function PlayerMatchView() {
     const prevHomeGoalsRef = useRef(0);
     const timerRef = useRef(null);
 
-    // Trigger goal-burst quando homeGoals incrementar
     useEffect(() => {
         if (homeGoals > prevHomeGoalsRef.current) {
             setGoalBurstActive(true);
@@ -40,14 +40,11 @@ export function PlayerMatchView() {
         prevHomeGoalsRef.current = homeGoals;
     }, [homeGoals]);
 
-    // BUG-081 (SPEC-158): aceitável — player.checkBenchStatus() muta engine (side effect).
-    // Busca oponente em engine.tournaments também é lookup externo.
     /* eslint-disable react-hooks/set-state-in-effect */
     useEffect(() => {
         player.checkBenchStatus();
         setIsBenched(player.isBenched);
 
-        // Find opponent
         for (const t of engine.tournaments) {
             if (t.constructor.name === 'League' && t.fixtures[engine.currentWeek]) {
                 const match = t.fixtures[engine.currentWeek].find(m => m.home === team.id || m.away === team.id);
@@ -75,7 +72,6 @@ export function PlayerMatchView() {
                     return 90;
                 }
 
-                // Random events
                 if (systemRng() < 0.04) {
                     if (systemRng() > 0.5) {
                         setHomeGoals(g => g + 1);
@@ -86,12 +82,10 @@ export function PlayerMatchView() {
                     }
                 }
 
-                // Player events (SPEC-B6.3 — enriquece com atmosfera BR)
                 if (!isBenched && !activeEvent && next % 20 === 0 && next < 90 && systemRng() < 0.6) {
                     clearInterval(timerRef.current);
                     const card = drawCard(player.position);
                     if (card) {
-                        // Map position → atmosphere eventType (50% chance prefix)
                         const seed = next + (player.id || 0);
                         const enrichEvtType = (player.position === 'ATA' && systemRng() < 0.4) ? 'goal'
                             : (player.position === 'GOL' && systemRng() < 0.4) ? 'save'
@@ -102,7 +96,6 @@ export function PlayerMatchView() {
                     }
                 }
 
-                // Bench events
                 if (isBenched && next % 25 === 0 && systemRng() < 0.5) {
                     clearInterval(timerRef.current);
                     const card = BenchEventsDeck[Math.floor(systemRng() * BenchEventsDeck.length)];
@@ -118,7 +111,6 @@ export function PlayerMatchView() {
 
     const handleChoice = (option) => {
         if (activeEvent.isBench) {
-            // Bench event
             const eff = option.effect;
             if (eff.boss) player.relationships.boss = Math.max(0, Math.min(100, player.relationships.boss + eff.boss));
             if (eff.fans) player.relationships.fans = Math.max(0, Math.min(100, player.relationships.fans + eff.fans));
@@ -126,7 +118,6 @@ export function PlayerMatchView() {
             if (eff.energy) player.energy = Math.max(0, Math.min(100, player.energy + eff.energy));
             setEventResult(option.resultText);
         } else {
-            // Match RPG event
             const energyFactor = Math.max(0.3, player.energy / 100);
             const finalPower = player.skills[option.skill] * energyFactor * systemRng();
             const defPower = option.difficulty * systemRng();
@@ -172,18 +163,17 @@ export function PlayerMatchView() {
     const resultText = eventResult ? eventResult.replace(/^(SUCCESS|FAIL)\|/, '') : '';
 
     return (
-        <div className="ef-anim-fade-in ef-scene-shell" style={{ backgroundImage: `url(${bgMatchStadium})` }}>
-            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="ef-anim-fade-in ef-scene-shell ef-pmatch" style={{ backgroundImage: `url(${bgMatchStadium})` }}>
+            <div className="ef-pmatch__container">
                 {isBenched && (
                     <div className="ef-bench-banner">
                         <UserMinus size={24} weight="fill" /> VOCÊ ESTÁ NO BANCO — Observe e interaja com os eventos
                     </div>
                 )}
 
-                {/* Scoreboard Panel */}
                 <EfPanel padding="lg" className={`ef-match-scoreboard ${goalBurstActive ? 'ef-anim-shake' : ''}`}>
                     {goalBurstActive && (
-                        <div className="ef-anim-goal-burst" style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',zIndex:10,pointerEvents:'none'}} />
+                        <div className="ef-anim-goal-burst ef-pmatch__burst" />
                     )}
                     <div className="ef-match-scoreboard__row">
                         <div className="ef-match-scoreboard__team">
@@ -219,11 +209,10 @@ export function PlayerMatchView() {
                     </div>
                 </EfPanel>
 
-                {/* Event Modal Overlay */}
                 {activeEvent && !eventResult && (
                     <div className="ef-match-overlay">
-                        <EfPanel padding="lg" style={{ maxWidth: '500px', width: '100%', border: `2px solid ${activeEvent.isBench ? '#2D3748' : '#FFD700'}` }}>
-                            <div className="ef-match-event-header" style={{ color: activeEvent.isBench ? '#FDFBF7' : '#FFD700' }}>
+                        <EfPanel padding="lg" className={activeEvent.isBench ? 'ef-pmatch__event-panel--bench' : 'ef-pmatch__event-panel--match'}>
+                            <div className={`ef-match-event-header ${activeEvent.isBench ? 'ef-pmatch__event-header--bench' : 'ef-pmatch__event-header--match'}`}>
                                 {activeEvent.isBench ? <Question size={32} /> : <WarningCircle size={32} weight="fill" />}
                                 <h3 className="ef-match-event-title">
                                     {activeEvent.isBench ? 'DECISÃO NO BANCO' : `MOMENTO DECISIVO — ${minute}'`}
@@ -234,11 +223,11 @@ export function PlayerMatchView() {
                                 {activeEvent.text}
                             </p>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <div className="ef-pmatch__options-list">
                                 {activeEvent.options.map((opt, i) => (
-                                    <EfButton key={i} variant="secondary" onClick={() => handleChoice(opt)} style={{ justifyContent: 'space-between', padding: '16px' }}>
+                                    <EfButton key={i} variant="secondary" onClick={() => handleChoice(opt)} className="ef-pmatch__option-btn">
                                         <span>{opt.label}</span>
-                                        {opt.skill && <span className="ef-mono" style={{ color: '#40BAF7', fontSize: '0.8rem' }}>[{opt.skill.toUpperCase()}]</span>}
+                                        {opt.skill && <span className="ef-mono ef-pmatch__option-skill">[{opt.skill.toUpperCase()}]</span>}
                                     </EfButton>
                                 ))}
                             </div>
@@ -246,25 +235,23 @@ export function PlayerMatchView() {
                     </div>
                 )}
 
-                {/* Event Result Overlay */}
                 {eventResult && (
                     <div className="ef-match-overlay">
-                        <EfPanel padding="lg" style={{ maxWidth: '500px', width: '100%', textAlign: 'center', border: `2px solid ${resultIsSuccess ? '#39FF14' : '#FF3333'}` }}>
-                            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+                        <EfPanel padding="lg" className={resultIsSuccess ? 'ef-pmatch__result-panel--success' : 'ef-pmatch__result-panel--fail'}>
+                            <div className="ef-pmatch__result-icon">
                                 {resultIsSuccess
-                                    ? <CheckCircle size={48} color="#39FF14" weight="fill" />
-                                    : <WarningCircle size={48} color="#FF3333" weight="fill" />}
+                                    ? <CheckCircle size={48} color="var(--primary)" weight="fill" />
+                                    : <WarningCircle size={48} color="var(--danger)" weight="fill" />}
                             </div>
-                            <p style={{ fontSize: '1.2rem', margin: 0, color: '#FDFBF7', fontWeight: 'bold' }}>
+                            <p className="ef-pmatch__result-text">
                                 {resultText}
                             </p>
                         </EfPanel>
                     </div>
                 )}
 
-                {/* Narration */}
-                <EfPanel padding="lg" style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: '300px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#FDFBF7', marginBottom: '16px', fontWeight: 'bold' }}>
+                <EfPanel padding="lg" className="ef-pmatch__narration-panel">
+                    <div className="ef-pmatch__narration-header">
                         <Flag size={20} /> LANCES DA PARTIDA
                     </div>
 
@@ -274,7 +261,7 @@ export function PlayerMatchView() {
                             <div key={i} className={`ef-match-narration-row ${n.isGoal ? 'ef-match-narration-row--goal' : ''}`}>
                                 <span className="ef-match-narration-row__min">{n.minute}'</span>
                                 <span>{n.text}</span>
-                                {n.isGoal && <SoccerBall size={16} color="#39FF14" weight="fill" style={{ marginLeft: 'auto' }} />}
+                                {n.isGoal && <SoccerBall size={16} color="var(--primary)" weight="fill" className="ef-pmatch__goal-icon" />}
                             </div>
                         ))}
                     </div>
@@ -282,7 +269,7 @@ export function PlayerMatchView() {
 
                 {matchFinished && (
                     <div className="ef-anim-slide-up">
-                        <EfButton variant="primary" size="lg" onClick={handleEndMatch} style={{ width: '100%', justifyContent: 'center', padding: '20px', fontSize: '1.1rem' }}>
+                        <EfButton variant="primary" size="lg" onClick={handleEndMatch} className="ef-pmatch__end-btn">
                             <TrendUp size={24} weight="bold" /> VER RESULTADOS E AVANÇAR
                         </EfButton>
                     </div>
