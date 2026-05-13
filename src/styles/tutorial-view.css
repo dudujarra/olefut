@@ -1,49 +1,150 @@
-/* TutorialView — semantic CSS + design tokens */
+/* TutorialView — Stitch v1.1 port (AKITA-388) */
+/* Semantic CSS using design tokens. No raw hex. No orphan fonts. */
 
 /* === COMPONENT TOKENS === */
 
 .ef-tut {
-  --ef-tut-info: #40BAF7;
-  --ef-tut-border-soft: #2D3748;
-  --ef-tut-glow: #111417;
-  --ef-tut-muted: #8E9E94;
+  --ef-tut-card-bg: var(--color-bg-secondary);
+  --ef-tut-card-border: var(--color-tertiary);
+  --ef-tut-card-shadow: var(--color-bg);
+  --ef-tut-accent: var(--color-primary);
+  --ef-tut-accent-secondary: var(--color-secondary);
+  --ef-tut-title-color: var(--color-primary);
+  --ef-tut-body-color: var(--color-text-primary);
+  --ef-tut-muted: var(--color-text-secondary);
+  --ef-tut-icon-bg: var(--color-bg);
+  --ef-tut-info: var(--color-tertiary);
+  --ef-tut-border-soft: var(--color-border);
 }
 
-/* === PANEL === */
+/* === PANEL (Stitch-style retro card) === */
 
 .ef-tut__panel {
-  max-width: 600px;
+  max-width: 540px;
   width: 100%;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 24px;
-  border-top: 4px solid var(--ef-tut-info);
+  background-color: var(--ef-tut-card-bg);
+  border: 4px solid var(--ef-tut-card-border);
+  padding: 32px;
+  box-shadow: 8px 8px 0 0 var(--ef-tut-card-shadow);
 }
+
+/* Decorative neon corner squares (Stitch signature) */
+.ef-tut__panel::before,
+.ef-tut__panel::after,
+.ef-tut__corner {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: var(--ef-tut-accent);
+  z-index: 2;
+}
+
+.ef-tut__panel::before { top: -4px; left: -4px; }
+.ef-tut__panel::after { top: -4px; right: -4px; }
+.ef-tut__corner--bl { bottom: -4px; left: -4px; }
+.ef-tut__corner--br { bottom: -4px; right: -4px; }
+
+/* Step counter badge (Stitch step 3 ref) */
+.ef-tut__step-badge {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--ef-tut-accent);
+  color: var(--color-bg);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 16px;
+  border: 2px solid var(--ef-tut-card-border);
+  box-shadow: 4px 4px 0 0 var(--ef-tut-card-shadow);
+  letter-spacing: 0.05em;
+  z-index: 3;
+  text-transform: uppercase;
+}
+
+/* === ICON BOX === */
 
 .ef-tut__icon-box {
   width: 120px;
   height: 120px;
-  background-color: var(--bg-dark);
+  background-color: var(--ef-tut-icon-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--ef-tut-border-soft);
-  box-shadow: 0 0 30px var(--ef-tut-glow);
+  border: 4px solid var(--ef-tut-card-border);
+  margin-top: 8px;
+  position: relative;
 }
 
+.ef-tut__icon-box::before,
+.ef-tut__icon-box::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--ef-tut-accent);
+}
+
+.ef-tut__icon-box::before { top: -4px; left: -4px; }
+.ef-tut__icon-box::after { bottom: -4px; right: -4px; }
+
+/* === TYPOGRAPHY === */
+
 .ef-tut__title {
-  margin: 0 0 16px 0;
-  font-size: 1.5rem;
-  font-weight: 900;
+  margin: 0 0 12px 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--ef-tut-title-color);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .ef-tut__body {
   margin: 0;
+  font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.6;
+  color: var(--ef-tut-body-color);
+  max-width: 400px;
 }
+
+/* === STEP BAR (pixel dots) === */
+
+.ef-stepbar {
+  display: flex;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.ef-stepbar__pip {
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-bg-secondary);
+  border: 2px solid var(--ef-tut-card-border);
+  transition: all 0.2s ease;
+}
+
+.ef-stepbar__pip--past {
+  background-color: var(--ef-tut-card-border);
+  border-color: var(--ef-tut-card-border);
+}
+
+.ef-stepbar__pip--current {
+  background-color: var(--ef-tut-accent);
+  border-color: var(--ef-tut-card-border);
+  box-shadow: 0 0 8px var(--ef-tut-accent);
+}
+
+/* === NAVIGATION BUTTONS === */
 
 .ef-tut__nav {
   display: flex;
@@ -54,9 +155,38 @@
 
 .ef-tut__nav-btn { flex: 1; }
 .ef-tut__nav-btn--primary-only { flex: 1; }
-.ef-tut__nav-btn--primary-after-back { flex: 2; }
+.ef-tut__nav-btn--primary-after-back { flex: 1; }
 
-.ef-tut__skip-wrap { margin-top: 8px; }
+/* === SKIP LINK === */
+
+.ef-tut__skip-wrap {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.ef-skip-link {
+  background: transparent;
+  border: none;
+  color: var(--ef-tut-muted);
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.ef-skip-link:hover {
+  color: var(--ef-tut-accent);
+}
 
 /* === REPLAY (SPEC-F5.3) === */
 
@@ -70,7 +200,7 @@
 .ef-tut__replay-label {
   font-size: 0.7rem;
   color: var(--ef-tut-muted);
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-weight: bold;
   letter-spacing: 0.1em;
   margin-bottom: 8px;
@@ -78,7 +208,7 @@
 
 .ef-tut__replay-list {
   font-size: 0.8rem;
-  color: var(--text-main);
+  color: var(--ef-tut-body-color);
   font-family: var(--font-mono);
   margin-bottom: 12px;
 }
@@ -86,11 +216,18 @@
 .ef-tut__replay-btn {
   background-color: transparent;
   color: var(--ef-tut-info);
-  border: 1px solid var(--ef-tut-info);
+  border: 2px solid var(--ef-tut-info);
   padding: 6px 14px;
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
   font-weight: bold;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.ef-tut__replay-btn:hover {
+  background-color: var(--ef-tut-info);
+  color: var(--color-bg);
 }

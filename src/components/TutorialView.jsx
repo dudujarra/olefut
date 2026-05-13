@@ -106,26 +106,37 @@ export function TutorialView() {
 
     const cur = STEPS[step];
 
+    const stepLabel = `PASSO ${String(step + 1).padStart(2, '0')}`;
+
     return (
         <div
             className="ef-anim-fade-in ef-scene-shell ef-scene-shell--centered ef-tut"
             style={{ backgroundImage: `url(${bgTutorial})` }}
         >
             <EfPanel padding="lg" className="ef-tut__panel">
+                {/* Decorative neon corners (Stitch signature) */}
+                <span className="ef-tut__corner ef-tut__corner--bl" aria-hidden="true" />
+                <span className="ef-tut__corner ef-tut__corner--br" aria-hidden="true" />
+
+                {/* Step counter badge */}
+                <div className="ef-tut__step-badge" aria-label={`Etapa ${step + 1} de ${STEPS.length}`}>
+                    {stepLabel}
+                </div>
+
                 <div className="ef-anim-pop-in ef-tut__icon-box" key={`icon-${step}`}>
                     {cur.icon}
                 </div>
 
                 <div className="ef-anim-slide-up" key={`content-${step}`}>
-                    <h2 className="ef-sans ef-text-main ef-tut__title">
+                    <h2 className="ef-tut__title">
                         {cur.title}
                     </h2>
-                    <p className="ef-text-muted ef-tut__body">
+                    <p className="ef-tut__body">
                         {cur.body}
                     </p>
                 </div>
 
-                <div className="ef-stepbar">
+                <div className="ef-stepbar" role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length}>
                     {STEPS.map((_, i) => {
                         const cls = i === step
                             ? 'ef-stepbar__pip ef-stepbar__pip--current'
@@ -146,7 +157,7 @@ export function TutorialView() {
                         {step < STEPS.length - 1 ? (
                             <>PRÓXIMO <ArrowRight size={20} /></>
                         ) : (
-                            <>INICIAR CARREIRA <SoccerBall size={20} weight="fill" /></>
+                            <>JOGAR <SoccerBall size={20} weight="fill" /></>
                         )}
                     </EfButton>
                 </div>
