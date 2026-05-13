@@ -122,7 +122,7 @@ export function SquadView() {
                     <div className="ef-squad__identity">
                         <EfClubBadge name={team.name} size="lg" />
                         <div>
-                            <div className="ef-tag-mono" className="ef-squad__tag-wrap">
+                            <div className="ef-squad__tag-wrap">
                                 <Users weight="fill" /> {sorted.length}/{team.squad.length} JOGADORES NO PLANTEL
                             </div>
                             <h2 className="ef-heading-xl">
@@ -132,8 +132,8 @@ export function SquadView() {
                     </div>
                     <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
                         <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
-                            <EfButton variant="secondary" size="md" onClick={() => changeView(back)} className="ef-sans" className="ef-squad__btn-bold">VOLTAR</EfButton>
-                            <EfButton variant="primary" size="md" title="Carrega o plantel real do clube via dataset pre-bake (substitui jogadores gerados)" onClick={handleLoadRealSquad} disabled={loadingReal} className="ef-sans" className="ef-squad__btn-bold">
+                            <EfButton variant="secondary" size="md" onClick={() => changeView(back)} className="ef-squad__btn-bold">VOLTAR</EfButton>
+                            <EfButton variant="primary" size="md" title="Carrega o plantel real do clube via dataset pre-bake (substitui jogadores gerados)" onClick={handleLoadRealSquad} disabled={loadingReal} className="ef-squad__btn-bold">
                                 {loadingReal ? 'CARREGANDO...' : 'PLANTEL REAL'}
                             </EfButton>
                         </div>
@@ -143,8 +143,8 @@ export function SquadView() {
                             </div>
                         )}
                         {team.manager?.stats && (
-                            <div className="ef-mono ef-text-muted" className="ef-squad__manager-stats">
-                                {team.manager.stats.wins || 0}V <span className="ef-text-accent">{team.manager.stats.draws || 0}E</span> <span className="ef-text-danger">{team.manager.stats.losses || 0}D</span>
+                            <div className="ef-squad__manager-stats">
+                                {team.manager.stats.wins || 0}V <span>{team.manager.stats.draws || 0}E</span> <span className="ef-text-danger">{team.manager.stats.losses || 0}D</span>
                             </div>
                         )}
                     </div>
@@ -152,7 +152,7 @@ export function SquadView() {
 
                 {/* Tabs & Filters Bento */}
                 <EfPanel padding="md" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', background: 'var(--bg-panel)' }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div className="ef-squad__flex-gap">
                         {[
                             { id: 'plantel', label: 'PLANTEL', icon: <Users size={16} /> },
                             { id: 'stats', label: 'ANÁLISE TÁTICA', icon: <ChartBar size={16} /> },
@@ -164,7 +164,7 @@ export function SquadView() {
                         ))}
                     </div>
 
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div className="ef-squad__flex-gap">
                         <div className="ef-search-wrap">
                             <MagnifyingGlass size={16} className="ef-search-wrap__icon" />
                             <input type="text" placeholder="Buscar jogador..." value={search} onChange={(e) => setSearch(e.target.value)} className="ef-input ef-input--search" />
@@ -187,17 +187,17 @@ export function SquadView() {
 
                 {/* Main Content Area */}
                 {tab === 'plantel' && (
-                    <EfPanel padding="none" style={{ overflowX: 'auto', background: 'var(--bg-panel)', border: '1px solid var(--bg-panel)' }}>
-                        <table className="ef-sans" style={{ width: '100%', borderCollapse: 'collapse' }}>
-                            <thead style={{ background: 'var(--bg-panel)', borderBottom: '2px solid var(--color-soft-border)' }}>
+                    <EfPanel padding="none" className="ef-squad__panel-table">
+                        <table className="ef-squad__table">
+                            <thead className="ef-squad__thead">
                                 <tr>
-                                    <th className="ef-text-muted" style={{ textAlign:'center', width: '60px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>ST</th>
-                                    <th onClick={() => handleSort('position')} className={sortBy === 'position' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'center', width: '70px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>POS</th>
-                                    <th onClick={() => handleSort('name')} className={sortBy === 'name' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'left', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>JOGADOR</th>
-                                    <th onClick={() => handleSort('ovr')} className={sortBy === 'ovr' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'center', width: '70px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>OVR</th>
-                                    <th onClick={() => handleSort('energy')} className={sortBy === 'energy' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'center', width: '120px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>COND</th>
-                                    <th onClick={() => handleSort('moral')} className={sortBy === 'moral' ? 'ef-text-primary' : 'ef-text-muted'} style={{ textAlign:'center', width: '80px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer' }}>MOR</th>
-                                    <th className="ef-text-muted" style={{ textAlign:'center', width: '100px', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>AÇÃO</th>
+                                    <th className="ef-squad__th ef-squad__th--narrow">ST</th>
+                                    <th onClick={() => handleSort('position')} className={`${sortBy === 'position' ? 'ef-text-primary' : 'ef-text-muted'} ef-squad__th ef-squad__th--pos`}>POS</th>
+                                    <th onClick={() => handleSort('name')} className={`${sortBy === 'name' ? 'ef-text-primary' : 'ef-text-muted'} ef-squad__th ef-squad__th--name ef-squad__th--sortable`}>JOGADOR</th>
+                                    <th onClick={() => handleSort('ovr')} className={`${sortBy === 'ovr' ? 'ef-text-primary' : 'ef-text-muted'} ef-squad__th ef-squad__th--pos`}>OVR</th>
+                                    <th onClick={() => handleSort('energy')} className={`${sortBy === 'energy' ? 'ef-text-primary' : 'ef-text-muted'} ef-squad__th ef-squad__th--energy ef-squad__th--sortable`}>COND</th>
+                                    <th onClick={() => handleSort('moral')} className={`${sortBy === 'moral' ? 'ef-text-primary' : 'ef-text-muted'} ef-squad__th ef-squad__th--mor ef-squad__th--sortable`}>MOR</th>
+                                    <th className="ef-squad__th ef-squad__th--action">AÇÃO</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -215,7 +215,7 @@ export function SquadView() {
                                                 }}
                                                 onClick={() => setExpandedId(expandedId === p.id ? null : p.id)}
                                             >
-                                                <td style={{ textAlign:'center', padding: '12px' }}>
+                                                <td className="ef-squad__td">
                                                     <div
                                                         onClick={(e) => { e.stopPropagation(); toggleTitular(p.id); }}
                                                         className={`ef-st-toggle${isSelected ? ' ef-st-toggle--active' : ''}${p.injury ? ' ef-st-toggle--disabled' : ''}`}
@@ -224,7 +224,7 @@ export function SquadView() {
                                                         {isSelected && <CheckCircle weight="bold" color="var(--primary)" size={16} />}
                                                     </div>
                                                 </td>
-                                                <td style={{ textAlign:'center', padding: '12px' }}>
+                                                <td className="ef-squad__td">
                                                     <span className="ef-mono" style={{
                                                         color: 'var(--bg-dark)',
                                                         background: getPosColor(p.position),
@@ -254,15 +254,15 @@ export function SquadView() {
                                                 <td className="ef-mono ef-text-main" style={{ textAlign:'center', fontWeight: 'bold', fontSize: '1.1rem', padding: '12px' }}>
                                                     {p.ovr}
                                                 </td>
-                                                <td style={{ textAlign:'center', padding: '12px' }}>
+                                                <td className="ef-squad__td">
                                                     {renderHealthBlocks(p.energy)}
                                                 </td>
-                                                <td style={{ textAlign:'center', padding: '12px' }}>
+                                                <td className="ef-squad__td">
                                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                         {getMoralIcon(p.moral || 50)}
                                                     </div>
                                                 </td>
-                                                <td style={{ textAlign:'center', padding: '12px' }}>
+                                                <td className="ef-squad__td">
                                                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                                                         {!p.isTitular && !p.injury && p.age <= 23 && (
                                                             <button title="Emprestar (jovem ganha minutos em outro clube; volta com XP)" onClick={(e) => { e.stopPropagation(); handleLoan(p.id); }} className="ef-icon-btn ef-icon-btn--info">
@@ -337,11 +337,11 @@ export function SquadView() {
 
                 {tab === 'stats' && (
                     <EfPanel padding="md">
-                        <div className="ef-section-header" style={{ marginBottom: '24px' }}>
+                        <div className="ef-squad__section-header-mb">
                             <ChartBar size={24} color="var(--primary)" weight="fill" />
                             <h3>ANÁLISE TITULARES (TOP 11)</h3>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+                        <div className="ef-squad__grid-md">
                             {sorted.filter(p => p.isTitular).slice(0, 11).map(p => (
                                 <div key={p.id} style={{ background: 'var(--bg-panel)', border: '1px solid var(--color-soft-border)', padding: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold', fontSize: '1rem', marginBottom: '8px', textAlign: 'center' }}>{p.name}</div>
@@ -354,21 +354,21 @@ export function SquadView() {
                 )}
 
                 {tab === 'contratos' && (
-                    <EfPanel padding="none" style={{ overflowX: 'auto', background: 'var(--bg-panel)', border: '1px solid var(--bg-panel)' }}>
+                    <EfPanel padding="none" className="ef-squad__panel-table">
                         <div className="ef-section-header" style={{ padding: '24px', marginBottom: 0, borderBottom: '2px solid var(--color-soft-border)' }}>
                             <IdentificationCard size={24} color="var(--accent)" weight="fill" />
                             <h3>GESTÃO DE CONTRATOS</h3>
                         </div>
-                        <table className="ef-sans" style={{ width: '100%', borderCollapse: 'collapse' }}>
-                            <thead style={{ background: 'var(--bg-panel)', borderBottom: '2px solid var(--color-soft-border)' }}>
+                        <table className="ef-squad__table">
+                            <thead className="ef-squad__thead">
                                 <tr>
                                     <th className="ef-text-muted" style={{ textAlign:'left', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>JOGADOR</th>
                                     <th className="ef-text-muted" style={{ textAlign:'center', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>POS</th>
                                     <th className="ef-text-muted" style={{ textAlign:'center', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>IDADE</th>
-                                    <th className="ef-text-muted" style={{ textAlign:'right', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>WAGE/SEM</th>
-                                    <th className="ef-text-muted" style={{ textAlign:'right', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>RESTANTE</th>
-                                    <th className="ef-text-muted" style={{ textAlign:'right', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>CLÁUSULA</th>
-                                    <th className="ef-text-muted" style={{ textAlign:'right', padding: '16px', fontSize: '0.75rem', fontWeight: 'bold' }}>VALOR</th>
+                                    <th className="ef-squad__th ef-squad__th--wage-right">WAGE/SEM</th>
+                                    <th className="ef-squad__th ef-squad__th--wage-right">RESTANTE</th>
+                                    <th className="ef-squad__th ef-squad__th--wage-right">CLÁUSULA</th>
+                                    <th className="ef-squad__th ef-squad__th--wage-right">VALOR</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -389,12 +389,12 @@ export function SquadView() {
                 )}
 
                 {loanedOut.length > 0 && (
-                    <EfPanel padding="md" style={{ background: 'var(--color-yellow-warn-bg)', borderColor: 'var(--accent)' }}>
-                        <div className="ef-section-header" style={{ color: 'var(--accent)' }}>
+                    <EfPanel padding="md" className="ef-squad__warning-panel">
+                        <div className="ef-squad__h3-accent">
                             <PaperPlaneRight size={24} color="var(--accent)" weight="fill" />
-                            <h3 style={{ color: 'var(--accent)' }}>JOGADORES EMPRESTADOS ({loanedOut.length})</h3>
+                            <h3 className="ef-squad__h3-accent">JOGADORES EMPRESTADOS ({loanedOut.length})</h3>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+                        <div className="ef-squad__grid-lg">
                             {loanedOut.map((l, i) => (
                                 <div key={i} style={{ background: 'var(--bg-panel)', padding: '16px', border: '1px solid var(--border-panel)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <div className="ef-sans ef-text-main" style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>
