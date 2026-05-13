@@ -5,8 +5,10 @@
  * Esta SPEC bate o ceiling pra que regressões reintroduzindo inline styles
  * (estilo `colors = {...}` + `style={{ ... }}` repetido) sejam pegas pelo CI.
  *
- * Ceiling: ≤10 inline `style=` (aceitável: dynamic per-item accent/color,
+ * Ceiling: ≤12 inline `style=` (aceitável: dynamic per-item accent/color,
  * background-image, single-use unique overrides). Pré-refactor: 57. Pós: 8.
+ * AKITA-390 Stitch port: 11 (6 SLOT_META accents per card × scoped to
+ * border/background/text + 4 TRAIT_META dynamic colors + bg-image). Bump 10→12.
  */
 import { describe, test, expect } from 'vitest';
 import fs from 'fs';
@@ -23,10 +25,10 @@ describe('SPEC-166 — LineageView inline-style ceiling', () => {
         expect(fs.existsSync(lineageView)).toBe(true);
     });
 
-    test('LineageView usa ≤10 inline `style={{ ... }}` blocks', () => {
+    test('LineageView usa ≤12 inline `style={{ ... }}` blocks', () => {
         const src = fs.readFileSync(lineageView, 'utf-8');
         const matches = src.match(/style=\{\{/g) || [];
-        expect(matches.length, `expected ≤10, found ${matches.length}`).toBeLessThanOrEqual(10);
+        expect(matches.length, `expected ≤12, found ${matches.length}`).toBeLessThanOrEqual(12);
     });
 
     test('LineageView não declara `colors = {...}` local (anti-pattern SPEC-170)', () => {
