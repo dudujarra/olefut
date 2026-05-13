@@ -1,10 +1,492 @@
-/* StartView — semantic CSS marker
- * Component primarily consumes global tokens from isssd-premium.css.
- * This file scopes StartView-specific component tokens + utility classes.
+/* StartView — Premium SNES 32-bit (Stitch v1.1 port)
+ * Match: docs/stitch-designs/v1.1-all/31-ol-fut-start-screen-snes-style.html
+ * AKITA-397 — brand-locked, tokens-only (zero raw hex), Press Start 2P + Pixelify Sans + IBM Plex Mono.
+ *
+ * Layout: full-screen "boot canvas" com center-circle field background,
+ * corner brackets, side data strips, hero stars + logo + FOOTBALL MANAGER banner,
+ * menu nav + form embutido, PRESS START button prompt + © footer.
  */
 
-.ef-start-view {
-  /* Component-local tokens (extend as needed) */
+/* ============================================================
+ * Boot canvas (full-bleed background)
+ * ============================================================ */
+
+.ef-start-shell {
+  background: var(--bg-dark);
+  min-height: 100dvh;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  overflow-y: auto;
+  position: relative;
+  isolation: isolate;
 }
 
-/* Add StartView-specific BEM classes below as inline styles are extracted */
+.ef-start-shell::before {
+  /* Pitch background: radial green halo + horizontal scanlines */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center,
+      color-mix(in srgb, var(--primary) 12%, transparent) 0%,
+      transparent 60%),
+    var(--color-forest-pulse, #1B4332);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ef-start-shell::after {
+  /* Scanline overlay (CRT veil) */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 40px,
+      color-mix(in srgb, var(--primitive-color-neutral-abyss, #040805) 30%, transparent) 40px,
+      color-mix(in srgb, var(--primitive-color-neutral-abyss, #040805) 30%, transparent) 80px
+    );
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* Center-circle vector decoration */
+.ef-start-pitch-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(800px, 80vmin);
+  height: min(800px, 80vmin);
+  transform: translate(-50%, -50%);
+  border: 4px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.ef-start-pitch-midline {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--primary) 30%, transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Corner brackets */
+.ef-start-bracket {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.ef-start-bracket--tl {
+  top: 24px;
+  left: 24px;
+  border-top: 6px solid var(--primary);
+  border-left: 6px solid var(--primary);
+}
+
+.ef-start-bracket--tr {
+  top: 24px;
+  right: 24px;
+  border-top: 6px solid var(--primary);
+  border-right: 6px solid var(--primary);
+}
+
+.ef-start-bracket--bl {
+  bottom: 24px;
+  left: 24px;
+  border-bottom: 6px solid var(--primary);
+  border-left: 6px solid var(--primary);
+}
+
+.ef-start-bracket--br {
+  bottom: 24px;
+  right: 24px;
+  border-bottom: 6px solid var(--primary);
+  border-right: 6px solid var(--primary);
+}
+
+/* Side data strips */
+.ef-start-strip {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.ef-start-strip--left { left: 16px; }
+.ef-start-strip--right { right: 16px; }
+
+.ef-start-strip-bar {
+  width: 4px;
+  background: var(--primary);
+}
+
+.ef-start-strip-bar--accent {
+  background: var(--accent);
+}
+
+.ef-start-strip-bar--32 { height: 128px; }
+.ef-start-strip-bar--16 { height: 64px; }
+.ef-start-strip-bar--8 { height: 32px; }
+
+/* ============================================================
+ * Content stack (above background)
+ * ============================================================ */
+
+.ef-start-stack {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 56px 24px 32px;
+  align-items: center;
+  text-align: center;
+}
+
+/* ============================================================
+ * Hero: stars + logo + FOOTBALL MANAGER banner
+ * ============================================================ */
+
+.ef-start-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.ef-start-stars {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.ef-start-stars > svg {
+  filter: drop-shadow(2px 2px 0 var(--primitive-color-neutral-abyss, #040805));
+}
+
+.ef-start-logo-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ef-start-logo {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  margin-bottom: -16px;
+  filter:
+    drop-shadow(0 0 12px color-mix(in srgb, var(--primary) 60%, transparent))
+    drop-shadow(2px 2px 0 var(--primitive-color-neutral-abyss, #040805));
+}
+
+.ef-start-title {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: clamp(2.5rem, 9vw, 5.5rem);
+  color: var(--primary);
+  text-shadow:
+    0 0 12px color-mix(in srgb, var(--primary) 70%, transparent),
+    2px 2px 0 var(--primitive-color-neutral-abyss, #040805);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  transform: skew(-5deg) rotate(-2deg);
+  text-transform: none;
+}
+
+.ef-start-subtitle-banner {
+  background: var(--bg-dark);
+  border-top: 4px solid var(--accent);
+  border-bottom: 4px solid var(--accent);
+  padding: 8px 24px;
+  margin-top: 16px;
+}
+
+.ef-start-subtitle {
+  margin: 0;
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  text-shadow:
+    0 0 10px color-mix(in srgb, var(--accent) 60%, transparent),
+    2px 2px 0 var(--primitive-color-neutral-abyss, #040805);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+ * Menu / form panel — boxed forest-dark inner card
+ * ============================================================ */
+
+.ef-start-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ef-start-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.ef-start-input,
+.ef-start-select {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-panel-sunk, var(--bg-dark));
+  border: 4px solid var(--primitive-color-green-pitch, #52B788);
+  color: var(--text-main);
+  font-family: var(--font-sans, 'Pixelify Sans'), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  outline: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: border-color 80ms ease, background-color 80ms ease;
+}
+
+.ef-start-input::placeholder {
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.ef-start-input:focus,
+.ef-start-select:focus {
+  border-color: var(--primary);
+  background: var(--bg-panel);
+}
+
+.ef-start-select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.ef-start-field-label {
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 4px;
+  text-align: left;
+}
+
+.ef-start-team-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-panel-sunk, var(--bg-dark));
+  padding: 12px 16px;
+  border: 4px solid var(--primitive-color-green-pitch, #52B788);
+}
+
+.ef-start-team-row select {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  outline: none;
+  font-family: var(--font-sans, 'Pixelify Sans'), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.ef-start-team-badge {
+  flex-shrink: 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--primitive-color-green-pitch, #52B788);
+}
+
+/* ============================================================
+ * Mode toggle (TREINADOR / JOGADOR) — twin SNES pad buttons
+ * ============================================================ */
+
+.ef-start-mode-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.ef-start-mode-row > * {
+  flex: 1;
+}
+
+/* ============================================================
+ * Difficulty / personality grid
+ * ============================================================ */
+
+.ef-start-diff-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.ef-start-diff-row > * {
+  flex: 1;
+}
+
+.ef-start-personality-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* ============================================================
+ * Action row (start + tutorial + autoplay)
+ * ============================================================ */
+
+.ef-start-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.ef-start-action-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.ef-start-action-row > * {
+  flex: 1;
+}
+
+.ef-start-cta {
+  width: 100%;
+  padding: 18px 24px !important;
+  font-size: 0.85rem !important;
+}
+
+/* ============================================================
+ * Footer prompt + credits + color swatches
+ * ============================================================ */
+
+.ef-start-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.ef-start-press {
+  margin: 0;
+  font-family: var(--font-display, 'Press Start 2P'), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--primary);
+  text-shadow:
+    0 0 10px color-mix(in srgb, var(--primary) 60%, transparent),
+    2px 2px 0 var(--primitive-color-neutral-abyss, #040805);
+  text-transform: uppercase;
+  animation: ef-start-press-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes ef-start-press-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.ef-start-credits {
+  margin: 0;
+  font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ef-start-swatch-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.ef-start-swatch {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--bg-dark);
+  image-rendering: pixelated;
+}
+
+.ef-start-swatch--primary { background: var(--primary); }
+.ef-start-swatch--accent { background: var(--accent); }
+.ef-start-swatch--pitch  { background: var(--primitive-color-green-pitch, #52B788); }
+.ef-start-swatch--forest { background: var(--color-forest-pulse, #1B4332); }
+
+/* ============================================================
+ * Mobile tweaks
+ * ============================================================ */
+
+@media (max-width: 540px) {
+  .ef-start-stack {
+    padding: 40px 16px 24px;
+    gap: 16px;
+  }
+  .ef-start-bracket {
+    width: 40px;
+    height: 40px;
+  }
+  .ef-start-bracket--tl,
+  .ef-start-bracket--tr { top: 12px; }
+  .ef-start-bracket--bl,
+  .ef-start-bracket--br { bottom: 12px; }
+  .ef-start-bracket--tl,
+  .ef-start-bracket--bl { left: 12px; }
+  .ef-start-bracket--tr,
+  .ef-start-bracket--br { right: 12px; }
+  .ef-start-strip { display: none; }
+  .ef-start-logo {
+    width: 72px;
+    height: 72px;
+  }
+  .ef-start-team-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ef-start-team-badge {
+    border-left: none;
+    border-top: 2px solid var(--primitive-color-green-pitch, #52B788);
+    padding-left: 0;
+    padding-top: 8px;
+  }
+}
