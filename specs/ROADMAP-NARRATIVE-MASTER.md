@@ -1,11 +1,32 @@
-# OléFUT WEB — Roadmap Integrado v2.0
-*Atualizado com dados de playtest (pasta 12) + game design insights (técnico como personagem)*
+# OléFUT — Roadmap Integrado v2.0
+*Atualizado 2026-05-13 — pós V2 brutal + AutoPlayLab + rebrand + 174 clubes*
 
-**Estado atual:** AKITA-139 — Fase 3-6 engine complete  
-**SAVE_VERSION atual:** 11 (pós AKITA-128)  
-**Próximo SPEC gameplay livre:** SPEC-136  
-**Próximo SPEC engine livre:** SPEC-083  
-**Próximo AKITA livre:** AKITA-140
+**Estado atual:** AKITA-321 — V1 Fase A/B/C done + V2 F1-F6 done + AutoPlayLab + rebrand OléFUT
+**SAVE_VERSION atual:** 11 (pós AKITA-128, storage migration shim AKITA-317)
+**Próximo SPEC gameplay livre:** SPEC-200+
+**Próximo SPEC engine livre:** SPEC-200+
+**Próximo AKITA livre:** AKITA-322
+
+**Repo público**: https://github.com/dudujarra/olefut
+**Live**: https://dudujarra.github.io/olefut/
+
+## Estado V1 + V2 (snapshot 2026-05-13)
+
+| Roadmap | Status | PRs |
+|---------|--------|-----|
+| Bloco 1 Fundação | DONE | #109-#121 (13 PRs) |
+| Bloco 2 Integração | DONE | #122-#140 |
+| Bloco 3 Polish | PARTIAL | UI + perf done; playtest + launch pendentes |
+| GAME-DESIGN V1 Fase A/B/C | DONE | AKITA-263..288 (26 PRs) |
+| GAME-DESIGN V2 F1-F6 | DONE | AKITA-289..305 |
+| AutoPlayLab Platform | DONE | AKITA-306..312 (46 presets) |
+| Systematic Debug Audit | DONE | AKITA-313 |
+| Rebrand OléFUT | DONE | AKITA-314..317 (PRs #148-#150) |
+| Roadmap docs sync | DONE | AKITA-318 |
+| F3.1 ClubVoice 174 clubes | DONE | AKITA-321 |
+
+**Pendente** (não-código): playtest 5 humanos BR, Fase D launch (Twitter, Discord, content, Itch.io).
+
 
 ## Status engines implementados (sessão 2026-05-10)
 

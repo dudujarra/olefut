@@ -5,7 +5,7 @@
 **Test files**: 87
 **Tests passing**: 1044 / 1044 ✅ (AKITA-204 fechou bugs latentes pós-merge main AKITA-200..203)
 **Codebase coverage**: ver `npm run mutate:report`
-**Last updated**: 2026-05-11
+**Last updated**: 2026-05-13
 
 > Documento anterior (FASE 1-5, 30 specs) está superseded pela contagem real.
 > Roadmap canônico: [`specs/ROADMAP-NARRATIVE-MASTER.md`](specs/ROADMAP-NARRATIVE-MASTER.md).
