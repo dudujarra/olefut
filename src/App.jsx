@@ -12,7 +12,7 @@ import { SeasonalEventModal } from './components/SeasonalEventModal';
 import { isSoundEnabled, setSoundEnabled, sfx } from './utils/sound';
 import { MonitorService } from './services/MonitorService';
 import { EfButton } from './components/ui/EfButton';
-import { Brain } from '@phosphor-icons/react';
+import { Brain, FloppyDisk, SpeakerHigh, SpeakerSlash, ChartBar, ArrowsClockwise, CheckCircle } from '@phosphor-icons/react';
 
 // AKITA-228: AudioController lazy — Tone.js (345KB) só carrega após primeira nav
 // de usuário (não bloqueia first paint). Suspense fallback é nulo (silent).
@@ -38,7 +38,7 @@ const LineageView = lazy(() => import('./components/LineageView').then(m => ({ d
 const AutoPlayLabView = lazy(() => import('./components/AutoPlayLabView').then(m => ({ default: m.AutoPlayLabView })));
 
 const Fallback = () => (
-    <div style={{ padding: '24px', color: 'var(--text-muted)', fontFamily: "'JetBrains Mono', monospace" }}>
+    <div style={{ padding: '24px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
         CARREGANDO…
     </div>
 );
@@ -182,18 +182,22 @@ function App() {
                                 variant="secondary" size="sm"
                                 onClick={handleSave}
                                 title="Salvar manual (auto-save ativo)"
+                                aria-label="Salvar manual"
                                 style={{padding:'0.25rem 0.55rem'}}
                             >
-                                💾
+                                <FloppyDisk size={16} weight="fill" />
                             </EfButton>
                             {/* P1-6: sound toggle */}
                             <EfButton
                                 variant="secondary" size="sm"
                                 onClick={handleSoundToggle}
                                 title={soundOn ? 'Som ON (clique pra desligar)' : 'Som OFF (clique pra ligar)'}
+                                aria-label={soundOn ? 'Som ligado' : 'Som desligado'}
                                 style={{padding:'0.25rem 0.55rem'}}
                             >
-                                {soundOn ? '🔊' : '🔇'}
+                                {soundOn
+                                    ? <SpeakerHigh size={16} weight="fill" />
+                                    : <SpeakerSlash size={16} weight="fill" />}
                             </EfButton>
                             {/* SPEC-174: WebLLM narrative toggle (opt-in, ~500MB download) */}
                             <EfButton
@@ -212,7 +216,7 @@ function App() {
                                 style={{
                                     padding:'0.25rem 0.55rem',
                                     opacity: llmLoading ? 0.6 : 1,
-                                    color: llmEnabled ? '#39FF14' : undefined,
+                                    color: llmEnabled ? 'var(--primary)' : undefined,
                                 }}
                             >
                                 <Brain size={16} weight={llmEnabled ? 'fill' : 'regular'} />
@@ -222,22 +226,24 @@ function App() {
                                 variant="secondary" size="sm"
                                 onClick={() => changeView?.('monitor')}
                                 title="Monitor (bugs/gameplay/feedback)"
+                                aria-label="Abrir monitor"
                                 style={{padding:'0.25rem 0.55rem'}}
                             >
-                                📊
+                                <ChartBar size={16} weight="fill" />
                             </EfButton>
                             <EfButton
                                 variant="secondary" size="sm"
                                 onClick={handleReset}
                                 title="Resetar carreira"
+                                aria-label="Resetar carreira"
                                 style={{padding:'0.25rem 0.55rem'}}
                             >
-                                🔄
+                                <ArrowsClockwise size={16} weight="bold" />
                             </EfButton>
                         </div>
                         {savedToast && (
-                            <div style={{position:'fixed',top:'4rem',right:'1rem',background:'#39FF14',color:'#111417',padding:'0.5rem 1rem',borderRadius:'0',fontSize:'0.85rem',fontWeight:600,zIndex:1000,animation:'slideUp 0.3s',border:'2px solid #4A5059',fontFamily:"'Press Start 2P', monospace"}}>
-                                ✅ Salvo!
+                            <div style={{position:'fixed',top:'4rem',right:'1rem',background:'var(--primary)',color:'var(--bg-base)',padding:'0.5rem 1rem',borderRadius:'0',fontSize:'0.85rem',fontWeight:600,zIndex:1000,animation:'slideUp 0.3s',border:'2px solid var(--border-strong)',fontFamily:'var(--font-display)'}}>
+                                <CheckCircle size={14} weight="fill" style={{verticalAlign:'-2px',marginRight:'6px'}} aria-hidden />Salvo!
                             </div>
                         )}
                         {/* SPEC-174: LLM toggle toast (loading / success / error) */}
@@ -248,16 +254,16 @@ function App() {
                                     position:'fixed',
                                     top: savedToast ? '7rem' : '4rem',
                                     right:'1rem',
-                                    background: llmToast.kind === 'err' ? '#FF3030' : llmToast.kind === 'loading' ? '#FFC400' : '#39FF14',
-                                    color:'#111417',
+                                    background: llmToast.kind === 'err' ? 'var(--danger)' : llmToast.kind === 'loading' ? 'var(--warning)' : 'var(--primary)',
+                                    color:'var(--bg-base)',
                                     padding:'0.5rem 1rem',
                                     borderRadius:'0',
                                     fontSize:'0.75rem',
                                     fontWeight:600,
                                     zIndex:1000,
                                     animation:'slideUp 0.3s',
-                                    border:'2px solid #4A5059',
-                                    fontFamily:"'JetBrains Mono', monospace",
+                                    border:'2px solid var(--border-strong)',
+                                    fontFamily:'var(--font-mono)',
                                     maxWidth:'22rem',
                                 }}
                             >

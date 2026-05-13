@@ -114,8 +114,8 @@ export function EfModal({
                     flex: 1,
                     padding: '16px',
                     overflowY: 'auto',
-                    color: '#CCC',
-                    fontFamily: 'Outfit, sans-serif',
+                    color: 'var(--text-muted)',
+                    fontFamily: 'var(--font-sans)',
                     fontSize: '1rem',
                     lineHeight: 1.6
                 }}>
