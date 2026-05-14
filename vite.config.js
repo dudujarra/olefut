@@ -37,7 +37,7 @@ export default defineConfig({
       // SPEC-157/BUG-080: deep-soak (100/20 seasons) roda solo via `npm run test:soak`.
       // Em suite-load excede timeout (100 seasons × 38 weeks × engine work).
       // SOAK=1 env flag desativa este exclude (test:soak script).
-      ...(process.env.SOAK ? [] : ['tests/integration/deep-soak-*.test.js']),
+      ...(process.env.SOAK ? [] : ['tests/integration/deep-soak-*.test.js', 'tests/integration/sinistro-*.test.js', 'tests/integration/lab-presets-*.test.js']),
     ],
     // BUG-GOLDEN: 190-week simulations need >5s under parallel load.
     // Default 5000ms causes intermittent timeouts in characterization tests.

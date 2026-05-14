@@ -34,3 +34,6 @@ vitest_*.json
 test-localstorage.js
 test_squad.js
 test_ui.cjs
+
+# Lab test results
+lab-results/

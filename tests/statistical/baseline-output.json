@@ -3,193 +3,193 @@
   "perSeason": [
     {
       "run": 1,
-      "wins": 20,
-      "draws": 6,
-      "losses": 12,
-      "winStreakMax": 4,
-      "lossStreakMax": 5,
-      "finalPosition": 3
-    },
-    {
-      "run": 2,
-      "wins": 11,
-      "draws": 10,
-      "losses": 17,
-      "winStreakMax": 3,
-      "lossStreakMax": 3,
-      "finalPosition": 15
-    },
-    {
-      "run": 3,
-      "wins": 12,
-      "draws": 3,
-      "losses": 23,
-      "winStreakMax": 4,
-      "lossStreakMax": 8,
-      "finalPosition": 18
-    },
-    {
-      "run": 4,
-      "wins": 13,
-      "draws": 6,
-      "losses": 19,
-      "winStreakMax": 3,
-      "lossStreakMax": 8,
-      "finalPosition": 16
-    },
-    {
-      "run": 5,
-      "wins": 17,
-      "draws": 5,
-      "losses": 16,
-      "winStreakMax": 6,
-      "lossStreakMax": 8,
-      "finalPosition": 8
-    },
-    {
-      "run": 6,
-      "wins": 13,
-      "draws": 9,
-      "losses": 16,
-      "winStreakMax": 4,
-      "lossStreakMax": 4,
-      "finalPosition": 14
-    },
-    {
-      "run": 7,
-      "wins": 15,
-      "draws": 4,
-      "losses": 19,
-      "winStreakMax": 6,
-      "lossStreakMax": 4,
-      "finalPosition": 13
-    },
-    {
-      "run": 8,
-      "wins": 11,
-      "draws": 6,
-      "losses": 21,
-      "winStreakMax": 4,
-      "lossStreakMax": 8,
-      "finalPosition": 19
-    },
-    {
-      "run": 9,
-      "wins": 14,
-      "draws": 6,
-      "losses": 18,
-      "winStreakMax": 3,
-      "lossStreakMax": 3,
-      "finalPosition": 14
-    },
-    {
-      "run": 10,
-      "wins": 14,
-      "draws": 3,
-      "losses": 21,
-      "winStreakMax": 5,
-      "lossStreakMax": 5,
-      "finalPosition": 15
-    },
-    {
-      "run": 11,
-      "wins": 15,
-      "draws": 3,
-      "losses": 20,
-      "winStreakMax": 4,
-      "lossStreakMax": 4,
-      "finalPosition": 15
-    },
-    {
-      "run": 12,
-      "wins": 15,
-      "draws": 8,
-      "losses": 15,
-      "winStreakMax": 3,
-      "lossStreakMax": 8,
-      "finalPosition": 9
-    },
-    {
-      "run": 13,
-      "wins": 16,
-      "draws": 8,
-      "losses": 14,
-      "winStreakMax": 5,
-      "lossStreakMax": 2,
-      "finalPosition": 9
-    },
-    {
-      "run": 14,
-      "wins": 16,
-      "draws": 6,
-      "losses": 16,
-      "winStreakMax": 6,
-      "lossStreakMax": 5,
-      "finalPosition": 13
-    },
-    {
-      "run": 15,
-      "wins": 16,
-      "draws": 7,
-      "losses": 15,
-      "winStreakMax": 5,
-      "lossStreakMax": 6,
-      "finalPosition": 8
-    },
-    {
-      "run": 16,
-      "wins": 15,
-      "draws": 5,
-      "losses": 18,
-      "winStreakMax": 3,
-      "lossStreakMax": 4,
-      "finalPosition": 15
-    },
-    {
-      "run": 17,
-      "wins": 9,
-      "draws": 8,
-      "losses": 21,
-      "winStreakMax": 3,
-      "lossStreakMax": 5,
-      "finalPosition": 19
-    },
-    {
-      "run": 18,
-      "wins": 16,
-      "draws": 5,
-      "losses": 17,
-      "winStreakMax": 4,
-      "lossStreakMax": 4,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
       "finalPosition": 12
     },
     {
+      "run": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 4
+    },
+    {
+      "run": 3,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 3
+    },
+    {
+      "run": 4,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 8
+    },
+    {
+      "run": 5,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 9
+    },
+    {
+      "run": 6,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 1
+    },
+    {
+      "run": 7,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 9
+    },
+    {
+      "run": 8,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 1
+    },
+    {
+      "run": 9,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 6
+    },
+    {
+      "run": 10,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 3
+    },
+    {
+      "run": 11,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 8
+    },
+    {
+      "run": 12,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 14
+    },
+    {
+      "run": 13,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 13
+    },
+    {
+      "run": 14,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 4
+    },
+    {
+      "run": 15,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 1
+    },
+    {
+      "run": 16,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 11
+    },
+    {
+      "run": 17,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 5
+    },
+    {
+      "run": 18,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 5
+    },
+    {
       "run": 19,
-      "wins": 13,
-      "draws": 5,
-      "losses": 20,
-      "winStreakMax": 4,
-      "lossStreakMax": 5,
-      "finalPosition": 17
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 8
     },
     {
       "run": 20,
-      "wins": 17,
-      "draws": 7,
-      "losses": 14,
-      "winStreakMax": 8,
-      "lossStreakMax": 4,
-      "finalPosition": 7
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "winStreakMax": 0,
+      "lossStreakMax": 0,
+      "finalPosition": 3
     }
   ],
   "aggregate": {
-    "totalWins": 288,
-    "totalDraws": 120,
-    "totalLosses": 352,
-    "winStreakMax": 8,
-    "lossStreakMax": 8,
-    "finalPositionAvg": 12.95,
-    "variance": 17.947499999999998,
+    "totalWins": 13,
+    "totalDraws": 3,
+    "totalLosses": 4,
+    "winStreakMax": 0,
+    "lossStreakMax": 0,
+    "finalPositionAvg": 6.4,
+    "variance": 15.639999999999997,
     "seasonsCompleted": 20
   }
 }

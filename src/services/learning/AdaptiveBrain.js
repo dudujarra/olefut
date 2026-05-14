@@ -81,7 +81,14 @@ export function encodeState(ctx = {}) {
     // AUDIT-FIX #10: Division-aware encoding — separate policy per division tier
     const div = ctx.division || 4;
     const divTier = div <= 1 ? 'E' : (div <= 2 ? 'P' : 'L');
-    return `${formTier}|${posTier}|${balTier}|${phase}|${last}|${squadTier}|${divTier}`;
+    
+    // SPEC-NEW: Opponent Scouting Context
+    const oppTac = ctx.oppTactic || 'N';
+    const oppForm = ctx.oppFormation || '4';
+    const oppFormTier = oppForm.startsWith('3') ? '3B' : (oppForm.startsWith('5') ? '5B' : '4B');
+    const oppTacTier = oppTac === 'offensive' ? 'O' : (oppTac === 'defensive' ? 'D' : (oppTac === 'counter' ? 'C' : 'N'));
+
+    return `${formTier}|${posTier}|${balTier}|${phase}|${last}|${squadTier}|${divTier}|${oppTacTier}|${oppFormTier}`;
 }
 
 // ─── GOAL DETECTION ──────────────────────────────────────────
@@ -442,7 +449,24 @@ export class AdaptiveBrain {
         for (const action of availableActions) {
             const q = this.getQ(stateKey, action);
             const goalBoost = goals.reduce((sum, g) => sum + g.weight * this.goalRelevance.getRelevance(action, g.goal), 0);
-            const score = q + goalBoost;
+            
+            // SPEC-NEW: Coach Personality Signature
+            let personalityBoost = 0;
+            if (this.personality) {
+                if (action.startsWith('FORM_')) {
+                    const formStr = action.replace('FORM_', '');
+                    if (this.personality.preferredFormations?.includes(formStr)) {
+                        personalityBoost += 0.8; // Strong coach preference
+                    }
+                } else if (action.startsWith('TACTIC_')) {
+                    const tacStr = action.replace('TACTIC_', '');
+                    if (this.personality.tacticalBias === tacStr) {
+                        personalityBoost += 0.8; // Strong coach preference
+                    }
+                }
+            }
+
+            const score = q + goalBoost + personalityBoost;
             if (score > bestScore) {
                 bestScore = score;
                 bestAction = action;

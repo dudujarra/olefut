@@ -17,6 +17,7 @@
  */
 
 import { calculateWeeklyFinances, rollMatchCondition } from '../engine/ManagerSystems';
+import { getDifficulty } from '../engine/systems/DifficultyModes.js';
 import { checkSquadHealth } from '../engine/SquadHealthMonitor';
 import { generateRealTransferOffers } from '../engine/MarketPricer';
 import { evaluateGrowth } from '../engine/GrowthEventSystem';
@@ -84,6 +85,11 @@ export class WeekProcessor {
                     engine.weekEvents.push(loanResult.msg);
                 }
             }
+        }
+        // SINISTRO TUNING: maintenanceMult — multiply all expenses
+        const maintenanceMult = getDifficulty().modifiers.maintenanceMult || 1.0;
+        if (maintenanceMult > 1.0) {
+            engine.weeklyFinance.expenses = Math.floor(engine.weeklyFinance.expenses * maintenanceMult);
         }
         team.balance += engine.weeklyFinance.income - engine.weeklyFinance.expenses;
 

@@ -34,6 +34,27 @@ export function buildNpcStateCtx(team, engine) {
     const lastResult = team.npcTacticState?.recentResults?.[0] || '-';
     const lossStreak = Math.abs(countStreak(team.npcTacticState?.recentResults || [], 'L'));
 
+    // SPEC-NEW: Extract opponent for current week to inform tactical scouting
+    let oppTactic = 'normal';
+    let oppFormation = '4-3-3';
+    const currentWeekIdx = (engine.currentWeek || 1) - 1;
+    if (engine.state?.schedule && engine.state.schedule[currentWeekIdx]) {
+        const weekMatches = engine.state.schedule[currentWeekIdx];
+        const match = weekMatches.find(m => m.homeId === team.id || m.awayId === team.id);
+        if (match) {
+            const oppId = match.homeId === team.id ? match.awayId : match.homeId;
+            const oppTeam = engine.getTeam(oppId);
+            if (oppTeam) {
+                if (oppId === engine.manager?.teamId) {
+                    oppTactic = engine.currentTactic || 'normal';
+                } else {
+                    oppTactic = oppTeam.npcTacticState?.currentTactic || 'normal';
+                }
+                oppFormation = oppTeam.formation || '4-3-3';
+            }
+        }
+    }
+
     return {
         position,
         totalTeams: standings.length || 20,
@@ -42,7 +63,9 @@ export function buildNpcStateCtx(team, engine) {
         week: engine.currentWeek || 0,
         squadSize: team.squad?.length || 0,
         lastResult,
-        lossStreak
+        lossStreak,
+        oppTactic,
+        oppFormation
     };
 }
 
@@ -75,6 +98,40 @@ export function npcTacticDecision(team, engine) {
     return {
         tactic: newTactic,
         changed: newTactic !== oldTactic,
+        source: 'brain'
+    };
+}
+
+// ─── FORMATION DECISION ──────────────────────────────────────
+
+/**
+ * NPC brain decide formação para a semana.
+ * Retorna a formação escolhida (string) e se mudou.
+ *
+ * @param {Object} team
+ * @param {Object} engine
+ * @returns {{ formation: string, changed: boolean, source: string }}
+ */
+export function npcFormationDecision(team, engine) {
+    const brain = team.brain;
+    const fallbackFormation = team.formation || '4-3-3';
+    
+    if (!brain) {
+        // Fallback: não muda a formação no piloto automático simples
+        return { formation: fallbackFormation, changed: false, source: 'fallback' };
+    }
+
+    const ctx = buildNpcStateCtx(team, engine);
+    const stateKey = encodeState(ctx);
+    const formationActions = ['FORM_4-4-2', 'FORM_4-3-3', 'FORM_4-2-4', 'FORM_3-5-2', 'FORM_5-3-2'];
+    const picked = brain.pickAction(stateKey, formationActions, ctx);
+    const newFormation = picked ? picked.replace('FORM_', '') : fallbackFormation;
+
+    team._lastFormationDecision = { stateKey, action: picked || `FORM_${fallbackFormation}` };
+
+    return {
+        formation: newFormation,
+        changed: newFormation !== fallbackFormation,
         source: 'brain'
     };
 }
@@ -217,8 +274,14 @@ export function npcFeedMatchResult(team, result, engine) {
     // Close the Q-Learning loop: reward the tactic decision that led to this result
     if (team._lastTacticDecision) {
         const ctx = buildNpcStateCtx(team, engine);
-        npcObserveReward(team, ctx, team._lastTacticDecision.action, team._lastTacticDecision.stateKey);
+        npcObserveReward(team, ctx, team._lastTacticDecision.action, team._lastTacticDecision.stateKey, ['TACTIC_normal', 'TACTIC_offensive', 'TACTIC_defensive', 'TACTIC_counter']);
         team._lastTacticDecision = null; // consumed
+    }
+
+    if (team._lastFormationDecision) {
+        const ctx = buildNpcStateCtx(team, engine);
+        npcObserveReward(team, ctx, team._lastFormationDecision.action, team._lastFormationDecision.stateKey, ['FORM_4-4-2', 'FORM_4-3-3', 'FORM_4-2-4', 'FORM_3-5-2', 'FORM_5-3-2']);
+        team._lastFormationDecision = null;
     }
 }
 
@@ -232,8 +295,9 @@ export function npcFeedMatchResult(team, result, engine) {
  * @param {Object} ctx — from buildNpcStateCtx
  * @param {string} lastAction — e.g. 'TACTIC_defensive'
  * @param {string} lastStateKey — previous stateKey
+ * @param {Array<string>} nextActions — valid action space for next state
  */
-export function npcObserveReward(team, ctx, lastAction, lastStateKey) {
+export function npcObserveReward(team, ctx, lastAction, lastStateKey, nextActions = []) {
     const brain = team.brain;
     if (!brain || !lastAction || !lastStateKey) return;
 
@@ -260,8 +324,7 @@ export function npcObserveReward(team, ctx, lastAction, lastStateKey) {
     team._lastNpcDivision = currentDiv;
 
     const nextStateKey = encodeState(ctx);
-    const tacticActions = ['TACTIC_normal', 'TACTIC_offensive', 'TACTIC_defensive', 'TACTIC_counter'];
-    brain.observe(lastStateKey, lastAction, reward, nextStateKey, tacticActions);
+    brain.observe(lastStateKey, lastAction, reward, nextStateKey, nextActions);
 }
 
 // ─── HELPERS ─────────────────────────────────────────────────

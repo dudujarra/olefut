@@ -26,6 +26,7 @@ import { AIDirector } from './learning/AIDirector.js';
 import { generate as generateContract } from '../engine/ContractGoalSystem';
 import { BoardSystem } from '../engine/BoardSystem';
 import { evaluateSponsor, ManagerLegacy } from '../engine/SeasonSystem';
+import { getDifficulty } from '../engine/systems/DifficultyModes.js';
 import { rollTraits, initCareerStats } from '../engine/PlayerTraits';
 import { rng as systemRng } from '../engine/rng.js';
 
@@ -158,7 +159,10 @@ export class GameInitializer {
     _initializeManagerSystems(engine, name) {
         const team = engine.getTeam(engine.manager.teamId);
         if (!team) return;
-        engine.board = new BoardSystem(team.division, team.balance);
+        const diff = getDifficulty();
+        engine.board = new BoardSystem(team.division, team.balance, {
+            fireCooldown: diff.modifiers.boardFireCooldown || 0,
+        });
         engine.legacy = new ManagerLegacy(name);
         engine.currentSponsor = evaluateSponsor(team.division, 10);
         // SPEC-071: contract for new manager
