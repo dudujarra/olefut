@@ -553,14 +553,29 @@ export class AdaptiveBrain {
         this.totalUpdates++;
 
         // Bound Q-table size — evict LRU-ish (lowest visit count)
+        // PERF-FIX: O(n) min-find instead of O(n log n) sort — critical for 267 NPC brains
         if (Object.keys(this.qTable).length > MAX_BUCKETS) {
-            const sortedByVisits = Object.keys(this.visitCount)
-                .sort((a, b) => (this.visitCount[a] || 0) - (this.visitCount[b] || 0));
-            const toEvict = sortedByVisits[0];
-            if (toEvict && toEvict !== stateKey) {
-                delete this.qTable[toEvict];
-                delete this.visitCount[toEvict];
-                delete this.traces[toEvict]; // also evict traces
+            let minKey = null;
+            let minVisits = Infinity;
+            for (const k in this.visitCount) {
+                if (k === stateKey) continue; // don't evict current
+                if (this.visitCount[k] < minVisits) {
+                    minVisits = this.visitCount[k];
+                    minKey = k;
+                }
+            }
+            if (minKey) {
+                delete this.qTable[minKey];
+                delete this.visitCount[minKey];
+                delete this.traces[minKey];
+            }
+        }
+
+        // PERF-FIX: Sync visitCount with qTable — prevent unbounded visitCount growth
+        // Only run periodically (every 200 updates) to amortize cost
+        if (this.totalUpdates % 200 === 0) {
+            for (const k in this.visitCount) {
+                if (!this.qTable[k]) delete this.visitCount[k];
             }
         }
 
@@ -576,9 +591,10 @@ export class AdaptiveBrain {
         }
 
         // Fase C: Record transition in experience replay buffer
+        // PERF-FIX: use shift instead of slice to avoid new array allocation
         this.replayBuffer.push({ s: stateKey, a: actionKey, r: reward, s2: nextStateKey, na: nextActions });
         if (this.replayBuffer.length > MAX_REPLAY_BUFFER) {
-            this.replayBuffer = this.replayBuffer.slice(-MAX_REPLAY_BUFFER);
+            this.replayBuffer.shift();
         }
     }
 

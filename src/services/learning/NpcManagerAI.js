@@ -252,16 +252,12 @@ export function npcBuyDecision(team, engine) {
 
 // ─── EMOTIONAL FEED ──────────────────────────────────────────
 
-/**
- * Alimenta o EmotionalEngine do NPC com o resultado de uma partida.
- *
- * @param {Object} team
- * @param {'W'|'D'|'L'} result
- * @param {Object} engine
- */
 export function npcFeedMatchResult(team, result, engine) {
     const brain = team.brain;
     if (!brain) return;
+
+    const playerDiv = engine.getTeam(engine.manager?.teamId)?.division || 1;
+    if (!shouldUseFullBrain(team, playerDiv)) return;
 
     const recentResults = team.npcTacticState?.recentResults || [];
     const streak = countStreak([result, ...recentResults]);
