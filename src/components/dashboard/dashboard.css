@@ -12,7 +12,10 @@
     border: 4px solid !important;
     border-color: var(--bezel-light) var(--bg-dark) var(--bg-dark) var(--bezel-light) !important;
     border-left: 4px solid var(--bezel-accent-light) !important;
-    /* box-shadow removed for brand compliance */
+    box-shadow:
+      inset -1px -1px 0 var(--bezel-dark),
+      inset 1px 1px 0 var(--bezel-highlight),
+      3px 3px 0 var(--bezel-drop);
 }
 
 .ef-dash-header-row {
@@ -85,7 +88,7 @@
 .ef-dash-progress-fill {
     height: 100%;
     background: var(--bg-dark);
-    /* box-shadow removed for brand compliance */
+    box-shadow: inset 0 0 4px var(--primary-glow);
     transition: width 300ms ease-out;
 }
 

@@ -17,9 +17,9 @@ export function getHighlightIcon(eventType) {
 }
 
 export function getHighlightColor(eventType) {
-    if (eventType === 'goal') return '#FFD700';
-    if (eventType === 'red' || eventType === 'red-card') return '#FF3333';
-    return '#FDFBF7';
+    if (eventType === 'goal') return 'var(--accent)';
+    if (eventType === 'red' || eventType === 'red-card') return 'var(--danger)';
+    return 'var(--text-main)';
 }
 
 export function extractHighlightContext(narrationEntry) {

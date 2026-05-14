@@ -78,30 +78,30 @@
 
 @keyframes ef-pop-in {
     /* Modal/card pop-in — 200ms */
-    0%   { /* opacity removed for brand compliance */ transform: scale(0.85); }
+    0%   { opacity: 0; transform: scale(0.85); }
     60%  { opacity: 1; transform: scale(1.05); }
     100% { opacity: 1; transform: scale(1); }
 }
 
 @keyframes ef-slide-down {
-    from { /* opacity removed for brand compliance */ transform: translateY(-12px); }
+    from { opacity: 0; transform: translateY(-12px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes ef-slide-up {
-    from { /* opacity removed for brand compliance */ transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes ef-fade-in {
-    from { /* opacity removed for brand compliance */ }
+    from { opacity: 0; }
     to   { opacity: 1; }
 }
 
 @keyframes ef-pulse-glow {
     /* Highlight pulsing — focus rings, important badges */
-    0%, 100% { /* box-shadow removed for brand compliance */ }
-    50%      { /* box-shadow removed for brand compliance */ }
+    0%, 100% { box-shadow: 0 0 4px var(--primary-glow, #0A3D1A); }
+    50%      { box-shadow: 0 0 12px var(--primary-glow, #0A3D1A), 0 0 4px var(--primary, #00FF66); }
 }
 
 @keyframes ef-counter {
@@ -194,7 +194,7 @@
 
 @keyframes ef-fade-out {
     from { opacity: 1; }
-    to   { /* opacity removed for brand compliance */ }
+    to   { opacity: 0; }
 }
 
 /* ========== GLOBAL MICROINTERACTIONS ========== */
@@ -229,7 +229,7 @@ button:not(.no-anim):not([disabled]):active {
 .card.clickable:hover {
     transform: translateY(-2px);
     transition: transform 100ms steps(1);
-    /* box-shadow removed for brand compliance */
+    box-shadow: 0 0 8px var(--primary-glow, #0A3D1A);
 }
 
 /* Stat counter pulse on update */
@@ -439,7 +439,7 @@ button:not(.no-anim):not([disabled]):active {
     background-repeat: no-repeat;
     image-rendering: pixelated;
     pointer-events: none;
-    /* opacity removed for brand compliance */
+    opacity: 0.25;
     mix-blend-mode: overlay;
 }
 
@@ -541,7 +541,8 @@ button:not(.no-anim):not([disabled]):active {
     content: '';
     position: absolute;
     inset: 0;
-    background: #111417 /* Fallback CRT Black */;
+    background: #0A130E;
+    opacity: 0.78;
     z-index: 1;
     pointer-events: none;
 }

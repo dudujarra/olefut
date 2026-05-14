@@ -35,9 +35,9 @@ export function EfInput({
             {label && (
                 <label htmlFor={inputId} style={{
                     fontSize: '0.5rem',
-                    fontFamily: "'Press Start 2P', monospace",
+                    fontFamily: 'var(--font-display)',
                     fontWeight: 600,
-                    color: '#888',
+                    color: 'var(--text-muted)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.04em'
                 }}>
@@ -50,7 +50,7 @@ export function EfInput({
                     <span style={{
                         position: 'absolute',
                         left: '8px',
-                        color: '#888',
+                        color: 'var(--text-muted)',
                         pointerEvents: 'none'
                     }}>
                         {icon}
@@ -71,7 +71,7 @@ export function EfInput({
                         padding: sizing.padding,
                         paddingLeft: icon ? '32px' : sizing.padding.split(' ')[1],
                         fontSize: sizing.fontSize,
-                        fontFamily: 'monospace',
+                        fontFamily: 'var(--font-mono)',
                         color: 'var(--color-soft-text)',
                         background: 'var(--bg-dark)',
                         border: '4px solid',
@@ -102,17 +102,17 @@ export function EfInput({
                 <span style={{
                     fontSize: '0.45rem',
                     color: 'var(--danger)',
-                    fontFamily: "'Press Start 2P', monospace"
+                    fontFamily: 'var(--font-display)'
                 }}>
-                    ⚠ {error}
+                    {error}
                 </span>
             )}
 
             {helper && !error && (
                 <span id={`${inputId}-helper`} style={{
                     fontSize: '0.45rem',
-                    color: '#888',
-                    fontFamily: "'Press Start 2P', monospace"
+                    color: 'var(--text-muted)',
+                    fontFamily: 'var(--font-display)'
                 }}>
                     {helper}
                 </span>

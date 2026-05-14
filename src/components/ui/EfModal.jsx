@@ -65,7 +65,7 @@ export function EfModal({
                     flexDirection: 'column',
                     overflow: 'hidden',
                     animation: 'ef-pop-in 200ms ease-out',
-                    fontFamily: "'Press Start 2P', monospace",
+                    fontFamily: 'var(--font-display)',
                 }}
             >
                 {/* Header */}
@@ -76,9 +76,9 @@ export function EfModal({
                         alignItems: 'center',
                         padding: '12px 16px',
                         background: 'var(--bg-dark)',
-                        borderBottom: '4px solid #000',
-                        color: '#FFF',
-                        textShadow: '2px 2px 0 #000'
+                        borderBottom: '4px solid var(--color-shadow-deep)',
+                        color: 'var(--text-main)',
+                        textShadow: '2px 2px 0 var(--color-shadow-deep)'
                     }}>
                         <h3 id="ef-modal-title" style={{
                             margin: 0,
@@ -95,13 +95,13 @@ export function EfModal({
                                 background: 'var(--danger)',
                                 border: '2px solid',
                                 borderColor: 'var(--color-input-error-bg) var(--color-input-error-deep) var(--color-input-error-deep) var(--color-input-error-bg)',
-                                color: '#FFF',
+                                color: 'var(--text-main)',
                                 fontSize: '10px',
-                                fontFamily: "'Press Start 2P', monospace",
+                                fontFamily: 'var(--font-display)',
                                 cursor: 'pointer',
                                 padding: '4px 8px',
                                 lineHeight: 1,
-                                boxShadow: '2px 2px 0 #000'
+                                boxShadow: '2px 2px 0 var(--color-shadow-deep)'
                             }}
                         >
                             X
@@ -114,8 +114,8 @@ export function EfModal({
                     flex: 1,
                     padding: '16px',
                     overflowY: 'auto',
-                    color: '#CCC',
-                    fontFamily: 'Outfit, sans-serif',
+                    color: 'var(--text-muted)',
+                    fontFamily: 'var(--font-sans)',
                     fontSize: '1rem',
                     lineHeight: 1.6
                 }}>

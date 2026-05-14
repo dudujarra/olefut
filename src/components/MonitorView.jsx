@@ -9,7 +9,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { useGame } from '../context/GameContext';
 import { MonitorService, CATEGORIES } from '../services/MonitorService';
 import { EfPanel, EfButton } from './ui';
-import bgManagerOffice from '../assets/environments/bg_manager_office.png';
 import '../styles/monitor-view.css';
 
 import {
@@ -162,10 +161,7 @@ export function MonitorView() {
     }, [monitor, stats, entries.length]);
 
     return (
-        <div
-            className="ef-anim-fade-in ef-scene-shell ef-mon"
-            style={{ backgroundImage: `url(${bgManagerOffice})` }}
-        >
+        <div className="ef-anim-fade-in ef-scene-shell ef-mon">
             <div className="ef-mon__scanlines" aria-hidden="true" />
             <div className="ef-view-container ef-view-container--wide">
 

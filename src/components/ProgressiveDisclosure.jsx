@@ -1,4 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
+import {
+    Sword, GraduationCap, ChartBar, Trophy, MagnifyingGlass,
+    Television, Bank, Baby, Lightbulb, Flame, Lightning, LockKey, Medal
+} from '@phosphor-icons/react';
 
 /**
  * §19.1 Progressive Disclosure Tooltip
@@ -6,42 +10,42 @@ import { useState, useEffect, useCallback } from 'react';
  */
 const DISCLOSURE_TIPS = {
     rivals: {
-        emoji: '⚔️',
+        Icon: Sword,
         title: 'Sistema de Rivalidade',
         tip: 'Agora você pode ver seus rivais — rivais jogam mais duro contra você. Preparação tática é essencial nos derbies!',
     },
     academy: {
-        emoji: '🎓',
+        Icon: GraduationCap,
         title: 'Base de Formação',
         tip: 'Sua base está ativa! Jovens promessas vão surgir a cada temporada. Invista na academia para melhorar o nível dos jovens.',
     },
     analytics: {
-        emoji: '📊',
+        Icon: ChartBar,
         title: 'Analytics Avançado',
         tip: 'Dados detalhados de desempenho disponíveis. Use analytics para identificar padrões e otimizar sua tática.',
     },
     trophy_room: {
-        emoji: '🏆',
+        Icon: Trophy,
         title: 'Sala de Troféus',
         tip: 'Seus troféus estão guardados aqui! Cada conquista conta para o legado do seu clube.',
     },
     scouting: {
-        emoji: '🔍',
+        Icon: MagnifyingGlass,
         title: 'Rede de Scouts',
         tip: 'Scouts revelam atributos escondidos de jogadores. Sem scouts, você compra no escuro — com eles, você encontra diamantes.',
     },
     media_center: {
-        emoji: '📺',
+        Icon: Television,
         title: 'Centro de Mídia',
         tip: 'A imprensa acompanha cada passo seu agora. Entrevistas coletivas podem afetar o moral do elenco.',
     },
     board_room: {
-        emoji: '🏛️',
+        Icon: Bank,
         title: 'Reunião com Diretoria',
         tip: 'A diretoria agora quer te ouvir. Sua reputação afeta o orçamento e o poder de contratação.',
     },
     youth_watch: {
-        emoji: '👶',
+        Icon: Baby,
         title: 'Observatório de Jovens',
         tip: 'Acompanhe o progresso dos jovens da base em tempo real. Potencial (PA) nem sempre é atingido — depende de treino e oportunidades.',
     },
@@ -59,7 +63,7 @@ const AHA_MOMENTS = [
             const stats = engine.managerStats || {};
             return (stats.losses || 0) >= 1;
         },
-        emoji: '💡',
+        Icon: Lightbulb,
         title: 'Dica Tática',
         message: 'Você perdeu uma partida. Tente mudar a tática antes do próximo jogo — cada tática tem forças e fraquezas contra formações diferentes. Experimente!',
     },
@@ -70,7 +74,7 @@ const AHA_MOMENTS = [
             const stats = engine.managerStats || {};
             return (stats.wins || 0) >= 2;
         },
-        emoji: '🔥',
+        Icon: Flame,
         title: 'Você Está Aprendendo!',
         message: 'Duas vitórias! Sua tática está funcionando. Agora tente treinar o elenco regularmente — jogadores melhoram com treino semanal.',
     },
@@ -81,7 +85,7 @@ const AHA_MOMENTS = [
             const team = engine.getTeam(engine.manager?.teamId);
             return team?.squad?.some(p => (p.energy || 100) < 50);
         },
-        emoji: '⚡',
+        Icon: Lightning,
         title: 'Gestão de Energia',
         message: 'Alguns jogadores estão cansados. Use preleção motivacional e rotacione o plantel — titular cansado joga pior que reserva descansado.',
     },
@@ -109,9 +113,14 @@ export function UnlockTooltip({ viewId, onDismiss }) {
 
     return (
         <div className={`unlock-tooltip ${visible ? 'unlock-tooltip--visible' : ''}`}>
-            <div className="unlock-tooltip__icon">{tip.emoji}</div>
+            <div className="unlock-tooltip__icon">
+                {tip.Icon && <tip.Icon size={28} weight="fill" />}
+            </div>
             <div className="unlock-tooltip__content">
-                <strong className="unlock-tooltip__title">🔓 {tip.title}</strong>
+                <strong className="unlock-tooltip__title">
+                    <LockKey size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />
+                    {tip.title}
+                </strong>
                 <p className="unlock-tooltip__text">{tip.tip}</p>
             </div>
             <button className="unlock-tooltip__close" onClick={() => { setVisible(false); setTimeout(onDismiss, 400); }} aria-label="Fechar">×</button>
@@ -151,7 +160,9 @@ export function AhaMomentCard({ engine }) {
     return (
         <div className="aha-moment-card fade-in" onClick={() => dismiss(activeMoment)}>
             <div className="aha-moment-card__header">
-                <span className="aha-moment-card__emoji">{activeMoment.emoji}</span>
+                <span className="aha-moment-card__emoji">
+                    {activeMoment.Icon && <activeMoment.Icon size={18} weight="fill" />}
+                </span>
                 <strong>{activeMoment.title}</strong>
             </div>
             <p className="aha-moment-card__text">{activeMoment.message}</p>
@@ -180,7 +191,9 @@ export function AchievementPopup({ achievement, onDismiss }) {
         <div className={`achievement-popup achievement-popup--${phase}`} onClick={onDismiss}>
             <div className="achievement-popup__card">
                 <div className="achievement-popup__glow" />
-                <div className="achievement-popup__icon">{achievement.emoji || '🏅'}</div>
+                <div className="achievement-popup__icon">
+                    {achievement.emoji || <Medal size={48} weight="fill" />}
+                </div>
                 <h3 className="achievement-popup__title">{achievement.name || achievement.title}</h3>
                 <p className="achievement-popup__desc">{achievement.description || achievement.msg || ''}</p>
                 {achievement.reward && (

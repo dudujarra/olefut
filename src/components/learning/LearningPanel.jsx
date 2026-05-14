@@ -12,10 +12,11 @@
  */
 import { useState, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
+import { TrendUp } from '@phosphor-icons/react';
 
 function Sparkline({ data, width = 200, height = 40, color = 'var(--color-success-mid)' }) {
     if (!Array.isArray(data) || data.length < 2) {
-        return <div style={{ fontSize: '0.7rem', color: '#888' }}>need ≥2 data points</div>;
+        return <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>need ≥2 data points</div>;
     }
     const max = Math.max(...data, 1);
     const min = Math.min(...data, 0);
@@ -49,7 +50,7 @@ function ActionBar({ action, q, max }) {
             fontSize: '0.7rem',
             marginBottom: '2px'
         }}>
-            <div style={{ minWidth: '120px', fontFamily: 'monospace' }}>{action}</div>
+            <div style={{ minWidth: '120px', fontFamily: 'var(--font-mono)' }}>{action}</div>
             <div style={{
                 flex: 1,
                 background: 'var(--color-shadow-deep)',
@@ -59,15 +60,15 @@ function ActionBar({ action, q, max }) {
                 <div style={{
                     width: `${widthPct}%`,
                     height: '100%',
-                    background: positive ? 'var(--color-success-mid)' : '#c44',
+                    background: positive ? 'var(--color-success-mid)' : 'var(--danger)',
                     transition: 'width 300ms'
                 }} />
             </div>
             <div style={{
                 minWidth: '50px',
                 textAlign: 'right',
-                color: positive ? 'var(--color-success-mid)' : '#c44',
-                fontFamily: 'monospace'
+                color: positive ? 'var(--color-success-mid)' : 'var(--danger)',
+                fontFamily: 'var(--font-mono)'
             }}>
                 {positive ? '+' : ''}{q.toFixed(1)}
             </div>
@@ -77,7 +78,7 @@ function ActionBar({ action, q, max }) {
 
 function MemoryEntry({ entry }) {
     const reward = entry.reward;
-    const color = reward > 0 ? 'var(--color-success-mid)' : reward < 0 ? '#c44' : '#888';
+    const color = reward > 0 ? 'var(--color-success-mid)' : reward < 0 ? 'var(--danger)' : 'var(--text-muted)';
     return (
         <div style={{
             display: 'flex',
@@ -85,7 +86,7 @@ function MemoryEntry({ entry }) {
             fontSize: '0.7rem',
             padding: '2px 4px',
             borderBottom: '1px solid var(--color-bg-deep)',
-            fontFamily: 'monospace'
+            fontFamily: 'var(--font-mono)'
         }}>
             <span>
                 <strong>wk{entry.week ?? '?'}/s{entry.season ?? '?'}</strong>{' '}
@@ -147,8 +148,8 @@ export default function LearningPanel({ controllerRef }) {
                     alignItems: 'center'
                 }}
             >
-                <span>📈 LEARNING REAL-TIME (SPEC-123) {open ? '▼' : '▶'}</span>
-                <span style={{ fontSize: '0.72rem', color: '#888' }}>
+                <span><TrendUp size={14} weight="bold" style={{verticalAlign:'-2px',marginRight:'6px'}} />LEARNING REAL-TIME (SPEC-123) {open ? '▼' : '▶'}</span>
+                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                     {brainSummary.states} states · {brainSummary.totalUpdates} upd · {memory.length} mem
                     {brainSummary.replayBuffer > 0 && ` · ${brainSummary.replayBuffer} replay`}
                     {brainSummary.activeTraces > 0 && ` · ${brainSummary.activeTraces} traces`}
@@ -161,13 +162,13 @@ export default function LearningPanel({ controllerRef }) {
                     {seasonHistory.length >= 2 && (
                         <div style={{ display: 'flex', gap: '12px', marginTop: '8px', flexWrap: 'wrap' }}>
                             <div>
-                                <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '2px' }}>
+                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '2px' }}>
                                     Wins per season ({seasonHistory.length} samples)
                                 </div>
                                 <Sparkline data={winSeries} color="var(--color-success-mid)" />
                             </div>
                             <div>
-                                <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: '2px' }}>
+                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '2px' }}>
                                     Transfers per season
                                 </div>
                                 <Sparkline data={transferSeries} color="var(--accent)" />
@@ -178,7 +179,7 @@ export default function LearningPanel({ controllerRef }) {
                     {/* Top Q-actions */}
                     {topActions.length > 0 && (
                         <div style={{ marginTop: '12px' }}>
-                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
                                 Top actions Q-values:
                             </div>
                             {topActions.slice(0, 5).map((a, i) => (
@@ -190,7 +191,7 @@ export default function LearningPanel({ controllerRef }) {
                     {/* Episodic memory */}
                     {memory.length > 0 && (
                         <div style={{ marginTop: '12px' }}>
-                            <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
                                 Recent memories (last {memory.length}):
                             </div>
                             <div style={{

@@ -44,16 +44,16 @@ describe('SPEC-F1.1: MatchHighlightModal', () => {
     });
 
     describe('getHighlightColor', () => {
-        it('goal → dourado', () => {
-            expect(getHighlightColor('goal')).toBe('#FFD700');
+        it('goal → accent token', () => {
+            expect(getHighlightColor('goal')).toBe('var(--accent)');
         });
 
-        it('red → vermelho', () => {
-            expect(getHighlightColor('red')).toBe('#FF3333');
+        it('red → danger token', () => {
+            expect(getHighlightColor('red')).toBe('var(--danger)');
         });
 
-        it('outro → branco', () => {
-            expect(getHighlightColor('other')).toBe('#FDFBF7');
+        it('outro → text-main token', () => {
+            expect(getHighlightColor('other')).toBe('var(--text-main)');
         });
     });
 

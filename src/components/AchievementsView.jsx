@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useGame } from '../context/GameContext';
 import { ACHIEVEMENTS } from '../engine/systems/AchievementsSystem';
 import { EfPanel, EfButton } from './ui';
-import bgTrophyRoom from '../assets/environments/bg_trophy_room.png';
 import '../styles/achievements-view.css';
 
 import {
@@ -93,11 +92,7 @@ export function AchievementsView() {
     }, [sorted]);
 
     return (
-        <div
-            className="ef-anim-fade-in ef-scene-shell ef-ach"
-            /* eslint-disable-next-line no-restricted-syntax -- dynamic per-instance bg image */
-            style={{ backgroundImage: `url(${bgTrophyRoom})` }}
-        >
+        <div className="ef-anim-fade-in ef-scene-shell ef-ach">
             <div className="ef-view-container">
 
                 {/* HEADER */}

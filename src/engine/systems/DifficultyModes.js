@@ -57,30 +57,40 @@ export const DIFFICULTY_MODES = {
         emoji: '💀',
         description: 'Modo inferno. Receita mínima, board implacável, lesões constantes.',
         modifiers: {
-            economyMult: 0.4,        // -60% receita
-            transferCostMult: 2.0,   // +100% custo transferência
-            wageBudgetMult: 0.4,     // -60% wage cap
-            boardPatience: 0.3,      // 70% menos paciente
-            injuryRateMult: 2.0,     // 2× lesões
-            trainingXPMult: 0.4,     // -60% XP treino
-            scoutAccuracyBonus: -25  // -25% accuracy scout
+            economyMult: 0.15,       // -85% receita (bilheteria, TV, prêmios, promoção)
+            transferCostMult: 3.0,   // +200% custo transferência
+            wageBudgetMult: 0.3,     // -70% wage cap
+            boardPatience: 0.2,      // 80% menos paciente
+            boardFireCooldown: 20,   // mínimo 20 semanas entre demissões
+            injuryRateMult: 3.0,     // 3× lesões
+            trainingXPMult: 0.25,    // -75% XP treino
+            scoutAccuracyBonus: -30, // -30% accuracy scout
+            matchStrengthPenalty: 0.42, // -58% força em partidas (compensa winStreak/DDA parciais)
+            maintenanceMult: 3.5,    // 3.5× custos de manutenção
+            winStreakMult: 0.3,      // win streak bonus existe mas a 30% do normal
+            ddaLossMult: 0.5         // DDA ajuda em loss streaks, mas pela metade
         }
     }
 };
 
 const STORAGE_KEY = 'olefut_difficulty';
+let _memoryFallback = null; // in-memory fallback for headless/Node/test envs
 
 export function getDifficulty() {
     try {
         const id = localStorage.getItem(STORAGE_KEY);
-        return DIFFICULTY_MODES[id] || DIFFICULTY_MODES.normal;
-    } catch {
-        return DIFFICULTY_MODES.normal;
+        if (id && DIFFICULTY_MODES[id]) return DIFFICULTY_MODES[id];
+    } catch { /* localStorage unavailable (Node/test) */ }
+    // Fallback: in-memory state (set by setDifficulty in headless mode)
+    if (_memoryFallback && DIFFICULTY_MODES[_memoryFallback]) {
+        return DIFFICULTY_MODES[_memoryFallback];
     }
+    return DIFFICULTY_MODES.normal;
 }
 
 export function setDifficulty(modeId) {
     if (!DIFFICULTY_MODES[modeId]) return false;
+    _memoryFallback = modeId; // always set in-memory
     try { localStorage.setItem(STORAGE_KEY, modeId); } catch { /* ignore */ }
     return true;
 }

@@ -14,7 +14,6 @@ import { useGame } from '../context/GameContext';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
-import bgOffice from '../assets/environments/bg_league_table.png';
 import { Trophy, CaretUp, CaretDown, AirplaneTilt, MapPin, Star } from '@phosphor-icons/react';
 import '../styles/standings-view.css';
 
@@ -88,7 +87,7 @@ export function StandingsView() {
     const seasonYear = engine.season ?? engine.currentSeason ?? null;
 
     return (
-        <div className="ef-anim-fade-in ef-layout-pitch ef-standings" style={{ backgroundImage: `url(${bgOffice})` }}>
+        <div className="ef-anim-fade-in ef-layout-pitch ef-standings">
             <div className="ef-layout-container ef-standings__container">
 
                 {/* HERO PANEL */}

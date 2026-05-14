@@ -1,4 +1,5 @@
 import { rng as systemRng } from './rng.js';
+import { getDifficulty } from './systems/DifficultyModes.js';
 /**
  * ManagerSystems.js — Sistemas avançados do Modo Treinador
  * 
@@ -169,6 +170,7 @@ export function rollMatchCondition() {
 // ============================================================
 export function calculateWeeklyFinances(team, weekResults, teamId) {
     const finance = { income: 0, expenses: 0, details: [] };
+    const econMult = getDifficulty().modifiers.economyMult ?? 1.0;
 
     // ── DESPESAS ─────────────────────────────────────
 
@@ -198,7 +200,7 @@ export function calculateWeeklyFinances(team, weekResults, teamId) {
     finance.expenses += medicalCost;
     finance.details.push({ type: "expense", label: "Depto. Médico", amount: medicalCost });
 
-    // ── RECEITAS ─────────────────────────────────────
+    // ── RECEITAS (scaled by economyMult) ─────────────────────────────────────
 
     // Bilheteria (jogos em casa)
     for (const tId in weekResults) {
@@ -207,14 +209,14 @@ export function calculateWeeklyFinances(team, weekResults, teamId) {
             // AUDIT-FIX: ticket price scales with division
             const ticketPrice = team.division === 1 ? 60 : team.division === 2 ? 35 : 15;
             const attendance = Math.floor((team.stadium || 5000) * (0.5 + systemRng() * 0.5));
-            const ticketIncome = attendance * ticketPrice;
+            const ticketIncome = Math.floor(attendance * ticketPrice * econMult);
             finance.income += ticketIncome;
             finance.details.push({ type: "income", label: `Bilheteria (${attendance} torcedores)`, amount: ticketIncome });
         }
     }
 
     // TV (semanal fixa baseada na divisão)
-    const tvMoney = team.division === 1 ? 200000 : team.division === 2 ? 80000 : 30000;
+    const tvMoney = Math.floor((team.division === 1 ? 200000 : team.division === 2 ? 80000 : 30000) * econMult);
     finance.income += tvMoney;
     finance.details.push({ type: "income", label: "Cota de TV", amount: tvMoney });
 

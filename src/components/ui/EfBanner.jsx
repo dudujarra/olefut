@@ -3,11 +3,15 @@
  */
 
 import { useEffect } from 'react';
+import {
+    Trophy, ArrowUp, ArrowDown, Briefcase, Handshake, Medal,
+    EnvelopeSimple, CurrencyDollar, Star, Crown, Bandaids, Square, Shield
+} from '@phosphor-icons/react';
 import '../../styles/ef-banner.css';
 
 const BANNER_CONFIG = {
     champion: {
-        icon: '🏆',
+        Icon: Trophy,
         title: 'CAMPEÃO!',
         subtitle: 'Título conquistado',
         bg: 'var(--accent)',
@@ -16,7 +20,7 @@ const BANNER_CONFIG = {
         duration: 4000
     },
     promotion: {
-        icon: '⬆️',
+        Icon: ArrowUp,
         title: 'PROMOÇÃO',
         subtitle: 'Subiu de divisão',
         bg: 'var(--ef-banner-promo)',
@@ -24,7 +28,7 @@ const BANNER_CONFIG = {
         duration: 3000
     },
     relegation: {
-        icon: '⬇️',
+        Icon: ArrowDown,
         title: 'REBAIXAMENTO',
         subtitle: 'Caiu de divisão',
         bg: 'var(--ef-banner-relegation)',
@@ -32,7 +36,7 @@ const BANNER_CONFIG = {
         duration: 3000
     },
     fired: {
-        icon: '💼',
+        Icon: Briefcase,
         title: 'DEMITIDO',
         subtitle: 'Diretoria encerrou contrato',
         bg: 'var(--ef-banner-fired)',
@@ -40,7 +44,7 @@ const BANNER_CONFIG = {
         duration: 3500
     },
     hired: {
-        icon: '🤝',
+        Icon: Handshake,
         title: 'CONTRATADO',
         subtitle: 'Novo desafio',
         bg: 'var(--ef-banner-hired)',
@@ -48,7 +52,7 @@ const BANNER_CONFIG = {
         duration: 3000
     },
     retirement: {
-        icon: '🎖️',
+        Icon: Medal,
         title: 'APOSENTADORIA',
         subtitle: 'Fim de carreira lendária',
         bg: 'var(--ef-banner-retirement)',
@@ -56,7 +60,7 @@ const BANNER_CONFIG = {
         duration: 4500
     },
     offer: {
-        icon: '📨',
+        Icon: EnvelopeSimple,
         title: 'PROPOSTA',
         subtitle: 'Nova oferta recebida',
         bg: 'var(--ef-banner-offer)',
@@ -64,7 +68,7 @@ const BANNER_CONFIG = {
         duration: 2500
     },
     sponsor: {
-        icon: '💰',
+        Icon: CurrencyDollar,
         title: 'PATROCÍNIO',
         subtitle: 'Contrato fechado',
         bg: 'var(--ef-banner-sponsor)',
@@ -72,7 +76,7 @@ const BANNER_CONFIG = {
         duration: 2500
     },
     motm: {
-        icon: '⭐',
+        Icon: Star,
         title: 'CRAQUE DA PARTIDA',
         subtitle: 'MVP',
         bg: 'var(--ef-banner-motm)',
@@ -80,7 +84,7 @@ const BANNER_CONFIG = {
         duration: 3000
     },
     hattrick: {
-        icon: '🎩',
+        Icon: Crown,
         title: 'HAT-TRICK!',
         subtitle: 'Três gols na mesma partida',
         bg: 'var(--ef-banner-hattrick)',
@@ -88,7 +92,7 @@ const BANNER_CONFIG = {
         duration: 3500
     },
     injury: {
-        icon: '🩹',
+        Icon: Bandaids,
         title: 'LESÃO',
         subtitle: 'Departamento médico',
         bg: 'var(--ef-banner-injury)',
@@ -96,7 +100,7 @@ const BANNER_CONFIG = {
         duration: 2500
     },
     suspension: {
-        icon: '🟥',
+        Icon: Square,
         title: 'SUSPENSÃO',
         subtitle: 'Cartões acumulados',
         bg: 'var(--ef-banner-fired)',
@@ -104,7 +108,7 @@ const BANNER_CONFIG = {
         duration: 2500
     },
     cleanSheet: {
-        icon: '🛡️',
+        Icon: Shield,
         title: 'JOGO SEM SOFRER GOLS',
         subtitle: 'Defesa intransponível',
         bg: 'var(--ef-banner-promo)',
@@ -115,6 +119,7 @@ const BANNER_CONFIG = {
 
 export function EfBanner({ type, customTitle, customSubtitle, onDismiss }) {
     const cfg = BANNER_CONFIG[type] || BANNER_CONFIG.offer;
+    const IconComp = cfg.Icon;
 
     useEffect(() => {
         const t = setTimeout(() => { onDismiss?.(); }, cfg.duration);
@@ -136,7 +141,9 @@ export function EfBanner({ type, customTitle, customSubtitle, onDismiss }) {
                 {cfg.spriteClass ? (
                     <div className={`${cfg.spriteClass} ef-banner__sprite`} />
                 ) : (
-                    <div className="ef-banner__icon ef-anim-pulse-glow">{cfg.icon}</div>
+                    <div className="ef-banner__icon ef-anim-pulse-glow">
+                        <IconComp size={64} weight="fill" />
+                    </div>
                 )}
                 <h2 className="ef-banner__title">
                     {customTitle || cfg.title}

@@ -80,7 +80,7 @@ export function EfTooltip({
                         padding: '8px 12px',
                         background: 'var(--color-panel-tone)',
                         color: 'var(--color-soft-text)',
-                        fontFamily: "'Press Start 2P', monospace",
+                        fontFamily: 'var(--font-display)',
                         fontSize: '0.45rem',
                         lineHeight: 1.6,
                         border: '4px solid',

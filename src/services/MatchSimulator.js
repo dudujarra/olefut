@@ -19,7 +19,7 @@
 
 import { TACTICS } from '../engine/ManagerSystems';
 import { drawCard } from '../engine/MatchEventsDeck.js';
-import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
+import { TACTIC_COUNTERS, FORMATION_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
 import { getDifficulty, calcOpponentBoost } from '../engine/systems/DifficultyModes.js';
 import { getRookieHandicapFromEngine } from '../engine/RookieHandicap.js';
 import { getModifiersForMatch as getWinStreakBonus, recordResult as recordWinStreak } from '../engine/WinStreakModifierSystem.js';
@@ -97,11 +97,16 @@ export class MatchSimulator {
         if ((isManagerHome || isManagerAway) && engine.managerStats?.currentStreak !== undefined) {
             const streak = engine.managerStats.currentStreak || 0;
             const difficulty = getDifficulty();
-            // Hard/Sinistro: rubber-banding only applies upward (boost opponent on win streaks)
-            if (difficulty.id === 'hard' || difficulty.id === 'sinistro') {
-                opponentBoost = streak > 0 ? calcOpponentBoost(streak) : 1.0;
-            } else {
-                opponentBoost = calcOpponentBoost(streak);
+            const rawBoost = calcOpponentBoost(streak);
+            if (streak > 0) {
+                // Win streak: always apply full rubber-banding (opponent gets stronger)
+                opponentBoost = rawBoost;
+            } else if (streak < 0) {
+                // Loss streak: DDA help scaled by ddaLossMult (sinistro: 0.5 = metade da ajuda)
+                const ddaLossMult = difficulty.modifiers.ddaLossMult ?? 1.0;
+                // rawBoost < 1.0 on loss streaks (opponent weaker). Scale the discount.
+                const discount = 1.0 - rawBoost; // how much DDA helps (e.g., 0.15)
+                opponentBoost = 1.0 - (discount * ddaLossMult); // sinistro: half the help
             }
         }
 
@@ -113,19 +118,35 @@ export class MatchSimulator {
             opponentBoost *= rookieMult;
         }
 
+        // SINISTRO TUNING: matchStrengthPenalty — nerf manager's team sectors
+        // Reduces effective team strength in matches (e.g. 0.85 = -15%)
+        const matchPenalty = getDifficulty().modifiers.matchStrengthPenalty || 1.0;
+        if (matchPenalty < 1.0) {
+            if (isManagerHome) {
+                homeSectors.attack = Math.floor(homeSectors.attack * matchPenalty);
+                homeSectors.defense = Math.floor(homeSectors.defense * matchPenalty);
+            } else if (isManagerAway) {
+                awaySectors.attack = Math.floor(awaySectors.attack * matchPenalty);
+                awaySectors.defense = Math.floor(awaySectors.defense * matchPenalty);
+            }
+        }
+
         // SPEC-F2.1: Win Streak Bonus — aplica attrBonus aos sectors do manager
-        // se feature flag ENABLE_WIN_STREAK ativa.
+        // Scaled by winStreakMult (sinistro: 0.3 = 30% of normal bonus)
+        const winStreakMult = getDifficulty().modifiers.winStreakMult ?? 1.0;
         if (isManagerHome) {
             const bonus = getWinStreakBonus(engine.manager?.teamId || 0);
             if (bonus.attrBonus > 0) {
-                homeSectors.attack = Math.floor(homeSectors.attack + bonus.attrBonus);
-                homeSectors.defense = Math.floor(homeSectors.defense + bonus.attrBonus);
+                const scaled = Math.floor(bonus.attrBonus * winStreakMult);
+                homeSectors.attack = Math.floor(homeSectors.attack + scaled);
+                homeSectors.defense = Math.floor(homeSectors.defense + scaled);
             }
         } else if (isManagerAway) {
             const bonus = getWinStreakBonus(engine.manager?.teamId || 0);
             if (bonus.attrBonus > 0) {
-                awaySectors.attack = Math.floor(awaySectors.attack + bonus.attrBonus);
-                awaySectors.defense = Math.floor(awaySectors.defense + bonus.attrBonus);
+                const scaled = Math.floor(bonus.attrBonus * winStreakMult);
+                awaySectors.attack = Math.floor(awaySectors.attack + scaled);
+                awaySectors.defense = Math.floor(awaySectors.defense + scaled);
             }
         }
 
@@ -155,6 +176,55 @@ export class MatchSimulator {
         const awayMoral = (awayTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (awayTeam.squad?.length || 1);
         const homeMoralFactor = 0.8 + (homeMoral / 250);
         const awayMoralFactor = 0.8 + (awayMoral / 250);
+
+        // ==========================================
+        // REGIONAL CLIMATE SYSTEM (BIOMAS)
+        // ==========================================
+        if (!homeTeam.climateZone) {
+            const zones = ['TROPICAL', 'COLD', 'ALTITUDE', 'RAINY'];
+            homeTeam.climateZone = zones[Math.floor(systemRng() * zones.length)];
+        }
+        if (!awayTeam.climateZone) {
+            const zones = ['TROPICAL', 'COLD', 'ALTITUDE', 'RAINY'];
+            awayTeam.climateZone = zones[Math.floor(systemRng() * zones.length)];
+        }
+
+        let matchWeather = 'NORMAL';
+        const weatherRoll = systemRng();
+        if (homeTeam.climateZone === 'TROPICAL') matchWeather = weatherRoll > 0.3 ? 'HOT' : 'RAIN';
+        if (homeTeam.climateZone === 'COLD') matchWeather = weatherRoll > 0.3 ? 'COLD' : 'RAIN';
+        if (homeTeam.climateZone === 'ALTITUDE') matchWeather = 'ALTITUDE';
+        if (homeTeam.climateZone === 'RAINY') matchWeather = weatherRoll > 0.3 ? 'HEAVY_RAIN' : 'NORMAL';
+
+        let homeClimateMod = 1.0;
+        let awayClimateMod = 1.0;
+        let weatherDrainMod = 1.0;
+        let weatherEventText = null;
+
+        if (matchWeather === 'HOT') {
+            if (awayTeam.climateZone === 'COLD') awayClimateMod = 0.85; // Cansa no calor
+            if (homeTeam.climateZone === 'TROPICAL') homeClimateMod = 1.05; // Acostumado
+            weatherDrainMod = 1.2; // Gasta mais estamina no calor
+            weatherEventText = '☀️ Calor Intenso! (Desgaste alto no 2º tempo)';
+        } else if (matchWeather === 'COLD') {
+            if (awayTeam.climateZone === 'TROPICAL') awayClimateMod = 0.85; // Sofre no frio
+            weatherDrainMod = 1.1;
+            weatherEventText = '❄️ Frio Congelante!';
+        } else if (matchWeather === 'ALTITUDE') {
+            if (awayTeam.climateZone !== 'ALTITUDE') awayClimateMod = 0.80; // Muito difícil respirar
+            weatherDrainMod = 1.3;
+            weatherEventText = '🏔️ Jogo na Altitude! (Ar rarefeito pune os visitantes)';
+        } else if (matchWeather === 'HEAVY_RAIN' || matchWeather === 'RAIN') {
+            // Chuva pune posse e beneficia counter
+            if (homeTactic === 'posse') homeClimateMod -= 0.15;
+            if (homeTactic === 'counter') homeClimateMod += 0.10;
+            if (awayTactic === 'posse') awayClimateMod -= 0.15;
+            if (awayTactic === 'counter') awayClimateMod += 0.10;
+            weatherDrainMod = 1.25; // Campo pesado
+            weatherEventText = matchWeather === 'HEAVY_RAIN' ? '⛈️ Temporal! (Campo pesado, táticas de posse sofrem)' : '🌧️ Chuva Fina!';
+        }
+
+        events.textLog.push({ minute: 0, text: `🌍 Clima Local: ${weatherEventText || '⛅ Tempo Bom'}` });
 
         // Log condition + tactic
         if (engine.matchCondition && engine.matchCondition.id !== 'normal') {
@@ -202,8 +272,17 @@ export class MatchSimulator {
 
         // Base λ (home xG) and μ (away xG)
         // rockwall reduz xG do adversário (defende melhor)
-        let lambda = BASE_XG_HOME * homeAttackStr * (awayDefenseStr * awayRockwallMod) * homeMoralFactor * homeCounterMod;
-        let mu = BASE_XG_AWAY * awayAttackStr * (homeDefenseStr * homeRockwallMod) * awayMoralFactor * awayCounterMod;
+        let lambda = BASE_XG_HOME * homeAttackStr * (awayDefenseStr * awayRockwallMod) * homeMoralFactor * homeCounterMod * homeClimateMod;
+        let mu = BASE_XG_AWAY * awayAttackStr * (homeDefenseStr * homeRockwallMod) * awayMoralFactor * awayCounterMod * awayClimateMod;
+
+        // Tactical Formation Rock-Paper-Scissors (§2.14)
+        const homeFormation = homeTeam?.formation || '4-3-3';
+        const awayFormation = awayTeam?.formation || '4-3-3';
+        const homeFormationMod = FORMATION_COUNTERS[homeFormation]?.[awayFormation] || 1.0;
+        const awayFormationMod = FORMATION_COUNTERS[awayFormation]?.[homeFormation] || 1.0;
+
+        lambda *= homeFormationMod;
+        mu *= awayFormationMod;
 
         // Apply DDA (Dynamic Difficulty) boost to bot if manager is on a streak
         if (isManagerHome) {
@@ -505,7 +584,8 @@ export class MatchSimulator {
         events.stats = { homeShots, awayShots, homeSaves, awaySaves };
 
         // Energy drain (trait: workhorse saves 30%)
-        const energyDrain = Math.floor(15 + systemRng() * 10) * (cond.energyModifier || 1);
+        const baseDrain = Math.floor(15 + systemRng() * 10) * (cond.energyModifier || 1);
+        const energyDrain = Math.floor(baseDrain * weatherDrainMod);
         [...(homeTeam.squad || []), ...(awayTeam.squad || [])].filter(p => p.isTitular).forEach(p => {
             const saveMod = hasTrait(p, 'workhorse') ? 0.7 : 1.0;
             p.energy = Math.max(0, p.energy - Math.floor(energyDrain * saveMod));

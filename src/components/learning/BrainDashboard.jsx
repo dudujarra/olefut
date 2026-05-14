@@ -12,6 +12,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
+import { Brain, ChartBar, Lightning, Trophy, TrendUp } from '@phosphor-icons/react';
 
 // Colors for bar visualization
 const BAR_COLORS = [
@@ -115,12 +116,12 @@ export function BrainDashboard({ controllerRef }) {
                 }}
             >
                 <h3 style={{ fontSize: '0.9rem', margin: 0 }}>
-                    🧠 Brain ML Dashboard
-                    <span style={{ fontSize: '0.72rem', color: '#888', marginLeft: '8px' }}>
+                    <Brain size={14} weight="fill" style={{verticalAlign:'-2px',marginRight:'6px'}} />Brain ML Dashboard
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginLeft: '8px' }}>
                         {totalUpdates} updates • {stateKeys.length} states • {allActions.length} actions
                     </span>
                 </h3>
-                <span style={{ fontSize: '0.8rem', color: '#888' }}>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                     {expanded ? '▼' : '▶'}
                 </span>
             </div>
@@ -153,7 +154,7 @@ export function BrainDashboard({ controllerRef }) {
 
                         {/* Learning Overview */}
                         <div style={cardStyle}>
-                            <div style={titleStyle}>📊 Aprendizado</div>
+                            <div style={titleStyle}><ChartBar size={12} weight="bold" style={{verticalAlign:'-2px',marginRight:'4px'}} />Aprendizado</div>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', fontSize: '0.72rem' }}>
                                 <MiniStat label="Q Updates" value={totalUpdates} />
                                 <MiniStat label="States" value={stateKeys.length} />
@@ -177,7 +178,7 @@ export function BrainDashboard({ controllerRef }) {
 
                     {/* Row 1.5: Convergence Metrics (Phase D) */}
                     <div style={{ ...cardStyle, marginBottom: '10px' }}>
-                        <div style={titleStyle}>⚡ Convergência ML (Fase D)</div>
+                        <div style={titleStyle}><Lightning size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />Convergência ML (Fase D)</div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', fontSize: '0.72rem' }}>
                             <MiniStat label="Replay Buffer" value={replayBuffer} color="var(--color-learning-violet)" />
                             <MiniStat label="High Impact" value={replayImpactful} color="var(--color-amber-warning)" />
@@ -187,14 +188,14 @@ export function BrainDashboard({ controllerRef }) {
                                 emotionalState === 'CONFIDENT' ? 'var(--color-learning-blue)' :
                                 emotionalState === 'ANXIOUS' ? 'var(--color-amber-warning)' :
                                 emotionalState === 'TILTED' ? 'var(--color-red-bright)' :
-                                emotionalState === 'DESPERATE' ? 'var(--color-learning-red-dark)' : '#888'
+                                emotionalState === 'DESPERATE' ? 'var(--color-learning-red-dark)' : 'var(--text-muted)'
                             } />
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', marginTop: '8px' }}>
                             {/* Alpha decay bar */}
                             <div style={{ fontSize: '0.68rem' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                                    <span style={{ color: '#888' }}>α (learning rate)</span>
+                                    <span style={{ color: 'var(--text-muted)' }}>α (learning rate)</span>
                                     <span style={{ color: 'var(--color-learning-teal)', fontWeight: 700 }}>{effectiveAlpha.toFixed(4)}</span>
                                 </div>
                                 <div style={barBg}>
@@ -204,7 +205,7 @@ export function BrainDashboard({ controllerRef }) {
                             {/* Epsilon decay bar */}
                             <div style={{ fontSize: '0.68rem' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                                    <span style={{ color: '#888' }}>ε (exploration)</span>
+                                    <span style={{ color: 'var(--text-muted)' }}>ε (exploration)</span>
                                     <span style={{ color: 'var(--color-learning-pink)', fontWeight: 700 }}>{effectiveEpsilon.toFixed(4)}</span>
                                 </div>
                                 <div style={barBg}>
@@ -222,7 +223,7 @@ export function BrainDashboard({ controllerRef }) {
                                 const pct = totalDecisions > 0 ? (count / totalDecisions) * 100 : 0;
                                 return (
                                     <div key={action} style={{ fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                        <span style={{ minWidth: '110px', color: '#888', textAlign: 'right' }}>
+                                        <span style={{ minWidth: '110px', color: 'var(--text-muted)', textAlign: 'right' }}>
                                             {String(action)}
                                         </span>
                                         <div style={{ flex: 1, ...barBg, height: '14px' }}>
@@ -235,7 +236,7 @@ export function BrainDashboard({ controllerRef }) {
                                                 alignItems: 'center',
                                                 paddingLeft: '4px',
                                                 fontSize: '0.6rem',
-                                                color: '#fff',
+                                                color: 'var(--text-main)',
                                                 fontWeight: 700,
                                                 minWidth: pct > 5 ? 'auto' : '0'
                                             }}>
@@ -255,8 +256,8 @@ export function BrainDashboard({ controllerRef }) {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '10px' }}>
                         {/* Top Q-Value Actions */}
                         <div style={cardStyle}>
-                            <div style={titleStyle}>🏆 Top Ações (Q-value total)</div>
-                            {topActions.length === 0 && <div style={{ fontSize: '0.7rem', color: '#888' }}>Sem dados — rode o autoplay</div>}
+                            <div style={titleStyle}><Trophy size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />Top Ações (Q-value total)</div>
+                            {topActions.length === 0 && <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Sem dados — rode o autoplay</div>}
                             {topActions.map((a, i) => (
                                 <div key={String(a.action)} style={{
                                     display: 'flex', justifyContent: 'space-between',
@@ -273,8 +274,8 @@ export function BrainDashboard({ controllerRef }) {
 
                         {/* Reward Sparkline */}
                         <div style={cardStyle}>
-                            <div style={titleStyle}>📈 Reward Curve (últimas {rewardHistory.length} decisões)</div>
-                            {rewardHistory.length === 0 && <div style={{ fontSize: '0.7rem', color: '#888' }}>Sem dados — rode o autoplay</div>}
+                            <div style={titleStyle}><TrendUp size={12} weight="bold" style={{verticalAlign:'-2px',marginRight:'4px'}} />Reward Curve (últimas {rewardHistory.length} decisões)</div>
+                            {rewardHistory.length === 0 && <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Sem dados — rode o autoplay</div>}
                             {rewardHistory.length > 0 && (
                                 <div style={{ display: 'flex', alignItems: 'flex-end', height: '60px', gap: '1px' }}>
                                     {rewardHistory.slice(-30).map((r, i) => {
@@ -313,10 +314,10 @@ export function BrainDashboard({ controllerRef }) {
                                         style={{
                                             padding: '3px 6px',
                                             fontSize: '0.6rem',
-                                            fontFamily: 'monospace',
+                                            fontFamily: 'var(--font-mono)',
                                             background: 'var(--color-learning-blue)',
                                             border: `1px solid var(--color-learning-blue-dark)`,
-                                            color: intensity > 0.5 ? '#fff' : '#888'
+                                            color: intensity > 0.5 ? 'var(--text-main)' : 'var(--text-muted)'
                                         }}
                                     >
                                         {String(sv.state)} <strong>({sv.visits})</strong>
@@ -336,7 +337,7 @@ export function BrainDashboard({ controllerRef }) {
                                     padding: '3px 0', fontSize: '0.68rem',
                                     borderBottom: '1px solid var(--color-bg-deep)'
                                 }}>
-                                    <span style={{ color: '#888' }}>wk{m.week ?? '?'}</span>
+                                    <span style={{ color: 'var(--text-muted)' }}>wk{m.week ?? '?'}</span>
                                     <span style={{ flex: 1 }}>{String(m.action || m.decision || '?')}</span>
                                     <span style={{ color: m.result === 'W' ? 'var(--color-success-mid)' : m.result === 'L' ? 'var(--color-red-bright)' : 'var(--color-amber-warning)' }}>
                                         {String(m.result || '')}
@@ -349,7 +350,7 @@ export function BrainDashboard({ controllerRef }) {
                                 </div>
                             ))}
                             {memory.length === 0 && (
-                                <div style={{ fontSize: '0.7rem', color: '#888' }}>
+                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                                     Sem memórias — rode o autoplay
                                 </div>
                             )}
@@ -365,7 +366,7 @@ export function BrainDashboard({ controllerRef }) {
 function MiniStat({ label, value, color }) {
     return (
         <div style={{ textAlign: 'center', padding: '4px' }}>
-            <div style={{ fontSize: '0.6rem', color: '#888', textTransform: 'uppercase' }}>{String(label)}</div>
+            <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{String(label)}</div>
             <div style={{ fontSize: '0.85rem', fontWeight: 700, color: color || 'var(--color-soft-text)' }}>{String(value)}</div>
         </div>
     );

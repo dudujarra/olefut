@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OléFUT — 32-bit Football Soul</title>
+<meta name="description" content="OléFUT — simulador de futebol brasileiro ISSSD-Premium 32-bit. SNES soul, modern engine." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;500;700&display=swap" />
+<style>
+  :root {
+    --neon: #39FF14;
+    --pitch: #52B788;
+    --forest: #1B4332;
+    --midnight: #0E1F14;
+    --abyss: #040805;
+    --crt: #111417;
+    --gold: #FFD700;
+    --amber: #FBBF24;
+    --vermillion: #FF3333;
+    --darkVermillion: #8B0000;
+    --parchment: #F1FAEE;
+    --smoke: #a0baae;
+    --shadow: rgba(0,0,0,0.72);
+
+    --font-display: 'Press Start 2P', monospace;
+    --font-body: 'Pixelify Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-9: 96px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--abyss);
+    color: var(--parchment);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.45;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* === CRT SCANLINE OVERLAY (full-page) === */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.18) 0px,
+      rgba(0,0,0,0.18) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    mix-blend-mode: multiply;
+  }
+
+  /* === GRAIN / NOISE (subtle) === */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.4;
+  }
+
+  /* === HERO === */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding: var(--space-7) var(--space-5) var(--space-9);
+    background:
+      radial-gradient(ellipse at 20% 18%, rgba(57,255,20,0.18) 0%, transparent 45%),
+      radial-gradient(ellipse at 88% 88%, rgba(255,215,0,0.10) 0%, transparent 50%),
+      linear-gradient(180deg, var(--midnight) 0%, var(--abyss) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom: 4px solid var(--neon);
+    box-shadow:
+      inset 0 -8px 0 var(--forest),
+      inset 0 0 200px rgba(0,0,0,0.4);
+  }
+
+  .hero__crest {
+    position: absolute;
+    top: var(--space-5);
+    right: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--smoke);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.7;
+  }
+  .hero__crest span { color: var(--neon); }
+
+  .hero__nav {
+    position: absolute;
+    top: var(--space-5);
+    left: var(--space-5);
+    display: flex;
+    gap: var(--space-3);
+    font-family: var(--font-display);
+    font-size: 9px;
+  }
+  .hero__nav a {
+    color: var(--smoke);
+    text-decoration: none;
+    padding: 6px 10px;
+    border: 2px solid transparent;
+    transition: color 0.12s, border-color 0.12s, background 0.12s;
+  }
+  .hero__nav a:hover {
+    color: var(--neon);
+    border-color: var(--neon);
+    background: rgba(57,255,20,0.06);
+  }
+
+  .hero__lockup {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: var(--space-6);
+    padding: var(--space-7) 0;
+  }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 12vw, 168px);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+    color: var(--parchment);
+    text-shadow:
+      4px 0 0 var(--vermillion),
+      -4px 0 0 var(--neon),
+      0 8px 0 var(--abyss),
+      0 0 64px rgba(57,255,20,0.5);
+    animation: glitch 6s infinite steps(20);
+  }
+  .hero__title span { color: var(--neon); }
+
+  @keyframes glitch {
+    0%, 92%, 100% { transform: translateX(0); }
+    93% { transform: translate(-2px, 1px); }
+    94% { transform: translate(3px, -2px); }
+    95% { transform: translate(-1px, 2px); }
+    96% { transform: translate(2px, 1px); }
+    97% { transform: translate(0, 0); }
+  }
+
+  .hero__tagline {
+    grid-column: 1 / -1;
+    max-width: 720px;
+    font-size: 22px;
+    color: var(--parchment);
+    line-height: 1.35;
+    margin-top: var(--space-4);
+    padding-left: var(--space-4);
+    border-left: 4px solid var(--neon);
+  }
+  .hero__tagline strong { color: var(--gold); font-weight: 700; }
+
+  .hero__cta {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    flex-wrap: wrap;
+    font-family: var(--font-display);
+    font-size: 11px;
+  }
+  .btn {
+    padding: 16px 28px;
+    border: 3px solid;
+    background: var(--midnight);
+    color: var(--parchment);
+    text-decoration: none;
+    box-shadow: 6px 6px 0 var(--abyss);
+    cursor: pointer;
+    transition: transform 0.08s ease-out, box-shadow 0.08s, background 0.12s;
+    letter-spacing: 0.06em;
+    display: inline-block;
+    text-transform: uppercase;
+  }
+  .btn--primary {
+    border-color: var(--neon);
+    color: var(--neon);
+    background: rgba(57,255,20,0.04);
+  }
+  .btn--primary:hover {
+    background: var(--neon);
+    color: var(--abyss);
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 var(--abyss);
+  }
+  .btn--ghost {
+    border-color: var(--smoke);
+    color: var(--smoke);
+  }
+  .btn--ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 var(--abyss);
+  }
+  .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--abyss);
+  }
+
+  /* === MARQUEE BANNER === */
+  .marquee {
+    background: var(--neon);
+    color: var(--abyss);
+    border-top: 4px solid var(--abyss);
+    border-bottom: 4px solid var(--abyss);
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 14px;
+    padding: 14px 0;
+    letter-spacing: 0.08em;
+  }
+  .marquee__inner {
+    display: flex;
+    gap: 48px;
+    white-space: nowrap;
+    animation: marquee 40s linear infinite;
+    width: max-content;
+  }
+  .marquee__item::before { content: "★ "; color: var(--vermillion); }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* === FEATURES === */
+  .features {
+    padding: var(--space-9) var(--space-5);
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .features__header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-7);
+    align-items: end;
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-5);
+    border-bottom: 2px dashed var(--forest);
+  }
+  .features__chapter {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--neon);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .features__chapter::before { content: "// CHAPTER 02 — "; color: var(--smoke); }
+  .features__title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4.5vw, 56px);
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--parchment);
+  }
+  .features__title span { color: var(--gold); }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-4);
+  }
+
+  .feat {
+    position: relative;
+    background: var(--midnight);
+    border: 3px solid var(--forest);
+    padding: var(--space-5);
+    color: var(--parchment);
+    transition: transform 0.15s ease-out, border-color 0.15s;
+  }
+  .feat:hover {
+    transform: translateY(-4px);
+    border-color: var(--neon);
+  }
+  .feat::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 14px;
+    height: 14px;
+    background: var(--neon);
+    box-shadow: 0 0 12px var(--neon);
+  }
+  .feat__index {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--smoke);
+    letter-spacing: 0.2em;
+  }
+  .feat__name {
+    margin-top: var(--space-3);
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--parchment);
+    text-transform: uppercase;
+  }
+  .feat__body {
+    margin-top: var(--space-3);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--smoke);
+  }
+  .feat__body strong { color: var(--neon); font-weight: 600; }
+
+  .feat--wide   { grid-column: span 8; }
+  .feat--medium { grid-column: span 6; }
+  .feat--narrow { grid-column: span 4; }
+  .feat--tall   { grid-row: span 2; }
+
+  @media (max-width: 880px) {
+    .feat--wide, .feat--medium, .feat--narrow { grid-column: span 12; }
+  }
+
+  /* === STATS BAR === */
+  .stats {
+    padding: var(--space-8) var(--space-5);
+    background:
+      linear-gradient(180deg, var(--midnight), var(--forest)),
+      var(--midnight);
+    border-top: 4px double var(--neon);
+    border-bottom: 4px double var(--neon);
+  }
+  .stats__grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-5);
+    text-align: center;
+  }
+  .stat {
+    border-right: 2px solid var(--forest);
+    padding: 0 var(--space-3);
+  }
+  .stat:last-child { border-right: none; }
+  .stat__value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    color: var(--gold);
+    text-shadow: 0 0 24px rgba(255,215,0,0.5);
+    line-height: 1;
+  }
+  .stat__label {
+    display: block;
+    margin-top: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--smoke);
+    text-transform: uppercase;
+  }
+
+  /* === MANIFESTO === */
+  .manifesto {
+    padding: var(--space-9) var(--space-5);
+    max-width: 980px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .manifesto__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--vermillion);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .manifesto__quote {
+    margin-top: var(--space-5);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: clamp(24px, 3.5vw, 42px);
+    line-height: 1.18;
+    color: var(--parchment);
+    letter-spacing: -0.01em;
+  }
+  .manifesto__quote em {
+    font-style: normal;
+    color: var(--neon);
+    border-bottom: 4px solid var(--vermillion);
+    padding: 0 6px;
+  }
+  .manifesto__attr {
+    margin-top: var(--space-6);
+    font-family: var(--font-display);
+    font-size: 10px;
+    color: var(--smoke);
+    letter-spacing: 0.2em;
+  }
+
+  /* === FOOTER === */
+  footer {
+    background: var(--crt);
+    border-top: 4px solid var(--neon);
+    padding: var(--space-7) var(--space-5);
+    color: var(--smoke);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .footer__row {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-5);
+  }
+  .footer__brand {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--neon);
+    text-shadow: 0 0 16px rgba(57,255,20,0.4);
+    margin-bottom: var(--space-3);
+  }
+  .footer__brand span { color: var(--vermillion); }
+  .footer__col h4 {
+    font-family: var(--font-display);
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+  }
+  .footer__col a {
+    display: block;
+    color: var(--smoke);
+    text-decoration: none;
+    padding: 4px 0;
+    transition: color 0.1s;
+  }
+  .footer__col a:hover { color: var(--neon); }
+
+  .footer__legal {
+    max-width: 1280px;
+    margin: var(--space-6) auto 0;
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--forest);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: 11px;
+  }
+
+  @media (max-width: 880px) {
+    .hero__lockup { grid-template-columns: 1fr; }
+    .hero__nav, .hero__crest { position: static; margin-bottom: var(--space-3); }
+    .features__header { grid-template-columns: 1fr; }
+    .footer__row { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* === LOAD ANIMATION === */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .reveal--1 { animation-delay: 0.1s; }
+  .reveal--2 { animation-delay: 0.25s; }
+  .reveal--3 { animation-delay: 0.4s; }
+  .reveal--4 { animation-delay: 0.55s; }
+  @keyframes reveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Cursor accent */
+  .blink {
+    display: inline-block;
+    width: 0.5em;
+    height: 1em;
+    background: var(--neon);
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    animation: blink 1s steps(2) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Selection */
+  ::selection { background: var(--neon); color: var(--abyss); }
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <nav class="hero__nav reveal reveal--1">
+    <a href="#features">FEATURES</a>
+    <a href="#manifesto">CREDO</a>
+    <a href="#footer">REGISTRO</a>
+    <a href="https://github.com/dudujarra/olefut" target="_blank" rel="noopener">CÓDIGO</a>
+  </nav>
+
+  <div class="hero__crest reveal reveal--1">
+    <div>vol. <span>01</span> · ed. <span>v1.1</span></div>
+    <div>Cuiabá, MT · <span>BR</span></div>
+    <div>signal: <span>locked</span></div>
+  </div>
+
+  <div class="hero__lockup">
+    <div>
+      <h1 class="hero__title reveal reveal--2">OLé<span>FUT</span></h1>
+      <p class="hero__tagline reveal reveal--3">
+        Simulador de futebol brasileiro com <strong>alma 32-bit</strong>.<br>
+        SNES soul. Modern engine. 100% offline.<br>
+        170 clubes reais. Engine deterministic. Sem microtransactions, sem ads, sem cloud.<span class="blink"></span>
+      </p>
+      <div class="hero__cta reveal reveal--4">
+        <a class="btn btn--primary" href="https://dudujarra.github.io/olefut/" target="_blank" rel="noopener">▶ JOGAR AGORA</a>
+        <a class="btn btn--ghost" href="#features">DOSSIÊ TÉCNICO</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MARQUEE ========== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__inner">
+    <span class="marquee__item">170 clubes reais</span>
+    <span class="marquee__item">26 brasileiros</span>
+    <span class="marquee__item">80 europeus</span>
+    <span class="marquee__item">64 sul-americanos</span>
+    <span class="marquee__item">1625 tests verde</span>
+    <span class="marquee__item">build 670ms</span>
+    <span class="marquee__item">376KB initial bundle</span>
+    <span class="marquee__item">zero microtransactions</span>
+    <span class="marquee__item">100% offline</span>
+    <span class="marquee__item">open source</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee__item">170 clubes reais</span>
+    <span class="marquee__item">26 brasileiros</span>
+    <span class="marquee__item">80 europeus</span>
+    <span class="marquee__item">64 sul-americanos</span>
+    <span class="marquee__item">1625 tests verde</span>
+    <span class="marquee__item">build 670ms</span>
+    <span class="marquee__item">376KB initial bundle</span>
+    <span class="marquee__item">zero microtransactions</span>
+    <span class="marquee__item">100% offline</span>
+    <span class="marquee__item">open source</span>
+  </div>
+</div>
+
+<!-- ========== FEATURES ========== -->
+<section class="features" id="features">
+  <header class="features__header">
+    <span class="features__chapter">DOSSIÊ_TÉCNICO</span>
+    <h2 class="features__title">O que faz <span>OléFUT</span> diferente.</h2>
+  </header>
+
+  <div class="feature-grid">
+    <article class="feat feat--wide feat--tall">
+      <div class="feat__index">F_01 / ENGINE</div>
+      <h3 class="feat__name">Motor Determinístico</h3>
+      <p class="feat__body">
+        Engine JavaScript ES2022 puro, <strong>zero-UI</strong>, headless. Mesma seed → mesma temporada, reprodutível. Simulação completa de 38 jogadas roda em &lt;2 segundos.
+        Cada gol, cartão e contusão tem <strong>causa traceable</strong>. Sem RNG black box.
+      </p>
+    </article>
+
+    <article class="feat feat--narrow">
+      <div class="feat__index">F_02 / SCOPE</div>
+      <h3 class="feat__name">170 Clubes Reais</h3>
+      <p class="feat__body">
+        Brasileirão A-D. Premier League. La Liga. Serie A. Bundesliga. Ligue 1. Argentino. <strong>Estaduais brasileiros</strong> (Paulistão, Carioca, Mineiro, Gaúcho).
+      </p>
+    </article>
+
+    <article class="feat feat--narrow">
+      <div class="feat__index">F_03 / OFFLINE</div>
+      <h3 class="feat__name">100% Offline</h3>
+      <p class="feat__body">
+        Roda 100% no navegador. Save em localStorage. Sem servidor, sem analytics, sem cloud. <strong>Privacidade absoluta</strong>.
+      </p>
+    </article>
+
+    <article class="feat feat--medium">
+      <div class="feat__index">F_04 / NARRATIVA</div>
+      <h3 class="feat__name">5 Camadas de Mito</h3>
+      <p class="feat__body">
+        Agente → Eventual → Relacional → Narrativa → <strong>Mito</strong>. Lendas geram traits herdáveis. Filhos regen reaparecem 18 anos depois. Rivalidades emergem do gameplay.
+      </p>
+    </article>
+
+    <article class="feat feat--medium">
+      <div class="feat__index">F_05 / STACK</div>
+      <h3 class="feat__name">React 19.2 + Vite 8</h3>
+      <p class="feat__body">
+        Stack moderna. Code-split agressivo: <strong>376KB initial bundle gzipped 110KB</strong>. Tone.js opt-in pra synth audio chiptune.
+      </p>
+    </article>
+
+    <article class="feat feat--wide">
+      <div class="feat__index">F_06 / AKITA</div>
+      <h3 class="feat__name">Spec-Driven Development</h3>
+      <p class="feat__body">
+        144 SPECs versionadas. Cada feature: spec → harness → fix. Bug = ticket + fix + regression test. <strong>1625 testes verdes</strong> no CI a cada PR. Sem vibe coding. Filosofia Fábio Akita aplicada sem exceção.
+      </p>
+    </article>
+
+    <article class="feat feat--narrow">
+      <div class="feat__index">F_07 / BRAND</div>
+      <h3 class="feat__name">Premium 32-bit</h3>
+      <p class="feat__body">
+        Press Start 2P + Pixelify Sans + IBM Plex Mono. ISSSD-inspired. CRT scanlines. Sem pixel art barato.
+      </p>
+    </article>
+
+    <article class="feat feat--narrow">
+      <div class="feat__index">F_08 / SOM</div>
+      <h3 class="feat__name">Audio Procedural</h3>
+      <p class="feat__body">
+        Sintetizado em runtime via Tone.js. Chiptune 8-canais. Click, gol, vitória, derrota — cada SFX gerado.
+      </p>
+    </article>
+
+    <article class="feat feat--narrow">
+      <div class="feat__index">F_09 / LIVRE</div>
+      <h3 class="feat__name">Open Source</h3>
+      <p class="feat__body">
+        Repo público GitHub. Toda decisão arquitetural em CLAUDE.md. CHANGELOG honesto. <strong>Build in public</strong>.
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- ========== STATS ========== -->
+<section class="stats">
+  <div class="stats__grid">
+    <div class="stat">
+      <span class="stat__value">170</span>
+      <span class="stat__label">Clubes</span>
+    </div>
+    <div class="stat">
+      <span class="stat__value">1625</span>
+      <span class="stat__label">Tests Verde</span>
+    </div>
+    <div class="stat">
+      <span class="stat__value">144</span>
+      <span class="stat__label">SPECs</span>
+    </div>
+    <div class="stat">
+      <span class="stat__value">670<small style="font-size:0.4em;color:var(--smoke)">ms</small></span>
+      <span class="stat__label">Build Time</span>
+    </div>
+    <div class="stat">
+      <span class="stat__value">376<small style="font-size:0.4em;color:var(--smoke)">KB</small></span>
+      <span class="stat__label">Bundle Initial</span>
+    </div>
+    <div class="stat">
+      <span class="stat__value">0</span>
+      <span class="stat__label">Microtransactions</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MANIFESTO ========== -->
+<section class="manifesto" id="manifesto">
+  <div class="manifesto__eyebrow reveal reveal--1">// CREDO</div>
+  <blockquote class="manifesto__quote reveal reveal--2">
+    Jogo bom é jogo que <em>respeita o tempo</em> do jogador.<br>
+    Sem timer, sem energia, sem caixa de loot.<br>
+    Você senta. Gerencia. <em>Conquista</em>. Ou perde.
+  </blockquote>
+  <div class="manifesto__attr reveal reveal--3">— OléFUT, prima palavra</div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer id="footer">
+  <div class="footer__row">
+    <div>
+      <div class="footer__brand">olé<span>FUT</span>.</div>
+      <p>Football manager brasileiro estilo SNES.<br>Brand v1.1 · 2026-05-13<br>Cuiabá, MT.</p>
+    </div>
+    <div class="footer__col">
+      <h4>Jogar</h4>
+      <a href="https://dudujarra.github.io/olefut/" target="_blank" rel="noopener">Live Demo</a>
+      <a href="https://github.com/dudujarra/olefut/releases" target="_blank" rel="noopener">Releases</a>
+      <a href="#features">Features</a>
+    </div>
+    <div class="footer__col">
+      <h4>Build</h4>
+      <a href="https://github.com/dudujarra/olefut" target="_blank" rel="noopener">Source</a>
+      <a href="https://github.com/dudujarra/olefut/tree/main/specs" target="_blank" rel="noopener">SPECs</a>
+      <a href="https://github.com/dudujarra/olefut/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>
+    </div>
+    <div class="footer__col">
+      <h4>Brand</h4>
+      <a href="https://github.com/dudujarra/olefut/blob/main/docs/brand-guidelines.md" target="_blank" rel="noopener">Guidelines</a>
+      <a href="https://github.com/dudujarra/olefut/blob/main/docs/DESIGN-SYSTEM-AUDIT.md" target="_blank" rel="noopener">Audit</a>
+      <a href="https://github.com/dudujarra/olefut/blob/main/assets/design-tokens.json" target="_blank" rel="noopener">Tokens</a>
+    </div>
+  </div>
+  <div class="footer__legal">
+    <span>© 2026 OléFUT. MIT License.</span>
+    <span style="color: var(--neon);">// signal good. transmission stable. ▮</span>
+  </div>
+</footer>
+
+</body>
+</html>

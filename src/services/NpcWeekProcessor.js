@@ -8,7 +8,7 @@
 
 import { adviseTactic, initNpcTacticState, applyNpcTacticAdvice } from '../engine/NpcTacticAdvisor';
 import { checkSquadHealth } from '../engine/SquadHealthMonitor';
-import { npcTacticDecision, npcBuyDecision, shouldUseFullBrain } from './learning/NpcManagerAI.js';
+import { npcTacticDecision, npcBuyDecision, npcFormationDecision, shouldUseFullBrain } from './learning/NpcManagerAI.js';
 
 export class NpcWeekProcessor {
     constructor() {
@@ -84,6 +84,15 @@ export class NpcWeekProcessor {
             if (tacticResult.changed) t.npcTacticState.tacticAge = 0;
             else t.npcTacticState.tacticAge = (t.npcTacticState.tacticAge || 0) + 1;
 
+            const formationResult = npcFormationDecision(t, engine);
+            if (formationResult.changed) {
+                if (engine._formationService) {
+                    engine._formationService.setFormation(t, formationResult.formation);
+                } else {
+                    t.formation = formationResult.formation;
+                }
+            }
+
             // NPC buy decisions every 4 weeks (only if near player's division for perf)
             const playerDiv = engine.getTeam(engine.manager?.teamId)?.division || 1;
             if (engine.currentWeek % 4 === 0 && shouldUseFullBrain(t, playerDiv)) {
@@ -97,12 +106,22 @@ export class NpcWeekProcessor {
         const oppTeam = oppId ? engine.getTeam(oppId) : null;
         const npcOvr = Math.round(t.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (t.squad.length || 1));
         const oppOvr = oppTeam ? Math.round(oppTeam.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (oppTeam.squad.length || 1)) : npcOvr;
+        // Contexto para tática profunda (Home/Away, Posição no campeonato)
+        const nextMatch = engine.schedule[engine.currentWeek]?.find(m => m.home === t.id || m.away === t.id);
+        const isHome = nextMatch ? nextMatch.home === t.id : true;
+        const standings = engine.getStandings(t.zone, t.division) || [];
+        const position = (standings.findIndex(s => s.teamId === t.id) + 1) || 10;
+        const totalTeams = standings.length || 20;
+
         const advice = adviseTactic({
             currentTactic: t.npcTacticState.currentTactic,
             recentResults: t.npcTacticState.recentResults,
             squadOvr: npcOvr,
             opponentOvr: oppOvr,
             tacticAge: t.npcTacticState.tacticAge,
+            isHome,
+            position,
+            totalTeams,
         });
         t.npcTacticState = applyNpcTacticAdvice(t.npcTacticState, advice);
     }

@@ -31,10 +31,10 @@ export function EfStatLine({
             alignItems: 'center',
             gap: '8px',
             fontSize: '13px',
-            fontFamily: "'Press Start 2P', monospace"
+            fontFamily: 'var(--font-display)'
         }}>
             <span style={{
-                color: '#888',
+                color: 'var(--text-muted)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
@@ -46,7 +46,7 @@ export function EfStatLine({
             <span style={{
                 color: valColor,
                 fontWeight: bold ? 700 : 500,
-                fontFamily: typeof value === 'number' ? "monospace" : "'Press Start 2P', monospace",
+                fontFamily: typeof value === 'number' ? 'var(--font-mono)' : 'var(--font-display)',
                 fontSize: '0.6rem'
             }}>
                 {value}{suffix}

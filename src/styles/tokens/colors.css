@@ -37,7 +37,7 @@
   --ef-overlay-light: #F1FAEE;
   --ef-overlay-light-strong: #F1FAEE;
   --ef-overlay-shadow: #040805;
-  --ef-overlay-bg-78: #111417 /* Fallback CRT Black */;
-  --ef-overlay-bg-95: #111417 /* Fallback CRT Black */;
+  --ef-overlay-bg-78: #0A130E; /* Deep pitch overlay 78% */
+  --ef-overlay-bg-95: #060B08; /* Near-black overlay 95% */
   --ef-focus-ring: 2px dotted var(--ef-color-accent-gold);
 }

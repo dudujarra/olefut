@@ -558,6 +558,20 @@ export const TACTIC_COUNTERS = {
 };
 
 /**
+ * Formation Counter System — rock-paper-scissors based on Deep Tactical Reference
+ * Base multiplier on zone control (lambda/mu)
+ * Matrix: 4-4-2, 4-3-3, 4-2-4, 3-5-2, 5-3-2
+ */
+export const FORMATION_COUNTERS = {
+    // [attackerFormation][defenderFormation] = modifier
+    '4-4-2': { '4-4-2': 1.0,  '4-3-3': 0.85, '4-2-4': 1.15, '3-5-2': 0.85, '5-3-2': 1.15 },
+    '4-3-3': { '4-4-2': 1.15, '4-3-3': 1.0,  '4-2-4': 1.15, '3-5-2': 0.85, '5-3-2': 0.85 },
+    '4-2-4': { '4-4-2': 0.85, '4-3-3': 0.85, '4-2-4': 1.0,  '3-5-2': 0.75, '5-3-2': 1.15 },
+    '3-5-2': { '4-4-2': 1.15, '4-3-3': 1.15, '4-2-4': 1.25, '3-5-2': 1.0,  '5-3-2': 1.0  },
+    '5-3-2': { '4-4-2': 0.85, '4-3-3': 1.15, '4-2-4': 0.85, '3-5-2': 1.0,  '5-3-2': 1.0  },
+};
+
+/**
  * Narração contextual por tática
  */
 // P1-5: Variedade narração 5x — cada categoria 10-15+ templates únicos
