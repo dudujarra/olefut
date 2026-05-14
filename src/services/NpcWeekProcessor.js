@@ -77,7 +77,9 @@ export class NpcWeekProcessor {
         // MARL Fase 6: NPC brain-driven tactic + emotional feed
         if (!t.npcTacticState) t.npcTacticState = initNpcTacticState();
 
-        if (t.brain) {
+        const playerDiv = engine.getTeam(engine.manager?.teamId)?.division || 1;
+
+        if (t.brain && shouldUseFullBrain(t, playerDiv)) {
             // Brain-driven decision (replaces NpcTacticAdvisor)
             const tacticResult = npcTacticDecision(t, engine);
             t.npcTacticState.currentTactic = tacticResult.tactic;
@@ -91,20 +93,19 @@ export class NpcWeekProcessor {
             }
 
             // NPC buy decisions every 4 weeks (only if near player's division for perf)
-            const playerDiv = engine.getTeam(engine.manager?.teamId)?.division || 1;
-            if (engine.currentWeek % 4 === 0 && shouldUseFullBrain(t, playerDiv)) {
+            if (engine.currentWeek % 4 === 0) {
                 try { npcBuyDecision(t, engine); } catch { /* defensive */ }
             }
             return;
         }
 
-        // Legacy fallback: NpcTacticAdvisor
+        // Legacy fallback: NpcTacticAdvisor (Lite Brain / Sleep)
         const oppId = engine._lastNpcOpponent?.[t.id];
         const oppTeam = oppId ? engine.getTeam(oppId) : null;
         const npcOvr = Math.round(t.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (t.squad.length || 1));
         const oppOvr = oppTeam ? Math.round(oppTeam.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (oppTeam.squad.length || 1)) : npcOvr;
         // Contexto para tática profunda (Home/Away, Posição no campeonato)
-        const nextMatch = engine.schedule[engine.currentWeek]?.find(m => m.home === t.id || m.away === t.id);
+        const nextMatch = engine.state?.schedule?.[engine.currentWeek]?.find(m => m.home === t.id || m.away === t.id);
         const isHome = nextMatch ? nextMatch.home === t.id : true;
         const standings = engine.getStandings(t.zone, t.division) || [];
         const position = (standings.findIndex(s => s.teamId === t.id) + 1) || 10;

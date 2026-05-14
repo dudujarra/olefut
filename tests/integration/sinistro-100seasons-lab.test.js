@@ -102,8 +102,10 @@ describe('💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test', () => {
         bot = new AutoPlayController(engine);
         bot.running = true;
 
-        // 6. Run 100 seasons
+        // 6. Run 500 seasons
         const startTime = performance.now();
+        let lastLoggedSeason = 0;
+        let batchStart = performance.now();
         for (let w = 0; w < MAX_WEEKS && bot.stats.seasonsPlayed < SEASONS; w++) {
             const tickStart = performance.now();
             try {
@@ -138,6 +140,20 @@ describe('💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test', () => {
                     squadSize: t.squad?.length || 0,
                 });
             }
+
+            // Progress log every 10 seasons (via stderr to bypass vitest buffering)
+            const currentSeason = bot.stats.seasonsPlayed || 0;
+            if (currentSeason >= lastLoggedSeason + 10) {
+                const batchMs = performance.now() - batchStart;
+                const elapsed = ((performance.now() - startTime) / 1000).toFixed(0);
+                const avgTick = (batchMs / (10 * 38)).toFixed(1);
+                const bal = t ? `R$${(t.balance / 1e6).toFixed(1)}M` : '?';
+                const div = t ? `D${t.division}` : '?';
+                const sq = t?.squad?.length || '?';
+                process.stderr.write(`  ⏳ Season ${currentSeason}/${SEASONS} | ${elapsed}s | ~${avgTick}ms/tick | ${div} | ${bal} | squad:${sq} | errs:${totalErrors}\n`);
+                lastLoggedSeason = currentSeason;
+                batchStart = performance.now();
+            }
         }
         bot.running = false;
         const totalTimeMs = performance.now() - startTime;
@@ -146,7 +162,11 @@ describe('💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test', () => {
 
         // Summary
         console.log(`\n${'='.repeat(70)}`);
-        console.log(`📊 RESULTADO: ${stats.weeksPlayed} weeks | ${stats.seasonsPlayed} seasons | ${totalErrors} errors`);
+        console.log(`📊 RESULTADO: ${stats.weeksPlayed} weeks | ${stats.seasonsPlayed} seasons | ${totalErrors} errors (test loop)`);
+        console.log(`🔴 ENGINE ERRORS: ${stats.errorCount}`);
+        if (stats.anomalies && stats.anomalies.length > 0) {
+            console.log(`🧨 FIRST ANOMALY:`, JSON.stringify(stats.anomalies[0], null, 2));
+        }
         console.log(`   ⏱  Total: ${(totalTimeMs / 1000).toFixed(1)}s | Avg tick: ${(tickTimesMs.reduce((a, b) => a + b, 0) / tickTimesMs.length).toFixed(2)}ms`);
         console.log(`   ⚽ W${stats.wins} D${stats.draws} L${stats.losses} (WR: ${((stats.wins / (stats.wins + stats.draws + stats.losses)) * 100).toFixed(1)}%)`);
         console.log(`   💰 Peak: R$${(peakBalance / 1e6).toFixed(1)}M | Low: R$${(lowestBalance / 1e6).toFixed(1)}M`);
