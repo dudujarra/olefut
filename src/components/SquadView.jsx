@@ -10,6 +10,7 @@ import { EfButton } from './ui/EfButton';
 import { HexagonChart } from './HexagonChart';
 import { calculateRatingForPosition } from '../engine/Positions';
 import { injectSquadIntoTeam } from '../services/SquadDataService';
+import { getClubColors } from '../data/clubColors';
 
 import { Users, User, ChartBar, Star, Sparkle, MagnifyingGlass, CheckCircle, PaperPlaneRight, UserMinus, Heartbeat, ArrowCircleUp, ArrowCircleDown, MinusCircle, IdentificationCard, FirstAid } from '@phosphor-icons/react';
 
@@ -111,8 +112,14 @@ export function SquadView() {
         return 'var(--text-muted)';
     };
 
+    const teamColors = getClubColors(team.name);
+
     return (
-        <div className="ef-view-shell ef-view-shell--fixed">
+        <div className="ef-view-shell ef-view-shell--fixed" style={{
+            '--team-primary': teamColors.primary,
+            '--team-secondary': teamColors.secondary,
+            '--team-accent': teamColors.accent
+        }}>
             <ViewOnboarding viewId="squad" />
             <div className="ef-view-container ef-view-container--wide">
 

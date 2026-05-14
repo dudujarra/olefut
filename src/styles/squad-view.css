@@ -342,8 +342,8 @@
 
 .ef-squad__capacity-fill {
   height: 100%;
-  background: var(--color-primary);
-  box-shadow: 0 0 6px var(--color-primary);
+  background: var(--team-primary, var(--color-primary));
+  box-shadow: 0 0 6px var(--team-primary, var(--color-primary));
   transition: width 0.3s ease;
 }
 
@@ -372,7 +372,7 @@
 }
 
 .ef-squad__row--selected {
-  border-left-color: var(--color-primary);
+  border-left-color: var(--team-primary, var(--color-primary));
   background: rgba(27, 67, 50, 0.2); /* forest @ 20% */
 }
 
@@ -570,8 +570,8 @@
 
 .ef-squad__summary-bar-fill {
   height: 100%;
-  background: var(--color-primary);
-  box-shadow: 0 0 6px var(--color-primary);
+  background: var(--team-primary, var(--color-primary));
+  box-shadow: 0 0 6px var(--team-primary, var(--color-primary));
   transition: width 0.3s ease;
 }
 

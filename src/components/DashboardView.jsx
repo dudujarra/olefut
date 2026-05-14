@@ -5,6 +5,7 @@ import { useGame } from '../context/GameContext';
 import { FORMATIONS, TACTICS, TEAM_TALKS, TRAINING_TYPES } from '../engine/ManagerSystems';
 import { STAFF_ROLES, SCOUT_REGIONS, getStadiumInfo } from '../engine/StadiumSystem';
 import { getAcademyUpgradeCost } from '../engine/YouthAcademy';
+import { getClubColors } from '../data/clubColors';
 import { ChallengesWidget } from './ChallengesWidget';
 import { getAllAchievements } from '../engine/MetaProgression';
 import TrophyCeremony from './TrophyCeremony';
@@ -114,9 +115,14 @@ export function DashboardView() {
     // SPEC-176/183: Stitch-aligned next-match preview data (real engine, no hallucinated names)
     const nextOpponentName = (engine.nextMatch?.opponentName) || (engine.getNextOpponent?.()?.name) || 'PRÓXIMO ADVERSÁRIO';
     const stadiumLabel = (stadiumInfo?.name || 'ESTÁDIO').toUpperCase();
+    const teamColors = getClubColors(team.name);
 
     return (
-        <div className="ef-dashboard-container">
+        <div className="ef-dashboard-container" style={{
+            '--team-primary': teamColors.primary,
+            '--team-secondary': teamColors.secondary,
+            '--team-accent': teamColors.accent
+        }}>
             <div className="ef-dashboard-inner">
                 <TrophyCeremony trophy={engine.trophyCeremony?.trophy} season={engine.trophyCeremony?.season} visible={!!engine.trophyCeremony} onDismiss={() => { engine.trophyCeremony = null; forceUpdate(); }} />
 

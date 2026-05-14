@@ -30,14 +30,14 @@
 
 .ef-dashboard-team-badge {
   display: inline-block;
-  background: var(--color-bg-secondary);
-  color: var(--color-text-secondary);
+  background: var(--team-primary, var(--color-bg-secondary));
+  color: var(--team-secondary, var(--color-text-secondary));
   padding: 4px 12px;
   font-size: 0.75rem;
   font-family: var(--font-mono);
   letter-spacing: 0.05em;
   margin-bottom: 12px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--team-accent, var(--color-border));
 }
 
 .ef-dashboard-team-name {
@@ -1238,7 +1238,7 @@
   align-items: center;
   justify-content: center;
   background: var(--color-bg-tertiary);
-  border: 4px solid var(--color-primary);
+  border: 4px solid var(--team-primary, var(--color-primary));
   box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.1),
               inset -4px -4px 0 rgba(0, 0, 0, 0.5);
   transition: transform 150ms ease;
@@ -1255,7 +1255,7 @@
 .ef-dashboard-hero-match__crest-letter {
   font-family: var(--font-display);
   font-size: 2rem;
-  color: var(--color-primary);
+  color: var(--team-primary, var(--color-primary));
   text-shadow: 2px 2px 0 var(--color-bg);
 }
 
