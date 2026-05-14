@@ -530,7 +530,115 @@ export const CLUB_COLORS = {
     "Once Caldas":         { primary: "#FFFFFF", secondary: "#000000", accent: "#C8102E", nickname: "Albo",        initials: "ONC" },
     "Tolima":              { primary: "#C8102E", secondary: "#FFD700", accent: "#FFFFFF", nickname: "Pijao",       initials: "TOL" },
     "Bucaramanga":         { primary: "#FFD700", secondary: "#003DA5", accent: "#FFFFFF", nickname: "Leopardos",   initials: "BUC" },
-    "Medellín":            { primary: "#003DA5", secondary: "#C8102E", accent: "#FFFFFF", nickname: "Poderoso",    initials: "MED" }
+    "Medellín":            { primary: "#003DA5", secondary: "#C8102E", accent: "#FFFFFF", nickname: "Poderoso",    initials: "MED" },
+
+    // === SPEC-180: 2ª Divisão — England (Championship) ===
+    "Leeds United":        { primary: "#FFFFFF", secondary: "#1D4289", accent: "#FFD700", nickname: "Whites",     initials: "LEE" },
+    "Leicester City":      { primary: "#003090", secondary: "#FDBE11", accent: "#FFFFFF", nickname: "Foxes",      initials: "LEI" },
+    "Southampton":         { primary: "#D71920", secondary: "#FFFFFF", accent: "#130C0E", nickname: "Saints",     initials: "SOU" },
+    "Burnley":             { primary: "#6C1D45", secondary: "#99D6EA", accent: "#FFFFFF", nickname: "Clarets",    initials: "BUR" },
+    "Sheffield United":    { primary: "#EE2737", secondary: "#FFFFFF", accent: "#000000", nickname: "Blades",     initials: "SHU" },
+    "Sunderland":          { primary: "#EB172B", secondary: "#FFFFFF", accent: "#211E1F", nickname: "Cats",       initials: "SUN" },
+    "Norwich City":        { primary: "#FFF200", secondary: "#00A650", accent: "#FFFFFF", nickname: "Canaries",   initials: "NOR" },
+    "Middlesbrough":       { primary: "#E1261C", secondary: "#FFFFFF", accent: "#000000", nickname: "Boro",       initials: "MID" },
+    "Coventry City":       { primary: "#6CABDD", secondary: "#003366", accent: "#FFFFFF", nickname: "Sky Blues",  initials: "COV" },
+    "Watford":             { primary: "#FBEE23", secondary: "#ED2127", accent: "#000000", nickname: "Hornets",    initials: "WAT" },
+
+    // === SPEC-180: 2ª Divisão — Spain (La Liga 2) ===
+    "Deportivo de La Coruña": { primary: "#0032A0", secondary: "#FFFFFF", accent: "#000000", nickname: "Dépor",   initials: "DEP" },
+    "Sporting Gijón":      { primary: "#CC0000", secondary: "#FFFFFF", accent: "#000000", nickname: "Sporting",   initials: "SPG" },
+    "Levante UD":          { primary: "#003DA5", secondary: "#C8102E", accent: "#FFFFFF", nickname: "Granotas",   initials: "LEV" },
+    "Real Zaragoza":       { primary: "#003DA5", secondary: "#FFFFFF", accent: "#000000", nickname: "Maños",      initials: "ZAR" },
+    "Granada CF":          { primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Nazaríes",   initials: "GRA" },
+    "Almería":             { primary: "#EE1C25", secondary: "#FFFFFF", accent: "#000000", nickname: "Rojiblancos",initials: "ALM" },
+    "SD Eibar":            { primary: "#8B2346", secondary: "#003DA5", accent: "#FFFFFF", nickname: "Armeros",    initials: "EIB" },
+    "Elche CF":            { primary: "#006633", secondary: "#FFFFFF", accent: "#000000", nickname: "Franjiverdes",initials: "ELC" },
+    "Racing Santander":    { primary: "#006B3F", secondary: "#FFFFFF", accent: "#000000", nickname: "Racing",     initials: "RAS" },
+    "CD Tenerife":         { primary: "#003DA5", secondary: "#FFFFFF", accent: "#000000", nickname: "Chicharreros",initials: "TEN" },
+
+    // === SPEC-180: 2ª Divisão — Italy (Serie B) ===
+    "Sassuolo":            { primary: "#00965E", secondary: "#000000", accent: "#FFFFFF", nickname: "Neroverdi",  initials: "SAS" },
+    "Lecce":               { primary: "#FFD700", secondary: "#C8102E", accent: "#000000", nickname: "Giallorossi",initials: "LEC" },
+    "Cagliari":            { primary: "#7B1E2C", secondary: "#003DA5", accent: "#FFFFFF", nickname: "Rossoblù",  initials: "CAG" },
+    "Parma":               { primary: "#FFFFFF", secondary: "#003DA5", accent: "#FFD700", nickname: "Crociati",   initials: "PAR" },
+    "Sampdoria":           { primary: "#003DA5", secondary: "#C8102E", accent: "#FFFFFF", nickname: "Blucerchiati",initials: "SAM" },
+    "Cremonese":           { primary: "#C8102E", secondary: "#808080", accent: "#FFFFFF", nickname: "Grigiorossi",initials: "CRE" },
+    "Palermo":             { primary: "#F274AE", secondary: "#000000", accent: "#FFFFFF", nickname: "Rosanero",  initials: "PAL" },
+    "Bari":                { primary: "#FFFFFF", secondary: "#C8102E", accent: "#006633", nickname: "Galletti",   initials: "BAR" },
+    "Brescia":             { primary: "#003DA5", secondary: "#FFFFFF", accent: "#000000", nickname: "Rondinelle", initials: "BRE" },
+    "Modena":              { primary: "#FFD700", secondary: "#003DA5", accent: "#FFFFFF", nickname: "Canarini",   initials: "MOD" },
+
+    // === SPEC-180: 2ª Divisão — Germany (2. Bundesliga) ===
+    "Hamburger SV":        { primary: "#003DA5", secondary: "#FFFFFF", accent: "#C8102E", nickname: "HSV",        initials: "HSV" },
+    "FC Schalke 04":       { primary: "#004D98", secondary: "#FFFFFF", accent: "#000000", nickname: "Königsblauen",initials: "S04" },
+    "Hertha BSC":          { primary: "#003DA5", secondary: "#FFFFFF", accent: "#000000", nickname: "Alte Dame",  initials: "BSC" },
+    "Hannover 96":         { primary: "#006633", secondary: "#FFFFFF", accent: "#C8102E", nickname: "Roten",      initials: "H96" },
+    "Fortuna Düsseldorf":  { primary: "#EE1C25", secondary: "#FFFFFF", accent: "#000000", nickname: "Fortuna",    initials: "F95" },
+    "1. FC Nürnberg":      { primary: "#9E1B34", secondary: "#FFFFFF", accent: "#000000", nickname: "Club",       initials: "FCN" },
+    "1. FC Kaiserslautern":{ primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Rote Teufel",initials: "FCK" },
+    "SC Paderborn 07":     { primary: "#003DA5", secondary: "#FFD700", accent: "#FFFFFF", nickname: "SCP",        initials: "SCP" },
+    "SV Darmstadt 98":     { primary: "#003DA5", secondary: "#FFFFFF", accent: "#000000", nickname: "Lilien",     initials: "D98" },
+    "Karlsruher SC":       { primary: "#003DA5", secondary: "#FFFFFF", accent: "#000000", nickname: "KSC",        initials: "KSC" },
+
+    // === SPEC-180: 2ª Divisão — France (Ligue 2) ===
+    "FC Nantes":           { primary: "#FFD700", secondary: "#006633", accent: "#FFFFFF", nickname: "Canaris",    initials: "FCN" },
+    "AS Saint-Étienne":    { primary: "#006633", secondary: "#FFFFFF", accent: "#000000", nickname: "Verts",      initials: "STE" },
+    "Toulouse FC":         { primary: "#7B2D8E", secondary: "#FFFFFF", accent: "#000000", nickname: "Téfécé",     initials: "TFC" },
+    "AJ Auxerre":          { primary: "#003DA5", secondary: "#FFFFFF", accent: "#000000", nickname: "AJA",        initials: "AJA" },
+    "Angers SCO":          { primary: "#000000", secondary: "#FFFFFF", accent: "#FFD700", nickname: "SCO",        initials: "SCO" },
+    "FC Metz":             { primary: "#812040", secondary: "#FFFFFF", accent: "#000000", nickname: "Grenats",    initials: "FCM" },
+    "Amiens SC":           { primary: "#FFFFFF", secondary: "#000000", accent: "#808080", nickname: "Licornes",   initials: "AMI" },
+    "Girondins de Bordeaux":{ primary: "#003DA5", secondary: "#FFFFFF", accent: "#000000", nickname: "Girondins", initials: "GDB" },
+    "SM Caen":             { primary: "#003DA5", secondary: "#C8102E", accent: "#FFFFFF", nickname: "SMC",        initials: "SMC" },
+    "Stade de Reims":      { primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Rémois",     initials: "SDR" },
+
+    // === SPEC-180: 2ª Divisão — Argentina (Primera Nacional) ===
+    "Newell's Old Boys":   { primary: "#C8102E", secondary: "#000000", accent: "#FFFFFF", nickname: "Leprosos",   initials: "NOB" },
+    "Rosario Central":     { primary: "#003DA5", secondary: "#FFD700", accent: "#FFFFFF", nickname: "Canallas",   initials: "ROC" },
+    "Belgrano":            { primary: "#6CABDD", secondary: "#FFFFFF", accent: "#000000", nickname: "Celeste",    initials: "BEL" },
+    "Colón":               { primary: "#C8102E", secondary: "#000000", accent: "#FFFFFF", nickname: "Sabalero",   initials: "COL" },
+    "Banfield":            { primary: "#006633", secondary: "#FFFFFF", accent: "#000000", nickname: "Taladro",    initials: "BAN" },
+    "Defensa y Justicia":  { primary: "#006633", secondary: "#FFD700", accent: "#FFFFFF", nickname: "Halcón",     initials: "DYJ" },
+    "Godoy Cruz":          { primary: "#FFFFFF", secondary: "#C8102E", accent: "#000000", nickname: "Tomba",      initials: "GCR" },
+    "Tigre":               { primary: "#003DA5", secondary: "#C8102E", accent: "#FFFFFF", nickname: "Matador",    initials: "TIG" },
+    "Unión de Santa Fe":   { primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Tatengue",   initials: "USF" },
+    "Barracas Central":    { primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Guapo",      initials: "BCA" },
+
+    // === SPEC-180: 2ª Divisão — Uruguay (Segunda División) ===
+    "Rentistas":           { primary: "#FFD700", secondary: "#003DA5", accent: "#FFFFFF", nickname: "Bichos",     initials: "REN" },
+    "River Plate (URU)":   { primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Darseneros", initials: "RIV" },
+    "Progreso":            { primary: "#FFD700", secondary: "#000000", accent: "#FFFFFF", nickname: "Gaucho",     initials: "PRO" },
+    "Cerrito":             { primary: "#006633", secondary: "#FFFFFF", accent: "#000000", nickname: "Arachanes",  initials: "CER" },
+    "Racing (URU)":        { primary: "#6CABDD", secondary: "#FFFFFF", accent: "#000000", nickname: "Academia",   initials: "RAC" },
+    "Sud América":         { primary: "#C8102E", secondary: "#003DA5", accent: "#FFFFFF", nickname: "Suda",       initials: "SDA" },
+    "Miramar Misiones":    { primary: "#006633", secondary: "#C8102E", accent: "#FFFFFF", nickname: "Miramar",    initials: "MIR" },
+    "Deportivo Maldonado":{ primary: "#FFFFFF", secondary: "#003DA5", accent: "#000000", nickname: "DM",         initials: "DMA" },
+    "Villa Española":      { primary: "#C8102E", secondary: "#003DA5", accent: "#FFFFFF", nickname: "Villa",      initials: "VIE" },
+    "Atenas (URU)":        { primary: "#003DA5", secondary: "#FFFFFF", accent: "#000000", nickname: "Atenas",     initials: "ATE" },
+
+    // === SPEC-180: 2ª Divisão — Chile (Primera B) ===
+    "Curicó Unido":        { primary: "#FFD700", secondary: "#000000", accent: "#FFFFFF", nickname: "Torteros",   initials: "CUR" },
+    "Deportes La Serena":  { primary: "#FFD700", secondary: "#C8102E", accent: "#000000", nickname: "Papayeros",  initials: "LSE" },
+    "Rangers de Talca":    { primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Rangers",    initials: "RAN" },
+    "Deportes Temuco":     { primary: "#006633", secondary: "#FFFFFF", accent: "#000000", nickname: "Pijao",      initials: "TEM" },
+    "Ñublense":            { primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Diablos",    initials: "NUB" },
+    "Deportes Iquique":    { primary: "#003DA5", secondary: "#FFFFFF", accent: "#FFD700", nickname: "Dragones",   initials: "IQU" },
+    "Santiago Wanderers":  { primary: "#006633", secondary: "#FFFFFF", accent: "#000000", nickname: "Wanderers",  initials: "WAD" },
+    "Deportes Antofagasta":{ primary: "#FFD700", secondary: "#003DA5", accent: "#FFFFFF", nickname: "Pumas",      initials: "ANT" },
+    "San Luis de Quillota":{ primary: "#003DA5", secondary: "#FFFFFF", accent: "#C8102E", nickname: "Canario",    initials: "SLQ" },
+    "Deportes Copiapó":    { primary: "#C8102E", secondary: "#FFD700", accent: "#FFFFFF", nickname: "Atacameños", initials: "COP" },
+
+    // === SPEC-180: 2ª Divisão — Colombia (Primera B) ===
+    "Boyacá Chicó":        { primary: "#006633", secondary: "#FFFFFF", accent: "#C8102E", nickname: "Ajedrezados",initials: "BCH" },
+    "Fortaleza CEIF":      { primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Fortaleza",  initials: "FOR" },
+    "Cortuluá":            { primary: "#C8102E", secondary: "#FFFFFF", accent: "#000000", nickname: "Corazón",    initials: "COR" },
+    "Llaneros FC":         { primary: "#006633", secondary: "#FFFFFF", accent: "#FFD700", nickname: "Llaneros",   initials: "LLA" },
+    "Real Cartagena":      { primary: "#C8102E", secondary: "#FFD700", accent: "#FFFFFF", nickname: "Heroicos",   initials: "RCT" },
+    "Deportes Quindío":    { primary: "#006633", secondary: "#FFFFFF", accent: "#000000", nickname: "Cuyabros",   initials: "QUI" },
+    "Unión Magdalena":     { primary: "#C8102E", secondary: "#FFD700", accent: "#003DA5", nickname: "Ciclón",     initials: "UMA" },
+    "Leones FC":           { primary: "#FFD700", secondary: "#000000", accent: "#FFFFFF", nickname: "Leones",     initials: "LEO" },
+    "Orsomarso SC":        { primary: "#006633", secondary: "#FFFFFF", accent: "#000000", nickname: "Orsomarso",  initials: "ORS" },
+    "Valledupar FC":       { primary: "#006633", secondary: "#FFD700", accent: "#FFFFFF", nickname: "Vallenato",  initials: "VDC" }
 };
 
 /**

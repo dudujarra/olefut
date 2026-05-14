@@ -595,6 +595,18 @@ export class SeasonProcessor {
             'LIBERTADORES': { winner: 25_000_000, participant: 2_000_000, name: 'Libertadores' },
             'SULA':         { winner: 8_000_000,  participant: 1_000_000, name: 'Sul-Americana' },
             'CHAMPIONS':    { winner: 30_000_000, participant: 3_000_000, name: 'Champions League' },
+            // SPEC-180: new tournaments
+            'EUROPA':       { winner: 15_000_000, participant: 1_500_000, name: 'Europa League' },
+            'WORLD_CUP':    { winner: 50_000_000, participant: 5_000_000, name: 'Mundial de Clubes' },
+            'COPA_ARG':     { winner: 3_000_000,  participant: 200_000,  name: 'Copa Argentina' },
+            'COPA_URU':     { winner: 1_000_000,  participant: 100_000,  name: 'Copa Uruguay' },
+            'COPA_CHI':     { winner: 1_500_000,  participant: 100_000,  name: 'Copa Chile' },
+            'COPA_COL':     { winner: 2_000_000,  participant: 150_000,  name: 'Copa Colombia' },
+            'FA_CUP':       { winner: 8_000_000,  participant: 500_000,  name: 'FA Cup' },
+            'COPA_REY':     { winner: 5_000_000,  participant: 300_000,  name: 'Copa del Rey' },
+            'COPPA_ITA':    { winner: 5_000_000,  participant: 300_000,  name: 'Coppa Italia' },
+            'DFB_POKAL':    { winner: 5_000_000,  participant: 300_000,  name: 'DFB-Pokal' },
+            'COUPE_FRA':    { winner: 4_000_000,  participant: 250_000,  name: 'Coupe de France' },
         };
 
         try {
@@ -706,8 +718,11 @@ export class SeasonProcessor {
                                 .map(tm => tm.id);
                         }
                     }
-                    // Skip continental cups — re-qualified separately below
-                    if (['LIBERTADORES', 'SULA', 'CHAMPIONS'].includes(t.id)) return;
+                    // Skip continental cups + national cups + mundial — re-qualified separately below
+                    const SKIP_IDS = ['LIBERTADORES', 'SULA', 'CHAMPIONS', 'EUROPA', 'WORLD_CUP',
+                        'COPA_BR', 'COPA_ARG', 'COPA_URU', 'COPA_CHI', 'COPA_COL',
+                        'FA_CUP', 'COPA_REY', 'COPPA_ITA', 'DFB_POKAL', 'COUPE_FRA'];
+                    if (SKIP_IDS.includes(t.id)) return;
                     if (!teamIds || teamIds.length === 0) {
                         teamIds = (t.standings || []).map(s => s.teamId).filter(Boolean);
                     }
@@ -747,12 +762,42 @@ export class SeasonProcessor {
 
             const euZones = ['ENG', 'ESP', 'ITA', 'GER', 'FRA'];
             const clTeams = [];
+            const elTeams = [];
             euZones.forEach(z => {
                 const st = finalDiv1Standings[z] || [];
                 clTeams.push(...st.slice(0, 4));
+                elTeams.push(...st.slice(4, 6));
             });
             const cl = engine.getTournament('CHAMPIONS');
             if (cl && clTeams.length >= 4) cl.init(clTeams);
+
+            // SPEC-180: Europa League re-qualification
+            const el = engine.getTournament('EUROPA');
+            if (el && elTeams.length >= 4) el.init(elTeams);
+        } catch { /* defensive */ }
+
+        // SPEC-180: Re-init national cups for all countries
+        try {
+            const CUP_ZONE_MAP = {
+                'COPA_BR': 'BRA', 'COPA_ARG': 'ARG', 'COPA_URU': 'URU',
+                'COPA_CHI': 'CHI', 'COPA_COL': 'COL', 'FA_CUP': 'ENG',
+                'COPA_REY': 'ESP', 'COPPA_ITA': 'ITA', 'DFB_POKAL': 'GER',
+                'COUPE_FRA': 'FRA',
+            };
+            for (const [cupId, zone] of Object.entries(CUP_ZONE_MAP)) {
+                const cup = engine.getTournament(cupId);
+                if (!cup) continue;
+                const zoneTeams = engine.teams.filter(t => t.zone === zone).map(t => t.id);
+                if (zoneTeams.length >= 4) cup.init(zoneTeams);
+            }
+        } catch { /* defensive */ }
+
+        // SPEC-180: World Club Cup qualification
+        try {
+            const mundial = engine.getTournament('WORLD_CUP');
+            if (mundial && typeof mundial.qualify === 'function') {
+                mundial.qualify(engine);
+            }
         } catch { /* defensive */ }
     }
 }

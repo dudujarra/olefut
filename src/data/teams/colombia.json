@@ -1,0 +1,26 @@
+{
+  "1": [
+    { "name": "Atlético Nacional", "budget": 120000000, "stadium": 45000 },
+    { "name": "Millonarios FC", "budget": 100000000, "stadium": 36000 },
+    { "name": "Junior FC", "budget": 90000000, "stadium": 49000 },
+    { "name": "América de Cali", "budget": 85000000, "stadium": 46000 },
+    { "name": "Deportivo Cali", "budget": 75000000, "stadium": 52000 },
+    { "name": "Independiente Santa Fe", "budget": 70000000, "stadium": 36000 },
+    { "name": "Once Caldas", "budget": 40000000, "stadium": 27000 },
+    { "name": "Tolima", "budget": 50000000, "stadium": 27000 },
+    { "name": "Atlético Bucaramanga", "budget": 35000000, "stadium": 28000 },
+    { "name": "Independiente Medellín", "budget": 60000000, "stadium": 45000 }
+  ],
+  "2": [
+    { "name": "Boyacá Chicó", "budget": 15000000, "stadium": 10000 },
+    { "name": "Fortaleza CEIF", "budget": 12000000, "stadium": 8000 },
+    { "name": "Cortuluá", "budget": 10000000, "stadium": 10000 },
+    { "name": "Llaneros FC", "budget": 8000000, "stadium": 6000 },
+    { "name": "Real Cartagena", "budget": 14000000, "stadium": 16000 },
+    { "name": "Deportes Quindío", "budget": 11000000, "stadium": 22000 },
+    { "name": "Unión Magdalena", "budget": 13000000, "stadium": 20000 },
+    { "name": "Leones FC", "budget": 7000000, "stadium": 6000 },
+    { "name": "Orsomarso SC", "budget": 5000000, "stadium": 8000 },
+    { "name": "Valledupar FC", "budget": 6000000, "stadium": 9000 }
+  ]
+}

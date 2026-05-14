@@ -16,6 +16,7 @@ import { RealDB } from '../engine/db/index';
 import { League } from '../engine/tournaments/League';
 import { ContinentalCup } from '../engine/tournaments/ContinentalCup';
 import { KnockoutCup } from '../engine/tournaments/KnockoutCup';
+import { WorldClubCup } from '../engine/tournaments/WorldClubCup';
 import { StateChampionship, STATE_CHAMPIONSHIPS, getClubState } from '../engine/tournaments/StateChampionship';
 import { ProPlayer } from '../engine/PlayerCareer';
 import { initNpcTacticState } from '../engine/NpcTacticAdvisor';
@@ -196,6 +197,28 @@ export class GameInitializer {
         copaBrasil.init(braTeams);
         engine.tournaments.push(copaBrasil);
 
+        // SPEC-180: National Cups for all other countries
+        const NATIONAL_CUPS = {
+            ARG: { id: 'COPA_ARG', name: 'Copa Argentina',    weeks: [4, 10, 16, 22, 28] },
+            URU: { id: 'COPA_URU', name: 'Copa Uruguay',      weeks: [4, 10, 16, 22, 28] },
+            CHI: { id: 'COPA_CHI', name: 'Copa Chile',        weeks: [4, 10, 16, 22, 28] },
+            COL: { id: 'COPA_COL', name: 'Copa Colombia',     weeks: [4, 10, 16, 22, 28] },
+            ENG: { id: 'FA_CUP',  name: 'FA Cup',            weeks: [3, 9, 15, 21, 27] },
+            ESP: { id: 'COPA_REY', name: 'Copa del Rey',     weeks: [3, 9, 15, 21, 27] },
+            ITA: { id: 'COPPA_ITA', name: 'Coppa Italia',    weeks: [3, 9, 15, 21, 27] },
+            GER: { id: 'DFB_POKAL', name: 'DFB-Pokal',      weeks: [3, 9, 15, 21, 27] },
+            FRA: { id: 'COUPE_FRA', name: 'Coupe de France', weeks: [3, 9, 15, 21, 27] },
+        };
+
+        for (const [zone, config] of Object.entries(NATIONAL_CUPS)) {
+            if (!RealDB[zone]) continue;
+            const zoneTeams = engine.teams.filter(t => t.zone === zone).map(t => t.id);
+            if (zoneTeams.length < 4) continue;
+            const cup = new KnockoutCup(config.id, config.name, config.weeks);
+            cup.init(zoneTeams);
+            engine.tournaments.push(cup);
+        }
+
         // Libertadores
         const libTeams = [];
         libTeams.push(...engine.teams.filter(t => t.zone === 'BRA' && t.division === 1).slice(0, 4).map(t => t.id));
@@ -226,6 +249,22 @@ export class GameInitializer {
         const champions = new ContinentalCup('CHAMPIONS', 'Champions League', [6, 10, 14], [18, 22, 26]);
         champions.init(clTeams);
         engine.tournaments.push(champions);
+
+        // SPEC-180: Europa League (5th-8th from each EU league)
+        const elTeams = [];
+        for (const z of ['ENG', 'ESP', 'ITA', 'GER', 'FRA']) {
+            if (RealDB[z]) elTeams.push(...engine.teams.filter(t => t.zone === z && t.division === 1).slice(4, 6).map(t => t.id));
+        }
+        if (elTeams.length >= 4) {
+            const europaLeague = new ContinentalCup('EUROPA', 'Europa League', [7, 11, 15], [19, 23, 27]);
+            europaLeague.init(elTeams);
+            engine.tournaments.push(europaLeague);
+        }
+
+        // SPEC-180: World Club Cup (Mundial de Clubes)
+        // Initialized empty — populated by SeasonProcessor after continentals finish
+        const mundial = new WorldClubCup();
+        engine.tournaments.push(mundial);
     }
 
     /**

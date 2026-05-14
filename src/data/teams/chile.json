@@ -1,0 +1,26 @@
+{
+  "1": [
+    { "name": "Colo-Colo", "budget": 80000000, "stadium": 47000 },
+    { "name": "Universidad de Chile", "budget": 70000000, "stadium": 48000 },
+    { "name": "Universidad Católica", "budget": 65000000, "stadium": 20000 },
+    { "name": "Cobreloa", "budget": 25000000, "stadium": 12000 },
+    { "name": "Huachipato", "budget": 30000000, "stadium": 18000 },
+    { "name": "CD O'Higgins", "budget": 20000000, "stadium": 12000 },
+    { "name": "Unión Española", "budget": 22000000, "stadium": 16000 },
+    { "name": "CD Palestino", "budget": 18000000, "stadium": 12000 },
+    { "name": "Audax Italiano", "budget": 15000000, "stadium": 8000 },
+    { "name": "Everton de Viña del Mar", "budget": 20000000, "stadium": 21000 }
+  ],
+  "2": [
+    { "name": "Curicó Unido", "budget": 12000000, "stadium": 8000 },
+    { "name": "Deportes La Serena", "budget": 10000000, "stadium": 18000 },
+    { "name": "Rangers de Talca", "budget": 8000000, "stadium": 9000 },
+    { "name": "Deportes Temuco", "budget": 9000000, "stadium": 18000 },
+    { "name": "Ñublense", "budget": 11000000, "stadium": 12000 },
+    { "name": "Deportes Iquique", "budget": 13000000, "stadium": 20000 },
+    { "name": "Santiago Wanderers", "budget": 14000000, "stadium": 20000 },
+    { "name": "Deportes Antofagasta", "budget": 10000000, "stadium": 21000 },
+    { "name": "San Luis de Quillota", "budget": 6000000, "stadium": 8000 },
+    { "name": "Deportes Copiapó", "budget": 5000000, "stadium": 8000 }
+  ]
+}

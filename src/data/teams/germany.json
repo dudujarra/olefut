@@ -1,0 +1,26 @@
+{
+  "1": [
+    { "name": "FC Bayern München", "budget": 1000000000, "stadium": 75000 },
+    { "name": "Borussia Dortmund", "budget": 600000000, "stadium": 81000 },
+    { "name": "RB Leipzig", "budget": 450000000, "stadium": 47000 },
+    { "name": "Bayer 04 Leverkusen", "budget": 400000000, "stadium": 30000 },
+    { "name": "Eintracht Frankfurt", "budget": 250000000, "stadium": 51000 },
+    { "name": "VfL Wolfsburg", "budget": 200000000, "stadium": 30000 },
+    { "name": "Borussia Mönchengladbach", "budget": 180000000, "stadium": 54000 },
+    { "name": "SC Freiburg", "budget": 150000000, "stadium": 34000 },
+    { "name": "TSG 1899 Hoffenheim", "budget": 130000000, "stadium": 30000 },
+    { "name": "VfB Stuttgart", "budget": 200000000, "stadium": 60000 }
+  ],
+  "2": [
+    { "name": "Hamburger SV", "budget": 120000000, "stadium": 57000 },
+    { "name": "FC Schalke 04", "budget": 100000000, "stadium": 62000 },
+    { "name": "Hertha BSC", "budget": 90000000, "stadium": 75000 },
+    { "name": "Hannover 96", "budget": 60000000, "stadium": 49000 },
+    { "name": "Fortuna Düsseldorf", "budget": 55000000, "stadium": 54000 },
+    { "name": "1. FC Nürnberg", "budget": 50000000, "stadium": 50000 },
+    { "name": "1. FC Kaiserslautern", "budget": 45000000, "stadium": 50000 },
+    { "name": "SC Paderborn 07", "budget": 35000000, "stadium": 15000 },
+    { "name": "SV Darmstadt 98", "budget": 30000000, "stadium": 17000 },
+    { "name": "Karlsruher SC", "budget": 40000000, "stadium": 34000 }
+  ]
+}

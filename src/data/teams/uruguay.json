@@ -1,0 +1,26 @@
+{
+  "1": [
+    { "name": "Peñarol", "budget": 60000000, "stadium": 40000 },
+    { "name": "Club Nacional de Football", "budget": 55000000, "stadium": 34000 },
+    { "name": "Defensor Sporting", "budget": 20000000, "stadium": 10000 },
+    { "name": "Danubio FC", "budget": 15000000, "stadium": 18000 },
+    { "name": "Montevideo Wanderers", "budget": 18000000, "stadium": 20000 },
+    { "name": "Liverpool (URU)", "budget": 22000000, "stadium": 14000 },
+    { "name": "Plaza Colonia", "budget": 10000000, "stadium": 9000 },
+    { "name": "Fénix", "budget": 8000000, "stadium": 7000 },
+    { "name": "Cerro Largo", "budget": 12000000, "stadium": 10000 },
+    { "name": "Boston River", "budget": 9000000, "stadium": 5000 }
+  ],
+  "2": [
+    { "name": "Rentistas", "budget": 7000000, "stadium": 5000 },
+    { "name": "River Plate (URU)", "budget": 8000000, "stadium": 6000 },
+    { "name": "Progreso", "budget": 6000000, "stadium": 6000 },
+    { "name": "Cerrito", "budget": 5000000, "stadium": 4000 },
+    { "name": "Racing (URU)", "budget": 6000000, "stadium": 8000 },
+    { "name": "Sud América", "budget": 4000000, "stadium": 5000 },
+    { "name": "Miramar Misiones", "budget": 3500000, "stadium": 4000 },
+    { "name": "Deportivo Maldonado", "budget": 5000000, "stadium": 6000 },
+    { "name": "Villa Española", "budget": 3000000, "stadium": 4000 },
+    { "name": "Atenas (URU)", "budget": 3000000, "stadium": 3000 }
+  ]
+}

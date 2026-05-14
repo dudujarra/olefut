@@ -1,0 +1,26 @@
+{
+  "1": [
+    { "name": "Manchester City", "budget": 1100000000, "stadium": 53000 },
+    { "name": "Arsenal", "budget": 800000000, "stadium": 60000 },
+    { "name": "Liverpool", "budget": 850000000, "stadium": 61000 },
+    { "name": "Manchester United", "budget": 900000000, "stadium": 74000 },
+    { "name": "Chelsea", "budget": 750000000, "stadium": 40000 },
+    { "name": "Tottenham Hotspur", "budget": 650000000, "stadium": 62000 },
+    { "name": "Newcastle United", "budget": 500000000, "stadium": 52000 },
+    { "name": "Aston Villa", "budget": 400000000, "stadium": 42000 },
+    { "name": "West Ham United", "budget": 350000000, "stadium": 62000 },
+    { "name": "Brighton & Hove Albion", "budget": 300000000, "stadium": 31000 }
+  ],
+  "2": [
+    { "name": "Leeds United", "budget": 200000000, "stadium": 37000 },
+    { "name": "Leicester City", "budget": 250000000, "stadium": 32000 },
+    { "name": "Southampton", "budget": 180000000, "stadium": 32000 },
+    { "name": "Burnley", "budget": 150000000, "stadium": 22000 },
+    { "name": "Sheffield United", "budget": 140000000, "stadium": 32000 },
+    { "name": "Sunderland", "budget": 120000000, "stadium": 49000 },
+    { "name": "Norwich City", "budget": 130000000, "stadium": 27000 },
+    { "name": "Middlesbrough", "budget": 110000000, "stadium": 35000 },
+    { "name": "Coventry City", "budget": 80000000, "stadium": 32000 },
+    { "name": "Watford", "budget": 100000000, "stadium": 22000 }
+  ]
+}

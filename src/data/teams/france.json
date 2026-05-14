@@ -1,0 +1,26 @@
+{
+  "1": [
+    { "name": "Paris Saint-Germain", "budget": 1200000000, "stadium": 47000 },
+    { "name": "Olympique de Marseille", "budget": 350000000, "stadium": 67000 },
+    { "name": "Olympique Lyonnais", "budget": 300000000, "stadium": 59000 },
+    { "name": "AS Monaco", "budget": 400000000, "stadium": 18000 },
+    { "name": "Lille OSC", "budget": 200000000, "stadium": 50000 },
+    { "name": "OGC Nice", "budget": 180000000, "stadium": 35000 },
+    { "name": "Stade Rennais FC", "budget": 150000000, "stadium": 29000 },
+    { "name": "RC Lens", "budget": 130000000, "stadium": 38000 },
+    { "name": "RC Strasbourg Alsace", "budget": 100000000, "stadium": 26000 },
+    { "name": "Montpellier HSC", "budget": 90000000, "stadium": 32000 }
+  ],
+  "2": [
+    { "name": "FC Nantes", "budget": 80000000, "stadium": 38000 },
+    { "name": "AS Saint-Étienne", "budget": 70000000, "stadium": 42000 },
+    { "name": "Toulouse FC", "budget": 65000000, "stadium": 33000 },
+    { "name": "AJ Auxerre", "budget": 40000000, "stadium": 24000 },
+    { "name": "Angers SCO", "budget": 45000000, "stadium": 18000 },
+    { "name": "FC Metz", "budget": 50000000, "stadium": 30000 },
+    { "name": "Amiens SC", "budget": 30000000, "stadium": 12000 },
+    { "name": "Girondins de Bordeaux", "budget": 55000000, "stadium": 42000 },
+    { "name": "SM Caen", "budget": 35000000, "stadium": 21000 },
+    { "name": "Stade de Reims", "budget": 60000000, "stadium": 21000 }
+  ]
+}

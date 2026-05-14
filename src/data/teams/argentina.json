@@ -1,0 +1,26 @@
+{
+  "1": [
+    { "name": "Boca Juniors", "budget": 180000000, "stadium": 54000 },
+    { "name": "River Plate", "budget": 200000000, "stadium": 83000 },
+    { "name": "Racing Club", "budget": 100000000, "stadium": 51000 },
+    { "name": "Independiente", "budget": 90000000, "stadium": 48000 },
+    { "name": "San Lorenzo de Almagro", "budget": 85000000, "stadium": 47000 },
+    { "name": "Vélez Sarsfield", "budget": 70000000, "stadium": 49000 },
+    { "name": "Estudiantes de La Plata", "budget": 65000000, "stadium": 32000 },
+    { "name": "Talleres", "budget": 55000000, "stadium": 57000 },
+    { "name": "Argentinos Juniors", "budget": 40000000, "stadium": 24000 },
+    { "name": "Lanús", "budget": 50000000, "stadium": 47000 }
+  ],
+  "2": [
+    { "name": "Newell's Old Boys", "budget": 45000000, "stadium": 42000 },
+    { "name": "Rosario Central", "budget": 40000000, "stadium": 41000 },
+    { "name": "Belgrano", "budget": 35000000, "stadium": 56000 },
+    { "name": "Colón", "budget": 38000000, "stadium": 40000 },
+    { "name": "Banfield", "budget": 30000000, "stadium": 34000 },
+    { "name": "Defensa y Justicia", "budget": 32000000, "stadium": 16000 },
+    { "name": "Godoy Cruz", "budget": 28000000, "stadium": 42000 },
+    { "name": "Tigre", "budget": 25000000, "stadium": 26000 },
+    { "name": "Unión de Santa Fe", "budget": 22000000, "stadium": 27000 },
+    { "name": "Barracas Central", "budget": 18000000, "stadium": 14000 }
+  ]
+}

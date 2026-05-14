@@ -1,0 +1,450 @@
+{
+  "1": [
+    {
+      "name": "Flamengo",
+      "budget": 350000000,
+      "stadium": 78000
+    },
+    {
+      "name": "Palmeiras",
+      "budget": 320000000,
+      "stadium": 43000
+    },
+    {
+      "name": "São Paulo",
+      "budget": 200000000,
+      "stadium": 67000
+    },
+    {
+      "name": "Corinthians",
+      "budget": 180000000,
+      "stadium": 47000
+    },
+    {
+      "name": "Atlético-MG",
+      "budget": 250000000,
+      "stadium": 46000
+    },
+    {
+      "name": "Fluminense",
+      "budget": 150000000,
+      "stadium": 78000
+    },
+    {
+      "name": "Grêmio",
+      "budget": 160000000,
+      "stadium": 55000
+    },
+    {
+      "name": "Internacional",
+      "budget": 155000000,
+      "stadium": 50000
+    },
+    {
+      "name": "Athletico-PR",
+      "budget": 140000000,
+      "stadium": 42000
+    },
+    {
+      "name": "Botafogo",
+      "budget": 190000000,
+      "stadium": 45000
+    },
+    {
+      "name": "Vasco da Gama",
+      "budget": 130000000,
+      "stadium": 21000
+    },
+    {
+      "name": "Cruzeiro",
+      "budget": 140000000,
+      "stadium": 61000
+    },
+    {
+      "name": "Bahia",
+      "budget": 180000000,
+      "stadium": 50000
+    },
+    {
+      "name": "Fortaleza",
+      "budget": 110000000,
+      "stadium": 63000
+    },
+    {
+      "name": "Ceará",
+      "budget": 80000000,
+      "stadium": 63000
+    },
+    {
+      "name": "Sport Recife",
+      "budget": 75000000,
+      "stadium": 32000
+    },
+    {
+      "name": "Vitória",
+      "budget": 70000000,
+      "stadium": 30000
+    },
+    {
+      "name": "Goiás",
+      "budget": 65000000,
+      "stadium": 33000
+    },
+    {
+      "name": "Coritiba",
+      "budget": 85000000,
+      "stadium": 40000
+    },
+    {
+      "name": "Santos",
+      "budget": 100000000,
+      "stadium": 16000
+    }
+  ],
+  "2": [
+    {
+      "name": "Ponte Preta",
+      "budget": 30000000,
+      "stadium": 19000
+    },
+    {
+      "name": "Guarani",
+      "budget": 25000000,
+      "stadium": 29000
+    },
+    {
+      "name": "Juventude",
+      "budget": 40000000,
+      "stadium": 19000
+    },
+    {
+      "name": "Criciúma",
+      "budget": 45000000,
+      "stadium": 19000
+    },
+    {
+      "name": "Vila Nova",
+      "budget": 30000000,
+      "stadium": 10000
+    },
+    {
+      "name": "Atlético-GO",
+      "budget": 50000000,
+      "stadium": 12000
+    },
+    {
+      "name": "América-MG",
+      "budget": 55000000,
+      "stadium": 23000
+    },
+    {
+      "name": "Chapecoense",
+      "budget": 35000000,
+      "stadium": 22000
+    },
+    {
+      "name": "CRB",
+      "budget": 25000000,
+      "stadium": 19000
+    },
+    {
+      "name": "Novorizontino",
+      "budget": 40000000,
+      "stadium": 16000
+    },
+    {
+      "name": "Mirassol",
+      "budget": 35000000,
+      "stadium": 15000
+    },
+    {
+      "name": "Avaí",
+      "budget": 38000000,
+      "stadium": 17000
+    },
+    {
+      "name": "Paysandu",
+      "budget": 28000000,
+      "stadium": 16000
+    },
+    {
+      "name": "Remo",
+      "budget": 25000000,
+      "stadium": 13000
+    },
+    {
+      "name": "Sampaio Corrêa",
+      "budget": 20000000,
+      "stadium": 40000
+    },
+    {
+      "name": "Náutico",
+      "budget": 22000000,
+      "stadium": 22000
+    },
+    {
+      "name": "Tombense",
+      "budget": 15000000,
+      "stadium": 3000
+    },
+    {
+      "name": "Ituano",
+      "budget": 20000000,
+      "stadium": 15000
+    },
+    {
+      "name": "Botafogo-SP",
+      "budget": 25000000,
+      "stadium": 29000
+    },
+    {
+      "name": "Operário-PR",
+      "budget": 22000000,
+      "stadium": 10000
+    }
+  ],
+  "3": [
+    {
+      "name": "Figueirense",
+      "budget": 15000000,
+      "stadium": 19000
+    },
+    {
+      "name": "CSA",
+      "budget": 12000000,
+      "stadium": 19000
+    },
+    {
+      "name": "ABC",
+      "budget": 10000000,
+      "stadium": 18000
+    },
+    {
+      "name": "Londrina",
+      "budget": 14000000,
+      "stadium": 30000
+    },
+    {
+      "name": "Volta Redonda",
+      "budget": 8000000,
+      "stadium": 20000
+    },
+    {
+      "name": "Amazonas",
+      "budget": 15000000,
+      "stadium": 44000
+    },
+    {
+      "name": "Brusque",
+      "budget": 12000000,
+      "stadium": 5000
+    },
+    {
+      "name": "São Bernardo",
+      "budget": 18000000,
+      "stadium": 15000
+    },
+    {
+      "name": "Aparecidense",
+      "budget": 6000000,
+      "stadium": 4000
+    },
+    {
+      "name": "Ypiranga",
+      "budget": 5000000,
+      "stadium": 22000
+    },
+    {
+      "name": "Confiança",
+      "budget": 8000000,
+      "stadium": 15000
+    },
+    {
+      "name": "Botafogo-PB",
+      "budget": 9000000,
+      "stadium": 25000
+    },
+    {
+      "name": "Floresta",
+      "budget": 4000000,
+      "stadium": 5000
+    },
+    {
+      "name": "São José-RS",
+      "budget": 5000000,
+      "stadium": 10000
+    },
+    {
+      "name": "Altos",
+      "budget": 3000000,
+      "stadium": 5000
+    },
+    {
+      "name": "Manaus",
+      "budget": 7000000,
+      "stadium": 44000
+    },
+    {
+      "name": "Ferroviário",
+      "budget": 6000000,
+      "stadium": 8000
+    },
+    {
+      "name": "Caxias",
+      "budget": 10000000,
+      "stadium": 30000
+    },
+    {
+      "name": "Athletic Club",
+      "budget": 12000000,
+      "stadium": 3000
+    },
+    {
+      "name": "Ferroviária",
+      "budget": 15000000,
+      "stadium": 20000
+    },
+    {
+      "name": "Pouso Alegre",
+      "budget": 8000000,
+      "stadium": 10000
+    },
+    {
+      "name": "Villa Nova-MG",
+      "budget": 7000000,
+      "stadium": 6000
+    },
+    {
+      "name": "Brasil de Pelotas",
+      "budget": 9000000,
+      "stadium": 18000
+    },
+    {
+      "name": "Esportivo",
+      "budget": 5000000,
+      "stadium": 6000
+    }
+  ],
+  "4": [
+    {
+      "name": "Santa Cruz",
+      "budget": 8000000,
+      "stadium": 60000
+    },
+    {
+      "name": "Paraná Clube",
+      "budget": 5000000,
+      "stadium": 20000
+    },
+    {
+      "name": "América-RN",
+      "budget": 7000000,
+      "stadium": 31000
+    },
+    {
+      "name": "Campinense",
+      "budget": 4000000,
+      "stadium": 19000
+    },
+    {
+      "name": "Treze",
+      "budget": 3500000,
+      "stadium": 19000
+    },
+    {
+      "name": "Caldense",
+      "budget": 2000000,
+      "stadium": 8000
+    },
+    {
+      "name": "Sergipe",
+      "budget": 2500000,
+      "stadium": 15000
+    },
+    {
+      "name": "Brasiliense",
+      "budget": 6000000,
+      "stadium": 28000
+    },
+    {
+      "name": "Bangu",
+      "budget": 3000000,
+      "stadium": 9000
+    },
+    {
+      "name": "Moto Club",
+      "budget": 2000000,
+      "stadium": 40000
+    },
+    {
+      "name": "Nacional-AM",
+      "budget": 2500000,
+      "stadium": 44000
+    },
+    {
+      "name": "Rio Branco-ES",
+      "budget": 1500000,
+      "stadium": 15000
+    },
+    {
+      "name": "Anápolis",
+      "budget": 2000000,
+      "stadium": 4000
+    },
+    {
+      "name": "Nova Iguaçu",
+      "budget": 4000000,
+      "stadium": 3000
+    },
+    {
+      "name": "Cianorte",
+      "budget": 3000000,
+      "stadium": 4000
+    },
+    {
+      "name": "Inter de Limeira",
+      "budget": 3500000,
+      "stadium": 18000
+    },
+    {
+      "name": "Portuguesa-RJ",
+      "budget": 4000000,
+      "stadium": 5000
+    },
+    {
+      "name": "Retrô",
+      "budget": 15000000,
+      "stadium": 42000
+    },
+    {
+      "name": "Iguatu",
+      "budget": 1000000,
+      "stadium": 3000
+    },
+    {
+      "name": "Sousa",
+      "budget": 1000000,
+      "stadium": 10000
+    },
+    {
+      "name": "Uberlândia",
+      "budget": 3000000,
+      "stadium": 50000
+    },
+    {
+      "name": "Democrata-GV",
+      "budget": 1500000,
+      "stadium": 18000
+    },
+    {
+      "name": "Pelotas",
+      "budget": 2500000,
+      "stadium": 25000
+    },
+    {
+      "name": "Veranópolis",
+      "budget": 1500000,
+      "stadium": 5000
+    }
+  ]
+}

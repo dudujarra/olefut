@@ -1,0 +1,26 @@
+{
+  "1": [
+    { "name": "Inter", "budget": 700000000, "stadium": 80000 },
+    { "name": "AC Milan", "budget": 650000000, "stadium": 80000 },
+    { "name": "Juventus", "budget": 800000000, "stadium": 41000 },
+    { "name": "Napoli", "budget": 500000000, "stadium": 54000 },
+    { "name": "Roma", "budget": 400000000, "stadium": 73000 },
+    { "name": "Lazio", "budget": 350000000, "stadium": 73000 },
+    { "name": "Atalanta", "budget": 300000000, "stadium": 21000 },
+    { "name": "Fiorentina", "budget": 250000000, "stadium": 43000 },
+    { "name": "Bologna", "budget": 150000000, "stadium": 38000 },
+    { "name": "Torino", "budget": 120000000, "stadium": 28000 }
+  ],
+  "2": [
+    { "name": "Sassuolo", "budget": 100000000, "stadium": 21000 },
+    { "name": "Lecce", "budget": 60000000, "stadium": 33000 },
+    { "name": "Cagliari", "budget": 70000000, "stadium": 16000 },
+    { "name": "Parma", "budget": 80000000, "stadium": 27000 },
+    { "name": "Sampdoria", "budget": 55000000, "stadium": 36000 },
+    { "name": "Cremonese", "budget": 40000000, "stadium": 16000 },
+    { "name": "Palermo", "budget": 50000000, "stadium": 36000 },
+    { "name": "Bari", "budget": 45000000, "stadium": 58000 },
+    { "name": "Brescia", "budget": 35000000, "stadium": 16000 },
+    { "name": "Modena", "budget": 30000000, "stadium": 21000 }
+  ]
+}
