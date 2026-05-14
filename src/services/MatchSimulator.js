@@ -97,11 +97,16 @@ export class MatchSimulator {
         if ((isManagerHome || isManagerAway) && engine.managerStats?.currentStreak !== undefined) {
             const streak = engine.managerStats.currentStreak || 0;
             const difficulty = getDifficulty();
-            // Hard/Sinistro: rubber-banding only applies upward (boost opponent on win streaks)
-            if (difficulty.id === 'hard' || difficulty.id === 'sinistro') {
-                opponentBoost = streak > 0 ? calcOpponentBoost(streak) : 1.0;
-            } else {
-                opponentBoost = calcOpponentBoost(streak);
+            const rawBoost = calcOpponentBoost(streak);
+            if (streak > 0) {
+                // Win streak: always apply full rubber-banding (opponent gets stronger)
+                opponentBoost = rawBoost;
+            } else if (streak < 0) {
+                // Loss streak: DDA help scaled by ddaLossMult (sinistro: 0.5 = metade da ajuda)
+                const ddaLossMult = difficulty.modifiers.ddaLossMult ?? 1.0;
+                // rawBoost < 1.0 on loss streaks (opponent weaker). Scale the discount.
+                const discount = 1.0 - rawBoost; // how much DDA helps (e.g., 0.15)
+                opponentBoost = 1.0 - (discount * ddaLossMult); // sinistro: half the help
             }
         }
 
@@ -113,19 +118,35 @@ export class MatchSimulator {
             opponentBoost *= rookieMult;
         }
 
+        // SINISTRO TUNING: matchStrengthPenalty — nerf manager's team sectors
+        // Reduces effective team strength in matches (e.g. 0.85 = -15%)
+        const matchPenalty = getDifficulty().modifiers.matchStrengthPenalty || 1.0;
+        if (matchPenalty < 1.0) {
+            if (isManagerHome) {
+                homeSectors.attack = Math.floor(homeSectors.attack * matchPenalty);
+                homeSectors.defense = Math.floor(homeSectors.defense * matchPenalty);
+            } else if (isManagerAway) {
+                awaySectors.attack = Math.floor(awaySectors.attack * matchPenalty);
+                awaySectors.defense = Math.floor(awaySectors.defense * matchPenalty);
+            }
+        }
+
         // SPEC-F2.1: Win Streak Bonus — aplica attrBonus aos sectors do manager
-        // se feature flag ENABLE_WIN_STREAK ativa.
+        // Scaled by winStreakMult (sinistro: 0.3 = 30% of normal bonus)
+        const winStreakMult = getDifficulty().modifiers.winStreakMult ?? 1.0;
         if (isManagerHome) {
             const bonus = getWinStreakBonus(engine.manager?.teamId || 0);
             if (bonus.attrBonus > 0) {
-                homeSectors.attack = Math.floor(homeSectors.attack + bonus.attrBonus);
-                homeSectors.defense = Math.floor(homeSectors.defense + bonus.attrBonus);
+                const scaled = Math.floor(bonus.attrBonus * winStreakMult);
+                homeSectors.attack = Math.floor(homeSectors.attack + scaled);
+                homeSectors.defense = Math.floor(homeSectors.defense + scaled);
             }
         } else if (isManagerAway) {
             const bonus = getWinStreakBonus(engine.manager?.teamId || 0);
             if (bonus.attrBonus > 0) {
-                awaySectors.attack = Math.floor(awaySectors.attack + bonus.attrBonus);
-                awaySectors.defense = Math.floor(awaySectors.defense + bonus.attrBonus);
+                const scaled = Math.floor(bonus.attrBonus * winStreakMult);
+                awaySectors.attack = Math.floor(awaySectors.attack + scaled);
+                awaySectors.defense = Math.floor(awaySectors.defense + scaled);
             }
         }
 
