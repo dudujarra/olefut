@@ -14,7 +14,7 @@
   
   --primary: #00FF66; /* Neon Turf Green */
   --primary-dark: #00CC52;
-  --primary-glow: #111417 /* Fallback CRT Black */;
+  --primary-glow: #0A3D1A; /* Deep forest glow tint (solid, no rgba) */
   
   --accent: #FFD600; /* Arcade Yellow */
   --accent-dark: #CCAA00;
@@ -63,13 +63,15 @@
   --text-inverse: #040805;
 
   /* Borders & Shadows */
-  --glass-border: #111417 /* Fallback CRT Black */;
-  --border-subtle: #111417 /* Fallback CRT Black */;
+  --glass-border: #2D3748; /* Visible panel border */
+  --border-subtle: #1E2530; /* Subtle separator */
   --border-panel: #4A5059;
   
   /* SNES 16-bit 3D Bezel Colors */
   --bezel-light: #4A5059;
   --bezel-dark: #0C0F12;
+  --bezel-highlight: #5A6069; /* inner highlight edge (lighter than --bezel-light) */
+  --bezel-drop: #050608; /* deep drop-shadow, near-black */
   --bezel-primary-light: #39FF14;
   --bezel-primary-dark: #1A8A0A;
   --bezel-danger-light: #FF3333;
@@ -77,10 +79,10 @@
   --bezel-accent-light: #FFD700;
   --bezel-accent-dark: #AA8800;
 
-  /* Sizing & Radius */
-  --radius: 8px;
-  --radius-sm: 4px;
-  --radius-xs: 2px;
+  /* Sizing & Radius — SNES pixel-perfect: all corners are square */
+  --radius: 0;
+  --radius-sm: 0;
+  --radius-xs: 0;
 
   /* SPEC-171 + SPEC-183: Font CSS tokens — brand-aligned (ISSSD-Premium 32-bit).
      Brand-guidelines.md v1.1 define apenas 3 fontes:
@@ -145,14 +147,14 @@ h1, h2, h3, h4 {
 }
 
 .ef-btn:disabled {
-  /* opacity removed for brand compliance */
+  opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 .ef-btn:active {
-  transform: translateY(2px);
-  /* box-shadow removed for brand compliance */
+  transform: translateY(3px) scale(0.98);
+  /* Invert bezel on press — simulates physical SNES button depression */
 }
 
 /* Button Sizes */
@@ -165,47 +167,70 @@ h1, h2, h3, h4 {
   background: #0A1A0A;
   color: var(--primary);
   border-color: var(--bezel-primary-light) var(--bezel-primary-dark) var(--bezel-primary-dark) var(--bezel-primary-light);
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-primary-dark),
+    inset 1px 1px 0 #4AFF3A,
+    2px 2px 0 #000;
   text-shadow: 1px 1px 0 #000;
 }
 .ef-btn-primary:hover {
   background: #0F2F0F;
   transform: translateY(-1px);
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-primary-dark),
+    inset 1px 1px 0 #4AFF3A,
+    2px 2px 0 #000,
+    0 0 12px var(--primary-glow);
 }
 
 .ef-btn-secondary {
   background: var(--bg-panel);
   color: var(--text-main);
   border-color: var(--bezel-light) var(--bezel-dark) var(--bezel-dark) var(--bezel-light);
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-dark),
+    inset 1px 1px 0 var(--bezel-highlight),
+    2px 2px 0 #000;
   text-shadow: 1px 1px 0 #000;
 }
 .ef-btn-secondary:hover {
   background: var(--bg-panel-hover);
   transform: translateY(-1px);
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-dark),
+    inset 1px 1px 0 var(--bezel-highlight),
+    3px 3px 0 #000;
 }
 
 .ef-btn-danger {
   background: #1A0A0A;
   color: var(--danger);
   border-color: var(--bezel-danger-light) var(--bezel-danger-dark) var(--bezel-danger-dark) var(--bezel-danger-light);
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-danger-dark),
+    inset 1px 1px 0 #FF5555,
+    2px 2px 0 #000;
   text-shadow: 1px 1px 0 #000;
 }
 .ef-btn-danger:hover {
   background: #2A1010;
   transform: translateY(-1px);
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-danger-dark),
+    inset 1px 1px 0 #FF5555,
+    3px 3px 0 #000;
 }
 
 .ef-btn-ghost {
   background: transparent;
   color: var(--text-muted);
   border-color: #333 #111 #111 #333;
-  /* box-shadow removed for brand compliance */
+  box-shadow: 1px 1px 0 #000;
 }
 .ef-btn-ghost:hover {
   background: var(--bg-panel);
   transform: translateY(-1px);
+  box-shadow: 2px 2px 0 #000;
 }
 
 /* ==========================================================================
@@ -243,31 +268,46 @@ h1, h2, h3, h4 {
 .ef-panel-default, .ef-panel-elev {
   background: var(--bg-panel);
   border-color: var(--bezel-light) var(--bezel-dark) var(--bezel-dark) var(--bezel-light);
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-dark),
+    inset 1px 1px 0 var(--bezel-highlight),
+    3px 3px 0 var(--bezel-drop);
 }
 
 .ef-panel-sunk {
   background: var(--bg-dark);
   border-color: var(--bezel-dark) var(--bezel-light) var(--bezel-light) var(--bezel-dark);
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset 1px 1px 0 var(--bezel-dark),
+    inset -1px -1px 0 var(--bezel-highlight);
 }
 
 .ef-panel-hero {
   background: #0B2015;
   border-color: var(--bezel-primary-light) var(--bezel-primary-dark) var(--bezel-primary-dark) var(--bezel-primary-light);
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-primary-dark),
+    inset 1px 1px 0 #4AFF3A,
+    3px 3px 0 var(--bezel-drop),
+    0 0 16px var(--primary-glow);
 }
 
 .ef-panel-warning {
   background: #1A1A0A;
   border-color: var(--bezel-accent-light) var(--bezel-accent-dark) var(--bezel-accent-dark) var(--bezel-accent-light);
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-accent-dark),
+    inset 1px 1px 0 #FFE44D,
+    3px 3px 0 var(--bezel-drop);
 }
 
 .ef-panel-danger {
   background: #1A0A0A;
   border-color: var(--bezel-danger-light) var(--bezel-danger-dark) var(--bezel-danger-dark) var(--bezel-danger-light);
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-danger-dark),
+    inset 1px 1px 0 #FF5555,
+    3px 3px 0 var(--bezel-drop);
 }
 
 /* ==========================================================================
@@ -279,7 +319,10 @@ h1, h2, h3, h4 {
   background: #1E2124;
   border: 4px solid;
   border-color: var(--bezel-light) var(--bezel-dark) var(--bezel-dark) var(--bezel-light);
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-dark),
+    inset 1px 1px 0 var(--bezel-highlight),
+    2px 2px 0 var(--bezel-drop);
   transition: transform 0.1s, border-color 0.1s, box-shadow 0.1s;
   position: relative;
 }
@@ -304,11 +347,18 @@ h1, h2, h3, h4 {
 .ef-card-player[role="button"]:hover {
   transform: translateY(-2px);
   cursor: pointer;
+  box-shadow:
+    inset -1px -1px 0 var(--bezel-dark),
+    inset 1px 1px 0 var(--bezel-highlight),
+    4px 4px 0 var(--bezel-drop);
 }
 
 .ef-card-player.ef-selected {
   border-color: #40BAF7;
-  /* box-shadow removed for brand compliance */
+  box-shadow:
+    inset -1px -1px 0 #2070A0,
+    inset 1px 1px 0 #60CCFF,
+    0 0 12px #0A2A3D;
 }
 
 .ef-card-player-info {
@@ -436,9 +486,10 @@ h1, h2, h3, h4 {
 
 .ef-layout-pitch::before {
   content: '';
-  position: fixed; /* Use fixed to cover the entire scrolled viewport */
+  position: fixed;
   inset: 0;
-  background: #111417 /* Fallback CRT Black */; /* Dimming the background image */
+  background: #0A130E; /* Deep pitch overlay */
+  opacity: 0.85;
   z-index: -1;
   pointer-events: none;
 }
@@ -474,6 +525,7 @@ h1, h2, h3, h4 {
 
 .ef-form-input:focus {
   border-color: var(--primary);
+  box-shadow: inset 2px 2px 0 var(--bezel-drop), 0 0 6px var(--primary-glow);
 }
 
 .ef-form-select {
@@ -491,6 +543,7 @@ h1, h2, h3, h4 {
 
 .ef-form-select:hover, .ef-form-select:focus {
   border-color: var(--primary);
+  box-shadow: 0 0 6px var(--primary-glow);
 }
 
 /* ==========================================================================
@@ -526,7 +579,7 @@ h1, h2, h3, h4 {
 
 .ef-table td {
   padding: 12px 8px;
-  border-bottom: 1px solid #F1FAEE;
+  border-bottom: 1px solid var(--border-panel);
 }
 
 .ef-table tbody tr {
@@ -534,7 +587,7 @@ h1, h2, h3, h4 {
 }
 
 .ef-table tbody tr:hover {
-  background: #F1FAEE;
+  background: #0E1F14;
   transform: translateX(2px);
   border-left-color: var(--primary) !important;
 }
@@ -674,11 +727,36 @@ h1, h2, h3, h4 {
 /* Empty-state box (Market: nenhum jogador encontrado) */
 .ef-empty-state {
   background: var(--bg-sunk, #0C0F12);
-  padding: 32px;
+  padding: 40px 32px;
   text-align: center;
-  border: 2px dashed var(--border-panel);
+  border: 4px solid;
+  border-color: var(--bezel-dark) var(--bezel-light) var(--bezel-light) var(--bezel-dark);
   color: var(--text-muted);
   font-family: 'IBM Plex Mono', monospace;
+  box-shadow: inset 2px 2px 0 var(--bezel-drop);
+}
+
+.ef-empty-state__icon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  filter: grayscale(0.5);
+  animation: ef-breathe 3s ease-in-out infinite;
+}
+
+.ef-empty-state__title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ef-empty-state__p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 8px;
 }
 
 /* Toast banner (success / log) — Market notification */
@@ -2127,3 +2205,334 @@ h1, h2, h3, h4 {
   gap: 8px;
 }
 
+/* ==========================================================================
+   CRT Scanline Overlay (Global Atmosphere — SNES Premium 32-bit)
+   Fixed overlay, pointer-events: none, ultra-subtle. Uses repeating
+   2px horizontal lines for authentic CRT phosphor row effect.
+   ========================================================================== */
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.06) 2px,
+      rgba(0, 0, 0, 0.06) 4px
+    );
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ==========================================================================
+   Phosphor Glow Utilities
+   Text-shadow + box-shadow glow for that authentic CRT phosphor bleed.
+   Apply via utility classes on interactive/highlight elements.
+   ========================================================================== */
+
+.ef-glow-primary {
+  text-shadow: 0 0 8px var(--primary-glow), 0 0 2px var(--primary);
+}
+
+.ef-glow-accent {
+  text-shadow: 0 0 8px #3D3200, 0 0 2px var(--accent);
+}
+
+.ef-glow-danger {
+  text-shadow: 0 0 8px #3D0A0A, 0 0 2px var(--danger);
+}
+
+.ef-glow-info {
+  text-shadow: 0 0 8px #0A2A3D, 0 0 2px var(--info);
+}
+
+/* Panel header titles get subtle phosphor glow */
+.ef-panel-header {
+  text-shadow: 2px 2px 0 #000, 0 0 6px #3D3200;
+}
+
+/* Active sidebar item glows */
+.ef-sidebar__item--active .ef-sidebar__icon {
+  filter: drop-shadow(0 0 4px var(--primary-glow));
+}
+
+/* ==========================================================================
+   Breathing / Pulse Micro-Animations
+   "Perpetual micro-interactions" — the UI feels alive even when idle.
+   ========================================================================== */
+
+@keyframes ef-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes ef-heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes ef-glow-pulse {
+  0%, 100% { box-shadow: 0 0 4px var(--primary-glow); }
+  50% { box-shadow: 0 0 12px var(--primary-glow), 0 0 4px var(--primary); }
+}
+
+.ef-anim-breathe {
+  animation: ef-breathe 2s ease-in-out infinite;
+}
+
+.ef-anim-heartbeat {
+  animation: ef-heartbeat 1.5s ease-in-out infinite;
+}
+
+.ef-anim-glow-pulse {
+  animation: ef-glow-pulse 2s ease-in-out infinite;
+}
+
+/* Spinner for loading states */
+@keyframes ef-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.ef-anim-spinner-sm {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--bezel-dark);
+  border-top-color: var(--primary);
+  animation: ef-spin 0.6s linear infinite;
+}
+
+/* ==========================================================================
+   SNES Button Active Press — Bezel Inversion Physics
+   When pressed, the 3D bezel inverts (light goes bottom-right,
+   dark goes top-left) creating authentic hardware depression.
+   ========================================================================== */
+
+.ef-btn-primary:active {
+  box-shadow:
+    inset 1px 1px 0 var(--bezel-primary-dark),
+    inset -1px -1px 0 #4AFF3A,
+    1px 1px 0 #000;
+}
+
+.ef-btn-secondary:active {
+  box-shadow:
+    inset 1px 1px 0 var(--bezel-dark),
+    inset -1px -1px 0 var(--bezel-highlight),
+    1px 1px 0 #000;
+}
+
+.ef-btn-danger:active {
+  box-shadow:
+    inset 1px 1px 0 var(--bezel-danger-dark),
+    inset -1px -1px 0 #FF5555,
+    1px 1px 0 #000;
+}
+
+/* ==========================================================================
+   Custom Scrollbars (Pixel-Art SNES Style)
+   Thin, dark, squared — no round pill scrollbars.
+   ========================================================================== */
+
+/* Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark, #111417);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bezel-light, #4A5059);
+  border: 1px solid var(--bezel-dark, #0C0F12);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-glow);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg-dark, #111417);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bezel-light, #4A5059) var(--bg-dark, #111417);
+}
+
+/* ==========================================================================
+   Phase 4 — Global Polish (SNES Premium 32-bit)
+   Selection, focus rings, loading skeleton, stat bars, spring stagger.
+   ========================================================================== */
+
+/* Text Selection — SNES green-on-dark */
+::selection {
+  background: var(--primary, #00FF66);
+  color: #040805;
+}
+
+::-moz-selection {
+  background: var(--primary, #00FF66);
+  color: #040805;
+}
+
+/* Focus-Visible Ring — dotted gold pixel ring */
+:focus-visible {
+  outline: 2px dotted var(--accent, #FFD700);
+  outline-offset: 2px;
+}
+
+/* Loading Skeleton — stepped pixel shimmer */
+.ef-skeleton {
+  background: var(--bg-sunk, #0C0F12);
+  border: 2px solid var(--border-panel);
+  position: relative;
+  overflow: hidden;
+}
+
+.ef-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #1A2E22 40%,
+    #1A2E22 60%,
+    transparent 100%
+  );
+  animation: ef-skeleton-sweep 1.5s steps(8) infinite;
+}
+
+@keyframes ef-skeleton-sweep {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+
+/* Stat Bar — horizontal fill bar with stepped glow */
+.ef-stat-bar {
+  height: 8px;
+  background: var(--bg-sunk, #0C0F12);
+  border: 2px solid;
+  border-color: #000 var(--bezel-light) var(--bezel-light) #000;
+  overflow: hidden;
+}
+
+.ef-stat-bar__fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 300ms steps(10);
+  box-shadow: inset 0 0 4px var(--primary-glow);
+}
+
+.ef-stat-bar__fill--danger { background: var(--danger); box-shadow: inset 0 0 4px #3D0A0A; }
+.ef-stat-bar__fill--accent { background: var(--accent); box-shadow: inset 0 0 4px #3D3200; }
+.ef-stat-bar__fill--info   { background: var(--info);   box-shadow: inset 0 0 4px #0A1A3D; }
+
+/* Spring Stagger — cascade entrance for lists/grids */
+.ef-stagger > *:nth-child(1)  { animation-delay: 0ms; }
+.ef-stagger > *:nth-child(2)  { animation-delay: 50ms; }
+.ef-stagger > *:nth-child(3)  { animation-delay: 100ms; }
+.ef-stagger > *:nth-child(4)  { animation-delay: 150ms; }
+.ef-stagger > *:nth-child(5)  { animation-delay: 200ms; }
+.ef-stagger > *:nth-child(6)  { animation-delay: 250ms; }
+.ef-stagger > *:nth-child(7)  { animation-delay: 300ms; }
+.ef-stagger > *:nth-child(8)  { animation-delay: 350ms; }
+.ef-stagger > *:nth-child(9)  { animation-delay: 400ms; }
+.ef-stagger > *:nth-child(10) { animation-delay: 450ms; }
+.ef-stagger > *:nth-child(n+11) { animation-delay: 500ms; }
+
+/* Badge Pill — for compact inline status labels */
+.ef-badge-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 2px solid;
+  font-weight: 700;
+}
+
+.ef-badge-pill--success {
+  background: #081A10;
+  color: #6ABC3A;
+  border-color: #6ABC3A #2A5A1A #2A5A1A #6ABC3A;
+}
+
+.ef-badge-pill--danger {
+  background: #1A0808;
+  color: #EF4444;
+  border-color: #EF4444 #7A1A1A #7A1A1A #EF4444;
+}
+
+.ef-badge-pill--accent {
+  background: #1A1808;
+  color: #FFD700;
+  border-color: #FFD700 #AA8800 #AA8800 #FFD700;
+}
+
+.ef-badge-pill--info {
+  background: #081018;
+  color: #60A5FA;
+  border-color: #60A5FA #2858A0 #2858A0 #60A5FA;
+}
+
+.ef-badge-pill--muted {
+  background: #120818;
+  color: #A78BFA;
+  border-color: #A78BFA #5A3D8A #5A3D8A #A78BFA;
+}
+
+/* Tooltip position helper — auto bezel with pixel arrow */
+.ef-tooltip {
+  position: absolute;
+  z-index: 10000;
+  padding: 6px 10px;
+  background: #0E1418;
+  color: var(--text-main);
+  font-family: 'Pixelify Sans', system-ui, sans-serif;
+  font-size: 0.72rem;
+  border: 1px solid var(--bezel-light);
+  box-shadow: 2px 2px 0 var(--bezel-drop);
+  pointer-events: none;
+  white-space: nowrap;
+  animation: ef-fade-in 100ms ease-out;
+}
+
+/* Divider — SNES hardware separator line */
+.ef-divider {
+  height: 0;
+  border: none;
+  border-top: 2px solid var(--border-panel);
+  border-bottom: 1px solid var(--bezel-light);
+  margin: 16px 0;
+}
+
+/* Pulse Dot — live/active indicator */
+.ef-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  display: inline-block;
+  animation: ef-heartbeat 1.5s ease-in-out infinite;
+  box-shadow: 0 0 4px var(--primary-glow);
+}
+
+.ef-pulse-dot--danger {
+  background: var(--danger);
+  box-shadow: 0 0 4px #3D0A0A;
+}
+
+.ef-pulse-dot--accent {
+  background: var(--accent);
+  box-shadow: 0 0 4px #3D3200;
+}

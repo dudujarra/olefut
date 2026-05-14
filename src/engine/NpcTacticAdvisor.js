@@ -25,7 +25,7 @@ const TACTIC_KEYS = ['normal', 'offensive', 'defensive', 'pressing', 'counter', 
  * @param {number} [opts.seed] — seed para determinismo em testes
  * @returns {{ tactic: string, changed: boolean, reason: string|null }}
  */
-export function adviseTactic({ currentTactic, recentResults = [], squadOvr = 65, opponentOvr = 65, tacticAge = 0, seed = null, npcLevel = null }) {
+export function adviseTactic({ currentTactic, recentResults = [], squadOvr = 65, opponentOvr = 65, tacticAge = 0, seed = null, npcLevel = null, isHome = true, position = 10, totalTeams = 20 }) {
     const rand = seed !== null ? seededRandom(seed) : systemRng;
     const profile = npcLevel ? getNpcProfile(npcLevel) : null;
 
@@ -36,9 +36,8 @@ export function adviseTactic({ currentTactic, recentResults = [], squadOvr = 65,
     const boredomThreshold = profile ? Math.round(1 / (profile.tacticFlexibility || 0.10)) : 10;
     const boredomChance = profile ? profile.tacticFlexibility * 3 : 0.30;
 
-    // BUG-081: boredom rotation — prevent stagnation even for winning teams
     if (tacticAge >= boredomThreshold && rand() < boredomChance) {
-        const newTactic = selectNewTactic(currentTactic, ovrDiff, rand);
+        const newTactic = selectNewTactic(currentTactic, ovrDiff, rand, { isHome, losses, position, totalTeams });
         return { tactic: newTactic, changed: true, reason: 'boredom_rotation' };
     }
 
@@ -58,8 +57,8 @@ export function adviseTactic({ currentTactic, recentResults = [], squadOvr = 65,
         return { tactic: currentTactic, changed: false, reason: null };
     }
 
-    // Pick new tactic (not current one, considering OVR mismatch)
-    const newTactic = selectNewTactic(currentTactic, ovrDiff, rand);
+    // Pick new tactic (not current one, considering context)
+    const newTactic = selectNewTactic(currentTactic, ovrDiff, rand, { isHome, losses, position, totalTeams });
     const reason = losses >= 5 ? 'losing_streak' : losses >= 3 ? 'losing_streak' : 'ovr_mismatch';
 
     return { tactic: newTactic, changed: true, reason };
@@ -105,17 +104,29 @@ function countTrailingLosses(results) {
     return count;
 }
 
-function selectNewTactic(current, ovrDiff, rand) {
-    // OVR underdog: prefer defensive or counter
-    let preferred;
-    if (ovrDiff <= -10) {
+function selectNewTactic(current, ovrDiff, rand, context = {}) {
+    const { isHome = true, losses = 0, position = 10, totalTeams = 20 } = context;
+    let preferred = [];
+
+    const isRelegationZone = position > totalTeams - 4;
+    const isEqual = Math.abs(ovrDiff) <= 3;
+    const needsResult = isHome && (losses === 1 || losses === 2); // perdeu recente e agora joga em casa
+
+    if (losses >= 3 || isRelegationZone) {
+        // "Se perdendo ou ruim no campeonato, ele joga na defesa"
         preferred = ['defensive', 'counter'];
-    } else if (ovrDiff >= 10) {
-        // OVR dominant: prefer offensive or pressing
-        preferred = ['offensive', 'pressing'];
+    } else if (isEqual || needsResult) {
+        // "Se ele tiver no igual ele joga solto" / "Se ele precisa de resultado joga solto"
+        preferred = isHome ? ['offensive', 'pressing'] : ['normal', 'counter'];
+    } else if (ovrDiff <= -8) {
+        // Muito mais fraco
+        preferred = isHome ? ['defensive', 'counter'] : ['defensive'];
+    } else if (ovrDiff >= 8) {
+        // Muito mais forte
+        preferred = isHome ? ['offensive', 'possession'] : ['normal', 'offensive'];
     } else {
-        // Balanced: rotate through all except current
-        preferred = TACTIC_KEYS.filter(t => t !== current);
+        // Balanced/fallback
+        preferred = isHome ? ['normal', 'offensive'] : ['normal', 'defensive'];
     }
 
     const candidates = preferred.filter(t => t !== current);

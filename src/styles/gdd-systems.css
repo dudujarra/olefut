@@ -5,8 +5,8 @@
     gap: 0.5rem;
     padding: 0.5rem 0.75rem;
     margin-bottom: 0.5rem;
-    background: #111417 /* Fallback CRT Black */;
-    border: 1px solid #111417 /* Fallback CRT Black */;
+    background: #1A1808;
+    border: 1px solid #2A2510;
     border-radius: 0;
     animation: scarcityFade 0.4s ease;
 }
@@ -30,14 +30,14 @@
 }
 
 .dread-warning {
-    background: #111417 /* Fallback CRT Black */;
-    border: 1px solid #111417 /* Fallback CRT Black */;
+    background: #1A1808;
+    border: 1px solid #f59e0b;
     color: #f59e0b;
 }
 
 .dread-critical {
-    background: #111417 /* Fallback CRT Black */;
-    border: 2px solid #111417 /* Fallback CRT Black */;
+    background: #1A0808;
+    border: 2px solid #ef4444;
     color: #ef4444;
     animation: dreadPulse 1.5s infinite;
 }
@@ -47,17 +47,17 @@
 }
 
 @keyframes dreadPulse {
-    0%, 100% { border-color: #111417 /* Fallback CRT Black */; /* box-shadow removed for brand compliance */ }
-    50% { border-color: #111417 /* Fallback CRT Black */; /* box-shadow removed for brand compliance */ }
+    0%, 100% { border-color: #ef4444; box-shadow: 0 0 4px #3D0A0A; }
+    50% { border-color: #FF5555; box-shadow: 0 0 12px #3D0A0A; }
 }
 
 @keyframes dreadTextPulse {
     0%, 100% { opacity: 1; }
-    50% { /* opacity removed for brand compliance */ }
+    50% { opacity: 0.4; }
 }
 
 @keyframes scarcityFade {
-    from { /* opacity removed for brand compliance */ transform: translateY(-4px); }
+    from { opacity: 0; transform: translateY(-4px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -66,7 +66,7 @@
     position: fixed;
     inset: 0;
     background: #040805;
-    /* backdrop-filter removed */
+    /* No backdrop-filter — SNES: solid opaque overlays only */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,13 +75,16 @@
 }
 
 .tutorial-card {
-    background: #111417; /* Replaced gradient */
-    border: 1px solid #111417 /* Fallback CRT Black */;
+    background: #0E1418;
+    border: 1px solid #2D3748;
     border-radius: 0;
     padding: 2rem 2.5rem;
     max-width: 420px;
     width: 90%;
-    /* box-shadow removed for brand compliance */
+    box-shadow:
+      inset -1px -1px 0 var(--bezel-dark),
+      inset 1px 1px 0 var(--bezel-highlight),
+      4px 4px 0 var(--bezel-drop);
 }
 
 .tutorial-progress {
@@ -134,7 +137,7 @@
 }
 
 @keyframes tutorialFadeIn {
-    from { /* opacity removed for brand compliance */ }
+    from { opacity: 0; }
     to { opacity: 1; }
 }
 

@@ -19,7 +19,7 @@
 
 import { TACTICS } from '../engine/ManagerSystems';
 import { drawCard } from '../engine/MatchEventsDeck.js';
-import { TACTIC_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
+import { TACTIC_COUNTERS, FORMATION_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
 import { getDifficulty, calcOpponentBoost } from '../engine/systems/DifficultyModes.js';
 import { getRookieHandicapFromEngine } from '../engine/RookieHandicap.js';
 import { getModifiersForMatch as getWinStreakBonus, recordResult as recordWinStreak } from '../engine/WinStreakModifierSystem.js';
@@ -177,6 +177,55 @@ export class MatchSimulator {
         const homeMoralFactor = 0.8 + (homeMoral / 250);
         const awayMoralFactor = 0.8 + (awayMoral / 250);
 
+        // ==========================================
+        // REGIONAL CLIMATE SYSTEM (BIOMAS)
+        // ==========================================
+        if (!homeTeam.climateZone) {
+            const zones = ['TROPICAL', 'COLD', 'ALTITUDE', 'RAINY'];
+            homeTeam.climateZone = zones[Math.floor(systemRng() * zones.length)];
+        }
+        if (!awayTeam.climateZone) {
+            const zones = ['TROPICAL', 'COLD', 'ALTITUDE', 'RAINY'];
+            awayTeam.climateZone = zones[Math.floor(systemRng() * zones.length)];
+        }
+
+        let matchWeather = 'NORMAL';
+        const weatherRoll = systemRng();
+        if (homeTeam.climateZone === 'TROPICAL') matchWeather = weatherRoll > 0.3 ? 'HOT' : 'RAIN';
+        if (homeTeam.climateZone === 'COLD') matchWeather = weatherRoll > 0.3 ? 'COLD' : 'RAIN';
+        if (homeTeam.climateZone === 'ALTITUDE') matchWeather = 'ALTITUDE';
+        if (homeTeam.climateZone === 'RAINY') matchWeather = weatherRoll > 0.3 ? 'HEAVY_RAIN' : 'NORMAL';
+
+        let homeClimateMod = 1.0;
+        let awayClimateMod = 1.0;
+        let weatherDrainMod = 1.0;
+        let weatherEventText = null;
+
+        if (matchWeather === 'HOT') {
+            if (awayTeam.climateZone === 'COLD') awayClimateMod = 0.85; // Cansa no calor
+            if (homeTeam.climateZone === 'TROPICAL') homeClimateMod = 1.05; // Acostumado
+            weatherDrainMod = 1.2; // Gasta mais estamina no calor
+            weatherEventText = '☀️ Calor Intenso! (Desgaste alto no 2º tempo)';
+        } else if (matchWeather === 'COLD') {
+            if (awayTeam.climateZone === 'TROPICAL') awayClimateMod = 0.85; // Sofre no frio
+            weatherDrainMod = 1.1;
+            weatherEventText = '❄️ Frio Congelante!';
+        } else if (matchWeather === 'ALTITUDE') {
+            if (awayTeam.climateZone !== 'ALTITUDE') awayClimateMod = 0.80; // Muito difícil respirar
+            weatherDrainMod = 1.3;
+            weatherEventText = '🏔️ Jogo na Altitude! (Ar rarefeito pune os visitantes)';
+        } else if (matchWeather === 'HEAVY_RAIN' || matchWeather === 'RAIN') {
+            // Chuva pune posse e beneficia counter
+            if (homeTactic === 'posse') homeClimateMod -= 0.15;
+            if (homeTactic === 'counter') homeClimateMod += 0.10;
+            if (awayTactic === 'posse') awayClimateMod -= 0.15;
+            if (awayTactic === 'counter') awayClimateMod += 0.10;
+            weatherDrainMod = 1.25; // Campo pesado
+            weatherEventText = matchWeather === 'HEAVY_RAIN' ? '⛈️ Temporal! (Campo pesado, táticas de posse sofrem)' : '🌧️ Chuva Fina!';
+        }
+
+        events.textLog.push({ minute: 0, text: `🌍 Clima Local: ${weatherEventText || '⛅ Tempo Bom'}` });
+
         // Log condition + tactic
         if (engine.matchCondition && engine.matchCondition.id !== 'normal') {
             events.textLog.push({ minute: 0, text: `${engine.matchCondition.name}` });
@@ -223,8 +272,17 @@ export class MatchSimulator {
 
         // Base λ (home xG) and μ (away xG)
         // rockwall reduz xG do adversário (defende melhor)
-        let lambda = BASE_XG_HOME * homeAttackStr * (awayDefenseStr * awayRockwallMod) * homeMoralFactor * homeCounterMod;
-        let mu = BASE_XG_AWAY * awayAttackStr * (homeDefenseStr * homeRockwallMod) * awayMoralFactor * awayCounterMod;
+        let lambda = BASE_XG_HOME * homeAttackStr * (awayDefenseStr * awayRockwallMod) * homeMoralFactor * homeCounterMod * homeClimateMod;
+        let mu = BASE_XG_AWAY * awayAttackStr * (homeDefenseStr * homeRockwallMod) * awayMoralFactor * awayCounterMod * awayClimateMod;
+
+        // Tactical Formation Rock-Paper-Scissors (§2.14)
+        const homeFormation = homeTeam?.formation || '4-3-3';
+        const awayFormation = awayTeam?.formation || '4-3-3';
+        const homeFormationMod = FORMATION_COUNTERS[homeFormation]?.[awayFormation] || 1.0;
+        const awayFormationMod = FORMATION_COUNTERS[awayFormation]?.[homeFormation] || 1.0;
+
+        lambda *= homeFormationMod;
+        mu *= awayFormationMod;
 
         // Apply DDA (Dynamic Difficulty) boost to bot if manager is on a streak
         if (isManagerHome) {
@@ -526,7 +584,8 @@ export class MatchSimulator {
         events.stats = { homeShots, awayShots, homeSaves, awaySaves };
 
         // Energy drain (trait: workhorse saves 30%)
-        const energyDrain = Math.floor(15 + systemRng() * 10) * (cond.energyModifier || 1);
+        const baseDrain = Math.floor(15 + systemRng() * 10) * (cond.energyModifier || 1);
+        const energyDrain = Math.floor(baseDrain * weatherDrainMod);
         [...(homeTeam.squad || []), ...(awayTeam.squad || [])].filter(p => p.isTitular).forEach(p => {
             const saveMod = hasTrait(p, 'workhorse') ? 0.7 : 1.0;
             p.energy = Math.max(0, p.energy - Math.floor(energyDrain * saveMod));

@@ -25,6 +25,7 @@ import { applyEvent as applyManagerEvent } from '../engine/ManagerIdentitySystem
 import { generate as generateContract, resolve as resolveContract } from '../engine/ContractGoalSystem';
 import { BoardSystem } from '../engine/BoardSystem';
 import { evaluateSponsor, processPromoRelegation } from '../engine/SeasonSystem';
+import { getDifficulty } from '../engine/systems/DifficultyModes.js';
 import { onRelegation, onPromotion } from '../engine/AmbitionEngine';
 import { closeSeasonStats, calculateSeasonAwards } from '../engine/PlayerTraits';
 import { ageSquad } from '../engine/PlayerDevelopment';
@@ -101,7 +102,10 @@ export class SeasonProcessor {
         try {
             engine.currentSponsor = evaluateSponsor(team.division, pos);
             if (engine.board && !engine.board.isFired) {
-                engine.board = new BoardSystem(team.division, team.balance);
+                const diff = getDifficulty();
+                engine.board = new BoardSystem(team.division, team.balance, {
+                    fireCooldown: diff.modifiers.boardFireCooldown || 0,
+                });
             }
         } catch { /* ignore */ }
 
@@ -296,9 +300,10 @@ export class SeasonProcessor {
                     const emoji = c.action === 'promoted' ? '⬆️' : '⬇️';
                     engine.weekEvents.push(`${emoji} ${c.name} ${c.action === 'promoted' ? 'subiu' : 'caiu'} para Série ${['A','B','C','D'][c.to - 1]}`);
 
-                    // Award promotion bonus
+                    // Award promotion bonus (scaled by difficulty economyMult)
                     if (c.action === 'promoted' && PROMOTION_BONUS[c.to]) {
-                        const bonus = PROMOTION_BONUS[c.to];
+                        const econMult = getDifficulty().modifiers.economyMult ?? 1.0;
+                        const bonus = Math.floor(PROMOTION_BONUS[c.to] * econMult);
                         team.balance += bonus;
                         engine.weekEvents.push(`💰 Bônus de acesso à Série ${['A','B','C','D'][c.to - 1]}: R$ ${(bonus / 1_000_000).toFixed(1)}M`);
 
@@ -610,6 +615,10 @@ export class SeasonProcessor {
                         engine.legacy.titles.push(`Campeão ${pool.name}`);
                     }
                 }
+
+                // Scale prize by difficulty economyMult
+                const econMult = getDifficulty().modifiers.economyMult ?? 1.0;
+                prize = Math.floor(prize * econMult);
 
                 team.balance += prize;
                 engine.weekEvents.push(`💰 Prêmio ${label}: R$ ${(prize / 1_000_000).toFixed(1)}M`);

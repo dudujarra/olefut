@@ -33,12 +33,14 @@ export function generateObjectives(division, balance) {
 }
 
 export class BoardSystem {
-    constructor(division, balance) {
+    constructor(division, balance, options = {}) {
         this.confidence = 60; // 0-100
         this.objectives = generateObjectives(division, balance);
         this.isFired = false;
         this.warningGiven = false;
         this.fireProtection = 8; // semanas de graça no início
+        this.lastFiredWeek = -999; // track último fire pra cooldown
+        this.fireCooldown = options.fireCooldown || 0; // min weeks between fires
     }
 
     // Atualiza confiança baseado nos resultados da semana
@@ -78,9 +80,12 @@ export class BoardSystem {
             this.warningGiven = true;
         }
 
-        // Demissão
+        // Demissão — respeitando cooldown entre fires
         if (this.confidence < 10) {
-            this.isFired = true;
+            if (currentWeek - this.lastFiredWeek >= this.fireCooldown) {
+                this.isFired = true;
+                this.lastFiredWeek = currentWeek;
+            }
         }
     }
 
