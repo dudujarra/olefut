@@ -393,6 +393,12 @@ export class SeasonProcessor {
                     t.squad = (t.squad || []).filter(p => !p._contractExpired);
                 }
             }
+
+            // BUG-FIX: Cap market pool to prevent unbounded growth across 10,000 seasons
+            if (engine.marketPlayers && engine.marketPlayers.length > 150) {
+                engine.marketPlayers.sort((a, b) => (b.ovr || 0) - (a.ovr || 0));
+                engine.marketPlayers = engine.marketPlayers.slice(0, 150);
+            }
         } catch (err) {
             console.warn('[SeasonProcessor] NPC season end error:', err.message);
         }
@@ -659,8 +665,40 @@ export class SeasonProcessor {
 
         engine.currentWeek = 0;
         engine.seasonNumber++;
-        // BUG-FIX: Clear transfer offers at season end to prevent unbounded growth across seasons
+        
+        // BUG-FIX: Clear or cap arrays to prevent unbounded memory growth across 10,000-season soak tests
         engine.transferOffers = [];
+        engine._ambitionTransferRequests = [];
+        
+        if (engine.seasonHistory && engine.seasonHistory.length > 50) {
+            engine.seasonHistory = engine.seasonHistory.slice(-50);
+        }
+        if (engine.chronicles && engine.chronicles.length > 50) {
+            engine.chronicles = engine.chronicles.slice(-50);
+        }
+        if (engine.manager?.careerHistory && engine.manager.careerHistory.length > 50) {
+            engine.manager.careerHistory = engine.manager.careerHistory.slice(-50);
+        }
+        if (engine.legacy?.titles && engine.legacy.titles.length > 200) {
+            engine.legacy.titles = engine.legacy.titles.slice(-200);
+        }
+        
+        // BUG-FIX: Prune dormant rivalryHistory to prevent key bloat
+        if (engine.rivalryHistory) {
+            for (const key in engine.rivalryHistory) {
+                const history = engine.rivalryHistory[key];
+                if (history && history.length > 0) {
+                    const lastMatch = history[history.length - 1];
+                    // If the last match was more than 2 seasons ago, purge the rivalry memory
+                    if (engine.seasonNumber - (lastMatch.season || 0) > 2) {
+                        delete engine.rivalryHistory[key];
+                    }
+                } else {
+                    delete engine.rivalryHistory[key];
+                }
+            }
+        }
+        
         // SPEC-135: seasonsCompleted view unlock
         engine.viewUnlockState.seasonsCompleted = engine.seasonNumber - 1;
         if (engine.managerStats) {

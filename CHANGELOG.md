@@ -4,6 +4,11 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### [fix] AKITA-321 — Cap unbound arrays for 10,000-season soak tests (2026-05-14)
+- Identified and purged unbounded data structures (`seasonHistory`, `chronicles`, `manager.careerHistory`, `legacy.titles`) during seasonal rollovers in `SeasonProcessor`.
+- Cleared dormant `rivalryHistory` combinations to prevent key bloat during ultra-long stress tests.
+- Capped `marketPlayers` at 150 items to avoid infinite accumulation over multiple seasons.
+
 ### [fix] AKITA-320 — Memory leak bound limit on transferOffers (2026-05-14)
 - Fixed memory leak in `engine.transferOffers` causing exponential slow-down during 10,000 season MARL soak testing in Sinistro difficulty.
 - `transferOffers` are now cleared at the end of each season in `SeasonProcessor`.
