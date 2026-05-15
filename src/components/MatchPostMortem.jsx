@@ -277,8 +277,7 @@ function MatchSummary({ summary }) {
                                     </span>
                                     <span
                                         className={`ef-postmortem-screen__event-text${oppMod ? ' ef-postmortem-screen__event-text--opp' : ''}`}
-                                        dangerouslySetInnerHTML={{ __html: ev.text || '' }}
-                                    />
+                                    >{ev.text || ''}</span>
                                 </li>
                             );
                         })}
