@@ -241,7 +241,9 @@ export function updateForm(player, result) {
     player.form.last5.push(result);
     if (player.form.last5.length > 5) player.form.last5.shift();
 
-    const avg = player.form.last5.reduce((s, v) => s + v, 0) / player.form.last5.length;
+    const avg = player.form.last5.length > 0
+        ? player.form.last5.reduce((s, v) => s + v, 0) / player.form.last5.length
+        : 0;
     if (avg >= 0.6) player.form.trend = 'hot';
     else if (avg <= -0.4) player.form.trend = 'cold';
     else player.form.trend = 'normal';

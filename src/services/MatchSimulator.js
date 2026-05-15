@@ -18,8 +18,8 @@
  */
 
 import { TACTICS } from '../engine/ManagerSystems';
-import { drawCard } from '../engine/MatchEventsDeck.js';
-import { TACTIC_COUNTERS, FORMATION_COUNTERS, TACTIC_NARRATION, getFormModifier } from '../engine/PlayerDevelopment';
+import { TACTIC_COUNTERS, FORMATION_COUNTERS, getFormModifier } from '../engine/PlayerDevelopment';
+import { MatchNarrator } from './MatchNarrator.js';
 import { getDifficulty, calcOpponentBoost } from '../engine/systems/DifficultyModes.js';
 import { getRookieHandicapFromEngine } from '../engine/RookieHandicap.js';
 import { getModifiersForMatch as getWinStreakBonus, recordResult as recordWinStreak } from '../engine/WinStreakModifierSystem.js';
@@ -31,6 +31,9 @@ import { npcFeedMatchResult } from './learning/NpcManagerAI.js';
 
 import { rng as systemRng } from '../engine/rng.js';
 import { emitGameEvent, GameEvents } from '../audio/EventBus.js';
+import { getMatchBonusBuff, settleMatchBonus } from '../engine/MatchBonusSystem.js';
+import { getHomeAdvantageFromTickets } from '../engine/TicketPricingSystem.js';
+import { processMatchCards } from '../engine/DisciplineSystem.js';
 
 export class MatchSimulator {
     /**
@@ -83,9 +86,8 @@ export class MatchSimulator {
         // Match condition
         const cond = engine.matchCondition || { ataModifier: 1, defModifier: 1, energyModifier: 1 };
 
-        // Narration templates
-        const homeNarr = TACTIC_NARRATION[homeTactic] || TACTIC_NARRATION.normal;
-        const awayNarr = TACTIC_NARRATION[awayTactic] || TACTIC_NARRATION.normal;
+        const isManagerMatch = isManagerHome || isManagerAway;
+        const rawEvents = [];
 
         // SPEC-125 BUG-072: AI counter-tactic — adversários adaptam vs streak.
         // ==========================================
@@ -159,6 +161,29 @@ export class MatchSimulator {
             homeSectors.defense = Math.floor(homeSectors.defense * opponentBoost);
         }
 
+        // ==========================================
+        // ELIFOOT CLASSIC: BICHO (Match Bonus) — buff nos setores do manager
+        // ==========================================
+        const bichoBuff = getMatchBonusBuff(engine);
+        if (bichoBuff > 1.0) {
+            if (isManagerHome) {
+                homeSectors.attack = Math.floor(homeSectors.attack * bichoBuff);
+                homeSectors.defense = Math.floor(homeSectors.defense * bichoBuff);
+            } else if (isManagerAway) {
+                awaySectors.attack = Math.floor(awaySectors.attack * bichoBuff);
+                awaySectors.defense = Math.floor(awaySectors.defense * bichoBuff);
+            }
+        }
+
+        // ==========================================
+        // ELIFOOT CLASSIC: TICKET PRICING — vantagem em casa
+        // ==========================================
+        const ticketHomeMod = getHomeAdvantageFromTickets(engine);
+        if (isManagerHome && ticketHomeMod !== 1.0) {
+            homeSectors.attack = Math.floor(homeSectors.attack * ticketHomeMod);
+            homeSectors.defense = Math.floor(homeSectors.defense * ticketHomeMod);
+        }
+
         let homeGoals = 0;
         let awayGoals = 0;
         const events = { home: [], away: [], textLog: [], scorers: [], cards: [], motm: null };
@@ -169,6 +194,8 @@ export class MatchSimulator {
         const awayAttackers = (awayTeam.squad || []).filter(p => p.isTitular && (p.position === 'ATA' || p.position === 'MEI') && !p.injury);
         const homeDefenders = (homeTeam.squad || []).filter(p => p.isTitular && p.position === 'DEF' && !p.injury);
         const awayDefenders = (awayTeam.squad || []).filter(p => p.isTitular && p.position === 'DEF' && !p.injury);
+        const homeScorerPoolSetPiece = homeAttackers.concat(homeDefenders);
+        const awayScorerPoolSetPiece = awayAttackers.concat(awayDefenders);
         const pickRandom = (arr) => arr.length > 0 ? arr[Math.floor(systemRng() * arr.length)] : null;
 
         // Moral factor
@@ -224,26 +251,21 @@ export class MatchSimulator {
             weatherEventText = matchWeather === 'HEAVY_RAIN' ? '⛈️ Temporal! (Campo pesado, táticas de posse sofrem)' : '🌧️ Chuva Fina!';
         }
 
-        events.textLog.push({ minute: 0, text: `🌍 Clima Local: ${weatherEventText || '⛅ Tempo Bom'}` });
-
-        // Log condition + tactic
-        if (engine.matchCondition && engine.matchCondition.id !== 'normal') {
-            events.textLog.push({ minute: 0, text: `${engine.matchCondition.name}` });
-        }
-        if (isManagerHome || isManagerAway) {
-            events.textLog.push({ minute: 0, text: `📋 Tática: ${tactic.name}` });
-        }
-        // SPEC-F2.4: atmosphere pre-match para Manager mode
-        if (isManagerHome || isManagerAway) {
+        if (isManagerMatch) {
+            rawEvents.push({ minute: 0, type: 'weather', weatherText: weatherEventText });
+            if (engine.matchCondition && engine.matchCondition.id !== 'normal') {
+                rawEvents.push({ minute: 0, type: 'condition', name: engine.matchCondition.name });
+            }
+            rawEvents.push({ minute: 0, type: 'tactic', name: tactic.name });
+            
             const atmoSeed = (engine.currentWeek || 0) + (homeId || 0);
             const preMatch = getAtmosphere('pre_match', atmoSeed);
             if (preMatch.flavorString) {
-                events.textLog.push({ minute: 0, text: preMatch.flavorString });
+                rawEvents.push({ minute: 0, type: 'pre_match', text: preMatch.flavorString });
             }
-            // SPEC-F3.3: club voice na entrada do estádio (mandante)
             const clubEntry = getClubVoice(homeTeam?.name, 'stadium_entry', atmoSeed);
             if (clubEntry) {
-                events.textLog.push({ minute: 0, text: clubEntry });
+                rawEvents.push({ minute: 0, type: 'club_entry', text: clubEntry });
             }
         }
 
@@ -292,6 +314,9 @@ export class MatchSimulator {
         }
 
         // Cap expected goals to maintain realism (Poisson mean)
+        // BUG-F2-02: NaN guard — if any upstream factor is NaN, fallback to base xG
+        if (isNaN(lambda) || !isFinite(lambda)) lambda = BASE_XG_HOME;
+        if (isNaN(mu) || !isFinite(mu)) mu = BASE_XG_AWAY;
         lambda = Math.max(0.1, Math.min(lambda, 5.0));
         mu = Math.max(0.1, Math.min(mu, 5.0));
 
@@ -327,12 +352,15 @@ export class MatchSimulator {
                 const isHomeAttackingFiller = systemRng() > 0.5;
                 const attTeamFiller = isHomeAttackingFiller ? homeTeam : awayTeam;
                 const defTeamFiller = isHomeAttackingFiller ? awayTeam : homeTeam;
-                const narrFiller = isHomeAttackingFiller ? homeNarr : awayNarr;
-                const fillerTemplate = narrFiller.filler[Math.floor(systemRng() * narrFiller.filler.length)];
-                events.textLog.push({
-                    minute,
-                    text: fillerTemplate.replace('{atk}', attTeamFiller.name).replace('{def}', defTeamFiller.name)
-                });
+                if (isManagerMatch) {
+                    rawEvents.push({
+                        minute,
+                        type: 'filler',
+                        isHomeAttacking: isHomeAttackingFiller,
+                        attTeam: attTeamFiller.name,
+                        defTeam: defTeamFiller.name
+                    });
+                }
             }
 
             if (isHomeChance || isAwayChance) {
@@ -341,7 +369,6 @@ export class MatchSimulator {
                 const defSectors = isHomeAttacking ? awaySectors : homeSectors;
                 const attTeam = isHomeAttacking ? homeTeam : awayTeam;
                 const defTeam = isHomeAttacking ? awayTeam : homeTeam;
-                const narr = isHomeAttacking ? homeNarr : awayNarr;
                 const attackers = isHomeAttacking ? homeAttackers : awayAttackers;
 
                 if (isHomeAttacking) homeShots++; else awayShots++;
@@ -350,7 +377,7 @@ export class MatchSimulator {
                 // Nos minutos pós-escanteio (~30, ~60, ~85), incluir defenders nos candidatos
                 const isSetPieceMinute = (minute % 30 === 0 && minute > 0);
                 const scorerPool = isSetPieceMinute
-                    ? [...attackers, ...((isHomeAttacking ? homeDefenders : awayDefenders))]
+                    ? (isHomeAttacking ? homeScorerPoolSetPiece : awayScorerPoolSetPiece)
                     : attackers;
                 const scorer = pickRandom(scorerPool);
                 const formMod = scorer ? getFormModifier(scorer.form?.trend) : 1.0;
@@ -367,33 +394,11 @@ export class MatchSimulator {
                 const shotPower = atkSectors.attack * cond.ataModifier * systemRng() * formMod * traitMod * poacherMod * setPieceMod * (1 + pityBonus);
                 const saveChance = defSectors.goalkeeper * systemRng() * 0.8; 
 
-                const chanceTemplate = narr.chance[Math.floor(systemRng() * narr.chance.length)];
-                const goalTemplate = narr.goal[Math.floor(systemRng() * narr.goal.length)];
-                const saveTemplate = narr.save[Math.floor(systemRng() * narr.save.length)];
                 const scorerName = scorer ? scorer.name : attTeam.name;
+                const isGoal = shotPower > saveChance;
+                let assistPlayer = null;
 
-                // SPEC-137: Card Deck integration for emergent narrative
-                let chanceText = chanceTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name);
-                let goalText = goalTemplate.replace('{atk}', scorerName).replace('{def}', defTeam.name);
-                let saveText = saveTemplate.replace('{atk}', attTeam.name).replace('{def}', defTeam.name);
-                
-                if (scorer && systemRng() < 0.15) { // 15% of chances trigger a special narrative card
-                    const position = scorer.position || 'ATA';
-                    const renown = Math.floor(Math.max(0, (scorer.ovr || 50) - 50) / 10);
-                    const card = drawCard(position, renown);
-                    if (card && card.options && card.options.length > 0) {
-                        const option = card.options[Math.floor(systemRng() * card.options.length)];
-                        const tierEmoji = card.tier === 'legendary' ? '🌟' : card.tier === 'rare' ? '🔥' : card.tier === 'uncommon' ? '⚡' : '🃏';
-                        chanceText = `${tierEmoji} [${card.tier.toUpperCase()}] ${scorer.name}: ${card.text} → "${option.label}"`;
-                        goalText = option.successText;
-                        saveText = option.failText;
-                    }
-                }
-
-                events.textLog.push({ minute, text: chanceText });
-
-                if (shotPower > saveChance) {
-                    // GOAL
+                if (isGoal) {
                     if (isHomeAttacking) {
                         homeGoals++;
                         events.home.push({ minute, type: 'goal', scorer: scorer?.name });
@@ -402,18 +407,36 @@ export class MatchSimulator {
                         events.away.push({ minute, type: 'goal', scorer: scorer?.name });
                     }
 
-                    const assistPlayer = pickRandom(attackers.filter(p => p !== scorer));
-                    const assistText = assistPlayer ? ` (assist: ${assistPlayer.name})` : '';
-                    // SPEC-144: indicar bola parada se DEF marcou com trait
-                    const setPieceLabel = (scorer?.position === 'DEF' && scorer?.traits?.includes('set_piece_target'))
-                        ? ' 🎯 (Alvo de Bola Parada!)' : '';
-
-                    events.textLog.push({
-                        minute,
-                        text: `⚽ ${goalText}${assistText}${setPieceLabel} (${homeGoals} x ${awayGoals})`
-                    });
+                    // To avoid inline filter overhead for assist player
+                    const possibleAssists = [];
+                    for (let i = 0; i < attackers.length; i++) {
+                        if (attackers[i] !== scorer) possibleAssists.push(attackers[i]);
+                    }
+                    assistPlayer = pickRandom(possibleAssists);
 
                     events.scorers.push({ minute, name: scorerName, team: attTeam.name, assist: assistPlayer?.name });
+                }
+
+                if (isManagerMatch) {
+                    const isSetPieceScorer = (scorer?.position === 'DEF' && scorer?.traits?.includes('set_piece_target'));
+                    rawEvents.push({
+                        minute,
+                        type: 'chance',
+                        isGoal,
+                        isHomeAttacking,
+                        attTeam: attTeam.name,
+                        defTeam: defTeam.name,
+                        scorerName,
+                        scorerPosition: scorer?.position,
+                        scorerOvr: scorer?.ovr || 50,
+                        assistName: assistPlayer?.name,
+                        isSetPiece: isSetPieceScorer,
+                        homeGoals,
+                        awayGoals
+                    });
+                }
+
+                if (isGoal) {
 
                     // §9: Emit goal event for procedural audio
                     try {
@@ -437,10 +460,6 @@ export class MatchSimulator {
                 } else {
                     // SAVE
                     if (isHomeAttacking) { awaySaves++; homeMissStreak++; } else { homeSaves++; awayMissStreak++; }
-                    events.textLog.push({
-                        minute,
-                        text: saveText
-                    });
                 }
             }
 
@@ -466,7 +485,7 @@ export class MatchSimulator {
 
                 if (systemRng() < cardChance) {
                     events.cards.push({ minute, player: offender.name, team: foulTeam.name, type: 'yellow' });
-                    events.textLog.push({ minute, text: `🟨 Falta dura de ${offender.name}! Cartão amarelo para o ${pStyle || 'jogador'} do ${foulTeam.name}!` });
+                    if (isManagerMatch) rawEvents.push({ minute, type: 'card', player: offender.name, team: foulTeam.name, pStyle });
                     performanceMap[offender.id] = (performanceMap[offender.id] || 0) - 1;
                 }
             }
@@ -484,7 +503,7 @@ export class MatchSimulator {
                     const unluckyDef = pickRandom(unluckyTeam === homeTeam ? homeDefenders : awayDefenders);
                     const name = unluckyDef?.name || unluckyTeam.name;
                     if (unluckyTeam === homeTeam) { awayGoals++; } else { homeGoals++; }
-                    events.textLog.push({ minute, text: `😱 GOL CONTRA! ${name} (${unluckyTeam.name}) desviou para o próprio gol! (${homeGoals} x ${awayGoals})` });
+                    if (isManagerMatch) rawEvents.push({ minute, type: 'own_goal', unluckyDefName: name, unluckyTeamName: unluckyTeam.name, homeGoals, awayGoals });
                     if (unluckyDef) performanceMap[unluckyDef.id] = (performanceMap[unluckyDef.id] || 0) - 3;
 
                 } else if (eventRoll < 0.55) {
@@ -493,12 +512,13 @@ export class MatchSimulator {
                     const varDecisions = ['gol anulado por impedimento', 'pênalti marcado após revisão', 'cartão vermelho direto após revisão'];
                     const decision = varDecisions[Math.floor(systemRng() * varDecisions.length)];
                     const affectedTeam = side === 'home' ? homeTeam : awayTeam;
-                    events.textLog.push({ minute, text: `📺 VAR! ${decision} para ${affectedTeam.name}!` });
+                    let isVarGoal = false;
                     // VAR penalty: 70% conversion
                     if (decision.includes('pênalti') && systemRng() < 0.70) {
+                        isVarGoal = true;
                         if (side === 'home') { homeGoals++; } else { awayGoals++; }
-                        events.textLog.push({ minute, text: `⚽ GOOOOL de pênalti! (${homeGoals} x ${awayGoals})` });
                     }
+                    if (isManagerMatch) rawEvents.push({ minute, type: 'var', decision, affectedTeamName: affectedTeam.name, isGoal: isVarGoal, homeGoals, awayGoals });
 
                 } else if (eventRoll < 0.80) {
                     // KEY PLAYER INJURY mid-match (~25% of surprise events)
@@ -507,7 +527,7 @@ export class MatchSimulator {
                     const injured = pickRandom(candidates);
                     if (injured) {
                         injured.injury = { name: 'Lesão muscular', weeksLeft: 2 + Math.floor(systemRng() * 4), emoji: '🤕' };
-                        events.textLog.push({ minute, text: `🤕 ${injured.name} (${injTeam.name}) saiu de maca! Lesão durante o jogo!` });
+                        if (isManagerMatch) rawEvents.push({ minute, type: 'injury', injuredName: injured.name, injTeamName: injTeam.name });
                         performanceMap[injured.id] = (performanceMap[injured.id] || 0) - 2;
                     }
 
@@ -529,8 +549,7 @@ export class MatchSimulator {
 
                     if (expelled) {
                         events.cards.push({ minute, player: expelled.name, team: redTeam.name, type: 'red' });
-                        const pStyle = expelled.playstyle ? ` (Conhecido por ser ${expelled.playstyle})` : '';
-                        events.textLog.push({ minute, text: `🟥 EXPULSO! ${expelled.name}${pStyle} do ${redTeam.name} recebeu vermelho direto por agressão!` });
+                        if (isManagerMatch) rawEvents.push({ minute, type: 'red_card', expelledName: expelled.name, pStyle: expelled.playstyle, redTeamName: redTeam.name });
                         performanceMap[expelled.id] = (performanceMap[expelled.id] || 0) - 4;
                     }
                 }
@@ -539,13 +558,13 @@ export class MatchSimulator {
 
         // Penalties
         if (isCup && homeGoals === awayGoals) {
-            events.textLog.push({ minute: 90, text: `⚖️ Empate! Decisão nos Pênaltis!` });
+            if (isManagerMatch) rawEvents.push({ minute: 90, type: 'penalties_tie' });
 
             // SPEC-144: penalty_stopper e penalty_king afetam resultado
             const homeGol = (homeTeam.squad || []).find(p => p.position === 'GOL' && p.isTitular);
             const awayGol = (awayTeam.squad || []).find(p => p.position === 'GOL' && p.isTitular);
-            const homeTaker = pickRandom([...homeAttackers]) || null;
-            const awayTaker = pickRandom([...awayAttackers]) || null;
+            const homeTaker = pickRandom(homeAttackers) || null;
+            const awayTaker = pickRandom(awayAttackers) || null;
 
             // Base 50/50 ajustado por traits
             const homeSaveBonus  = getPenaltySaveBonus(homeGol);           // home GOL defende tiro away
@@ -560,24 +579,25 @@ export class MatchSimulator {
             if (systemRng() < homeWinProb) {
                 homeGoals++;
                 const note = homeGol?.traits?.includes('penalty_stopper') ? ' (Pegador de Pênalti!)' : '';
-                events.textLog.push({ minute: 91, text: `🏆 ${homeTeam.name} VENCE nos pênaltis!${note}` });
+                if (isManagerMatch) rawEvents.push({ minute: 91, type: 'penalties_win', teamName: homeTeam.name, note });
             } else {
                 awayGoals++;
                 const note = awayGol?.traits?.includes('penalty_stopper') ? ' (Pegador de Pênalti!)' : '';
-                events.textLog.push({ minute: 91, text: `🏆 ${awayTeam.name} VENCE nos pênaltis!${note}` });
+                if (isManagerMatch) rawEvents.push({ minute: 91, type: 'penalties_win', teamName: awayTeam.name, note });
             }
         }
 
         // MOTM — Man of the Match
-        const allPlayers = [...(homeTeam.squad || []), ...(awayTeam.squad || [])].filter(p => p.isTitular);
+        const homeTitulares = (homeTeam.squad || []).filter(p => p.isTitular);
+        const awayTitulares = (awayTeam.squad || []).filter(p => p.isTitular);
         let bestPerf = -1, motm = null;
-        allPlayers.forEach(p => {
+        [...homeTitulares, ...awayTitulares].forEach(p => {
             const perf = (performanceMap[p.id] || 0);
             if (perf > bestPerf) { bestPerf = perf; motm = p; }
         });
         if (motm && bestPerf > 0) {
             events.motm = { name: motm.name, team: homeTeam.squad?.includes(motm) ? homeTeam.name : awayTeam.name, score: bestPerf };
-            events.textLog.push({ minute: 90, text: `⭐ Craque do Jogo: ${motm.name}` });
+            if (isManagerMatch) rawEvents.push({ minute: 90, type: 'motm', name: motm.name });
         }
 
         // Match stats
@@ -616,18 +636,45 @@ export class MatchSimulator {
                     }
                 }
             });
-            // Leader trait: +3 moral on win
-            if (homeGoals !== awayGoals) {
-                const isWin = (homeId === engine.manager.teamId && homeGoals > awayGoals) || (awayId === engine.manager.teamId && awayGoals > homeGoals);
-                if (isWin) {
-                    const leaders = managerTeam.squad.filter(p => hasTrait(p, 'leader'));
-                    if (leaders.length > 0) {
-                        // BUG-FIX: Apply moral boost ONCE regardless of leader count (was N× before)
-                        managerTeam.squad.forEach(p => { p.moral = Math.min(100, (p.moral || 50) + 2); });
-                        events.textLog.push({ minute: 90, text: `👔 ${leaders[0].name} inspira o vestiário!` });
-                    }
+        }
+        
+        // Elifoot Classic Feature: Discipline System (Suspensions for red/yellow cards)
+        processMatchCards(events.cards, homeTeam);
+        processMatchCards(events.cards, awayTeam);
+
+        // Leader trait: +3 moral on win
+        if (homeGoals !== awayGoals) {
+            const isWin = (homeId === engine.manager.teamId && homeGoals > awayGoals) || (awayId === engine.manager.teamId && awayGoals > homeGoals);
+            if (isWin && managerTeam) {
+                const leaders = managerTeam.squad.filter(p => hasTrait(p, 'leader'));
+                if (leaders.length > 0) {
+                    // BUG-FIX: Apply moral boost ONCE regardless of leader count (was N× before)
+                    managerTeam.squad.forEach(p => { p.moral = Math.min(100, (p.moral || 50) + 2); });
+                    if (isManagerMatch) rawEvents.push({ minute: 90, type: 'leader', name: leaders[0].name });
                 }
             }
+        }
+
+        // ==========================================
+        // ELIFOOT CLASSIC: BICHO settlement pós-match
+        // ==========================================
+        if (isManagerMatch && engine.pendingMatchBonus) {
+            const managerIsHome = homeId === engine.manager.teamId;
+            const didWin = managerIsHome
+                ? homeGoals > awayGoals
+                : awayGoals > homeGoals;
+            const bonusResult = settleMatchBonus(engine, didWin);
+            if (bonusResult) {
+                if (isManagerMatch) rawEvents.push({ minute: 90, type: 'bicho', ...bonusResult });
+                engine.weekEvents = engine.weekEvents || [];
+                engine.weekEvents.push(bonusResult.msg);
+            }
+        }
+
+        if (isManagerMatch) {
+            events.textLog = MatchNarrator.translate(rawEvents, homeTeam, awayTeam, homeTactic, awayTactic);
+        } else {
+            events.textLog = []; // Stateless, zero GC pressure for Autoplay
         }
 
         // Reset team talk modifiers after match

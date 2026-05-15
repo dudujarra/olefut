@@ -35,6 +35,8 @@ import { evaluate as evaluateLossStreak, recordResult as recordStreakResult } fr
 import { evaluate as evaluateCoachProposal } from '../engine/CoachProposalSystem';
 import { evaluate as evaluateOrganicChallenge } from '../engine/OrganicChallengeSystem';
 import { processAmbitionWeekly } from '../engine/AmbitionEngine';
+import { getTicketMoralBoost } from '../engine/TicketPricingSystem.js';
+import { resolveAuctions } from '../engine/StarAuctionSystem.js';
 
 import { rng as systemRng } from '../engine/rng.js';
 
@@ -48,6 +50,15 @@ export class WeekProcessor {
     process(engine, weekResults) {
         const team = engine.getTeam(engine.manager.teamId);
         if (!team) return;
+
+        // GAME RULE: Squad MUST be >= 16 players (11 + 5). Immediate game over if it drops below 16.
+        if (team.squad.length < 16) {
+            engine.isGameOver = true;
+            engine.gameOverReason = 'bankruptcy';
+            engine.weekEvents.push(`💀 GAME OVER: Plantel do ${team.name} caiu para menos de 16 jogadores (${team.squad.length}). Falência decretada.`);
+            if (engine.board) engine.board.isFired = true;
+            return;
+        }
 
         // SPEC-C6: surface seasonal BR event if currentWeek matches trigger
         try {
@@ -67,8 +78,8 @@ export class WeekProcessor {
             }
         });
 
-        // Finanças detalhadas
-        engine.weeklyFinance = calculateWeeklyFinances(team, weekResults, team.id);
+        // Finanças detalhadas (agora passando engine)
+        engine.weeklyFinance = calculateWeeklyFinances(team, weekResults, team.id, engine);
         // Staff costs
         const staffCost = engine.staff.getWeeklyCost();
         if (staffCost > 0) {
@@ -86,12 +97,53 @@ export class WeekProcessor {
                 }
             }
         }
-        // SINISTRO TUNING: maintenanceMult — multiply all expenses
-        const maintenanceMult = getDifficulty().modifiers.maintenanceMult || 1.0;
-        if (maintenanceMult > 1.0) {
-            engine.weeklyFinance.expenses = Math.floor(engine.weeklyFinance.expenses * maintenanceMult);
-        }
+        
         team.balance += engine.weeklyFinance.income - engine.weeklyFinance.expenses;
+
+        // Elifoot Classic: Ticket Pricing — moral semanal da torcida
+        const ticketMoralDelta = getTicketMoralBoost(engine);
+        if (ticketMoralDelta !== 0) {
+            team.squad.forEach(p => {
+                p.moral = Math.max(0, Math.min(100, (p.moral || 50) + ticketMoralDelta));
+            });
+        }
+
+        // Elifoot Classic: Star Auction — resolver leilões vencidos
+        const auctionResults = resolveAuctions(engine);
+        auctionResults.forEach(r => {
+            engine.weekEvents.push(r.msg);
+            if (r.won && r.playerId) {
+                let player = null;
+
+                if (r.source === 'league' && r.sourceTeamId) {
+                    // BUG-AUDIT-3: League source — player is in seller's squad
+                    const seller = engine.getTeam(r.sourceTeamId);
+                    if (seller) {
+                        player = (seller.squad || []).find(p => p.id === r.playerId);
+                        if (player) {
+                            seller.squad = seller.squad.filter(p => p.id !== r.playerId);
+                            seller.balance = (seller.balance || 0) + r.bid;
+                        }
+                    }
+                } else {
+                    // Market source — player is in engine.marketPlayers
+                    player = (engine.marketPlayers || []).find(p => p.id === r.playerId);
+                    if (player) {
+                        engine.marketPlayers = engine.marketPlayers.filter(p => p.id !== r.playerId);
+                    }
+                }
+
+                if (player) {
+                    player.isTitular = false;
+                    player.energy = 100;
+                    player.injury = null;
+                    delete player.suspension;
+                    if (player.clearFlag) player.clearFlag('suspended');
+                    team.balance -= r.bid;
+                    team.squad.push(player);
+                }
+            }
+        });
 
         // Match condition para próxima partida
         engine.matchCondition = rollMatchCondition();
@@ -109,7 +161,7 @@ export class WeekProcessor {
         }
 
         // SPEC-132: squad emergency check (player-manager)
-        const squadAvail = team.squad.filter(p => !p.injury && !p._retired).length;
+        const squadAvail = team.squad.filter(p => !p.injury && !p.suspension && !p._retired).length;
         const healthCheck = checkSquadHealth({
             teamId: team.id,
             squadSize: squadAvail,
@@ -242,6 +294,10 @@ export class WeekProcessor {
                 if (e.type === 'transfer_request' || e.type === 'relegation_exit') {
                     if (!engine._ambitionTransferRequests) engine._ambitionTransferRequests = [];
                     engine._ambitionTransferRequests.push(e);
+                    // BUG-F2-03: cap to prevent save bloat over a 38-week season
+                    if (engine._ambitionTransferRequests.length > 20) {
+                        engine._ambitionTransferRequests = engine._ambitionTransferRequests.slice(-20);
+                    }
                 }
             });
         } catch (err) {
