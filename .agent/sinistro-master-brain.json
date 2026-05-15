@@ -1,0 +1,1099 @@
+{
+  "qTable": {
+    "PR|BT|LOW|M|-|NR|L|N|4B": {
+      "TACTIC_defensive": 1.8114721660385154,
+      "TRAIN_fitness": 1.660463437534247
+    },
+    "PR|BT|LOW|L|-|NR|L|N|4B": {
+      "TACTIC_defensive": 2.191582483112361
+    },
+    "AV|MD|MID|M|-|DP|L|N|4B": {
+      "TACTIC_normal": 1.5840045107723815
+    },
+    "AV|MD|LOW|E|-|DP|L|N|4B": {
+      "TACTIC_normal": 1.7056057020100996
+    },
+    "GD|T4|MID|M|-|DP|L|N|4B": {
+      "TACTIC_offensive": 2.555250799891175,
+      "TRAIN_attack": 1.7882150229935332
+    },
+    "GD|T4|MID|L|-|DP|L|N|4B": {
+      "TACTIC_offensive": 2.775249673955881
+    },
+    "AV|T4|MID|M|-|DP|L|N|4B": {
+      "TACTIC_counter": 1.8025641471805312,
+      "TRAIN_tactical": 1.7870886199404696
+    },
+    "AV|MD|MID|E|-|DP|L|N|4B": {
+      "TACTIC_normal": 0.9820194022217571,
+      "TRAIN_technical": 0.9387899413983553
+    },
+    "AV|BT|LOW|L|-|NR|L|N|4B": {
+      "TACTIC_offensive": 1.3992983639775982
+    },
+    "AV|MD|NEG|M|-|DP|L|N|4B": {
+      "TACTIC_defensive": 1.113961117022613,
+      "MKT_SELL_YES": 1.8781199159015434
+    },
+    "AV|T4|MID|E|-|DP|L|N|4B": {
+      "MKT_BUY_NO": 1.2940095154885451
+    },
+    "AV|MD|MID|E|-|NR|L|N|4B": {
+      "MKT_BUY_YES": 2.0500219234508927
+    },
+    "AV|T4|MID|M|-|NR|L|N|4B": {
+      "MKT_BUY_YES": 2.4549458162195488
+    },
+    "PR|BT|NEG|M|-|DP|L|N|4B": {
+      "MKT_SELL_YES": 2.138130099134262
+    },
+    "AV|BT|LOW|E|-|DP|L|N|4B": {
+      "TRAIN_fitness": 2.5722987047847288
+    },
+    "AV|BT|LOW|E|L|DP|L|N|4B": {
+      "TRAIN_rest": -3.163207621230972,
+      "TRAIN_tactical": -2.2825892530008103,
+      "TRAIN_defense": -3.4524886369915215,
+      "TRAIN_attack": -2.8253727639922936,
+      "TRAIN_double": 4.186855416430727,
+      "TRAIN_creativity": -0.33891087404818976,
+      "TRAIN_technical": -3.347964911007077,
+      "TRAIN_fitness": -4.490146592477387
+    },
+    "MKT_S|o2|i1|c0": {
+      "MKT_SELL_YES": 0.7587623938089954,
+      "MKT_SELL_NO": 4.434921718454942
+    },
+    "AV|MD|LOW|E|W|DP|L|N|4B": {
+      "TRAIN_double": 0.026492180860526293,
+      "TRAIN_rest": -4.810862076860555,
+      "TRAIN_attack": 11.011899359631725
+    },
+    "AV|BT|NEG|M|L|DP|L|N|4B": {
+      "TRAIN_tactical": -3.8687680423321575,
+      "TRAIN_rest": 2.4273228895684547,
+      "TRAIN_defense": 2.0463480136785757,
+      "TRAIN_creativity": 12.108635929640133,
+      "TRAIN_technical": 1.1321655128300683,
+      "TRAIN_fitness": 4.553861954866683
+    },
+    "AV|BT|NEG|M|D|DP|L|N|4B": {
+      "TRAIN_tactical": 11.454160676438516,
+      "TRAIN_attack": 4.264431273606817
+    },
+    "AV|BT|NEG|M|W|DP|L|N|4B": {
+      "TRAIN_creativity": 11.08326447183174
+    },
+    "AV|BT|NEG|L|L|DP|L|N|4B": {
+      "TRAIN_double": -4.09409358559111,
+      "TRAIN_fitness": -2.0830375883335397,
+      "TRAIN_creativity": -1.1352401921996864,
+      "TRAIN_attack": -2.383136979388315,
+      "TRAIN_tactical": 3.5644078256297953,
+      "TRAIN_rest": -1.6766088924840483,
+      "TRAIN_defense": -0.9849785714803254,
+      "TRAIN_technical": -2.483239124590974
+    },
+    "AV|BT|NEG|L|D|DP|L|N|4B": {
+      "TRAIN_defense": -3.2582271544855788,
+      "TRAIN_creativity": -2.4632028601736544,
+      "TRAIN_attack": 0.3753083654056325,
+      "TRAIN_double": 2.768842399934013
+    },
+    "AV|BT|NEG|E|L|TN|L|N|4B": {
+      "TRAIN_defense": -0.1027945718024027
+    },
+    "AV|BT|NEG|E|L|DP|L|N|4B": {
+      "TRAIN_fitness": -2.771861142724661,
+      "TRAIN_creativity": -4.30810833753814,
+      "TRAIN_tactical": -3.9835934827318744,
+      "TRAIN_attack": -5.028783638560536,
+      "TRAIN_double": -2.709992316106455,
+      "TRAIN_defense": 5.7158503883113845,
+      "TRAIN_rest": -2.4792165303261897,
+      "TRAIN_technical": -3.394715305421171
+    },
+    "AV|BT|NEG|E|L|NR|L|N|4B": {
+      "TRAIN_tactical": -1.4573171208421678,
+      "TRAIN_attack": -2.2023279400050355,
+      "TRAIN_defense": -0.5120466156677392,
+      "TRAIN_rest": -0.4358911416915001,
+      "TRAIN_creativity": -1.3090942969614423,
+      "TRAIN_double": -2.7041192083117234,
+      "TRAIN_fitness": -3.8335957204235807
+    },
+    "AV|BT|MID|E|L|NR|L|N|4B": {
+      "TRAIN_creativity": -4.242727716855028,
+      "TRAIN_tactical": -0.21573677250448178,
+      "TRAIN_attack": -4.530161515802568,
+      "TRAIN_rest": -4.539778753246516,
+      "TRAIN_double": -6.505466751360317,
+      "TRAIN_technical": -3.843357235756525,
+      "TRAIN_defense": -4.146517968895059,
+      "TRAIN_fitness": -6.0544600281449785
+    },
+    "AV|BT|MID|M|D|NR|L|N|4B": {
+      "TRAIN_attack": 5.144218385686524,
+      "TRAIN_creativity": 6.628320355105078
+    },
+    "AV|BT|MID|M|W|NR|L|N|4B": {
+      "TRAIN_defense": -4.388576437712704,
+      "TRAIN_attack": -2.207438191516436,
+      "TRAIN_rest": 7.995761327385747
+    },
+    "AV|BT|MID|M|L|NR|L|N|4B": {
+      "TRAIN_technical": -0.33998373446839886,
+      "TRAIN_creativity": -1.0099238476956462,
+      "TRAIN_double": -3.863458318563981,
+      "TRAIN_rest": 5.572609554539001
+    },
+    "AV|BT|MID|L|D|DP|L|N|4B": {
+      "TRAIN_double": -4.196808031483224,
+      "TRAIN_fitness": 0.15501627236360704,
+      "TRAIN_creativity": -0.3008565544424209,
+      "TRAIN_technical": -0.4688649767966428,
+      "TRAIN_tactical": 4.792480098492242,
+      "TRAIN_rest": 0.5565993564130575,
+      "TRAIN_attack": -0.3041090599058833
+    },
+    "AV|BT|MID|L|W|DP|L|N|4B": {
+      "TRAIN_rest": -2.0606940998535426,
+      "TRAIN_technical": 6.975185309369597,
+      "TRAIN_attack": -3.361714887086162,
+      "TRAIN_fitness": -1.8812448272745452,
+      "TRAIN_double": -5.483223625036319,
+      "TRAIN_creativity": -2.459552691758087,
+      "TRAIN_tactical": -3.556584053565705,
+      "TRAIN_defense": -1.2672214777897413
+    },
+    "MKT_S|o1|i2|c0": {
+      "MKT_SELL_NO": 4.853123816921906,
+      "MKT_SELL_YES": 0.19452385159100355
+    },
+    "AV|BT|LOW|E|L|NR|L|N|4B": {
+      "TRAIN_technical": -2.574942985070927,
+      "TRAIN_creativity": -3.0381607250925025,
+      "TRAIN_attack": 9.61813713056206,
+      "TRAIN_double": -4.9795783064042345,
+      "TRAIN_tactical": -3.1967959744684196,
+      "TRAIN_rest": -0.5786933544258964,
+      "TRAIN_defense": -2.0983695788977323,
+      "TRAIN_fitness": -1.227939223155093
+    },
+    "AV|BT|LOW|E|D|NR|L|N|4B": {
+      "TRAIN_tactical": -0.9493376152424199,
+      "TRAIN_fitness": 3.5365737252050646
+    },
+    "AV|BT|LOW|M|L|NR|L|N|4B": {
+      "TRAIN_attack": 2.9593090604987897,
+      "TRAIN_tactical": 9.380949472256027
+    },
+    "AV|BT|LOW|M|D|NR|L|N|4B": {
+      "TRAIN_technical": 7.5139972667445765
+    },
+    "AV|BT|NEG|M|L|NR|L|N|4B": {
+      "TRAIN_creativity": -0.8703658348922585,
+      "TRAIN_fitness": 9.889739015953332
+    },
+    "AV|BT|MID|L|W|NR|L|N|4B": {
+      "TRAIN_defense": 1.3344941081812818,
+      "TRAIN_double": -0.1939237271495309
+    },
+    "MKT_S|o2|i2|c0": {
+      "MKT_SELL_NO": 5.160305892358998,
+      "MKT_SELL_YES": -1.918635529407198
+    },
+    "AV|BT|MID|L|L|NR|L|N|4B": {
+      "TRAIN_defense": -0.7961575404331873,
+      "TRAIN_double": 2.9824388053637505,
+      "TRAIN_fitness": -0.21300973097258186,
+      "TRAIN_rest": -1.0182065251274848,
+      "TRAIN_creativity": -1.2847973758500704,
+      "TRAIN_tactical": -1.6771273540983997,
+      "TRAIN_attack": -1.3181068856390579
+    },
+    "MKT_S|o1|i0|c0": {
+      "MKT_SELL_NO": -0.2554809792332764,
+      "MKT_SELL_YES": 6.350789667680932
+    },
+    "MKT_S|o1|i1|c1": {
+      "MKT_SELL_NO": 4.180649398223094,
+      "MKT_SELL_YES": 0.9589380063055201
+    },
+    "AV|MD|MID|E|D|NR|L|N|4B": {
+      "TRAIN_defense": -5.944111783787307,
+      "TRAIN_attack": -4.6853157171513065,
+      "TRAIN_creativity": 5.036000036106988
+    },
+    "AV|BT|MID|E|D|NR|L|N|4B": {
+      "TRAIN_creativity": -2.500574235864541,
+      "TRAIN_attack": -3.986349696466784,
+      "TRAIN_defense": -1.6010298268358485,
+      "TRAIN_double": -6.200817173218149,
+      "TRAIN_fitness": -4.217538789221391,
+      "TRAIN_tactical": -1.0501136893017486,
+      "TRAIN_rest": 1.5670841820601555
+    },
+    "AV|BT|MID|M|D|DP|L|N|4B": {
+      "TRAIN_rest": -2.231862387635227,
+      "TRAIN_tactical": 11.477716266148867,
+      "TRAIN_double": 0.9689252996723073,
+      "TRAIN_creativity": 1.4816155026042128,
+      "TRAIN_technical": 9.272829271837605
+    },
+    "AV|BT|LOW|M|D|DP|L|N|4B": {
+      "TRAIN_double": 0.21737932888506073,
+      "TRAIN_attack": 11.632443894704272
+    },
+    "MKT_S|o1|i1|c0": {
+      "MKT_SELL_YES": 4.765470606822031,
+      "MKT_SELL_NO": -1.2584418584348818
+    },
+    "AV|BT|MID|L|D|NR|L|N|4B": {
+      "TRAIN_rest": -0.4377581148986007,
+      "TRAIN_attack": 0.16023510003895872,
+      "TRAIN_creativity": -2.0996102963271364,
+      "TRAIN_fitness": 0.026819843288899137,
+      "TRAIN_double": 1.9153432662933194
+    },
+    "AV|BT|LOW|L|L|NR|L|N|4B": {
+      "TRAIN_rest": -1.7891831692199487,
+      "TRAIN_defense": 5.636303301757779,
+      "TRAIN_attack": 2.82534943038707,
+      "TRAIN_technical": 1.8553349104168788,
+      "TRAIN_creativity": 2.0682728997978823
+    },
+    "AV|BT|LOW|E|W|NR|L|N|4B": {
+      "TRAIN_double": -1.4190304078847988,
+      "TRAIN_attack": -3.2544189927624076,
+      "TRAIN_fitness": -0.5441188498905879,
+      "TRAIN_creativity": 0.3841267901755679
+    },
+    "AV|BT|LOW|M|W|NR|L|N|4B": {
+      "TRAIN_defense": 7.851427468637543,
+      "TRAIN_tactical": 1.4120501592592631
+    },
+    "MKT_S|o0|i2|c0": {
+      "MKT_SELL_YES": -5.616490361750544
+    },
+    "MKT_S|o0|i1|c0": {
+      "MKT_SELL_YES": -4.393238276675077
+    },
+    "AV|BT|LOW|E|W|DP|L|N|4B": {
+      "TRAIN_technical": 3.269154489844979,
+      "TRAIN_attack": 1.2505792516788456,
+      "TRAIN_fitness": -2.8777662199641587
+    },
+    "AV|MD|LOW|M|W|DP|L|N|4B": {
+      "TRAIN_fitness": -2.1683492077151363,
+      "TRAIN_tactical": 4.863976410430875
+    },
+    "AV|MD|NEG|M|L|DP|L|N|4B": {
+      "TRAIN_tactical": 0.17605382437425945,
+      "TRAIN_creativity": 3.298010535686591
+    },
+    "AV|MD|NEG|M|W|DP|L|N|4B": {
+      "TRAIN_tactical": 1.4399827132103675
+    },
+    "AV|T4|MID|M|W|NR|L|N|4B": {
+      "TRAIN_tactical": 1.4724887211589202
+    },
+    "AV|T4|MID|L|D|NR|L|N|4B": {
+      "TRAIN_tactical": 1.6688551940245613
+    },
+    "AV|MD|LOW|L|L|NR|L|N|4B": {
+      "TRAIN_rest": -0.037681278059649714
+    },
+    "AV|T4|LOW|L|W|DP|L|N|4B": {
+      "TRAIN_technical": -0.9699813716440382
+    },
+    "MKT_S|o2|i1|c1": {
+      "MKT_SELL_YES": 3.59457037422149
+    },
+    "AV|T4|LOW|L|L|DP|L|N|4B": {
+      "TRAIN_rest": -7.214069432987387
+    },
+    "AV|MD|LOW|E|D|DP|L|N|4B": {
+      "TRAIN_tactical": -4.362777122984723,
+      "TRAIN_attack": -4.175593124418969,
+      "TRAIN_technical": 2.8484888974984606
+    },
+    "AV|BT|MID|E|L|DP|L|N|4B": {
+      "TRAIN_tactical": -4.351655737701266,
+      "TRAIN_attack": -5.058398233460386,
+      "TRAIN_creativity": -3.8580026560741665,
+      "TRAIN_technical": -4.551828196501412,
+      "TRAIN_double": -4.4609364307212145,
+      "TRAIN_defense": -2.8428694033059085,
+      "TRAIN_fitness": -4.033924513616755,
+      "TRAIN_rest": -4.410123920809957
+    },
+    "AV|BT|MID|M|L|DP|L|N|4B": {
+      "TRAIN_defense": -0.6952883598946328,
+      "TRAIN_fitness": 3.343132243061183,
+      "TRAIN_attack": -3.8780179323701502,
+      "TRAIN_creativity": 1.0335864395427903,
+      "TRAIN_double": 11.580192871067737,
+      "TRAIN_rest": 4.540201134919448
+    },
+    "MKT_S|o1|i2|c1": {
+      "MKT_SELL_YES": -1.1915909277837682,
+      "MKT_SELL_NO": 2.9136667124758056
+    },
+    "AV|BT|LOW|L|D|NR|L|N|4B": {
+      "TRAIN_attack": -0.8631353659975699,
+      "TRAIN_technical": 5.692297777340621
+    },
+    "AV|BT|LOW|M|L|DP|L|N|4B": {
+      "TRAIN_defense": 0.4074970664694915,
+      "TRAIN_attack": 5.195245467082216,
+      "TRAIN_fitness": 3.1665497986629525,
+      "TRAIN_double": 3.5288572608218716,
+      "TRAIN_technical": 7.713075307301531
+    },
+    "AV|BT|MID|L|L|DP|L|N|4B": {
+      "TRAIN_creativity": -2.447573164837083,
+      "TRAIN_tactical": -3.70368208411612,
+      "TRAIN_attack": -1.9560285023483732,
+      "TRAIN_defense": -3.5289043236894493,
+      "TRAIN_double": -3.9253946161709248,
+      "TRAIN_fitness": 3.2870306112125505,
+      "TRAIN_rest": -2.3380791285183515,
+      "TRAIN_technical": -4.2982918724622525
+    },
+    "AV|BT|MID|M|W|DP|L|N|4B": {
+      "TRAIN_creativity": 6.12511737949367
+    },
+    "AV|MD|MID|E|W|DP|L|N|4B": {
+      "TRAIN_double": -1.8466036237708165,
+      "TRAIN_attack": -2.990203203013108,
+      "TRAIN_tactical": -4.997994854591733,
+      "TRAIN_creativity": -7.491321257149132,
+      "TRAIN_defense": -3.615374474457708,
+      "TRAIN_technical": -2.86470490423364,
+      "TRAIN_rest": 1.2707975400750862
+    },
+    "AV|MD|MID|M|D|DP|L|N|4B": {
+      "TRAIN_creativity": -5.07985935434492,
+      "TRAIN_tactical": 2.9836789455515174
+    },
+    "AV|BT|LOW|E|D|DP|L|N|4B": {
+      "TRAIN_rest": -1.9351225092705808,
+      "TRAIN_creativity": -4.926218173304879,
+      "TRAIN_attack": -2.598699521144424,
+      "TRAIN_double": -2.146528598430014,
+      "TRAIN_defense": -0.9845202863073749,
+      "TRAIN_fitness": 0.9299727433785893,
+      "TRAIN_tactical": 7.672721783744513
+    },
+    "MKT_B|d2|r1|p1": {
+      "MKT_BUY_YES": 2.2990687856328123
+    },
+    "AV|BT|LOW|L|D|DP|L|N|4B": {
+      "TRAIN_tactical": -0.5377436628784875,
+      "TRAIN_attack": -3.4919574360085806,
+      "TRAIN_creativity": 3.755200665600788
+    },
+    "AV|BT|NEG|E|D|DP|L|N|4B": {
+      "TRAIN_rest": -6.7784995699701,
+      "TRAIN_tactical": 0.3216979487267456
+    },
+    "AV|BT|LOW|L|W|DP|L|N|4B": {
+      "TRAIN_fitness": -0.20572055901678055,
+      "TRAIN_attack": -1.6681807675384703,
+      "TRAIN_double": 5.239397636610088
+    },
+    "AV|BT|LOW|L|L|DP|L|N|4B": {
+      "TRAIN_attack": 0.14060586960160326,
+      "TRAIN_creativity": -2.7402263287764552,
+      "TRAIN_double": 0.5221166413111404,
+      "TRAIN_tactical": 0.14454893234185892,
+      "TRAIN_rest": -1.4292222387349633,
+      "TRAIN_fitness": 0.5697973157380312
+    },
+    "AV|BT|LOW|M|W|DP|L|N|4B": {
+      "TRAIN_double": 10.193844712129835
+    },
+    "AV|MD|MID|M|W|NR|L|N|4B": {
+      "TRAIN_defense": 0.11468346091402104,
+      "TRAIN_creativity": 1.3018476468848268
+    },
+    "AV|MD|LOW|L|W|NR|L|N|4B": {
+      "TRAIN_double": -0.5284840455278588
+    },
+    "AV|MD|LOW|L|W|DP|L|N|4B": {
+      "TRAIN_attack": -0.6505924121570259,
+      "TRAIN_technical": 3.879570887497635
+    },
+    "MKT_B|d0|r0|p1": {
+      "MKT_BUY_YES": 3.0330913548913774
+    },
+    "AV|MD|NEG|L|L|NR|L|N|4B": {
+      "TRAIN_creativity": 1.4786722380507131
+    },
+    "AV|BT|NEG|L|W|NR|L|N|4B": {
+      "TRAIN_tactical": 3.402268097358399,
+      "TRAIN_rest": 0.714896135910302
+    },
+    "AV|MD|NEG|E|W|NR|L|N|4B": {
+      "TRAIN_creativity": -8.235422217974403
+    },
+    "MKT_S|o2|i0|c0": {
+      "MKT_SELL_YES": -1.540443234669409,
+      "MKT_SELL_NO": 1.2839051103370744
+    },
+    "AV|BT|MID|E|W|NR|L|N|4B": {
+      "TRAIN_rest": -1.7622351623770338,
+      "TRAIN_technical": -0.5903346313009777,
+      "TRAIN_creativity": -2.110145227535275,
+      "TRAIN_fitness": -3.533695105435175,
+      "TRAIN_attack": 2.046049385339775
+    },
+    "MKT_B|d1|r1|p1": {
+      "MKT_BUY_YES": 6.144781138524329
+    },
+    "AV|BT|NEG|L|L|NR|L|N|4B": {
+      "TRAIN_rest": -3.529413602230096,
+      "TRAIN_creativity": -2.963729050878928,
+      "TRAIN_double": -2.5813201354780446
+    },
+    "AV|BT|NEG|L|D|NR|L|N|4B": {
+      "TRAIN_defense": 6.471639707064187
+    },
+    "AV|BT|NEG|M|W|NR|L|N|4B": {
+      "TRAIN_double": 11.464022313355203
+    },
+    "AV|BT|NEG|M|D|NR|L|N|4B": {
+      "TRAIN_defense": 10.620093235357972
+    },
+    "AV|BT|MID|E|D|DP|L|N|4B": {
+      "TRAIN_fitness": -3.473151771841692,
+      "TRAIN_defense": 4.599454497505078,
+      "TRAIN_double": -4.784381764626345,
+      "TRAIN_attack": -4.061063658112905,
+      "TRAIN_technical": -3.7245745446215786,
+      "TRAIN_tactical": -1.4309913860191352,
+      "TRAIN_creativity": -5.77971803841087,
+      "TRAIN_rest": -1.3857710467621671
+    },
+    "MKT_B|d0|r1|p1": {
+      "MKT_BUY_YES": 2.9289815206655416
+    },
+    "MKT_S|o0|i1|c1": {
+      "MKT_SELL_YES": -0.05937136052917
+    },
+    "AV|MD|LOW|E|L|DP|L|N|4B": {
+      "TRAIN_double": -4.889703746462359,
+      "TRAIN_tactical": 3.246976928570594
+    },
+    "AV|BT|MID|E|W|DP|L|N|4B": {
+      "TRAIN_double": -4.266461780685882,
+      "TRAIN_creativity": -3.40666788407257,
+      "TRAIN_tactical": -6.6928605957720935,
+      "TRAIN_fitness": -2.877887653298285,
+      "TRAIN_rest": -3.2961096836029546,
+      "TRAIN_technical": 0.4649130491903998,
+      "TRAIN_attack": 1.1661513472076148,
+      "TRAIN_defense": -3.267672418899211
+    },
+    "MKT_S|o2|i0|c1": {
+      "MKT_SELL_YES": 0.7436627953191942,
+      "MKT_SELL_NO": 3.265952141504066
+    },
+    "AV|BT|NEG|L|W|DP|L|N|4B": {
+      "TRAIN_rest": -0.24621044576472254,
+      "TRAIN_attack": -0.7092397964092086,
+      "TRAIN_double": -2.655351812171246,
+      "TRAIN_creativity": 3.661237099168148
+    },
+    "AV|BT|NEG|E|D|NR|L|N|4B": {
+      "TRAIN_creativity": 3.6441172448550767
+    },
+    "AV|BT|NEG|E|W|DP|L|N|4B": {
+      "TRAIN_fitness": 11.943566241638125
+    },
+    "AV|MD|NEG|E|D|DP|L|N|4B": {
+      "TRAIN_creativity": -7.151955548349421,
+      "TRAIN_attack": 0.19028062826549674
+    },
+    "AV|MD|MID|E|L|NR|L|N|4B": {
+      "TRAIN_tactical": -0.04737370225855553,
+      "TRAIN_attack": -0.1711176396434134,
+      "TRAIN_creativity": -4.776719044595731,
+      "TRAIN_double": -5.735067817955104
+    },
+    "AV|MD|MID|E|L|DP|L|N|4B": {
+      "TRAIN_fitness": -5.731606587864701,
+      "TRAIN_tactical": -0.3823915674644948,
+      "TRAIN_defense": -3.076941013788427,
+      "TRAIN_attack": -6.148887606682737,
+      "TRAIN_rest": -5.41981727545325,
+      "TRAIN_creativity": 4.181062830193302,
+      "TRAIN_double": -3.333284912988632
+    },
+    "AV|BT|LOW|L|W|NR|L|N|4B": {
+      "TRAIN_tactical": -0.5337545648730675,
+      "TRAIN_technical": -0.8058139841884578,
+      "TRAIN_creativity": 7.884441437832807
+    },
+    "AV|BT|NEG|E|W|NR|L|N|4B": {
+      "TRAIN_defense": 1.439776021594175
+    },
+    "AV|BT|RCH|L|D|DP|L|N|4B": {
+      "TRAIN_defense": 1.519082985895585
+    },
+    "AV|BT|RCH|L|W|DP|L|N|4B": {
+      "TRAIN_technical": -0.6034582593721938,
+      "TRAIN_double": 1.427502974638573
+    },
+    "MKT_B|d1|r0|p1": {
+      "MKT_BUY_YES": 5.449465531276273
+    },
+    "MKT_S|o1|i0|c1": {
+      "MKT_SELL_YES": -1.7870049338971137,
+      "MKT_SELL_NO": 4.494565958021004
+    },
+    "MKT_B|d2|r2|p2": {
+      "MKT_BUY_YES": -0.0881832739413308
+    },
+    "MKT_B|d2|r0|p2": {
+      "MKT_BUY_YES": 2.4632813887386202
+    },
+    "MKT_B|d1|r0|p2": {
+      "MKT_BUY_YES": 5.924290125036397
+    },
+    "MKT_S|o0|i2|c1": {
+      "MKT_SELL_YES": -5.443821131312395
+    },
+    "AV|T4|MID|E|W|NR|L|N|4B": {
+      "TRAIN_fitness": -5.713561316130785,
+      "TRAIN_attack": -3.7724177068406712,
+      "TRAIN_defense": -2.7811222363320893,
+      "TRAIN_technical": -6.763219040794385
+    },
+    "AV|MD|MID|M|L|DP|L|N|4B": {
+      "TRAIN_creativity": 8.757404672176737
+    },
+    "AV|MD|MID|M|W|DP|L|N|4B": {
+      "TRAIN_creativity": 1.67701318707187
+    },
+    "AV|MD|MID|L|L|DP|L|N|4B": {
+      "TRAIN_attack": 0.11408656376219017
+    },
+    "AV|MD|MID|L|D|DP|L|N|4B": {
+      "TRAIN_defense": 7.307934643300225
+    },
+    "AV|MD|LOW|L|D|DP|L|N|4B": {
+      "TRAIN_rest": -4.620124980516349
+    },
+    "AV|MD|MID|E|W|NR|L|N|4B": {
+      "TRAIN_attack": 1.7143436256857925
+    },
+    "AV|MD|NEG|M|L|NR|L|N|4B": {
+      "TRAIN_rest": 1.1954088403032046
+    },
+    "AV|MD|NEG|M|D|NR|L|N|4B": {
+      "TRAIN_technical": 4.31167906627639
+    },
+    "MKT_S|o2|i2|c1": {
+      "MKT_SELL_YES": 1.4288914452739159
+    },
+    "MKT_B|d1|r1|p2": {
+      "MKT_BUY_YES": 5.3851815839671415
+    },
+    "AV|BT|RCH|M|W|NR|L|N|4B": {
+      "TRAIN_defense": 1.5398960310830743
+    },
+    "MKT_B|d2|r0|p1": {
+      "MKT_BUY_YES": 2.7092213369396245
+    },
+    "MKT_B|d0|r1|p2": {
+      "MKT_BUY_YES": 6.165024242810645
+    },
+    "AV|BT|RCH|M|L|DP|L|N|4B": {
+      "TRAIN_attack": 5.304718569705081
+    },
+    "AV|BT|RCH|L|L|NR|L|N|4B": {
+      "TRAIN_technical": -0.9107887281258105
+    },
+    "AV|BT|RCH|L|L|DP|L|N|4B": {
+      "TRAIN_rest": -3.926040893229735,
+      "TRAIN_double": -2.25675622105841,
+      "TRAIN_defense": -1.5962068268011014,
+      "TRAIN_creativity": 1.5817831778976608
+    },
+    "MKT_B|d2|r1|p2": {
+      "MKT_BUY_YES": 4.391717729765174
+    },
+    "AV|T4|LOW|E|L|NR|L|N|4B": {
+      "TRAIN_double": -1.7886616795628134
+    },
+    "AV|MD|LOW|M|D|DP|L|N|4B": {
+      "TRAIN_defense": -3.2062410114334847
+    },
+    "AV|MD|LOW|M|L|DP|L|N|4B": {
+      "TRAIN_attack": -2.2388193229952877,
+      "TRAIN_double": 4.530771697953837
+    },
+    "AV|MD|NEG|E|W|DP|L|N|4B": {
+      "TRAIN_technical": -4.729753496693313,
+      "TRAIN_tactical": -2.648743041408293,
+      "TRAIN_creativity": 3.442780030729864
+    },
+    "AV|BT|RCH|E|L|DP|L|N|4B": {
+      "TRAIN_fitness": -2.732162463589035,
+      "TRAIN_attack": -0.8593782989606837,
+      "TRAIN_defense": -2.869141215287126,
+      "TRAIN_tactical": -5.985290048814219
+    },
+    "AV|BT|RCH|E|L|NR|L|N|4B": {
+      "TRAIN_technical": -1.5675396641792303,
+      "TRAIN_rest": -6.159526118904811
+    },
+    "AV|BT|RCH|E|D|DP|L|N|4B": {
+      "TRAIN_creativity": -2.7654582230742357,
+      "TRAIN_fitness": -5.061717529548742,
+      "TRAIN_rest": -4.089687351808523
+    },
+    "AV|BT|RCH|M|L|NR|L|N|4B": {
+      "TRAIN_defense": 4.2369961414234485
+    },
+    "AV|MD|NEG|E|L|DP|L|N|4B": {
+      "TRAIN_attack": -3.7740509879474238
+    },
+    "AV|MD|MID|E|D|DP|L|N|4B": {
+      "TRAIN_fitness": -7.355104629640605,
+      "TRAIN_attack": -8.464423854703009,
+      "TRAIN_technical": -1.5228027294956106,
+      "TRAIN_creativity": -2.3290141452131863,
+      "TRAIN_defense": 5.5954040608709
+    },
+    "AV|T4|MID|E|W|DP|L|N|4B": {
+      "TRAIN_fitness": -5.817405363346707
+    },
+    "AV|MD|LOW|M|L|NR|L|N|4B": {
+      "TRAIN_creativity": -2.698736562213149,
+      "TRAIN_technical": -0.7200383425715282
+    },
+    "AV|T4|LOW|E|W|NR|L|N|4B": {
+      "TRAIN_attack": 2.8598389522996572
+    },
+    "MKT_B|d2|r2|p1": {
+      "MKT_BUY_YES": 2.974756349927937
+    },
+    "AV|MD|NEG|E|D|NR|L|N|4B": {
+      "TRAIN_technical": -5.922620178290275
+    },
+    "MKT_B|d0|r0|p2": {
+      "MKT_BUY_YES": 4.179190470757524
+    },
+    "AV|MD|LOW|E|L|NR|L|N|4B": {
+      "TRAIN_defense": -0.9233256468963503,
+      "TRAIN_creativity": -1.450204419531252
+    },
+    "AV|MD|LOW|E|W|NR|L|N|4B": {
+      "TRAIN_technical": 5.336856160289139
+    },
+    "AV|T4|NEG|M|W|DP|L|N|4B": {
+      "TRAIN_attack": 8.879114646786757,
+      "TRAIN_technical": 8.045439581455
+    },
+    "AV|MD|MID|L|W|NR|L|N|4B": {
+      "TRAIN_defense": -3.772821015338202,
+      "TRAIN_tactical": -3.992738683987573
+    },
+    "AV|MD|MID|L|D|NR|L|N|4B": {
+      "TRAIN_double": 4.4980553989333005
+    },
+    "AV|T4|NEG|M|L|DP|L|N|4B": {
+      "TRAIN_double": 5.793338806677875
+    },
+    "AV|T4|NEG|L|W|NR|L|N|4B": {
+      "TRAIN_creativity": 1.3603343566349189,
+      "TRAIN_double": 5.977316542445814
+    },
+    "AV|T4|NEG|L|L|NR|L|N|4B": {
+      "TRAIN_technical": 5.09439217523295
+    },
+    "MKT_B|d1|r2|p1": {
+      "MKT_BUY_YES": 1.0636702902668547
+    },
+    "AV|BT|RCH|M|D|NR|L|N|4B": {
+      "TRAIN_rest": -3.943802720352845
+    },
+    "AV|MD|LOW|L|L|DP|L|N|4B": {
+      "TRAIN_attack": -0.22438975883529774
+    },
+    "AV|MD|RCH|E|L|NR|L|N|4B": {
+      "TRAIN_rest": -5.593297509938899
+    },
+    "MKT_S|o0|i0|c0": {
+      "MKT_SELL_YES": 0.3533872715567598
+    },
+    "MKT_S|o0|i0|c1": {
+      "MKT_SELL_YES": -3.489683178047393
+    },
+    "AV|T4|MID|E|L|NR|L|N|4B": {
+      "TRAIN_tactical": 1.3633798502193235
+    },
+    "AV|MD|NEG|M|D|DP|L|N|4B": {
+      "TRAIN_double": 3.8295991306682664
+    },
+    "AV|MD|NEG|L|W|DP|L|N|4B": {
+      "TRAIN_tactical": -4.986234538945192
+    },
+    "AV|MD|NEG|L|D|NR|L|N|4B": {
+      "TRAIN_attack": 2.8158736957581656
+    },
+    "AV|MD|NEG|L|D|DP|L|N|4B": {
+      "TRAIN_fitness": 0.12429833486640585
+    },
+    "AV|BT|RCH|M|D|DP|L|N|4B": {
+      "TRAIN_double": 0.26147784375525956
+    }
+  },
+  "visitCount": {
+    "PR|BT|LOW|M|-|NR|L|N|4B": 2,
+    "PR|BT|LOW|L|-|NR|L|N|4B": 1,
+    "AV|MD|MID|M|-|DP|L|N|4B": 1,
+    "AV|MD|LOW|E|-|DP|L|N|4B": 1,
+    "GD|T4|MID|M|-|DP|L|N|4B": 2,
+    "GD|T4|MID|L|-|DP|L|N|4B": 1,
+    "AV|T4|MID|M|-|DP|L|N|4B": 2,
+    "AV|MD|MID|E|-|DP|L|N|4B": 2,
+    "AV|BT|LOW|L|-|NR|L|N|4B": 1,
+    "AV|MD|NEG|M|-|DP|L|N|4B": 2,
+    "AV|T4|MID|E|-|DP|L|N|4B": 1,
+    "AV|MD|MID|E|-|NR|L|N|4B": 1,
+    "AV|T4|MID|M|-|NR|L|N|4B": 1,
+    "PR|BT|NEG|M|-|DP|L|N|4B": 1,
+    "AV|BT|LOW|E|-|DP|L|N|4B": 3,
+    "AV|BT|LOW|E|L|DP|L|N|4B": 249,
+    "MKT_S|o2|i1|c0": 75,
+    "AV|MD|LOW|E|W|DP|L|N|4B": 15,
+    "AV|BT|NEG|M|L|DP|L|N|4B": 309,
+    "AV|BT|NEG|M|D|DP|L|N|4B": 135,
+    "AV|BT|NEG|M|W|DP|L|N|4B": 93,
+    "AV|BT|NEG|L|L|DP|L|N|4B": 198,
+    "AV|BT|NEG|L|D|DP|L|N|4B": 84,
+    "AV|BT|NEG|E|L|TN|L|N|4B": 3,
+    "AV|BT|NEG|E|L|DP|L|N|4B": 162,
+    "AV|BT|NEG|E|L|NR|L|N|4B": 81,
+    "AV|BT|MID|E|L|NR|L|N|4B": 372,
+    "AV|BT|MID|M|D|NR|L|N|4B": 81,
+    "AV|BT|MID|M|W|NR|L|N|4B": 42,
+    "AV|BT|MID|M|L|NR|L|N|4B": 195,
+    "AV|BT|MID|L|D|DP|L|N|4B": 201,
+    "AV|BT|MID|L|W|DP|L|N|4B": 141,
+    "MKT_S|o1|i2|c0": 111,
+    "AV|BT|LOW|E|L|NR|L|N|4B": 156,
+    "AV|BT|LOW|E|D|NR|L|N|4B": 45,
+    "AV|BT|LOW|M|L|NR|L|N|4B": 72,
+    "AV|BT|LOW|M|D|NR|L|N|4B": 42,
+    "AV|BT|NEG|M|L|NR|L|N|4B": 66,
+    "AV|BT|MID|L|W|NR|L|N|4B": 93,
+    "MKT_S|o2|i2|c0": 26,
+    "AV|BT|MID|L|L|NR|L|N|4B": 303,
+    "MKT_S|o1|i0|c0": 30,
+    "MKT_S|o1|i1|c1": 89,
+    "AV|MD|MID|E|D|NR|L|N|4B": 12,
+    "AV|BT|MID|E|D|NR|L|N|4B": 72,
+    "AV|BT|MID|M|D|DP|L|N|4B": 255,
+    "AV|BT|LOW|M|D|DP|L|N|4B": 126,
+    "MKT_S|o1|i1|c0": 325,
+    "AV|BT|MID|L|D|NR|L|N|4B": 153,
+    "AV|BT|LOW|L|L|NR|L|N|4B": 102,
+    "AV|BT|LOW|E|W|NR|L|N|4B": 33,
+    "AV|BT|LOW|M|W|NR|L|N|4B": 42,
+    "MKT_S|o0|i2|c0": 10,
+    "MKT_S|o0|i1|c0": 11,
+    "AV|BT|LOW|E|W|DP|L|N|4B": 51,
+    "AV|MD|LOW|M|W|DP|L|N|4B": 9,
+    "AV|MD|NEG|M|L|DP|L|N|4B": 12,
+    "AV|MD|NEG|M|W|DP|L|N|4B": 12,
+    "AV|T4|MID|M|W|NR|L|N|4B": 3,
+    "AV|T4|MID|L|D|NR|L|N|4B": 3,
+    "AV|MD|LOW|L|L|NR|L|N|4B": 6,
+    "AV|T4|LOW|L|W|DP|L|N|4B": 3,
+    "MKT_S|o2|i1|c1": 58,
+    "AV|T4|LOW|L|L|DP|L|N|4B": 3,
+    "AV|MD|LOW|E|D|DP|L|N|4B": 9,
+    "AV|BT|MID|E|L|DP|L|N|4B": 513,
+    "AV|BT|MID|M|L|DP|L|N|4B": 480,
+    "MKT_S|o1|i2|c1": 65,
+    "AV|BT|LOW|L|D|NR|L|N|4B": 39,
+    "AV|BT|LOW|M|L|DP|L|N|4B": 270,
+    "AV|BT|MID|L|L|DP|L|N|4B": 561,
+    "AV|BT|MID|M|W|DP|L|N|4B": 144,
+    "AV|MD|MID|E|W|DP|L|N|4B": 36,
+    "AV|MD|MID|M|D|DP|L|N|4B": 15,
+    "AV|BT|LOW|E|D|DP|L|N|4B": 69,
+    "MKT_B|d2|r1|p1": 8,
+    "AV|BT|LOW|L|D|DP|L|N|4B": 63,
+    "AV|BT|NEG|E|D|DP|L|N|4B": 39,
+    "AV|BT|LOW|L|W|DP|L|N|4B": 72,
+    "AV|BT|LOW|L|L|DP|L|N|4B": 252,
+    "AV|BT|LOW|M|W|DP|L|N|4B": 75,
+    "AV|MD|MID|M|W|NR|L|N|4B": 6,
+    "AV|MD|LOW|L|W|NR|L|N|4B": 3,
+    "AV|MD|LOW|L|W|DP|L|N|4B": 9,
+    "MKT_B|d0|r0|p1": 23,
+    "AV|MD|NEG|L|L|NR|L|N|4B": 3,
+    "AV|BT|NEG|L|W|NR|L|N|4B": 21,
+    "AV|MD|NEG|E|W|NR|L|N|4B": 3,
+    "MKT_S|o2|i0|c0": 6,
+    "AV|BT|MID|E|W|NR|L|N|4B": 45,
+    "MKT_B|d1|r1|p1": 11,
+    "AV|BT|NEG|L|L|NR|L|N|4B": 87,
+    "AV|BT|NEG|L|D|NR|L|N|4B": 9,
+    "AV|BT|NEG|M|W|NR|L|N|4B": 27,
+    "AV|BT|NEG|M|D|NR|L|N|4B": 15,
+    "AV|BT|MID|E|D|DP|L|N|4B": 132,
+    "MKT_B|d0|r1|p1": 8,
+    "MKT_S|o0|i1|c1": 13,
+    "AV|MD|LOW|E|L|DP|L|N|4B": 15,
+    "AV|BT|MID|E|W|DP|L|N|4B": 84,
+    "MKT_S|o2|i0|c1": 5,
+    "AV|BT|NEG|L|W|DP|L|N|4B": 69,
+    "AV|BT|NEG|E|D|NR|L|N|4B": 18,
+    "AV|BT|NEG|E|W|DP|L|N|4B": 21,
+    "AV|MD|NEG|E|D|DP|L|N|4B": 9,
+    "AV|MD|MID|E|L|NR|L|N|4B": 15,
+    "AV|MD|MID|E|L|DP|L|N|4B": 27,
+    "AV|BT|LOW|L|W|NR|L|N|4B": 18,
+    "AV|BT|NEG|E|W|NR|L|N|4B": 6,
+    "AV|BT|RCH|L|D|DP|L|N|4B": 12,
+    "AV|BT|RCH|L|W|DP|L|N|4B": 12,
+    "MKT_B|d1|r0|p1": 17,
+    "MKT_S|o1|i0|c1": 5,
+    "MKT_B|d2|r2|p2": 2,
+    "MKT_B|d2|r0|p2": 14,
+    "MKT_B|d1|r0|p2": 17,
+    "MKT_S|o0|i2|c1": 3,
+    "AV|T4|MID|E|W|NR|L|N|4B": 15,
+    "AV|MD|MID|M|L|DP|L|N|4B": 9,
+    "AV|MD|MID|M|W|DP|L|N|4B": 3,
+    "AV|MD|MID|L|L|DP|L|N|4B": 3,
+    "AV|MD|MID|L|D|DP|L|N|4B": 3,
+    "AV|MD|LOW|L|D|DP|L|N|4B": 3,
+    "AV|MD|MID|E|W|NR|L|N|4B": 9,
+    "AV|MD|NEG|M|L|NR|L|N|4B": 3,
+    "AV|MD|NEG|M|D|NR|L|N|4B": 3,
+    "MKT_S|o2|i2|c1": 17,
+    "MKT_B|d1|r1|p2": 7,
+    "AV|BT|RCH|M|W|NR|L|N|4B": 6,
+    "MKT_B|d2|r0|p1": 19,
+    "MKT_B|d0|r1|p2": 8,
+    "AV|BT|RCH|M|L|DP|L|N|4B": 3,
+    "AV|BT|RCH|L|L|NR|L|N|4B": 12,
+    "AV|BT|RCH|L|L|DP|L|N|4B": 15,
+    "MKT_B|d2|r1|p2": 13,
+    "AV|T4|LOW|E|L|NR|L|N|4B": 3,
+    "AV|MD|LOW|M|D|DP|L|N|4B": 3,
+    "AV|MD|LOW|M|L|DP|L|N|4B": 12,
+    "AV|MD|NEG|E|W|DP|L|N|4B": 9,
+    "AV|BT|RCH|E|L|DP|L|N|4B": 12,
+    "AV|BT|RCH|E|L|NR|L|N|4B": 6,
+    "AV|BT|RCH|E|D|DP|L|N|4B": 9,
+    "AV|BT|RCH|M|L|NR|L|N|4B": 3,
+    "AV|MD|NEG|E|L|DP|L|N|4B": 3,
+    "AV|MD|MID|E|D|DP|L|N|4B": 18,
+    "AV|T4|MID|E|W|DP|L|N|4B": 3,
+    "AV|MD|LOW|M|L|NR|L|N|4B": 6,
+    "AV|T4|LOW|E|W|NR|L|N|4B": 3,
+    "MKT_B|d2|r2|p1": 2,
+    "AV|MD|NEG|E|D|NR|L|N|4B": 3,
+    "MKT_B|d0|r0|p2": 7,
+    "AV|MD|LOW|E|L|NR|L|N|4B": 6,
+    "AV|MD|LOW|E|W|NR|L|N|4B": 3,
+    "AV|T4|NEG|M|W|DP|L|N|4B": 12,
+    "AV|MD|MID|L|W|NR|L|N|4B": 6,
+    "AV|MD|MID|L|D|NR|L|N|4B": 6,
+    "AV|T4|NEG|M|L|DP|L|N|4B": 3,
+    "AV|T4|NEG|L|W|NR|L|N|4B": 9,
+    "AV|T4|NEG|L|L|NR|L|N|4B": 3,
+    "MKT_B|d1|r2|p1": 1,
+    "AV|BT|RCH|M|D|NR|L|N|4B": 3,
+    "AV|MD|LOW|L|L|DP|L|N|4B": 3,
+    "AV|MD|RCH|E|L|NR|L|N|4B": 3,
+    "MKT_S|o0|i0|c0": 1,
+    "MKT_S|o0|i0|c1": 2,
+    "AV|T4|MID|E|L|NR|L|N|4B": 3,
+    "AV|MD|NEG|M|D|DP|L|N|4B": 3,
+    "AV|MD|NEG|L|W|DP|L|N|4B": 6,
+    "AV|MD|NEG|L|D|NR|L|N|4B": 3,
+    "AV|MD|NEG|L|D|DP|L|N|4B": 3,
+    "AV|BT|RCH|M|D|DP|L|N|4B": 3
+  },
+  "totalUpdates": 8627,
+  "personality": {
+    "id": "GUARDIOLA",
+    "label": "O Estrategista",
+    "ocean": {
+      "O": 0.9887448720689922,
+      "C": 0.7942119034152576,
+      "E": 0.6032054129561524,
+      "A": 0.5478854842752608,
+      "N": 0.056513158863877276
+    },
+    "traits": {
+      "ambition": 0.5276599643404458,
+      "riskAppetite": 0.3988691908049435,
+      "loyalty": 0.5478854842752608,
+      "temperament": 0.9434868411361227,
+      "tacticalFlex": 0.9887448720689922
+    },
+    "tacticalBias": "possession",
+    "preferredFormations": [
+      "4-3-3",
+      "4-2-3-1",
+      "3-4-3"
+    ]
+  },
+  "emotions": {
+    "state": "CALM",
+    "history": [
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853948038
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "DRAW",
+        "streak": 0,
+        "ts": 1778853948042
+      },
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853948104
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "DRAW",
+        "streak": 0,
+        "ts": 1778853948152
+      },
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853948275
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "WIN",
+        "streak": 1,
+        "ts": 1778853948316
+      },
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853948481
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "WIN",
+        "streak": 1,
+        "ts": 1778853948526
+      },
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853948882
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "WIN",
+        "streak": 1,
+        "ts": 1778853948940
+      },
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853949243
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "DRAW",
+        "streak": 0,
+        "ts": 1778853949294
+      },
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853949357
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "WIN",
+        "streak": 1,
+        "ts": 1778853949362
+      },
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853949419
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "DRAW",
+        "streak": 0,
+        "ts": 1778853949468
+      },
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853949666
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "WIN",
+        "streak": -5,
+        "ts": 1778853949724
+      },
+      {
+        "from": "CALM",
+        "to": "ANXIOUS",
+        "event": "LOSS",
+        "streak": -3,
+        "ts": 1778853950081
+      },
+      {
+        "from": "ANXIOUS",
+        "to": "CALM",
+        "event": "WIN",
+        "streak": 1,
+        "ts": 1778853950120
+      }
+    ],
+    "ticksSinceChange": 5
+  }
+}

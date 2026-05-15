@@ -81,6 +81,8 @@ export class TransferService {
             const buyerTeam = engine.getTeam(offer.buyerTeamId);
             if (buyerTeam) {
                 soldPlayer.injury = null;
+                delete soldPlayer.suspension;
+                if (soldPlayer.clearFlag) soldPlayer.clearFlag('suspended');
                 soldPlayer.energy = 100;
                 soldPlayer.isTitular = false;
                 soldPlayer.contract = { weeksLeft: 76, salary: Math.floor((offer.offerAmount || 500000) * 0.001) };
@@ -135,6 +137,8 @@ export class TransferService {
         otherTeam.balance = (otherTeam.balance || 0) + amount;
         myTeam.balance -= amount;
         player.injury = null;
+        delete player.suspension;
+        if (player.clearFlag) player.clearFlag('suspended');
         player.energy = 100;
         player._purchasePrice = amount; // Track for Sunk Cost bias
 
@@ -202,6 +206,8 @@ export class TransferService {
         sellerTeam.balance = (sellerTeam.balance || 0) + amount;
         buyerTeam.balance -= amount;
         player.injury = null;
+        delete player.suspension;
+        if (player.clearFlag) player.clearFlag('suspended');
         player.energy = 100;
         player._purchasePrice = amount;
 

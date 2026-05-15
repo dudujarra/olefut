@@ -1,0 +1,149 @@
+
+> olefut@1.0.0 test:sinistro
+> SOAK=1 vitest run tests/integration/sinistro-100seasons-lab.test.js --testTimeout=3600000
+
+
+ RUN  v4.1.5 /Users/dudujarra/Documents/ELIFOOT
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test
+
+======================================================================
+💀 LAB: SINISTRO MODE — Iguatu
+   Div: 4 | Budget: R$0.10M | Squad: 25
+   Cenário: fallen (10% budget) | Dificuldade: Sinistro
+   Modifiers: economyMult=0.15 injuryRate=3 boardPatience=0.2
+======================================================================
+
+[DAgger] Warm-start: 31 teacher lessons loaded
+
+======================================================================
+📊 RESULTADO: 0 weeks | 0 seasons | 0 errors
+   ⏱  Total: 20.4s | Avg tick: 1.04ms
+   ⚽ W0 D0 L0 (WR: NaN%)
+   💰 Peak: R$2.5M | Low: R$-5.7M
+   👔 Board demissões: 0
+   📈 Promoções: 0 | Rebaixamentos: 0
+   🏆 Títulos: 0
+======================================================================
+
+📈 Divisão: S1:D4 → S2:D4 → S3:D4 → S4:D4 → S5:D4 → S6:D4 → S7:D4 → S8:D4 → S9:D4 → S10:D4 → S11:D4 → S12:D4 → S13:D4 → S14:D4 → S15:D4 → S16:D4 → S17:D4 → S18:D4 → S19:D4 → S20:D4
+   ... +493 temporadas
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 2. Q-values bounded ±50 (no runaway)
+  Q range: [-0.24, 25.52] | States: 17
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 3. Replay buffer bounded ≤200
+  Replay buffer: 200/200
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 4. Balance never hits -Infinity
+  Balance range: R$-5.7M → R$2.5M
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 6. Win rate > 1% (engine not stuck at perpetual loss)
+  Record: 0W 0D 0L (0.0%)
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 8. Squad never permanently < 11 at season end
+  Seasons with squad < 11: 0/513
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 9. Brain summary has convergence metrics
+  States: 17 | Updates: 19518 | Replay: 200
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 10. Alpha decayed after 500 seasons
+  α effective: 0.03388 (19518 updates)
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 11. Emotional engine stable under extreme pressure
+  Emotional state: CALM
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 12. Average tick < 200ms
+  Avg: 1.04ms | P99: 2.74ms | Max: 23.47ms
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 14. Decision buffers bounded (no memory leak)
+  Decisions: 256 | Anomalies: 411 | Successes: 2
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 15. Anomaly count within tolerance (< 500 for sinistro)
+  Anomalies: 411
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 16. Season history complete and enriched
+  Season history entries: 0 (engine cap: 100)
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 17. Board fired at least once (sinistro patience is 0.3)
+  Board firings detected: 0
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 18. Relegation happened at least once (or already at bottom)
+  Relegations: 0 | Current div: 4
+
+stdout | tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 19. At least some promotions over 500 seasons (engine allows recovery)
+  Promotions: 0
+
+ ❯ tests/integration/sinistro-100seasons-lab.test.js (20 tests | 3 failed) 20473ms
+     × 1. Zero crashes over 500 seasons 1ms
+     ✓ 2. Q-values bounded ±50 (no runaway) 0ms
+     ✓ 3. Replay buffer bounded ≤200 0ms
+     ✓ 4. Balance never hits -Infinity 0ms
+     ✓ 5. Economy recovers at least once from rock bottom 0ms
+     × 6. Win rate > 1% (engine not stuck at perpetual loss) 0ms
+     ✓ 7. Win rate < 95% (sinistro should be punishing) 0ms
+     ✓ 8. Squad never permanently < 11 at season end 0ms
+     ✓ 9. Brain summary has convergence metrics 0ms
+     ✓ 10. Alpha decayed after 500 seasons 0ms
+     ✓ 11. Emotional engine stable under extreme pressure 0ms
+     ✓ 12. Average tick < 200ms 3ms
+     ✓ 13. No week overflow (currentWeek bounded) 0ms
+     ✓ 14. Decision buffers bounded (no memory leak) 0ms
+     ✓ 15. Anomaly count within tolerance (< 500 for sinistro) 0ms
+     × 16. Season history complete and enriched 1ms
+     ✓ 17. Board fired at least once (sinistro patience is 0.3) 0ms
+     ✓ 18. Relegation happened at least once (or already at bottom) 0ms
+     ✓ 19. At least some promotions over 500 seasons (engine allows recovery) 0ms
+     ✓ 20. Difficulty modifiers were actually applied 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 1. Zero crashes over 500 seasons
+AssertionError: expected 0 to be greater than or equal to 500
+ ❯ tests/integration/sinistro-100seasons-lab.test.js:185:37
+    183|
+    184|     it('1. Zero crashes over 500 seasons', () => {
+    185|         expect(stats.seasonsPlayed).toBeGreaterThanOrEqual(SEASONS);
+       |                                     ^
+    186|         expect(stats.errorCount).toBe(0);
+    187|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 6. Win rate > 1% (engine not stuck at perpetual loss)
+AssertionError: expected 0 to be greater than 0.01
+ ❯ tests/integration/sinistro-100seasons-lab.test.js:226:25
+    224|         console.log(`  Record: ${stats.wins}W ${stats.draws}D ${stats.…
+    225|         // Sinistro with worst team — even 1% wins means engine isn't …
+    226|         expect(winRate).toBeGreaterThan(0.01);
+       |                         ^
+    227|     });
+    228|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/integration/sinistro-100seasons-lab.test.js > 💀 Lab: Iguatu × Sinistro — 500 Seasons Stress Test > 16. Season history complete and enriched
+AssertionError: expected +0 to be 100 // Object.is equality
+
+- Expected
++ Received
+
+- 100
++ 0
+
+ ❯ tests/integration/sinistro-100seasons-lab.test.js:315:27
+    313|         // AutoPlayLogger caps seasonHistory at 100 entries (ring buff…
+    314|         // So we verify: length === 100 (full buffer) AND last entry i…
+    315|         expect(sh.length).toBe(100);
+       |                           ^
+    316|         expect(sh[sh.length - 1].season).toBeGreaterThanOrEqual(SEASON…
+    317|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 17 passed (20)
+   Start at  19:52:48
+   Duration  21.82s (transform 680ms, setup 14ms, import 1.24s, tests 20.47s, environment 0ms)
+

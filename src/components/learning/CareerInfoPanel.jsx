@@ -82,7 +82,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                 balance: team?.balance || 0,
                 squadSize: team?.squad?.length || 0,
                 avgOvr: team?.squad?.length
-                    ? Math.round(team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / team.squad.length)
+                    ? Math.round(team.squad.reduce((s, p) => s + (p.ovr || 0), 0) / (team.squad.length || 1))
                     : 0,
                 reputation: legacy.reputation || 30,
                 titles: legacy.titles || [],

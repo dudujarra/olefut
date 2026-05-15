@@ -126,6 +126,16 @@ export class TelemetryAggregator {
         }
         if (payload.squadOvrBySeason) {
             this.history.squadOvrBySeason = { ...this.history.squadOvrBySeason, ...payload.squadOvrBySeason };
+            
+            // Limit to last 100 seasons to prevent infinite memory bloat
+            const keys = Object.keys(this.history.squadOvrBySeason).sort((a, b) => parseInt(a) - parseInt(b));
+            if (keys.length > 100) {
+                const pruned = {};
+                keys.slice(-100).forEach(k => {
+                    pruned[k] = this.history.squadOvrBySeason[k];
+                });
+                this.history.squadOvrBySeason = pruned;
+            }
         }
         if (typeof payload.weeksPlayed === 'number') this.history.weeksPlayed = payload.weeksPlayed;
         if (typeof payload.elapsedMs === 'number') this.history.elapsedMs = payload.elapsedMs;

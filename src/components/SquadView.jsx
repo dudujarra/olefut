@@ -231,6 +231,8 @@ export function SquadView() {
                                                 <td className="ef-squad__td">
                                                     {p.injury ? (
                                                         <FirstAid weight="fill" size={16} className="ef-squad__status-medical" />
+                                                    ) : p.suspension ? (
+                                                        <div className="ef-squad__status-medical" style={{color: 'var(--danger)', fontSize: '9px', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%'}}>SUSP</div>
                                                     ) : (
                                                         <div
                                                             onClick={(e) => { e.stopPropagation(); toggleTitular(p.id); }}
@@ -260,6 +262,10 @@ export function SquadView() {
                                                             <div className="ef-squad__sub-label ef-squad__sub-label--danger">
                                                                 LESIONADO{p.injury?.weeksRemaining ? ` (${p.injury.weeksRemaining} SEM)` : ''}
                                                             </div>
+                                                        ) : p.suspension ? (
+                                                            <div className="ef-squad__sub-label ef-squad__sub-label--danger">
+                                                                SUSPENSO ({p.suspension} JOG)
+                                                            </div>
                                                         ) : (
                                                             <div className="ef-squad__sub-label">
                                                                 {p.age} ANOS{p.specialty ? ` • ${p.specialty}` : ''}
@@ -282,12 +288,12 @@ export function SquadView() {
                                                 <td className="ef-squad__td">
                                                     <div className="ef-squad__flex-center-gap">
                                                         <button
-                                                            onClick={(e) => { e.stopPropagation(); if (!p.injury) toggleTitular(p.id); }}
-                                                            disabled={!!p.injury}
-                                                            title={p.injury ? 'Lesionado — fora da escalação até recuperar' : (isSelected ? 'Mover para reservas' : 'Escalar como titular')}
-                                                            className={`ef-squad__action-pill${p.injury ? ' ef-squad__action-pill--blocked' : ''}${isSelected ? ' ef-squad__action-pill--active' : ''}`}
+                                                            onClick={(e) => { e.stopPropagation(); if (!p.injury && !p.suspension) toggleTitular(p.id); }}
+                                                            disabled={!!p.injury || !!p.suspension}
+                                                            title={p.injury ? 'Lesionado — fora da escalação até recuperar' : p.suspension ? 'Suspenso — fora da escalação' : (isSelected ? 'Mover para reservas' : 'Escalar como titular')}
+                                                            className={`ef-squad__action-pill${(p.injury || p.suspension) ? ' ef-squad__action-pill--blocked' : ''}${isSelected ? ' ef-squad__action-pill--active' : ''}`}
                                                         >
-                                                            {p.injury ? 'BLOQ.' : (isSelected ? 'TIT.' : 'ESCALAR')}
+                                                            {(p.injury || p.suspension) ? 'BLOQ.' : (isSelected ? 'TIT.' : 'ESCALAR')}
                                                         </button>
                                                         {!p.isTitular && !p.injury && p.age <= 23 && (
                                                             <button title="Emprestar (jovem ganha minutos em outro clube; volta com XP)" onClick={(e) => { e.stopPropagation(); handleLoan(p.id); }} className="ef-icon-btn ef-icon-btn--info">

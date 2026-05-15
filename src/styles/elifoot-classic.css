@@ -1,0 +1,458 @@
+/**
+ * Elifoot Classic Features — Bicho, Ticket Pricing, Star Auction
+ * Design tokens: var(--ef-color-*), var(--ef-radius-*), var(--ef-shadow-*)
+ */
+
+/* ==========================================================================
+   BICHO (Match Bonus) — PreMatch Step 2
+   ========================================================================== */
+.ef-bicho {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ef-space-200);
+}
+
+.ef-bicho__title {
+    display: flex;
+    align-items: center;
+    gap: var(--ef-space-100);
+    font-family: var(--ef-font-sans);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ef-color-accent-gold);
+}
+
+.ef-bicho__tiers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--ef-space-100);
+}
+
+@media (max-width: 600px) {
+    .ef-bicho__tiers {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.ef-bicho__tier {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--ef-space-50);
+    padding: var(--ef-space-200) var(--ef-space-100);
+    background: var(--ef-color-neutral-bg-elev);
+    border: 2px solid var(--ef-color-border-subtle);
+    border-radius: var(--ef-radius-md);
+    cursor: pointer;
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 100ms ease;
+    text-align: center;
+}
+
+.ef-bicho__tier:hover {
+    border-color: var(--ef-color-grass-300);
+    transform: translateY(-1px);
+}
+
+.ef-bicho__tier--active {
+    border-color: var(--ef-color-accent-gold);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.15), inset 0 0 0 1px rgba(255, 215, 0, 0.1);
+    background: var(--ef-color-neutral-bg-card);
+}
+
+.ef-bicho__tier-name {
+    font-family: var(--ef-font-sans);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ef-color-neutral-text-hi);
+}
+
+.ef-bicho__tier-cost {
+    font-family: var(--ef-font-mono);
+    font-size: 0.7rem;
+    color: var(--ef-color-neutral-text-md);
+}
+
+.ef-bicho__tier-buff {
+    font-family: var(--ef-font-mono);
+    font-size: 0.65rem;
+    color: var(--ef-color-func-success);
+    opacity: 0.85;
+}
+
+.ef-bicho__tier-risk {
+    font-family: var(--ef-font-mono);
+    font-size: 0.6rem;
+    color: var(--ef-color-func-danger);
+    opacity: 0.7;
+}
+
+.ef-bicho__summary {
+    display: flex;
+    align-items: center;
+    gap: var(--ef-space-100);
+    padding: var(--ef-space-100) var(--ef-space-200);
+    background: var(--ef-color-neutral-bg-card);
+    border-radius: var(--ef-radius-sm);
+    font-family: var(--ef-font-mono);
+    font-size: 0.75rem;
+    color: var(--ef-color-neutral-text-md);
+}
+
+.ef-bicho__summary--warn {
+    border-left: 3px solid var(--ef-color-func-warning);
+    color: var(--ef-color-func-warning);
+}
+
+/* ==========================================================================
+   TICKET PRICING — PreMatch Step 2
+   ========================================================================== */
+.ef-ticket {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ef-space-200);
+}
+
+.ef-ticket__title {
+    display: flex;
+    align-items: center;
+    gap: var(--ef-space-100);
+    font-family: var(--ef-font-sans);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ef-color-func-info);
+}
+
+.ef-ticket__options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--ef-space-100);
+}
+
+@media (max-width: 480px) {
+    .ef-ticket__options {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ef-ticket__option {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ef-space-50);
+    padding: var(--ef-space-200);
+    background: var(--ef-color-neutral-bg-elev);
+    border: 2px solid var(--ef-color-border-subtle);
+    border-radius: var(--ef-radius-md);
+    cursor: pointer;
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 100ms ease;
+}
+
+.ef-ticket__option:hover {
+    border-color: var(--ef-color-grass-300);
+    transform: translateY(-1px);
+}
+
+.ef-ticket__option--active {
+    border-color: var(--ef-color-func-info);
+    box-shadow: 0 0 12px rgba(58, 125, 206, 0.15), inset 0 0 0 1px rgba(58, 125, 206, 0.1);
+    background: var(--ef-color-neutral-bg-card);
+}
+
+.ef-ticket__option-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ef-ticket__option-name {
+    font-family: var(--ef-font-sans);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ef-color-neutral-text-hi);
+}
+
+.ef-ticket__option-desc {
+    font-family: var(--ef-font-mono);
+    font-size: 0.65rem;
+    line-height: 1.4;
+    color: var(--ef-color-neutral-text-lo);
+}
+
+.ef-ticket__stat-row {
+    display: flex;
+    gap: var(--ef-space-200);
+    flex-wrap: wrap;
+}
+
+.ef-ticket__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ef-ticket__stat-label {
+    font-family: var(--ef-font-mono);
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ef-color-neutral-text-lo);
+}
+
+.ef-ticket__stat-value {
+    font-family: var(--ef-font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.ef-ticket__stat-value--up {
+    color: var(--ef-color-func-success);
+}
+
+.ef-ticket__stat-value--neutral {
+    color: var(--ef-color-neutral-text-md);
+}
+
+.ef-ticket__stat-value--down {
+    color: var(--ef-color-func-danger);
+}
+
+/* ==========================================================================
+   STAR AUCTION — MarketView Tab
+   ========================================================================== */
+.ef-auction {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ef-space-300);
+}
+
+.ef-auction__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--ef-space-200);
+    padding: var(--ef-space-400) var(--ef-space-200);
+    text-align: center;
+}
+
+.ef-auction__empty-icon {
+    color: var(--ef-color-neutral-text-lo);
+    opacity: 0.5;
+}
+
+.ef-auction__empty-text {
+    font-family: var(--ef-font-sans);
+    font-size: 0.85rem;
+    color: var(--ef-color-neutral-text-lo);
+}
+
+.ef-auction__empty-hint {
+    font-family: var(--ef-font-mono);
+    font-size: 0.7rem;
+    color: var(--ef-color-neutral-text-lo);
+    opacity: 0.7;
+}
+
+.ef-auction__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ef-space-200);
+    padding: var(--ef-space-300);
+    background: var(--ef-color-neutral-bg-card);
+    border: 2px solid var(--ef-color-accent-gold-dark);
+    border-radius: var(--ef-radius-md);
+    overflow: hidden;
+}
+
+.ef-auction__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+        var(--ef-color-accent-gold) 0%,
+        var(--ef-color-accent-gold-dark) 50%,
+        var(--ef-color-accent-gold) 100%
+    );
+}
+
+.ef-auction__player-row {
+    display: flex;
+    align-items: center;
+    gap: var(--ef-space-200);
+}
+
+.ef-auction__player-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ef-auction__player-name {
+    font-family: var(--ef-font-sans);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    color: var(--ef-color-neutral-text-hi);
+    text-transform: uppercase;
+}
+
+.ef-auction__player-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--ef-space-100);
+    font-family: var(--ef-font-mono);
+    font-size: 0.7rem;
+    color: var(--ef-color-neutral-text-md);
+}
+
+.ef-auction__ovr {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--ef-color-accent-gold);
+}
+
+.ef-auction__bids-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ef-space-100);
+}
+
+.ef-auction__bid-title {
+    font-family: var(--ef-font-sans);
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ef-color-neutral-text-lo);
+}
+
+.ef-auction__bid-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--ef-space-100) var(--ef-space-200);
+    background: var(--ef-color-neutral-bg-elev);
+    border-radius: var(--ef-radius-sm);
+}
+
+.ef-auction__bid-row--mine {
+    border-left: 3px solid var(--ef-color-func-info);
+}
+
+.ef-auction__bid-row--winning {
+    border-left: 3px solid var(--ef-color-func-success);
+}
+
+.ef-auction__bid-row--losing {
+    border-left: 3px solid var(--ef-color-func-danger);
+}
+
+.ef-auction__bid-team {
+    font-family: var(--ef-font-sans);
+    font-size: 0.75rem;
+    color: var(--ef-color-neutral-text-hi);
+}
+
+.ef-auction__bid-value {
+    font-family: var(--ef-font-mono);
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.ef-auction__raise-form {
+    display: flex;
+    align-items: center;
+    gap: var(--ef-space-100);
+}
+
+.ef-auction__raise-input {
+    flex: 1;
+    padding: var(--ef-space-100) var(--ef-space-200);
+    background: var(--ef-color-bg-input);
+    border: 1px solid var(--ef-color-border-subtle);
+    border-radius: var(--ef-radius-sm);
+    color: var(--ef-color-neutral-text-hi);
+    font-family: var(--ef-font-mono);
+    font-size: 0.8rem;
+}
+
+.ef-auction__raise-input:focus {
+    outline: var(--ef-focus-ring);
+    border-color: var(--ef-color-accent-gold);
+}
+
+.ef-auction__countdown {
+    display: flex;
+    align-items: center;
+    gap: var(--ef-space-100);
+    padding: var(--ef-space-100);
+    font-family: var(--ef-font-mono);
+    font-size: 0.7rem;
+    color: var(--ef-color-neutral-text-lo);
+}
+
+.ef-auction__countdown-icon {
+    color: var(--ef-color-func-warning);
+    animation: ef-pulse-soft 2s ease-in-out infinite;
+}
+
+@keyframes ef-pulse-soft {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Active check indicator on selected bicho/ticket */
+.ef-bicho__check,
+.ef-ticket__check {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    color: var(--ef-color-accent-gold);
+}
+
+.ef-ticket__check {
+    color: var(--ef-color-func-info);
+}
+
+/* ==========================================================================
+   TAB BADGE — Notification count on auction tab
+   ========================================================================== */
+.ef-market__tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: var(--ef-color-func-danger);
+    color: var(--ef-color-neutral-text-hi);
+    font-family: var(--ef-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-left: 6px;
+}
+
+/* ==========================================================================
+   PRE-MATCH CLASSIC SECTION SPACING
+   ========================================================================== */
+.ef-prematch__classic-section {
+    padding: var(--ef-space-200) 0;
+}
+
+.ef-prematch__classic-section + .ef-prematch__classic-section {
+    padding-top: 0;
+}

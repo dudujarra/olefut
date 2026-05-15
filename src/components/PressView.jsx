@@ -43,7 +43,7 @@ export function PressView() {
         const pos = standings.findIndex(s => s.teamId === team.id) + 1;
         const total = standings.length;
         const streak = engine.managerStats?.streak || 0;
-        const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / team.squad.length;
+        const avgMorale = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / (team.squad.length || 1);
         return generateQuestion(streak, pos, total, avgMorale);
     });
 

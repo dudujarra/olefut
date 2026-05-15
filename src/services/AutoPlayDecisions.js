@@ -260,14 +260,14 @@ export class AutoPlayDecisions {
             if (team?.squad && typeof engine.triggerYouthIntake === 'function') {
                 const squadSize = team.squad.length;
                 let triggered = false;
-                // EMERGENCY: squad <11 = below match minimum. Double call every tick.
-                if (squadSize < 11) {
+                // EMERGENCY: squad <16 = below match minimum. Double call every tick.
+                if (squadSize < 16) {
                     engine.triggerYouthIntake();
                     engine.triggerYouthIntake();
                     triggered = true;
                 }
-                // ROUTINE: squad <16 every 3 weeks
-                else if (squadSize < 16 && parent.stats.weeksPlayed % 3 === 0) {
+                // ROUTINE: squad <20 every 3 weeks
+                else if (squadSize < 20 && parent.stats.weeksPlayed % 3 === 0) {
                     engine.triggerYouthIntake();
                     triggered = true;
                 }
@@ -275,7 +275,7 @@ export class AutoPlayDecisions {
                     parent._logDecision('SQUAD_REPLENISH', {
                         squadBefore: squadSize,
                         squadAfter: team.squad.length,
-                        emergency: squadSize < 11
+                        emergency: squadSize < 16
                     }, 0);
                 }
             }
@@ -378,7 +378,25 @@ export class AutoPlayDecisions {
                 // SPEC-122 BUG-053: Bot scouts league + makes outgoing buy offers every 4 weeks.
                 // Picks weakest position, finds upgrade target, offers 1.3-1.5× value.
                 // BUG-080: skip buys when balance is negative (salary drain spiral prevention)
-                if (parent.stats.weeksPlayed % 4 === 0 && typeof engine.scoutLeague === 'function' && (team.balance || 0) > 0) {
+                // SPEC-NEW: Urgência Falência - assinar Free Agents (valor 0)
+                const squadSize = team.squad.length;
+                if ((team.balance || 0) < 0) {
+                    if (squadSize < 18 && engine.marketPlayers && engine.marketPlayers.length > 0) {
+                        const freeAgents = engine.marketPlayers.sort((a, b) => b.ovr - a.ovr);
+                        const chosen = freeAgents[0];
+                        if (chosen) {
+                            // Directly sign free agent (no transfer fee)
+                            engine.marketPlayers = engine.marketPlayers.filter(p => p.id !== chosen.id);
+                            chosen.contract = { weeksLeft: 38, salary: 2000 };
+                            team.squad.push(chosen);
+                            parent.stats.transfers++;
+                            parent._logSuccess('FREE_AGENT', `Assinou o agente livre ${chosen.name} (OVR${chosen.ovr}) para evitar falência.`);
+                            return; // Don't return { type: "BUY_FREE_AGENT" }, just continue the function, it doesn't return objects here!
+                        }
+                    }
+                    return; // Return undefined to skip the scoutLeague step below
+                }
+                if (parent.stats.weeksPlayed % 4 === 0 && typeof engine.scoutLeague === 'function') {
                     try {
                         // Find weakest position in squad
                         const positions = ['GOL', 'DEF', 'MEI', 'ATA'];

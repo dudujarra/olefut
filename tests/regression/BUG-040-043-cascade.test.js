@@ -33,30 +33,31 @@ describe('BUG-043 — startNewSeason increments seasonNumber', () => {
 });
 
 describe('BUG-040 — emergency squad replenish in startNewSeason', () => {
-    test('squad < 11 triggers double youth intake on rollover', () => {
+    test('NPC squad < 16 triggers emergency replenish on rollover', () => {
+        const engine = new Engine();
+        engine.initGame('TestBot', 1, 'manager', 'livre');
+        const npcTeam = engine.teams.find(t => t.id !== engine.manager.teamId);
+        if (!npcTeam) return;
+        // Simulate severely depleted squad
+        npcTeam.squad = npcTeam.squad.slice(0, 8);
+        const before = npcTeam.squad.length;
+        engine.startNewSeason();
+        // Should trigger emergency replenish for NPC
+        expect(npcTeam.squad.length).toBeGreaterThan(before);
+        expect(npcTeam.squad.length).toBeGreaterThanOrEqual(16);
+    });
+
+    test('Manager squad is excluded from emergency replenish on rollover', () => {
         const engine = new Engine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         const team = engine.getTeam(engine.manager.teamId);
         if (!team) return;
-        // Simulate severely depleted squad
+        // Squad is severely depleted
         team.squad = team.squad.slice(0, 8);
         const before = team.squad.length;
         engine.startNewSeason();
-        // Should trigger emergency 2× youth intake
-        expect(team.squad.length).toBeGreaterThan(before);
-    });
-
-    test('squad >= 11 no emergency intake on rollover', () => {
-        const engine = new Engine();
-        engine.initGame('TestBot', 1, 'manager', 'livre');
-        const team = engine.getTeam(engine.manager.teamId);
-        if (!team) return;
-        // Squad is normal sized
-        const before = team.squad.length;
-        engine.startNewSeason();
-        // No emergency boost (still might get youth in season-end if applicable)
-        // Just ensure no crash
-        expect(team.squad.length).toBeGreaterThanOrEqual(before);
+        // Manager must handle their own squad size; no bailouts in Sinistro
+        expect(team.squad.length).toBe(before);
     });
 });
 

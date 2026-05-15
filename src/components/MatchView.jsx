@@ -617,7 +617,7 @@ export function MatchView() {
 
     // === HALF TIME ===
     if (phase === 'halftime') {
-        const subs = team.squad.filter(p => !p.isTitular && !p.injury).slice(0, 5);
+        const subs = team.squad.filter(p => !p.isTitular && !p.injury && !p.suspension).slice(0, 5);
         const tiredPlayers = team.squad.filter(p => p.isTitular && p.energy < 50);
 
         return (

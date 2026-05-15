@@ -70,13 +70,13 @@ export function DashboardView() {
         const standings = engine.getStandings ? engine.getStandings(team.zone, team.division) : [];
         const myPos = standings.findIndex(s => s.teamId === team.id) + 1;
         const avgOvr = team.squad?.length
-            ? Math.round(team.squad.reduce((s, p) => s + (p.ovr || 50), 0) / team.squad.length)
+            ? Math.round(team.squad.reduce((s, p) => s + (p.ovr || 50), 0) / (team.squad.length || 1))
             : 50;
         const divisionAvg = standings.length
             ? Math.round(standings.reduce((s, row) => {
                 const t = engine.getTeam ? engine.getTeam(row.teamId) : null;
                 if (!t || !t.squad) return s;
-                return s + Math.round(t.squad.reduce((ss, p) => ss + (p.ovr || 50), 0) / t.squad.length);
+                return s + Math.round(t.squad.reduce((ss, p) => ss + (p.ovr || 50), 0) / (t.squad.length || 1));
             }, 0) / standings.length)
             : 50;
         try {
@@ -97,8 +97,8 @@ export function DashboardView() {
     const sectors = engine.getTeamSectors(team.id);
     const standings = engine.getStandings(team.zone, team.division);
     const pos = standings.findIndex(s => s.teamId === team.id) + 1;
-    const avgMoral = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / team.squad.length;
-    const avgEnergy = team.squad.reduce((s, p) => s + p.energy, 0) / team.squad.length;
+    const avgMoral = team.squad.reduce((s, p) => s + (p.moral || 50), 0) / (team.squad.length || 1);
+    const avgEnergy = team.squad.reduce((s, p) => s + (p.energy || 50), 0) / (team.squad.length || 1);
     const stats = engine.managerStats;
     const cond = engine.matchCondition;
     const boardStatus = engine.board ? engine.board.getStatus() : null;

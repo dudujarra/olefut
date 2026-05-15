@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { FormationBoard } from './FormationBoard';
 import { EfClubBadge, EfButton, EfModal } from './ui';
-import { MapPin, Trophy, ShieldChevron, Warning, GameController, Lightbulb, ChartBar, Sword } from '@phosphor-icons/react';
+import { MapPin, Trophy, ShieldChevron, Warning, GameController, Lightbulb, ChartBar, Sword, CurrencyDollar, Ticket, CheckCircle, Gavel } from '@phosphor-icons/react';
 import { suggestTactic } from '../engine/TacticSuggester';
+import { MATCH_BONUS_TIERS } from '../engine/MatchBonusSystem';
+import { TICKET_POLICIES } from '../engine/TicketPricingSystem';
 import '../styles/pre-match-screen.css';
+import '../styles/elifoot-classic.css';
 
 const SECTOR_KEYS = [
     { key: 'goalkeeper', label: 'GOL' },
@@ -32,6 +35,24 @@ function computeWinProbability(ourSectors, oppSectors, isHome) {
 
 export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout }) {
     const [showFormationModal, setShowFormationModal] = useState(false);
+    const [selectedBicho, setSelectedBicho] = useState(engine?.pendingMatchBonus?.tierId || 'none');
+    const [selectedTicket, setSelectedTicket] = useState(engine?.ticketPolicy || 'normal');
+    const [bichoMsg, setBichoMsg] = useState('');
+    const [ticketMsg, setTicketMsg] = useState('');
+
+    const handleBichoChange = (tierId) => {
+        if (!engine) return;
+        const result = engine.setMatchBonus(tierId);
+        setSelectedBicho(tierId);
+        setBichoMsg(result.msg || '');
+    };
+
+    const handleTicketChange = (policyId) => {
+        if (!engine) return;
+        const result = engine.setTicketPolicy(policyId);
+        setSelectedTicket(policyId);
+        setTicketMsg(result.msg || '');
+    };
 
     if (!team) return null;
     const opp = context?.opponent;
@@ -248,6 +269,109 @@ export function PreMatchScreen({ team, context, sectors, engine, onSaveLayout })
                     )}
                 </section>
             )}
+
+            {/* ELIFOOT CLASSIC: BICHO (Match Bonus) */}
+            <section className="ef-prematch__classic-section">
+                <div className="ef-bicho">
+                    <div className="ef-bicho__title">
+                        <CurrencyDollar size={18} weight="fill" /> BICHO (PREMIAÇÃO)
+                    </div>
+                    <div className="ef-bicho__tiers">
+                        {MATCH_BONUS_TIERS.map(tier => {
+                            const isActive = selectedBicho === tier.id;
+                            const titulares = (team.squad || []).filter(p => p.isTitular && !p.injury);
+                            const totalCost = tier.costPerPlayer * titulares.length;
+                            return (
+                                <div
+                                    key={tier.id}
+                                    className={`ef-bicho__tier${isActive ? ' ef-bicho__tier--active' : ''}`}
+                                    onClick={() => handleBichoChange(tier.id)}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-pressed={isActive}
+                                    onKeyDown={e => e.key === 'Enter' && handleBichoChange(tier.id)}
+                                >
+                                    {isActive && <CheckCircle size={16} weight="fill" className="ef-bicho__check" />}
+                                    <div className="ef-bicho__tier-name">{tier.emoji} {tier.name}</div>
+                                    {tier.costPerPlayer > 0 ? (
+                                        <>
+                                            <div className="ef-bicho__tier-cost">R$ {(totalCost / 1000).toFixed(0)}K total</div>
+                                            <div className="ef-bicho__tier-buff">+{Math.round(tier.ovrBuff * 100)}% setores</div>
+                                            <div className="ef-bicho__tier-risk">Derrota: {tier.frustrationPenalty} moral</div>
+                                        </>
+                                    ) : (
+                                        <div className="ef-bicho__tier-cost">Sem custo</div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                    {bichoMsg && (
+                        <div className={`ef-bicho__summary${selectedBicho !== 'none' ? ' ef-bicho__summary--warn' : ''}`}>
+                            <Gavel size={14} /> {bichoMsg}
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            {/* ELIFOOT CLASSIC: TICKET PRICING */}
+            <section className="ef-prematch__classic-section">
+                <div className="ef-ticket">
+                    <div className="ef-ticket__title">
+                        <Ticket size={18} weight="fill" /> POLÍTICA DE INGRESSOS
+                    </div>
+                    <div className="ef-ticket__options">
+                        {TICKET_POLICIES.map(policy => {
+                            const isActive = selectedTicket === policy.id;
+                            const priceMod = policy.priceMultiplier;
+                            const attendMod = policy.attendanceMultiplier;
+                            const homeMod = policy.homeAdvantageBoost;
+                            return (
+                                <div
+                                    key={policy.id}
+                                    className={`ef-ticket__option${isActive ? ' ef-ticket__option--active' : ''}`}
+                                    onClick={() => handleTicketChange(policy.id)}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-pressed={isActive}
+                                    onKeyDown={e => e.key === 'Enter' && handleTicketChange(policy.id)}
+                                >
+                                    {isActive && <CheckCircle size={16} weight="fill" className="ef-ticket__check" />}
+                                    <div className="ef-ticket__option-header">
+                                        <span className="ef-ticket__option-name">{policy.emoji} {policy.name}</span>
+                                    </div>
+                                    <div className="ef-ticket__stat-row">
+                                        <div className="ef-ticket__stat">
+                                            <span className="ef-ticket__stat-label">Renda</span>
+                                            <span className={`ef-ticket__stat-value ${priceMod > 1 ? 'ef-ticket__stat-value--up' : priceMod < 1 ? 'ef-ticket__stat-value--down' : 'ef-ticket__stat-value--neutral'}`}>
+                                                {priceMod > 1 ? '+' : ''}{Math.round((priceMod - 1) * 100)}%
+                                            </span>
+                                        </div>
+                                        <div className="ef-ticket__stat">
+                                            <span className="ef-ticket__stat-label">Público</span>
+                                            <span className={`ef-ticket__stat-value ${attendMod > 1 ? 'ef-ticket__stat-value--up' : attendMod < 1 ? 'ef-ticket__stat-value--down' : 'ef-ticket__stat-value--neutral'}`}>
+                                                {attendMod > 1 ? '+' : ''}{Math.round((attendMod - 1) * 100)}%
+                                            </span>
+                                        </div>
+                                        <div className="ef-ticket__stat">
+                                            <span className="ef-ticket__stat-label">Casa</span>
+                                            <span className={`ef-ticket__stat-value ${homeMod > 1 ? 'ef-ticket__stat-value--up' : homeMod < 1 ? 'ef-ticket__stat-value--down' : 'ef-ticket__stat-value--neutral'}`}>
+                                                {homeMod > 1 ? '+' : homeMod < 1 ? '' : ''}{Math.round((homeMod - 1) * 100)}%
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="ef-ticket__option-desc">{policy.description}</div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    {ticketMsg && (
+                        <div className="ef-bicho__summary">
+                            <Ticket size={14} /> {ticketMsg}
+                        </div>
+                    )}
+                </div>
+            </section>
 
             {showFormationModal && (
                 <EfModal

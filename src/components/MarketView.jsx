@@ -6,8 +6,9 @@ import { Tooltip } from './Tooltip';
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
-import { ShoppingCart, Bank, CurrencyDollar, MagnifyingGlass, Funnel, Users, Storefront, ChartLineUp, Handshake, GlobeHemisphereWest, CheckCircle } from '@phosphor-icons/react';
+import { ShoppingCart, Bank, CurrencyDollar, MagnifyingGlass, Funnel, Users, Storefront, ChartLineUp, Handshake, GlobeHemisphereWest, CheckCircle, Gavel, Timer, ArrowUp, Star } from '@phosphor-icons/react';
 import '../styles/market-view.css';
+import '../styles/elifoot-classic.css';
 
 export function MarketView() {
     const { gameState, changeView, getEngine, forceUpdate, getDashboardView } = useGame();
@@ -30,6 +31,16 @@ export function MarketView() {
     /* eslint-disable react-hooks/immutability */
     const handleBuy = useCallback((player) => {
         if (!team || team.balance < player.value) return;
+
+        // Elifoot Classic: Star Auction — jogadores de alto OVR vão a leilão
+        if (engine.requiresAuction && engine.requiresAuction(player)) {
+            const result = engine.startAuction(player, player.value);
+            setLog(result.msg?.toUpperCase() || 'LEILÃO INICIADO!');
+            if (result.success) setTab('auction');
+            forceUpdate();
+            return;
+        }
+
         const idx = engine.marketPlayers.findIndex(p => p.id === player.id);
         if (idx === -1) return;
         team.balance -= player.value;
@@ -159,6 +170,12 @@ export function MarketView() {
                     </EfButton>
                     <EfButton className="ef-market__tab-button" variant={tab === 'sell' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('sell')}>
                         <CurrencyDollar size={20} /> VENDER
+                    </EfButton>
+                    <EfButton className="ef-market__tab-button" variant={tab === 'auction' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('auction')}>
+                        <Gavel size={20} /> LEILÃO
+                        {(engine.activeAuctions?.length > 0) && (
+                            <span className="ef-market__tab-badge">{engine.activeAuctions.length}</span>
+                        )}
                     </EfButton>
                     <EfButton className="ef-market__tab-button" variant={tab === 'scout' ? 'primary' : 'secondary'} size="lg" onClick={() => setTab('scout')}>
                         <GlobeHemisphereWest size={20} /> SCOUTING
@@ -312,6 +329,107 @@ export function MarketView() {
                                     }}>PEDIR MAIS</EfButton>
                                     <EfButton variant="danger" size="md" onClick={() => setNegotiation(null)}>CANCELAR</EfButton>
                                 </div>
+                            </div>
+                        )}
+                    </EfPanel>
+                )}
+
+                {/* === AUCTION TAB === */}
+                {tab === 'auction' && (
+                    <EfPanel variant="default" padding="md">
+                        <div className="ef-market__section-title">
+                            <Gavel size={20} /> LEILÕES ATIVOS
+                        </div>
+
+                        {(!engine.activeAuctions || engine.activeAuctions.length === 0) ? (
+                            <div className="ef-auction__empty">
+                                <Star size={48} className="ef-auction__empty-icon" />
+                                <div className="ef-auction__empty-text">
+                                    NENHUM LEILÃO ATIVO
+                                </div>
+                                <div className="ef-auction__empty-hint">
+                                    Jogadores com OVR ≥ 78 são automaticamente enviados a leilão ao tentar comprar.
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="ef-auction">
+                                {engine.activeAuctions.map(auction => {
+                                    const allBids = [
+                                        { teamName: team.name, bid: auction.managerBid, isMine: true },
+                                        ...(auction.npcBids || []).map(b => ({ ...b, isMine: false })),
+                                    ].sort((a, b) => b.bid - a.bid);
+
+                                    const highestBid = allBids[0]?.bid || 0;
+                                    const isWinning = auction.managerBid >= highestBid;
+                                    const weeksLeft = Math.max(0, (auction.weekResolves || 0) - (engine.currentWeek || 0));
+
+                                    return (
+                                        <div key={auction.id} className="ef-auction__card">
+                                            <div className="ef-auction__player-row">
+                                                <PlayerAvatar name={auction.playerName} size={64} />
+                                                <div className="ef-auction__player-info">
+                                                    <div className="ef-auction__player-name">{auction.playerName}</div>
+                                                    <div className="ef-auction__player-meta">
+                                                        <span className="ef-pos-badge">{auction.playerPosition}</span>
+                                                        <span>Valor: R$ {((auction.playerValue || 0) / 1_000_000).toFixed(1)}M</span>
+                                                    </div>
+                                                </div>
+                                                <div className="ef-auction__ovr">{auction.playerOvr}</div>
+                                            </div>
+
+                                            <div className="ef-auction__bids-section">
+                                                <div className="ef-auction__bid-title">LANCES</div>
+                                                {allBids.map((b, i) => {
+                                                    const isHighest = b.bid === highestBid;
+                                                    let mod = '';
+                                                    if (b.isMine) mod = isHighest ? ' ef-auction__bid-row--winning' : ' ef-auction__bid-row--losing';
+                                                    else if (isHighest) mod = ' ef-auction__bid-row--winning';
+
+                                                    return (
+                                                        <div key={i} className={`ef-auction__bid-row${b.isMine ? ' ef-auction__bid-row--mine' : ''}${mod}`}>
+                                                            <span className="ef-auction__bid-team">
+                                                                {b.isMine ? `${b.teamName} (VOCÊ)` : b.teamName}
+                                                            </span>
+                                                            <span className="ef-auction__bid-value">
+                                                                R$ {(b.bid / 1_000_000).toFixed(1)}M
+                                                                {isHighest && ' ✓'}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+
+                                            <div className="ef-auction__raise-form">
+                                                <EfButton
+                                                    variant="primary"
+                                                    size="md"
+                                                    onClick={() => {
+                                                        const newBid = Math.floor(auction.managerBid * 1.15);
+                                                        const result = engine.raiseBid(auction.id, newBid);
+                                                        setLog(result.msg?.toUpperCase() || 'LANCE ATUALIZADO!');
+                                                        forceUpdate();
+                                                    }}
+                                                >
+                                                    <ArrowUp size={16} /> AUMENTAR +15%
+                                                    (R$ {(Math.floor(auction.managerBid * 1.15) / 1_000_000).toFixed(1)}M)
+                                                </EfButton>
+                                            </div>
+
+                                            <div className="ef-auction__countdown">
+                                                <Timer size={16} className="ef-auction__countdown-icon" />
+                                                {weeksLeft > 0
+                                                    ? `Resolve em ${weeksLeft} semana${weeksLeft > 1 ? 's' : ''}`
+                                                    : 'Resolução nesta rodada'
+                                                }
+                                                {' · '}
+                                                {isWinning
+                                                    ? '✅ Você está vencendo'
+                                                    : '⚠️ Há lances maiores'
+                                                }
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         )}
                     </EfPanel>

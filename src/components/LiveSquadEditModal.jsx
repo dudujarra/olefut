@@ -23,7 +23,7 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
     if (!team) return null;
 
     const titulares = team.squad.filter(p => p.isTitular && !p.injury);
-    const reserves = team.squad.filter(p => !p.isTitular && !p.injury && p.energy > 10);
+    const reserves = team.squad.filter(p => !p.isTitular && !p.injury && !p.suspension && p.energy > 10);
 
     const subsLeft = MAX_LIVE_SUBS - liveSubsCount;
 

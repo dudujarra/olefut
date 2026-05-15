@@ -682,6 +682,15 @@ export class SeasonProcessor {
         if (engine.legacy?.titles && engine.legacy.titles.length > 200) {
             engine.legacy.titles = engine.legacy.titles.slice(-200);
         }
+
+        // BUG-FIX: Cap narrative arrays to prevent unbounded memory growth
+        if (engine.events && engine.events.length > 200) engine.events = engine.events.slice(-200);
+        if (engine.decisions && engine.decisions.length > 200) engine.decisions = engine.decisions.slice(-200);
+        if (engine.arcs && engine.arcs.length > 50) {
+            const openArcs = engine.arcs.filter(a => a.status === 'open');
+            const closedArcs = engine.arcs.filter(a => a.status !== 'open').slice(-50);
+            engine.arcs = [...openArcs, ...closedArcs];
+        }
         
         // BUG-FIX: Prune dormant rivalryHistory to prevent key bloat
         if (engine.rivalryHistory) {
@@ -692,6 +701,9 @@ export class SeasonProcessor {
                     // If the last match was more than 2 seasons ago, purge the rivalry memory
                     if (engine.seasonNumber - (lastMatch.season || 0) > 2) {
                         delete engine.rivalryHistory[key];
+                    } else if (history.length > 20) {
+                        // Limit active rivalries to the last 20 matches to prevent infinite array growth
+                        engine.rivalryHistory[key] = history.slice(-20);
                     }
                 } else {
                     delete engine.rivalryHistory[key];
@@ -705,24 +717,30 @@ export class SeasonProcessor {
             engine.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0 };
         }
 
-        // BUG-040: emergency squad replenish if critically short (<11) — ALL teams
+        // BUG-040: emergency squad replenish if critically short (<16) — ONLY NPCs during rollover
         try {
-            engine.teams.forEach(t => {
-                if (t?.squad && t.squad.length < 11) {
-                    const tier = t.division || 3;
-                    const needed = 11 - t.squad.length;
-                    const positions = ['GOL', 'DEF', 'DEF', 'DEF', 'MEI', 'MEI', 'MEI', 'ATA', 'ATA', 'ATA', 'ATA'];
-                    for (let i = 0; i < needed && i < positions.length; i++) {
-                        const p = Data.generatePlayer(positions[i], tier + 1, {});
-                        p.age = systemRng.int(18, 22);
-                        p.potential = Math.min(99, p.ovr + systemRng.int(10, 25));
-                        p.isYouth = true;
-                        p.contract = { weeksLeft: 76, salary: 5000 };
-                        p.energy = 100;
-                        p.isTitular = t.squad.filter(x => x.position === positions[i] && x.isTitular).length < 1;
-                        t.squad.push(p);
+            engine.teams.forEach(team => {
+                if (team.squad.length < 16 && team.id !== engine.manager?.teamId) {
+                    // NPCs get emergency base players to keep the league running
+                    engine.weekEvents.push(`🚨 Plantel do ${team.name} caiu para ${team.squad.length} jogadores. Reposição de emergência ativada.`);
+                        while (team.squad.length < 16) {
+                            team.squad.push({
+                                id: `emerg-${team.id}-${Date.now()}-${systemRng()}`,
+                                name: `Base ${Math.floor(systemRng() * 100)}`,
+                                age: 16 + Math.floor(systemRng() * 3),
+                                position: ['GOL', 'DEF', 'MEI', 'ATA'][Math.floor(systemRng() * 4)],
+                                ovr: Math.floor(team.division === 1 ? 50 : 35),
+                                potential: Math.floor(60 + systemRng() * 20),
+                                salary: Math.floor((team.division === 1 ? 8000 : 2000)),
+                                contract: { weeksLeft: 76, salary: 2000 },
+                                isTitular: false,
+                                energy: 100,
+                                moral: 50,
+                                seasonGoals: 0,
+                                seasonApps: 0
+                            });
+                        }
                     }
-                }
             });
         } catch { /* defensive — never crash rollover */ }
 

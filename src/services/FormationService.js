@@ -106,6 +106,7 @@ export class FormationService {
         if (!out.isTitular) return { success: false, msg: 'Só titulares podem sair' };
         if (inPlayer.isTitular) return { success: false, msg: 'Reserva já está em campo' };
         if (inPlayer.injury) return { success: false, msg: 'Jogador lesionado' };
+        if (inPlayer.suspension) return { success: false, msg: 'Jogador suspenso' };
 
         // Flip titular flags
         out.isTitular = false;

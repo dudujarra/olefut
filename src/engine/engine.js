@@ -20,6 +20,10 @@ import { FormationService } from '../services/FormationService';
 import { PressService } from '../services/PressService';
 import { SectorService } from '../services/SectorService';
 import { GameInitializer } from '../services/GameInitializer';
+import { decrementSuspensions } from './DisciplineSystem';
+import { setMatchBonus, settleMatchBonus, getMatchBonusBuff, MATCH_BONUS_TIERS } from './MatchBonusSystem';
+import { setTicketPolicy, getActiveTicketPolicy, TICKET_POLICIES } from './TicketPricingSystem';
+import { startAuction, raiseBid, resolveAuctions, getActiveAuctions, requiresAuction } from './StarAuctionSystem';
 
 export class Engine {
     constructor() {
@@ -131,6 +135,15 @@ export class Engine {
         // Loan system: allows managers to take emergency loans with interest
         // Each loan: { principal, interestRate, weeklyPayment, weeksRemaining, totalOwed }
         this.activeLoan = null;
+
+        // Elifoot Classic: Match Bonus ("Bicho")
+        this.pendingMatchBonus = null;
+
+        // Elifoot Classic: Ticket Policy (ingresso barato/normal/caro)
+        this.ticketPolicy = 'normal';
+
+        // Elifoot Classic: Star Auction (leilão de estrelas)
+        this.activeAuctions = [];
 
         // SPEC-C2: optional star player link (modo unificado groundwork)
         this.starPlayerId = null;
@@ -370,6 +383,45 @@ export class Engine {
         return this._loanService.payOffLoan(this);
     }
 
+    // === ELIFOOT CLASSIC: BICHO (Match Bonus) ===
+    setMatchBonus(tierId) {
+        return setMatchBonus(this, tierId);
+    }
+
+    getMatchBonusTiers() {
+        return MATCH_BONUS_TIERS;
+    }
+
+    // === ELIFOOT CLASSIC: TICKET PRICING ===
+    setTicketPolicy(policyId) {
+        return setTicketPolicy(this, policyId);
+    }
+
+    getTicketPolicies() {
+        return TICKET_POLICIES;
+    }
+
+    getActiveTicketPolicy() {
+        return getActiveTicketPolicy(this);
+    }
+
+    // === ELIFOOT CLASSIC: STAR AUCTION ===
+    startAuction(player, bid, source = 'market', sourceTeamId = null) {
+        return startAuction(this, player, bid, source, sourceTeamId);
+    }
+
+    raiseBid(auctionId, newBid) {
+        return raiseBid(this, auctionId, newBid);
+    }
+
+    getActiveAuctions() {
+        return getActiveAuctions(this);
+    }
+
+    requiresAuction(player) {
+        return requiresAuction(player);
+    }
+
     /**
      * RFCT-004: Delegator pra MatchSimulator (extracted ~231 LOC).
      * Comportamento idêntico — golden master snapshot preservado.
@@ -411,6 +463,9 @@ export class Engine {
         if (this.mode === 'player' && this.proPlayer) {
             this._careerService.processPlayerWeek(this, weekResults);
         }
+        
+        // Decrement suspensions globally for all teams
+        this.teams.forEach(t => decrementSuspensions(t));
 
         this.currentWeek++;
         return weekResults;

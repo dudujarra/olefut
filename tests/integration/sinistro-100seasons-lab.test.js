@@ -165,8 +165,8 @@ describe('💀 Lab: Iguatu × Sinistro — 10000 Seasons Stress Test', () => {
                 const avgTick = (batchMs / (10 * 38)).toFixed(1);
                 const bal = t ? `R$${(t.balance / 1e6).toFixed(1)}M` : '?';
                 const div = t ? `D${t.division}` : '?';
-                const sq = t?.squad?.length || '?';
-                process.stderr.write(`  ⏳ Season ${currentSeason}/${SEASONS} | ${elapsed}s | ~${avgTick}ms/tick | ${div} | ${bal} | squad:${sq} | errs:${totalErrors}\n`);
+                const sq = t?.squad?.length || '?'; const mem = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1);
+                process.stderr.write(`  ⏳ Season ${currentSeason}/${SEASONS} | ${elapsed}s | ~${avgTick}ms/tick | ${div} | ${bal} | squad:${sq} | mem:${mem}MB | errs:${totalErrors}\n`);
                 lastLoggedSeason = currentSeason;
                 batchStart = performance.now();
             }
@@ -269,13 +269,13 @@ describe('💀 Lab: Iguatu × Sinistro — 10000 Seasons Stress Test', () => {
         expect(winRate).toBeLessThan(0.95);
     });
 
-    it('8. Squad never permanently < 11 at season end', () => {
+    it('8. Squad never permanently < 16 at season end', () => {
         const team = engine.getTeam(teamId);
-        // Final squad must be viable
-        expect(team.squad.length).toBeGreaterThanOrEqual(11);
+        // Final squad must be viable (>= 14 allowed right after end-of-season retirements)
+        expect(team.squad.length).toBeGreaterThanOrEqual(14);
         // Check season snapshots
-        const tooSmall = divisionHistory.filter(d => d.squadSize < 11);
-        console.log(`  Seasons with squad < 11: ${tooSmall.length}/${divisionHistory.length}`);
+        const tooSmall = divisionHistory.filter(d => d.squadSize < 16);
+        console.log(`  Seasons with squad < 16: ${tooSmall.length}/${divisionHistory.length}`);
         // Allow some bad seasons but not more than 10%
         expect(tooSmall.length).toBeLessThan(divisionHistory.length * 0.15);
     });

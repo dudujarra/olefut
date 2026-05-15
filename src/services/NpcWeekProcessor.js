@@ -41,7 +41,7 @@ export class NpcWeekProcessor {
     }
 
     _processNpcSquadHealth(engine, t) {
-        const npcSquadAvail = t.squad.filter(p => !p.injury && !p._retired).length;
+        const npcSquadAvail = t.squad.filter(p => !p.injury && !p.suspension && !p._retired).length;
         if (npcSquadAvail >= 11) return;
 
         const npcHealth = checkSquadHealth({

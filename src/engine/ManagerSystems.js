@@ -1,5 +1,6 @@
 import { rng as systemRng } from './rng.js';
 import { getDifficulty } from './systems/DifficultyModes.js';
+import { getTicketFinanceModifiers } from './TicketPricingSystem.js';
 /**
  * ManagerSystems.js — Sistemas avançados do Modo Treinador
  * 
@@ -168,14 +169,15 @@ export function rollMatchCondition() {
 // ============================================================
 // FINANÇAS
 // ============================================================
-export function calculateWeeklyFinances(team, weekResults, teamId) {
+export function calculateWeeklyFinances(team, weekResults, teamId, engine) {
     const finance = { income: 0, expenses: 0, details: [] };
-    const econMult = getDifficulty().modifiers.economyMult ?? 1.0;
+    const diffMods = getDifficulty().modifiers;
+    const econMult = diffMods.economyMult ?? 1.0;
+    const maintenanceMult = diffMods.maintenanceMult ?? 1.0;
 
     // ── DESPESAS ─────────────────────────────────────
 
-    // 1. Salários do plantel (AUDIT-FIX #C: escalar por divisão)
-    // Div 1 players earn 5x more than Div 3-4 players on average
+    // 1. Salários do plantel (Não afeta maintenanceMult)
     const divMultiplier = team.division === 1 ? 5.0 : team.division === 2 ? 2.5 : team.division === 3 ? 1.2 : 1.0;
     const totalWages = team.squad.reduce((sum, p) => {
         const baseSalary = p.salary || 5000;
@@ -185,30 +187,59 @@ export function calculateWeeklyFinances(team, weekResults, teamId) {
     finance.details.push({ type: "expense", label: "Salários", amount: totalWages });
 
     // 2. AUDIT-FIX #E: Infrastructure costs (money sinks)
-    // Stadium maintenance scales with capacity
-    const stadiumMaintenance = Math.floor((team.stadium || 5000) * 3);
+    let stadiumMaintenance = Math.floor((team.stadium || 5000) * 3);
+    let academyCost = team.division === 1 ? 50000 : team.division === 2 ? 25000 : 10000;
+    let medicalCost = Math.floor((team.squad?.length || 18) * 1500);
+
+    // SPEC-NEW: Sistema de Redução de Custos (Modo Austeridade)
+    // Se saldo baixo (<500k) mas não completamente falido (>= -100k)
+    // "não acontecer com times quase falidos"
+    if (team.balance < 500000 && team.balance >= -100000) {
+        stadiumMaintenance = Math.floor(stadiumMaintenance * 0.3);
+        academyCost = Math.floor(academyCost * 0.3);
+        medicalCost = Math.floor(medicalCost * 0.3);
+        
+        team._lowMaintenanceWeeks = (team._lowMaintenanceWeeks || 0) + 1;
+        
+        // Risco de desastre estrutural após longo uso de austeridade
+        if (team.balance >= 0 && team._lowMaintenanceWeeks > 10 && systemRng() < 0.05) {
+            const multa = 200000 + Math.floor(systemRng() * 300000);
+            finance.expenses += multa;
+            finance.details.push({ type: "expense", label: "⚠️ Desastre Estrutural (Multa)", amount: multa });
+            if (engine && engine.weekEvents) {
+                engine.weekEvents.push(`⚠️ Desastre! Infraestrutura sucateada gerou multa de R$ ${(multa/1000).toFixed(0)}K para o ${team.name}`);
+            }
+            team._lowMaintenanceWeeks = 0;
+        }
+    } else {
+        team._lowMaintenanceWeeks = 0;
+    }
+
+    // Aplica multiplicador apenas na infraestrutura! (Evita espiral de salários em Sinistro)
+    stadiumMaintenance = Math.floor(stadiumMaintenance * maintenanceMult);
+    academyCost = Math.floor(academyCost * maintenanceMult);
+    medicalCost = Math.floor(medicalCost * maintenanceMult);
+
     finance.expenses += stadiumMaintenance;
     finance.details.push({ type: "expense", label: "Manutenção do Estádio", amount: stadiumMaintenance });
-
-    // Youth academy costs (fixed by division)
-    const academyCost = team.division === 1 ? 50000 : team.division === 2 ? 25000 : 10000;
     finance.expenses += academyCost;
     finance.details.push({ type: "expense", label: "Base / CT", amount: academyCost });
-
-    // Medical department (scales with squad size)
-    const medicalCost = Math.floor((team.squad?.length || 18) * 1500);
     finance.expenses += medicalCost;
     finance.details.push({ type: "expense", label: "Depto. Médico", amount: medicalCost });
 
     // ── RECEITAS (scaled by economyMult) ─────────────────────────────────────
 
     // Bilheteria (jogos em casa)
+    // Elifoot Classic: Ticket Pricing modifiers
+    const ticketMods = engine ? getTicketFinanceModifiers(engine) : { priceMultiplier: 1.0, attendanceMultiplier: 1.0 };
     for (const tId in weekResults) {
         const myMatch = weekResults[tId].find(m => m.home === teamId);
         if (myMatch) {
             // AUDIT-FIX: ticket price scales with division
-            const ticketPrice = team.division === 1 ? 60 : team.division === 2 ? 35 : 15;
-            const attendance = Math.floor((team.stadium || 5000) * (0.5 + systemRng() * 0.5));
+            const baseTicketPrice = team.division === 1 ? 60 : team.division === 2 ? 35 : 15;
+            const ticketPrice = Math.floor(baseTicketPrice * ticketMods.priceMultiplier);
+            const baseAttendance = Math.floor((team.stadium || 5000) * (0.5 + systemRng() * 0.5));
+            const attendance = Math.floor(baseAttendance * ticketMods.attendanceMultiplier);
             const ticketIncome = Math.floor(attendance * ticketPrice * econMult);
             finance.income += ticketIncome;
             finance.details.push({ type: "income", label: `Bilheteria (${attendance} torcedores)`, amount: ticketIncome });
