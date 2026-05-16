@@ -12,6 +12,7 @@
  * Stateless module: receives engine + team + weekResults as args.
  */
 
+import { EngineLogger } from '../engine/EngineLogger.js';
 import { recordResult as recordWinStreak } from '../engine/WinStreakModifierSystem';
 import { apply as applyBoardTension } from '../engine/BoardTensionSystem';
 import { evaluate as evaluateHumiliation } from '../engine/HumiliationCascadeSystem';
@@ -76,7 +77,7 @@ function _handleWin(engine, team) {
             engine.boardTension = bt.newTension;
             if (bt.thresholdChanged && bt.boardMessage) engine.weekEvents.push(`🏛️ ${bt.boardMessage}`);
         }
-    } catch { /* defensive */ }
+    } catch (err) { EngineLogger.capture(err, 'WeekMatchResult._handleWin.boardTension'); }
 }
 
 // ─── Loss ───────────────────────────────────────────────────
@@ -116,7 +117,7 @@ function _handleLoss(engine, team, myGoals, theirGoals) {
                 engine.weekEvents.push(`🛡️ ${cascade.survivalNarrative.milestoneDescription}`);
             }
         }
-    } catch { /* defensive */ }
+    } catch (err) { EngineLogger.capture(err, 'WeekMatchResult._handleLoss.humiliation'); }
 
     // SPEC-077: Loss Streak Response
     try {
@@ -141,7 +142,7 @@ function _handleLoss(engine, team, myGoals, theirGoals) {
                 team.squad.forEach(p => { p.moral = Math.max(5, p.moral || 50); });
             }
         }
-    } catch { /* defensive */ }
+    } catch (err) { EngineLogger.capture(err, 'WeekMatchResult._handleLoss.lossStreak'); }
 
     // SPEC-072: board tension — loss streak
     try {
@@ -150,7 +151,7 @@ function _handleLoss(engine, team, myGoals, theirGoals) {
             engine.boardTension = bt.newTension;
             if (bt.thresholdChanged && bt.boardMessage) engine.weekEvents.push(`🏛️ ${bt.boardMessage}`);
         }
-    } catch { /* defensive */ }
+    } catch (err) { EngineLogger.capture(err, 'WeekMatchResult._handleLoss.boardTension'); }
 }
 
 // ─── Draw ───────────────────────────────────────────────────
@@ -185,7 +186,7 @@ function _trackRivalry(engine, team, myMatch, isHome, myGoals, theirGoals) {
         if (engine.rivalryHistory[key].length > 20) {
             engine.rivalryHistory[key] = engine.rivalryHistory[key].slice(-20);
         }
-    } catch { /* defensive */ }
+    } catch (err) { EngineLogger.capture(err, 'WeekMatchResult._trackRivalry'); }
 }
 
 // ─── Narrative ──────────────────────────────────────────────
@@ -216,13 +217,13 @@ export function populateMatchNarrative(engine, team, myMatch, isHome, myGoals, t
     try {
         const syncText = engine.llmNarrative.postMatchAnalysisSync(matchData);
         if (syncText) engine.lastMatchNarrative = syncText;
-    } catch { /* defensive */ }
+    } catch (err) { EngineLogger.capture(err, 'WeekMatchResult.narrativeSync'); }
     // Fire async upgrade attempt (LLM if enabled). Never blocks.
     try {
         engine.llmNarrative.postMatchAnalysis(matchData)
             .then((text) => { if (text) engine.lastMatchNarrative = text; })
             .catch(() => { /* defensive */ });
-    } catch { /* defensive */ }
+    } catch (err) { EngineLogger.capture(err, 'WeekMatchResult.narrativeAsync'); }
 
     // Humiliation board reaction: score diff >= 4 against manager.
     const scoreDiff = theirGoals - myGoals;
@@ -236,6 +237,6 @@ export function populateMatchNarrative(engine, team, myMatch, isHome, myGoals, t
             if (text && Array.isArray(engine.weekEvents)) {
                 engine.weekEvents.push(`🏛️ Diretoria: ${text}`);
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'WeekMatchResult.boardReaction'); }
     }
 }

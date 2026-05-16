@@ -30,6 +30,7 @@ import { evaluateSponsor, ManagerLegacy } from '../engine/SeasonSystem';
 import { getDifficulty } from '../engine/systems/DifficultyModes.js';
 import { rollTraits, initCareerStats } from '../engine/PlayerTraits';
 import { rng as systemRng } from '../engine/rng.js';
+import { EngineLogger } from '../engine/EngineLogger.js';
 
 export class GameInitializer {
     constructor() {
@@ -47,7 +48,7 @@ export class GameInitializer {
         this._initializeTeams(engine);
         this._initializeNpcBrains(engine, parseInt(teamId));
         engine._aiDirector = new AIDirector();
-        try { restoreAllBrains(engine.teams); } catch { /* ignore */ }
+        try { restoreAllBrains(engine.teams); } catch (err) { EngineLogger.capture(err, 'GameInitializer.restoreBrains'); }
 
         if (scenario === 'fallen') {
             const team = engine.getTeam(engine.manager.teamId);
@@ -103,7 +104,7 @@ export class GameInitializer {
                                 MidMatchManagerDeck.push(c);
                             }
                         });
-                    } catch { /* defensive */ }
+                    } catch (err) { EngineLogger.capture(err, 'GameInitializer.loadModPack'); }
                 }
                 if (totalCards > 0 && typeof console !== 'undefined') {
                     console.info(`[ModLoader] Carregou ${totalCards} cards custom de ${manifest.packs.length} packs`);

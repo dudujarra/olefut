@@ -34,6 +34,7 @@ import { resolveAuctions } from '../engine/StarAuctionSystem.js';
 import { pickInterruptEvent } from '../engine/InterruptEvents.js';
 import { evaluate as evaluateCoachProposal } from '../engine/CoachProposalSystem';
 import { evaluate as evaluateOrganicChallenge } from '../engine/OrganicChallengeSystem';
+import { EngineLogger } from '../engine/EngineLogger.js';
 import { processMatchResult } from './WeekMatchResult.js';
 import { rng as systemRng } from '../engine/rng.js';
 
@@ -64,7 +65,7 @@ export class WeekProcessor {
                 engine.pendingSeasonalEvent = seasonalEvent;
                 engine.weekEvents.push(`[Evento BR] ${seasonalEvent.title}: ${seasonalEvent.text}`);
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'WeekProcessor.seasonalEvent'); }
 
         // Energy management based on training
         team.squad.forEach(p => {
@@ -378,7 +379,7 @@ export class WeekProcessor {
                     engine.weekEvents.push(`📨 Proposta: ${proposal.proposal.fromClubName} quer contratá-lo! (${proposal.proposal.reason})`);
                 }
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'WeekProcessor.coachProposal'); }
 
         // SPEC-074: Organic Challenge evaluation
         try {
@@ -401,7 +402,7 @@ export class WeekProcessor {
                     engine.weekEvents.push(`🎯 Desafio: ${challenge.challenge.description}`);
                 }
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'WeekProcessor.organicChallenge'); }
 
         // ═══ MEMORY GUARD: cap weekEvents to prevent unbounded growth ═══
         // In soak tests (10k+ seasons), weekEvents can accumulate 30-50 per week.

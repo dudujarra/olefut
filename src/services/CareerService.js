@@ -9,6 +9,7 @@
 
 
 import { calculateOvrFromAttributes } from '../engine/PlayerAttributes.js';
+import { EngineLogger } from '../engine/EngineLogger.js';
 import { rng as systemRng } from '../engine/rng.js';
 
 export class CareerService {
@@ -158,8 +159,8 @@ export class CareerService {
                         charisma: proPlayer.relationships?.fans || 60,
                     },
                 });
-            }).catch(() => { /* defensive */ });
-        } catch { /* defensive */ }
+            }).catch((err) => { EngineLogger.capture(err, 'CareerService.retireProPlayer.legendsPool'); });
+        } catch (err) { EngineLogger.capture(err, 'CareerService.retireProPlayer'); }
 
         // Transition to manager mode
         engineOrSave.mode = 'manager';
