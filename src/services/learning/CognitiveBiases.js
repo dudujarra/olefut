@@ -227,7 +227,7 @@ export function applyBuyBiases({ realValue, personality, context = {} }) {
  * @param {Object} [params.context] — { lastMatchStats }
  * @returns {{ minAcceptable: number, perceivedValue: number, biasesApplied: string[] }}
  */
-export function applySellBiases({ offerAmount, playerValue, purchasePrice = 0, personality, context = {} }) {
+export function applySellBiases({ offerAmount: _offerAmount, playerValue, purchasePrice = 0, personality, context = {} }) {
     const ocean = personality?.ocean || { O: 0.5, C: 0.5, E: 0.5, A: 0.5, N: 0.5 };
     const biasesApplied = [];
 

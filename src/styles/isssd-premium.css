@@ -6,78 +6,78 @@
  */
 
 :root {
-  /* Core Colors */
-  --bg-dark: #111417; /* Deep OLED/CRT Night */
-  --bg-panel: #1A1F24; /* Elevated dark */
-  --bg-panel-hover: #222830;
-  --bg-panel-sunk: #0C0F12;
+  /* Core Colors - Celeste Aesthetic */
+  --bg-dark: #1a0f2e; /* Deep void purple */
+  --bg-panel: #2e1b4d; /* Dark violet */
+  --bg-panel-hover: #452873; /* Royal purple */
+  --bg-panel-sunk: #0b0514; /* Deepest void */
   
-  --primary: #00FF66; /* Neon Turf Green */
-  --primary-dark: #00CC52;
-  --primary-glow: #0A3D1A; /* Deep forest glow tint (solid, no rgba) */
+  --primary: #4be3c9; /* Cyan */
+  --primary-dark: #2ab5cc; /* Mid blue */
+  --primary-glow: #1d7aa8; /* Deep blue glow */
   
-  --accent: #FFD600; /* Arcade Yellow */
-  --accent-dark: #CCAA00;
+  --accent: #f5c57a; /* Warm yellow */
+  --accent-dark: #f78d65; /* Peach */
   
-  --danger: #FF1744; /* Crimson Red */
-  --danger-aaa: #FF8080; /* AAA-compliant for small text (#FF8080 / #111417 = 7.61:1) */
-  --danger-dark: #CC1236;
+  --danger: #d13b6d; /* Vibrant pink */
+  --danger-aaa: #f55866; /* Coral pink */
+  --danger-dark: #9e3373; /* Raspberry */
   
-  --info: #00E5FF; /* Electric Blue */
-  --info-dark: #00B7CC;
+  --info: #8af0c0; /* Mint green */
+  --info-dark: #bedbf0; /* Ice white/blue */
   
-  --text-main: #FDFBF7; /* Chalk White */
-  --text-muted: #8E9E94; /* Silver Green */
-  --color-soft-border: #2D3748; /* Cleanup pass token */
-  --color-bg-deep: #0E1418; /* Cleanup pass token */
-  --color-shadow-deep: #040805; /* Cleanup pass token */
-  --color-soft-text: #E2E8F0;
-  --color-input-error-bg: #FF9999;
-  --color-input-error-deep: #880000;
-  --color-success-mid: #6ABC3A;
-  --color-panel-tone: #1E2124;
-  --color-tooltip-bg: #1A1C20;
-  --color-gold-arcade: #C7A75D;
-  --color-purple-wonder: #C084FC;
-  --color-purple-dark: #2D162D;
-  --color-amber-warning: #f59e0b;
-  --color-red-bright: #ef4444;
-  --color-yellow-warn-bg: #2D2916;
-  --color-emerald-confirm: #10B981;
-  --color-forest-pulse: #1B4332;
-  --color-learning-teal: #14b8a6;
-  --color-learning-blue: #3b82f6;
-  --color-learning-blue-dark: #2563eb;
-  --color-learning-violet: #a78bfa;
-  --color-learning-pink: #ec4899;
-  --color-learning-lime: #84cc16;
-  --color-learning-orange: #f97316;
-  --color-learning-red-dark: #dc2626;
-  --color-learning-amber-bright: #FFA500;
-  --color-learning-bronze-stat: #CD7F32;
-  --color-learning-silver-stat: #C0C0C0;
-  --color-learning-skyblue: #87CEEB;
-  --color-learning-lightgreen: #90EE90;
-  --color-learning-leather: #8B7355;
-  --color-learning-cyan: #22d3ee;
-  --text-inverse: #040805;
+  --text-main: #ffffff; /* Pure white */
+  --text-muted: #bedbf0; /* Ice white/blue */
+  --color-soft-border: #452873;
+  --color-bg-deep: #1a0f2e;
+  --color-shadow-deep: #000000;
+  --color-soft-text: #bedbf0;
+  --color-input-error-bg: #d13b6d;
+  --color-input-error-deep: #6c2b75;
+  --color-success-mid: #8af0c0;
+  --color-panel-tone: #2e1b4d;
+  --color-tooltip-bg: #1a0f2e;
+  --color-gold-arcade: #f5c57a;
+  --color-purple-wonder: #6c2b75;
+  --color-purple-dark: #1a0f2e;
+  --color-amber-warning: #f78d65;
+  --color-red-bright: #f55866;
+  --color-yellow-warn-bg: #452873;
+  --color-emerald-confirm: #4be3c9;
+  --color-forest-pulse: #2e1b4d; /* Replaced with dark violet */
+  --color-learning-teal: #4be3c9;
+  --color-learning-blue: #2ab5cc;
+  --color-learning-blue-dark: #1d7aa8;
+  --color-learning-violet: #6c2b75;
+  --color-learning-pink: #d13b6d;
+  --color-learning-lime: #8af0c0;
+  --color-learning-orange: #f78d65;
+  --color-learning-red-dark: #9e3373;
+  --color-learning-amber-bright: #f5c57a;
+  --color-learning-bronze-stat: #f78d65;
+  --color-learning-silver-stat: #bedbf0;
+  --color-learning-skyblue: #8af0c0;
+  --color-learning-lightgreen: #4be3c9;
+  --color-learning-leather: #6c2b75;
+  --color-learning-cyan: #2ab5cc;
+  --text-inverse: #000000;
 
   /* Borders & Shadows */
   --glass-border: #2D3748; /* Visible panel border */
   --border-subtle: #1E2530; /* Subtle separator */
   --border-panel: #4A5059;
   
-  /* SNES 16-bit 3D Bezel Colors */
-  --bezel-light: #4A5059;
-  --bezel-dark: #0C0F12;
-  --bezel-highlight: #5A6069; /* inner highlight edge (lighter than --bezel-light) */
-  --bezel-drop: #050608; /* deep drop-shadow, near-black */
-  --bezel-primary-light: #39FF14;
-  --bezel-primary-dark: #1A8A0A;
-  --bezel-danger-light: #FF3333;
-  --bezel-danger-dark: #AA1111;
-  --bezel-accent-light: #FFD700;
-  --bezel-accent-dark: #AA8800;
+  /* SNES 16-bit 3D Bezel Colors - Celeste Theme */
+  --bezel-light: #6c2b75;
+  --bezel-dark: #1a0f2e;
+  --bezel-highlight: #9e3373;
+  --bezel-drop: #000000;
+  --bezel-primary-light: #8af0c0;
+  --bezel-primary-dark: #1d7aa8;
+  --bezel-danger-light: #f55866;
+  --bezel-danger-dark: #9e3373;
+  --bezel-accent-light: #f5c57a;
+  --bezel-accent-dark: #f78d65;
 
   /* Sizing & Radius — SNES pixel-perfect: all corners are square */
   --radius: 0;
@@ -164,21 +164,21 @@ h1, h2, h3, h4 {
 
 /* Button Variants */
 .ef-btn-primary {
-  background: #0A1A0A;
+  background: #0b0514;
   color: var(--primary);
   border-color: var(--bezel-primary-light) var(--bezel-primary-dark) var(--bezel-primary-dark) var(--bezel-primary-light);
   box-shadow:
     inset -1px -1px 0 var(--bezel-primary-dark),
-    inset 1px 1px 0 #4AFF3A,
+    inset 1px 1px 0 #bedbf0,
     2px 2px 0 #000;
   text-shadow: 1px 1px 0 #000;
 }
 .ef-btn-primary:hover {
-  background: #0F2F0F;
+  background: #1a0f2e;
   transform: translateY(-1px);
   box-shadow:
     inset -1px -1px 0 var(--bezel-primary-dark),
-    inset 1px 1px 0 #4AFF3A,
+    inset 1px 1px 0 #bedbf0,
     2px 2px 0 #000,
     0 0 12px var(--primary-glow);
 }
@@ -203,21 +203,21 @@ h1, h2, h3, h4 {
 }
 
 .ef-btn-danger {
-  background: #1A0A0A;
+  background: #0b0514;
   color: var(--danger);
   border-color: var(--bezel-danger-light) var(--bezel-danger-dark) var(--bezel-danger-dark) var(--bezel-danger-light);
   box-shadow:
     inset -1px -1px 0 var(--bezel-danger-dark),
-    inset 1px 1px 0 #FF5555,
+    inset 1px 1px 0 #f55866,
     2px 2px 0 #000;
   text-shadow: 1px 1px 0 #000;
 }
 .ef-btn-danger:hover {
-  background: #2A1010;
+  background: #1a0f2e;
   transform: translateY(-1px);
   box-shadow:
     inset -1px -1px 0 var(--bezel-danger-dark),
-    inset 1px 1px 0 #FF5555,
+    inset 1px 1px 0 #f55866,
     3px 3px 0 #000;
 }
 
@@ -283,30 +283,30 @@ h1, h2, h3, h4 {
 }
 
 .ef-panel-hero {
-  background: #0B2015;
+  background: #0b0514;
   border-color: var(--bezel-primary-light) var(--bezel-primary-dark) var(--bezel-primary-dark) var(--bezel-primary-light);
   box-shadow:
     inset -1px -1px 0 var(--bezel-primary-dark),
-    inset 1px 1px 0 #4AFF3A,
+    inset 1px 1px 0 #bedbf0,
     3px 3px 0 var(--bezel-drop),
     0 0 16px var(--primary-glow);
 }
 
 .ef-panel-warning {
-  background: #1A1A0A;
+  background: #1a0f2e;
   border-color: var(--bezel-accent-light) var(--bezel-accent-dark) var(--bezel-accent-dark) var(--bezel-accent-light);
   box-shadow:
     inset -1px -1px 0 var(--bezel-accent-dark),
-    inset 1px 1px 0 #FFE44D,
+    inset 1px 1px 0 #f5c57a,
     3px 3px 0 var(--bezel-drop);
 }
 
 .ef-panel-danger {
-  background: #1A0A0A;
+  background: #1a0f2e;
   border-color: var(--bezel-danger-light) var(--bezel-danger-dark) var(--bezel-danger-dark) var(--bezel-danger-light);
   box-shadow:
     inset -1px -1px 0 var(--bezel-danger-dark),
-    inset 1px 1px 0 #FF5555,
+    inset 1px 1px 0 #f55866,
     3px 3px 0 var(--bezel-drop);
 }
 

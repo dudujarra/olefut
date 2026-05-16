@@ -163,6 +163,7 @@ export class GameInitializer {
         const diff = getDifficulty();
         engine.board = new BoardSystem(team.division, team.balance, {
             fireCooldown: diff.modifiers.boardFireCooldown || 0,
+            boardPatience: diff.modifiers.boardPatience || 1.0,
             currentWeek: engine.currentWeek || 0
         });
         engine.legacy = new ManagerLegacy(name);

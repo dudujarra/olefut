@@ -32,7 +32,7 @@
     radial-gradient(circle at center,
       color-mix(in srgb, var(--primary) 12%, transparent) 0%,
       transparent 60%),
-    var(--color-forest-pulse, #1B4332);
+    var(--color-forest-pulse, #2e1b4d);
   opacity: 0.55;
   z-index: 0;
   pointer-events: none;
@@ -48,8 +48,8 @@
       0deg,
       transparent,
       transparent 40px,
-      color-mix(in srgb, var(--primitive-color-neutral-abyss, #040805) 30%, transparent) 40px,
-      color-mix(in srgb, var(--primitive-color-neutral-abyss, #040805) 30%, transparent) 80px
+      color-mix(in srgb, var(--primitive-color-neutral-abyss, #1a0f2e) 30%, transparent) 40px,
+      color-mix(in srgb, var(--primitive-color-neutral-abyss, #1a0f2e) 30%, transparent) 80px
     );
   z-index: 0;
   pointer-events: none;
@@ -188,7 +188,7 @@
 }
 
 .ef-start-stars > svg {
-  filter: drop-shadow(2px 2px 0 var(--primitive-color-neutral-abyss, #040805));
+  filter: drop-shadow(2px 2px 0 var(--primitive-color-neutral-abyss, #1a0f2e));
 }
 
 .ef-start-logo-wrap {
@@ -206,7 +206,7 @@
   margin-bottom: -16px;
   filter:
     drop-shadow(0 0 12px color-mix(in srgb, var(--primary) 60%, transparent))
-    drop-shadow(2px 2px 0 var(--primitive-color-neutral-abyss, #040805));
+    drop-shadow(2px 2px 0 var(--primitive-color-neutral-abyss, #1a0f2e));
 }
 
 .ef-start-title {
@@ -217,7 +217,7 @@
   color: var(--primary);
   text-shadow:
     0 0 12px color-mix(in srgb, var(--primary) 70%, transparent),
-    2px 2px 0 var(--primitive-color-neutral-abyss, #040805);
+    2px 2px 0 var(--primitive-color-neutral-abyss, #1a0f2e);
   letter-spacing: 0.02em;
   line-height: 1;
   transform: skew(-5deg) rotate(-2deg);
@@ -240,7 +240,7 @@
   color: var(--accent);
   text-shadow:
     0 0 10px color-mix(in srgb, var(--accent) 60%, transparent),
-    2px 2px 0 var(--primitive-color-neutral-abyss, #040805);
+    2px 2px 0 var(--primitive-color-neutral-abyss, #1a0f2e);
   text-transform: uppercase;
 }
 
@@ -267,7 +267,7 @@
   width: 100%;
   padding: 14px 16px;
   background: var(--bg-panel-sunk, var(--bg-dark));
-  border: 4px solid var(--primitive-color-green-pitch, #52B788);
+  border: 4px solid var(--primitive-color-green-pitch, #8af0c0);
   color: var(--text-main);
   font-family: var(--font-sans, 'Pixelify Sans'), system-ui, sans-serif;
   font-weight: 700;
@@ -310,7 +310,7 @@
   gap: 12px;
   background: var(--bg-panel-sunk, var(--bg-dark));
   padding: 12px 16px;
-  border: 4px solid var(--primitive-color-green-pitch, #52B788);
+  border: 4px solid var(--primitive-color-green-pitch, #8af0c0);
 }
 
 .ef-start-team-row select {
@@ -330,7 +330,7 @@
 .ef-start-team-badge {
   flex-shrink: 0;
   padding-left: 12px;
-  border-left: 2px solid var(--primitive-color-green-pitch, #52B788);
+  border-left: 2px solid var(--primitive-color-green-pitch, #8af0c0);
 }
 
 /* ============================================================
@@ -416,7 +416,7 @@
   color: var(--primary);
   text-shadow:
     0 0 10px color-mix(in srgb, var(--primary) 60%, transparent),
-    2px 2px 0 var(--primitive-color-neutral-abyss, #040805);
+    2px 2px 0 var(--primitive-color-neutral-abyss, #1a0f2e);
   text-transform: uppercase;
   animation: ef-start-press-pulse 1.4s ease-in-out infinite;
 }
@@ -450,8 +450,8 @@
 
 .ef-start-swatch--primary { background: var(--primary); }
 .ef-start-swatch--accent { background: var(--accent); }
-.ef-start-swatch--pitch  { background: var(--primitive-color-green-pitch, #52B788); }
-.ef-start-swatch--forest { background: var(--color-forest-pulse, #1B4332); }
+.ef-start-swatch--pitch  { background: var(--primitive-color-green-pitch, #8af0c0); }
+.ef-start-swatch--forest { background: var(--color-forest-pulse, #2e1b4d); }
 
 /* ============================================================
  * Mobile tweaks
@@ -485,7 +485,7 @@
   }
   .ef-start-team-badge {
     border-left: none;
-    border-top: 2px solid var(--primitive-color-green-pitch, #52B788);
+    border-top: 2px solid var(--primitive-color-green-pitch, #8af0c0);
     padding-left: 0;
     padding-top: 8px;
   }

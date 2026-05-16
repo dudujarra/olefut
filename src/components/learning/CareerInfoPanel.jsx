@@ -73,6 +73,9 @@ export default function CareerInfoPanel({ controllerRef }) {
                 // (simplification: just show season summary)
             }
 
+            // Manager Identity (SPEC-070)
+            const identity = engine.getManagerIdentity?.() || null;
+
             setSnapshot({
                 team,
                 position,
@@ -89,7 +92,8 @@ export default function CareerInfoPanel({ controllerRef }) {
                 titles: legacy.titles || [],
                 seasons: (legacy.seasons || []).slice(-10),
                 topScorers,
-                insights: stats.insights || {}
+                insights: stats.insights || {},
+                identity,
             });
         }, 1000);
         return () => clearInterval(id);
@@ -168,6 +172,31 @@ export default function CareerInfoPanel({ controllerRef }) {
                             <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{snapshot.reputation}/100</div>
                         </div>
                     </div>
+
+                    {/* Manager Identity (SPEC-070) */}
+                    {snapshot.identity && (
+                        <div style={{
+                            marginTop: '8px',
+                            padding: '8px',
+                            background: 'var(--color-shadow-deep)',
+                            borderLeft: '3px solid var(--accent)',
+                        }}>
+                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                                <Crown size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />IDENTIDADE TÁTICA
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', fontSize: '0.75rem' }}>
+                                <span style={{ color: 'var(--text-muted)' }}>Estilo:</span>
+                                <strong style={{ color: 'var(--accent)' }}>
+                                    {snapshot.identity.dominantStyle}
+                                    {snapshot.identity.styleConfidence > 0 && ` (${snapshot.identity.styleConfidence}%)`}
+                                </strong>
+                                <span style={{ color: 'var(--text-muted)' }}>Tier:</span>
+                                <strong>{snapshot.identity.reputationTier}</strong>
+                                <span style={{ color: 'var(--text-muted)' }}>Destaque:</span>
+                                <span style={{ fontStyle: 'italic' }}>{snapshot.identity.careerHighlight}</span>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Titles + insights row */}
                     <div style={{ display: 'flex', gap: '12px', marginTop: '8px', flexWrap: 'wrap' }}>

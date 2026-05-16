@@ -36,7 +36,7 @@ export function generate({ managerId = 0, clubId = 0, clubTier = 'mid', managerR
 
     const bonusReputation  = clamp(5 + Math.round(difficultyOf(objective) * 10), 5, 15);
     const penaltyReputation = clamp(5 + Math.round(difficultyOf(objective) * 15), 5, 20);
-    const expiresAfterSeasons = contractType === 'renewal' ? Math.min(3, 2) : 1;
+    const expiresAfterSeasons = contractType === 'renewal' ? 2 : 1;
 
     return {
         contractId: `c-${managerId}-${clubId}-${Date.now()}`,

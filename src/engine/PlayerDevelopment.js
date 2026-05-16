@@ -519,11 +519,16 @@ export function generateRenewalOffer(player) {
     const formFactor = player.form?.trend === 'hot' ? 1.3 : player.form?.trend === 'cold' ? 0.9 : 1.0;
     const personalityFactor = player.personality === 'Ambicioso' ? 1.4 : player.personality === 'Profissional' ? 1.0 : 1.1;
 
-    const demandedSalary = Math.floor(baseSalary * ageFactor * formFactor * personalityFactor);
+    // loyalty: 10-20 scale. Loyal players demand less salary, disloyal demand more
+    const loyalty = player.loyalty ?? 15;
+    const loyaltyFactor = loyalty >= 18 ? 0.9 : loyalty <= 12 ? 1.15 : 1.0;
+
+    const demandedSalary = Math.floor(baseSalary * ageFactor * formFactor * personalityFactor * loyaltyFactor);
     const weeks = player.age > 30 ? 38 : player.age < 22 ? 114 : 76; // 1, 2, or 3 seasons
 
-    // Happiness affects willingness
-    const willRenew = (player.moral || 50) > 30;
+    // Happiness affects willingness — loyalty lowers the morale threshold
+    const moralThreshold = loyalty >= 18 ? 20 : loyalty <= 12 ? 50 : 30;
+    const willRenew = (player.moral || 50) > moralThreshold;
 
     return {
         playerId: player.id,

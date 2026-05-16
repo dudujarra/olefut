@@ -197,6 +197,7 @@ export function getReactiveCard(reactiveType, seed = 0) {
  */
 export function getMidMatchCard(minute, seed = 0) {
     const candidates = MidMatchManagerDeck.filter(c => {
+        if (!c.minuteRange || !Array.isArray(c.minuteRange)) return false;
         const [lo, hi] = c.minuteRange;
         return minute >= lo && minute <= hi;
     });
@@ -218,6 +219,7 @@ export function getMidMatchCardDerbyAware(minute, isDerby = false, seed = 0) {
     if (!isDerby) return getMidMatchCard(minute, seed);
 
     const derbyCards = MidMatchManagerDeck.filter(c => {
+        if (!c.minuteRange || !Array.isArray(c.minuteRange)) return false;
         const [lo, hi] = c.minuteRange;
         return c.derby === true && minute >= lo && minute <= hi;
     });

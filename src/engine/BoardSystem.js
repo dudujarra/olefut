@@ -42,6 +42,7 @@ export class BoardSystem {
         this.lastFiredWeek = -999; // track último fire pra cooldown
         this.fireCooldown = options.fireCooldown || 0; // min weeks between fires
         this.hiredWeek = options.currentWeek || 0;
+        this.boardPatience = options.boardPatience || 1.0;
     }
 
     // Atualiza confiança baseado nos resultados da semana
@@ -73,6 +74,11 @@ export class BoardSystem {
 
         // Finanças
         if (balance < 0) delta -= 1;
+
+        // Amplifica quedas de confiança se a diretoria for impaciente (ex: Sinistro = 0.4x patience -> 2.5x dano)
+        if (delta < 0) {
+            delta = delta * (1 / this.boardPatience);
+        }
 
         this.confidence = Math.max(0, Math.min(100, this.confidence + delta));
 

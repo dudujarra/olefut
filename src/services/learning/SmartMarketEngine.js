@@ -202,7 +202,7 @@ export const SELL_ACTIONS = ['MKT_SELL_YES', 'MKT_SELL_NO'];
 export function computeTransferReward({
     action, // 'BUY' or 'SELL'
     positionBefore, positionAfter,
-    balanceBefore, balanceAfter,
+    balanceBefore: _balanceBefore, balanceAfter,
     playerBecameStarter = false,
     playerWasStarter = false,
     offerRatio = 1.0,

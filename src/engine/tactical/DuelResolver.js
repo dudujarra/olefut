@@ -25,8 +25,8 @@ function sigmoid(x) {
  * @returns {boolean} True if Attacker wins, False if Defender wins
  */
 export function resolveGenericDuel(qualityA, qualityB, tacticalMod = 0, temperature = 5.0) {
-    // Add noise epsilon N(0, 1) approximation
-    const epsilon = (Math.random() + Math.random() - 1); 
+    // Add noise epsilon N(0, 1) approximation — MUST use seeded rng, not Math.random
+    const epsilon = (rng.float() + rng.float() - 1); 
     const probability = sigmoid((qualityA - qualityB + tacticalMod + epsilon) / temperature);
     return rng.float() < probability;
 }

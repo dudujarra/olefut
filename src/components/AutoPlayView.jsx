@@ -12,6 +12,7 @@ import CareerInfoPanel from './learning/CareerInfoPanel';
 import BrainDashboard from './learning/BrainDashboard';
 import { RealDB } from '../engine/db/index';
 import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
+import { SAVE_KEY } from '../engine/constants.js';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import { EfModal } from './ui/EfModal';
@@ -327,7 +328,7 @@ export function AutoPlayView() {
                 localStorage.removeItem('olefut_autoplay_brain');
                 localStorage.removeItem('olefut_autoplay_state');
                 localStorage.removeItem('olefut_llm_mode');
-                localStorage.removeItem('olefut_save_v1');
+                localStorage.removeItem(SAVE_KEY);
                 localStorage.removeItem('olefut_genetic_state');
                 // Sweep any other olefut_* keys defensively
                 for (let i = localStorage.length - 1; i >= 0; i--) {

@@ -1,5 +1,5 @@
 import { rng as systemRng } from '../../engine/rng.js';
-import { ARCHETYPES, generatePersonality, generateRandomPersonality, checkIsTilted, deriveTraits } from './Archetypes.js';
+import { generatePersonality, generateRandomPersonality, checkIsTilted } from './Archetypes.js';
 import { EmotionalEngine } from './EmotionalEngine.js';
 import { LearnedGoalRelevance } from './LearnedGoalRelevance.js';
 

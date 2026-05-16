@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`🧪 Snapshot Pipeline: 50 Seasons (Sanity) > valida estrutura, economia e saúde da engine em 50 temporadas 1`] = `
+{
+  "balanceSign": "positive",
+  "divisionFinal": 3,
+  "engineErrorsRange": "acceptable",
+  "hasTitles": true,
+  "seasonsCompleted": 50,
+  "squadSizeRange": "healthy",
+  "tickErrors": 0,
+}
+`;

@@ -40,6 +40,7 @@ import { generateSeasonStory } from '../engine/SeasonStoryEngine.js';
 import { Data } from '../engine/data';
 import { rng as systemRng } from '../engine/rng.js';
 import { saveAllBrains } from './learning/BrainPersistence';
+import { EngineLogger } from '../engine/EngineLogger.js';
 
 export class SeasonProcessor {
     /**
@@ -96,7 +97,7 @@ export class SeasonProcessor {
             engine.seasonAwards.forEach(a => {
                 engine.weekEvents.push(`${a.emoji} ${a.name}: ${a.player} (${a.value})`);
             });
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.seasonAwards', { season: engine.seasonNumber }); }
 
         // Update sponsor + board for new season
         try {
@@ -105,10 +106,11 @@ export class SeasonProcessor {
                 const diff = getDifficulty();
                 engine.board = new BoardSystem(team.division, team.balance, {
                     fireCooldown: diff.modifiers.boardFireCooldown || 0,
+                    boardPatience: diff.modifiers.boardPatience || 1.0,
                     currentWeek: engine.currentWeek || 0
                 });
             }
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.sponsorBoard', { season: engine.seasonNumber }); }
 
         // SPEC-072: board tension — title or contract
         this._processBoardTension(engine, pos);
@@ -127,6 +129,9 @@ export class SeasonProcessor {
 
         // SPEC-081: Filhos Regen
         this._processFilhosRegen(engine, team);
+
+        // Luxury Tax (Wealth cap to prevent broken late-game economies)
+        this._processLuxuryTax(engine, team);
 
         // §14.3: Meta-Progression — evaluate cross-career achievements at season end
         this._processMetaProgression(engine, team, pos);
@@ -186,7 +191,7 @@ export class SeasonProcessor {
                 if (engine.seasonHistory.length > 10) engine.seasonHistory.shift();
                 
                 engine.weekEvents.push(`📖 ${story.headline}`);
-            } catch { /* defensive */ }
+            } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processLegacy.story', { season: engine.seasonNumber }); }
         }
     }
 
@@ -225,7 +230,7 @@ export class SeasonProcessor {
             });
             // Cap careerHistory to 50 items
             if (engine.manager.careerHistory.length > 50) engine.manager.careerHistory.shift();
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processManagerIdentity', { season: engine.seasonNumber }); }
     }
 
     /** @private */
@@ -274,7 +279,7 @@ export class SeasonProcessor {
                     clubDivision: team.division,
                 });
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processContractGoals', { season: engine.seasonNumber }); }
     }
 
     /** @private */
@@ -317,7 +322,7 @@ export class SeasonProcessor {
                         try {
                             const promoEvents = onPromotion(team, c.from, c.to);
                             promoEvents.forEach(e => engine.weekEvents.push(e.msg));
-                        } catch { /* defensive */ }
+                        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processPromoRelegation.promotion', { season: engine.seasonNumber }); }
                     }
 
                     // AUDIT-FIX #C.2: Apply relegation financial penalty
@@ -336,11 +341,11 @@ export class SeasonProcessor {
                                     engine._ambitionTransferRequests.push(e);
                                 }
                             });
-                        } catch { /* defensive */ }
+                        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processPromoRelegation.relegation', { season: engine.seasonNumber }); }
                     }
                 });
             });
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processPromoRelegation', { season: engine.seasonNumber }); }
 
         // SPEC-200: Process ALL NPC teams (prestige, budget, contracts)
         this._processNPCSeasonEnd(engine, team);
@@ -422,7 +427,7 @@ export class SeasonProcessor {
                 const bt = applyBoardTension({ currentTension: engine.boardTension, eventType: 'contract_fulfilled' });
                 engine.boardTension = bt.newTension;
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processBoardTension', { season: engine.seasonNumber }); }
     }
 
     /** @private */
@@ -485,7 +490,7 @@ export class SeasonProcessor {
             engine.weekEvents.push(`📜 ${chronicle.chronicle}`);
             // SPEC-B3: trigger full-screen Chronicle modal next tick
             engine.pendingChronicleSeason = chronicle;
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processChronicle', { season: engine.seasonNumber }); }
     }
 
     /** @private */
@@ -502,7 +507,7 @@ export class SeasonProcessor {
                 hadLongInjury: false,
             }));
             engine.hallOfLegends = computeHallOfLegends({ clubId: team.id, players: historicPlayers });
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processHallOfLegends', { season: engine.seasonNumber }); }
     }
 
     /** @private */
@@ -519,7 +524,7 @@ export class SeasonProcessor {
                     }
                 });
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processHeritageTraits', { season: engine.seasonNumber }); }
     }
 
     /** @private */
@@ -540,7 +545,7 @@ export class SeasonProcessor {
                     engine.weekEvents.push(`⚔️ Rivalidade com ${oppName}: ${rivalry.activeArc.name} (score ${rivalry.rivalryScore})`);
                 }
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processRivalryUpgrade', { season: engine.seasonNumber }); }
     }
 
     /** @private */
@@ -574,7 +579,38 @@ export class SeasonProcessor {
                     engine.weekEvents.push(`👶 ${regen.name} emergiu da base! ${regen.loreDescription}`);
                 }
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processFilhosRegen', { season: engine.seasonNumber }); }
+    }
+
+    /** @private */
+    _processLuxuryTax(engine, team) {
+        try {
+            // Progressive Luxury Tax — escalonado como imposto de renda real.
+            // Brackets: 100M-500M (15%), 500M-1B (30%), >1B (50%)
+            const BRACKETS = [
+                { threshold: 100_000_000, cap: 500_000_000, rate: 0.15 },
+                { threshold: 500_000_000, cap: 1_000_000_000, rate: 0.30 },
+                { threshold: 1_000_000_000, cap: Infinity, rate: 0.50 },
+            ];
+
+            if (team.balance <= BRACKETS[0].threshold) return;
+
+            let totalTax = 0;
+            let remaining = team.balance;
+
+            for (const bracket of BRACKETS) {
+                if (remaining <= bracket.threshold) break;
+                const taxableInBracket = Math.min(remaining, bracket.cap) - bracket.threshold;
+                if (taxableInBracket > 0) {
+                    totalTax += Math.floor(taxableInBracket * bracket.rate);
+                }
+            }
+
+            if (totalTax > 0) {
+                team.balance -= totalTax;
+                engine.weekEvents.push(`💸 Custo de Infraestrutura Progressivo: R$ ${(totalTax / 1_000_000).toFixed(1)}M (saldo pré-imposto: R$ ${((team.balance + totalTax) / 1_000_000).toFixed(0)}M)`);
+            }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processLuxuryTax', { season: engine.seasonNumber }); }
     }
 
     /** @private §14.3: Meta-Progression — evaluate achievements at season end */
@@ -598,7 +634,7 @@ export class SeasonProcessor {
                 });
                 engine.metaUnlocked = result.allUnlocked;
             }
-        } catch { /* defensive — meta is bonus, never crash season */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processMetaProgression', { season: engine.seasonNumber }); }
     }
 
     /** @private — Award prize money for cup participation/victory */
@@ -649,7 +685,7 @@ export class SeasonProcessor {
                 team.balance += prize;
                 engine.weekEvents.push(`💰 Prêmio ${label}: R$ ${(prize / 1_000_000).toFixed(1)}M`);
             });
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor._processTournamentPrizes', { season: engine.seasonNumber }); }
     }
 
     // ========================================================================
@@ -666,10 +702,10 @@ export class SeasonProcessor {
         // Season-end processing (parte central — já existe via process)
         try {
             this.process(engine);
-        } catch { /* defensive — never break rollover */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.rolloverSeason.process', { season: engine.seasonNumber }); }
 
         // MARL Fase 6: Persist all NPC brains at season end
-        try { saveAllBrains(engine.teams); } catch { /* defensive */ }
+        try { saveAllBrains(engine.teams); } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.rolloverSeason.saveAllBrains'); }
 
         engine.currentWeek = 0;
         engine.seasonNumber++;
@@ -722,7 +758,17 @@ export class SeasonProcessor {
         // SPEC-135: seasonsCompleted view unlock
         engine.viewUnlockState.seasonsCompleted = engine.seasonNumber - 1;
         if (engine.managerStats) {
-            engine.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0 };
+            // BUG-B4 FIX: Reset only per-season counters. Preserve career-persistent fields.
+            const persistent = {
+                tacticStreak: engine.managerStats.tacticStreak || 0,
+                lastTactic: engine.managerStats.lastTactic || null,
+                transferProfit: engine.managerStats.transferProfit || 0,
+                giantKills: engine.managerStats.giantKills || 0,
+                crisisSaves: engine.managerStats.crisisSaves || 0,
+                longestUnbeaten: engine.managerStats.longestUnbeaten || 0,
+                consecutiveTitles: engine.managerStats.consecutiveTitles || 0,
+            };
+            engine.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0, cleanSheets: 0, ...persistent };
         }
 
         // BUG-040: emergency squad replenish if critically short (<16) — ONLY NPCs during rollover
@@ -750,7 +796,7 @@ export class SeasonProcessor {
                         }
                     }
             });
-        } catch { /* defensive — never crash rollover */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.rolloverSeason.emergencyReplenish', { season: engine.seasonNumber }); }
 
         // Capture final Série A standings BEFORE league re-init
         const finalDiv1Standings = {};
@@ -760,14 +806,14 @@ export class SeasonProcessor {
                 const st = engine.getStandings(z, 1);
                 if (st.length > 0) finalDiv1Standings[z] = st.map(s => s.teamId);
             });
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.rolloverSeason.finalStandings', { season: engine.seasonNumber }); }
 
         // Copa do Brasil winner → Libertadores spot
         let copaBrWinnerId = null;
         try {
             const copa = engine.getTournament('COPA_BR');
             if (copa?.winner) copaBrWinnerId = copa.winner;
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.rolloverSeason.copaBrWinner', { season: engine.seasonNumber }); }
 
         // BUG-076: Re-init leagues by current team.division
         engine.tournaments.forEach(t => {
@@ -794,7 +840,7 @@ export class SeasonProcessor {
                     }
                     if (teamIds.length > 0) t.init(teamIds);
                 }
-            } catch { /* defensive */ }
+            } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.rolloverSeason.leagueReInit', { tournamentId: t.id }); }
         });
 
         // Re-qualify continental cups from final div 1 standings
@@ -840,7 +886,7 @@ export class SeasonProcessor {
             // SPEC-180: Europa League re-qualification
             const el = engine.getTournament('EUROPA');
             if (el && elTeams.length >= 4) el.init(elTeams);
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.rolloverSeason.continentalReQualify', { season: engine.seasonNumber }); }
 
         // SPEC-180: Re-init national cups for all countries
         try {
@@ -856,7 +902,7 @@ export class SeasonProcessor {
                 const zoneTeams = engine.teams.filter(t => t.zone === zone).map(t => t.id);
                 if (zoneTeams.length >= 4) cup.init(zoneTeams);
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.rolloverSeason.nationalCups', { season: engine.seasonNumber }); }
 
         // SPEC-180: World Club Cup qualification
         try {
@@ -864,6 +910,6 @@ export class SeasonProcessor {
             if (mundial && typeof mundial.qualify === 'function') {
                 mundial.qualify(engine);
             }
-        } catch { /* defensive */ }
+        } catch (err) { EngineLogger.capture(err, 'SeasonProcessor.rolloverSeason.worldCup', { season: engine.seasonNumber }); }
     }
 }

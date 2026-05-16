@@ -1,41 +1,31 @@
 /**
- * TacticFormatter — SPEC-B5
- *
- * Helpers PURE pra formatar modifiers táticos para UI.
- * Zero React/DOM. Determinístico.
+ * SPEC-B5: TacticFormatter
  */
 
-import { TACTICS } from './ManagerSystems.js';
+const TACTIC_MODIFIERS = {
+    offensive: { ata: 1.30, def: 0.70 },
+    defensive: { ata: 0.70, def: 1.30 },
+    normal: { ata: 1.00, def: 1.00 },
+    pressing: { ata: 1.15, def: 0.85 },
+    counter: { ata: 1.20, def: 1.10 },
+    possession: { ata: 1.05, def: 1.05 }
+};
 
-/**
- * Retorna string formatada "ATA ×N.NN / DEF ×N.NN" para uma tática.
- *
- * @param {string} tacticKey
- * @returns {string}
- */
-export function formatTacticModifiers(tacticKey) {
-    const t = TACTICS[tacticKey];
-    if (!t) return '';
-    const ata = (t.ataModifier ?? 1.0).toFixed(2);
-    const def = (t.defModifier ?? 1.0).toFixed(2);
-    return `ATA ×${ata} / DEF ×${def}`;
+export function getTacticModifierParts(tacticKey) {
+    const mods = TACTIC_MODIFIERS[tacticKey];
+    if (!mods) {
+        return { ata: '', def: '', ataValue: 1.0, defValue: 1.0 };
+    }
+    return {
+        ataValue: mods.ata,
+        defValue: mods.def,
+        ata: `×${mods.ata.toFixed(2)}`,
+        def: `×${mods.def.toFixed(2)}`
+    };
 }
 
-/**
- * Retorna objeto separado (útil para coloração UI).
- *
- * @param {string} tacticKey
- * @returns {{ ata: string, def: string, ataValue: number, defValue: number }}
- */
-export function getTacticModifierParts(tacticKey) {
-    const t = TACTICS[tacticKey];
-    if (!t) return { ata: '', def: '', ataValue: 1.0, defValue: 1.0 };
-    const ataValue = t.ataModifier ?? 1.0;
-    const defValue = t.defModifier ?? 1.0;
-    return {
-        ata: `×${ataValue.toFixed(2)}`,
-        def: `×${defValue.toFixed(2)}`,
-        ataValue,
-        defValue,
-    };
+export function formatTacticModifiers(tacticKey) {
+    const mods = TACTIC_MODIFIERS[tacticKey];
+    if (!mods) return '';
+    return `ATA ×${mods.ata.toFixed(2)} / DEF ×${mods.def.toFixed(2)}`;
 }

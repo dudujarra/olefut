@@ -1,122 +1,109 @@
 /**
- * StarPlayerNarrative — SPEC-F4.2 + F4.3
- *
- * Geração de frases semanais + detecção de moments especiais
- * pro Star Player. Templates PT-BR + integração futura LLM.
- *
- * Pure module. Determinístico via seed.
+ * SPEC-F4.2 + F4.3: StarPlayerNarrative
+ * Pure logic for generating star player quotes and detecting narrative moments.
  */
 
-const WEEKLY_QUOTE_TEMPLATES = [
-    '{name} treinou pesado essa semana. Foco total no próximo jogo.',
-    '{name} reclamou da escalação no vestiário. Tensão no ar.',
-    '{name} celebrou contrato extendido. Mostrou comprometimento.',
-    '{name} foi visto saindo de boate de madrugada. Imprensa especula.',
-    '{name} disse em coletiva: "Vamos honrar o manto." Profissional.',
-    '{name} estava cabisbaixo no treino. Algo o incomoda.',
-    '{name} foi tietado por crianças na saída do CT. Carismático.',
-    '{name} reuniu o elenco pra discurso motivacional. Capitão de fato.',
-    '{name} fechou parceria com nova marca de chuteira. Visibilidade alta.',
-    '{name} foi convocado pra seleção. Orgulho do clube.',
-    '{name} declarou amor à torcida em rede social. Hype subiu.',
-    '{name} treinou separado, individual. Recuperação fisica.',
+export const WEEKLY_QUOTE_TEMPLATES = [
+    "O {PLAYER} esta treinando forte, o foco e absoluto na proxima partida.",
+    "{PLAYER} foi o ultimo a sair do campo no treino de hoje.",
+    "Jornalistas elogiam a forma fisica de {PLAYER} nesta semana.",
+    "{PLAYER} deu entrevista garantindo raca no proximo jogo.",
+    "Clima bom: {PLAYER} comandou as brincadeiras no vestiario.",
+    "Rumores sobre {PLAYER} sao ignorados pelo elenco.",
+    "{PLAYER} fez trabalho de recuperacao intenso no DM.",
+    "Torcida fez faixa especial para {PLAYER} na porta do CT.",
+    "A precisao de {PLAYER} nos passes impressionou o tecnico hoje.",
+    "{PLAYER} e um lider nato dentro e fora de campo."
 ];
 
-const MOMENT_TEMPLATES = {
-    first_goal: '{name} marca seu PRIMEIRO gol pelo clube!',
-    fifty_apps: '{name} alcança 50 jogos pela camisa! Meio centenário.',
-    hundred_apps: '{name} atinge 100 jogos. Marca histórica!',
-    hat_trick: '{name} faz HAT-TRICK! Show da estrela.',
-    long_injury: '{name} sai de maca. Lesão grave. {weeks} semanas fora.',
-    title_winner: '{name} entra pra história! Conquistou {trophy} pelo clube.',
-    derby_winner: '{name} marca em CLÁSSICO! Decisivo no derby.',
-    contract_extension: '{name} estende contrato. Promessa de fidelidade.',
-    transfer_offer_rejected: '{name} recusou proposta milionária. "Aqui é meu lugar."',
-    matchwinner_streak: '{name} é decisivo pela 3ª partida seguida. Em momento mágico.',
-};
-
-const MOMENT_THRESHOLDS = {
-    fifty_apps: 50,
-    hundred_apps: 100,
+export const MOMENT_TEMPLATES = {
+    first_goal: "Primeiro gol na temporada para {PLAYER}!",
+    hat_trick: "Hat-trick espetacular de {PLAYER}!",
+    fifty_apps: "{PLAYER} completa 50 jogos pelo clube!",
+    hundred_apps: "Marca historica: 100 jogos de {PLAYER}!",
+    long_injury: "Drama: {PLAYER} sofre lesao e para por {WEEKS} semanas.",
+    derby_winner: "{PLAYER} decide o classico e consagra a vitoria!",
+    title_winner: "{PLAYER} levanta a taca do {TROPHY} com a equipe!"
 };
 
 /**
- * Gera frase semanal pra star player baseado em seed (week + playerId).
- *
- * @param {object} player — squad player ou stub
- * @param {number} seed
+ * Retorna uma quote aleatoria baseada em seed deterministica.
+ * @param {object} player 
+ * @param {number} seed 
  * @returns {string}
  */
 export function getWeeklyQuote(player, seed = 0) {
     if (!player || !player.name) return '';
     const idx = Math.abs(seed) % WEEKLY_QUOTE_TEMPLATES.length;
-    return WEEKLY_QUOTE_TEMPLATES[idx].replace('{name}', player.name);
+    return WEEKLY_QUOTE_TEMPLATES[idx].replace('{PLAYER}', player.name);
 }
 
 /**
- * Detecta moment qualificável dado state do player + contexto.
- *
- * @param {object} player
- * @param {object} [context] — { previousGoals, previousApps, isDerby, trophyWon, etc }
- * @returns {{ type: string, text: string } | null}
+ * Detecta um momento narrativo na partida.
+ * Ordem de prioridade (highest first):
+ * 1. title_winner
+ * 2. long_injury
+ * 3. hat_trick
+ * 4. derby_winner
+ * 5. hundred_apps
+ * 6. fifty_apps
+ * 7. first_goal
+ * 
+ * @param {object} player 
+ * @param {object} context 
+ * @returns {object|null}
  */
 export function detectStarMoment(player, context = {}) {
-    if (!player || !player.name) return null;
+    if (!player) return null;
 
-    const goals = player.seasonGoals || player.careerGoals || 0;
-    const apps = player.seasonApps || player.careerApps || 0;
-    const prevGoals = context.previousGoals || 0;
-    const prevApps = context.previousApps || 0;
-
-    // Hat-trick (3+ gols em 1 jogo)
-    if (typeof context.goalsThisMatch === 'number' && context.goalsThisMatch >= 3) {
-        return { type: 'hat_trick', text: MOMENT_TEMPLATES.hat_trick.replace('{name}', player.name) };
-    }
-
-    // First goal (era 0, agora 1+)
-    if (prevGoals === 0 && goals >= 1) {
-        return { type: 'first_goal', text: MOMENT_TEMPLATES.first_goal.replace('{name}', player.name) };
-    }
-
-    // 50 apps
-    if (prevApps < MOMENT_THRESHOLDS.fifty_apps && apps >= MOMENT_THRESHOLDS.fifty_apps) {
-        return { type: 'fifty_apps', text: MOMENT_TEMPLATES.fifty_apps.replace('{name}', player.name) };
-    }
-
-    // 100 apps
-    if (prevApps < MOMENT_THRESHOLDS.hundred_apps && apps >= MOMENT_THRESHOLDS.hundred_apps) {
-        return { type: 'hundred_apps', text: MOMENT_TEMPLATES.hundred_apps.replace('{name}', player.name) };
-    }
-
-    // Long injury (4+ semanas)
-    if (typeof context.injuryWeeks === 'number' && context.injuryWeeks >= 4) {
-        return {
-            type: 'long_injury',
-            text: MOMENT_TEMPLATES.long_injury
-                .replace('{name}', player.name)
-                .replace('{weeks}', String(context.injuryWeeks)),
-        };
-    }
-
-    // Derby winner (gol em derby + venceu)
-    if (context.isDerby && context.goalsThisMatch >= 1 && context.matchResult === 'W') {
-        return {
-            type: 'derby_winner',
-            text: MOMENT_TEMPLATES.derby_winner.replace('{name}', player.name),
-        };
-    }
-
-    // Title winner
     if (context.trophyWon) {
         return {
             type: 'title_winner',
-            text: MOMENT_TEMPLATES.title_winner
-                .replace('{name}', player.name)
-                .replace('{trophy}', context.trophyWon),
+            text: MOMENT_TEMPLATES.title_winner.replace('{PLAYER}', player.name).replace('{TROPHY}', context.trophyWon)
+        };
+    }
+
+    if (context.injuryWeeks >= 6) {
+        return {
+            type: 'long_injury',
+            text: MOMENT_TEMPLATES.long_injury.replace('{PLAYER}', player.name).replace('{WEEKS}', context.injuryWeeks.toString())
+        };
+    }
+
+    if (context.goalsThisMatch >= 3) {
+        return {
+            type: 'hat_trick',
+            text: MOMENT_TEMPLATES.hat_trick.replace('{PLAYER}', player.name)
+        };
+    }
+
+    if (context.isDerby && context.goalsThisMatch >= 1 && context.matchResult === 'W') {
+        return {
+            type: 'derby_winner',
+            text: MOMENT_TEMPLATES.derby_winner.replace('{PLAYER}', player.name)
+        };
+    }
+
+    if (player.seasonApps >= 100 && context.previousApps < 100) {
+        return {
+            type: 'hundred_apps',
+            text: MOMENT_TEMPLATES.hundred_apps.replace('{PLAYER}', player.name)
+        };
+    }
+
+    if (player.seasonApps >= 50 && context.previousApps < 50) {
+        return {
+            type: 'fifty_apps',
+            text: MOMENT_TEMPLATES.fifty_apps.replace('{PLAYER}', player.name)
+        };
+    }
+
+    if (player.seasonGoals >= 1 && context.previousGoals === 0) {
+        return {
+            type: 'first_goal',
+            text: MOMENT_TEMPLATES.first_goal.replace('{PLAYER}', player.name)
         };
     }
 
     return null;
 }
-
-export { WEEKLY_QUOTE_TEMPLATES, MOMENT_TEMPLATES, MOMENT_THRESHOLDS };

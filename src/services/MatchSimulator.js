@@ -17,12 +17,9 @@
  * - engine.teamTalkModifiers (reset)
  */
 
-import { TACTICS } from '../engine/ManagerSystems';
-import { TACTIC_COUNTERS, FORMATION_COUNTERS, getFormModifier } from '../engine/PlayerDevelopment';
+import { FORMATION_COUNTERS, getFormModifier } from '../engine/PlayerDevelopment';
 import { MatchNarrator } from './MatchNarrator.js';
-import { getDifficulty, calcOpponentBoost } from '../engine/systems/DifficultyModes.js';
-import { getRookieHandicapFromEngine } from '../engine/RookieHandicap.js';
-import { getModifiersForMatch as getWinStreakBonus, recordResult as recordWinStreak } from '../engine/WinStreakModifierSystem.js';
+import { getDifficulty } from '../engine/systems/DifficultyModes.js';
 import { getAtmosphere } from '../engine/BrazilianAtmosphere.js';
 import { getClubVoice } from '../engine/ClubVoiceSystem.js';
 import { getTraitMatchModifier, hasTrait, initCareerStats, recordMatchStats, getGoalConversionBonus, getDefenseSectorBonus, getSetPieceBonus, getPenaltySaveBonus, getPenaltyConversionBonus } from '../engine/PlayerTraits';
@@ -31,12 +28,13 @@ import { npcFeedMatchResult } from './learning/NpcManagerAI.js';
 
 import { rng as systemRng } from '../engine/rng.js';
 import { emitGameEvent, GameEvents } from '../audio/EventBus.js';
-import { getMatchBonusBuff, settleMatchBonus } from '../engine/MatchBonusSystem.js';
-import { getHomeAdvantageFromTickets } from '../engine/TicketPricingSystem.js';
+import { settleMatchBonus } from '../engine/MatchBonusSystem.js';
 import { processMatchCards } from '../engine/DisciplineSystem.js';
 import { spatialEngine } from '../engine/SpatialEngine.js';
 import { DeepTacticalEngine } from '../engine/tactical/DeepTacticalEngine.js';
-
+import { MatchEffectsPipeline } from '../engine/systems/MatchEffectsPipeline.js';
+import { shouldTriggerMidMatch, getMidMatchCardDerbyAware, getReactiveCard } from '../engine/MidMatchManagerDeck.js';
+import { MATCH_BASE_DRAIN_MIN, MATCH_BASE_DRAIN_RANGE, WORKHORSE_ENERGY_SAVE, LEADER_WIN_MORAL_BOOST } from '../engine/constants.js';
 export class MatchSimulator {
     constructor() {
         this._tacticalEngine = new DeepTacticalEngine();
@@ -51,6 +49,16 @@ export class MatchSimulator {
      * @returns {{homeGoals, awayGoals, events}}
      */
     simulate(engine, homeId, awayId, isCup = false) {
+        return this.simulateInterval(engine, homeId, awayId, 1, 90, null, isCup);
+    }
+
+    /**
+     * Simula um intervalo de tempo da partida.
+     * Útil para recálculo tático em tempo real.
+     * @param {boolean} skipPostMatch - If true, skip energy drain, career stats, discipline, etc.
+     *   Used for first-half simulation in split-sim mode.
+     */
+    simulateInterval(engine, homeId, awayId, startMin, endMin, baseResult = null, isCup = false, skipPostMatch = false) {
         const homeTeam = engine.getTeam(homeId);
         const awayTeam = engine.getTeam(awayId);
 
@@ -59,148 +67,36 @@ export class MatchSimulator {
 
         this._tacticalEngine.initializeMatch(homeTeam, awayTeam);
 
-        // Tactic setup — SPEC-131: NPCs usam tática dinâmica (não mais hardcoded 'normal')
-        const homeTactic = homeId === engine.manager.teamId
-            ? engine.currentTactic
-            : (homeTeam?.npcTacticState?.currentTactic || 'normal');
-        const awayTactic = awayId === engine.manager.teamId
-            ? engine.currentTactic
-            : (awayTeam?.npcTacticState?.currentTactic || 'normal');
-        const tactic = TACTICS[homeTactic] || TACTICS.normal;
-        const oppTactic = TACTICS[awayTactic] || TACTICS.normal;
+        // Tactic setup and modifiers extraction via MatchEffectsPipeline
+        const tacticData = {
+            homeTactic: homeId === engine.manager.teamId ? engine.currentTactic : (homeTeam?.npcTacticState?.currentTactic || 'normal'),
+            awayTactic: awayId === engine.manager.teamId ? engine.currentTactic : (awayTeam?.npcTacticState?.currentTactic || 'normal')
+        };
+        const { homeSectors: finalHomeSectors, awaySectors: finalAwaySectors, context: matchCtx } = MatchEffectsPipeline.applyEffects(engine, homeId, awayId, tacticData);
+        
+        homeSectors.attack = finalHomeSectors.attack;
+        homeSectors.defense = finalHomeSectors.defense;
+        awaySectors.attack = finalAwaySectors.attack;
+        awaySectors.defense = finalAwaySectors.defense;
 
-        // Apply tactic modifiers to BOTH teams' sectors
-        // BUG-095: previously only manager's team got sector-level modifiers,
-        // which caused double-application in xG formula for manager + zero application for NPCs.
-        // Now: all teams get tactic mods applied here; xG uses raw sectors.
+        const { tactic, oppTactic: _oppTactic, homeTactic, awayTactic, homeCounterMod, awayCounterMod, opponentBoost, homeClimateMod, awayClimateMod, weatherDrainMod, weatherEventText, isManagerMatch, predictabilityText, sideEffects } = matchCtx;
+
+        // Apply pipeline side effects (mutations live HERE, not in the pipeline)
+        if (sideEffects && engine.managerStats) {
+            if (sideEffects.newTacticStreak !== null) engine.managerStats.tacticStreak = sideEffects.newTacticStreak;
+            if (sideEffects.newLastTactic !== null) engine.managerStats.lastTactic = sideEffects.newLastTactic;
+        }
+
         const isManagerHome = homeId === engine.manager.teamId;
         const isManagerAway = awayId === engine.manager.teamId;
-        // Home team: tactic + teamTalk (if manager)
-        const homeTTAta = isManagerHome ? engine.teamTalkModifiers.ata : 1.0;
-        const homeTTDef = isManagerHome ? engine.teamTalkModifiers.def : 1.0;
-        homeSectors.attack = Math.floor(homeSectors.attack * tactic.ataModifier * homeTTAta);
-        homeSectors.defense = Math.floor(homeSectors.defense * tactic.defModifier * homeTTDef);
-        // Away team: tactic + teamTalk (if manager)
-        const awayTTAta = isManagerAway ? engine.teamTalkModifiers.ata : 1.0;
-        const awayTTDef = isManagerAway ? engine.teamTalkModifiers.def : 1.0;
-        awaySectors.attack = Math.floor(awaySectors.attack * oppTactic.ataModifier * awayTTAta);
-        awaySectors.defense = Math.floor(awaySectors.defense * oppTactic.defModifier * awayTTDef);
+        let homeGoals = baseResult ? baseResult.homeGoals : 0;
+        let awayGoals = baseResult ? baseResult.awayGoals : 0;
+        const events = baseResult ? JSON.parse(JSON.stringify(baseResult.events)) : { home: [], away: [], textLog: [], scorers: [], cards: [], motm: null };
+        let homeShots = baseResult?.stats?.homeShots || 0;
+        let awayShots = baseResult?.stats?.awayShots || 0;
+        let homeSaves = baseResult?.stats?.homeSaves || 0;
+        let awaySaves = baseResult?.stats?.awaySaves || 0;
 
-        // Tactic counter modifier — amplified by Sinistro v2 tacticCounterAmplifier
-        const tacticAmp = getDifficulty().modifiers.tacticCounterAmplifier || 1.0;
-        const rawHomeCounter = TACTIC_COUNTERS[homeTactic]?.[awayTactic] || 1.0;
-        const rawAwayCounter = TACTIC_COUNTERS[awayTactic]?.[homeTactic] || 1.0;
-        // Amplify deviation from 1.0: e.g. 0.7 at amp 1.8 → 1.0 + (0.7-1.0)*1.8 = 0.46
-        const homeCounterMod = 1.0 + (rawHomeCounter - 1.0) * tacticAmp;
-        const awayCounterMod = 1.0 + (rawAwayCounter - 1.0) * tacticAmp;
-
-        // Match condition
-        const cond = engine.matchCondition || { ataModifier: 1, defModifier: 1, energyModifier: 1 };
-
-        const isManagerMatch = isManagerHome || isManagerAway;
-        const rawEvents = [];
-
-        // SPEC-125 BUG-072: AI counter-tactic — adversários adaptam vs streak.
-        // ==========================================
-        // DDA (Dynamic Difficulty) — Flow Channel (§1.2)
-        // SPEC-147: calibrated boost curve (deep soak data: max win streak 18, max loss 11)
-        // ==========================================
-        let opponentBoost = 1.0;
-
-        if ((isManagerHome || isManagerAway) && engine.managerStats?.currentStreak !== undefined) {
-            const streak = engine.managerStats.currentStreak || 0;
-            const difficulty = getDifficulty();
-            const rawBoost = calcOpponentBoost(streak);
-            if (streak > 0) {
-                // Win streak: always apply full rubber-banding (opponent gets stronger)
-                opponentBoost = rawBoost;
-            } else if (streak < 0) {
-                // Loss streak: DDA help scaled by ddaLossMult (sinistro: 0.5 = metade da ajuda)
-                const ddaLossMult = difficulty.modifiers.ddaLossMult ?? 1.0;
-                // rawBoost < 1.0 on loss streaks (opponent weaker). Scale the discount.
-                const discount = 1.0 - rawBoost; // how much DDA helps (e.g., 0.15)
-                opponentBoost = 1.0 - (discount * ddaLossMult); // sinistro: half the help
-            }
-        }
-
-        // SPEC-A5: Rookie Handicap — multiplica opponentBoost nas 3 primeiras
-        // partidas da 1ª temporada (decay 0.90 → 0.93 → 0.97 → 1.0).
-        // Só afeta o oponente do manager humano.
-        if (isManagerHome || isManagerAway) {
-            const rookieMult = getRookieHandicapFromEngine(engine);
-            opponentBoost *= rookieMult;
-        }
-
-        // SINISTRO TUNING: matchStrengthPenalty — nerf manager's team sectors
-        // Reduces effective team strength in matches (e.g. 0.85 = -15%)
-        const matchPenalty = getDifficulty().modifiers.matchStrengthPenalty || 1.0;
-        if (matchPenalty < 1.0) {
-            if (isManagerHome) {
-                homeSectors.attack = Math.floor(homeSectors.attack * matchPenalty);
-                homeSectors.defense = Math.floor(homeSectors.defense * matchPenalty);
-            } else if (isManagerAway) {
-                awaySectors.attack = Math.floor(awaySectors.attack * matchPenalty);
-                awaySectors.defense = Math.floor(awaySectors.defense * matchPenalty);
-            }
-        }
-
-        // SPEC-F2.1: Win Streak Bonus — aplica attrBonus aos sectors do manager
-        // Scaled by winStreakMult (sinistro: 0.3 = 30% of normal bonus)
-        const winStreakMult = getDifficulty().modifiers.winStreakMult ?? 1.0;
-        if (isManagerHome) {
-            const bonus = getWinStreakBonus(engine.manager?.teamId || 0);
-            if (bonus.attrBonus > 0) {
-                const scaled = Math.floor(bonus.attrBonus * winStreakMult);
-                homeSectors.attack = Math.floor(homeSectors.attack + scaled);
-                homeSectors.defense = Math.floor(homeSectors.defense + scaled);
-            }
-        } else if (isManagerAway) {
-            const bonus = getWinStreakBonus(engine.manager?.teamId || 0);
-            if (bonus.attrBonus > 0) {
-                const scaled = Math.floor(bonus.attrBonus * winStreakMult);
-                awaySectors.attack = Math.floor(awaySectors.attack + scaled);
-                awaySectors.defense = Math.floor(awaySectors.defense + scaled);
-            }
-        }
-
-        // Apply DDA physical sector boost (if applies)
-        if (isManagerHome) {
-            awaySectors.attack = Math.floor(awaySectors.attack * opponentBoost);
-            awaySectors.defense = Math.floor(awaySectors.defense * opponentBoost);
-        } else if (isManagerAway) {
-            homeSectors.attack = Math.floor(homeSectors.attack * opponentBoost);
-            homeSectors.defense = Math.floor(homeSectors.defense * opponentBoost);
-        }
-
-        // ==========================================
-        // ELIFOOT CLASSIC: BICHO (Match Bonus) — buff nos setores do manager
-        // ==========================================
-        const bichoBuff = getMatchBonusBuff(engine);
-        if (bichoBuff > 1.0) {
-            if (isManagerHome) {
-                homeSectors.attack = Math.floor(homeSectors.attack * bichoBuff);
-                homeSectors.defense = Math.floor(homeSectors.defense * bichoBuff);
-            } else if (isManagerAway) {
-                awaySectors.attack = Math.floor(awaySectors.attack * bichoBuff);
-                awaySectors.defense = Math.floor(awaySectors.defense * bichoBuff);
-            }
-        }
-
-        // ==========================================
-        // ELIFOOT CLASSIC: TICKET PRICING — vantagem em casa
-        // ==========================================
-        const ticketHomeMod = getHomeAdvantageFromTickets(engine);
-        if (isManagerHome && ticketHomeMod !== 1.0) {
-            homeSectors.attack = Math.floor(homeSectors.attack * ticketHomeMod);
-            homeSectors.defense = Math.floor(homeSectors.defense * ticketHomeMod);
-        }
-
-        let homeGoals = 0;
-        let awayGoals = 0;
-        const events = { home: [], away: [], textLog: [], scorers: [], cards: [], motm: null };
-        let homeShots = 0, awayShots = 0, homeSaves = 0, awaySaves = 0;
-
-        // Get named players for scoring
         const homeAttackers = (homeTeam.squad || []).filter(p => p.isTitular && (p.position === 'ATA' || p.position === 'MEI') && !p.injury);
         const awayAttackers = (awayTeam.squad || []).filter(p => p.isTitular && (p.position === 'ATA' || p.position === 'MEI') && !p.injury);
         const homeDefenders = (homeTeam.squad || []).filter(p => p.isTitular && p.position === 'DEF' && !p.injury);
@@ -209,61 +105,19 @@ export class MatchSimulator {
         const awayScorerPoolSetPiece = awayAttackers.concat(awayDefenders);
         const pickRandom = (arr) => arr.length > 0 ? arr[Math.floor(systemRng() * arr.length)] : null;
 
-        // Moral factor
         const homeMoral = (homeTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (homeTeam.squad?.length || 1);
         const awayMoral = (awayTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (awayTeam.squad?.length || 1);
         const homeMoralFactor = 0.8 + (homeMoral / 250);
         const awayMoralFactor = 0.8 + (awayMoral / 250);
 
-        // ==========================================
-        // REGIONAL CLIMATE SYSTEM (BIOMAS)
-        // ==========================================
-        if (!homeTeam.climateZone) {
-            const zones = ['TROPICAL', 'COLD', 'ALTITUDE', 'RAINY'];
-            homeTeam.climateZone = zones[Math.floor(systemRng() * zones.length)];
-        }
-        if (!awayTeam.climateZone) {
-            const zones = ['TROPICAL', 'COLD', 'ALTITUDE', 'RAINY'];
-            awayTeam.climateZone = zones[Math.floor(systemRng() * zones.length)];
-        }
+        const cond = engine.matchCondition || { ataModifier: 1, defModifier: 1, energyModifier: 1 };
+        const rawEvents = baseResult && baseResult.events._rawEvents ? [...baseResult.events._rawEvents] : [];
 
-        let matchWeather = 'NORMAL';
-        const weatherRoll = systemRng();
-        if (homeTeam.climateZone === 'TROPICAL') matchWeather = weatherRoll > 0.3 ? 'HOT' : 'RAIN';
-        if (homeTeam.climateZone === 'COLD') matchWeather = weatherRoll > 0.3 ? 'COLD' : 'RAIN';
-        if (homeTeam.climateZone === 'ALTITUDE') matchWeather = 'ALTITUDE';
-        if (homeTeam.climateZone === 'RAINY') matchWeather = weatherRoll > 0.3 ? 'HEAVY_RAIN' : 'NORMAL';
-
-        let homeClimateMod = 1.0;
-        let awayClimateMod = 1.0;
-        let weatherDrainMod = 1.0;
-        let weatherEventText = null;
-
-        if (matchWeather === 'HOT') {
-            if (awayTeam.climateZone === 'COLD') awayClimateMod = 0.85; // Cansa no calor
-            if (homeTeam.climateZone === 'TROPICAL') homeClimateMod = 1.05; // Acostumado
-            weatherDrainMod = 1.2; // Gasta mais estamina no calor
-            weatherEventText = '☀️ Calor Intenso! (Desgaste alto no 2º tempo)';
-        } else if (matchWeather === 'COLD') {
-            if (awayTeam.climateZone === 'TROPICAL') awayClimateMod = 0.85; // Sofre no frio
-            weatherDrainMod = 1.1;
-            weatherEventText = '❄️ Frio Congelante!';
-        } else if (matchWeather === 'ALTITUDE') {
-            if (awayTeam.climateZone !== 'ALTITUDE') awayClimateMod = 0.80; // Muito difícil respirar
-            weatherDrainMod = 1.3;
-            weatherEventText = '🏔️ Jogo na Altitude! (Ar rarefeito pune os visitantes)';
-        } else if (matchWeather === 'HEAVY_RAIN' || matchWeather === 'RAIN') {
-            // Chuva pune posse e beneficia counter
-            if (homeTactic === 'posse') homeClimateMod -= 0.15;
-            if (homeTactic === 'counter') homeClimateMod += 0.10;
-            if (awayTactic === 'posse') awayClimateMod -= 0.15;
-            if (awayTactic === 'counter') awayClimateMod += 0.10;
-            weatherDrainMod = 1.25; // Campo pesado
-            weatherEventText = matchWeather === 'HEAVY_RAIN' ? '⛈️ Temporal! (Campo pesado, táticas de posse sofrem)' : '🌧️ Chuva Fina!';
-        }
-
-        if (isManagerMatch) {
+        if (isManagerMatch && startMin === 1) {
             rawEvents.push({ minute: 0, type: 'weather', weatherText: weatherEventText });
+            if (predictabilityText) {
+                rawEvents.push({ minute: 0, type: 'tactical_analysis', text: predictabilityText });
+            }
             if (engine.matchCondition && engine.matchCondition.id !== 'normal') {
                 rawEvents.push({ minute: 0, type: 'condition', name: engine.matchCondition.name });
             }
@@ -358,10 +212,11 @@ export class MatchSimulator {
         // After N consecutive missed chances, boost next chance's conversion
         let homeMissStreak = 0;
         let awayMissStreak = 0;
+        const midMatchTriggered = new Set(); // track which minutes already drew a card
 
         // BUG-033 + SPEC-125: cap reduzido 12→8, scorelines mais realistas.
         const MAX_COMBINED_GOALS = 8;
-        for (let minute = 1; minute <= 90; minute++) {
+        for (let minute = startMin; minute <= endMin; minute++) {
             if (homeGoals + awayGoals >= MAX_COMBINED_GOALS) break;
 
             // §9: Emit match phase at key intervals for procedural audio
@@ -405,6 +260,26 @@ export class MatchSimulator {
                 }
             }
 
+            // SPEC-B2: MidMatchManagerDeck — decision cards at key minutes
+            if (isManagerMatch && shouldTriggerMidMatch(minute, midMatchTriggered)) {
+                // ~40% chance per eligible minute → ~2 cards per match
+                if (systemRng() < 0.40) {
+                    const isDerby = matchCtx.isDerby || false;
+                    const cardSeed = (engine.currentWeek || 0) * 90 + minute;
+                    const card = getMidMatchCardDerbyAware(minute, isDerby, cardSeed);
+                    if (card) {
+                        midMatchTriggered.add(minute);
+                        rawEvents.push({
+                            minute,
+                            type: 'mid_match_card',
+                            cardId: card.id,
+                            text: card.text,
+                            options: card.options,
+                        });
+                    }
+                }
+            }
+
             if (isHomeChance || isAwayChance) {
                 const isHomeAttacking = isHomeChance;
                 const atkSectors = isHomeAttacking ? homeSectors : awaySectors;
@@ -443,8 +318,16 @@ export class MatchSimulator {
                 const pityBonus = isHomeAttacking
                     ? Math.min(0.5, homeMissStreak * 0.10)
                     : Math.min(0.5, awayMissStreak * 0.10);
-                
-                const finalScorerMod = formMod * traitMod * poacherMod * setPieceMod * scorerTransientFatigue * scorerCognitiveMod;
+                // bigMatch: 10-20 scale. In big matches (derby, cup, last 5 weeks), boosts/penalizes conversion
+                const seasonWeek = ((engine.currentWeek - 1) % 38) + 1;
+                const isBigMatch = isDerby || isCup || seasonWeek >= 34;
+                let bigMatchMod = 1.0;
+                if (isBigMatch && scorer?.bigMatch != null) {
+                    // 10 = -10% (cracks under pressure), 15 = neutral, 20 = +15% (thrives)
+                    bigMatchMod = 1.0 + (scorer.bigMatch - 15) * 0.03;
+                }
+
+                const finalScorerMod = formMod * traitMod * poacherMod * setPieceMod * scorerTransientFatigue * scorerCognitiveMod * bigMatchMod;
                 
                 // DEEP TACTICAL ENGINE: Blend spatial xG with traditional sector math
                 const tacticalMod = (tacticalBaseXG / 0.3); // Ratio of actual xG vs 30% base
@@ -646,7 +529,8 @@ export class MatchSimulator {
             }
         }
 
-        // MOTM — Man of the Match
+        // MOTM — Man of the Match (only at end of full match)
+        if (!skipPostMatch) {
         const homeTitulares = (homeTeam.squad || []).filter(p => p.isTitular);
         const awayTitulares = (awayTeam.squad || []).filter(p => p.isTitular);
         let bestPerf = -1, motm = null;
@@ -662,11 +546,14 @@ export class MatchSimulator {
         // Match stats
         events.stats = { homeShots, awayShots, homeSaves, awaySaves };
 
-        // Energy drain (trait: workhorse saves 30%)
-        const baseDrain = Math.floor(15 + systemRng() * 10) * (cond.energyModifier || 1);
+        } // end if (!skipPostMatch) — MOTM block
+
+        // Energy drain (trait: workhorse saves 30%) — only at end of full match
+        if (!skipPostMatch) {
+        const baseDrain = Math.floor(MATCH_BASE_DRAIN_MIN + systemRng() * MATCH_BASE_DRAIN_RANGE) * (cond.energyModifier || 1);
         const energyDrain = Math.floor(baseDrain * weatherDrainMod);
         [...(homeTeam.squad || []), ...(awayTeam.squad || [])].filter(p => p.isTitular).forEach(p => {
-            const saveMod = hasTrait(p, 'workhorse') ? 0.7 : 1.0;
+            const saveMod = hasTrait(p, 'workhorse') ? WORKHORSE_ENERGY_SAVE : 1.0;
             p.energy = Math.max(0, p.energy - Math.floor(energyDrain * saveMod));
         });
 
@@ -701,14 +588,14 @@ export class MatchSimulator {
         processMatchCards(events.cards, homeTeam);
         processMatchCards(events.cards, awayTeam);
 
-        // Leader trait: +3 moral on win
+        // Leader trait: +LEADER_WIN_MORAL_BOOST moral on win
         if (homeGoals !== awayGoals) {
             const isWin = (homeId === engine.manager.teamId && homeGoals > awayGoals) || (awayId === engine.manager.teamId && awayGoals > homeGoals);
             if (isWin && managerTeam) {
                 const leaders = managerTeam.squad.filter(p => hasTrait(p, 'leader'));
                 if (leaders.length > 0) {
                     // BUG-FIX: Apply moral boost ONCE regardless of leader count (was N× before)
-                    managerTeam.squad.forEach(p => { p.moral = Math.min(100, (p.moral || 50) + 2); });
+                    managerTeam.squad.forEach(p => { p.moral = Math.min(100, (p.moral || 50) + LEADER_WIN_MORAL_BOOST); });
                     if (isManagerMatch) rawEvents.push({ minute: 90, type: 'leader', name: leaders[0].name });
                 }
             }
@@ -729,44 +616,52 @@ export class MatchSimulator {
                 engine.weekEvents.push(bonusResult.msg);
             }
         }
+        } // end if (!skipPostMatch) — energy, career, discipline, leader, bicho
 
         if (isManagerMatch) {
             events.textLog = MatchNarrator.translate(rawEvents, homeTeam, awayTeam, homeTactic, awayTactic);
+            events._rawEvents = rawEvents; // SPEC-LIVE: preserve raw events for resimulation
         } else {
             events.textLog = []; // Stateless, zero GC pressure for Autoplay
         }
 
-        // Reset team talk modifiers after match
-        engine.teamTalkModifiers = { ata: 1.0, def: 1.0 };
+        // Match stats (always compute)
+        if (!events.stats) events.stats = { homeShots, awayShots, homeSaves, awaySaves };
 
-        // SPEC-131: registra resultado nos estados NPC para próximo pivot
-        const homeResult = homeGoals > awayGoals ? 'W' : homeGoals < awayGoals ? 'L' : 'D';
-        const awayResult = awayGoals > homeGoals ? 'W' : awayGoals < homeGoals ? 'L' : 'D';
-        if (homeTeam && homeId !== engine.manager.teamId && homeTeam.npcTacticState) {
-            homeTeam.npcTacticState = recordNpcResult(homeTeam.npcTacticState, homeResult);
-            // MARL Fase 6: feed emotional engine with match result
-            try { npcFeedMatchResult(homeTeam, homeResult, engine); } catch { /* defensive */ }
-        }
-        if (awayTeam && awayId !== engine.manager.teamId && awayTeam.npcTacticState) {
-            awayTeam.npcTacticState = recordNpcResult(awayTeam.npcTacticState, awayResult);
-            // MARL Fase 6: feed emotional engine with match result
-            try { npcFeedMatchResult(awayTeam, awayResult, engine); } catch { /* defensive */ }
-        }
-        // Track last opponent for tactic advisor context
-        if (!engine._lastNpcOpponent) engine._lastNpcOpponent = {};
-        if (homeId !== engine.manager.teamId) engine._lastNpcOpponent[homeId] = awayId;
-        if (awayId !== engine.manager.teamId) engine._lastNpcOpponent[awayId] = homeId;
+        // === POST-MATCH EFFECTS (only at end of full match) ===
+        if (!skipPostMatch) {
+            // Reset team talk modifiers after match
+            engine.teamTalkModifiers = { ata: 1.0, def: 1.0 };
 
-        // §9: Emit match end for procedural audio
-        try {
-            const managerResult = isManagerHome
-                ? (homeGoals > awayGoals ? 'victory' : homeGoals < awayGoals ? 'defeat' : 'draw')
-                : isManagerAway
-                    ? (awayGoals > homeGoals ? 'victory' : awayGoals < homeGoals ? 'defeat' : 'draw')
-                    : 'neutral';
-            emitGameEvent(GameEvents.MATCH_ENDED, { result: managerResult, homeGoals, awayGoals });
-        } catch { /* event emit - non-critical */ }
+            // SPEC-131: registra resultado nos estados NPC para próximo pivot
+            const homeResult = homeGoals > awayGoals ? 'W' : homeGoals < awayGoals ? 'L' : 'D';
+            const awayResult = awayGoals > homeGoals ? 'W' : awayGoals < homeGoals ? 'L' : 'D';
+            if (homeTeam && homeId !== engine.manager.teamId && homeTeam.npcTacticState) {
+                homeTeam.npcTacticState = recordNpcResult(homeTeam.npcTacticState, homeResult);
+                // MARL Fase 6: feed emotional engine with match result
+                try { npcFeedMatchResult(homeTeam, homeResult, engine); } catch { /* defensive */ }
+            }
+            if (awayTeam && awayId !== engine.manager.teamId && awayTeam.npcTacticState) {
+                awayTeam.npcTacticState = recordNpcResult(awayTeam.npcTacticState, awayResult);
+                // MARL Fase 6: feed emotional engine with match result
+                try { npcFeedMatchResult(awayTeam, awayResult, engine); } catch { /* defensive */ }
+            }
+            // Track last opponent for tactic advisor context
+            if (!engine._lastNpcOpponent) engine._lastNpcOpponent = {};
+            if (homeId !== engine.manager.teamId) engine._lastNpcOpponent[homeId] = awayId;
+            if (awayId !== engine.manager.teamId) engine._lastNpcOpponent[awayId] = homeId;
 
-        return { homeGoals, awayGoals, events };
+            // §9: Emit match end for procedural audio
+            try {
+                const managerResult = isManagerHome
+                    ? (homeGoals > awayGoals ? 'victory' : homeGoals < awayGoals ? 'defeat' : 'draw')
+                    : isManagerAway
+                        ? (awayGoals > homeGoals ? 'victory' : awayGoals < homeGoals ? 'defeat' : 'draw')
+                        : 'neutral';
+                emitGameEvent(GameEvents.MATCH_ENDED, { result: managerResult, homeGoals, awayGoals });
+            } catch { /* event emit - non-critical */ }
+        } // end if (!skipPostMatch)
+
+        return { homeGoals, awayGoals, events, stats: { homeShots, awayShots, homeSaves, awaySaves } };
     }
 }

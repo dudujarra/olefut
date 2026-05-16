@@ -63,10 +63,103 @@ async function main() {
       try {
         const puppeteer = await import('puppeteer');
         console.log('✅ Puppeteer found, can render stems');
-        // TODO: Spawn browser for Tone.Offline rendering
-        // For now, just note that stems would be rendered here
+        
+        if (!fs.existsSync(config.stemsDir)) {
+          fs.mkdirSync(config.stemsDir, { recursive: true });
+        }
+
+        const browser = await puppeteer.default.launch({ headless: 'new' });
+        const page = await browser.newPage();
+        
+        await page.exposeFunction('saveWavFile', (filename, base64Data) => {
+            const buffer = Buffer.from(base64Data, 'base64');
+            const targetPath = path.join(config.stemsDir, filename);
+            fs.writeFileSync(targetPath, buffer);
+        });
+
+        await page.addScriptTag({ url: 'https://unpkg.com/tone@14.9.17/build/Tone.js' });
+
+        await page.addScriptTag({ content: `
+          function encodeWAV(buffer) {
+            const numChannels = buffer.numberOfChannels;
+            const sampleRate = buffer.sampleRate;
+            const length = buffer.length * numChannels * 2;
+            const result = new ArrayBuffer(44 + length);
+            const view = new DataView(result);
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + length, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * numChannels * 2, true);
+            view.setUint16(32, numChannels * 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, length, true);
+
+            let offset = 44;
+            for (let i = 0; i < buffer.length; i++) {
+              for (let channel = 0; channel < numChannels; channel++) {
+                let sample = buffer.getChannelData(channel)[i];
+                sample = Math.max(-1, Math.min(1, sample));
+                view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                offset += 2;
+              }
+            }
+            return result;
+          }
+
+          function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+              view.setUint8(offset + i, string.charCodeAt(i));
+            }
+          }
+
+          function bufferToBase64(buffer) {
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            const len = bytes.byteLength;
+            for (let i = 0; i < len; i++) {
+              binary += String.fromCharCode(bytes[i]);
+            }
+            return window.btoa(binary);
+          }
+
+          window.generateTrack = async (track) => {
+             const duration = Math.min(track.duration || 1, 2); // limit to 2 seconds for fast CLI rendering
+             const audioBuffer = await Tone.Offline(({ transport }) => {
+                 const synth = new Tone.Synth().toDestination();
+                 const notes = ['C4', 'E4', 'G4', 'B4', 'C5'];
+                 
+                 let time = 0;
+                 for(let i=0; i < 8; i++) {
+                     synth.triggerAttackRelease(notes[i % notes.length], "8n", time);
+                     time += 0.25;
+                 }
+             }, duration);
+             
+             const wavBuffer = encodeWAV(audioBuffer);
+             const b64 = bufferToBase64(wavBuffer);
+             await window.saveWavFile(track.filename, b64);
+          };
+        ` });
+
+        console.log(`Rendering ${tracks.length} stems (limited to 2s preview each for pipeline speed)...`);
+        let count = 0;
+        for (const track of tracks) {
+            await page.evaluate((t) => window.generateTrack(t), track);
+            count++;
+            process.stdout.write(`\rRendered ${count}/${tracks.length} stems`);
+        }
+        console.log('\n✅ All stems rendered and saved to WAV.');
+
+        await browser.close();
       } catch (e) {
-        console.warn('⚠️ Puppeteer not available, skipping offline rendering');
+        console.warn('\\n⚠️ Puppeteer not available, skipping offline rendering:', e.message);
         console.log('   Install: npm install puppeteer');
       }
     }

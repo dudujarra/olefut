@@ -1,29 +1,30 @@
-import { canAccess } from './ViewUnlockSystem';
-import { compute as computeManagerIdentity } from './ManagerIdentitySystem';
-import { StaffManager } from './StadiumSystem';
+import { canAccess } from './ViewUnlockSystem.js';
+import { compute as computeManagerIdentity } from './ManagerIdentitySystem.js';
+import { evaluateAhaMoments, markAhaSeen } from './AhaMomentsSystem.js';
+import { StaffManager } from './StadiumSystem.js';
 
-import { MatchSimulator } from '../services/MatchSimulator';
-import { LLMNarrativeService } from '../services/LLMNarrativeService';
-import { MythService } from '../services/MythService';
-import { RelationshipService } from '../services/RelationshipService';
-import { NarrativeService } from '../services/NarrativeService';
-import { CareerService } from '../services/CareerService';
-import { InheritanceService } from '../services/InheritanceService';
-import { WeekProcessor } from '../services/WeekProcessor';
-import { SeasonProcessor } from '../services/SeasonProcessor';
-import { NpcWeekProcessor } from '../services/NpcWeekProcessor';
-import { TransferService } from '../services/TransferService';
-import { ScoutingService } from '../services/ScoutingService';
-import { LoanService } from '../services/LoanService';
-import { FacilityService } from '../services/FacilityService';
-import { FormationService } from '../services/FormationService';
-import { PressService } from '../services/PressService';
-import { SectorService } from '../services/SectorService';
-import { GameInitializer } from '../services/GameInitializer';
-import { decrementSuspensions } from './DisciplineSystem';
-import { setMatchBonus, settleMatchBonus, getMatchBonusBuff, MATCH_BONUS_TIERS } from './MatchBonusSystem';
-import { setTicketPolicy, getActiveTicketPolicy, TICKET_POLICIES } from './TicketPricingSystem';
-import { startAuction, raiseBid, resolveAuctions, getActiveAuctions, requiresAuction } from './StarAuctionSystem';
+import { MatchSimulator } from '../services/MatchSimulator.js';
+import { LLMNarrativeService } from '../services/LLMNarrativeService.js';
+import { MythService } from '../services/MythService.js';
+import { RelationshipService } from '../services/RelationshipService.js';
+import { NarrativeService } from '../services/NarrativeService.js';
+import { CareerService } from '../services/CareerService.js';
+import { InheritanceService } from '../services/InheritanceService.js';
+import { WeekProcessor } from '../services/WeekProcessor.js';
+import { SeasonProcessor } from '../services/SeasonProcessor.js';
+import { NpcWeekProcessor } from '../services/NpcWeekProcessor.js';
+import { TransferService } from '../services/TransferService.js';
+import { ScoutingService } from '../services/ScoutingService.js';
+import { LoanService } from '../services/LoanService.js';
+import { FacilityService } from '../services/FacilityService.js';
+import { FormationService } from '../services/FormationService.js';
+import { PressService } from '../services/PressService.js';
+import { SectorService } from '../services/SectorService.js';
+import { GameInitializer } from '../services/GameInitializer.js';
+import { decrementSuspensions } from './DisciplineSystem.js';
+import { setMatchBonus, MATCH_BONUS_TIERS } from './MatchBonusSystem.js';
+import { setTicketPolicy, getActiveTicketPolicy, TICKET_POLICIES } from './TicketPricingSystem.js';
+import { startAuction, raiseBid, getActiveAuctions, requiresAuction } from './StarAuctionSystem.js';
 
 export class Engine {
     constructor() {
@@ -91,7 +92,7 @@ export class Engine {
         this.matchCondition = null;
         this.transferOffers = [];
         this.weeklyFinance = null;
-        this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0 };
+        this.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0, cleanSheets: 0, tacticStreak: 0, lastTactic: null, transferProfit: 0, giantKills: 0, crisisSaves: 0, longestUnbeaten: 0, consecutiveTitles: 0 };
         this.board = null;
         this.weekInjuries = [];
         this.weekEvents = [];
@@ -181,7 +182,7 @@ export class Engine {
     // SPEC-070: retorna identidade calculada do técnico (reputação, estilo, carreira)
     getManagerIdentity() {
         const th = this.manager.tacticHistory || {};
-        const totalGames = Object.values(th).reduce((s, n) => s + n, 0);
+        const _totalGames = Object.values(th).reduce((s, n) => s + n, 0);
         const tacticHistory = Object.entries(th).map(([tactic, gamesUsed]) => ({
             tactic,
             gamesUsed,
@@ -234,6 +235,10 @@ export class Engine {
 
     applyLiveSubstitution(outId, inId, currentMinute) {
         return this._formationService.applyLiveSubstitution(this, outId, inId, currentMinute);
+    }
+
+    autoPickSquad() {
+        return this._formationService.autoPickSquad(this);
     }
 
     doTeamTalk(talkId) {
@@ -350,7 +355,33 @@ export class Engine {
      *   severity: 'info' | 'warning' | 'critical'
      */
     getPacingEvents() {
-        return this._sectorService.getPacingEvents(this);
+        const pacing = this._sectorService.getPacingEvents(this);
+
+        // AhaMoments: tutorial/onboarding cards based on career milestones
+        if (this.mode === 'manager') {
+            const team = this.getTeam(this.manager?.teamId);
+            const ahaCtx = {
+                matchesPlayed: this.managerStats?.wins + this.managerStats?.draws + this.managerStats?.losses || 0,
+                firstInjuryDetected: team?.squad?.some(p => p.injury) || false,
+                lowMoraleStreak: Math.abs(Math.min(0, this.managerStats?.streak || 0)),
+                weeksSinceLastTransfer: this._weeksSinceTransfer || 0,
+                matchesWithSameTactic: this.tacticStreak || 0,
+                weeksWithoutYouthCheck: this._weeksWithoutYouth || 0,
+                balance: team?.balance || 100000,
+            };
+            const ahaMoments = evaluateAhaMoments(ahaCtx);
+            ahaMoments.forEach(aha => {
+                pacing.push({
+                    type: 'AHA_MOMENT',
+                    severity: 'info',
+                    title: `💡 ${aha.title}`,
+                    body: aha.body,
+                });
+                markAhaSeen(aha.id);
+            });
+        }
+
+        return pacing;
     }
 
     // === COLETIVA DE IMPRENSA (RFCT-019.7 delegators) ===
@@ -423,11 +454,79 @@ export class Engine {
     }
 
     /**
+     * Finds the pending match for the human manager in the current week.
+     * Useful for real-time interactive simulation decoupling.
+     */
+    getPendingHumanMatch() {
+        if (!this.manager || !this.manager.teamId) return null;
+        const myTeamId = this.manager.teamId;
+        const week = this.currentWeek;
+
+        for (const t of this.tournaments) {
+            // League
+            if (t.fixtures && week < t.fixtures.length) {
+                const matches = t.fixtures[week];
+                const myMatch = matches.find(m => (m.home === myTeamId || m.away === myTeamId) && !m.played);
+                if (myMatch) return { tournament: t, match: myMatch, isCup: false };
+            }
+            // KnockoutCup
+            if (t.currentMatches && t.scheduleWeeks && t.scheduleWeeks[t.currentPhaseIndex] === week) {
+                const myMatch = t.currentMatches.find(m => (m.home === myTeamId || m.away === myTeamId) && !m.played);
+                if (myMatch) return { tournament: t, match: myMatch, isCup: true };
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Injects a pre-simulated human match result into the tournament schedule
+     * so advanceWeek() registers it without resimulating.
+     */
+    resolveHumanMatch(matchResult) {
+        const pending = this.getPendingHumanMatch();
+        if (pending && pending.match) {
+            pending.match.prePlayedResult = matchResult;
+        }
+    }
+
+    /**
      * RFCT-004: Delegator pra MatchSimulator (extracted ~231 LOC).
      * Comportamento idêntico — golden master snapshot preservado.
      */
     playMatch(homeId, awayId, isCup = false) {
         return this._matchSimulator.simulate(this, homeId, awayId, isCup);
+    }
+
+    /**
+     * Simulate only the first half (minutes 1-45).
+     * Returns a partial result that can be continued with playMatchSecondHalf().
+     */
+    playMatchFirstHalf(homeId, awayId, isCup = false) {
+        // skipPostMatch=true: no energy drain, career stats, discipline etc.
+        // Those effects run only at the end of the full match (2nd half).
+        return this._matchSimulator.simulateInterval(this, homeId, awayId, 1, 45, null, isCup, true);
+    }
+
+    /**
+     * Simulate only the second half (minutes 46-90).
+     * Takes the first half result as base and uses CURRENT squad/tactic state,
+     * so any substitutions or tactic changes made at halftime will affect the result.
+     */
+    playMatchSecondHalf(homeId, awayId, firstHalfResult, isCup = false) {
+        return this._matchSimulator.simulateInterval(this, homeId, awayId, 46, 90, firstHalfResult, isCup);
+    }
+
+    /**
+     * Re-simulate from any arbitrary minute to endMinute.
+     * Used for live substitutions during play — manager can intervene at any moment.
+     * @param {number} startMin - minute to start re-simulation (exclusive of already played)
+     * @param {number} endMin - minute to end (45 or 90)
+     * @param {Object} baseResult - accumulated result up to startMin
+     */
+    playMatchFromMinute(homeId, awayId, startMin, endMin, baseResult, isCup = false) {
+        // skipPostMatch=true: mid-game re-sims should not apply post-match effects.
+        // The final playMatchSecondHalf call will handle them.
+        return this._matchSimulator.simulateInterval(this, homeId, awayId, startMin, endMin, baseResult, isCup, true);
     }
 
     advanceWeek() {

@@ -19,20 +19,36 @@ export class SectorService {
         const titulares = team.squad.filter(p => p.isTitular);
 
         const computeRating = (player, macroPos) => {
+            let base;
             if (player.attributes) {
                 // Calculate effective rating for the sector based on key attributes
                 const a = player.attributes;
                 if (macroPos === 'ATA') {
-                    return Math.floor((a.technical.finishing * 0.4 + a.mental.offTheBall * 0.3 + a.physical.pace * 0.3) * 5);
+                    base = Math.floor((a.technical.finishing * 0.4 + a.mental.offTheBall * 0.3 + a.physical.pace * 0.3) * 5);
                 } else if (macroPos === 'MEI') {
-                    return Math.floor((a.technical.passing * 0.4 + a.mental.vision * 0.3 + a.technical.technique * 0.3) * 5);
+                    base = Math.floor((a.technical.passing * 0.4 + a.mental.vision * 0.3 + a.technical.technique * 0.3) * 5);
                 } else if (macroPos === 'DEF') {
-                    return Math.floor((a.technical.tackling * 0.4 + a.technical.marking * 0.3 + a.mental.positioning * 0.3) * 5);
+                    base = Math.floor((a.technical.tackling * 0.4 + a.technical.marking * 0.3 + a.mental.positioning * 0.3) * 5);
                 } else if (macroPos === 'GOL') {
-                    return Math.floor((a.goalkeeping.handling * 0.4 + a.goalkeeping.reflexes * 0.3 + a.mental.positioning * 0.3) * 5);
+                    base = Math.floor((a.goalkeeping.handling * 0.4 + a.goalkeeping.reflexes * 0.3 + a.mental.positioning * 0.3) * 5);
+                } else {
+                    base = player.ovr || 50;
                 }
+            } else {
+                base = player.ovr || 50;
             }
-            return player.ovr || 50; // fallback
+
+            // consistency: 10-20 scale. 20 = rock solid, 10 = wildly inconsistent
+            // Low consistency = ±15% swing, high consistency = ±3% swing
+            if (player.consistency != null) {
+                const maxSwing = 0.15 - (player.consistency - 10) * 0.012; // 10→0.15, 20→0.03
+                // Use player id + energy as poor-man's per-match seed (deterministic per match state)
+                const hash = ((player.id || 0) * 31 + (player.energy || 50)) % 1000 / 1000;
+                const swing = (hash - 0.5) * 2 * maxSwing; // -maxSwing to +maxSwing
+                base = Math.round(base * (1 + swing));
+            }
+
+            return base;
         };
 
         const avgSector = (arr, macroPos) => {

@@ -1,0 +1,114 @@
+.ef-match-highlight-video {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-color: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--border-color);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.ef-match-highlight-video__cinematic-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    image-rendering: pixelated; /* SNES aesthetic */
+}
+
+.ef-match-highlight-video__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.ef-match-highlight-video__stage {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 40px;
+}
+
+.ef-match-highlight-video__player-left,
+.ef-match-highlight-video__player-right {
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.ef-match-highlight-video__player-right {
+    /* For the defending player, we might shift them slightly up and left to face the attacker */
+}
+
+.ef-match-highlight-video__banner {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--text-main);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    text-align: center;
+}
+
+/* Flash effect for when a goal happens */
+.ef-match-highlight-video--flash::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    animation: flashEffect 0.5s ease-out;
+    pointer-events: none;
+    z-index: 100;
+}
+
+@keyframes flashEffect {
+    0% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+.ef-match-highlight-video__goal-text {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    font-size: 64px;
+    font-weight: 900;
+    color: #ffda00; /* Gold */
+    text-shadow: 0 4px 0 #d35400, 0 8px 16px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    z-index: 20;
+    animation: popGoal 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popGoal {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    20% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    40% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+}

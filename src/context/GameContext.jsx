@@ -7,6 +7,7 @@ import { ContinentalCup } from '../engine/tournaments/ContinentalCup';
 import { MonitorService } from '../services/MonitorService';
 import { ProPlayer } from '../engine/PlayerCareer';
 import { ManagerLegacy } from '../engine/SeasonSystem';
+import { getUnifiedView } from '../engine/UnifiedModeBridge';
 
 const GameContext = createContext();
 
@@ -22,8 +23,7 @@ export const useGame = () => useContext(GameContext);
 // AKITA-056 (v1.5): SAVE_VERSION 9 → 10 (chronicle export — fim roadmap v1.x).
 // AKITA-127 (v1.6): SAVE_VERSION 10 → 11 (Sul-Americana + real promo/rel counts + ecosystem fix).
 // Saves v<11 são auto-invalidados (start fresh).
-const SAVE_KEY = 'olefut_save_v1';
-const SAVE_VERSION = 11;
+import { SAVE_KEY, SAVE_VERSION } from '../engine/constants.js';
 
 /**
  * §7: CRC32 integrity checksum — detects corrupted or tampered saves.
@@ -318,7 +318,7 @@ export const GameProvider = ({ children }) => {
     // (handlers estáveis via useCallback). Consumers de useGame() agora
     // re-renderizam apenas quando state real muda — não a cada render do provider.
     const value = useMemo(() => ({
-        gameState, startGame, changeView, getEngine, forceUpdate, saveGame, resetGame, getDashboardView
+        gameState, startGame, changeView, getEngine, forceUpdate, saveGame, resetGame, getDashboardView, getUnifiedView: () => getUnifiedView(engineRef.current)
     }), [gameState, startGame, changeView, getEngine, forceUpdate, saveGame, resetGame, getDashboardView]);
 
     return (

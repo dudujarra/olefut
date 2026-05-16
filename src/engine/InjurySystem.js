@@ -33,6 +33,12 @@ export function rollInjury(player, context = 'match') {
     if (player.age > 32) chance *= 1.5; // veterano
     if (player.age < 20) chance *= 0.7; // jovem
 
+    // injuryProneness: 5-15 scale. 10 = neutro, 15 = frágil (+50%), 5 = resistente (-30%)
+    if (player.injuryProneness != null) {
+        const pronenessMod = 1.0 + (player.injuryProneness - 10) * 0.1;
+        chance *= Math.max(0.5, Math.min(1.8, pronenessMod));
+    }
+
     if (systemRng() > chance) return null;
 
     // Severidade: energia baixa = lesão mais grave

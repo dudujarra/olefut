@@ -1,0 +1,46 @@
+.ef-player-sprite {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    background-image: url('/assets/sprites/olefut_spritesheet.png'); /* The user's image goes here */
+    background-repeat: no-repeat;
+    background-size: auto; /* Adjust this later based on actual image dimensions */
+    animation: ef-play-sprite 0.8s steps(6) infinite;
+    transform-origin: bottom center;
+}
+
+/* Modifier: flip for facing left (away team) */
+.ef-player-sprite--left {
+    transform: scaleX(-1);
+}
+
+/* 
+ * Y-Positions for Actions 
+ * Assuming a 64px row height. 
+ * We will adjust these multiplier values when we have the exact image dimensions. 
+ */
+.ef-sprite-action--sprint { background-position-y: 0px; }
+.ef-sprite-action--header { background-position-y: -64px; }
+.ef-sprite-action--bicycle { background-position-y: -128px; }
+.ef-sprite-action--tackle { background-position-y: -192px; }
+.ef-sprite-action--dribble { background-position-y: -256px; }
+.ef-sprite-action--celebration { background-position-y: -320px; }
+.ef-sprite-action--save { background-position-y: -384px; }
+.ef-sprite-action--freekick { background-position-y: -448px; }
+
+/* Right Column (assuming 6 frames = 6 * 64 = 384px offset) or we use the base and shift X */
+.ef-sprite-modifier--fire {
+    /* If fire animations are on the right side of the sheet */
+    /* This assumes the animation will shift X from -384px to -768px */
+    animation: ef-play-sprite-right 0.8s steps(6) infinite;
+}
+
+@keyframes ef-play-sprite {
+    from { background-position-x: 0px; }
+    to { background-position-x: -384px; } /* 6 frames * 64px */
+}
+
+@keyframes ef-play-sprite-right {
+    from { background-position-x: -384px; }
+    to { background-position-x: -768px; } /* 6 frames * 64px */
+}

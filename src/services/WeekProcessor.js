@@ -17,7 +17,6 @@
  */
 
 import { calculateWeeklyFinances, rollMatchCondition } from '../engine/ManagerSystems';
-import { getDifficulty } from '../engine/systems/DifficultyModes.js';
 import { checkSquadHealth } from '../engine/SquadHealthMonitor';
 import { generateRealTransferOffers } from '../engine/MarketPricer';
 import { evaluateGrowth } from '../engine/GrowthEventSystem';
@@ -37,7 +36,7 @@ import { evaluate as evaluateOrganicChallenge } from '../engine/OrganicChallenge
 import { processAmbitionWeekly } from '../engine/AmbitionEngine';
 import { getTicketMoralBoost } from '../engine/TicketPricingSystem.js';
 import { resolveAuctions } from '../engine/StarAuctionSystem.js';
-
+import { pickInterruptEvent } from '../engine/InterruptEvents.js';
 import { rng as systemRng } from '../engine/rng.js';
 
 export class WeekProcessor {
@@ -284,6 +283,21 @@ export class WeekProcessor {
         // Mentoring (veteran teaches youth)
         const mentorEvts = processMentoring(team.squad);
         mentorEvts.forEach(e => engine.weekEvents.push(e));
+
+        // SPEC-068: InterruptEvents — forced decision events (~10%/week)
+        try {
+            const interrupt = pickInterruptEvent(engine, team);
+            if (interrupt) {
+                engine.pendingInterrupt = {
+                    id: interrupt.id,
+                    type: interrupt.type,
+                    title: interrupt.title,
+                    text: interrupt.text,
+                    options: interrupt.options,
+                };
+                engine.weekEvents.push(`⚡ ${interrupt.title}`);
+            }
+        } catch (_e) { /* defensive — interrupt system must never crash tick */ }
 
         // SPEC-200: Ambition Engine — player satisfaction vs club prestige
         try {

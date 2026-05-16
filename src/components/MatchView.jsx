@@ -6,8 +6,15 @@ import { sfx } from '../utils/sound';
 import { LiveSquadEditModal } from './LiveSquadEditModal';
 import { PreMatchScreen } from './PreMatchScreen';
 import { EfClubBadge, EfBanner } from './ui';
+import RivalriesView from './RivalriesView';
+import AutoPlayLabView from './AutoPlayLabView';
+import MatchHighlightVideo from './MatchHighlightVideo';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
+import { rng as systemRng } from '../engine/rng.js';
+import { shouldTriggerMidMatch, getMidMatchCardDerbyAware } from '../engine/MidMatchManagerDeck';
+import MidMatchCardModal from './MidMatchCardModal';
+import StarImpactToast from './StarImpactToast';
 
 import { 
     SoccerBall, Cardholder, FirstAid, ArrowsLeftRight, Hand, 
@@ -38,13 +45,53 @@ export function MatchView() {
     const [liveModalOpen, setLiveModalOpen] = useState(false);
     const [liveSubsCount, setLiveSubsCount] = useState(0);
     const [goalBurstActive, setGoalBurstActive] = useState(false);
-    const [eventOverlay, setEventOverlay] = useState(null); // 'card'|'injury'|'sub'|'whistle'
-    const [banner, setBanner] = useState(null); // null | 'hattrick' | 'cleanSheet' | 'motm'
+    const [eventOverlay, setEventOverlay] = useState(null);
+    const [banner, setBanner] = useState(null);
+    const [firstHalfResult, setFirstHalfResult] = useState(null);
+    const [activeMidMatchCard, setActiveMidMatchCard] = useState(null);
+    const [starImpacts, setStarImpacts] = useState([]);
+    const [benchPlayers, setBenchPlayers] = useState(() => {
+        // Smart bench: 1 GOL + positions based on current formation
+        const reserves = (team?.squad || []).filter(p => !p.isTitular && !p.injury && !p.suspension);
+        const bench = [];
+        
+        // 1. Always pick a backup GK
+        const gkReserve = reserves.find(p => p.position === 'GOL');
+        if (gkReserve) bench.push(gkReserve.id);
+        
+        // 2. Fill remaining 4 slots based on formation needs
+        const formation = FORMATIONS[team?.formation] || FORMATIONS['4-3-3'];
+        const posNeeds = [
+            ...Array(Math.max(1, Math.floor(formation.DEF / 2))).fill('DEF'),
+            ...Array(Math.max(1, Math.floor(formation.MEI / 2))).fill('MEI'),
+            ...Array(Math.max(1, Math.floor(formation.ATA / 2))).fill('ATA'),
+        ];
+        
+        const remaining = reserves.filter(p => !bench.includes(p.id));
+        for (const pos of posNeeds) {
+            if (bench.length >= 5) break;
+            const candidate = remaining
+                .filter(p => p.position === pos && !bench.includes(p.id))
+                .sort((a, b) => b.ovr - a.ovr)[0];
+            if (candidate) bench.push(candidate.id);
+        }
+        
+        // 3. Fill any remaining slots with best available
+        const leftover = remaining.filter(p => !bench.includes(p.id)).sort((a, b) => b.ovr - a.ovr);
+        for (const p of leftover) {
+            if (bench.length >= 5) break;
+            bench.push(p.id);
+        }
+        
+        return bench;
+    });
     
     const logRef = useRef(null);
     const timerRef = useRef(null);
     const speedRef = useRef(200);
     const pausedRef = useRef(false);
+    const matchIdsRef = useRef(null); // { homeId, awayId, isCup } for split-sim
+    const midMatchTriggeredRef = useRef(new Set());
 
     const cond = engine.matchCondition;
     const tactic = TACTICS[engine.currentTactic];
@@ -101,6 +148,19 @@ export function MatchView() {
 
             timerRef.current = setInterval(() => {
                 if (pausedRef.current) return;
+
+                if (shouldTriggerMidMatch(min + 1, midMatchTriggeredRef.current) && systemRng() < 0.4) {
+                    const isDerby = engine.getMatchContext ? engine.getMatchContext().isDerby : false;
+                    const card = getMidMatchCardDerbyAware(min + 1, isDerby, Math.floor(systemRng() * 10000));
+                    if (card) {
+                        setPaused(true);
+                        pausedRef.current = true;
+                        setActiveMidMatchCard(card);
+                        midMatchTriggeredRef.current.add(min + 1);
+                        return;
+                    }
+                }
+
                 min++;
                 tickerStateRef.current.currentMin = min;
                 setCurrentMinute(min);
@@ -133,6 +193,19 @@ export function MatchView() {
 
         timerRef.current = setInterval(() => {
             if (pausedRef.current) return;
+
+            if (shouldTriggerMidMatch(min + 1, midMatchTriggeredRef.current) && systemRng() < 0.4) {
+                const isDerby = engine.getMatchContext ? engine.getMatchContext().isDerby : false;
+                const card = getMidMatchCardDerbyAware(min + 1, isDerby, Math.floor(systemRng() * 10000));
+                if (card) {
+                    setPaused(true);
+                    pausedRef.current = true;
+                    setActiveMidMatchCard(card);
+                    midMatchTriggeredRef.current.add(min + 1);
+                    return;
+                }
+            }
+
             min++;
             tickerStateRef.current.currentMin = min;
             setCurrentMinute(min);
@@ -207,6 +280,34 @@ export function MatchView() {
     };
 
 
+    // TRUNCATE BASE RESULT (so we don't double count goals when resimulating)
+    const truncateSimResult = (baseResult, min) => {
+        if (!baseResult) return null;
+        
+        const textLog = baseResult.events.textLog.filter(e => e && e.minute <= min);
+        const _rawEvents = baseResult.events._rawEvents.filter(e => e && e.minute <= min);
+        const home = baseResult.events.home.filter(e => e && e.minute <= min);
+        const away = baseResult.events.away.filter(e => e && e.minute <= min);
+        
+        const homeGoals = home.filter(e => e?.text?.includes('⚽')).length;
+        const awayGoals = away.filter(e => e?.text?.includes('⚽')).length;
+
+        return {
+            ...baseResult,
+            homeGoals,
+            awayGoals,
+            events: {
+                ...baseResult.events,
+                textLog,
+                _rawEvents,
+                home,
+                away,
+                scorers: baseResult.events.scorers.filter(e => e && (e.minute || 0) <= min),
+                cards: baseResult.events.cards.filter(e => e && (e.minute || 0) <= min)
+            }
+        };
+    };
+
     // === PRE-MATCH ===
     if (phase === 'prematch') {
         const titulares = team.squad.filter(p => p.isTitular && !p.injury);
@@ -214,45 +315,59 @@ export function MatchView() {
         const sectors = engine.getTeamSectors(team.id);
 
         const launchMatch = () => {
-            const weekResults = engine.advanceWeek();
-            let myMatch = null;
-            for (const tId in weekResults) {
-                const match = weekResults[tId].find(m => (m.home === team.id || m.away === team.id) && m.score);
-                if (match) { myMatch = match; break; }
-            }
+            try {
+                // SPLIT-SIM: Find the human match BEFORE advanceWeek
+                const pending = engine.getPendingHumanMatch();
+                if (!pending) {
+                    // No match this week — advance and show "no game"
+                    engine.advanceWeek();
+                    setResult({ home: team.name, away: 'Sem Jogo', homeGoals: '-', awayGoals: '-' });
+                    setPhase('fulltime');
+                    forceUpdate();
+                    return;
+                }
 
-            if (myMatch && myMatch.score) {
-                const isHome = myMatch.home === team.id;
-                const opponent = engine.getTeam(isHome ? myMatch.away : myMatch.home);
-                const allEvents = myMatch.score.events?.textLog || [];
-                const htHomeGoals = myMatch.score.events?.home?.filter(e => e && e.minute <= 45).length || 0;
-                const htAwayGoals = myMatch.score.events?.away?.filter(e => e && e.minute <= 45).length || 0;
+                const { match, isCup } = pending;
+                const homeId = match.home;
+                const awayId = match.away;
+                const isHome = homeId === team.id;
+                const opponent = engine.getTeam(isHome ? awayId : homeId);
+
+                // Store match IDs for second-half re-simulation
+                matchIdsRef.current = { homeId, awayId, isCup };
+
+                // PHASE 1: Simulate ONLY the first half (minutes 1-45)
+                const htResult = engine.playMatchFirstHalf(homeId, awayId, isCup);
+                setFirstHalfResult(htResult);
+
+                const htEvents = htResult.events?.textLog || [];
+                const htHomeGoals = isHome ? htResult.homeGoals : htResult.awayGoals;
+                const htAwayGoals = isHome ? htResult.awayGoals : htResult.homeGoals;
 
                 setResult({
                     home: isHome ? team.name : opponent.name,
                     away: isHome ? opponent.name : team.name,
-                    homeGoals: myMatch.score.homeGoals,
-                    awayGoals: myMatch.score.awayGoals,
+                    homeGoals: htHomeGoals,
+                    awayGoals: htAwayGoals,
+                    _baseSimResult: htResult,
+                    _matchRef: match,
                 });
-                setNarration(allEvents);
-                setHalfTimeData({
-                    homeGoals: isHome ? htHomeGoals : htAwayGoals,
-                    awayGoals: isHome ? htAwayGoals : htHomeGoals,
-                });
-
-                const totalChances = allEvents.filter(e => e && e.text && (e.text.includes('⚽') || e.text.includes('Defesa') || e.text.includes('salva'))).length;
-                const goals = allEvents.filter(e => e && e.text && e.text.includes('⚽')).length;
-                setMatchStats({ totalChances, goals, injuries: (engine.weekInjuries?.length ?? 0) });
+                setNarration(htEvents);
+                setHalfTimeData({ homeGoals: htHomeGoals, awayGoals: htAwayGoals });
 
                 setDisplayedEvents([]);
                 setCurrentMinute(0);
                 setPhase('firsthalf');
-                setTimeout(() => startLiveTicker(allEvents, 0, 45, null), 300);
-            } else {
-                setResult({ home: team.name, away: 'Sem Jogo', homeGoals: '-', awayGoals: '-' });
+                setTimeout(() => startLiveTicker(htEvents, 0, 45, null), 300);
+                forceUpdate();
+            } catch (err) {
+                console.error('[ELIFOOT] launchMatch crash:', err);
+                console.error(err.stack);
+                // Fallback: show error state
+                setResult({ home: team.name, away: err.message.slice(0, 15) || 'ERRO', homeGoals: '!', awayGoals: '!' });
                 setPhase('fulltime');
+                forceUpdate();
             }
-            forceUpdate();
         };
 
         const matchContext = engine.getMatchContext ? engine.getMatchContext() : null;
@@ -309,18 +424,28 @@ export function MatchView() {
                             </EfPanel>
 
                             <EfPanel padding="md">
-                                <div className="ef-match-prematch__starters-header">
-                                    <div className="ef-section-header">
+                                <div className="ef-match-prematch__starters-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                    <div className="ef-section-header" style={{ marginBottom: 0 }}>
                                         <UserList size={24} style={{ color: 'var(--notification-info-border)' }} />
                                         <h3>TITULARES ({titulares.length})</h3>
                                     </div>
-                                    {lowEnergy.length > 0 && (
-                                        <div className="ef-match-prematch__low-energy">
-                                            <Warning /> {lowEnergy.length} COM ENERGIA BAIXA
-                                        </div>
-                                    )}
+                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                        <EfButton variant="secondary" size="sm" onClick={() => {
+                                            const res = engine.autoPickSquad();
+                                            if (res.success) setBenchPlayers(res.bench);
+                                        }}>
+                                            <Strategy size={16} /> AUTO-ESCALAR
+                                        </EfButton>
+                                        <EfButton variant="primary" size="sm" onClick={() => setLiveModalOpen(true)}>
+                                            <ArrowsLeftRight size={16} /> SUBSTITUIR
+                                        </EfButton>
+                                    </div>
                                 </div>
-
+                                {lowEnergy.length > 0 && (
+                                    <div className="ef-match-prematch__low-energy" style={{ marginBottom: '16px' }}>
+                                        <Warning /> {lowEnergy.length} COM ENERGIA BAIXA
+                                    </div>
+                                )}
                                 <div className="ef-match-prematch__starters-list">
                                     {titulares.map(p => (
                                         <div key={p.id} className={`ef-match-prematch__starter${p.energy < 40 ? ' ef-match-prematch__starter--low-energy' : ''}`}>
@@ -339,6 +464,86 @@ export function MatchView() {
                                         </div>
                                     ))}
                                 </div>
+                            </EfPanel>
+
+                            {/* === BANCO DE RESERVAS (5 jogadores) === */}
+                            <EfPanel padding="md">
+                                <div className="ef-section-header">
+                                    <ArrowsLeftRight size={24} style={{ color: 'var(--color-secondary)' }} />
+                                    <h3>BANCO DE RESERVAS ({benchPlayers.length}/5)</h3>
+                                </div>
+
+                                {(() => {
+                                    const benchList = benchPlayers.map(id => team.squad.find(p => p.id === id)).filter(Boolean);
+                                    const availableForBench = team.squad.filter(p => !p.isTitular && !p.injury && !p.suspension && !benchPlayers.includes(p.id)).sort((a, b) => b.ovr - a.ovr);
+
+                                    return (
+                                        <>
+                                            {benchList.length > 0 && (
+                                                <div className="ef-match-prematch__starters-list">
+                                                    {benchList.map(p => (
+                                                        <div key={p.id} className="ef-match-prematch__starter">
+                                                            <div className="ef-match-prematch__starter-left">
+                                                                <div className="ef-match-prematch__starter-pos">{p.position}</div>
+                                                                <div className="ef-match-prematch__starter-name-block">
+                                                                    <div className="ef-match-prematch__starter-name">
+                                                                        {p.name} {p._isCaptain && '©️'} {getFormEmoji(p.form?.trend)}
+                                                                    </div>
+                                                                    <div className="ef-match-prematch__starter-detail">
+                                                                        OVR: <strong>{p.ovr}</strong> • 
+                                                                        <span style={{ color: getEnergyColor(p.energy) }}> COND: {p.energy}%</span> • 
+                                                                        Moral: {p.moral || 50}% • 
+                                                                        {p.age} anos
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <EfButton variant="secondary" size="sm" onClick={() => setBenchPlayers(prev => prev.filter(id => id !== p.id))}>
+                                                                ✖ REMOVER
+                                                            </EfButton>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            {benchPlayers.length < 5 && availableForBench.length > 0 && (
+                                                <>
+                                                    <div className="ef-match-prematch__low-energy" style={{ marginTop: '12px', color: 'var(--text-muted)' }}>
+                                                        ADICIONAR AO BANCO:
+                                                    </div>
+                                                    <div className="ef-match-prematch__starters-list">
+                                                        {availableForBench.slice(0, 10).map(p => (
+                                                            <div key={p.id} className="ef-match-prematch__starter" style={{ opacity: 0.7 }}>
+                                                                <div className="ef-match-prematch__starter-left">
+                                                                    <div className="ef-match-prematch__starter-pos">{p.position}</div>
+                                                                    <div className="ef-match-prematch__starter-name-block">
+                                                                        <div className="ef-match-prematch__starter-name">
+                                                                            {p.name} {getFormEmoji(p.form?.trend)}
+                                                                        </div>
+                                                                        <div className="ef-match-prematch__starter-detail">
+                                                                            OVR: <strong>{p.ovr}</strong> • 
+                                                                            <span style={{ color: getEnergyColor(p.energy) }}> COND: {p.energy}%</span> • 
+                                                                            Moral: {p.moral || 50}% • 
+                                                                            {p.age} anos
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <EfButton variant="primary" size="sm" onClick={() => setBenchPlayers(prev => [...prev, p.id])}>
+                                                                    + BANCO
+                                                                </EfButton>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </>
+                                            )}
+
+                                            {benchList.length === 0 && (
+                                                <div className="ef-sans ef-text-muted" style={{ padding: '12px', textAlign: 'center' }}>
+                                                    Nenhum jogador selecionado para o banco.
+                                                </div>
+                                            )}
+                                        </>
+                                    );
+                                })()}
                             </EfPanel>
 
                             <div className="ef-match-prematch__actions">
@@ -515,19 +720,136 @@ export function MatchView() {
     };
 
     // === LIVE MATCH RENDERER === (Stitch v1.1: feed + sidebar split)
-    const MAX_SUBS = 5;
+    const MAX_SUBS = 3;
+    const handleLiveIntervention = (isSub = false) => {
+        if (phase === 'prematch') {
+            // Just force an update to reflect the change visually
+            setPreStep(p => p);
+            return;
+        }
+        if (isSub) {
+            setLiveSubsCount(c => c + 1);
+        }
+        
+        // SPLIT-SIM: Re-simulate remaining minutes after sub or tactic change
+        const ids = matchIdsRef.current;
+        if (ids) {
+            const curMin = currentMinute;
+            const endMin = phase === 'firsthalf' ? 45 : 90;
+            
+            // Extract the current baseline and truncate it to remove future events
+            const isHome = ids.homeId === team.id;
+            const eventsUpToNow = narration.filter(e => e && (e.minute || 0) <= curMin);
+            let baseForResim = truncateSimResult(result?._baseSimResult, curMin);
+            
+            // Fallback if no base result exists
+            if (!baseForResim) {
+                baseForResim = {
+                    homeGoals: isHome ? (result?.homeGoals || 0) : (result?.awayGoals || 0),
+                    awayGoals: isHome ? (result?.awayGoals || 0) : (result?.homeGoals || 0),
+                    events: { home: [], away: [], textLog: eventsUpToNow, scorers: [], cards: [], motm: null, _rawEvents: [] }
+                };
+            }
+            
+            // Re-simulate from current minute to end of half
+            const resim = engine.playMatchFromMinute(
+                ids.homeId, ids.awayId,
+                curMin + 1, endMin, baseForResim, ids.isCup
+            );
+        
+            // Splice: keep events up to now + new events from resim
+            const newLaterEvents = (resim.events?.textLog || []).filter(e => e && (e.minute || 0) > curMin);
+            const combinedNarration = [...eventsUpToNow, ...newLaterEvents];
+            setNarration(combinedNarration);
+            
+            // Update score display
+            setResult(prev => ({
+                ...prev,
+                homeGoals: isHome ? resim.homeGoals : resim.awayGoals,
+                awayGoals: isHome ? resim.awayGoals : resim.homeGoals,
+                _baseSimResult: resim,
+            }));
+            
+            // If in second half, update the resolved match result
+            if (phase === 'secondhalf') {
+                engine.resolveHumanMatch(resim);
+            }
+            // If in first half, update firstHalfResult for correct 2nd half base
+            if (phase === 'firsthalf') {
+                setFirstHalfResult(resim);
+            }
+            
+            // Restart ticker from current minute with new events
+            if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+            setTimeout(() => startLiveTicker(combinedNarration, curMin + 1, endMin, null), 100);
+        }
+        
+        forceUpdate();
+    };
+
+    const handleMidMatchChoice = (opt) => {
+        if (opt.effect?.tacticShift) {
+             engine.setTactic(opt.effect.tacticShift);
+             setTacticChanged(true);
+        }
+
+        const deltaM = opt.effect?.moralDelta || 0;
+        const deltaE = opt.effect?.energyDelta || 0;
+        if (deltaM !== 0 || deltaE !== 0) {
+            team.squad.forEach(p => {
+                if (p.isTitular) {
+                    p.moral = Math.max(0, Math.min(100, (p.moral || 50) + deltaM));
+                    p.energy = Math.max(0, Math.min(100, p.energy + deltaE));
+                }
+            });
+        }
+
+        if (gameState.mode === 'unified' && engine.starPlayerId) {
+            const player = team.squad.find(p => p.id === engine.starPlayerId);
+            if (player && (deltaM !== 0 || deltaE !== 0)) {
+                const impact = {
+                    name: player.name,
+                    changes: {
+                        moral: deltaM !== 0 ? { before: player.moral - deltaM, after: player.moral } : undefined,
+                        energy: deltaE !== 0 ? { before: player.energy - deltaE, after: player.energy } : undefined
+                    }
+                };
+                const entryId = Date.now();
+                setStarImpacts(prev => [...prev, { id: entryId, impact }]);
+                setTimeout(() => setStarImpacts(prev => prev.filter(p => p.id !== entryId)), 3500);
+            }
+        }
+
+        if (opt.effect?.tacticShift) {
+             handleLiveIntervention(false);
+        }
+
+        setActiveMidMatchCard(null);
+        setPaused(false);
+        pausedRef.current = false;
+        forceUpdate();
+    };
+
     const renderLiveMatch = (half) => (
         <div className="ef-view-shell">
             <div className="ef-view-container">
                 <Scoreboard half={half} />
 
                 <div className="ef-match-live__layout">
-                    <section className="ef-match-feed">
+                    <section className="ef-match-feed" style={{ display: 'flex', flexDirection: 'column' }}>
+                        {displayedEvents.length > 0 && (
+                            <div style={{ marginBottom: '16px' }}>
+                                <MatchHighlightVideo 
+                                    event={displayedEvents[displayedEvents.length - 1]} 
+                                    isHomeAttacking={true} /* We can enhance this later */
+                                />
+                            </div>
+                        )}
                         <header className="ef-match-feed__header">
                             <span className="ef-match-feed__title">MATCH FEED</span>
                             <span className="ef-match-feed__icon" aria-hidden="true">~</span>
                         </header>
-                        <div className="ef-match-feed__body" ref={logRef}>
+                        <div className="ef-match-feed__body" ref={logRef} style={{ flex: 1 }}>
                             {displayedEvents.map((n, i) => {
                                 const isGoal = n.text?.includes('⚽');
                                 const isCard = n.text?.includes('🟨') || n.text?.includes('🟥');
@@ -593,7 +915,14 @@ export function MatchView() {
                         <Pause weight="fill" /> INTERVALO
                     </EfButton>
                 ) : (
-                    <EfButton variant="primary" className="ef-match-live__phase-btn" disabled={isPlaying} onClick={() => setPhase('fulltime')}>
+                    <EfButton variant="primary" className="ef-match-live__phase-btn" disabled={isPlaying} onClick={() => {
+                        // Final resolve + advanceWeek only at fulltime
+                        if (matchIdsRef.current && result?._baseSimResult) {
+                            engine.resolveHumanMatch(result._baseSimResult);
+                            engine.advanceWeek();
+                        }
+                        setPhase('fulltime');
+                    }}>
                         <CheckCircle weight="fill" /> FIM DE JOGO
                     </EfButton>
                 )}
@@ -602,12 +931,36 @@ export function MatchView() {
                     <LiveSquadEditModal
                         team={team}
                         engine={engine}
-                        currentMinute={currentMinute}
-                        liveSubsCount={liveSubsCount}
-                        onSubMade={() => { setLiveSubsCount(c => c + 1); forceUpdate(); }}
+                        currentMinute={phase === 'prematch' ? 0 : currentMinute}
+                        liveSubsCount={phase === 'prematch' ? 0 : liveSubsCount}
+                        maxSubs={phase === 'prematch' ? 999 : 3}
+                        benchPlayerIds={phase === 'prematch' ? null : benchPlayers}
+                        onSubMade={() => handleLiveIntervention(true)}
+                        onTacticChanged={() => handleLiveIntervention(false)}
                         onClose={() => { setLiveModalOpen(false); setPaused(false); pausedRef.current = false; }}
                     />
                 )}
+
+                {activeMidMatchCard && (
+                    <MidMatchCardModal
+                        card={activeMidMatchCard}
+                        onChoose={handleMidMatchChoice}
+                        onClose={() => {
+                            setActiveMidMatchCard(null);
+                            setPaused(false);
+                            pausedRef.current = false;
+                        }}
+                    />
+                )}
+
+                <div style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {starImpacts.map(entry => (
+                        <StarImpactToast
+                            key={entry.id}
+                            impact={entry.impact}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     );
@@ -617,7 +970,10 @@ export function MatchView() {
 
     // === HALF TIME ===
     if (phase === 'halftime') {
-        const subs = team.squad.filter(p => !p.isTitular && !p.injury && !p.suspension).slice(0, 5);
+        const titulares = team.squad.filter(p => p.isTitular && !p.injury);
+        const subs = benchPlayers.length > 0
+            ? benchPlayers.map(id => team.squad.find(p => p.id === id)).filter(p => p && !p.isTitular && !p.injury && !p.suspension)
+            : team.squad.filter(p => !p.isTitular && !p.injury && !p.suspension).slice(0, 5);
         const tiredPlayers = team.squad.filter(p => p.isTitular && p.energy < 50);
 
         return (
@@ -663,41 +1019,126 @@ export function MatchView() {
                             </EfPanel>
                         )}
 
-                        {!subUsed && tiredPlayers.length > 0 && subs.length > 0 && (
+                        {liveSubsCount < 3 && subs.length > 0 && (
                             <EfPanel padding="md" className="ef-match-halftime__subs-panel">
                                 <div className="ef-section-header">
                                     <ArrowsLeftRight size={24} className="ef-match-halftime__warning-icon" />
-                                    <h3>SUBSTITUIÇÃO (CANSAÇO)</h3>
+                                    <h3>SUBSTITUIÇÃO ({liveSubsCount}/3)</h3>
                                 </div>
-                                <div className="ef-match-halftime__subs-list">
-                                    {tiredPlayers.slice(0, 3).map(p => (
-                                        <div key={p.id} className="ef-match-halftime__player-row">
-                                            <div className="ef-match-halftime__player-info">
-                                                <div className="ef-sans ef-text-main ef-match-halftime__player-name">{p.name} <span className="ef-text-muted ef-match-halftime__player-pos">({p.position})</span></div>
-                                                <div className="ef-mono ef-match-halftime__player-energy" style={{ color: getEnergyColor(p.energy) }}>COND: {p.energy}%</div>
-                                            </div>
-                                            <EfButton variant="primary" size="sm" onClick={() => {
-                                                const sub = subs[0];
-                                                if (sub) {
-                                                    p.isTitular = false;
-                                                    sub.isTitular = true;
-                                                    sub.energy = Math.min(100, sub.energy + 15);
-                                                    setSubUsed(true);
-                                                    forceUpdate();
-                                                }
-                                            }}>
-                                                <ArrowsLeftRight size={16} /> ENTRA {subs[0]?.name}
-                                            </EfButton>
+
+                                {!subUsed ? (
+                                    <>
+                                        <div className="ef-match-prematch__low-energy" style={{ marginBottom: '8px' }}>
+                                            SELECIONE QUEM SAI:
                                         </div>
-                                    ))}
-                                </div>
+                                        <div className="ef-match-halftime__subs-list">
+                                            {titulares.map(p => (
+                                                <div key={p.id} className="ef-match-halftime__player-row" style={{ cursor: 'pointer' }}
+                                                    onClick={() => setSubUsed(p)}>
+                                                    <div className="ef-match-halftime__player-info">
+                                                        <div className="ef-sans ef-text-main ef-match-halftime__player-name">
+                                                            <strong>{p.position}</strong> {p.name} {p._isCaptain && '©️'} {getFormEmoji(p.form?.trend)}
+                                                        </div>
+                                                        <div className="ef-mono" style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                                            OVR: <strong style={{ color: 'var(--text-main)' }}>{p.ovr}</strong> • 
+                                                            <span style={{ color: getEnergyColor(p.energy) }}> COND: {p.energy}%</span> • 
+                                                            Moral: {p.moral || 50}% • 
+                                                            {p.age} anos
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : typeof subUsed === 'object' ? (
+                                    <>
+                                        <div style={{ padding: '8px 12px', background: 'var(--bg-surface-alt)', borderRadius: '6px', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <span className="ef-sans"><strong>SAINDO:</strong> {subUsed.name} ({subUsed.position}) — OVR {subUsed.ovr}</span>
+                                            <EfButton variant="secondary" size="sm" onClick={() => setSubUsed(false)}>CANCELAR</EfButton>
+                                        </div>
+                                        <div className="ef-match-prematch__low-energy" style={{ marginBottom: '8px' }}>
+                                            SELECIONE QUEM ENTRA:
+                                        </div>
+                                        <div className="ef-match-halftime__subs-list">
+                                            {subs.map(p => (
+                                                <div key={p.id} className="ef-match-halftime__player-row">
+                                                    <div className="ef-match-halftime__player-info">
+                                                        <div className="ef-sans ef-text-main ef-match-halftime__player-name">
+                                                            <strong>{p.position}</strong> {p.name} {getFormEmoji(p.form?.trend)}
+                                                        </div>
+                                                        <div className="ef-mono" style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                                            OVR: <strong style={{ color: 'var(--text-main)' }}>{p.ovr}</strong> • 
+                                                            <span style={{ color: getEnergyColor(p.energy) }}> COND: {p.energy}%</span> • 
+                                                            Moral: {p.moral || 50}% • 
+                                                            {p.age} anos
+                                                        </div>
+                                                    </div>
+                                                    <EfButton variant="primary" size="sm" onClick={() => {
+                                                        subUsed.isTitular = false;
+                                                        p.isTitular = true;
+                                                        p.energy = Math.min(100, p.energy + 15);
+                                                        setLiveSubsCount(c => c + 1);
+                                                        setSubUsed(true); // true = done, shows completed state
+                                                        forceUpdate();
+                                                    }}>
+                                                        <ArrowsLeftRight size={16} /> ENTRAR
+                                                    </EfButton>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="ef-match-halftime__subs-list">
+                                        <div style={{ padding: '12px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                                            <CheckCircle size={20} style={{ verticalAlign: 'middle' }} /> Substituição realizada.
+                                            {liveSubsCount < 3 && (
+                                                <EfButton variant="secondary" size="sm" style={{ marginLeft: '12px' }} onClick={() => setSubUsed(false)}>
+                                                    MAIS UMA SUBSTITUIÇÃO
+                                                </EfButton>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </EfPanel>
                         )}
                     </div>
 
                     <EfButton variant="primary" className="ef-match-halftime__resume-btn" onClick={() => {
-                        setPhase('secondhalf');
-                        setTimeout(() => startLiveTicker(narration, 46, 90, null), 300);
+                        // SPLIT-SIM PHASE 2: Re-simulate second half with CURRENT squad/tactics
+                        const ids = matchIdsRef.current;
+                        if (ids && firstHalfResult) {
+                            const secondHalf = engine.playMatchSecondHalf(ids.homeId, ids.awayId, firstHalfResult, ids.isCup);
+                            const isHome = ids.homeId === team.id;
+
+                            // Combine first + second half narration
+                            const firstHalfEvents = narration; // already stored from first half
+                            const secondHalfEvents = (secondHalf.events?.textLog || []).filter(e => e && e.minute > 45);
+                            const allEvents = [...firstHalfEvents, ...secondHalfEvents];
+                            setNarration(allEvents);
+
+                            // Update final score
+                            setResult(prev => ({
+                                ...prev,
+                                homeGoals: isHome ? secondHalf.homeGoals : secondHalf.awayGoals,
+                                awayGoals: isHome ? secondHalf.awayGoals : secondHalf.homeGoals,
+                                _baseSimResult: secondHalf,
+                            }));
+
+                            // Update match stats
+                            const totalChances = allEvents.filter(e => e?.text?.includes('⚽') || e?.text?.includes('Defesa') || e?.text?.includes('salva')).length;
+                            const goals = allEvents.filter(e => e?.text?.includes('⚽')).length;
+                            setMatchStats({ totalChances, goals, injuries: (engine.weekInjuries?.length ?? 0) });
+
+                            // DON'T advanceWeek here — wait for fulltime to allow live subs
+                            // advanceWeek will be called at fulltime transition
+
+                            setPhase('secondhalf');
+                            setTimeout(() => startLiveTicker(allEvents, 46, 90, null), 300);
+                        } else {
+                            // Fallback: no split-sim data, just replay
+                            setPhase('secondhalf');
+                            setTimeout(() => startLiveTicker(narration, 46, 90, null), 300);
+                        }
                     }}>
                         <Play size={24} weight="fill" /> INICIAR 2º TEMPO
                     </EfButton>
@@ -708,7 +1149,7 @@ export function MatchView() {
 
     // === FULL TIME ===
     const lastMatchScorers = narration.filter(n => n && n.text?.includes('⚽'));
-    const lastMatchCards = narration.filter(n => n && n.text?.includes('🟨') || n?.text?.includes('🟥'));
+    const lastMatchCards = narration.filter(n => n && (n.text?.includes('🟨') || n.text?.includes('🟥')));
     const motmEntry = narration.find(n => n.text?.includes('⭐ Craque'));
 
     return (
