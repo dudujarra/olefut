@@ -8,6 +8,7 @@ import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import { HexagonChart } from './HexagonChart';
+import { PlayerAttributesGrid } from './ui/PlayerAttributesGrid';
 import { calculateRatingForPosition } from '../engine/Positions';
 import { injectSquadIntoTeam } from '../services/SquadDataService';
 import { getClubColors } from '../data/clubColors';
@@ -355,6 +356,8 @@ export function SquadView() {
                                                                 )}
                                                             </div>
                                                         </div>
+                                                        {/* NOVO: Componente com os 46 atributos táticos detalhados */}
+                                                        <PlayerAttributesGrid player={p} />
                                                     </td>
                                                 </tr>
                                             )}

@@ -12,6 +12,7 @@
 import { useState, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
 import { HexagonChart } from '../HexagonChart';
+import { PlayerAttributesGrid } from '../ui/PlayerAttributesGrid';
 import {
     Crown, Star, Sparkle, ClipboardText, Plant,
     SoccerBall, Trophy, ChartBar, Calendar, ArrowUp, ArrowDown
@@ -219,6 +220,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                             <div style={{ background: 'var(--color-shadow-deep)', padding: '8px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 {/* Destaque o Top 1 com o Hexagon Chart */}
                                 {snapshot.topScorers.length > 0 && (
+                                    <>
                                     <div style={{ display: 'flex', gap: '16px', alignItems: 'center', padding: '8px', background: 'var(--color-bg-deep)', border: '1px solid var(--color-forest-pulse)' }}>
                                         <div style={{ width: '120px', height: '120px', flexShrink: 0 }}>
                                             <HexagonChart player={snapshot.topScorers[0]} size={120} showLabels={true} />
@@ -237,6 +239,11 @@ export default function CareerInfoPanel({ controllerRef }) {
                                             </div>
                                         </div>
                                     </div>
+                                    {/* Mostrar grade detalhada do artilheiro */}
+                                    <div style={{ marginTop: '4px', borderTop: '1px solid var(--color-bg-deep)', paddingTop: '8px' }}>
+                                        <PlayerAttributesGrid player={snapshot.topScorers[0]} />
+                                    </div>
+                                    </>
                                 )}
                                 
                                 {/* Lista dos demais artilheiros */}
