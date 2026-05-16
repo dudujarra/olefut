@@ -37,3 +37,10 @@ test_ui.cjs
 
 # Lab test results
 lab-results/
+
+# Estudo / Extrações de Binários (Unity/Elifoot 25) - Não incluir no repo
+decompiled_elifoot25/
+elifoot_25_extracted/
+*.assets
+*.dll
+*.exe
