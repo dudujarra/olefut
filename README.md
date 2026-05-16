@@ -123,7 +123,7 @@ CI auto-roda series em todo PR. Templates forçam 3-artefact checklist.
 ```
 src/
 ├── engine/          # Headless engine (zero React)
-│   ├── engine.js    # Orchestrator (540L — refatorado)
+│   ├── engine.js    # Thin facade (323L — pure delegators)
 │   ├── data.js
 │   ├── db/          # 170 clubes BR/EU/SA + club-voices.json
 │   ├── systems/     # FormSystem, DressingRoom, Achievements...

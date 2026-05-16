@@ -99,7 +99,7 @@ Detalhes de isolamento de engine, OOP, padronização de dados, build validation
 ```
 src/
 ├── engine/                   # Motor de simulação (headless, zero React)
-│   ├── engine.js             # Orchestrator (540 linhas — refatorado AKITA-404)
+│   ├── engine.js             # Thin facade (323L — pure state + delegators, AKITA-406)
 │   ├── data.js               # Geração de jogadores/times (OVR, nomes)
 │   ├── rng.js                # PRNG determinístico
 │   ├── db/                   # Times reais (170 clubes) + dados estáticos
@@ -260,8 +260,8 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 | Bugs com regression test | 17 arquivos em `tests/regression/` | — |
 | AKITA commits | **404+** | `git log --grep AKITA` |
 | Clubes | 170 (BR + EU + SA) | `src/engine/db/` |
-| Backend total | **~22.269 linhas** (engine/ + services/) | `wc -l` |
-| Maior arquivo backend | 643L (AutoPlayDecisions) | — |
+| Backend total | **~22.078 linhas** (engine/ + services/) | `wc -l` |
+| Maior arquivo backend | 643L (AutoPlayDecisions) | engine.js saiu do top 6 |
 | Dead imports | **0** | auditado AKITA-404 |
 | CJS require() | **0** | migrado para ESM puro |
 | Build | ✅ limpo, ~1.1s, initial chunk **376KB** (gzip 110KB) | `vite build` |
@@ -279,7 +279,7 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 - ~~370 dead imports~~ **resolvido AKITA-404**: zero dead imports em engine/ + services/
 - ~~CJS require() em ES modules~~ **resolvido AKITA-404**: MarketPricer + processNPCSeasonEnd convertidos
 - ~~weekEvents unbounded growth~~ **resolvido AKITA-404**: hard cap 50 eventos/semana
-- **`engine.js` 540 linhas** — último orchestrator grande. Fatiar requer spec formal (risco alto).
+- ~~`engine.js` 540 linhas~~ **resolvido AKITA-406**: thin facade 323L (-40%). Zero lógica inline. Pure state + delegators.
 - **EfButton chunk 652KB** — contém player DB inteiro. Candidato a SPEC-160 (code-split DB).
 
 ---
