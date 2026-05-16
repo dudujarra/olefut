@@ -2,6 +2,8 @@
 //
 // Stateless. Engine context.
 
+import { evaluateAhaMoments, markAhaSeen } from '../engine/AhaMomentsSystem.js';
+
 export class SectorService {
     constructor() {
         // Stateless
@@ -88,6 +90,7 @@ export class SectorService {
     /**
      * Pacing friction events para UI human bloquear (AUDIT-FIX #17).
      * Cada evento: { type, severity, title, body, action? }
+     * AKITA-404: AhaMoments logic moved here from engine.js (was inline).
      */
     getPacingEvents(engine) {
         if (engine.mode !== 'manager') return [];
@@ -100,7 +103,7 @@ export class SectorService {
             events.push({
                 type: 'BOARD_ULTIMATUM',
                 severity: 'critical',
-                title: '⚠️ ULTIMATO DA DIRETORIA',
+                title: '[!] ULTIMATO DA DIRETORIA',
                 body: `A diretoria perdeu a confiança (${engine.board.confidence}%). Mais derrotas levarão à demissão. Considere ajustar tática e reforçar o elenco.`,
                 action: 'tactics'
             });
@@ -113,7 +116,7 @@ export class SectorService {
             events.push({
                 type: 'CONTRACT_EMERGENCY',
                 severity: 'warning',
-                title: '📋 CONTRATOS EXPIRANDO',
+                title: 'CONTRATOS EXPIRANDO',
                 body: `${expiringNow.length} jogador(es) sairão DE GRAÇA em 2 semanas: ${names}. Renove agora ou perca-os.`,
                 action: 'squad'
             });
@@ -124,7 +127,7 @@ export class SectorService {
             events.push({
                 type: 'FINANCIAL_CRISIS',
                 severity: 'critical',
-                title: '💸 CRISE FINANCEIRA',
+                title: 'CRISE FINANCEIRA',
                 body: `Balanço em R$ ${(team.balance / 1000000).toFixed(1)}M. Venda jogadores ou reduza custos para evitar colapso.`,
                 action: 'market'
             });
@@ -136,7 +139,7 @@ export class SectorService {
             events.push({
                 type: 'SQUAD_THIN',
                 severity: 'warning',
-                title: '🚨 ELENCO CURTO',
+                title: 'ELENCO CURTO',
                 body: `Apenas ${available.length} jogadores disponíveis. Contrate reforços ou arrisque W.O.`,
                 action: 'market'
             });
@@ -150,8 +153,8 @@ export class SectorService {
             events.push({
                 type: 'MID_SEASON_REVIEW',
                 severity: 'info',
-                title: '📊 BALANÇO DO 1º TURNO',
-                body: `Metade da temporada! Posição: ${pos}º lugar. V${engine.managerStats.wins} E${engine.managerStats.draws} D${engine.managerStats.losses}. Mantenha o foco para o 2º turno.`
+                title: 'BALANÇO DO 1o TURNO',
+                body: `Metade da temporada! Posição: ${pos}o lugar. V${engine.managerStats.wins} E${engine.managerStats.draws} D${engine.managerStats.losses}. Mantenha o foco para o 2o turno.`
             });
         }
 
@@ -161,13 +164,35 @@ export class SectorService {
             events.push({
                 type: 'STREAK_PAUSE',
                 severity: 'info',
-                title: isWin ? '🔥 SEQUÊNCIA HISTÓRICA' : '❄️ MOMENTO DIFÍCIL',
+                title: isWin ? 'SEQUENCIA HISTORICA' : 'MOMENTO DIFICIL',
                 body: isWin
                     ? `${engine.managerStats.streak} vitórias consecutivas! A torcida está empolgada. Continue o bom trabalho!`
                     : `${Math.abs(engine.managerStats.streak)} derrotas seguidas. Considere mudanças táticas e de formação.`,
                 action: isWin ? null : 'tactics'
             });
         }
+
+        // 7. AhaMoments: tutorial/onboarding cards based on career milestones
+        // AKITA-404: moved from engine.getPacingEvents() inline logic
+        const ahaCtx = {
+            matchesPlayed: (engine.managerStats?.wins || 0) + (engine.managerStats?.draws || 0) + (engine.managerStats?.losses || 0),
+            firstInjuryDetected: team?.squad?.some(p => p.injury) || false,
+            lowMoraleStreak: Math.abs(Math.min(0, engine.managerStats?.streak || 0)),
+            weeksSinceLastTransfer: engine._weeksSinceTransfer || 0,
+            matchesWithSameTactic: engine.tacticStreak || 0,
+            weeksWithoutYouthCheck: engine._weeksWithoutYouth || 0,
+            balance: team?.balance || 100000,
+        };
+        const ahaMoments = evaluateAhaMoments(ahaCtx);
+        ahaMoments.forEach(aha => {
+            events.push({
+                type: 'AHA_MOMENT',
+                severity: 'info',
+                title: aha.title,
+                body: aha.body,
+            });
+            markAhaSeen(aha.id);
+        });
 
         return events;
     }
