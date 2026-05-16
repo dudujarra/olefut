@@ -63,9 +63,9 @@ export function purchaseCosmetic(cosmeticId, currentPoints) {
 
 export function equipCosmetic(cosmeticId) {
     const state = loadState();
-    if (!state.owned.includes(cosmeticId)) return { success: false };
+    if (!state.owned.includes(cosmeticId)) return { success: false, msg: 'Item não adquirido.' };
     const item = COSMETICS.find(c => c.id === cosmeticId);
-    if (!item) return { success: false };
+    if (!item) return { success: false, msg: 'Item não encontrado.' };
     state.equipped[item.type] = cosmeticId;
     saveState(state);
     return { success: true };

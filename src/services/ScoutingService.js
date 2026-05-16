@@ -50,7 +50,7 @@ export class ScoutingService {
      */
     doScouting(engine, regionId) {
         const team = engine.getTeam(engine.manager.teamId);
-        if (!team) return { success: false, players: [] };
+        if (!team) return { success: false, msg: 'Time não encontrado.', players: [] };
         const region = SCOUT_REGIONS.find(r => r.id === regionId);
         if (region && region.cost > team.balance) {
             return { success: false, msg: `Saldo insuficiente. Custo: R$ ${(region.cost/1000).toFixed(0)}K` };

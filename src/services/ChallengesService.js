@@ -90,7 +90,7 @@ export function getActiveChallenges(engine) {
 }
 
 export function claimChallenge(engine, challengeId) {
-    if (!engine) return { success: false };
+    if (!engine) return { success: false, msg: 'Engine inválido.' };
     const week = engine.currentWeek || 1;
     const state = loadState();
     const key = `${week}_${challengeId}`;
@@ -98,7 +98,7 @@ export function claimChallenge(engine, challengeId) {
     if (state.completed[key]) return { success: false, msg: 'Já recebido' };
 
     const challenge = WEEKLY_CHALLENGES.find(c => c.id === challengeId);
-    if (!challenge) return { success: false };
+    if (!challenge) return { success: false, msg: 'Desafio não encontrado.' };
 
     if (!challenge.check(engine)) return { success: false, msg: 'Desafio não completado' };
 

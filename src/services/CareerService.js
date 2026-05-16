@@ -36,7 +36,7 @@ export class CareerService {
      */
     advanceCareer(engineOrSave, weeks = 1) {
         const proPlayer = this.getProPlayer(engineOrSave);
-        if (!proPlayer || proPlayer.retired) return { success: false };
+        if (!proPlayer || proPlayer.retired) return { success: false, msg: 'ProPlayer não encontrado ou aposentado.' };
 
         const events = [];
         for (let w = 0; w < weeks; w++) {
@@ -129,7 +129,7 @@ export class CareerService {
      */
     retireProPlayer(engineOrSave) {
         const proPlayer = this.getProPlayer(engineOrSave);
-        if (!proPlayer || proPlayer.retired) return { success: false, reason: 'no proPlayer or already retired' };
+        if (!proPlayer || proPlayer.retired) return { success: false, msg: 'ProPlayer não encontrado ou já aposentado.' };
 
         // Retire
         proPlayer.retired = true;
@@ -190,7 +190,7 @@ export class CareerService {
      * Sign manager with club.
      */
     signWithClub(engineOrSave, clubId, contract = {}) {
-        if (!engineOrSave) return { success: false };
+        if (!engineOrSave) return { success: false, msg: 'Engine inválido.' };
         engineOrSave.managerCareer = engineOrSave.managerCareer || {
             history: [],
             startedAt: Date.now()
@@ -264,7 +264,7 @@ export class CareerService {
      * Adds offer to manager career.
      */
     addOffer(engineOrSave, offer) {
-        if (!engineOrSave) return { success: false };
+        if (!engineOrSave) return { success: false, msg: 'Engine inválido.' };
         engineOrSave.managerCareer = engineOrSave.managerCareer || { history: [], offers: [] };
         engineOrSave.managerCareer.offers = engineOrSave.managerCareer.offers || [];
         engineOrSave.managerCareer.offers.push({

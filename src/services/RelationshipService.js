@@ -137,7 +137,7 @@ export class RelationshipService {
      * Records a positive alliance event (e.g., loan deal completed).
      */
     recordAlliance(engineOrSave, clubA, clubB, delta = 5) {
-        if (!engineOrSave || clubA == null || clubB == null) return { success: false };
+        if (!engineOrSave || clubA == null || clubB == null) return { success: false, msg: 'Parametros inválidos.' };
         engineOrSave.relations = engineOrSave.relations || {};
         engineOrSave.relations.club_club = engineOrSave.relations.club_club || {};
         const key = pairKey(clubA, clubB);
@@ -184,7 +184,7 @@ export class RelationshipService {
      * @returns {{success}}
      */
     recordDerby(engineOrSave, clubA, clubB, result = {}) {
-        if (!engineOrSave || clubA == null || clubB == null) return { success: false };
+        if (!engineOrSave || clubA == null || clubB == null) return { success: false, msg: 'Parametros inválidos.' };
         engineOrSave.relations = engineOrSave.relations || {};
         engineOrSave.relations.club_club = engineOrSave.relations.club_club || {};
         const key = pairKey(clubA, clubB);
@@ -201,7 +201,7 @@ export class RelationshipService {
      * Records transfer impact (cliente vai pra rival = +rivalry).
      */
     recordTransfer(engineOrSave, playerId, fromClub, toClub) {
-        if (!engineOrSave || fromClub == null || toClub == null) return { success: false };
+        if (!engineOrSave || fromClub == null || toClub == null) return { success: false, msg: 'Parametros inválidos.' };
         if (fromClub === toClub) return { success: false, msg: 'mesmo clube' };
         // Only sour relationship if rivalry already exists
         const currentRivalry = this.getRivalry(engineOrSave, fromClub, toClub);
@@ -238,7 +238,7 @@ export class RelationshipService {
      * Adjusts manager trust (-100 to +100).
      */
     adjustTrust(engineOrSave, delta) {
-        if (!engineOrSave) return { success: false };
+        if (!engineOrSave) return { success: false, msg: 'Engine inválido.' };
         engineOrSave.relations = engineOrSave.relations || {};
         engineOrSave.relations.manager_president = engineOrSave.relations.manager_president || {
             trust: 60,
@@ -254,7 +254,7 @@ export class RelationshipService {
      * Adjusts patience (0-100).
      */
     adjustPatience(engineOrSave, delta) {
-        if (!engineOrSave) return { success: false };
+        if (!engineOrSave) return { success: false, msg: 'Engine inválido.' };
         engineOrSave.relations = engineOrSave.relations || {};
         engineOrSave.relations.manager_president = engineOrSave.relations.manager_president || {
             trust: 60,

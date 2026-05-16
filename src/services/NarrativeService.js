@@ -226,7 +226,7 @@ export class NarrativeService {
      * Opens narrative arc (rivalidade, "Sombra do Pai", etc.)
      */
     openArc(engineOrSave, arcName, actors = [], context = {}) {
-        if (!engineOrSave) return { success: false };
+        if (!engineOrSave) return { success: false, msg: 'Engine inválido.' };
         engineOrSave.arcs = engineOrSave.arcs || [];
 
         // Avoid duplicates by name + same actors
@@ -261,7 +261,7 @@ export class NarrativeService {
      * Closes an arc by id.
      */
     closeArc(engineOrSave, arcId, closureContext = {}) {
-        if (!engineOrSave?.arcs) return { success: false };
+        if (!engineOrSave?.arcs) return { success: false, msg: 'Arcos não inicializados.' };
         const arc = engineOrSave.arcs.find(a => a.id === arcId);
         if (!arc) return { success: false, msg: 'arc não encontrado' };
         arc.status = 'closed';
@@ -274,9 +274,9 @@ export class NarrativeService {
      * Adds milestone to existing arc.
      */
     addMilestone(engineOrSave, arcId, milestone) {
-        if (!engineOrSave?.arcs) return { success: false };
+        if (!engineOrSave?.arcs) return { success: false, msg: 'Arcos não inicializados.' };
         const arc = engineOrSave.arcs.find(a => a.id === arcId);
-        if (!arc) return { success: false };
+        if (!arc) return { success: false, msg: 'Arco não encontrado.' };
         arc.milestones = arc.milestones || [];
         arc.milestones.push({ ...milestone, ts: milestone.ts ?? Date.now() });
         return { success: true };

@@ -29,7 +29,7 @@ export class FormationService {
      */
     saveFormationLayout(engine, { formation, layout }) {
         const team = engine.getTeam(engine.manager?.teamId);
-        if (!team) return { success: false };
+        if (!team) return { success: false, msg: 'Time não encontrado.' };
         if (formation) team.formation = formation;
         team.formationLayout = layout;
         return { success: true };
@@ -137,7 +137,7 @@ export class FormationService {
      */
     autoPickSquad(engine) {
         const team = engine.getTeam(engine.manager?.teamId);
-        if (!team) return { success: false };
+        if (!team) return { success: false, msg: 'Time não encontrado.' };
 
         const formation = FORMATIONS[team.formation] || FORMATIONS['4-3-3'];
         
