@@ -367,7 +367,7 @@ function GrowthTab({ events, week }) {
                 {events.length} EVOLUÇÃO{events.length > 1 ? 'ÕES' : ''} NA SEMANA {week ?? '—'}
             </h3>
             <p className="ef-panel-intro">
-                ⭐ youth_breakthrough · 🔥 hot_streak · 📈 peak_season · 💪 training_breakthrough · 🧬 heritage
+                youth_breakthrough · hot_streak · peak_season · training_breakthrough · heritage
             </p>
             <div className="ef-event-list">
                 {events.map((evt, idx) => {

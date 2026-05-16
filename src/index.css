@@ -1,9 +1,10 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
 @import './styles/isssd-premium.css';
 @import './styles/animations.css';
 @import './styles/ef-helpers.css';
 @import './styles/mobile.css';
-@import './styles/match-view.css';
+
 @import './styles/market-view.css';
 @import './styles/cosmetic-shop-view.css';
 @import './styles/save-slots-view.css';
@@ -30,7 +31,7 @@
 @import './styles/challenges-widget.css';
 @import './styles/floating-bug-button.css';
 @import './styles/match-ball-sprite.css';
-@import './styles/match-scoreboard.css';
+
 @import './styles/match-highlight-modal.css';
 @import './styles/match-post-mortem.css';
 @import './styles/mid-match-card-modal.css';
@@ -203,7 +204,7 @@ body {
   /* Pitch atmosphere: CRT scanlines applied via body::after in isssd-premium.css */
   background-color: #111417; /* Solid CRT Black */
   color: var(--text-main);
-  min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -419,7 +420,7 @@ h1, h2, h3, h4 {
 /* === START VIEW === */
 .start-view {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  min-height: 100vh; text-align: center;
+  min-height: 100dvh; text-align: center;
 }
 .start-view h1 { font-size: 3.5rem; color: var(--primary); margin-bottom: 0.2rem; letter-spacing: 4px; text-shadow: 0 4px 0 var(--primary-dark); }
 .start-view p { color: var(--text-muted); margin-bottom: 2rem; font-family: 'Press Start 2P', monospace; text-transform: uppercase; letter-spacing: 2px; }

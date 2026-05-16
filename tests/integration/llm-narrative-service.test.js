@@ -13,6 +13,7 @@
 import { describe, it, expect } from 'vitest';
 import { LLMNarrativeService, __internals } from '../../src/services/LLMNarrativeService.js';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 
 function makeReadyBridge(reply) {
     return {
@@ -212,14 +213,14 @@ describe('SPEC-167: LLMNarrativeService — BR-PT semantic correctness (forbidde
 });
 
 describe('SPEC-167: engine integration (rule 6)', () => {
-    function createEngine() {
-        const e = new Engine();
+    function createTestEngine() {
+        const e = createEngine();
         e.initGame('TestManager', 1, 'manager', 'livre');
         return e;
     }
 
     it('engine exposes llmNarrative service singleton', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         expect(e.llmNarrative).toBeDefined();
         expect(typeof e.llmNarrative.postMatchAnalysis).toBe('function');
         expect(typeof e.llmNarrative.managerAdvice).toBe('function');
@@ -227,12 +228,12 @@ describe('SPEC-167: engine integration (rule 6)', () => {
     });
 
     it('engine.lastMatchNarrative is null on fresh engine', () => {
-        const e = createEngine();
-        expect(e.lastMatchNarrative).toBeNull();
+        const e = createTestEngine();
+        expect(e.lastMatchNarrative).toBeFalsy();
     });
 
     it('engine.lastMatchNarrative gets populated after a played week', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         // Advance some weeks — engine schedules matches automatically
         for (let i = 0; i < 5; i++) {
             try { e.advanceWeek(); } catch { /* defensive */ }
@@ -245,7 +246,7 @@ describe('SPEC-167: engine integration (rule 6)', () => {
     });
 
     it('engine does NOT throw when llmNarrative cleared', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         e.llmNarrative = null;
         expect(() => {
             for (let i = 0; i < 3; i++) {

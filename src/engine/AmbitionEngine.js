@@ -18,7 +18,6 @@
  */
 
 import { rng as systemRng } from './rng.js';
-import { calcMarketValue } from './MarketPricer.js';
 
 // ============================================================
 // CLUB PRESTIGE

@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 /**
  * AutoPlayPacing — Human-Parity Interactions
  * RFCT-018 Phase 2: Extracted from AutoPlayService._tick()
@@ -13,7 +14,6 @@
  */
 
 import { TEAM_TALKS } from '../engine/ManagerSystems';
-import { rng as systemRng } from '../engine/rng.js';
 
 export class AutoPlayPacing {
     /**
@@ -54,7 +54,7 @@ export class AutoPlayPacing {
                     }
                 }
             }
-        } catch { /* team talk non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'team talk non-critical'); }
     }
 
     /** Contract Renewals — human renews expiring contracts in SquadView */
@@ -74,7 +74,7 @@ export class AutoPlayPacing {
                     }
                 }
             }
-        } catch { /* contract non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'contract non-critical'); }
     }
 
     /** Coach Proposals — bot decides based on context */
@@ -115,7 +115,7 @@ export class AutoPlayPacing {
                     ctx.engine.pendingCoachProposal = null;
                 }
             }
-        } catch { /* proposal non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'proposal non-critical'); }
     }
 
     /** Scout Regions — ML via Thompson Sampling */
@@ -142,7 +142,7 @@ export class AutoPlayPacing {
                     }
                 }
             }
-        } catch { /* scout non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'scout non-critical'); }
     }
 
     /** Week Events — human reads narrative events in DashboardView */
@@ -162,7 +162,7 @@ export class AutoPlayPacing {
                     ctx.stats._eventTypes[t] = (ctx.stats._eventTypes[t] || 0) + 1;
                 });
             }
-        } catch { /* events non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'events non-critical'); }
     }
 
     /** Season Awards — human sees awards banner in DashboardView */
@@ -177,7 +177,7 @@ export class AutoPlayPacing {
                 }
                 ctx.engine.seasonAwards = [];
             }
-        } catch { /* awards non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'awards non-critical'); }
     }
 
     /** Active Challenge — human tracks in DashboardView */
@@ -193,7 +193,7 @@ export class AutoPlayPacing {
                 if (!ctx.stats._challengesSeen) ctx.stats._challengesSeen = 0;
                 ctx.stats._challengesSeen++;
             }
-        } catch { /* challenge non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'challenge non-critical'); }
     }
 
     /** Board Tension — human reads in DashboardView */
@@ -206,7 +206,7 @@ export class AutoPlayPacing {
                     ctx.stats._boardTensionHistory = ctx.stats._boardTensionHistory.slice(-100);
                 }
             }
-        } catch { /* board non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'board non-critical'); }
     }
 
     /** Hall of Legends — human views in DashboardView */
@@ -221,7 +221,7 @@ export class AutoPlayPacing {
                     ctx.stats._hallOfLegendsCount = ctx.engine.hallOfLegends.filledCount;
                 }
             }
-        } catch { /* hall non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'hall non-critical'); }
     }
 
     /** Sign Scouted Players — human signs in MarketView/DashboardView */
@@ -248,7 +248,7 @@ export class AutoPlayPacing {
                     }
                 }
             }
-        } catch { /* sign non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'sign non-critical'); }
     }
 
     /** Staff Management — ML via Thompson Sampling */
@@ -271,7 +271,7 @@ export class AutoPlayPacing {
                     }
                 }
             }
-        } catch { /* staff non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'staff non-critical'); }
     }
 
     /** Loan Players — human loans bench in SquadView */
@@ -293,7 +293,7 @@ export class AutoPlayPacing {
                     }
                 }
             }
-        } catch { /* loan non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'loan non-critical'); }
     }
 
     /** Live Substitutions — human subs during MatchView */
@@ -314,10 +314,10 @@ export class AutoPlayPacing {
                                 out: out.name, in: inP.name,
                                 outEnergy: out.energy, inOvr: inP.ovr
                             }, 0);
-                        } catch { /* sub may fail if not mid-match */ }
+                        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'sub may fail if not mid-match'); }
                     }
                 }
             }
-        } catch { /* sub non-critical */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayPacing.js', 'sub non-critical'); }
     }
 }

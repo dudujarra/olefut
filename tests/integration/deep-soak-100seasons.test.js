@@ -4,6 +4,7 @@
  */
 import { describe, it, expect, beforeAll } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { AutoPlayController } from '../../src/services/AutoPlayService.js';
 
 // Mock localStorage for Node — fresh per test file
@@ -26,7 +27,7 @@ describe('Deep Soak Test — 100 seasons ML convergence', () => {
         // CRITICAL: clear any state from previous test files in same worker
         localStorage.clear();
         
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('DeepBot', 1, 'manager', 'fallen');
         bot = new AutoPlayController(engine);
         bot.running = true;

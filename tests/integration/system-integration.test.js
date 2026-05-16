@@ -6,64 +6,65 @@
  */
 import { describe, it, expect } from 'vitest';
 import { Engine } from '../../src/engine/engine';
+import { createEngine as factoryCreate } from '../../src/engine/engineFactory.js';
 
-function createEngine() {
-    const e = new Engine();
+function createTestEngine() {
+    const e = factoryCreate();
     e.initGame('TestManager', 1, 'manager', 'livre');
     return e;
 }
 
 function advanceWeeks(engine, n) {
     for (let i = 0; i < n; i++) {
-        try { engine.advanceWeek(); } catch { /* defensive */ }
+        try { engine.advanceWeek(); } catch (err) { console.error('Error in advanceWeek:', err); }
     }
 }
 
 describe('System Integration: constructor state', () => {
     it('initializes boardTension at 50', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         expect(e.boardTension).toBe(50);
     });
 
     it('initializes lossStreak at 0', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         expect(e.managerStats.lossStreak).toBe(0);
     });
 
     it('initializes rivalryHistory as empty object', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         expect(e.rivalryHistory).toEqual({});
     });
 
     it('initializes formerCompanions as empty array', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         expect(e.formerCompanions).toEqual([]);
     });
 
     it('initializes chronicles as empty array', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         expect(e.chronicles).toEqual([]);
     });
 
     it('initializes hallOfLegends as null', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         expect(e.hallOfLegends).toBeNull();
     });
 
     it('initializes pendingCoachProposal as null', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         expect(e.pendingCoachProposal).toBeNull();
     });
 
     it('initializes activeChallenge as null', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         expect(e.activeChallenge).toBeNull();
     });
 });
 
 describe('System Integration: advanceWeek hooks', () => {
     it('SPEC-076: humiliation cascade triggers weekEvents on goleada', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         // Force a loss scenario where we got thrashed
         e.advanceWeek();
         // After some weeks, check that weekEvents can contain skull emoji from humiliation
@@ -72,7 +73,7 @@ describe('System Integration: advanceWeek hooks', () => {
     });
 
     it('SPEC-077: lossStreak tracks correctly across losses', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         // Simulate losses manually
         e.managerStats.lossStreak = 5;
         expect(e.managerStats.lossStreak).toBe(5);
@@ -82,7 +83,7 @@ describe('System Integration: advanceWeek hooks', () => {
     });
 
     it('SPEC-080: rivalry history populates after matches', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         advanceWeeks(e, 5);
         // rivalryHistory should have entries after matches are played
         const keys = Object.keys(e.rivalryHistory);
@@ -100,8 +101,12 @@ describe('System Integration: advanceWeek hooks', () => {
 
 describe('System Integration: startNewSeason hooks', () => {
     it('SPEC-082: chronicle is generated at season end', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         advanceWeeks(e, 39); // triggers startNewSeason at week 38
+        if (e.chronicles.length === 0) {
+            const { EngineLogger } = require('../../src/engine/EngineLogger.js');
+            console.log('Health Report:', JSON.stringify(EngineLogger.getHealthReport(), null, 2));
+        }
         expect(e.chronicles.length).toBeGreaterThanOrEqual(1);
         expect(e.chronicles[0]).toHaveProperty('season');
         expect(e.chronicles[0]).toHaveProperty('chronicle');
@@ -109,7 +114,7 @@ describe('System Integration: startNewSeason hooks', () => {
     });
 
     it('SPEC-078: hallOfLegends is computed at season end', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         advanceWeeks(e, 39);
         expect(e.hallOfLegends).not.toBeNull();
         expect(e.hallOfLegends).toHaveProperty('clubId');
@@ -118,7 +123,7 @@ describe('System Integration: startNewSeason hooks', () => {
     });
 
     it('SPEC-072: boardTension updates on title won', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const initialTension = e.boardTension;
         // Even without a title, boardTension should be a valid number after season
         advanceWeeks(e, 39);
@@ -128,7 +133,7 @@ describe('System Integration: startNewSeason hooks', () => {
     });
 
     it('lossStreak resets at season start', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         e.managerStats.lossStreak = 10;
         e.startNewSeason();
         expect(e.managerStats.lossStreak).toBe(0);
@@ -137,7 +142,7 @@ describe('System Integration: startNewSeason hooks', () => {
 
 describe('System Integration: acceptTransferOffer hooks', () => {
     it('SPEC-081: sold players are tracked in formerCompanions', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const team = e.getTeam(e.manager.teamId);
         // Set up a fake transfer offer
         const player = team.squad.find(p => !p.isTitular);
@@ -158,7 +163,7 @@ describe('System Integration: acceptTransferOffer hooks', () => {
 
 describe('System Integration: full season simulation', () => {
     it('completes 2 full seasons without errors', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         // 2 full seasons = 78 weeks
         expect(() => advanceWeeks(e, 80)).not.toThrow();
         expect(e.seasonNumber).toBeGreaterThanOrEqual(3);
@@ -166,7 +171,7 @@ describe('System Integration: full season simulation', () => {
     });
 
     it('weekEvents contain system-generated events', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         advanceWeeks(e, 39);
         // Check that weekEvents has entries from the new systems
         const allEvents = e.weekEvents.join(' ');

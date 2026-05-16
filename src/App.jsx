@@ -168,7 +168,9 @@ function App() {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', overflowX: 'hidden' }}>
                 {gameState.started && (
                     <header className="top-bar glass-panel">
-                        <div className="logo">OléFUT</div>
+                        <div className="logo">
+                            <img src="/assets/images/olefut_logo_celeste.png" alt="OléFUT" style={{ height: '24px', imageRendering: 'pixelated' }} />
+                        </div>
                         <div className="user-info" style={{display:'flex',alignItems:'center',gap:'0.6rem'}}>
                             <span className="manager-name">{gameState.manager}</span>
                             {gameState.mode === 'player' && engine.proPlayer && (

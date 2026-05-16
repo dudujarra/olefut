@@ -210,4 +210,4 @@ class Morphocycle {
     }
 }
 
-module.exports = new Morphocycle();
+export default new Morphocycle();

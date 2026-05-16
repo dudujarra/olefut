@@ -11,7 +11,7 @@ import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/system
 import { EfClubBadge } from './ui/EfClubBadge';
 import { EfButton } from './ui/EfButton';
 
-import gameLogo from '../assets/shields/olefut_main_logo.png';
+
 
 import {
     User, SoccerBall, MapPin,
@@ -94,7 +94,7 @@ export function StartView() {
 
                     <div className="ef-start-logo-wrap">
                         <img
-                            src={gameLogo}
+                            src="/assets/images/olefut_logo_celeste.png"
                             alt="OléFUT Logo"
                             className="ef-start-logo"
                         />

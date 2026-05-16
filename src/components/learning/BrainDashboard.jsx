@@ -132,7 +132,7 @@ export function BrainDashboard({ controllerRef }) {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '10px' }}>
                         {/* Personality */}
                         <div style={cardStyle}>
-                            <div style={titleStyle}>🎭 Personalidade — {String(archetypeLabel)}</div>
+                            <div style={titleStyle}>[P] Personalidade — {String(archetypeLabel)}</div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                 {Object.entries(traits).map(([trait, val]) => {
                                     if (typeof val !== 'number') return null;
@@ -217,7 +217,7 @@ export function BrainDashboard({ controllerRef }) {
 
                     {/* Row 2: Action Distribution (visual bar chart) */}
                     <div style={{ ...cardStyle, marginBottom: '10px' }}>
-                        <div style={titleStyle}>📐 Distribuição de Ações ({totalDecisions} total)</div>
+                        <div style={titleStyle}>[=] Distribuição de Ações ({totalDecisions} total)</div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                             {actionFreq.map(([action, count], i) => {
                                 const pct = totalDecisions > 0 ? (count / totalDecisions) * 100 : 0;
@@ -302,7 +302,7 @@ export function BrainDashboard({ controllerRef }) {
 
                     {/* Row 4: State Exploration */}
                     <div style={{ ...cardStyle, marginBottom: '10px' }}>
-                        <div style={titleStyle}>🗺️ States Explorados ({stateVisits.length})</div>
+                        <div style={titleStyle}>[#] States Explorados ({stateVisits.length})</div>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', maxHeight: '120px', overflowY: 'auto' }}>
                             {stateVisits.slice(0, 30).map(sv => {
                                 const maxVisits = stateVisits.length > 0 ? stateVisits[0].visits : 1;
@@ -329,7 +329,7 @@ export function BrainDashboard({ controllerRef }) {
 
                     {/* Row 5: Episodic Memory Timeline */}
                     <div style={cardStyle}>
-                        <div style={titleStyle}>💭 Memória Episódica (últimas {Math.min(10, memory.length)})</div>
+                        <div style={titleStyle}>[~] Memória Episódica (últimas {Math.min(10, memory.length)})</div>
                         <div style={{ maxHeight: '140px', overflowY: 'auto' }}>
                             {memory.slice(-10).reverse().map((m, i) => (
                                 <div key={i} style={{

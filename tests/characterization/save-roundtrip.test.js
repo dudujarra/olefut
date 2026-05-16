@@ -15,6 +15,7 @@
 
 import { describe, test, expect, beforeEach, afterEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { Tournament } from '../../src/engine/tournaments/Tournament.js';
 import { League } from '../../src/engine/tournaments/League.js';
 import { KnockoutCup } from '../../src/engine/tournaments/KnockoutCup.js';
@@ -121,7 +122,7 @@ describe('Save round-trip preservation (RFCT-002)', () => {
         const fixturePath = path.resolve(__dirname, '../__fixtures__/save-baseline-v2.json');
 
         // Generate baseline from current engine
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
         for (let i = 0; i < 10; i++) engine.advanceWeek();
 
@@ -154,7 +155,7 @@ describe('Save round-trip preservation (RFCT-002)', () => {
     });
 
     test('engine state survives JSON round-trip', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
         for (let i = 0; i < 10; i++) engine.advanceWeek();
 
@@ -162,7 +163,7 @@ describe('Save round-trip preservation (RFCT-002)', () => {
         const json = JSON.stringify(serialized);
         const parsed = JSON.parse(json);
 
-        const newEngine = new Engine();
+        const newEngine = createEngine();
         restoreEngine(newEngine, parsed);
 
         expect(newEngine.currentWeek).toBe(engine.currentWeek);
@@ -173,14 +174,14 @@ describe('Save round-trip preservation (RFCT-002)', () => {
     });
 
     test('BUG-021: Tournament prototypes restored after round-trip', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
         for (let i = 0; i < 5; i++) engine.advanceWeek();
 
         const json = JSON.stringify(serializeEngine(engine));
         const parsed = JSON.parse(json);
 
-        const restored = new Engine();
+        const restored = createEngine();
         restoreEngine(restored, parsed);
 
         for (const t of restored.tournaments) {
@@ -189,7 +190,7 @@ describe('Save round-trip preservation (RFCT-002)', () => {
     });
 
     test('Tournament classes preserved via __class tag', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
 
         const serialized = serializeEngine(engine);
@@ -203,7 +204,7 @@ describe('Save round-trip preservation (RFCT-002)', () => {
     });
 
     test('class instance fields skipped (staff/board/legacy)', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
 
         const serialized = serializeEngine(engine);
@@ -216,13 +217,13 @@ describe('Save round-trip preservation (RFCT-002)', () => {
     });
 
     test('round-trip preserves teams structure (deep)', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
         for (let i = 0; i < 3; i++) engine.advanceWeek();
 
         const json = JSON.stringify(serializeEngine(engine));
         const parsed = JSON.parse(json);
-        const restored = new Engine();
+        const restored = createEngine();
         restoreEngine(restored, parsed);
 
         // Compare team[0] structure

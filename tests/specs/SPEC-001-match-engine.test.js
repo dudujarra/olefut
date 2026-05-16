@@ -1,11 +1,12 @@
 // SPEC-001: Match Engine Simulation harness
 import { describe, test, expect, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 
 describe('SPEC-001: Match Engine Simulation', () => {
     let engine;
     beforeEach(() => {
-        engine = new Engine();
+        engine = createEngine();
     });
 
     test('Engine instantiates with default state', () => {

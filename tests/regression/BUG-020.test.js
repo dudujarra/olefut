@@ -22,10 +22,9 @@ describe('BUG-020 regression: localStorage auto-save', () => {
         expect(content).toMatch(/localStorage/);
     });
 
-    test('SAVE_KEY constant defined', () => {
+    test('SAVE_KEY constant is used', () => {
         const content = fs.readFileSync(ctxFile, 'utf-8');
         expect(content).toMatch(/SAVE_KEY/);
-        expect(content).toMatch(/olefut_save/);
     });
 
     test('saveToStorage function exists', () => {

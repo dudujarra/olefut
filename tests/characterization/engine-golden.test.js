@@ -14,6 +14,7 @@
 
 import { describe, test, expect, beforeEach, afterEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { setGlobalSeed } from '../../src/engine/rng.js';
 
 const SEED = 42;
@@ -30,7 +31,7 @@ describe('Engine Golden Master (5 seasons, seed=42)', () => {
     });
 
     test('5-season simulation snapshot is deterministic', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
 
         // 5 temporadas = 190 weeks
@@ -73,7 +74,7 @@ describe('Engine Golden Master (5 seasons, seed=42)', () => {
     test('determinism: same seed produces identical key state across instances', () => {
         const runEngine = (weeks) => {
             setGlobalSeed(SEED);
-            const e = new Engine();
+            const e = createEngine();
             e.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
             for (let i = 0; i < weeks; i++) e.advanceWeek();
             return {
@@ -105,14 +106,14 @@ describe('Engine Golden Master (5 seasons, seed=42)', () => {
     });
 
     test('initGame produces deterministic team count', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
         expect(engine.teams.length).toBeGreaterThan(0);
         expect(engine.tournaments.length).toBeGreaterThan(0);
     });
 
     test('40-week simulation completes without throwing', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('Dudu', 1, 'manager', 'livre', 'ATA');
 
         expect(() => {

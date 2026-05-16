@@ -43,7 +43,7 @@ export class KnockoutCup extends Tournament {
                 nextPhaseTeams.push(m.home);
                 results.push(m);
             } else {
-                const result = engine.playMatch(m.home, m.away, true);
+                const result = m.prePlayedResult || engine.playMatch(m.home, m.away, true);
                 m.score = result;
                 m.played = true;
                 results.push(m);

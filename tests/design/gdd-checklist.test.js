@@ -7,6 +7,7 @@
 
 import { describe, it, expect, beforeAll } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { CHALLENGE_MODES, getAllChallengeModes } from '../../src/engine/ChallengeModes.js';
 import { canAccess, evaluateNewUnlocks, UNLOCK_CONDITIONS } from '../../src/engine/ViewUnlockSystem.js';
 import { FORMATIONS, TACTICS, TEAM_TALKS, TRAINING_TYPES } from '../../src/engine/ManagerSystems.js';
@@ -18,7 +19,7 @@ describe('§23 GDD Automated Design Checklist', () => {
 
     // Init fresh engine for each test group
     beforeAll(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('Checklist Bot', 1);
     });
 

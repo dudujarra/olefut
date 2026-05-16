@@ -9,6 +9,7 @@ import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { setGlobalSeed } from '../../src/engine/rng.js';
 
 const N = 20;
@@ -38,7 +39,7 @@ describe('Statistical Baseline (Etapa 5 SDD)', () => {
 
         for (let i = 0; i < N; i++) {
             setGlobalSeed(1000 + i);
-            const engine = new Engine();
+            const engine = createEngine();
             try {
                 engine.initGame(`Tecnico${i}`, 1, 'manager', 'livre');
             } catch {

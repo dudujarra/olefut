@@ -206,10 +206,10 @@ describe('New Game+ — Brain persists, gameplay resets', () => {
             key: (i) => Object.keys(store)[i] || null,
         };
 
-        const { Engine } = await import('../../src/engine/engine.js');
+        const { createEngine } = await import('../../src/engine/engineFactory.js');
         const { AutoPlayController } = await import('../../src/services/AutoPlayService.js');
 
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('NGP-Test', 1, 'manager', 'livre');
         const bot = new AutoPlayController(engine);
 

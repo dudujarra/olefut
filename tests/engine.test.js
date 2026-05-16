@@ -12,6 +12,7 @@
 
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Engine } from '../src/engine/engine.js';
+import { createEngine } from '../src/engine/engineFactory.js';
 import { applyTraining, TRAINING_TYPES } from '../src/engine/ManagerSystems.js';
 
 // === TEST SETUP ===
@@ -19,7 +20,7 @@ let engine;
 let team;
 
 beforeEach(() => {
-    engine = new Engine();
+    engine = createEngine();
     engine.initGame('TestManager', 1, 'manager', 'livre');
     team = engine.getTeam(1);
 });

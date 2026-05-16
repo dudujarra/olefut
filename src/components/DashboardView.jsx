@@ -57,7 +57,7 @@ export function DashboardView() {
         }
         const achieveEvent = engine.weekEvents.find(e => typeof e === 'string' && (e.includes('🏆 CONQUISTA') || e.includes('🎖️')));
         if (achieveEvent) {
-            setPendingAchievement({ emoji: '🏅', name: 'Conquista Desbloqueada!', description: achieveEvent });
+            setPendingAchievement({ emoji: '*', name: 'Conquista Desbloqueada!', description: achieveEvent });
         }
     }, [engine?.currentWeek]);
     /* eslint-enable react-hooks/set-state-in-effect */
@@ -277,11 +277,11 @@ export function DashboardView() {
                                         <EfPanel padding="md" className="ef-dashboard-playbook">
                                             <div className="ef-dashboard-playbook__title"><Lightbulb weight="fill" /> PLAYBOOK DO TREINADOR</div>
                                             <div className="ef-dashboard-playbook__content">
-                                                <p>1️⃣ <strong>Táticas:</strong> escolha formação e tática antes de jogar</p>
-                                                <p>2️⃣ <strong>Treino:</strong> treine o plantel toda semana para melhorar atributos</p>
-                                                <p>3️⃣ <strong>Plantel:</strong> escale seus melhores 11 e monitore energia</p>
-                                                <p>4️⃣ <strong>Clube:</strong> upgrade estádio e base para crescer</p>
-                                                <p>5️⃣ <strong>Jogo:</strong> no intervalo, ajuste tática e faça substituições</p>
+                                                <p><strong>1.</strong> <strong>Táticas:</strong> escolha formação e tática antes de jogar</p>
+                                                <p><strong>2.</strong> <strong>Treino:</strong> treine o plantel toda semana para melhorar atributos</p>
+                                                <p><strong>3.</strong> <strong>Plantel:</strong> escale seus melhores 11 e monitore energia</p>
+                                                <p><strong>4.</strong> <strong>Clube:</strong> upgrade estádio e base para crescer</p>
+                                                <p><strong>5.</strong> <strong>Jogo:</strong> no intervalo, ajuste tática e faça substituições</p>
                                             </div>
                                         </EfPanel>
                                     )}

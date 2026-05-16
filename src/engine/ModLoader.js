@@ -109,6 +109,9 @@ function validateCard(raw, idx) {
 
     // Tier opcional
     const tier = VALID_TIERS.has(raw.tier) ? raw.tier : 'common';
+    const minuteRange = Array.isArray(raw.minuteRange) && raw.minuteRange.length === 2 ? raw.minuteRange : [15, 90];
+    const derby = !!raw.derby;
+    const reactiveType = typeof raw.reactiveType === 'string' ? raw.reactiveType : null;
 
     return {
         valid: {
@@ -116,6 +119,9 @@ function validateCard(raw, idx) {
             text,
             options: cleanOptions,
             tier,
+            minuteRange,
+            derby,
+            reactiveType,
             _modSource: 'mod',
         },
         errors,

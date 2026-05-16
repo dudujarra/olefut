@@ -16,7 +16,7 @@
 //     intencionalmente separados.
 
 import { shouldTriggerPress, generateQuestion, applyPressEffect } from '../engine/PressConference';
-import { generateRenewalOffer, acceptRenewal } from '../engine/PlayerDevelopment';
+import { generateRenewalOffer, acceptRenewal } from '../engine/systems/ContractNegotiationSystem.js';
 import { BoardSystem } from '../engine/BoardSystem';
 
 export class PressService {
@@ -121,7 +121,7 @@ export class PressService {
         }
 
         // Resetar stats de temporada
-        engine.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0 };
+        engine.managerStats = { wins: 0, draws: 0, losses: 0, streak: 0, lossStreak: 0, rollingForm: [], goalsFor: 0, goalsAgainst: 0, cleanSheets: 0, tacticStreak: 0, lastTactic: null, transferProfit: 0, giantKills: 0, crisisSaves: 0, longestUnbeaten: 0, consecutiveTitles: 0 };
 
         // Limpar estado contextual do clube anterior
         engine.boardTension = 0;
@@ -134,6 +134,8 @@ export class PressService {
             leftFor: newTeam.name,
             season: engine.seasonNumber,
         });
+        // Memory safety cap — consistent with SeasonProcessor (max 50 entries)
+        if (engine.manager.careerHistory.length > 50) engine.manager.careerHistory.shift();
 
         engine.weekEvents.push(`✈️ ${engine.manager.name} assina com ${newTeam.name}! (saiu de ${currentTeam?.name || oldTeamId})`);
 

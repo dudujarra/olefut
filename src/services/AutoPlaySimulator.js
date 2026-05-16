@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 /**
  * AutoPlaySimulator — Week Advancement, Match Processing & Anomaly Detection
  * RFCT-018 Phase 3: Extracted from AutoPlayService
@@ -10,7 +11,7 @@
  * All methods are static and receive the controller instance (ctx).
  */
 
-import { encodeState, computeReward } from './learning/AdaptiveBrain.js';
+import { encodeState } from './learning/AdaptiveBrain.js';
 import { computeTransferReward } from './learning/SmartMarketEngine.js';
 
 export class AutoPlaySimulator {
@@ -46,7 +47,7 @@ export class AutoPlaySimulator {
                 weeklyFinance: ctx.engine.weeklyFinance,
                 advanceWeekMs: elapsed
             });
-        } catch { /* ignore — telemetry must not break tick */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'ignore — telemetry must not break tick'); }
 
         // BUG-026 fix: engine.advanceWeek returns weekResults keyed by tournamentId,
         // NOT { matches: [...] }. Previous code never matched, leaving matchesPlayed=0
@@ -106,7 +107,7 @@ export class AutoPlaySimulator {
                                 hadComeback: !!m.hadComeback
                             }
                         });
-                    } catch { /* ignore */ }
+                    } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'ignore'); }
 
                     // SPEC-115: track lastMatchResult for state encoding next tick
                     // BUG-041: also track goals for granular reward shaping
@@ -124,7 +125,7 @@ export class AutoPlaySimulator {
                         const n2 = standings2.length || 20;
                         const isRelRisk = pos2 > (n2 * 0.75);
                         ctx.brain.processMatchResult(outcome, streak, isRelRisk);
-                    } catch { /* defensive — emotional engine must not break tick */ }
+                    } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive — emotional engine must not break tick'); }
 
                     if (diff > 0) {
                         ctx.stats.wins++;
@@ -260,22 +261,22 @@ export class AutoPlaySimulator {
         if (ctx._lastSeasonNumber !== null && seasonNum > ctx._lastSeasonNumber) {
             // Q(λ) episode boundary: clear eligibility traces to prevent
             // cross-season credit leakage (Ref: Sutton & Barto Ch.12 §12.1)
-            try { ctx.brain.clearTraces(); } catch { /* defensive */ }
+            try { ctx.brain.clearTraces(); } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive'); }
             // Fase 3: clear SARSA(λ) emotional traces at season boundary
-            try { ctx.brain.emotions.clearSarsaTraces(); } catch { /* defensive */ }
+            try { ctx.brain.emotions.clearSarsaTraces(); } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive'); }
             // Fase C: replay high-impact experiences at season boundary
-            try { ctx.brain.replayExperiences(); } catch { /* defensive */ }
+            try { ctx.brain.replayExperiences(); } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive'); }
 
             // Fase C: NPC season boundary — clear traces + replay for all NPC brains
             try {
                 const allTeams = engine.getAllTeams?.() || [];
                 for (const t of allTeams) {
                     if (t.brain && t.id !== team?.id) {
-                        try { t.brain.clearTraces(); } catch { /* skip */ }
-                        try { t.brain.replayExperiences(); } catch { /* skip */ }
+                        try { t.brain.clearTraces(); } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'skip'); }
+                        try { t.brain.replayExperiences(); } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'skip'); }
                     }
                 }
-            } catch { /* defensive */ }
+            } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive'); }
 
             // Flush all pending transfer rewards (season rolled over, can't wait anymore)
             if (ctx._pendingTransferRewards?.length > 0 && team) {
@@ -298,7 +299,7 @@ export class AutoPlaySimulator {
                         if (tx.stateKey && tx.action) {
                             ctx.brain.observe(tx.stateKey, tx.action, reward, encodeState(stateCtx), ['MKT_BUY_YES', 'MKT_BUY_NO', 'MKT_SELL_YES', 'MKT_SELL_NO']);
                         }
-                    } catch { /* defensive */ }
+                    } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive'); }
                 }
                 ctx._pendingTransferRewards = [];
             }
@@ -311,7 +312,7 @@ export class AutoPlaySimulator {
                 });
                 ctx.stats.insights.titlesWon++;
                 // MARL Fase 2: Title event → Emotional Engine
-                try { ctx.brain.processSeasonEvent('TITLE'); } catch { /* defensive */ }
+                try { ctx.brain.processSeasonEvent('TITLE'); } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive'); }
             }
             ctx._lastTitlesCount = titlesNow;
 
@@ -324,7 +325,7 @@ export class AutoPlaySimulator {
                     });
                     ctx.stats.insights.promotionsWon++;
                     // MARL Fase 2: Promotion → Emotional Engine
-                    try { ctx.brain.processSeasonEvent('PROMOTION'); } catch { /* defensive */ }
+                    try { ctx.brain.processSeasonEvent('PROMOTION'); } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive'); }
                 } else {
                     ctx._logSuccess('RELEGATION', `⬇️ Caiu pra Série ${['A','B','C','D'][team.division - 1]}`, {
                         from: ctx._lastDivision,
@@ -332,7 +333,7 @@ export class AutoPlaySimulator {
                     });
                     ctx.stats.insights.relegationsTaken++;
                     // MARL Fase 2: Near-relegation → feed anxiety
-                    try { ctx.brain.processSeasonEvent('RELEGATION_RISK'); } catch { /* defensive */ }
+                    try { ctx.brain.processSeasonEvent('RELEGATION_RISK'); } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive'); }
                 }
             }
             ctx._lastDivision = team.division;
@@ -350,7 +351,7 @@ export class AutoPlaySimulator {
                         divisionHistory: ctx.brain.divisionHistory
                     }, 0);
                 }
-            } catch { /* defensive */ }
+            } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'defensive'); }
         }
         if (ctx._lastSeasonNumber === null) {
             ctx._lastSeasonNumber = seasonNum;
@@ -391,6 +392,6 @@ export class AutoPlaySimulator {
             if (pos > ctx.stats.insights.worstStanding) {
                 ctx.stats.insights.worstStanding = pos;
             }
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlaySimulator.js', 'ignore'); }
     }
 }

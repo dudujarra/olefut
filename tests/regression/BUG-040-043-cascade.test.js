@@ -3,11 +3,12 @@
 // brain Q-values all negative, only 7 states explored.
 import { describe, test, expect, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { encodeState } from '../../src/services/learning/AdaptiveBrain.js';
 
 describe('BUG-043 — startNewSeason increments seasonNumber', () => {
     test('seasonNumber++ on rollover', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         const before = engine.seasonNumber;
         engine.startNewSeason();
@@ -15,7 +16,7 @@ describe('BUG-043 — startNewSeason increments seasonNumber', () => {
     });
 
     test('multiple rollovers accumulate seasonNumber', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         engine.startNewSeason();
         engine.startNewSeason();
@@ -24,7 +25,7 @@ describe('BUG-043 — startNewSeason increments seasonNumber', () => {
     });
 
     test('managerStats reset on new season', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         engine.managerStats.wins = 10;
         engine.startNewSeason();
@@ -34,7 +35,7 @@ describe('BUG-043 — startNewSeason increments seasonNumber', () => {
 
 describe('BUG-040 — emergency squad replenish in startNewSeason', () => {
     test('NPC squad < 16 triggers emergency replenish on rollover', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         const npcTeam = engine.teams.find(t => t.id !== engine.manager.teamId);
         if (!npcTeam) return;
@@ -48,7 +49,7 @@ describe('BUG-040 — emergency squad replenish in startNewSeason', () => {
     });
 
     test('Manager squad is excluded from emergency replenish on rollover', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         const team = engine.getTeam(engine.manager.teamId);
         if (!team) return;

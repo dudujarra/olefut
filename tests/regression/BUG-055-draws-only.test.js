@@ -3,11 +3,12 @@
 // returned 0 when no titulares in position → match sim chanceRatio=0 → 0-0 default.
 import { describe, test, expect, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 
 describe('BUG-055 — makeBuyOffer auto-promotes when position weak', () => {
     let engine;
     beforeEach(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         const myTeam = engine.getTeam(engine.manager.teamId);
         myTeam.balance = 100_000_000_000;
@@ -56,7 +57,7 @@ describe('BUG-055 — makeBuyOffer auto-promotes when position weak', () => {
 describe('BUG-055 — getTeamSectors fallback when no titulares', () => {
     let engine;
     beforeEach(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
     });
 

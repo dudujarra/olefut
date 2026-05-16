@@ -173,8 +173,8 @@ describe('SPEC-166: Lineage & Legacy panel — data plumbing', () => {
         let engine;
 
         beforeAll(async () => {
-            const { Engine } = await import('../../src/engine/engine.js');
-            engine = new Engine();
+            const { createEngine } = await import('../../src/engine/engineFactory.js');
+            engine = createEngine();
             engine.initGame('LinhagemBot', 1);
             // Simulate a full season to trigger HallOfLegends + Heritage flow.
             for (let w = 0; w < 38; w++) {

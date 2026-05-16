@@ -4,12 +4,13 @@
  */
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 
 describe('Loan System', () => {
     let engine;
 
     beforeEach(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('TestManager', 1);
     });
 

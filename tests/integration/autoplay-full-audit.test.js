@@ -17,6 +17,7 @@
  */
 import { describe, test, expect, beforeAll, afterAll } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { AutoPlayController } from '../../src/services/AutoPlayService.js';
 
 // Mock localStorage for Node
@@ -35,7 +36,7 @@ describe('AutoPlay Full Feature Audit — 5 Season Smoke', () => {
     const WEEKS = SEASONS * 38 + 10; // safety margin
 
     beforeAll(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('AuditBot', 1, 'manager', 'livre');
         bot = new AutoPlayController(engine);
 

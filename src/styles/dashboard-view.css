@@ -135,22 +135,22 @@
 }
 
 .ef-dashboard-alert--injury {
-  background: #2D1616;
+  background: #6c2b75;
   border-color: var(--color-danger);
 }
 
 .ef-dashboard-alert--contract {
-  background: #2D2916;
+  background: #452873;
   border-color: var(--color-secondary);
 }
 
 .ef-dashboard-alert--energy {
-  background: #2D1616;
+  background: #6c2b75;
   border-color: var(--color-danger);
 }
 
 .ef-dashboard-alert--transfer {
-  background: #16242D;
+  background: #1d7aa8;
   border-color: var(--notification-info-border);
 }
 
@@ -270,7 +270,7 @@
 
 .ef-dashboard-playbook {
   border-color: var(--notification-info-border);
-  background: #0D1A24;
+  background: #1a0f2e;
 }
 
 .ef-dashboard-playbook__title {
@@ -326,7 +326,7 @@
 
 /* Loan Panel */
 .ef-dashboard-loan {
-  background: #2D2916;
+  background: #452873;
   border-color: var(--color-secondary);
 }
 
@@ -365,13 +365,13 @@
 }
 
 .ef-dashboard-events__item--good {
-  background: #162D1C;
+  background: #1d7aa8;
   border-left-color: var(--color-success);
   color: var(--color-success);
 }
 
 .ef-dashboard-events__item--bad {
-  background: #2D1616;
+  background: #6c2b75;
   border-left-color: var(--color-danger);
   color: var(--color-danger);
 }
@@ -385,17 +385,17 @@
 /* Board Tension */
 .ef-dashboard-board-tension {
   border-color: var(--color-secondary);
-  background: #2D2916;
+  background: #452873;
 }
 
 .ef-dashboard-board-tension--danger {
   border-color: var(--color-danger);
-  background: #2D1616;
+  background: #6c2b75;
 }
 
 .ef-dashboard-board-tension--success {
   border-color: var(--color-success);
-  background: #162D1C;
+  background: #1d7aa8;
 }
 
 .ef-dashboard-board-tension__title {

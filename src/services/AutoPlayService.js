@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 /**
  * AutoPlayService — Soak Test / Self-Play
  *
@@ -18,6 +19,7 @@
  */
 
 import { TRAINING_TYPES, TEAM_TALKS } from '../engine/ManagerSystems';
+import { SAVE_KEY } from '../engine/constants.js';
 import { TelemetryAggregator } from './telemetry/TelemetryAggregator.js';
 import { AdaptiveBrain } from './learning/AdaptiveBrain.js';
 import { ThompsonBandit } from './learning/ThompsonBandit.js';
@@ -34,6 +36,7 @@ import { AutoPlayBanditCoordinator } from './AutoPlayBanditCoordinator.js';
 import { AutoPlayDecisions } from './AutoPlayDecisions.js';
 
 import { rng as systemRng } from '../engine/rng.js';
+import { devLog } from '../engine/DevLog.js';
 
 // BUG-027 fix: pull training catalog from engine source of truth (was hardcoded
 // list with invalid IDs cardio/defensive/attacking causing 2416 TRAIN_FAIL).
@@ -115,9 +118,9 @@ export class AutoPlayController {
                     sarsaModifiers: this.brain.emotions?.sarsaModifiers
                 });
                 if (result.total > 0) {
-                    console.log(`[DAgger] Warm-start: ${result.total} teacher lessons loaded`);
+                    devLog('DAgger', `Warm-start: ${result.total} teacher lessons loaded`);
                 }
-            } catch { /* non-critical */ }
+            } catch (err) { EngineLogger.capture(err, 'AutoPlayService.js', 'non-critical'); }
         }
 
         // Transfer tracking for ML reward feedback — initialized via _resetRuntimeTracking() above
@@ -208,7 +211,7 @@ export class AutoPlayController {
                         mode: challengeWin.id, emoji: challengeWin.emoji
                     });
                 }
-            } catch { /* challenge non-critical */ }
+            } catch (err) { EngineLogger.capture(err, 'AutoPlayService.js', 'challenge non-critical'); }
 
             // §12.4 #6: Scarcity telemetry — log transfer window pressure
             try {
@@ -231,7 +234,7 @@ export class AutoPlayController {
                         }, 0);
                     }
                 }
-            } catch { /* scarcity non-critical */ }
+            } catch (err) { EngineLogger.capture(err, 'AutoPlayService.js', 'scarcity non-critical'); }
 
             // §17: Track session metrics
             this._sessionMetrics.recordAction();
@@ -250,7 +253,7 @@ export class AutoPlayController {
                         }, 0);
                     }
                 }
-            } catch { /* press non-critical */ }
+            } catch (err) { EngineLogger.capture(err, 'AutoPlayService.js', 'press non-critical'); }
 
             // §15.4: PWA notification trigger on milestones (non-blocking)
             try {
@@ -260,7 +263,7 @@ export class AutoPlayController {
                         window.__pwaService.notifySeasonEnd?.(this.engine.seasonNumber);
                     }
                 }
-            } catch { /* PWA non-critical */ }
+            } catch (err) { EngineLogger.capture(err, 'AutoPlayService.js', 'PWA non-critical'); }
 
             // === HUMAN-PARITY INTERACTIONS (RFCT-018: delegated to AutoPlayPacing) ===
             AutoPlayPacing.runAll(this);
@@ -439,17 +442,17 @@ export class AutoPlayController {
         try {
             this.telemetry = new TelemetryAggregator();
             this.lastTelemetryReport = null;
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayService.js', 'ignore'); }
 
         // 6. Limpa saves de gameplay (mas NÃO o brain!)
         try {
             if (typeof localStorage !== 'undefined') {
                 localStorage.removeItem('olefut_autoplay_state');
-                localStorage.removeItem('olefut_save_v1');
+                localStorage.removeItem(SAVE_KEY);
                 localStorage.removeItem('olefut_genetic_state');
                 // NÃO remove 'olefut_autoplay_brain' — esse é o ponto!
             }
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayService.js', 'ignore'); }
 
         brainSnapshot.savedAt = Date.now();
         return brainSnapshot;

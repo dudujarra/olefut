@@ -15,7 +15,7 @@
  * - Camada 5 MITO: integration via MythService (canonize)
  */
 
-import { isValidEventType, EVENT_TYPES } from '../data/eventTypes';
+import { isValidEventType } from '../data/eventTypes';
 import { validateTags } from '../data/eventTags';
 import { getEventTemplate, pickRandomTemplate } from '../data/eventTemplates';
 

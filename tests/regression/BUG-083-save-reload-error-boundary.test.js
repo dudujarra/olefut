@@ -32,6 +32,7 @@
  */
 import { describe, test, expect, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { LLMNarrativeService } from '../../src/services/LLMNarrativeService.js';
 import { MatchSimulator } from '../../src/services/MatchSimulator.js';
 import { WeekProcessor } from '../../src/services/WeekProcessor.js';
@@ -72,7 +73,7 @@ function simulateSaveRestoreRoundtrip(engine) {
     }
     // Round-trip through JSON like real localStorage save.
     const serialized = JSON.parse(JSON.stringify(safe));
-    const fresh = new Engine();
+    const fresh = createEngine();
     for (const [key, val] of Object.entries(serialized)) {
         if (classFields.includes(key)) continue;
         try { fresh[key] = val; } catch { /* skip */ }
@@ -84,7 +85,7 @@ describe('BUG-083: save→reload preserves class instances on Engine', () => {
     let engine;
 
     beforeEach(() => {
-        engine = new Engine();
+        engine = createEngine();
         // initGame would create a real save scenario, but mere instantiation
         // is enough to expose the class-instance-loss bug.
         engine.teams = [];
@@ -98,7 +99,7 @@ describe('BUG-083: save→reload preserves class instances on Engine', () => {
 
     test('ENGINE_CLASS_FIELDS covers every class instance on Engine', () => {
         const classFields = extractEngineClassFields();
-        const e = new Engine();
+        const e = createEngine();
         const missing = [];
         for (const key of Object.keys(e)) {
             const v = e[key];

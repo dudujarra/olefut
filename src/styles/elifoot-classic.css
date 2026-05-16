@@ -437,7 +437,7 @@
     min-width: 20px;
     height: 20px;
     padding: 0 6px;
-    border-radius: 10px;
+    border-radius: var(--ef-radius-pill);
     background: var(--ef-color-func-danger);
     color: var(--ef-color-neutral-text-hi);
     font-family: var(--ef-font-mono);

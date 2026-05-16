@@ -1,4 +1,5 @@
 import { rng as systemRng } from './rng.js';
+import { findContextualBuyers as _findContextualBuyers } from './AmbitionEngine';
 /**
  * MarketPricer — SPEC-133: Market Liquidity Fix
  *
@@ -94,11 +95,7 @@ export function generateRealTransferOffers(team, currentWeek, allTeams = []) {
     if (currentWeek > 4 && currentWeek < 20) return [];
     if (currentWeek > 24) return [];
 
-    // Lazy import to avoid circular dependency
-    let findContextualBuyers;
-    try {
-        findContextualBuyers = require('./AmbitionEngine').findContextualBuyers;
-    } catch { findContextualBuyers = null; }
+    const findContextualBuyers = _findContextualBuyers || null;
 
     const offers = [];
     team.squad.forEach(player => {

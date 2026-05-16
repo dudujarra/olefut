@@ -93,9 +93,6 @@ export class FormationService {
         };
     }
 
-    /**
-     * A1 — Live substitution during paused match.
-     */
     applyLiveSubstitution(engine, outId, inId, currentMinute) {
         const team = engine.getTeam(engine.manager?.teamId);
         if (!team) return { success: false, msg: 'Time não encontrado' };
@@ -114,23 +111,86 @@ export class FormationService {
         inPlayer.energy = Math.min(100, (inPlayer.energy || 70) + 10);
         out.energy = Math.max(out.energy || 50, 30);
 
-        if (!engine._liveSubsLog) engine._liveSubsLog = [];
-        engine._liveSubsLog.push({
-            minute: currentMinute,
-            outId,
-            inId,
-            outName: out.name,
-            inName: inPlayer.name
-        });
-        // BUG-091: cap to 50 entries
-        if (engine._liveSubsLog.length > 50) {
-            engine._liveSubsLog = engine._liveSubsLog.slice(-50);
+        if (currentMinute > 0) {
+            if (!engine._liveSubsLog) engine._liveSubsLog = [];
+            engine._liveSubsLog.push({
+                minute: currentMinute,
+                outId,
+                inId,
+                outName: out.name,
+                inName: inPlayer.name
+            });
+            // BUG-091: cap to 50 entries
+            if (engine._liveSubsLog.length > 50) {
+                engine._liveSubsLog = engine._liveSubsLog.slice(-50);
+            }
         }
 
         return {
             success: true,
-            msg: `🔄 ${currentMinute}': ${out.name} sai, ${inPlayer.name} entra.`
+            msg: currentMinute > 0 ? `🔄 ${currentMinute}': ${out.name} sai, ${inPlayer.name} entra.` : `✅ ${inPlayer.name} entrou na equipe titular.`
         };
+    }
+
+    /**
+     * A4 — Auto-escalar: Escolhe 11 titulares e 5 reservas baseados na tática
+     */
+    autoPickSquad(engine) {
+        const team = engine.getTeam(engine.manager?.teamId);
+        if (!team) return { success: false };
+
+        const formation = FORMATIONS[team.formation] || FORMATIONS['4-3-3'];
+        
+        // 1. Limpa todos
+        team.squad.forEach(p => p.isTitular = false);
+        
+        // Separa disponíveis (sem lesão/suspensão) e ordena por OVR
+        let available = team.squad.filter(p => !p.injury && !p.suspension).sort((a,b) => b.ovr - a.ovr);
+        
+        // 2. Escolher 11 titulares
+        const titularPositions = [
+            'GOL',
+            ...Array(formation.DEF).fill('DEF'),
+            ...Array(formation.MEI).fill('MEI'),
+            ...Array(formation.ATA).fill('ATA'),
+        ];
+        
+        titularPositions.forEach(pos => {
+            const index = available.findIndex(p => p.position === pos);
+            if (index !== -1) {
+                const p = available.splice(index, 1)[0];
+                p.isTitular = true;
+            } else if (available.length > 0) {
+                // Improviso
+                const p = available.shift();
+                p.isTitular = true;
+            }
+        });
+        
+        // 3. Escolher 5 reservas inteligentes baseadas na tática
+        const benchPositions = [
+            'GOL',
+            ...Array(Math.max(1, Math.floor(formation.DEF / 2))).fill('DEF'),
+            ...Array(Math.max(1, Math.floor(formation.MEI / 2))).fill('MEI'),
+            ...Array(Math.max(1, Math.floor(formation.ATA / 2))).fill('ATA'),
+        ];
+        
+        const bench = [];
+        benchPositions.forEach(pos => {
+            if (bench.length >= 5) return;
+            const index = available.findIndex(p => p.position === pos);
+            if (index !== -1) {
+                const p = available.splice(index, 1)[0];
+                bench.push(p.id);
+            }
+        });
+        
+        // Preencher até 5 se faltar jogadores
+        while(bench.length < 5 && available.length > 0) {
+            bench.push(available.shift().id);
+        }
+        
+        return { success: true, bench };
     }
 
     /**

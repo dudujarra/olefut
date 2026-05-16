@@ -187,7 +187,7 @@ export function FormationBoard({ team, onSave, onChange, editable = true }) {
             </div>
 
             <div className="ef-form__hint">
-                {editable ? '👆 ARRASTE OS JOGADORES PARA AJUSTAR O POSICIONAMENTO EM CAMPO' : '👁️ VISUALIZAÇÃO DA FORMAÇÃO TÁTICA'}
+                {editable ? 'ARRASTE OS JOGADORES PARA AJUSTAR O POSICIONAMENTO EM CAMPO' : 'VISUALIZACAO DA FORMACAO TATICA'}
             </div>
         </div>
     );

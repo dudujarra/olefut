@@ -37,7 +37,8 @@
     "render:tech": "node scripts/render-tech-house.js",
     "render:all": "node scripts/render-all-subgenres.js",
     "mutate": "stryker run",
-    "mutate:report": "open tests/characterization/stryker-report/index.html"
+    "mutate:report": "open tests/characterization/stryker-report/index.html",
+    "audit:celeste": "node scripts/celeste-audit.cjs"
   },
   "dependencies": {
     "@mlc-ai/web-llm": "^0.2.83",
@@ -51,15 +52,19 @@
     "@playwright/test": "^1.59.1",
     "@stryker-mutator/core": "^9.6.1",
     "@stryker-mutator/vitest-runner": "^9.6.1",
+    "@tailwindcss/vite": "^4.3.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.5.0",
     "eslint": "^10.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
     "playwright": "^1.59.1",
+    "postcss": "^8.5.14",
     "puppeteer": "^23.11.1",
+    "tailwindcss": "^4.3.0",
     "vite": "^8.0.10",
     "vitest": "^4.1.5"
   }

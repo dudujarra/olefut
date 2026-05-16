@@ -56,7 +56,7 @@ export function saveAllBrains(teams) {
 
     try {
         localStorage.setItem(STORAGE_KEY_PREFIX, JSON.stringify(brainData));
-    } catch (e) {
+    } catch (_e) {
         // Storage full — aggressive prune
         try {
             const entries = Object.entries(brainData)

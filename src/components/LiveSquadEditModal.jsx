@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { TACTICS } from '../engine/ManagerSystems';
+import { getFormEmoji } from '../engine/systems/FormSystem.js';
 import { Help } from './Help';
 import { EfTooltip, EfModal, EfButton } from './ui';
 import {
-    ArrowsLeftRight, Strategy, Lightning, Users, CheckCircle, Warning, XCircle, Play
+    ArrowsLeftRight, Strategy, Lightning, Users, CheckCircle, Warning, XCircle, Play,
+    Heart
 } from '@phosphor-icons/react';
 import '../styles/live-squad-edit-modal.css';
 
-const MAX_LIVE_SUBS = 5;
+const DEFAULT_MAX_SUBS = 3;
 
 function energyMod(energy) {
     if (energy < 50) return 'low';
@@ -15,21 +17,93 @@ function energyMod(energy) {
     return 'high';
 }
 
-export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount, onSubMade, onClose }) {
+function moralLabel(moral) {
+    if (moral >= 80) return { text: 'Motivado', color: 'var(--color-primary)' };
+    if (moral >= 60) return { text: 'Normal', color: 'var(--text-main)' };
+    if (moral >= 40) return { text: 'Abatido', color: 'var(--color-secondary)' };
+    return { text: 'Desmotivado', color: 'var(--color-danger)' };
+}
+
+/**
+ * Full player info card for substitution decisions.
+ * Shows: Position, Name, OVR, Energy, Moral, Age, Form
+ */
+function PlayerCard({ player, onClick, actionLabel, actionVariant = 'primary', showAction = false, onAction }) {
+    const eMod = energyMod(player.energy);
+    const moral = moralLabel(player.moral || 50);
+    const formEmoji = getFormEmoji ? getFormEmoji(player.form?.trend) : '';
+
+    return (
+        <div
+            className={`ef-livesq__player-row${onClick ? ' ef-livesq__player-row--clickable' : ''}${showAction ? ' ef-livesq__player-row--reserve' : ''}`}
+            onClick={onClick}
+        >
+            <div className="ef-livesq__player-identity">
+                <span className="ef-livesq__pos-badge">
+                    {player.position}
+                </span>
+                <div className="ef-livesq__player-meta">
+                    <span className="ef-livesq__player-name">
+                        {player.name} {player._isCaptain ? '[C]' : ''} {formEmoji}
+                    </span>
+                    <div className="ef-livesq__player-stats-row">
+                        <span className="ef-livesq__stat">
+                            OVR: <strong>{player.ovr}</strong>
+                        </span>
+                        <span className={`ef-livesq__stat ef-livesq__energy--${eMod}`}>
+                            <Lightning size={12} weight="fill" /> {player.energy}%
+                        </span>
+                        <span className="ef-livesq__stat" style={{ color: moral.color }}>
+                            <Heart size={12} weight="fill" /> {moral.text}
+                        </span>
+                        <span className="ef-livesq__stat ef-text-muted">
+                            {player.age} anos
+                        </span>
+                    </div>
+                    {/* SPEC-161: Exibir todas as infos dos players na tela de substituição */}
+                    <div className="ef-livesq__player-skills-row" style={{ display: 'flex', gap: '8px', fontSize: '10px', marginTop: '4px', color: 'var(--text-muted)' }}>
+                        <span>PAS: {player.skills?.PAS || '?'}</span>
+                        <span>FIN: {player.skills?.FIN || '?'}</span>
+                        <span>DRI: {player.skills?.DRI || '?'}</span>
+                        <span>MAR: {player.skills?.MAR || '?'}</span>
+                        <span>FIS: {player.skills?.FIS || '?'}</span>
+                        <span>VEL: {player.skills?.VEL || '?'}</span>
+                    </div>
+                </div>
+            </div>
+            {showAction && (
+                <EfButton
+                    variant={actionVariant}
+                    size="sm"
+                    onClick={(e) => { e.stopPropagation(); onAction(); }}
+                    className="ef-livesq__sub-action"
+                >
+                    {actionLabel} <ArrowsLeftRight size={14} />
+                </EfButton>
+            )}
+        </div>
+    );
+}
+
+export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount, maxSubs, benchPlayerIds, onSubMade, onTacticChanged, onClose }) {
     const [selectedOut, setSelectedOut] = useState(null);
     const [tactic, setTactic] = useState(engine.currentTactic);
     const [feedback, setFeedback] = useState('');
+    const MAX_LIVE_SUBS = maxSubs || DEFAULT_MAX_SUBS;
 
     if (!team) return null;
 
     const titulares = team.squad.filter(p => p.isTitular && !p.injury);
-    const reserves = team.squad.filter(p => !p.isTitular && !p.injury && !p.suspension && p.energy > 10);
+    // Filter reserves: only players on the bench list if provided, otherwise all non-titular
+    const reserves = benchPlayerIds && benchPlayerIds.length > 0
+        ? benchPlayerIds.map(id => team.squad.find(p => p.id === id)).filter(p => p && !p.isTitular && !p.injury && !p.suspension && p.energy > 10)
+        : team.squad.filter(p => !p.isTitular && !p.injury && !p.suspension && p.energy > 10);
 
     const subsLeft = MAX_LIVE_SUBS - liveSubsCount;
 
     const handleSub = (outPlayer, inPlayer) => {
         if (subsLeft <= 0) {
-            setFeedback('error:Limite de 5 substituições atingido.');
+            setFeedback('error:Limite de substituições atingido.');
             return;
         }
         if (engine.applyLiveSubstitution) {
@@ -57,11 +131,11 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
             engine.setTactic(newTacticKey);
             setTactic(newTacticKey);
             setFeedback(`success:Tática alterada para ${TACTICS[newTacticKey]?.name}`);
+            if (onTacticChanged) onTacticChanged();
         }
     };
 
     const isFeedbackSuccess = feedback.startsWith('success:');
-    const isFeedbackError = feedback.startsWith('error:');
     const cleanFeedback = feedback.replace('success:', '').replace('error:', '');
 
     return (
@@ -83,7 +157,7 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
         >
             <div className="ef-livesq ef-livesq__body">
                 <div className="ef-livesq__status-bar">
-                    <EfTooltip content="Limite FIFA: 5 substituições por jogo">
+                    <EfTooltip content={`Limite: ${MAX_LIVE_SUBS} substituições por jogo`}>
                         <div className={`ef-livesq__status-cell${subsLeft <= 0 ? ' ef-livesq__status-cell--alert' : ''}`}>
                             <div className="ef-livesq__status-label">
                                 <ArrowsLeftRight size={16} /> SUBSTITUIÇÕES
@@ -128,28 +202,16 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                         {!selectedOut && (
                             <div>
                                 <div className="ef-livesq__section-label">
-                                    <Users size={16} /> SUBSTITUIR QUEM?
+                                    <Users size={16} /> SUBSTITUIR QUEM? <span className="ef-text-muted" style={{ fontWeight: 400, fontSize: '0.85em' }}>({subsLeft} restante{subsLeft !== 1 ? 's' : ''})</span>
                                 </div>
                                 <div className="ef-livesq__player-list">
-                                    {titulares.map(p => {
-                                        const eMod = energyMod(p.energy);
-                                        return (
-                                            <div key={p.id}
-                                                className="ef-livesq__player-row ef-livesq__player-row--clickable"
-                                                onClick={() => setSelectedOut(p)}
-                                            >
-                                                <div className="ef-livesq__player-identity">
-                                                    <span className="ef-livesq__pos-badge">
-                                                        {p.position}
-                                                    </span>
-                                                    <span className="ef-livesq__player-name">{p.name}</span>
-                                                </div>
-                                                <div className={`ef-livesq__player-energy ef-livesq__energy--${eMod}`}>
-                                                    <Lightning size={14} weight="fill" /> {p.energy}%
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                    {titulares.map(p => (
+                                        <PlayerCard
+                                            key={p.id}
+                                            player={p}
+                                            onClick={() => setSelectedOut(p)}
+                                        />
+                                    ))}
                                 </div>
                             </div>
                         )}
@@ -160,43 +222,29 @@ export function LiveSquadEditModal({ team, engine, currentMinute, liveSubsCount,
                                     <div className="ef-livesq__selected-row">
                                         <XCircle size={20} color="var(--danger)" />
                                         <span className="ef-livesq__selected-text">SAINDO:</span>
-                                        <strong className="ef-livesq__selected-name">{selectedOut.name} ({selectedOut.position})</strong>
+                                        <strong className="ef-livesq__selected-name">{selectedOut.name} ({selectedOut.position}) — OVR {selectedOut.ovr}</strong>
                                     </div>
                                     <EfButton variant="secondary" size="sm" onClick={() => setSelectedOut(null)}>CANCELAR</EfButton>
                                 </div>
 
                                 <div className="ef-livesq__section-label">
-                                    <Users size={16} /> ESCOLHER RESERVA
+                                    <Users size={16} /> ESCOLHER DO BANCO
                                 </div>
 
                                 <div className="ef-livesq__player-list ef-livesq__player-list--reserves">
                                     {reserves.length === 0 && (
                                         <div className="ef-livesq__no-reserves">
-                                            NENHUM RESERVA COM ENERGIA DISPONÍVEL
+                                            NENHUM RESERVA DISPONÍVEL NO BANCO
                                         </div>
                                     )}
                                     {reserves.map(p => (
-                                        <div key={p.id} className="ef-livesq__player-row ef-livesq__player-row--reserve">
-                                            <div className="ef-livesq__player-identity">
-                                                <span className="ef-livesq__pos-badge">
-                                                    {p.position}
-                                                </span>
-                                                <div className="ef-livesq__player-meta">
-                                                    <span className="ef-livesq__player-name">{p.name}</span>
-                                                    <span className="ef-livesq__player-stats">
-                                                        OVR: <strong>{p.ovr}</strong> • ENERGIA: <strong className="ef-livesq__player-stats--energy">{p.energy}%</strong>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <EfButton
-                                                variant="primary"
-                                                size="sm"
-                                                onClick={() => handleSub(selectedOut, p)}
-                                                className="ef-livesq__sub-action"
-                                            >
-                                                ENTRAR <ArrowsLeftRight size={14} />
-                                            </EfButton>
-                                        </div>
+                                        <PlayerCard
+                                            key={p.id}
+                                            player={p}
+                                            showAction
+                                            actionLabel="ENTRAR"
+                                            onAction={() => handleSub(selectedOut, p)}
+                                        />
                                     ))}
                                 </div>
                             </div>

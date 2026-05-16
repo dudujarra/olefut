@@ -12,6 +12,7 @@ import CareerInfoPanel from './learning/CareerInfoPanel';
 import BrainDashboard from './learning/BrainDashboard';
 import { RealDB } from '../engine/db/index';
 import { DIFFICULTY_MODES, getDifficulty, setDifficulty } from '../engine/systems/DifficultyModes';
+import { SAVE_KEY } from '../engine/constants.js';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import { EfModal } from './ui/EfModal';
@@ -318,7 +319,7 @@ export function AutoPlayView() {
 
     const handleResetAll = () => {
         if (!controllerRef.current) return;
-        if (!window.confirm('🚨 RESET TUDO: apaga TUDO (Q-table + stats + save jogo + LLM). Sem volta.')) return;
+        if (!window.confirm('[!] RESET TUDO: apaga TUDO (Q-table + stats + save jogo + LLM). Sem volta.')) return;
         try { controllerRef.current.pause(); } catch { /* ignore */ }
         try {
             if (typeof localStorage !== 'undefined') {
@@ -327,7 +328,7 @@ export function AutoPlayView() {
                 localStorage.removeItem('olefut_autoplay_brain');
                 localStorage.removeItem('olefut_autoplay_state');
                 localStorage.removeItem('olefut_llm_mode');
-                localStorage.removeItem('olefut_save_v1');
+                localStorage.removeItem(SAVE_KEY);
                 localStorage.removeItem('olefut_genetic_state');
                 // Sweep any other olefut_* keys defensively
                 for (let i = localStorage.length - 1; i >= 0; i--) {
@@ -524,7 +525,7 @@ export function AutoPlayView() {
                             {llmStatus.loadProgress > 0 && llmStatus.loadProgress < 1 && (
                                 <span> ({(llmStatus.loadProgress * 100).toFixed(0)}%)</span>
                             )}
-                            {llmStatus.loadStatus === 'ready' && <span className="ef-ap__llm-ready"> ✓ LLM ativo</span>}
+                            {llmStatus.loadStatus === 'ready' && <span className="ef-ap__llm-ready"> [OK] LLM ativo</span>}
                             {llmStatus.loadStatus === 'error' && llmStatus.error && (
                                 <div className="ef-ap__llm-error-detail">{llmStatus.error}</div>
                             )}
@@ -740,7 +741,7 @@ export function AutoPlayView() {
                             return (
                                 <span>
                                     GDD Coverage: <strong style={{ color, fontSize: '0.85rem' }}>{active}/{total} ({pct}%)</strong>
-                                    {pct >= 100 && ' 🎉 FULL PARITY'}
+                                    {pct >= 100 && ' [*] FULL PARITY'}
                                     {pct >= 80 && pct < 100 && ' — rode mais seasons para cobertura total'}
                                 </span>
                             );

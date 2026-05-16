@@ -7,6 +7,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { MatchSimulator } from '../../src/services/MatchSimulator.js';
 
 describe('§11 Statistical Validation — Match Engine', () => {
@@ -17,7 +18,7 @@ describe('§11 Statistical Validation — Match Engine', () => {
     // Run matches across different team pairs for variance
     for (let i = 0; i < NUM_MATCHES; i++) {
         try {
-            const engine = new Engine();
+            const engine = createEngine();
             engine.initGame('Stats Bot', 1);
             const sim = new MatchSimulator();
 

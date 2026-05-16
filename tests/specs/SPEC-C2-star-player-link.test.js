@@ -161,8 +161,8 @@ describe('SPEC-C2: StarPlayerLink', () => {
     describe('engine init', () => {
         it('engine constructor sets starPlayerId null by default', async () => {
             // Smoke check engine field
-            const { Engine } = await import('../../src/engine/engine.js');
-            const e = new Engine();
+            const { createEngine } = await import('../../src/engine/engineFactory.js');
+            const e = createEngine();
             expect(e.starPlayerId).toBe(null);
         });
     });

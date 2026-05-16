@@ -1,11 +1,14 @@
 /**
- * OléFUT Radius Tokens
+ * OléFUT Radius Tokens — Celeste SNES Aesthetic
  * AUTO-GERADO por scripts/tokens-to-css.js — não editar manualmente.
  * Source: src/styles/tokens/tokens.json
- * Versão: 1.0.0
+ * Versão: 1.1.0 — SNES pixel-perfect: ALL radii = 0
  */
 :root {
   --ef-radius-none: 0;
-  --ef-radius-xs: 2px;
-  --ef-radius-sm: 4px;
+  --ef-radius-xs: 0;
+  --ef-radius-sm: 0;
+  --ef-radius-md: 0;
+  --ef-radius-lg: 0;
+  --ef-radius-pill: 9999px; /* Exception: notification badges only */
 }

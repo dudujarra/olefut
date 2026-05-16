@@ -153,7 +153,7 @@ export class MonitorService {
 
     /**
      * Auto-instrument engine methods. Wraps key methods to log calls.
-     * Call após new Engine() (idempotente).
+     * Call após createEngine() (idempotente).
      */
     instrumentEngine(engine) {
         if (!engine || engine._monitorInstrumented) return;

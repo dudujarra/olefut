@@ -57,7 +57,7 @@ export class League extends Tournament {
         const results = [];
         matches.forEach(m => {
             if (m.played) return;
-            const result = engine.playMatch(m.home, m.away);
+            const result = m.prePlayedResult || engine.playMatch(m.home, m.away);
             m.score = result;
             m.played = true;
             results.push(m);

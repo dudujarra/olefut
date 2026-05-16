@@ -12,6 +12,7 @@
 
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { MATCH_BONUS_TIERS, setMatchBonus, settleMatchBonus, getMatchBonusBuff } from '../../src/engine/MatchBonusSystem.js';
 import { TICKET_POLICIES, setTicketPolicy, getActiveTicketPolicy, getHomeAdvantageFromTickets, getTicketFinanceModifiers, getTicketMoralBoost } from '../../src/engine/TicketPricingSystem.js';
 import { requiresAuction, startAuction, raiseBid, resolveAuctions, getActiveAuctions } from '../../src/engine/StarAuctionSystem.js';
@@ -19,7 +20,7 @@ import { processMatchCards, decrementSuspensions } from '../../src/engine/Discip
 
 // Helper: create a minimal engine with a manager team
 function createTestEngine() {
-    const engine = new Engine();
+    const engine = createEngine();
     engine.teams = [
         {
             id: 1, name: 'Palmeiras', balance: 50_000_000,
@@ -381,7 +382,7 @@ describe('Elifoot Classic Cross-System Integration', () => {
     });
 
     it('classic state fields initialized', () => {
-        const fresh = new Engine();
+        const fresh = createEngine();
         expect(fresh.pendingMatchBonus).toBeNull();
         expect(fresh.ticketPolicy).toBe('normal');
         expect(fresh.activeAuctions).toEqual([]);

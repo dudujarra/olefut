@@ -13,6 +13,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 
 // Engine
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 
 // MARL modules
 import { AdaptiveBrain, encodeState, computeReward } from '../../src/services/learning/AdaptiveBrain.js';
@@ -28,7 +29,7 @@ describe('MARL E2E Integration', () => {
 
     beforeEach(() => {
         if (typeof localStorage !== 'undefined') localStorage.clear();
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
     });
 

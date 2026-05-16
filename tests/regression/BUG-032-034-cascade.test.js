@@ -3,12 +3,13 @@
 // SPEC-107 NO_TOP_SCORER even after 48k matches.
 import { describe, test, expect, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { initCareerStats, recordMatchStats } from '../../src/engine/PlayerTraits.js';
 
 describe('BUG-032 — squad auto-replenish via youth intake', () => {
     let engine;
     beforeEach(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
     });
 
@@ -33,7 +34,7 @@ describe('BUG-032 — squad auto-replenish via youth intake', () => {
 
 describe('BUG-033 — match goal cap (12 combined max)', () => {
     test('match never exceeds 12 combined goals even with weak squad', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         // Force minimal squads to maximize chance of high scoring
         const home = engine.teams[0];
@@ -49,7 +50,7 @@ describe('BUG-033 — match goal cap (12 combined max)', () => {
     });
 
     test('normal match still produces realistic scores', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         const home = engine.teams[0];
         const away = engine.teams[1];

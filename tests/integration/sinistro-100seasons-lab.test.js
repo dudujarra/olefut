@@ -29,6 +29,7 @@
 
 import { describe, it, expect, beforeAll } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { AutoPlayController } from '../../src/services/AutoPlayService.js';
 import { setDifficulty, DIFFICULTY_MODES } from '../../src/engine/systems/DifficultyModes.js';
 
@@ -83,7 +84,7 @@ describe('💀 Lab: Iguatu × Sinistro — 10000 Seasons Stress Test', () => {
         expect(DIFFICULTY_MODES.sinistro).toBeDefined();
 
         // 2. Init engine
-        engine = new Engine();
+        engine = createEngine();
 
         // 3. Find Iguatu (worst team in game — Série D, R$1M budget, 3K stadium)
         //    Teams are assigned IDs sequentially: BRA.1(20), BRA.2(20), BRA.3(24), BRA.4(24), then SA/EU
@@ -103,7 +104,7 @@ describe('💀 Lab: Iguatu × Sinistro — 10000 Seasons Stress Test', () => {
         }
 
         // 4. Re-init with correct team
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('IguatuBot', teamId, 'manager', 'fallen');
 
         const team = engine.getTeam(teamId);
@@ -205,6 +206,17 @@ describe('💀 Lab: Iguatu × Sinistro — 10000 Seasons Stress Test', () => {
         console.log(`   👔 Board demissões: ${boardFirings}`);
         console.log(`   📈 Promoções: ${stats.insights?.promotionsWon || 0} | Rebaixamentos: ${stats.insights?.relegationsTaken || 0}`);
         console.log(`   🏆 Títulos: ${stats.insights?.titlesWon || 0}`);
+        if (engine.legacy && engine.legacy.titles && engine.legacy.titles.length > 0) {
+            const titleCounts = engine.legacy.titles.reduce((acc, curr) => {
+                acc[curr] = (acc[curr] || 0) + 1;
+                return acc;
+            }, {});
+            console.log(`   🥇 Detalhamento de Títulos:`);
+            Object.entries(titleCounts).forEach(([title, count]) => {
+                console.log(`      - ${count}x ${title}`);
+            });
+        }
+        console.log(`   📉 Rebaixamentos: ${stats.insights?.relegations || 0}`);
         console.log(`${'='.repeat(70)}\n`);
 
         // Division trajectory
@@ -348,9 +360,9 @@ describe('💀 Lab: Iguatu × Sinistro — 10000 Seasons Stress Test', () => {
             console.log(`  First: S${sh[0].season} Div${sh[0].division} Pos${sh[0].position}`);
             console.log(`  Last:  S${sh[sh.length - 1].season} Div${sh[sh.length - 1].division} Pos${sh[sh.length - 1].position}`);
         }
-        // AutoPlayLogger caps seasonHistory at 10 entries (ring buffer)
-        // So we verify: length === min(10, SEASONS)
-        expect(sh.length).toBe(Math.min(10, SEASONS));
+        // AutoPlayLogger caps seasonHistory at 100 entries (ring buffer)
+        // So we verify: length === min(100, SEASONS)
+        expect(sh.length).toBe(Math.min(100, SEASONS));
         expect(sh[sh.length - 1].season).toBeGreaterThanOrEqual(SEASONS - 5);
     });
 

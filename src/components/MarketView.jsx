@@ -7,6 +7,7 @@ import { EfClubBadge } from './ui/EfClubBadge';
 import { EfPanel } from './ui/EfPanel';
 import { EfButton } from './ui/EfButton';
 import { ShoppingCart, Bank, CurrencyDollar, MagnifyingGlass, Funnel, Users, Storefront, ChartLineUp, Handshake, GlobeHemisphereWest, CheckCircle, Gavel, Timer, ArrowUp, Star } from '@phosphor-icons/react';
+import { PlayerAttributesGrid } from './ui/PlayerAttributesGrid';
 import '../styles/market-view.css';
 import '../styles/elifoot-classic.css';
 
@@ -19,6 +20,7 @@ export function MarketView() {
     const [marketFilter, setMarketFilter] = useState('all'); // pos
     const [marketSort, setMarketSort] = useState('ovr'); // ovr | price | age | name
     const [marketSearch, setMarketSearch] = useState('');
+    const [expandedPlayerId, setExpandedPlayerId] = useState(null);
 
     const engine = getEngine();
     const team = engine.getTeam(gameState.teamId);
@@ -228,7 +230,7 @@ export function MarketView() {
                         ) : (
                             <div className="ef-market__card-grid">
                                 {filteredMarket.map(p => (
-                                    <div key={p.id} className="ef-anim-fade-in ef-market__player-card">
+                                    <div key={p.id} className="ef-anim-fade-in ef-market__player-card" style={expandedPlayerId === p.id ? { gridColumn: '1 / -1' } : {}}>
                                         <div className="ef-market__card-top">
                                             <div className="ef-market__card-portrait">
                                                 <PlayerAvatar name={p.name} size={88} />
@@ -252,10 +254,20 @@ export function MarketView() {
                                             <div className="ef-mono ef-market__card-price">
                                                 R$ {(p.value / 1000000).toFixed(1)}M
                                             </div>
-                                            <EfButton variant="primary" size="md" title={`Compra ${p.name} por R$ ${(p.value / 1000000).toFixed(1)}M (debita do caixa, gera salário semanal)`} onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
-                                                COMPRAR
-                                            </EfButton>
+                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                <EfButton variant="secondary" size="md" title="Atributos Detalhados" onClick={() => setExpandedPlayerId(expandedPlayerId === p.id ? null : p.id)}>
+                                                    {expandedPlayerId === p.id ? 'OCULTAR' : 'DETALHES'}
+                                                </EfButton>
+                                                <EfButton variant="primary" size="md" title={`Compra ${p.name} por R$ ${(p.value / 1000000).toFixed(1)}M`} onClick={() => handleBuy(p)} disabled={team.balance < p.value}>
+                                                    COMPRAR
+                                                </EfButton>
+                                            </div>
                                         </div>
+                                        {expandedPlayerId === p.id && (
+                                            <div style={{ marginTop: '12px', borderTop: '1px solid var(--color-bg-deep)', paddingTop: '12px' }}>
+                                                <PlayerAttributesGrid player={p} />
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -392,7 +404,7 @@ export function MarketView() {
                                                             </span>
                                                             <span className="ef-auction__bid-value">
                                                                 R$ {(b.bid / 1_000_000).toFixed(1)}M
-                                                                {isHighest && ' ✓'}
+                                                                {isHighest && ' [TOP]'}
                                                             </span>
                                                         </div>
                                                     );
@@ -423,8 +435,8 @@ export function MarketView() {
                                                 }
                                                 {' · '}
                                                 {isWinning
-                                                    ? '✅ Você está vencendo'
-                                                    : '⚠️ Há lances maiores'
+                                                    ? '[OK] Voce esta vencendo'
+                                                    : '[!] Ha lances maiores'
                                                 }
                                             </div>
                                         </div>

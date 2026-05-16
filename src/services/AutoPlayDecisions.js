@@ -16,6 +16,9 @@ import { encodeState } from './learning/AdaptiveBrain.js';
 import { detectMonotonyHeuristic } from './learning/LLMBridge.js';
 import { smartSellDecision, rankCandidates, computeTransferReward } from './learning/SmartMarketEngine.js';
 import { rng as systemRng } from '../engine/rng.js';
+import { evaluate as evaluateCoachProposal, decide as decideCoachProposal } from '../engine/CoachProposalSystem.js';
+import { PressService } from './PressService.js';
+import { EngineLogger } from '../engine/EngineLogger.js';
 
 // BUG-027 fix: pull training catalog from engine source of truth (was hardcoded
 // list with invalid IDs cardio/defensive/attacking causing 2416 TRAIN_FAIL).
@@ -49,7 +52,7 @@ export class AutoPlayDecisions {
         const ctx = parent._buildStateCtx();
 
         // Fase 3 ML: Set emotional context for SARSA modifier learning
-        try { parent.brain.emotions.setContext(ctx); } catch { /* defensive */ }
+        try { parent.brain.emotions.setContext(ctx); } catch (err) { EngineLogger.capture(err, 'AutoPlayDecisions.setEmotionContext'); }
 
         parent._observeOutcome(ctx);
 
@@ -209,7 +212,7 @@ export class AutoPlayDecisions {
                         if (sig.id === 'TACTIC_STUCK') parent._logAnomaly('TACTIC_STUCK', sig.msg, { tactic: nextTactic, streak: sig.streak ?? parent._consecutiveSameTactic });
                     });
                 }
-            } catch { /* ignore */ }
+            } catch (err) { EngineLogger.capture(err, 'AutoPlayDecisions.monotonyDetect', { week: parent.stats.weeksPlayed }); }
         }
 
         // Decision 3: Formation occasional rotate
@@ -239,6 +242,9 @@ export class AutoPlayDecisions {
             }
         }
 
+        // Decision 5b: Evaluate job proposals from other clubs (CoachProposalSystem)
+        this._evaluateJobProposals(engine, teamId, parent, stateKey, ctx);
+
         // BUG-028 fix: bot must visit views so SPEC-104 has data.
         // Track view visits via telemetry history every 4 weeks.
         if (parent.stats.weeksPlayed % 4 === 0) {
@@ -249,7 +255,7 @@ export class AutoPlayDecisions {
                     parent.telemetry.history.viewVisits[view] = (parent.telemetry.history.viewVisits[view] || 0) + 1;
                 }
                 parent._logDecision('VISIT_VIEW', { view }, 0);
-            } catch { /* ignore */ }
+            } catch (err) { EngineLogger.capture(err, 'AutoPlayDecisions.visitView', { week: parent.stats.weeksPlayed }); }
         }
 
         // BUG-032 + BUG-040 fix: auto-replenish squad more aggressively.
@@ -279,7 +285,7 @@ export class AutoPlayDecisions {
                     }, 0);
                 }
             }
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayDecisions.squadReplenish', { week: parent.stats.weeksPlayed }); }
 
         // Decision 6: Emergency loan when balance is critically low
         try {
@@ -299,7 +305,7 @@ export class AutoPlayDecisions {
                     }
                 }
             }
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayDecisions.emergencyLoan', { week: parent.stats.weeksPlayed }); }
 
         // BUG-080: emergency sell when deeply negative balance (even after loan)
         try {
@@ -307,7 +313,7 @@ export class AutoPlayDecisions {
             if (team && (team.balance || 0) < -5_000_000) {
                 parent._emergencySell(team);
             }
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayDecisions.emergencySell', { week: parent.stats.weeksPlayed }); }
 
         // BUG-050 fix: bot now ACTUALLY buys/sells via LLMBridge (was fake log).
         // Process incoming transfer offers + opportunistically buy if available.
@@ -513,7 +519,7 @@ export class AutoPlayDecisions {
                                 }
                             }
                         }
-                    } catch { /* ignore */ }
+                    } catch (err) { EngineLogger.capture(err, 'AutoPlayDecisions.scoutBuy', { week: parent.stats.weeksPlayed }); }
                 }
 
                 // Outgoing market inquiry every 8 weeks (decisions log only — NOT offers)
@@ -527,6 +533,111 @@ export class AutoPlayDecisions {
                     parent._logDecision('MARKET_INQUIRY', { playerId: candidate.id, askPrice: Math.round(askPrice) }, 0);
                 }
             }
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayDecisions.transferBlock', { week: parent.stats.weeksPlayed }); }
+    }
+
+    /**
+     * Decision 5b: O agente avalia propostas de emprego de outros clubes.
+     * BUG-A2 FIX: Agora usa PressService.respondCoachProposal() para executar
+     * a transferência real (engine.manager.teamId muda, board reseta, careerHistory atualiza).
+     */
+    _evaluateJobProposals(engine, teamId, parent, stateKey, ctx) {
+        // Só avaliar a cada 6 semanas e após a semana 10
+        if (parent.stats.weeksPlayed % 6 !== 0 || (engine.currentWeek || 0) < 10) return;
+
+        try {
+            const team = engine.getTeam(teamId);
+            if (!team) return;
+
+            const TIER_VALUE = { small: 1, mid: 2, big: 3 };
+            const currentClubTier = team.division === 1 ? 'big' : team.division === 2 ? 'mid' : 'small';
+            const form = (engine.managerStats?.rollingForm || []).slice(0, 4);
+
+            // Gerar lista de clubes candidatos (filtrado do próprio engine)
+            const availableClubs = (engine.teams || [])
+                .filter(t => t.id !== team.id)
+                .map(t => ({
+                    id: t.id,
+                    name: t.name,
+                    tier: t.division === 1 ? 'big' : t.division === 2 ? 'mid' : 'small'
+                }));
+
+            const proposal = evaluateCoachProposal({
+                managerId: engine.manager?.teamId || 0,
+                currentClubId: team.id,
+                currentClubTier,
+                currentContractWeeksLeft: engine.managerContract?.minWeeks || 20,
+                managerReputation: engine.manager?.reputation || 10,
+                recentForm: form,
+                currentObjectiveMet: engine.lastContractResolution?.outcome === 'fulfilled',
+                week: engine.currentWeek || 1,
+                season: engine.seasonNumber || 1,
+                availableClubs
+            });
+
+            if (!proposal.proposalAvailable || !proposal.proposal) return;
+
+            const p = proposal.proposal;
+            const fromTierValue = TIER_VALUE[p.fromClubTier] || 1;
+            const currentTierValue = TIER_VALUE[currentClubTier] || 1;
+
+            // ML Decision: Accept if upgrading 30%+ in tier value, or brain says yes
+            const upgradeRatio = fromTierValue / Math.max(currentTierValue, 1);
+            const brainActions = ['JOB_ACCEPT', 'JOB_WAIT', 'JOB_REFUSE'];
+            const pickedAction = parent.brain.pickAction(stateKey, brainActions, ctx);
+
+            let decision = 'refuse';
+            if (pickedAction === 'JOB_ACCEPT' || upgradeRatio >= 1.3) {
+                decision = 'accept';
+            } else if (pickedAction === 'JOB_WAIT') {
+                decision = 'wait_contract_end';
+            }
+
+            parent._logDecision('JOB_PROPOSAL', {
+                from: p.fromClubName,
+                fromTier: p.fromClubTier,
+                currentTier: currentClubTier,
+                decision,
+                upgradeRatio: upgradeRatio.toFixed(2),
+                source: pickedAction ? 'brain' : 'heuristic',
+                reason: p.reason
+            }, 0);
+
+            if (decision === 'accept') {
+                // BUG-A2 FIX: Use PressService.respondCoachProposal() for REAL team transfer.
+                // Set pendingCoachProposal so respondCoachProposal can pick it up.
+                engine.pendingCoachProposal = p;
+                const pressService = parent._pressService || new PressService();
+                const transferResult = pressService.respondCoachProposal(engine, true);
+
+                if (transferResult.success) {
+                    parent._logSuccess('JOB_ACCEPTED', `${transferResult.msg}. Saiu do ${team.name}.`);
+
+                    // Reward brain for career move
+                    const reward = upgradeRatio >= 1.5 ? 5 : 2;
+                    parent.brain.observe(stateKey, 'JOB_ACCEPT', reward, stateKey, brainActions);
+                    parent.brain.remember({
+                        week: engine.currentWeek, season: engine.seasonNumber,
+                        action: 'JOB_ACCEPT', result: 'moved',
+                        details: `${team.name} → ${p.fromClubName}`
+                    });
+                } else {
+                    parent._logDecision('JOB_ACCEPT_FAILED', { msg: transferResult.msg }, 0);
+                    // Penalize brain for failed acceptance to learn from it
+                    parent.brain.observe(stateKey, 'JOB_ACCEPT', -1, stateKey, brainActions);
+                }
+            } else {
+                // Apply reputation delta from CoachProposalSystem.decide()
+                const result = decideCoachProposal({
+                    decision,
+                    exitFee: p.exitFee,
+                    reputationBoost: p.reputationBoost,
+                    currentContractWeeksLeft: engine.managerContract?.minWeeks || 20
+                });
+                engine.manager.reputation = Math.max(0, Math.min(100, (engine.manager.reputation || 10) + result.reputationDelta));
+            }
+        } catch (err) {
+            EngineLogger.capture(err, 'AutoPlayDecisions._evaluateJobProposals', { week: parent.stats.weeksPlayed });
+        }
     }
 }

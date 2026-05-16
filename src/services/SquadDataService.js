@@ -5,7 +5,7 @@
  * Lazy-load per-club, cache in-memory.
  */
 
-import { mapSofaScorePosition, calculateRatingForPosition, getMacroPosition } from '../engine/Positions';
+import { mapSofaScorePosition, getMacroPosition } from '../engine/Positions';
 import { generateDetailedAttributes, calculateOvrFromAttributes } from '../engine/PlayerAttributes.js';
 import { rng as systemRng } from '../engine/rng.js';
 

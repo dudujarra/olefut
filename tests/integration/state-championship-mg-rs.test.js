@@ -7,14 +7,15 @@
  */
 import { describe, it, expect } from 'vitest';
 import { Engine } from '../../src/engine/engine';
+import { createEngine as factoryCreate } from '../../src/engine/engineFactory.js';
 import {
     CLUB_STATE_MAP,
     STATE_CHAMPIONSHIPS,
     StateChampionship,
 } from '../../src/engine/tournaments/StateChampionship';
 
-function createEngine() {
-    const e = new Engine();
+function createTestEngine() {
+    const e = factoryCreate();
     e.initGame('TestManager', 1, 'manager', 'livre');
     return e;
 }
@@ -31,19 +32,19 @@ function poolForState(engine, state) {
 
 describe('SPEC-168 expansion: Mineiro + Gaúcho ATIVOS pós-brazil.js expand', () => {
     it('pool MG tem >= 8 clubes (era 6, agora 10+)', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const mgPool = poolForState(e, 'MG');
         expect(mgPool.length).toBeGreaterThanOrEqual(8);
     });
 
     it('pool RS tem >= 8 clubes (era 6, agora 10+)', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const rsPool = poolForState(e, 'RS');
         expect(rsPool.length).toBeGreaterThanOrEqual(8);
     });
 
     it('os 4 estaduais brasileiros (Paulistão, Carioca, Mineiro, Gaúcho) estão ATIVOS', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const states = getStateTournaments(e);
         const wiredIds = new Set(states.map(t => t.id));
         expect(wiredIds.has('paulistao')).toBe(true);
@@ -54,7 +55,7 @@ describe('SPEC-168 expansion: Mineiro + Gaúcho ATIVOS pós-brazil.js expand', (
     });
 
     it('Mineiro tem participants e cada um é clube MG', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const mineiro = getStateTournaments(e).find(t => t.id === 'mineiro');
         expect(mineiro).toBeTruthy();
         expect(mineiro.participants.length).toBeGreaterThanOrEqual(8);
@@ -66,7 +67,7 @@ describe('SPEC-168 expansion: Mineiro + Gaúcho ATIVOS pós-brazil.js expand', (
     });
 
     it('Gaúcho tem participants e cada um é clube RS', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const gaucho = getStateTournaments(e).find(t => t.id === 'gaucho');
         expect(gaucho).toBeTruthy();
         expect(gaucho.participants.length).toBeGreaterThanOrEqual(8);
@@ -78,7 +79,7 @@ describe('SPEC-168 expansion: Mineiro + Gaúcho ATIVOS pós-brazil.js expand', (
     });
 
     it('config sizes respeitadas (Mineiro <= 12, Gaúcho <= 16)', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const mineiro = getStateTournaments(e).find(t => t.id === 'mineiro');
         const gaucho = getStateTournaments(e).find(t => t.id === 'gaucho');
         expect(mineiro.participants.length).toBeLessThanOrEqual(STATE_CHAMPIONSHIPS.mineiro.size);
@@ -86,7 +87,7 @@ describe('SPEC-168 expansion: Mineiro + Gaúcho ATIVOS pós-brazil.js expand', (
     });
 
     it('Mineiro + Gaúcho rodam standings nas primeiras semanas', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         for (let i = 0; i < 5; i++) {
             try { e.advanceWeek(); } catch { /* defensive */ }
         }

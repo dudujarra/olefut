@@ -110,9 +110,9 @@ export function ChronicleView() {
             const chronicles = engine.chronicles || [];
             if (chronicles.length > 0) {
                 const lines = chronicles.map(c =>
-                    `## Temporada ${c.season} — ${c.mood === 'triumph' ? '🏆' : c.mood === 'despair' ? '😢' : '📖'}\n${c.chronicle}`
+                    `## Temporada ${c.season} — ${c.mood === 'triumph' ? '[TITULO]' : c.mood === 'despair' ? '[QUEDA]' : '[CRONICA]'}\n${c.chronicle}`
                 );
-                setContent(`# 📜 Crônicas de ${engine.manager?.name || 'Anônimo'}\n\n${lines.join('\n\n')}`);
+                setContent(`# Crônicas de ${engine.manager?.name || 'Anônimo'}\n\n${lines.join('\n\n')}`);
             } else {
                 setContent(chronicle.generateSeasonChronicle(engine));
             }

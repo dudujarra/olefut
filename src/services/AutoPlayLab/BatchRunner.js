@@ -6,6 +6,7 @@
  */
 
 import { Engine } from '../../engine/engine.js';
+import { createEngine } from '../../engine/engineFactory.js';
 import { setGlobalSeed } from '../../engine/rng.js';
 import { captureSnapshot, trackStreaks } from './SnapshotAPI.js';
 
@@ -39,7 +40,7 @@ export async function runBatch({
         const result = { seed, crash: null, snapshot: null, weeksCompleted: 0, streakHistory: [] };
         try {
             setGlobalSeed(seed);
-            const engine = new Engine();
+            const engine = createEngine();
             engine.initGame(`AutoPlay${seed}`, teamId, mode, scenario);
             if (typeof beforeRun === 'function') beforeRun(engine);
 

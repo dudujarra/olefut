@@ -12,6 +12,7 @@
 import { useState, useEffect } from 'react';
 import { EfPanel } from '../ui/EfPanel';
 import { HexagonChart } from '../HexagonChart';
+import { PlayerAttributesGrid } from '../ui/PlayerAttributesGrid';
 import {
     Crown, Star, Sparkle, ClipboardText, Plant,
     SoccerBall, Trophy, ChartBar, Calendar, ArrowUp, ArrowDown
@@ -72,6 +73,9 @@ export default function CareerInfoPanel({ controllerRef }) {
                 // (simplification: just show season summary)
             }
 
+            // Manager Identity (SPEC-070)
+            const identity = engine.getManagerIdentity?.() || null;
+
             setSnapshot({
                 team,
                 position,
@@ -88,7 +92,8 @@ export default function CareerInfoPanel({ controllerRef }) {
                 titles: legacy.titles || [],
                 seasons: (legacy.seasons || []).slice(-10),
                 topScorers,
-                insights: stats.insights || {}
+                insights: stats.insights || {},
+                identity,
             });
         }, 1000);
         return () => clearInterval(id);
@@ -168,6 +173,31 @@ export default function CareerInfoPanel({ controllerRef }) {
                         </div>
                     </div>
 
+                    {/* Manager Identity (SPEC-070) */}
+                    {snapshot.identity && (
+                        <div style={{
+                            marginTop: '8px',
+                            padding: '8px',
+                            background: 'var(--color-shadow-deep)',
+                            borderLeft: '3px solid var(--accent)',
+                        }}>
+                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                                <Crown size={12} weight="fill" style={{verticalAlign:'-2px',marginRight:'4px'}} />IDENTIDADE TÁTICA
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', fontSize: '0.75rem' }}>
+                                <span style={{ color: 'var(--text-muted)' }}>Estilo:</span>
+                                <strong style={{ color: 'var(--accent)' }}>
+                                    {snapshot.identity.dominantStyle}
+                                    {snapshot.identity.styleConfidence > 0 && ` (${snapshot.identity.styleConfidence}%)`}
+                                </strong>
+                                <span style={{ color: 'var(--text-muted)' }}>Tier:</span>
+                                <strong>{snapshot.identity.reputationTier}</strong>
+                                <span style={{ color: 'var(--text-muted)' }}>Destaque:</span>
+                                <span style={{ fontStyle: 'italic' }}>{snapshot.identity.careerHighlight}</span>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Titles + insights row */}
                     <div style={{ display: 'flex', gap: '12px', marginTop: '8px', flexWrap: 'wrap' }}>
                         <div style={{ flex: 1, minWidth: '180px' }}>
@@ -219,6 +249,7 @@ export default function CareerInfoPanel({ controllerRef }) {
                             <div style={{ background: 'var(--color-shadow-deep)', padding: '8px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 {/* Destaque o Top 1 com o Hexagon Chart */}
                                 {snapshot.topScorers.length > 0 && (
+                                    <>
                                     <div style={{ display: 'flex', gap: '16px', alignItems: 'center', padding: '8px', background: 'var(--color-bg-deep)', border: '1px solid var(--color-forest-pulse)' }}>
                                         <div style={{ width: '120px', height: '120px', flexShrink: 0 }}>
                                             <HexagonChart player={snapshot.topScorers[0]} size={120} showLabels={true} />
@@ -237,6 +268,11 @@ export default function CareerInfoPanel({ controllerRef }) {
                                             </div>
                                         </div>
                                     </div>
+                                    {/* Mostrar grade detalhada do artilheiro */}
+                                    <div style={{ marginTop: '4px', borderTop: '1px solid var(--color-bg-deep)', paddingTop: '8px' }}>
+                                        <PlayerAttributesGrid player={snapshot.topScorers[0]} />
+                                    </div>
+                                    </>
                                 )}
                                 
                                 {/* Lista dos demais artilheiros */}

@@ -1,5 +1,5 @@
 import { rng as systemRng } from './rng.js';
-import { ATTRIBUTE_CATEGORIES, calculateOvrFromAttributes } from './PlayerAttributes.js';
+import { calculateOvrFromAttributes } from './PlayerAttributes.js';
 import { getDifficulty } from './systems/DifficultyModes.js';
 import { getTicketFinanceModifiers } from './TicketPricingSystem.js';
 import Morphocycle from './training/Morphocycle.js';

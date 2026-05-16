@@ -1,4 +1,4 @@
-import { TACTIC_NARRATION } from '../engine/PlayerDevelopment';
+import { TACTIC_NARRATION } from '../engine/systems/NarrativeSystem.js';
 import { drawCard } from '../engine/MatchEventsDeck.js';
 import { rng as systemRng } from '../engine/rng.js';
 

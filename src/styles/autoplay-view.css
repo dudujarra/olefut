@@ -441,7 +441,7 @@
   padding: 16px;
   color: var(--ef-ap-soft-text);
   background-color: var(--ef-ap-bg-deep);
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* Scanline overlay — fixed inset, non-interactive, sits above bg but below content */

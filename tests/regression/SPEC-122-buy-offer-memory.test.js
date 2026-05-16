@@ -1,12 +1,13 @@
 // Regression test SPEC-122: makeBuyOffer + scoutLeague + brain memory.
 import { describe, test, expect, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { AdaptiveBrain } from '../../src/services/learning/AdaptiveBrain.js';
 
 describe('SPEC-122 — Engine.makeBuyOffer', () => {
     let engine;
     beforeEach(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
     });
 
@@ -72,7 +73,7 @@ describe('SPEC-122 — Engine.makeBuyOffer', () => {
 describe('SPEC-122 — Engine.scoutLeague', () => {
     let engine;
     beforeEach(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
     });
 

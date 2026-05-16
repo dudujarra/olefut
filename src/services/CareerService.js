@@ -8,7 +8,6 @@
  */
 
 
-import { LIFESTYLE_CATALOG, TRAITS_CATALOG } from '../engine/PlayerCareer';
 import { calculateOvrFromAttributes } from '../engine/PlayerAttributes.js';
 import { rng as systemRng } from '../engine/rng.js';
 
@@ -212,6 +211,12 @@ export class CareerService {
             salary: contract.salary || 5000,
             endedAt: null
         });
+        
+        // BUG-FIX: Cap history to 100 entries to prevent memory bloat
+        if (engineOrSave.managerCareer.history.length > 100) {
+            engineOrSave.managerCareer.history = engineOrSave.managerCareer.history.slice(-100);
+        }
+        
         return { success: true };
     }
 
@@ -266,6 +271,12 @@ export class CareerService {
             ...offer,
             createdAt: Date.now()
         });
+        
+        // BUG-FIX: Cap offers to 20 entries to prevent memory bloat
+        if (engineOrSave.managerCareer.offers.length > 20) {
+            engineOrSave.managerCareer.offers = engineOrSave.managerCareer.offers.slice(-20);
+        }
+        
         return { success: true };
     }
 

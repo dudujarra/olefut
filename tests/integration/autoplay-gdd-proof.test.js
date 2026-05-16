@@ -9,6 +9,7 @@
 
 import { describe, it, expect, beforeAll } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { AutoPlayController } from '../../src/services/AutoPlayService.js';
 
 // Mock localStorage for Node
@@ -27,7 +28,7 @@ describe('AutoPlay GDD Parity Proof — 3 Season Smoke', () => {
     const WEEKS_TO_RUN = 114; // 3 full seasons
 
     beforeAll(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('Proof Bot', 1);
 
         autoplay = new AutoPlayController(engine);

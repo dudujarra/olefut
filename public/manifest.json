@@ -10,7 +10,7 @@
   "theme_color": "#2D5A27",
   "icons": [
     {
-      "src": "/olefut/favicon.svg",
+      "src": "favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

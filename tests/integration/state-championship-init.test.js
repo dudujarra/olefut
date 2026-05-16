@@ -6,14 +6,15 @@
  */
 import { describe, it, expect } from 'vitest';
 import { Engine } from '../../src/engine/engine';
+import { createEngine as factoryCreate } from '../../src/engine/engineFactory.js';
 import {
     CLUB_STATE_MAP,
     STATE_CHAMPIONSHIPS,
     StateChampionship,
 } from '../../src/engine/tournaments/StateChampionship';
 
-function createEngine() {
-    const e = new Engine();
+function createTestEngine() {
+    const e = factoryCreate();
     e.initGame('TestManager', 1, 'manager', 'livre');
     return e;
 }
@@ -24,13 +25,13 @@ function getStateTournaments(engine) {
 
 describe('SPEC-168: State Championships wire-up', () => {
     it('GameInitializer cria pelo menos um estadual brasileiro', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const states = getStateTournaments(e);
         expect(states.length).toBeGreaterThan(0);
     });
 
     it('cada estadual ativo tem >= 8 participantes (mandamento #5)', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const states = getStateTournaments(e);
         for (const t of states) {
             expect(t.participants.length).toBeGreaterThanOrEqual(8);
@@ -38,7 +39,7 @@ describe('SPEC-168: State Championships wire-up', () => {
     });
 
     it('participantes pertencem ao estado correto (cross-check CLUB_STATE_MAP)', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const states = getStateTournaments(e);
         for (const t of states) {
             for (const teamId of t.participants) {
@@ -50,7 +51,7 @@ describe('SPEC-168: State Championships wire-up', () => {
     });
 
     it('janela de calendário: weekStart=1, weekEnd=16', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const states = getStateTournaments(e);
         for (const t of states) {
             expect(t.weekStart).toBe(1);
@@ -59,7 +60,7 @@ describe('SPEC-168: State Championships wire-up', () => {
     });
 
     it('estaduais não rodam fora da janela (week 17 = []) ', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const states = getStateTournaments(e);
         if (states.length === 0) return; // defensive — sem estaduais, nada a testar
         const t = states[0];
@@ -69,7 +70,7 @@ describe('SPEC-168: State Championships wire-up', () => {
     });
 
     it('estaduais simulam partidas durante semanas 1-16 (standings se movem)', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const states = getStateTournaments(e);
         if (states.length === 0) return;
 
@@ -84,7 +85,7 @@ describe('SPEC-168: State Championships wire-up', () => {
     });
 
     it('estadual sem >= 8 clubes mapeados não é instanciado', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const states = getStateTournaments(e);
         const wiredIds = new Set(states.map(t => t.id));
 
@@ -100,7 +101,7 @@ describe('SPEC-168: State Championships wire-up', () => {
     });
 
     it('golden master: tournaments principais continuam presentes', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const ids = e.tournaments.map(t => t.id);
         expect(ids).toContain('COPA_BR');
         expect(ids).toContain('LIBERTADORES');
@@ -111,7 +112,7 @@ describe('SPEC-168: State Championships wire-up', () => {
     });
 
     it('re-init no rollover de temporada reseta phase e mantém participantes', () => {
-        const e = createEngine();
+        const e = createTestEngine();
         const states = getStateTournaments(e);
         if (states.length === 0) return;
         const t = states[0];

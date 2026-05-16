@@ -3,12 +3,13 @@
 // 2416× TRAIN_FAIL, 129× TACTIC_STUCK spam, SPEC-104/106/107/108/111 zeroed.
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { TRAINING_TYPES } from '../../src/engine/ManagerSystems.js';
 
 describe('BUG-026 — engine season rollover', () => {
     let engine;
     beforeEach(() => {
-        engine = new Engine();
+        engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
     });
 
@@ -75,7 +76,7 @@ describe('BUG-027 — TRAINING_ROTATION uses engine catalog', () => {
     });
 
     test('engine.doTraining accepts every rotation entry', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         const validIds = TRAINING_TYPES.map(t => t.id);
         validIds.forEach(id => {
@@ -89,7 +90,7 @@ describe('BUG-027 — TRAINING_ROTATION uses engine catalog', () => {
 
 describe('BUG-026b — match counting from weekResults shape', () => {
     test('weekResults is keyed by tournamentId, not { matches }', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TestBot', 1, 'manager', 'livre');
         const result = engine.advanceWeek();
         if (result === null) return; // already past week 38 — skip

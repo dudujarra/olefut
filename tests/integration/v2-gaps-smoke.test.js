@@ -7,6 +7,7 @@
 
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Engine } from '../../src/engine/engine.js';
+import { createEngine } from '../../src/engine/engineFactory.js';
 import { setGlobalSeed } from '../../src/engine/rng.js';
 import { electStarPlayer } from '../../src/engine/StarPlayerLink.js';
 import { getCurrentStreak, FEATURE_FLAG } from '../../src/engine/WinStreakModifierSystem.js';
@@ -22,7 +23,7 @@ describe('V2 Gaps Smoke Test (engine-side validation)', () => {
     });
 
     it('boots manager mode + initial state', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TesteDudu', 1, 'manager', 'livre');
         expect(engine.mode).toBe('manager');
         expect(engine.starPlayerId).toBe(null);
@@ -39,7 +40,7 @@ describe('V2 Gaps Smoke Test (engine-side validation)', () => {
     });
 
     it('Gap 6: Seasonal event triggered week 1 via WeekProcessor', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TesteDudu', 1, 'manager', 'livre');
         // Manually trigger week processor by advancing weeks
         // Actually currentWeek=1 já, season event detect via helper
@@ -50,7 +51,7 @@ describe('V2 Gaps Smoke Test (engine-side validation)', () => {
     });
 
     it('star player elect + state persists', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TesteDudu', 1, 'manager', 'livre');
         const team = engine.getTeam(1);
         if (team && team.squad?.length > 0) {
@@ -62,7 +63,7 @@ describe('V2 Gaps Smoke Test (engine-side validation)', () => {
     });
 
     it('full season simulation completes without crash', () => {
-        const engine = new Engine();
+        const engine = createEngine();
         engine.initGame('TesteDudu', 1, 'manager', 'livre');
         for (let w = 0; w < 38; w++) {
             try {

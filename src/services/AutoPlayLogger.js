@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 /**
  * AutoPlayLogger — Persistence + log entry collection
  * RFCT-020 Phase 1: Extracted from AutoPlayService
@@ -60,7 +61,7 @@ export class AutoPlayLogger {
                 action: `AUTOPLAY.${type}`,
                 ctx: entry
             });
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayLogger.js', 'ignore'); }
     }
 
     /**
@@ -219,6 +220,6 @@ export class AutoPlayLogger {
         // Telemetry: feed decision
         try {
             this.parent.telemetry.record({ decision: entry });
-        } catch { /* ignore */ }
+        } catch (err) { EngineLogger.capture(err, 'AutoPlayLogger.js', 'ignore'); }
     }
 }

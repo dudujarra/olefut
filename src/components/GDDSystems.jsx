@@ -203,7 +203,7 @@ export function TutorialOverlay({ visible, onDismiss }) {
                 <h3 className="tutorial-title">{current.title}</h3>
                 <p className="tutorial-text">{current.text}</p>
                 {current.action && (
-                    <p className="tutorial-action">👉 {current.action}</p>
+                    <p className="tutorial-action">&gt; {current.action}</p>
                 )}
                 <div className="tutorial-buttons" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
                     <EfButton variant="secondary" size="sm" onClick={() => {
