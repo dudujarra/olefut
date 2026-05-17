@@ -77,7 +77,7 @@ export class BoardSystem {
 
         // Amplifica quedas de confiança se a diretoria for impaciente (ex: Sinistro = 0.4x patience -> 2.5x dano)
         if (delta < 0) {
-            delta = delta * (1 / this.boardPatience);
+            delta = delta * (1 / Math.max(0.1, this.boardPatience));
         }
 
         this.confidence = Math.max(0, Math.min(100, this.confidence + delta));

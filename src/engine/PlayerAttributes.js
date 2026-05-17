@@ -183,7 +183,7 @@ export function getLegacyPentagonStats(player) {
     const m = player.attributes.mental;
 
     // Average relevant stats (1-20) then scale to 0-100 by multiplying by 5
-    const avg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
+    const avg = (arr) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
 
     return {
         attacking: Math.round(avg([t.finishing, t.longShots, m.offTheBall]) * 5),

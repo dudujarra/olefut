@@ -113,3 +113,8 @@ export function updatePerformance({ managerId, goals = 0, assists = 0, rating = 
     p.avgRating = (p.avgRating * (p.games - 1) + rating) / p.games;
     current.narrativeState = computeState({ performanceSince: p }).narrativeState;
 }
+
+/** Reset all protections (for save load / test isolation). */
+export function resetAll() {
+    _protected.clear();
+}

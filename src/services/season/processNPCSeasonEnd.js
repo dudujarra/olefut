@@ -1,27 +1,15 @@
 /**
- * SeasonProcessor — Extracted from engine.startNewSeason() (AKITA-RFCT-005)
+ * processNPCSeasonEnd — NPC season-end processing for all teams.
  *
- * Processa transição de temporada do modo manager:
- * - Legacy (títulos, reputação)
- * - SPEC-070 (Manager Identity update)
- * - SPEC-071 (Contract resolution + novo contrato)
- * - Promo/relegação para todas as divisões
- * - Close season stats, aging, awards
- * - Sponsor + board reset
- * - SPEC-072 (Board Tension: title/contract)
- * - SPEC-082 (Chronicle)
- * - SPEC-078 (Hall of Legends)
- * - SPEC-079 (Heritage Traits)
- * - SPEC-080 (Rivalry Upgrade)
- * - SPEC-081 (Filhos Regen)
- *
- * Invariante RFCT-005:
- * - Mesma ordem de execução que startNewSeason original
- * - Mutações no engine via referência
- * - Zero mudança comportamental
+ * Responsibilities:
+ * - Recalculate prestige per team
+ * - Inject seasonal TV money budgets (capped)
+ * - Age contracts and release expired NPC players to market pool
+ * - Cap market pool to prevent unbounded growth
  */
 
 import { calcPrestige } from '../../engine/AmbitionEngine';
+import { EngineLogger } from '../../engine/EngineLogger.js';
 
 export function processNPCSeasonEnd(engine, playerTeam) {
   try {
@@ -84,6 +72,6 @@ export function processNPCSeasonEnd(engine, playerTeam) {
       engine.marketPlayers = engine.marketPlayers.slice(0, 150);
     }
   } catch (err) {
-    console.warn('[SeasonProcessor] NPC season end error:', err.message);
+    EngineLogger.capture(err, 'processNPCSeasonEnd', { teamsCount: engine.teams?.length });
   }
 }

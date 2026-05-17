@@ -39,7 +39,7 @@ export function generate({ managerId = 0, clubId = 0, clubTier = 'mid', managerR
     const expiresAfterSeasons = contractType === 'renewal' ? 2 : 1;
 
     return {
-        contractId: `c-${managerId}-${clubId}-${Date.now()}`,
+        contractId: `c-${managerId}-${clubId}-${Math.floor(systemRng() * 0xFFFFFF).toString(16)}`,
         managerId,
         clubId,
         objective,
