@@ -53,7 +53,7 @@ function buildRegen(parent, rand) {
     const ovrBase = Math.max(50, (parent.ovr || 65) - 15 + Math.floor(rand() * 20));
 
     return {
-        id: `regen-${parent.playerId}-${Date.now()}`,
+        id: `regen-${parent.playerId}-${Math.floor(rand() * 0xFFFFFF).toString(16)}`,
         name: `${firstName} ${surname}`,
         parentId: parent.playerId,
         parentName: parent.name,

@@ -278,23 +278,34 @@ export class SeasonProcessor {
           // NPCs get emergency base players to keep the league running
           engine.weekEvents.push(`🚨 Plantel do ${team.name} caiu para ${team.squad.length} jogadores. Reposição de emergência ativada.`);
           while (team.squad.length < 16) {
+            const pos = ['GOL', 'DEF', 'MEI', 'ATA'][Math.floor(systemRng() * 4)];
+            const ovr = Math.floor(team.division === 1 ? 50 : 35);
             team.squad.push({
-              id: `emerg-${team.id}-${Date.now()}-${systemRng()}`,
+              id: `emerg-${team.id}-s${engine.seasonNumber}-${Math.floor(systemRng() * 0xFFFFFF).toString(16)}`,
               name: `Base ${Math.floor(systemRng() * 100)}`,
               age: 16 + Math.floor(systemRng() * 3),
-              position: ['GOL', 'DEF', 'MEI', 'ATA'][Math.floor(systemRng() * 4)],
-              ovr: Math.floor(team.division === 1 ? 50 : 35),
+              position: pos,
+              ovr,
               potential: Math.floor(60 + systemRng() * 20),
               salary: Math.floor(team.division === 1 ? 8000 : 2000),
               contract: {
                 weeksLeft: 76,
-                salary: 2000
+                salary: Math.floor(team.division === 1 ? 8000 : 2000)
               },
               isTitular: false,
               energy: 100,
               moral: 50,
               seasonGoals: 0,
-              seasonApps: 0
+              seasonApps: 0,
+              career: { totalGoals: 0, totalApps: 0, seasons: [] },
+              form: { last5: [6, 6, 6, 6, 6] },
+              attributes: {
+                technical: { crossing: 5, dribbling: 5, finishing: 5, firstTouch: 5, freeKick: 5, heading: 5, longShots: 5, longThrows: 5, marking: 5, passing: 5, penaltyTaking: 5, tackling: 5, technique: 5 },
+                mental: { aggression: 5, anticipation: 5, bravery: 5, composure: 5, concentration: 5, decisions: 5, determination: 5, flair: 5, leadership: 5, offTheBall: 5, positioning: 5, teamwork: 5, vision: 5, workRate: 5 },
+                physical: { acceleration: 5, agility: 5, balance: 5, jumpingReach: 5, naturalFitness: 10, pace: 5, stamina: 10, strength: 5 },
+                goalkeeping: { aerialReach: pos === 'GOL' ? 10 : 1, commandOfArea: pos === 'GOL' ? 10 : 1, communication: 1, eccentricity: 1, handling: pos === 'GOL' ? 10 : 1, kicking: 1, oneOnOnes: pos === 'GOL' ? 10 : 1, reflexes: pos === 'GOL' ? 10 : 1, rushingOut: 1, punching: 1, throwing: 1 }
+              },
+              traits: []
             });
           }
         }

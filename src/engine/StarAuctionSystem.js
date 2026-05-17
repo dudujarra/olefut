@@ -93,7 +93,7 @@ export function startAuction(engine, player, managerBid, source = 'market', sour
     });
 
     const auction = {
-        id: `auction_${Date.now()}_${Math.floor(systemRng() * 10000)}`,
+        id: `auction_s${engine.seasonNumber || 0}w${engine.currentWeek || 0}_${Math.floor(systemRng() * 10000)}`,
         playerId: player.id,
         playerName: player.name,
         playerOvr: player.ovr,
