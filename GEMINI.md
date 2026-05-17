@@ -7,7 +7,7 @@ Este arquivo existe para Gemini ter o mesmo ponto de partida que Claude.
 
 ## 🚨 FOUNDATION-FIRST ATIVO (desde 2026-05-12)
 
-**Status**: Bloco 1 (Fundação) em andamento. Foundation antes de qualquer feature.
+**Status**: Todos os Blocos Foundation DONE. Reliability Hardening DONE (AKITA-407~411). 1814+ testes, 145 specs.
 **Fonte estratégica única**: [`specs/MASTER-ROADMAP-FOUNDATION-FIRST.md`](specs/MASTER-ROADMAP-FOUNDATION-FIRST.md)
 
 **Os 10 mandamentos brutais** (sobrepõem-se temporariamente aos 7 Akita):

@@ -4,6 +4,50 @@ Todas mudanças notáveis seguem [Keep a Changelog](https://keepachangelog.com/e
 
 ## [Unreleased]
 
+### [test] AKITA-411 — Unit tests for top 10 critical backend modules (2026-05-16)
+
+Comprehensive unit test coverage for the 10 most critical, previously untested backend modules.
+
+**Modules Covered:**
+
+| # | Módulo | Testes | Cobertura |
+|---|--------|--------|----------|
+| 1 | `PlayerCareer` (ProPlayer) | 36 | Constructor, init, OVR change, cap, close season |
+| 2 | `AmbitionEngine` | 15 | Prestige, ambition, satisfaction, relegation/promotion, buyers |
+| 3 | `TransferService` | 14 | Market gen, buy/sell, NPC offers, rejections |
+| 4 | `FormationService` | 13 | Tactics, formations, live subs, auto-pick, match context |
+| 5 | `WeekMatchResult` | 9 | Win/loss/draw processing, goals tracking, moral, rolling form |
+| 6 | `BanditCoordinator` | 11 | Context key discretization, state building, outcomes |
+| 7 | `ManagerSystems` | 11 | TACTICS/FORMATIONS integrity, training, team talk |
+| 8 | `MatchSimulator` | 4 | simulate() contract, goal range, events structure |
+| 9 | `AutoPlayDecisions` | 2 | Constructor, null-teamId guard |
+| 10 | `PlayerTraits` | 137 | Traits, bonuses, modifiers, career stats, awards, rivalry, counter-offer, mentoring |
+
+**Métricas:**
+- **252 novos testes**, todos passando
+- **Zero regressão** nos 1814 testes existentes
+- **10 novos arquivos** em `tests/unit/`
+
+### [refactor] AKITA-410 — Standardize EngineResult type across all services (2026-05-16)
+
+Migração sistemática de bare `{ success: false }` returns para o contrato padronizado `{ success: boolean, msg: string }` em 6 services:
+- `ChallengesService` — bare returns → msgs descritivas
+- `CosmeticShopService` — bare returns → msgs descritivas
+- `FormationService` — bare returns → msgs descritivas
+- `NarrativeService` — bare returns → msgs descritivas
+- `RelationshipService` — bare returns → msgs descritivas
+- `ScoutingService` — bare returns → msgs descritivas
+
+### [fix] AKITA-408/409 — Wire EngineLogger into 21 silent catch blocks (2026-05-16)
+
+Auditoria e instrumentação de catches silenciosos em 7 módulos game-logic + 4 services:
+- Todos os `catch(e){}` agora delegam para `EngineLogger.capture(e, context)`
+- Telemetria completa para soak tests de 10.000+ temporadas
+
+### [docs] AKITA-407 — Update engine.js docs to 323L thin facade post-AKITA-406 (2026-05-16)
+
+- engine.js documentação atualizada para refletir thin facade pattern
+
 ### [refactor] AKITA-404 — Backend Hardening v3: God Object Decapitation + Memory Guards (2026-05-16)
 
 Refatoração sistêmica do backend para eliminar God Objects, dead imports, anti-patterns CJS, e riscos de memory leak.

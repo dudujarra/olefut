@@ -4,7 +4,7 @@
 > Toda decisão arquitetural, comando, fluxo, dependência mora aqui.
 > README humano-amigável aponta pra cá.
 
-**Última atualização**: 2026-05-16
+**Última atualização**: 2026-05-16 (post AKITA-411)
 **Owner**: Dudu (Eduardo Jarra) — dudujarra@corapost.com
 **Repo público**: https://github.com/dudujarra/olefut
 **Demo**: https://dudujarra.github.io/olefut/
@@ -50,6 +50,7 @@
 | 3 Polish + Launch | 🟡 PARTIAL | UI sweep + perf done; playtest + launch pendentes |
 | Pós-Foundation V1 | ✅ DONE | Game Design Fase A/B/C (26 PRs) |
 | Pós-Foundation V2 | ✅ DONE | F1-F6 brutal-driven (sabor BR, star player, win streak, legends, handicap, mid-match) |
+| Reliability Hardening | ✅ DONE | EngineLogger telemetry (AKITA-408/409), Result standardization (AKITA-410), 252 unit tests (AKITA-411) |
 | AutoPlayLab Platform | ✅ DONE | 46 presets, 9 categorias |
 | Rebrand OléFUT | ✅ DONE | repo renomeado, 176 arquivos, storage migration shim |
 
@@ -123,7 +124,8 @@ src/
 ├── data/                     # Static data (fora da engine)
 ├── hooks/
 ├── services/                 # WeekProcessor, WeekMatchResult, MatchSimulator, MatchPostMatch,
-│                             # SeasonProcessor + 14 season/ modules, AutoPlayService, CareerService
+│                             # SeasonProcessor + 14 season/ modules, AutoPlayService, CareerService,
+│                             # TransferService, FormationService, ScoutingService
 ├── audio/
 ├── styles/                   # design-tokens.css, animations.css (32bit SNES theme)
 ├── utils/
@@ -146,7 +148,7 @@ specs/                        # 97 SPECs (SDD source of truth)
 └── generators/               # Templates pra novas specs (code/research/pipeline/decision)
 
 tests/
-├── unit/
+├── unit/                     # 252 tests — top 10 módulos (AKITA-411)
 ├── integration/
 ├── regression/               # BUG-XXX.test.js (Mandamento #6)
 ├── specs/                    # SPEC-XXX.test.js (harness por spec)
@@ -187,7 +189,7 @@ npm run lint                  # ESLint (deve passar 0 erros)
 
 ### Testes
 ```bash
-npm test                      # Vitest run (1035 testes; 18 falhando hoje)
+npm test                      # Vitest run (1814+ testes)
 npm run test:watch            # Watch mode
 npm run test:ci               # Verbose + build (gate CI)
 npm run test:series           # 1 arquivo por vez (isolamento)
@@ -253,17 +255,20 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 
 | Métrica | Valor | Fonte |
 |---------|-------|-------|
-| Tests | **1666/1666** ✅ default + **18/18** ✅ test:soak | `vitest run` 2026-05-16 |
+| Tests | **1814/1834** ✅ (20 pre-existing spec audit failures) | `vitest run` 2026-05-16 |
+| Unit tests (top 10 módulos) | **252/252** ✅ | `tests/unit/` AKITA-411 |
 | Core regression suite | **61/61** ✅ (system-integration + engine-golden + marl-e2e) | 23.7s |
-| Test files | 138 | `find tests -name "*.test.js"` |
-| Specs totais | **144** | `find specs -name "SPEC-*.md"` |
+| Test files | 154 | `find tests -name "*.test.js"` |
+| Specs totais | **145** | `find specs -name "SPEC-*.md"` |
 | Bugs com regression test | 17 arquivos em `tests/regression/` | — |
-| AKITA commits | **404+** | `git log --grep AKITA` |
+| AKITA commits | **411+** | `git log --grep AKITA` |
 | Clubes | 170 (BR + EU + SA) | `src/engine/db/` |
-| Backend total | **~22.078 linhas** (engine/ + services/) | `wc -l` |
+| Backend total | **~30.924 linhas** (engine/ + services/) | `wc -l` |
 | Maior arquivo backend | 643L (AutoPlayDecisions) | engine.js saiu do top 6 |
 | Dead imports | **0** | auditado AKITA-404 |
 | CJS require() | **0** | migrado para ESM puro |
+| EngineResult contract | **100%** services padronizados | AKITA-410 |
+| EngineLogger coverage | **21 catch blocks** instrumentados | AKITA-408/409 |
 | Build | ✅ limpo, ~1.1s, initial chunk **376KB** (gzip 110KB) | `vite build` |
 | Build budget gate | ✅ 4/4 tests (initial ≤500KB, chunk ≤800KB, total ≤3MB) | `tests/integration/build-budget.test.js` |
 | Lint | ✅ 0 erros | `eslint .` |
@@ -280,6 +285,9 @@ PR linkado a SPEC-XXX / BUG-XXX → CI verde → merge
 - ~~CJS require() em ES modules~~ **resolvido AKITA-404**: MarketPricer + processNPCSeasonEnd convertidos
 - ~~weekEvents unbounded growth~~ **resolvido AKITA-404**: hard cap 50 eventos/semana
 - ~~`engine.js` 540 linhas~~ **resolvido AKITA-406**: thin facade 323L (-40%). Zero lógica inline. Pure state + delegators.
+- ~~Unit tests para módulos críticos~~ **resolvido AKITA-411**: 252 testes cobrindo top 10 módulos (PlayerCareer, AmbitionEngine, TransferService, FormationService, WeekMatchResult, BanditCoordinator, ManagerSystems, MatchSimulator, AutoPlayDecisions, PlayerTraits)
+- ~~EngineResult inconsistente~~ **resolvido AKITA-410**: 6 services padronizados para `{ success, msg }`
+- ~~Catches silenciosos~~ **resolvido AKITA-408/409**: 21 catch blocks instrumentados com EngineLogger
 - **EfButton chunk 652KB** — contém player DB inteiro. Candidato a SPEC-160 (code-split DB).
 
 ---

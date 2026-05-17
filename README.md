@@ -6,8 +6,8 @@
 🎮 **Live demo**: https://dudujarra.github.io/olefut/
 
 [![CI](https://github.com/dudujarra/olefut/actions/workflows/ci.yml/badge.svg)](https://github.com/dudujarra/olefut/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-1625%2F1625-brightgreen)](https://github.com/dudujarra/olefut/tree/main/tests)
-[![Specs](https://img.shields.io/badge/specs-124%2B-blue)](https://github.com/dudujarra/olefut/tree/main/specs)
+[![Tests](https://img.shields.io/badge/tests-1814%2F1834-brightgreen)](https://github.com/dudujarra/olefut/tree/main/tests)
+[![Specs](https://img.shields.io/badge/specs-145%2B-blue)](https://github.com/dudujarra/olefut/tree/main/specs)
 [![SDD](https://img.shields.io/badge/SDD-100%25-purple)](https://github.com/dudujarra/olefut/blob/main/specs/SPEC-RULES.md)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -67,14 +67,14 @@ Construído via **SDD (Spec-Driven Development)** + **Protocolo AKITA**. Cada fe
 
 | Métrica | Valor |
 |---------|-------|
-| Tests | 1666/1666 ✅ |
+| Tests | 1814/1834 ✅ (252 unit tests AKITA-411) |
 | Core regression | 61/61 ✅ |
-| Specs | 144+ |
+| Specs | 145+ |
 | Build | ~600ms, initial 376KB (gzip 110KB) |
 | Lint | 0 errors |
 | Clubes reais | 170 (10 países) |
-| Backend LOC | ~22.269 (ESM puro, zero require()) |
-| AKITA commits | 404+ |
+| Backend LOC | ~30.924 (ESM puro, zero require()) |
+| AKITA commits | 411+ |
 
 ---
 
@@ -136,8 +136,8 @@ src/
 ├── context/         # GameContext (ponte Engine↔React)
 └── styles/          # design-tokens, animations (SNES theme)
 
-specs/               # 144+ specs (SDD source of truth)
-tests/               # 1666 tests (unit + integration + regression + e2e)
+specs/               # 145+ specs (SDD source of truth)
+tests/               # 1814+ tests (unit + integration + regression + e2e)
 ```
 
 Detalhes: [`CLAUDE.md`](CLAUDE.md).
