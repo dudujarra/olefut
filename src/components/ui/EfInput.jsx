@@ -30,29 +30,27 @@ export function EfInput({
     const sizing = SIZE_MAP[size] || SIZE_MAP.md;
     const inputId = id || `ef-input-${systemRng().toString(36).slice(2, 8)}`;
 
+    // Note: To remain backwards-compatible, we extract standard input props
+    // that might be passed in `rest` but we avoid a blind spread `{...rest}`
+    // which can leak React objects to DOM. For now, we only pass explicit props 
+    // or standard HTML input props.
+    const { name, min, max, step, required, maxLength, readOnly, autoFocus } = rest;
+
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <div className="ef-input-wrapper flex flex-col gap-1">
             {label && (
-                <label htmlFor={inputId} style={{
-                    fontSize: '0.5rem',
-                    fontFamily: 'var(--font-display)',
-                    fontWeight: 600,
-                    color: 'var(--text-muted)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em'
-                }}>
+                <label 
+                    htmlFor={inputId} 
+                    className="ef-input-label font-display text-color-muted uppercase tracking-[0.04em] font-semibold"
+                    style={{ fontSize: '0.5rem' }}
+                >
                     {label}
                 </label>
             )}
 
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <div className="relative flex items-center">
                 {icon && (
-                    <span style={{
-                        position: 'absolute',
-                        left: '8px',
-                        color: 'var(--text-muted)',
-                        pointerEvents: 'none'
-                    }}>
+                    <span className="absolute left-2 text-color-muted pointer-events-none">
                         {icon}
                     </span>
                 )}
@@ -66,54 +64,31 @@ export function EfInput({
                     aria-label={ariaLabel}
                     aria-invalid={!!error || undefined}
                     aria-describedby={helper ? `${inputId}-helper` : undefined}
+                    className={`ef-input flex-1 font-mono text-color-soft-text bg-bg-dark border-4 outline-none transition-colors duration-100 ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text'} ${error ? 'border-danger' : 'border-bg-dark border-b-border-panel border-r-border-panel focus:border-info'} shadow-[inset_2px_2px_0_var(--color-shadow-deep)]`}
                     style={{
-                        flex: 1,
                         padding: sizing.padding,
                         paddingLeft: icon ? '32px' : sizing.padding.split(' ')[1],
-                        fontSize: sizing.fontSize,
-                        fontFamily: 'var(--font-mono)',
-                        color: 'var(--color-soft-text)',
-                        background: 'var(--bg-dark)',
-                        border: '4px solid',
-                        borderColor: error
-                            ? 'var(--danger)'
-                            : 'var(--bg-dark) var(--border-panel) var(--border-panel) var(--bg-dark)',
-                        boxShadow: 'inset 2px 2px 0 var(--color-shadow-deep)',
-                        outline: 'none',
-                        transition: 'border-color 0.1s',
-                        opacity: disabled ? 0.5 : 1,
-                        cursor: disabled ? 'not-allowed' : 'text'
+                        fontSize: sizing.fontSize
                     }}
-                    onFocus={(e) => {
-                        if (!error) {
-                            e.target.style.borderColor = 'var(--info)';
-                        }
-                    }}
-                    onBlur={(e) => {
-                        e.target.style.borderColor = error
-                            ? 'var(--danger)'
-                            : 'var(--bg-dark) var(--border-panel) var(--border-panel) var(--bg-dark)';
-                    }}
-                    {...rest}
+                    name={name}
+                    min={min}
+                    max={max}
+                    step={step}
+                    required={required}
+                    maxLength={maxLength}
+                    readOnly={readOnly}
+                    autoFocus={autoFocus}
                 />
             </div>
 
             {error && (
-                <span style={{
-                    fontSize: '0.45rem',
-                    color: 'var(--danger)',
-                    fontFamily: 'var(--font-display)'
-                }}>
+                <span className="ef-input-error text-danger font-display text-[0.45rem]">
                     {error}
                 </span>
             )}
 
             {helper && !error && (
-                <span id={`${inputId}-helper`} style={{
-                    fontSize: '0.45rem',
-                    color: 'var(--text-muted)',
-                    fontFamily: 'var(--font-display)'
-                }}>
+                <span id={`${inputId}-helper`} className="ef-input-helper text-color-muted font-display text-[0.45rem]">
                     {helper}
                 </span>
             )}

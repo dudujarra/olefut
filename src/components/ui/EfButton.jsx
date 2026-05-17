@@ -29,18 +29,30 @@ function EfButtonImpl({
     'aria-label': ariaLabel,
     ...rest
 }) {
+    const { 
+        name, id, style, onFocus, onBlur, onMouseEnter, onMouseLeave, tabIndex, role 
+    } = rest;
+    
     const isDisabled = disabled || loading;
 
     return (
         <button
+            id={id}
+            name={name}
             type={type}
             onClick={isDisabled ? undefined : onClick}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
             disabled={isDisabled}
             title={title}
+            tabIndex={tabIndex}
+            role={role}
+            style={style}
             aria-label={ariaLabel}
             aria-busy={loading || undefined}
             className={`ef-btn ef-btn-${variant} ef-btn-${size} ${className}`.trim()}
-            {...rest}
         >
             {loading && <span className="ef-anim-spinner-sm" aria-label="Carregando" />}
             {!loading && icon && <span className="ef-btn-icon">{icon}</span>}

@@ -248,7 +248,7 @@ function MatchSummary({ summary }) {
                         <h3 className="ef-postmortem-screen__mvp-title">HOMEM DO JOGO</h3>
                         <div className="ef-postmortem-screen__mvp-portrait" aria-hidden="true">
                             {mvp.portrait
-                                ? <img src={mvp.portrait} alt="" className="ef-postmortem-screen__mvp-portrait-img" />
+                                ? <img src={mvp.portrait} alt={`Retrato do MVP ${mvp.name || ''}`} className="ef-postmortem-screen__mvp-portrait-img" />
                                 : (mvp.name || '?').slice(0, 1).toUpperCase()}
                         </div>
                         <p className="ef-postmortem-screen__mvp-name">{mvp.name || '—'}</p>

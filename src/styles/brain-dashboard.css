@@ -1,0 +1,275 @@
+/* BrainDashboard — extracted from inline styles */
+
+.ef-brain__root {
+  margin-bottom: 0.75rem;
+}
+
+.ef-brain__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ef-brain__header h3 {
+  font-size: var(--ef-text-sm);
+  margin: 0;
+}
+
+.ef-brain__header-meta {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+  margin-left: 8px;
+}
+
+.ef-brain__toggle {
+  font-size: var(--ef-text-sm);
+  color: var(--text-muted);
+}
+
+.ef-brain__content {
+  margin-top: 0.75rem;
+}
+
+/* Card block — reusable panel inside dashboard */
+.ef-brain__card {
+  padding: 8px 10px;
+  background: var(--bg-dark);
+  border: 1px solid var(--bg-dark);
+}
+
+.ef-brain__card--mb {
+  margin-bottom: 10px;
+}
+
+/* Section title */
+.ef-brain__card-title {
+  font-size: var(--ef-text-xs);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Bar visualization */
+.ef-brain__bar-bg {
+  background: var(--color-bg-deep);
+  height: 6px;
+  overflow: hidden;
+}
+
+.ef-brain__bar-fill {
+  height: 6px;
+  transition: width 0.3s ease;
+}
+
+/* Grid layouts */
+.ef-brain__grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.ef-brain__grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  font-size: var(--ef-text-xs);
+}
+
+.ef-brain__stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  font-size: var(--ef-text-xs);
+}
+
+.ef-brain__decay-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* Personality trait row */
+.ef-brain__trait-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ef-brain__trait-row {
+  font-size: var(--ef-text-xs);
+}
+
+.ef-brain__trait-label-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ef-brain__trait-label {
+  text-transform: capitalize;
+}
+
+.ef-brain__trait-value {
+  color: var(--color-success-mid);
+  font-weight: 700;
+}
+
+/* Decay rate display */
+.ef-brain__decay-item {
+  font-size: 0.68rem;
+}
+
+.ef-brain__decay-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+/* Action distribution */
+.ef-brain__actions-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ef-brain__action-row {
+  font-size: var(--ef-text-xs);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-brain__action-label {
+  min-width: 110px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.ef-brain__action-bar-wrap {
+  flex: 1;
+  background: var(--color-bg-deep);
+  height: 14px;
+  overflow: hidden;
+}
+
+.ef-brain__action-bar-fill {
+  height: 14px;
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+  font-size: 0.6rem;
+  color: var(--text-main);
+  font-weight: 700;
+  transition: width 0.3s ease;
+}
+
+.ef-brain__action-count {
+  min-width: 32px;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* Q-value ranking rows */
+.ef-brain__q-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--ef-text-xs);
+  padding: 2px 0;
+  border-bottom: 1px solid var(--color-bg-deep);
+}
+
+/* Reward sparkline container */
+.ef-brain__sparkline {
+  display: flex;
+  align-items: flex-end;
+  height: 60px;
+  gap: 1px;
+}
+
+.ef-brain__spark-bar {
+  flex: 1;
+  min-height: 2px;
+}
+
+/* State exploration grid */
+.ef-brain__states-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.ef-brain__state-chip {
+  padding: 3px 6px;
+  font-size: 0.6rem;
+  font-family: var(--ef-font-family-mono);
+  background: var(--color-learning-blue);
+  border: 1px solid var(--color-learning-blue-dark);
+}
+
+/* Memory timeline */
+.ef-brain__memory-scroll {
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.ef-brain__memory-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 0.68rem;
+  border-bottom: 1px solid var(--color-bg-deep);
+}
+
+.ef-brain__memory-week {
+  color: var(--text-muted);
+}
+
+.ef-brain__memory-action {
+  flex: 1;
+}
+
+.ef-brain__memory-reward {
+  min-width: 35px;
+  text-align: right;
+}
+
+/* MiniStat helper */
+.ef-brain__mini-stat {
+  text-align: center;
+  padding: 4px;
+}
+
+.ef-brain__mini-stat-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.ef-brain__mini-stat-value {
+  font-size: var(--ef-text-sm);
+  font-weight: 700;
+}
+
+/* Empty state */
+.ef-brain__empty {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+}
+
+.ef-brain__icon-inline {
+  vertical-align: -2px;
+  margin-right: 4px;
+}
+
+.ef-brain__icon-inline--mr6 {
+  vertical-align: -2px;
+  margin-right: 6px;
+}

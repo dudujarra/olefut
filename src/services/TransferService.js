@@ -173,13 +173,13 @@ export class TransferService {
     npcMakeBuyOffer(engine, buyerTeamId, sellerTeamId, playerId, amount) {
         const buyerTeam = engine.getTeam(buyerTeamId);
         const sellerTeam = engine.getTeam(sellerTeamId);
-        if (!buyerTeam || !sellerTeam) return { success: false, accepted: false };
-        if (buyerTeamId === sellerTeamId) return { success: false, accepted: false };
-        if ((buyerTeam.balance || 0) < amount) return { success: false, accepted: false };
-        if ((buyerTeam.squad || []).length >= 30) return { success: false, accepted: false };
+        if (!buyerTeam || !sellerTeam) return { success: false, msg: 'Time nao encontrado.', accepted: false };
+        if (buyerTeamId === sellerTeamId) return { success: false, msg: 'Mesmo time.', accepted: false };
+        if ((buyerTeam.balance || 0) < amount) return { success: false, msg: 'Saldo insuficiente.', accepted: false };
+        if ((buyerTeam.squad || []).length >= 30) return { success: false, msg: 'Elenco lotado.', accepted: false };
 
         const player = sellerTeam.squad?.find(p => p.id === playerId);
-        if (!player) return { success: false, accepted: false };
+        if (!player) return { success: false, msg: 'Jogador nao encontrado.', accepted: false };
 
         // BUG-083: Se o seller é o time do jogador humano, gerar oferta para o humano decidir
         if (sellerTeamId === engine.manager?.teamId) {

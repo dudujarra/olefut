@@ -23,22 +23,23 @@ function EfPanelImpl({
     className = '',
     style = {}
 }) {
+    // Ensure we don't pass `style` down blindly to avoid object spreads
+    const panelStyle = {};
+    if (headerColor) panelStyle['--panel-header-color'] = headerColor;
+
     return (
         <div
             onClick={onClick}
-            className={`ef-panel ef-panel-${variant} ef-panel-p-${padding} ${className}`.trim()}
-            style={{
-                cursor: onClick ? 'pointer' : 'default',
-                ...style
-            }}
+            className={`ef-panel ef-panel-${variant} ef-panel-p-${padding} ${onClick ? 'ef-panel-clickable' : ''} ${className}`.trim()}
+            style={Object.keys(panelStyle).length > 0 ? panelStyle : undefined}
         >
             {title && (
-                <div className="ef-panel-header" style={headerColor ? { background: headerColor } : {}}>
+                <div className={`ef-panel-header ${headerColor ? 'ef-panel-header--custom' : ''}`}>
                     {icon && <span>{icon}</span>}
                     {title}
                 </div>
             )}
-            <div className={`ef-panel-content`}>
+            <div className="ef-panel-content">
                 {children}
             </div>
         </div>

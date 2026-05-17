@@ -1,0 +1,32 @@
+/* EfStatLine — extracted from inline styles */
+
+.ef-stat-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--ef-text-xs);
+  font-family: var(--font-display);
+}
+
+.ef-stat-line__label {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--ef-text-2xs);
+}
+
+.ef-stat-line__value {
+  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: var(--ef-text-xs);
+}
+
+.ef-stat-line__value--bold {
+  font-weight: 700;
+}
+
+.ef-stat-line__value--numeric {
+  font-family: var(--font-mono);
+}

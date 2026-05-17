@@ -1,3 +1,4 @@
+import { EngineLogger } from '../../engine/EngineLogger.js';
 /**
  * BrainPersistence — MARL Fase 6.5
  *
@@ -56,7 +57,7 @@ export function saveAllBrains(teams) {
 
     try {
         localStorage.setItem(STORAGE_KEY_PREFIX, JSON.stringify(brainData));
-    } catch (_e) {
+    } catch (e) { EngineLogger.capture(e, 'BrainPersistence.restoreAll'); }
         // Storage full — aggressive prune
         try {
             const entries = Object.entries(brainData)

@@ -37,45 +37,41 @@ function EfClubBadgeImpl({
 }) {
     const px = SIZE_PX[size] || SIZE_PX.md;
 
-    const wrapperStyle = {
-        display: 'inline-flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '4px',
-        cursor: onClick ? 'pointer' : 'default',
-        ...style
-    };
-
-    const badgeProps = {
-        role: onClick ? 'button' : 'img',
-        'aria-label': `Escudo ${name}`,
-        onClick
-    };
-
     const img = HIGH_END_SHIELDS[name];
 
+    const containerStyle = style && Object.keys(style).length > 0 ? { ...style, '--badge-size': px + 'px' } : { '--badge-size': px + 'px' };
+    
     return (
-        <div style={wrapperStyle} {...badgeProps}>
+        <div 
+            className="ef-club-badge flex flex-col items-center gap-1" 
+            style={containerStyle}
+            role={onClick ? 'button' : 'img'}
+            aria-label={`Escudo ${name}`}
+            onClick={onClick}
+        >
             {img ? (
-                <img src={img} alt={name} style={{ width: px, height: px, imageRendering: 'pixelated', WebkitImageRendering: 'pixelated', objectFit: 'contain' }} />
+                <img 
+                    src={img} 
+                    alt={name} 
+                    className="ef-club-badge-img ef-pixel-render" 
+                    width={px}
+                    height={px}
+                />
             ) : (
-                <div style={{ width: px, height: px, backgroundColor: 'var(--bg-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid var(--color-shadow-deep)' }}>
-                    <span style={{ color: 'var(--color-soft-text)', fontSize: px/3, fontFamily: 'var(--font-display)' }}>?</span>
+                <div 
+                    className="ef-club-badge-placeholder flex items-center justify-center bg-bg-dark border-[3px] border-color-shadow-deep"
+                >
+                    <span 
+                        className="ef-club-badge-placeholder-text font-display text-color-soft-text"
+                    >
+                        ?
+                    </span>
                 </div>
             )}
             {showName && (
-                <span style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: size === 'sm' ? '7px' : size === 'md' ? '8px' : '10px',
-                    color: 'var(--color-soft-text)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                    textAlign: 'center',
-                    maxWidth: `${px * 1.5}px`,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap'
-                }}>
+                <span 
+                    className={`ef-club-badge-name ef-club-badge-name-${size} font-display text-color-soft-text uppercase tracking-[0.04em] text-center overflow-hidden whitespace-nowrap text-ellipsis`}
+                >
                     {name}
                 </span>
             )}

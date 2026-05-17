@@ -349,7 +349,7 @@ export class AutoPlayDecisions {
                                         heuristicSaid: decision.sell ? 'SELL' : 'KEEP'
                                     }, 0);
                                 }
-                            }).catch(() => { /* non-blocking */ });
+                            }).catch((err) => { EngineLogger.capture(err, 'AutoPlayDecisions.llmNonBlocking'); });
                         }
 
                         if (decision.sell && typeof engine.acceptTransferOffer === 'function') {
@@ -453,7 +453,7 @@ export class AutoPlayDecisions {
                                                     heuristicSaid: 'BUY'
                                                 }, 0);
                                             }
-                                        }).catch(() => { /* non-blocking */ });
+                                        }).catch((err) => { EngineLogger.capture(err, 'AutoPlayDecisions.llmNonBlocking'); });
                                     }
 
                                     const result = engine.makeBuyOffer(target.teamId, player.id, offerAmount);

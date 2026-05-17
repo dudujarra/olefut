@@ -116,9 +116,9 @@ export default function ChromaSprite({
     return (
         <canvas 
             ref={canvasRef} 
+            className="ef-chroma-sprite"
             style={{ 
-                transform: `scale(${scale})`, 
-                imageRendering: 'pixelated' 
+                '--sprite-scale': scale
             }} 
         />
     );

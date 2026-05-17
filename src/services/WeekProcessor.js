@@ -296,7 +296,7 @@ export class WeekProcessor {
                 };
                 engine.weekEvents.push(`⚡ ${interrupt.title}`);
             }
-        } catch (_e) { /* defensive — interrupt system must never crash tick */ }
+        } catch (_e) { EngineLogger.capture(_e, 'WeekProcessor.interruptEvents'); }
 
         // SPEC-200: Ambition Engine — player satisfaction vs club prestige
         try {
@@ -314,6 +314,7 @@ export class WeekProcessor {
                 }
             });
         } catch (err) {
+            EngineLogger.capture(err, 'WeekProcessor.ambitionEngine');
             // Defensive: AmbitionEngine não pode quebrar o loop principal
             console.warn('[AmbitionEngine] Error in weekly processing:', err.message);
         }

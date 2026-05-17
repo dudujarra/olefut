@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 /**
  * LLMNarrativeService — SPEC-167
  *
@@ -385,6 +386,7 @@ export class LLMNarrativeService {
                 await bridge.init();
                 return { ok: true, status: bridge.status().loadStatus };
             } catch (err) {
+                EngineLogger.capture(err, 'LLMNarrativeService.generate');
                 this._bridgeBootstrap = null;
                 return { ok: false, error: err && err.message ? err.message : String(err) };
             }

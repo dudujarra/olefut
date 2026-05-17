@@ -222,7 +222,7 @@ export function populateMatchNarrative(engine, team, myMatch, isHome, myGoals, t
     try {
         engine.llmNarrative.postMatchAnalysis(matchData)
             .then((text) => { if (text) engine.lastMatchNarrative = text; })
-            .catch(() => { /* defensive */ });
+            .catch((err) => { EngineLogger.capture(err, 'WeekMatchResult.postMatchAsync'); });
     } catch (err) { EngineLogger.capture(err, 'WeekMatchResult.narrativeAsync'); }
 
     // Humiliation board reaction: score diff >= 4 against manager.

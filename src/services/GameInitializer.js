@@ -110,7 +110,7 @@ export class GameInitializer {
                     console.info(`[ModLoader] Carregou ${totalCards} cards custom de ${manifest.packs.length} packs`);
                 }
             })
-            .catch(() => { /* fail silent */ });
+            .catch((err) => { EngineLogger.capture(err, 'GameInitializer.asyncInit'); });
     }
 
     _initializeTeams(engine) {

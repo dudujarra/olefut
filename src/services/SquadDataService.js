@@ -5,6 +5,7 @@
  * Lazy-load per-club, cache in-memory.
  */
 
+import { EngineLogger } from '../engine/EngineLogger.js';
 import { mapSofaScorePosition, getMacroPosition } from '../engine/Positions';
 import { generateDetailedAttributes, calculateOvrFromAttributes } from '../engine/PlayerAttributes.js';
 import { rng as systemRng } from '../engine/rng.js';
@@ -48,6 +49,7 @@ export async function loadSquad(clubName) {
         cache.set(slug, result);
         return result;
     } catch (e) {
+        EngineLogger.capture(e, 'SquadDataService.loadSquad');
         console.warn(`[SquadData] No squad for ${clubName}:`, e.message);
         cache.set(slug, null);
         return null;

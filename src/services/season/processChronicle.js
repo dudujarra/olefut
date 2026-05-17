@@ -91,7 +91,7 @@ export function processChronicle(engine, team, standings, pos) {
     // SPEC-B3: trigger full-screen Chronicle modal next tick
     engine.pendingChronicleSeason = chronicle;
   } catch (err) {
-    console.error(err); EngineLogger.capture(err, 'SeasonProcessor._processChronicle', {
+    EngineLogger.capture(err, 'SeasonProcessor._processChronicle', {
       season: engine.seasonNumber
     });
   }

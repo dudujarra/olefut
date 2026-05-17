@@ -6,106 +6,78 @@
  */
 
 :root {
-  /* Core Colors - Celeste Aesthetic */
-  --bg-dark: #1a0f2e; /* Deep void purple */
-  --bg-panel: #2e1b4d; /* Dark violet */
-  --bg-panel-hover: #452873; /* Royal purple */
-  --bg-panel-sunk: #0b0514; /* Deepest void */
+  /* Core Colors - High-End Premium Sports */
+  --bg-dark: #07090F; /* Ultra deep blue/black */
+  --bg-panel: rgba(22, 28, 45, 0.65); /* Glassmorphism base */
+  --bg-panel-hover: rgba(30, 38, 60, 0.8);
+  --bg-panel-sunk: rgba(5, 7, 12, 0.5);
   
-  --primary: #4be3c9; /* Cyan */
-  --primary-dark: #2ab5cc; /* Mid blue */
-  --primary-glow: #1d7aa8; /* Deep blue glow */
+  --primary: #00F0FF; /* Neon Cyan */
+  --primary-dark: #008899;
+  --primary-glow: rgba(0, 240, 255, 0.4);
   
-  --accent: #f5c57a; /* Warm yellow */
-  --accent-dark: #f78d65; /* Peach */
+  --accent: #E2A63B; /* Premium Gold */
+  --accent-dark: #A87823;
   
-  --danger: #d13b6d; /* Vibrant pink */
-  --danger-aaa: #f55866; /* Coral pink */
-  --danger-dark: #9e3373; /* Raspberry */
+  --danger: #FF3366; /* Vibrant Red/Pink */
+  --danger-aaa: #FF5C85;
+  --danger-dark: #991F3D;
   
-  --info: #8af0c0; /* Mint green */
-  --info-dark: #bedbf0; /* Ice white/blue */
+  --info: #33A1FF; /* Bright Blue */
+  --info-dark: #1F6099;
   
-  --text-main: #ffffff; /* Pure white */
-  --text-muted: #bedbf0; /* Ice white/blue */
-  --color-soft-border: #452873;
-  --color-bg-deep: #1a0f2e;
-  --color-shadow-deep: #000000;
-  --color-soft-text: #bedbf0;
-  --color-input-error-bg: #d13b6d;
-  --color-input-error-deep: #6c2b75;
-  --color-success-mid: #8af0c0;
-  --color-panel-tone: #2e1b4d;
-  --color-tooltip-bg: #1a0f2e;
-  --color-gold-arcade: #f5c57a;
-  --color-purple-wonder: #6c2b75;
-  --color-purple-dark: #1a0f2e;
-  --color-amber-warning: #f78d65;
-  --color-red-bright: #f55866;
-  --color-yellow-warn-bg: #452873;
-  --color-emerald-confirm: #4be3c9;
-  --color-forest-pulse: #2e1b4d; /* Replaced with dark violet */
-  --color-learning-teal: #4be3c9;
-  --color-learning-blue: #2ab5cc;
-  --color-learning-blue-dark: #1d7aa8;
-  --color-learning-violet: #6c2b75;
-  --color-learning-pink: #d13b6d;
-  --color-learning-lime: #8af0c0;
-  --color-learning-orange: #f78d65;
-  --color-learning-red-dark: #9e3373;
-  --color-learning-amber-bright: #f5c57a;
-  --color-learning-bronze-stat: #f78d65;
-  --color-learning-silver-stat: #bedbf0;
-  --color-learning-skyblue: #8af0c0;
-  --color-learning-lightgreen: #4be3c9;
-  --color-learning-leather: #6c2b75;
-  --color-learning-cyan: #2ab5cc;
-  --text-inverse: #000000;
-
+  --text-main: #FFFFFF;
+  --text-muted: #8E99B0;
+  
+  --color-soft-border: rgba(255, 255, 255, 0.08);
+  --color-bg-deep: #05070A;
+  --color-shadow-deep: rgba(0, 0, 0, 0.6);
+  --color-soft-text: #B4C0D8;
+  --color-input-error-bg: rgba(255, 51, 102, 0.1);
+  --color-input-error-deep: #991F3D;
+  --color-success-mid: #00F0FF;
+  --color-panel-tone: rgba(22, 28, 45, 0.4);
+  --color-tooltip-bg: rgba(7, 9, 15, 0.95);
+  
   /* Borders & Shadows */
-  --glass-border: #2D3748; /* Visible panel border */
-  --border-subtle: #1E2530; /* Subtle separator */
-  --border-panel: #4A5059;
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-panel: rgba(255, 255, 255, 0.08);
   
-  /* SNES 16-bit 3D Bezel Colors - Celeste Theme */
-  --bezel-light: #6c2b75;
-  --bezel-dark: #1a0f2e;
-  --bezel-highlight: #9e3373;
-  --bezel-drop: #000000;
-  --bezel-primary-light: #8af0c0;
-  --bezel-primary-dark: #1d7aa8;
-  --bezel-danger-light: #f55866;
-  --bezel-danger-dark: #9e3373;
-  --bezel-accent-light: #f5c57a;
-  --bezel-accent-dark: #f78d65;
+  /* Bezel overrides (deprecated, mapped to soft glass shadows) */
+  --bezel-light: transparent;
+  --bezel-dark: transparent;
+  --bezel-highlight: transparent;
+  --bezel-drop: rgba(0, 0, 0, 0.4);
+  --bezel-primary-light: transparent;
+  --bezel-primary-dark: transparent;
+  --bezel-danger-light: transparent;
+  --bezel-danger-dark: transparent;
+  --bezel-accent-light: transparent;
+  --bezel-accent-dark: transparent;
 
-  /* Sizing & Radius — SNES pixel-perfect: all corners are square */
-  --radius: 0;
-  --radius-sm: 0;
-  --radius-xs: 0;
+  /* Sizing & Radius — Premium rounded aesthetic */
+  --radius: 16px;
+  --radius-sm: 8px;
+  --radius-xs: 4px;
 
-  /* SPEC-171 + SPEC-183: Font CSS tokens — brand-aligned (ISSSD-Premium 32-bit).
-     Brand-guidelines.md v1.1 define apenas 3 fontes:
-     - display: Press Start 2P (headers, badges)
-     - body:    Pixelify Sans (text, menus)
-     - mono:    IBM Plex Mono (numeric, tabular)
-     ~401 references em components usam var(--font-mono)/var(--font-sans). */
-  --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
-  --font-sans: 'Pixelify Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Press Start 2P', monospace;
+  /* Modern Premium Fonts */
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --font-sans: 'Inter', 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Inter', system-ui, sans-serif;
 
-  /* SPEC-183: dashboard sub-component tokens (suporta dashboard.css sem raw hex) */
+  /* Dashboard Sub-component tokens */
   --color-pure-black: #000000;
-  --color-text-faint: #888888;
-  --color-text-fainter: #555555;
-  --color-progress-track: #222222;
-  --color-progress-track-light: #333333;
-  --color-info-alt: #40BAF7;
-  --color-info-alt-dark: #2070A0;
-  --ef-dash-alert-danger-bg: #1A0A0A;
-  --ef-dash-alert-warning-bg: #1A1A0A;
-  --ef-dash-alert-info-bg: #0A0A1A;
-  --ef-dash-alert-info-hover-bg: #0F1530;
+  --color-text-faint: #64748B;
+  --color-text-fainter: #475569;
+  --color-progress-track: rgba(255, 255, 255, 0.05);
+  --color-progress-track-light: rgba(255, 255, 255, 0.1);
+  --color-info-alt: #00F0FF;
+  --color-info-alt-dark: #008899;
+  --ef-dash-alert-danger-bg: rgba(255, 51, 102, 0.05);
+  --ef-dash-alert-warning-bg: rgba(226, 166, 59, 0.05);
+  --ef-dash-alert-info-bg: rgba(51, 161, 255, 0.05);
+  --ef-dash-alert-info-hover-bg: rgba(51, 161, 255, 0.1);
 }
 
 /* ==========================================================================
@@ -113,16 +85,187 @@
    ========================================================================== */
 
 body {
-  font-family: 'Pixelify Sans', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   background: var(--bg-dark);
+  background-image: radial-gradient(circle at 50% 0%, rgba(30, 38, 60, 0.4) 0%, transparent 70%);
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4 { 
-  font-family: 'Press Start 2P', monospace; 
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-family: 'Outfit', system-ui, sans-serif; 
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   EfInput & EfSelect Component
+   ========================================================================== */
+
+.ef-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.ef-input-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.ef-input {
+  width: 100%;
+  background: rgba(10, 14, 23, 0.6);
+  color: var(--text-main);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.ef-input:focus {
+  border-color: var(--primary);
+  background: rgba(10, 14, 23, 0.8);
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2);
+}
+
+.ef-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.ef-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.ef-input-error {
+  border-color: var(--danger);
+  background: rgba(255, 51, 102, 0.05);
+}
+
+.ef-input-error:focus {
+  box-shadow: 0 0 0 2px rgba(255, 51, 102, 0.2);
+}
+
+.ef-input-helper {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.ef-input-helper-error {
+  color: var(--danger);
+}
+
+/* ==========================================================================
+   EfModal Component
+   ========================================================================== */
+
+.ef-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 12, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: efModalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ef-modal-window {
+  background: var(--bg-panel);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: efModalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+/* Modal Variants */
+.ef-modal-danger {
+  border-color: rgba(255, 51, 102, 0.4);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 51, 102, 0.1);
+}
+
+.ef-modal-success {
+  border-color: rgba(0, 240, 255, 0.4);
+}
+
+.ef-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ef-modal-title {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.ef-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-xs);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ef-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+}
+
+.ef-modal-content {
+  padding: 24px;
+  overflow-y: auto;
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.5;
+  color: var(--color-soft-text);
+}
+
+.ef-modal-footer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+@keyframes efModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes efModalSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ==========================================================================
@@ -133,104 +276,78 @@ h1, h2, h3, h4 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  font-family: 'Press Start 2P', monospace;
-  font-weight: 600;
-  border: 4px solid;
-  border-radius: 0;
+  gap: 8px;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   user-select: none;
-  image-rendering: pixelated;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  transition: transform 50ms, box-shadow 50ms, background-color 50ms;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .ef-btn:disabled {
-  opacity: 0.45;
+  opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 .ef-btn:active {
-  transform: translateY(3px) scale(0.98);
-  /* Invert bezel on press — simulates physical SNES button depression */
+  transform: translateY(1px) scale(0.98);
 }
 
 /* Button Sizes */
-.ef-btn-sm { padding: 6px 10px; font-size: 0.5rem; }
-.ef-btn-md { padding: 10px 18px; font-size: 0.55rem; }
-.ef-btn-lg { padding: 14px 28px; font-size: 0.7rem; }
+.ef-btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+.ef-btn-md { padding: 10px 20px; font-size: 0.9rem; }
+.ef-btn-lg { padding: 14px 28px; font-size: 1rem; }
 
 /* Button Variants */
 .ef-btn-primary {
-  background: #0b0514;
-  color: var(--primary);
-  border-color: var(--bezel-primary-light) var(--bezel-primary-dark) var(--bezel-primary-dark) var(--bezel-primary-light);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-primary-dark),
-    inset 1px 1px 0 #bedbf0,
-    2px 2px 0 #000;
-  text-shadow: 1px 1px 0 #000;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #000;
+  border-color: rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
 }
 .ef-btn-primary:hover {
-  background: #1a0f2e;
-  transform: translateY(-1px);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-primary-dark),
-    inset 1px 1px 0 #bedbf0,
-    2px 2px 0 #000,
-    0 0 12px var(--primary-glow);
+  filter: brightness(1.15);
+  box-shadow: 0 6px 20px var(--primary-glow);
+  transform: translateY(-2px);
 }
 
 .ef-btn-secondary {
   background: var(--bg-panel);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: var(--text-main);
-  border-color: var(--bezel-light) var(--bezel-dark) var(--bezel-dark) var(--bezel-light);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-dark),
-    inset 1px 1px 0 var(--bezel-highlight),
-    2px 2px 0 #000;
-  text-shadow: 1px 1px 0 #000;
+  border-color: var(--glass-border);
 }
 .ef-btn-secondary:hover {
   background: var(--bg-panel-hover);
-  transform: translateY(-1px);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-dark),
-    inset 1px 1px 0 var(--bezel-highlight),
-    3px 3px 0 #000;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 .ef-btn-danger {
-  background: #0b0514;
-  color: var(--danger);
-  border-color: var(--bezel-danger-light) var(--bezel-danger-dark) var(--bezel-danger-dark) var(--bezel-danger-light);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-danger-dark),
-    inset 1px 1px 0 #f55866,
-    2px 2px 0 #000;
-  text-shadow: 1px 1px 0 #000;
+  background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
 }
 .ef-btn-danger:hover {
-  background: #1a0f2e;
-  transform: translateY(-1px);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-danger-dark),
-    inset 1px 1px 0 #f55866,
-    3px 3px 0 #000;
+  filter: brightness(1.15);
+  box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+  transform: translateY(-2px);
 }
 
 .ef-btn-ghost {
   background: transparent;
   color: var(--text-muted);
-  border-color: #333 #111 #111 #333;
-  box-shadow: 1px 1px 0 #000;
+  box-shadow: none;
 }
 .ef-btn-ghost:hover {
-  background: var(--bg-panel);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
   transform: translateY(-1px);
-  box-shadow: 2px 2px 0 #000;
 }
 
 /* ==========================================================================
@@ -239,75 +356,55 @@ h1, h2, h3, h4 {
 
 .ef-panel {
   color: var(--text-main);
-  border: 4px solid;
-  border-radius: 0;
-  image-rendering: pixelated;
-  transition: background-color 0.2s;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px var(--color-shadow-deep);
+  overflow: hidden;
 }
 
 .ef-panel-header {
-  padding: 8px 12px;
-  border-bottom: 2px solid #000;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-  text-shadow: 2px 2px 0 #000;
+  gap: 12px;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
 }
 
 /* Panel Padding Sizes */
-.ef-panel-p-sm { padding: 8px; }
-.ef-panel-p-md { padding: 16px; }
-.ef-panel-p-lg { padding: 24px; }
+.ef-panel-p-sm { padding: 12px; }
+.ef-panel-p-md { padding: 20px; }
+.ef-panel-p-lg { padding: 32px; }
 
 /* Panel Variants */
 .ef-panel-default, .ef-panel-elev {
-  background: var(--bg-panel);
-  border-color: var(--bezel-light) var(--bezel-dark) var(--bezel-dark) var(--bezel-light);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-dark),
-    inset 1px 1px 0 var(--bezel-highlight),
-    3px 3px 0 var(--bezel-drop);
+  /* Inherits base */
 }
 
 .ef-panel-sunk {
-  background: var(--bg-dark);
-  border-color: var(--bezel-dark) var(--bezel-light) var(--bezel-light) var(--bezel-dark);
-  box-shadow:
-    inset 1px 1px 0 var(--bezel-dark),
-    inset -1px -1px 0 var(--bezel-highlight);
+  background: var(--bg-panel-sunk);
+  box-shadow: inset 0 2px 12px rgba(0,0,0,0.5);
+  border-top-color: rgba(0,0,0,0.5);
 }
 
 .ef-panel-hero {
-  background: #0b0514;
-  border-color: var(--bezel-primary-light) var(--bezel-primary-dark) var(--bezel-primary-dark) var(--bezel-primary-light);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-primary-dark),
-    inset 1px 1px 0 #bedbf0,
-    3px 3px 0 var(--bezel-drop),
-    0 0 16px var(--primary-glow);
+  border-color: var(--primary-dark);
+  box-shadow: 0 8px 32px var(--color-shadow-deep), 0 0 20px var(--primary-glow);
 }
 
 .ef-panel-warning {
-  background: #1a0f2e;
-  border-color: var(--bezel-accent-light) var(--bezel-accent-dark) var(--bezel-accent-dark) var(--bezel-accent-light);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-accent-dark),
-    inset 1px 1px 0 #f5c57a,
-    3px 3px 0 var(--bezel-drop);
+  border-color: var(--accent-dark);
 }
 
 .ef-panel-danger {
-  background: #1a0f2e;
-  border-color: var(--bezel-danger-light) var(--bezel-danger-dark) var(--bezel-danger-dark) var(--bezel-danger-light);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-danger-dark),
-    inset 1px 1px 0 #f55866,
-    3px 3px 0 var(--bezel-drop);
+  border-color: var(--danger-dark);
 }
 
 /* ==========================================================================
@@ -316,22 +413,22 @@ h1, h2, h3, h4 {
 
 .ef-card-player {
   display: flex;
-  background: #1E2124;
-  border: 4px solid;
-  border-color: var(--bezel-light) var(--bezel-dark) var(--bezel-dark) var(--bezel-light);
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-dark),
-    inset 1px 1px 0 var(--bezel-highlight),
-    2px 2px 0 var(--bezel-drop);
-  transition: transform 0.1s, border-color 0.1s, box-shadow 0.1s;
+  background: rgba(30, 33, 36, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  overflow: hidden;
 }
 
 .ef-card-player-row {
   flex-direction: row;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px;
+  padding: 16px;
   min-width: 200px;
 }
 
@@ -339,33 +436,30 @@ h1, h2, h3, h4 {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  padding: 12px;
+  padding: 16px;
   min-width: 120px;
   text-align: center;
 }
 
 .ef-card-player[role="button"]:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   cursor: pointer;
-  box-shadow:
-    inset -1px -1px 0 var(--bezel-dark),
-    inset 1px 1px 0 var(--bezel-highlight),
-    4px 4px 0 var(--bezel-drop);
+  background: rgba(40, 44, 48, 0.75);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .ef-card-player.ef-selected {
-  border-color: #40BAF7;
-  box-shadow:
-    inset -1px -1px 0 #2070A0,
-    inset 1px 1px 0 #60CCFF,
-    0 0 12px #0A2A3D;
+  border-color: var(--primary);
+  background: rgba(0, 240, 255, 0.05);
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
 }
 
 .ef-card-player-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .ef-card-player-row .ef-card-player-info {
@@ -379,7 +473,7 @@ h1, h2, h3, h4 {
 .ef-card-player-header {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .ef-card-player-row .ef-card-player-header {
@@ -391,71 +485,82 @@ h1, h2, h3, h4 {
 }
 
 .ef-card-player-name {
-  font-size: 14px;
+  font-size: 1.05rem;
+  font-family: 'Outfit', system-ui, sans-serif;
   color: var(--text-main);
-  font-weight: bold;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .ef-card-player-pos {
-  font-size: 10px;
-  padding: 2px 4px;
-  color: #0A130E;
-  font-weight: 700;
-  font-family: 'Press Start 2P', monospace;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  border-radius: var(--radius-xs);
+  font-weight: 600;
+  font-family: 'Inter', system-ui, sans-serif;
+  text-transform: uppercase;
 }
 
 .ef-card-player-meta {
-  font-size: 11px;
+  font-size: 0.8rem;
   color: var(--text-muted);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .ef-card-player-badge {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  padding: 2px 6px;
+  top: 0;
+  right: 0;
+  padding: 4px 8px;
   background: var(--accent);
-  color: #0A130E;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  color: #000;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7rem;
   font-weight: 700;
-  border: 3px solid #000;
+  border-bottom-left-radius: var(--radius-sm);
 }
 
 /* Mini Progress Bar */
 .ef-minibar {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
+  gap: 6px;
+  font-size: 0.75rem;
+  margin-top: 2px;
 }
 
 .ef-minibar-label {
   color: var(--text-muted);
   min-width: 24px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.4rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
 .ef-minibar-track {
   flex: 1;
-  height: 6px;
-  background: var(--bg-dark);
-  border: 2px solid #000;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
   position: relative;
+  overflow: hidden;
 }
 
 .ef-minibar-fill {
   height: 100%;
-  transition: width 0.2s ease-out;
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ef-minibar-value {
   color: var(--text-main);
-  min-width: 20px;
+  min-width: 24px;
   text-align: right;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
 }
 
 /* ==========================================================================

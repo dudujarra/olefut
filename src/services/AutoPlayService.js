@@ -187,6 +187,7 @@ export class AutoPlayController {
         try {
             this._makeDecisions();
         } catch (e) {
+            EngineLogger.capture(e, 'AutoPlayService.makeDecisions');
             this._logAnomaly('DECISIONS_CRASH', `${e?.message || 'Unknown'} | ${e?.stack?.split('\n')[1]?.trim() || 'n/a'}`, { errorType: e?.constructor?.name });
         }
 
@@ -290,6 +291,7 @@ export class AutoPlayController {
             // Schedule next tick
             this.intervalId = setTimeout(() => this._tick(), this.weekDelay);
         } catch (err) {
+            EngineLogger.capture(err, 'AutoPlayService.advanceWeekCrash');
             this.stats.errorCount++;
             this._logAnomaly('CRASH', err.message, { stack: err.stack?.split('\n').slice(0, 5) });
             // Try to keep going despite error
@@ -337,6 +339,7 @@ export class AutoPlayController {
             const report = this.telemetry.scan(engine);
             this.lastTelemetryReport = report;
         } catch (err) {
+            EngineLogger.capture(err, 'AutoPlayService.telemetryFail');
             this._logAnomaly('TELEMETRY_FAIL', err.message);
         }
     }

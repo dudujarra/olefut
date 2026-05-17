@@ -1,0 +1,56 @@
+/* ef-club-badge.css - BEM Token-based CSS for EfClubBadge */
+
+.ef-club-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.ef-club-badge--clickable {
+    cursor: pointer;
+}
+
+.ef-club-badge__img {
+    image-rendering: pixelated;
+    -webkit-image-rendering: pixelated;
+    object-fit: contain;
+}
+
+.ef-club-badge__fallback {
+    background-color: var(--bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--color-shadow-deep);
+}
+
+.ef-club-badge__fallback-text {
+    color: var(--color-soft-text);
+    font-family: var(--font-display);
+}
+
+.ef-club-badge__name {
+    font-family: var(--font-display);
+    color: var(--color-soft-text);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ef-club-badge__name--sm {
+    font-size: 7px;
+}
+
+.ef-club-badge__name--md {
+    font-size: 8px;
+}
+
+.ef-club-badge__name--lg,
+.ef-club-badge__name--xl,
+.ef-club-badge__name--xxl {
+    font-size: 10px;
+}

@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 /**
  * AutoPlayLLMBridge — LLM Integration
  *
@@ -61,6 +62,7 @@ export class AutoPlayLLMBridge {
             this._loadProgress = 1;
             console.log('[SPEC-119] WebLLM engine ready');
         } catch (err) {
+            EngineLogger.capture(err, 'AutoPlayLLMBridge.init');
             this._loadStatus = 'error';
             this._errorMsg = err.message || String(err);
             console.error('[SPEC-119] WebLLM init failed:', err);
@@ -81,6 +83,7 @@ export class AutoPlayLLMBridge {
                 });
                 return { source: 'webllm', text: reply.choices?.[0]?.message?.content || '' };
             } catch (err) {
+                EngineLogger.capture(err, 'AutoPlayLLMBridge.decide');
                 console.warn('[SPEC-119] WebLLM decide error, falling back:', err);
             }
         }

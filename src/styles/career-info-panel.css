@@ -1,0 +1,219 @@
+/* CareerInfoPanel — extracted from inline styles (SPEC-124) */
+
+.ef-career__root {
+  margin-top: 0.5rem;
+  background: var(--color-forest-pulse);
+  border: 1px solid var(--accent);
+}
+
+.ef-career__header {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--accent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-career__header-meta {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+}
+
+.ef-career__icon-inline {
+  vertical-align: -2px;
+  margin-right: 4px;
+}
+
+.ef-career__icon-inline--mr6 {
+  vertical-align: -2px;
+  margin-right: 6px;
+}
+
+/* Team header card row */
+.ef-career__team-row {
+  margin-top: 8px;
+  padding: 8px;
+  background: var(--color-shadow-deep);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-career__label {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+}
+
+.ef-career__value {
+  font-weight: 700;
+}
+
+.ef-career__value--lg {
+  font-weight: 700;
+  font-size: var(--ef-text-md);
+}
+
+.ef-career__value--name {
+  font-weight: 700;
+  font-size: var(--ef-text-sm);
+}
+
+/* Identity card */
+.ef-career__identity {
+  margin-top: 8px;
+  padding: 8px;
+  background: var(--color-shadow-deep);
+  border-left: 3px solid var(--accent);
+}
+
+.ef-career__identity-label {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.ef-career__identity-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  font-size: var(--ef-text-xs);
+}
+
+/* Section label (TÍTULOS, INSIGHTS, etc.) */
+.ef-career__section-label {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+/* Titles + Insights two-column */
+.ef-career__two-col {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.ef-career__col {
+  flex: 1;
+  min-width: 180px;
+}
+
+.ef-career__insights-grid {
+  font-size: var(--ef-text-xs);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.ef-career__empty-note {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.ef-career__title-item {
+  font-size: var(--ef-text-xs);
+}
+
+/* Top scorers */
+.ef-career__scorers {
+  margin-top: 8px;
+}
+
+.ef-career__scorers-list {
+  background: var(--color-shadow-deep);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-career__scorer-hero {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 8px;
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-forest-pulse);
+}
+
+.ef-career__scorer-hero-chart {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+}
+
+.ef-career__scorer-hero-info {
+  flex: 1;
+}
+
+.ef-career__scorer-hero-tag {
+  color: var(--accent);
+  font-size: var(--ef-text-xs);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.ef-career__scorer-hero-name {
+  font-weight: 700;
+  font-size: var(--ef-text-base);
+  color: var(--text-main);
+}
+
+.ef-career__scorer-hero-pos {
+  font-size: var(--ef-text-sm);
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.ef-career__scorer-hero-stats {
+  font-size: var(--ef-text-sm);
+}
+
+.ef-career__scorer-attrs {
+  margin-top: 4px;
+  border-top: 1px solid var(--color-bg-deep);
+  padding-top: 8px;
+}
+
+.ef-career__scorer-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--ef-text-xs);
+  padding: 4px;
+}
+
+.ef-career__scorer-row:not(:last-child) {
+  border-bottom: 1px solid var(--color-bg-deep);
+}
+
+/* Last seasons strip */
+.ef-career__seasons {
+  margin-top: 8px;
+}
+
+.ef-career__seasons-strip {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  background: var(--color-shadow-deep);
+  padding: 4px;
+}
+
+.ef-career__season-badge {
+  font-size: var(--ef-text-2xs);
+  padding: 2px 6px;
+  font-family: var(--ef-font-family-mono);
+}
+
+.ef-career__season-badge--highlight {
+  background: var(--color-forest-pulse);
+  border: 1px solid var(--accent);
+}
+
+.ef-career__season-badge--normal {
+  background: transparent;
+  border: 1px solid var(--color-bg-deep);
+}

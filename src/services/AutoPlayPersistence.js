@@ -48,6 +48,7 @@ export class AutoPlayPersistence {
             localStorage.removeItem(STORAGE_KEY);
             return true;
         } catch (e) {
+            EngineLogger.capture(e, 'AutoPlayPersistence.resetStats');
             console.error('Failed to reset stats:', e);
             return false;
         }
@@ -58,6 +59,7 @@ export class AutoPlayPersistence {
             localStorage.removeItem(SAVE_KEY);
             return true;
         } catch (e) {
+            EngineLogger.capture(e, 'AutoPlayPersistence.nukeEngine');
             console.error('Failed to nuke engine:', e);
             return false;
         }

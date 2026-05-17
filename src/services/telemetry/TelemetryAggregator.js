@@ -7,6 +7,7 @@
  * IMPORTANTE: detectores são puros. Aggregator só lê engine state.
  */
 
+import { EngineLogger } from '../../engine/EngineLogger.js';
 import { detect as detectMonotony } from './MonotonyDetector.js';
 import { detect as detectBalance } from './BalanceAudit.js';
 import { detect as detectFun } from './FunScore.js';
@@ -186,6 +187,7 @@ export class TelemetryAggregator {
             try {
                 res = detect(state);
             } catch (err) {
+                EngineLogger.capture(err, 'TelemetryAggregator.scan');
                 res = {
                     spec,
                     name: spec,

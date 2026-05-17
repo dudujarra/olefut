@@ -14,41 +14,28 @@ export function EfStatLine({
     icon,
     bold = false
 }) {
-    let valColor = color || 'var(--color-soft-text)';
+    let valColorClass = 'text-color-soft-text';
 
     if (!color && typeof barValue === 'number') {
         const pct = (barValue / barMax) * 100;
-        if (pct >= 80) valColor = 'var(--primary)';
-        else if (pct >= 60) valColor = 'var(--color-success-mid)';
-        else if (pct >= 35) valColor = 'var(--accent)';
-        else valColor = 'var(--danger)';
+        if (pct >= 80) valColorClass = 'text-primary';
+        else if (pct >= 60) valColorClass = 'text-color-success-mid';
+        else if (pct >= 35) valColorClass = 'text-accent';
+        else valColorClass = 'text-danger';
     }
 
+    const customColorStyle = color && !valColorClass.includes('text-') ? { color: color } : {};
+
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: '8px',
-            fontSize: '13px',
-            fontFamily: 'var(--font-display)'
-        }}>
-            <span style={{
-                color: 'var(--text-muted)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                fontSize: '0.5rem'
-            }}>
+        <div className="ef-stat-line flex justify-between items-center gap-2 text-[13px] font-display">
+            <span className="ef-stat-line-label text-color-muted flex items-center gap-1 text-[0.5rem]">
                 {icon && <span>{icon}</span>}
                 {label}
             </span>
-            <span style={{
-                color: valColor,
-                fontWeight: bold ? 700 : 500,
-                fontFamily: typeof value === 'number' ? 'var(--font-mono)' : 'var(--font-display)',
-                fontSize: '0.6rem'
-            }}>
+            <span 
+                className={`ef-stat-line-value ${color ? '' : valColorClass} ${bold ? 'font-bold' : 'font-medium'} ${typeof value === 'number' ? 'font-mono' : 'font-display'} text-[0.6rem]`}
+                style={customColorStyle}
+            >
                 {value}{suffix}
             </span>
         </div>

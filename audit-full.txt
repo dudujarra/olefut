@@ -1,0 +1,94 @@
+
+========================================
+  CELESTE AUDIT PIPELINE v1.0
+  OleFUT ISSSD-Premium Design System
+========================================
+
+Escaneando 129 arquivos (66 JSX/TSX + 63 CSS)...
+
+
+--- Cores hardcoded (106) ---
+  [36mINF[0m src/components/ChronicleView.jsx:150
+       Cor hardcoded: #161B22 — prefira var(--token)
+  [36mINF[0m src/components/ChronicleView.jsx:153
+       Cor hardcoded: #2D3748 — prefira var(--token)
+  [36mINF[0m src/components/ChronicleView.jsx:157
+       Cor hardcoded: #FDFBF7 — prefira var(--token)
+  [36mINF[0m src/components/ChronicleView.jsx:162
+       Cor hardcoded: #FFD700 — prefira var(--token)
+  [36mINF[0m src/components/ChronicleView.jsx:166
+       Cor hardcoded: #FDFBF7 — prefira var(--token)
+  [36mINF[0m src/components/ChronicleView.jsx:169
+       Cor hardcoded: #39FF14 — prefira var(--token)
+  [36mINF[0m src/components/ChronicleView.jsx:173
+       Cor hardcoded: #FDFBF7 — prefira var(--token)
+  [36mINF[0m src/components/ChronicleView.jsx:180
+       Cor hardcoded: #8E9E94 — prefira var(--token)
+  [36mINF[0m src/components/ui/EfCardPlayer.jsx:50
+       Cor hardcoded: #888 — prefira var(--token)
+  [36mINF[0m src/styles/autoplay-view.css:248
+       Cor hardcoded: #222 — prefira var(--token)
+  ... e mais 96 ocorrencias
+
+--- Inline styles (255) ---
+  [36mINF[0m src/components/AchievementsView.jsx:214
+       Inline style={{ }} — prefira classe CSS
+  [36mINF[0m src/components/AutoPlayLabView.jsx:97
+       Inline style={{ }} — prefira classe CSS
+  [36mINF[0m src/components/AutoPlayLabView.jsx:98
+       Inline style={{ }} — prefira classe CSS
+  [36mINF[0m src/components/AutoPlayLabView.jsx:101
+       Inline style={{ }} — prefira classe CSS
+  [36mINF[0m src/components/AutoPlayLabView.jsx:115
+       Inline style={{ }} — prefira classe CSS
+  [36mINF[0m src/components/AutoPlayLabView.jsx:120
+       Inline style={{ }} — prefira classe CSS
+  [36mINF[0m src/components/AutoPlayLabView.jsx:138
+       Inline style={{ }} — prefira classe CSS
+  [36mINF[0m src/components/AutoPlayLabView.jsx:145
+       Inline style={{ }} — prefira classe CSS
+  [36mINF[0m src/components/AutoPlayLabView.jsx:153
+       Inline style={{ }} — prefira classe CSS
+  [36mINF[0m src/components/AutoPlayLabView.jsx:164
+       Inline style={{ }} — prefira classe CSS
+  ... e mais 245 ocorrencias
+
+--- Magic numbers / alinhamento (130) ---
+  [36mINF[0m src/styles/achievements-view.css:47
+       Magic number grande detectado — pode causar desalinhamento
+  [36mINF[0m src/styles/achievements-view.css:103
+       Magic number grande detectado — pode causar desalinhamento
+  [36mINF[0m src/styles/animations.css:294
+       Magic number grande detectado — pode causar desalinhamento
+  [36mINF[0m src/styles/animations.css:302
+       Magic number grande detectado — pode causar desalinhamento
+  [36mINF[0m src/styles/animations.css:313
+       Magic number grande detectado — pode causar desalinhamento
+  [36mINF[0m src/styles/autoplay-lab-view.css:18
+       Magic number grande detectado — pode causar desalinhamento
+  [36mINF[0m src/styles/autoplay-view.css:47
+       Magic number grande detectado — pode causar desalinhamento
+  [36mINF[0m src/styles/autoplay-view.css:55
+       Magic number grande detectado — pode causar desalinhamento
+  [36mINF[0m src/styles/autoplay-view.css:319
+       Magic number grande detectado — pode causar desalinhamento
+  [36mINF[0m src/styles/autoplay-view.css:324
+       Magic number grande detectado — pode causar desalinhamento
+  ... e mais 120 ocorrencias
+
+========================================
+  RESUMO
+========================================
+  Arquivos escaneados: 129
+  Total de issues:     491
+  [31m  Erros:   0[0m
+  [33m  Avisos:  0[0m
+  [36m  Info:    491[0m
+
+  COLOR     106 Cores hardcoded
+  INLINE    255 Inline styles
+  ALIGN     130 Magic numbers / alinhamento
+
+  Grade: [32mA[0m
+========================================
+

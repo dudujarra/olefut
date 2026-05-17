@@ -2,6 +2,7 @@ import { rng as systemRng } from './rng.js';
 import { calculateOvrFromAttributes } from './PlayerAttributes.js';
 import { getDifficulty } from './systems/DifficultyModes.js';
 import { getTicketFinanceModifiers } from './TicketPricingSystem.js';
+import { TALKS, TRAINING as TRAIN_ICONS, MATCH as MATCH_ICONS, FINANCE as FIN_ICONS } from './EmojiConstants.js';
 import Morphocycle from './training/Morphocycle.js';
 /**
  * ManagerSystems.js — Sistemas avançados do Modo Treinador
@@ -48,42 +49,42 @@ export const TACTICS = {
 export const TEAM_TALKS = [
     {
         id: "motivational",
-        name: "💪 Motivacional",
+        name: `${TALKS.MOTIVATIONAL} Motivacional`,
         text: "Hoje é tudo ou nada! Vamos mostrar quem somos!",
         effect: { moralBoost: 5, energyCost: 5, ataModifier: 1.1, defModifier: 1.0 },
         bestWhen: "losing_streak"  // funciona melhor quando time está em má fase
     },
     {
         id: "calm",
-        name: "🧘 Calma e Foco",
+        name: `${TALKS.CALM} Calma e Foco`,
         text: "Sem pânico. Joguem o que treinamos. Confiança.",
         effect: { moralBoost: 2, energyCost: 0, ataModifier: 1.0, defModifier: 1.05 },
         bestWhen: "winning_streak"
     },
     {
         id: "aggressive",
-        name: "🔥 Agressivo",
+        name: `${TALKS.AGGRESSIVE} Agressivo`,
         text: "Eu quero sangue nos olhos! Sem desculpas!",
         effect: { moralBoost: -3, energyCost: 10, ataModifier: 1.2, defModifier: 0.9 },
         bestWhen: "big_match"
     },
     {
         id: "threatening",
-        name: "⚠️ Ameaçador",
+        name: `${TALKS.THREATENING} Ameaçador`,
         text: "Quem não render vai pro banco. Simples assim.",
         effect: { moralBoost: -8, energyCost: 0, ataModifier: 1.15, defModifier: 1.15 },
         bestWhen: "complacent"
     },
     {
         id: "tactical",
-        name: "📋 Tático",
+        name: `${TALKS.TACTICAL} Tático`,
         text: "Explorar o lado direito deles. Marca encaixada no 9.",
         effect: { moralBoost: 0, energyCost: 0, ataModifier: 1.05, defModifier: 1.1 },
         bestWhen: "always"
     },
     {
         id: "relaxed",
-        name: "😎 Descontraído",
+        name: `${TALKS.RELAXED} Descontraído`,
         text: "Jogo fácil. Aproveitem e divirtam-se.",
         effect: { moralBoost: 3, energyCost: -5, ataModifier: 0.95, defModifier: 0.95 },
         bestWhen: "easy_match"
@@ -97,37 +98,37 @@ export const TEAM_TALKS = [
 export const TRAINING_TYPES = [
     {
         id: "RECOVERY",
-        name: "🏃 MD+1 Recuperação (Tática)",
+        name: `${TRAIN_ICONS.RECOVERY} MD+1 Recuperação (Tática)`,
         description: "Baixo impacto neuromuscular. Foco na organização defensiva/ofensiva.",
         effect: { moralCost: 0 }
     },
     {
         id: "TENSION",
-        name: "💪 MD-4 Tensão (Espaços Curtos)",
+        name: `${TRAIN_ICONS.TENSION} MD-4 Tensão (Espaços Curtos)`,
         description: "Jogos 3v3 / 4v4. Foco em força excêntrica e aceleração.",
         effect: { moralCost: -1 }
     },
     {
         id: "DURATION",
-        name: "🫁 MD-3 Duração (Campo Aberto)",
+        name: `${TRAIN_ICONS.DURATION} MD-3 Duração (Campo Aberto)`,
         description: "11v11 ou 8v8. Foco em stamina, visão e posicionamento inter-setorial.",
         effect: { moralCost: -2 }
     },
     {
         id: "SPEED",
-        name: "⚡ MD-2 Velocidade",
+        name: `${TRAIN_ICONS.SPEED} MD-2 Velocidade`,
         description: "Ações sem oposição forte. Sprints e finalização.",
         effect: { moralCost: 0 }
     },
     {
         id: "ACTIVATION",
-        name: "🧠 MD-1 Ativação",
+        name: `${TRAIN_ICONS.ACTIVATION} MD-1 Ativação`,
         description: "Bolas paradas e ajustes finos (Quiet Eye). Carga reduzida.",
         effect: { moralCost: 1 }
     },
     {
         id: "REST",
-        name: "😴 Folga Total",
+        name: `${TRAIN_ICONS.REST} Folga Total`,
         description: "Dia livre. Recuperação muscular plena.",
         effect: { moralCost: 3 }
     }
@@ -137,13 +138,13 @@ export const TRAINING_TYPES = [
 // CONDIÇÕES DE JOGO
 // ============================================================
 export const MATCH_CONDITIONS = [
-    { id: "normal", name: "☀️ Tempo bom", ataModifier: 1.0, defModifier: 1.0, energyModifier: 1.0, probability: 0.40 },
-    { id: "rain", name: "🌧️ Chuva forte", ataModifier: 0.9, defModifier: 0.9, energyModifier: 1.2, probability: 0.15 },
-    { id: "heat", name: "🔥 Calor intenso", ataModifier: 1.0, defModifier: 1.0, energyModifier: 1.5, probability: 0.10 },
-    { id: "packed", name: "🏟️ Estádio lotado", ataModifier: 1.1, defModifier: 1.1, energyModifier: 1.0, probability: 0.15 },
-    { id: "night", name: "🌙 Jogo noturno", ataModifier: 1.05, defModifier: 1.0, energyModifier: 0.9, probability: 0.10 },
-    { id: "derby", name: "⚡ Clássico!", ataModifier: 1.15, defModifier: 1.15, energyModifier: 1.3, probability: 0.05 },
-    { id: "tv", name: "📺 Transmissão nacional", ataModifier: 1.05, defModifier: 1.0, energyModifier: 1.0, probability: 0.05 },
+    { id: "normal", name: `${MATCH_ICONS.CONDITION_NORMAL} Tempo bom`, ataModifier: 1.0, defModifier: 1.0, energyModifier: 1.0, probability: 0.40 },
+    { id: "rain", name: `${MATCH_ICONS.CONDITION_RAIN} Chuva forte`, ataModifier: 0.9, defModifier: 0.9, energyModifier: 1.2, probability: 0.15 },
+    { id: "heat", name: `${MATCH_ICONS.CONDITION_HEAT} Calor intenso`, ataModifier: 1.0, defModifier: 1.0, energyModifier: 1.5, probability: 0.10 },
+    { id: "packed", name: `${MATCH_ICONS.CONDITION_PACKED} Estadio lotado`, ataModifier: 1.1, defModifier: 1.1, energyModifier: 1.0, probability: 0.15 },
+    { id: "night", name: `${MATCH_ICONS.CONDITION_NIGHT} Jogo noturno`, ataModifier: 1.05, defModifier: 1.0, energyModifier: 0.9, probability: 0.10 },
+    { id: "derby", name: `${MATCH_ICONS.DERBY} Classico!`, ataModifier: 1.15, defModifier: 1.15, energyModifier: 1.3, probability: 0.05 },
+    { id: "tv", name: `${MATCH_ICONS.CONDITION_TV} Transmissao nacional`, ataModifier: 1.05, defModifier: 1.0, energyModifier: 1.0, probability: 0.05 },
 ];
 
 export function rollMatchCondition() {
@@ -358,12 +359,12 @@ export function applyTraining(team, trainingType) {
 
 export function applyTeamTalk(team, talkId) {
     const talk = TEAM_TALKS.find(t => t.id === talkId);
-    if (!talk) return { success: false, talk: null };
+    if (!talk) return { success: false, msg: 'Tipo de prelecao invalido.', talk: null };
 
     team.squad.forEach(p => {
         p.moral = Math.max(0, Math.min(100, (p.moral || 50) + talk.effect.moralBoost));
         p.energy = Math.max(0, Math.min(100, p.energy - talk.effect.energyCost));
     });
 
-    return { success: true, talk, modifiers: { ata: talk.effect.ataModifier, def: talk.effect.defModifier } };
+    return { success: true, msg: `Prelecao "${talk.name}" aplicada ao elenco.`, talk, modifiers: { ata: talk.effect.ataModifier, def: talk.effect.defModifier } };
 }

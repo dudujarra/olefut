@@ -16,18 +16,18 @@ const POSITION_COLOR = {
 
 function MiniBar({ value, max = 100, label }) {
     const pct = Math.max(0, Math.min(100, (value / max) * 100));
-    let color = 'var(--danger)';
-    if (pct >= 80) color = 'var(--primary)';
-    else if (pct >= 60) color = 'var(--color-success-mid)';
-    else if (pct >= 35) color = 'var(--accent)';
+    let colorClass = 'ef-bg-danger';
+    if (pct >= 80) colorClass = 'ef-bg-primary';
+    else if (pct >= 60) colorClass = 'ef-bg-success-mid';
+    else if (pct >= 35) colorClass = 'ef-bg-accent';
 
     return (
         <div className="ef-minibar">
             <span className="ef-minibar-label">{label}</span>
             <div className="ef-minibar-track">
                 <div 
-                    className="ef-minibar-fill" 
-                    style={{ width: `${pct}%`, background: color }} 
+                    className={`ef-minibar-fill ${colorClass}`} 
+                    style={{ '--fill-width': `${pct}%` }} 
                 />
             </div>
             <span className="ef-minibar-value">{value}</span>
@@ -47,7 +47,7 @@ export function EfCardPlayer({
     if (!player) return null;
 
     const isCol = layout === 'column';
-    const posColor = POSITION_COLOR[player.position] || '#888';
+    const posColor = POSITION_COLOR[player.position] || 'var(--surface-border)';
 
     return (
         <div
@@ -62,8 +62,7 @@ export function EfCardPlayer({
                 <div className="ef-card-player-header">
                     <strong className="ef-card-player-name">{player.name}</strong>
                     <span 
-                        className="ef-card-player-pos" 
-                        style={{ background: posColor }}
+                        className={`ef-card-player-pos ef-pos-${player.position?.toLowerCase() || 'def'}`} 
                     >
                         {player.position}
                     </span>
@@ -73,7 +72,7 @@ export function EfCardPlayer({
                 </div>
 
                 {showAttrs && player.career && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginTop: '4px' }}>
+                    <div className="ef-card-player-attrs">
                         <MiniBar value={player.energy ?? 100} label="ENE" />
                         <MiniBar value={player.moral ?? 50} label="MOR" />
                     </div>

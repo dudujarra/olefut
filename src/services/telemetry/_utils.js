@@ -1,3 +1,4 @@
+import { EngineLogger } from '../../engine/EngineLogger.js';
 /**
  * Telemetry Utils — helpers compartilhados pelos detectores.
  *
@@ -66,6 +67,7 @@ export function safeDetect(spec, name, fn) {
             res._elapsedMs = elapsed;
             return res;
         } catch (err) {
+            EngineLogger.capture(err, 'TelemetryUtils.compute');
             return buildResult(spec, name, 0, [{
                 id: 'STATE_INVALID',
                 severity: 1,

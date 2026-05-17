@@ -145,7 +145,7 @@ export { SCOUT_REGIONS };
 
 export function scoutRegion(regionId, hasScout, Data) {
     const region = SCOUT_REGIONS.find(r => r.id === regionId);
-    if (!region) return { success: false, players: [] };
+    if (!region) return { success: false, msg: 'Regiao de scouting invalida.', players: [] };
 
     const count = hasScout ? 5 : 2;
     const players = [];
@@ -167,5 +167,5 @@ export function scoutRegion(regionId, hasScout, Data) {
         players.push(player);
     }
 
-    return { success: true, players, region };
+    return { success: true, msg: `Scouting concluido: ${players.length} jogadores encontrados.`, players, region };
 }

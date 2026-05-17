@@ -146,38 +146,45 @@ export function ChronicleView() {
             canvas.width = width;
             canvas.height = height;
             const ctx = canvas.getContext('2d');
+            const rootStyle = getComputedStyle(document.documentElement);
+            const getVar = (name, fallback) => rootStyle.getPropertyValue(name).trim() || fallback;
 
-            ctx.fillStyle = '#161B22';
+            ctx.fillStyle = getVar('--bg-panel', 'rgb(22, 27, 34)');
             ctx.fillRect(0, 0, width, height);
 
-            ctx.strokeStyle = '#2D3748';
+            ctx.strokeStyle = getVar('--color-soft-border', 'rgb(45, 55, 72)');
             ctx.lineWidth = 2;
             ctx.strokeRect(1, 1, width - 2, height - 2);
 
-            ctx.fillStyle = '#FDFBF7';
+            const textMain = getVar('--text-main', 'rgb(253, 251, 247)');
+            const colorGold = getVar('--color-gold-arcade', 'rgb(255, 215, 0)');
+            const colorSuccess = getVar('--success', 'rgb(57, 255, 20)');
+            const textMuted = getVar('--text-muted', 'rgb(142, 158, 148)');
+
+            ctx.fillStyle = textMain;
             ctx.font = '16px monospace';
             let y = 40;
             for (const line of lines) {
                 if (line.startsWith('# ')) {
-                    ctx.fillStyle = '#FFD700';
+                    ctx.fillStyle = colorGold;
                     ctx.font = 'bold 24px sans-serif';
                     ctx.fillText(line.slice(2), 30, y);
                     ctx.font = '16px monospace';
-                    ctx.fillStyle = '#FDFBF7';
+                    ctx.fillStyle = textMain;
                     y += 10;
                 } else if (line.startsWith('## ')) {
-                    ctx.fillStyle = '#39FF14';
+                    ctx.fillStyle = colorSuccess;
                     ctx.font = 'bold 18px sans-serif';
                     ctx.fillText(line.slice(3), 30, y);
                     ctx.font = '16px monospace';
-                    ctx.fillStyle = '#FDFBF7';
+                    ctx.fillStyle = textMain;
                 } else {
                     ctx.fillText(line, 30, y);
                 }
                 y += lineHeight;
             }
 
-            ctx.fillStyle = '#8E9E94';
+            ctx.fillStyle = textMuted;
             ctx.font = '12px monospace';
             ctx.fillText(`OléFUT · gerado em ${new Date().toLocaleString('pt-BR')}`, 30, height - 20);
 

@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 /**
  * SaveSlotsService — SPEC-074 Sprint N
  *
@@ -112,6 +113,7 @@ export function importJSONToSlot(slotNum, file) {
                 localStorage.setItem(SLOT_KEYS[slotNum - 1], JSON.stringify(data));
                 resolve({ success: true, msg: 'Save importado' });
             } catch (err) {
+                EngineLogger.capture(err, 'SaveSlotsService.restore');
                 resolve({ success: false, msg: 'JSON inválido: ' + err.message });
             }
         };

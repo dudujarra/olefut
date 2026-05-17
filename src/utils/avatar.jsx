@@ -20,16 +20,9 @@ function PlayerAvatarImpl({ name, size = 28 }) {
         <img
             src={faceSrc}
             alt={`Avatar ${name}`}
-            className="player-avatar"
-            style={{
-                width: size,
-                height: size,
-                objectFit: 'cover',
-                borderRadius: '0px',
-                border: '1px solid #334155',
-                backgroundColor: '#111417',
-                imageRendering: 'pixelated'
-            }}
+            className="player-avatar ef-avatar-pixel"
+            width={size}
+            height={size}
         />
     );
 }

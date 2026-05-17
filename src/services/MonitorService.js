@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 import { rng as systemRng } from '../engine/rng.js';
 /**
  * MonitorService — v1.6
@@ -54,6 +55,7 @@ function saveEntries() {
         }
         localStorage.setItem(STORAGE_KEY, JSON.stringify(_entries));
     } catch (e) {
+        EngineLogger.capture(e, 'MonitorService.persist');
         console.warn('[Monitor] Failed to persist:', e);
     }
 }
@@ -197,6 +199,7 @@ export class MonitorService {
                     });
                     return result;
                 } catch (e) {
+                    EngineLogger.capture(e, 'MonitorService.recordMetric');
                     self.recordBug({
                         severity: SEVERITIES.ERROR,
                         message: `engine.${methodName} threw: ${e.message}`,

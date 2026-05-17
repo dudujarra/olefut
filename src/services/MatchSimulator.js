@@ -33,6 +33,85 @@ import { DeepTacticalEngine } from '../engine/tactical/DeepTacticalEngine.js';
 import { MatchEffectsPipeline } from '../engine/systems/MatchEffectsPipeline.js';
 import { shouldTriggerMidMatch, getMidMatchCardDerbyAware } from '../engine/MidMatchManagerDeck.js';
 import { resolveMOTM, applyEnergyDrain, recordCareerStats, applyLeaderBoost, settleBicho, feedNpcResults, emitMatchEnd } from './MatchPostMatch.js';
+
+// ============================================================
+// TUNING CONSTANTS — Named for clarity and centralized balancing
+// ============================================================
+/** @constant {number} Dixon-Coles base expected goals for home team */
+const BASE_XG_HOME = 1.45;
+/** @constant {number} Dixon-Coles base expected goals for away team */
+const BASE_XG_AWAY = 1.15;
+/** @constant {number} Baseline sector strength for normalization */
+const AVG_SECTOR = 60;
+/** @constant {number} Assumed average conversion rate (shots → goals) */
+const CONVERSION_RATE = 0.30;
+/** @constant {number} Minutes in a standard match */
+const MATCH_MINUTES = 90;
+/** @constant {number} Maximum combined goals per match (realism cap) */
+const MAX_COMBINED_GOALS = 8;
+/** @constant {number} Filler narration interval in minutes */
+const FILLER_INTERVAL = 12;
+/** @constant {number} Fallback tactical xG baseline (30%) */
+const TACTICAL_XG_BASELINE = 0.3;
+/** @constant {number} Poisson fallback scale when tactical engine stalls */
+const POISSON_FALLBACK_SCALE = 0.4;
+/** @constant {number} Mid-match card trigger probability per eligible minute */
+const MID_MATCH_CARD_PROB = 0.40;
+/** @constant {number} Base card/foul chance per minute */
+const BASE_CARD_CHANCE = 0.015;
+/** @constant {number} Elevated card chance for aggressive playstyles */
+const AGGRESSIVE_CARD_CHANCE = 0.035;
+/** @constant {number} Reduced card chance for fair-play playstyles */
+const FAIRPLAY_CARD_CHANCE = 0.003;
+/** @constant {number} Defender card multiplier (tactical fouls) */
+const DEFENDER_CARD_MULT = 1.3;
+/** @constant {number} Surprise event probability per minute (~0.5%) */
+const SURPRISE_EVENT_PROB = 0.005;
+/** @constant {number} VAR penalty conversion rate */
+const VAR_PENALTY_CONV = 0.70;
+/** @constant {number} Base moral factor offset */
+const MORAL_FACTOR_OFFSET = 0.8;
+/** @constant {number} Moral factor divisor (max moral=100 → factor=1.2) */
+const MORAL_FACTOR_DIV = 250;
+/** @constant {number} Keeper save chance multiplier */
+const KEEPER_SAVE_MULT = 0.8;
+/** @constant {number} PRD pity bonus per consecutive miss */
+const PITY_BONUS_PER_MISS = 0.10;
+/** @constant {number} PRD pity bonus cap */
+const PITY_BONUS_CAP = 0.50;
+/** @constant {number} Big match attribute baseline (neutral) */
+const BIG_MATCH_NEUTRAL = 15;
+/** @constant {number} Big match conversion modifier per point */
+const BIG_MATCH_MOD_PER_POINT = 0.03;
+/** @constant {number} Season week threshold for "big match" consideration */
+const BIG_MATCH_WEEK_THRESHOLD = 34;
+/** @constant {number} Performance score for a goal */
+const PERF_GOAL = 3;
+/** @constant {number} Performance score for an assist */
+const PERF_ASSIST = 2;
+/** @constant {number} Performance penalty for a yellow card */
+const PERF_YELLOW = -1;
+/** @constant {number} Performance penalty for an own goal */
+const PERF_OWN_GOAL = -3;
+/** @constant {number} Performance penalty for a red card */
+const PERF_RED_CARD = -4;
+/** @constant {number} Performance penalty for mid-match injury */
+const PERF_INJURY = -2;
+/** @constant {string[]} Aggressive playstyles (elevated card risk) */
+const AGGRESSIVE_STYLES = ['Caneleiro', 'Gladiador', 'Sanguíneo', 'Provocador', 'Raçudo', 'Catimbeiro', 'Cai-Cai'];
+/** @constant {string[]} Fair-play playstyles (reduced card risk) */
+const FAIRPLAY_STYLES = ['Fairplay', 'Elegante', 'Maestro Frio', 'Discreto'];
+/** @constant {number} Injury duration minimum weeks */
+const INJURY_MIN_WEEKS = 2;
+/** @constant {number} Injury duration random range (added to min) */
+const INJURY_RANGE_WEEKS = 4;
+/** @constant {number} Surprise event: own goal probability threshold */
+const SURPRISE_OWN_GOAL_THRESH = 0.30;
+/** @constant {number} Surprise event: VAR probability threshold */
+const SURPRISE_VAR_THRESH = 0.55;
+/** @constant {number} Surprise event: injury probability threshold */
+const SURPRISE_INJURY_THRESH = 0.80;
+
 export class MatchSimulator {
     constructor() {
         this._tacticalEngine = new DeepTacticalEngine();
@@ -47,7 +126,7 @@ export class MatchSimulator {
      * @returns {{homeGoals, awayGoals, events}}
      */
     simulate(engine, homeId, awayId, isCup = false) {
-        return this.simulateInterval(engine, homeId, awayId, 1, 90, null, isCup);
+        return this.simulateInterval(engine, homeId, awayId, 1, MATCH_MINUTES, null, isCup);
     }
 
     /**
@@ -105,8 +184,8 @@ export class MatchSimulator {
 
         const homeMoral = (homeTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (homeTeam.squad?.length || 1);
         const awayMoral = (awayTeam.squad || []).reduce((s, p) => s + (p.moral || 50), 0) / (awayTeam.squad?.length || 1);
-        const homeMoralFactor = 0.8 + (homeMoral / 250);
-        const awayMoralFactor = 0.8 + (awayMoral / 250);
+        const homeMoralFactor = MORAL_FACTOR_OFFSET + (homeMoral / MORAL_FACTOR_DIV);
+        const awayMoralFactor = MORAL_FACTOR_OFFSET + (awayMoral / MORAL_FACTOR_DIV);
 
         const cond = engine.matchCondition || { ataModifier: 1, defModifier: 1, energyModifier: 1 };
         const rawEvents = baseResult && baseResult.events._rawEvents ? [...baseResult.events._rawEvents] : [];
@@ -138,9 +217,6 @@ export class MatchSimulator {
         // ==========================================
         // DIXON-COLES EXPECTED GOALS (xG) MODEL (§2)
         // ==========================================
-        const BASE_XG_HOME = 1.45;
-        const BASE_XG_AWAY = 1.15;
-        const AVG_SECTOR = 60; // baseline for strength normalization
 
         // Attack & Defense Strengths (Alpha & Beta)
         // BUG-095: sectors already include tactic + teamTalk modifiers from L62-67.
@@ -197,14 +273,12 @@ export class MatchSimulator {
         lambda = Math.max(0.1, Math.min(lambda, 5.0));
         mu = Math.max(0.1, Math.min(mu, 5.0));
 
-        // Assuming a ~30% conversion rate, calculate expected chances
-        const CONVERSION_RATE = 0.30;
         const expectedHomeChances = lambda / CONVERSION_RATE;
         const expectedAwayChances = mu / CONVERSION_RATE;
 
         // Poisson rate per minute
-        const homeChancePerMin = expectedHomeChances / 90;
-        const awayChancePerMin = expectedAwayChances / 90;
+        const homeChancePerMin = expectedHomeChances / MATCH_MINUTES;
+        const awayChancePerMin = expectedAwayChances / MATCH_MINUTES;
 
         // §2: PRD (Pseudo-Random Distribution) pity counters
         // After N consecutive missed chances, boost next chance's conversion
@@ -212,8 +286,6 @@ export class MatchSimulator {
         let awayMissStreak = 0;
         const midMatchTriggered = new Set(); // track which minutes already drew a card
 
-        // BUG-033 + SPEC-125: cap reduzido 12→8, scorelines mais realistas.
-        const MAX_COMBINED_GOALS = 8;
         for (let minute = startMin; minute <= endMin; minute++) {
             if (homeGoals + awayGoals >= MAX_COMBINED_GOALS) break;
 
@@ -225,7 +297,7 @@ export class MatchSimulator {
             // DEEP TACTICAL ENGINE: Phase 4 Integration
             let isHomeChance = false;
             let isAwayChance = false;
-            let tacticalBaseXG = 0.3; // Default 30% conversion baseline
+            let tacticalBaseXG = TACTICAL_XG_BASELINE; // Default 30% conversion baseline
 
             const tacticalEvent = this._tacticalEngine.tickMinute(homeTeam.squad, awayTeam.squad);
             if (tacticalEvent && tacticalEvent.type === 'shot') {
@@ -238,12 +310,12 @@ export class MatchSimulator {
                 }
             } else {
                 // Fallback Poisson (scaled down) to guarantee matches don't end 0-0 if tactical engine stalls
-                isHomeChance = systemRng() < (homeChancePerMin * 0.4);
-                isAwayChance = !isHomeChance && systemRng() < (awayChancePerMin * 0.4);
+                isHomeChance = systemRng() < (homeChancePerMin * POISSON_FALLBACK_SCALE);
+                isAwayChance = !isHomeChance && systemRng() < (awayChancePerMin * POISSON_FALLBACK_SCALE);
             }
 
             // Filler narration every ~12 min
-            if (minute % 12 === 0 && !isHomeChance && !isAwayChance) {
+            if (minute % FILLER_INTERVAL === 0 && !isHomeChance && !isAwayChance) {
                 const isHomeAttackingFiller = systemRng() > 0.5;
                 const attTeamFiller = isHomeAttackingFiller ? homeTeam : awayTeam;
                 const defTeamFiller = isHomeAttackingFiller ? awayTeam : homeTeam;
@@ -261,9 +333,9 @@ export class MatchSimulator {
             // SPEC-B2: MidMatchManagerDeck — decision cards at key minutes
             if (isManagerMatch && shouldTriggerMidMatch(minute, midMatchTriggered)) {
                 // ~40% chance per eligible minute → ~2 cards per match
-                if (systemRng() < 0.40) {
+                if (systemRng() < MID_MATCH_CARD_PROB) {
                     const isDerby = matchCtx.isDerby || false;
-                    const cardSeed = (engine.currentWeek || 0) * 90 + minute;
+                    const cardSeed = (engine.currentWeek || 0) * MATCH_MINUTES + minute;
                     const card = getMidMatchCardDerbyAware(minute, isDerby, cardSeed);
                     if (card) {
                         midMatchTriggered.add(minute);
@@ -314,25 +386,25 @@ export class MatchSimulator {
                 // Adjust shotPower threshold so average conversion = CONVERSION_RATE
                 // §2: PRD pity bonus — +10% per consecutive miss (caps at +50%)
                 const pityBonus = isHomeAttacking
-                    ? Math.min(0.5, homeMissStreak * 0.10)
-                    : Math.min(0.5, awayMissStreak * 0.10);
+                    ? Math.min(PITY_BONUS_CAP, homeMissStreak * PITY_BONUS_PER_MISS)
+                    : Math.min(PITY_BONUS_CAP, awayMissStreak * PITY_BONUS_PER_MISS);
                 // bigMatch: 10-20 scale. In big matches (derby, cup, last 5 weeks), boosts/penalizes conversion
                 const seasonWeek = ((engine.currentWeek - 1) % 38) + 1;
-                const isBigMatch = isDerby || isCup || seasonWeek >= 34;
+                const isBigMatch = isDerby || isCup || seasonWeek >= BIG_MATCH_WEEK_THRESHOLD;
                 let bigMatchMod = 1.0;
                 if (isBigMatch && scorer?.bigMatch != null) {
                     // 10 = -10% (cracks under pressure), 15 = neutral, 20 = +15% (thrives)
-                    bigMatchMod = 1.0 + (scorer.bigMatch - 15) * 0.03;
+                    bigMatchMod = 1.0 + (scorer.bigMatch - BIG_MATCH_NEUTRAL) * BIG_MATCH_MOD_PER_POINT;
                 }
 
                 const finalScorerMod = formMod * traitMod * poacherMod * setPieceMod * scorerTransientFatigue * scorerCognitiveMod * bigMatchMod;
                 
                 // DEEP TACTICAL ENGINE: Blend spatial xG with traditional sector math
-                const tacticalMod = (tacticalBaseXG / 0.3); // Ratio of actual xG vs 30% base
+                const tacticalMod = (tacticalBaseXG / TACTICAL_XG_BASELINE); // Ratio of actual xG vs baseline
                 const shotPower = atkSectors.attack * cond.ataModifier * systemRng() * finalScorerMod * (1 + pityBonus) * tacticalMod;
                 
                 const finalKeeperMod = keeperTransientFatigue * keeperCognitiveMod;
-                const saveChance = defSectors.goalkeeper * systemRng() * 0.8 * finalKeeperMod; 
+                const saveChance = defSectors.goalkeeper * systemRng() * KEEPER_SAVE_MULT * finalKeeperMod; 
 
                 const scorerName = scorer ? scorer.name : attTeam.name;
                 const isGoal = shotPower > saveChance;
@@ -389,13 +461,13 @@ export class MatchSimulator {
 
                     // Track performance
                     if (scorer) {
-                        performanceMap[scorer.id] = (performanceMap[scorer.id] || 0) + 3;
+                        performanceMap[scorer.id] = (performanceMap[scorer.id] || 0) + PERF_GOAL;
                         scorer._matchGoals = (scorer._matchGoals || 0) + 1;
                     }
                     // §2: PRD reset on goal
                     if (isHomeAttacking) homeMissStreak = 0; else awayMissStreak = 0;
                     if (assistPlayer) {
-                        performanceMap[assistPlayer.id] = (performanceMap[assistPlayer.id] || 0) + 2;
+                        performanceMap[assistPlayer.id] = (performanceMap[assistPlayer.id] || 0) + PERF_ASSIST;
                     }
                 } else {
                     // SAVE
@@ -411,22 +483,22 @@ export class MatchSimulator {
             
             if (offender) {
                 // Base chance 1.5% - Ajustado com base no temperamento
-                let cardChance = 0.015;
+                let cardChance = BASE_CARD_CHANCE;
                 const pStyle = offender.playstyle || '';
                 
-                if (['Caneleiro', 'Gladiador', 'Sanguíneo', 'Provocador', 'Raçudo', 'Catimbeiro', 'Cai-Cai'].includes(pStyle)) {
-                    cardChance = 0.035; // Alta chance de cartão
-                } else if (['Fairplay', 'Elegante', 'Maestro Frio', 'Discreto'].includes(pStyle)) {
-                    cardChance = 0.003; // Raramente toma cartão
+                if (AGGRESSIVE_STYLES.includes(pStyle)) {
+                    cardChance = AGGRESSIVE_CARD_CHANCE;
+                } else if (FAIRPLAY_STYLES.includes(pStyle)) {
+                    cardChance = FAIRPLAY_CARD_CHANCE;
                 }
 
                 // Defenders e Goleiros têm um multiplicador natural maior por causa de faltas táticas
-                if (offender.position === 'DEF') cardChance *= 1.3;
+                if (offender.position === 'DEF') cardChance *= DEFENDER_CARD_MULT;
 
                 if (systemRng() < cardChance) {
                     events.cards.push({ minute, player: offender.name, team: foulTeam.name, type: 'yellow' });
                     if (isManagerMatch) rawEvents.push({ minute, type: 'card', player: offender.name, team: foulTeam.name, pStyle });
-                    performanceMap[offender.id] = (performanceMap[offender.id] || 0) - 1;
+                    performanceMap[offender.id] = (performanceMap[offender.id] || 0) + PERF_YELLOW;
                 }
             }
 
@@ -434,19 +506,19 @@ export class MatchSimulator {
             // AUDIT-FIX #B: Surprise Events — SPEC-102 Fun Score booster
             // Rare dramatic events (~0.5% per minute ≈ 1 per 2-3 matches)
             // ══════════════════════════════════════════
-            if (systemRng() < 0.005 && homeGoals + awayGoals < MAX_COMBINED_GOALS) {
+            if (systemRng() < SURPRISE_EVENT_PROB && homeGoals + awayGoals < MAX_COMBINED_GOALS) {
                 const eventRoll = systemRng();
 
-                if (eventRoll < 0.30) {
+                if (eventRoll < SURPRISE_OWN_GOAL_THRESH) {
                     // OWN GOAL (~30% of surprise events)
                     const unluckyTeam = systemRng() > 0.5 ? homeTeam : awayTeam;
                     const unluckyDef = pickRandom(unluckyTeam === homeTeam ? homeDefenders : awayDefenders);
                     const name = unluckyDef?.name || unluckyTeam.name;
                     if (unluckyTeam === homeTeam) { awayGoals++; } else { homeGoals++; }
                     if (isManagerMatch) rawEvents.push({ minute, type: 'own_goal', unluckyDefName: name, unluckyTeamName: unluckyTeam.name, homeGoals, awayGoals });
-                    if (unluckyDef) performanceMap[unluckyDef.id] = (performanceMap[unluckyDef.id] || 0) - 3;
+                    if (unluckyDef) performanceMap[unluckyDef.id] = (performanceMap[unluckyDef.id] || 0) + PERF_OWN_GOAL;
 
-                } else if (eventRoll < 0.55) {
+                } else if (eventRoll < SURPRISE_VAR_THRESH) {
                     // VAR CONTROVERSY (~25% of surprise events)
                     const side = systemRng() > 0.5 ? 'home' : 'away';
                     const varDecisions = ['gol anulado por impedimento', 'pênalti marcado após revisão', 'cartão vermelho direto após revisão'];
@@ -454,21 +526,21 @@ export class MatchSimulator {
                     const affectedTeam = side === 'home' ? homeTeam : awayTeam;
                     let isVarGoal = false;
                     // VAR penalty: 70% conversion
-                    if (decision.includes('pênalti') && systemRng() < 0.70) {
+                    if (decision.includes('pênalti') && systemRng() < VAR_PENALTY_CONV) {
                         isVarGoal = true;
                         if (side === 'home') { homeGoals++; } else { awayGoals++; }
                     }
                     if (isManagerMatch) rawEvents.push({ minute, type: 'var', decision, affectedTeamName: affectedTeam.name, isGoal: isVarGoal, homeGoals, awayGoals });
 
-                } else if (eventRoll < 0.80) {
+                } else if (eventRoll < SURPRISE_INJURY_THRESH) {
                     // KEY PLAYER INJURY mid-match (~25% of surprise events)
                     const injTeam = systemRng() > 0.5 ? homeTeam : awayTeam;
                     const candidates = (injTeam.squad || []).filter(p => p.isTitular && !p.injury);
                     const injured = pickRandom(candidates);
                     if (injured) {
-                        injured.injury = { name: 'Lesão muscular', weeksLeft: 2 + Math.floor(systemRng() * 4), emoji: '🤕' };
+                        injured.injury = { name: 'Lesao muscular', weeksLeft: INJURY_MIN_WEEKS + Math.floor(systemRng() * INJURY_RANGE_WEEKS), emoji: '🤕' };
                         if (isManagerMatch) rawEvents.push({ minute, type: 'injury', injuredName: injured.name, injTeamName: injTeam.name });
-                        performanceMap[injured.id] = (performanceMap[injured.id] || 0) - 2;
+                        performanceMap[injured.id] = (performanceMap[injured.id] || 0) + PERF_INJURY;
                     }
 
                 } else {
@@ -480,7 +552,7 @@ export class MatchSimulator {
                     
                     // Reroll mechanics: se for um jogador "Fairplay", tenta sortear de novo (2x)
                     for (let i=0; i<2; i++) {
-                        if (expelled && ['Fairplay', 'Elegante', 'Maestro Frio', 'Discreto'].includes(expelled.playstyle)) {
+                        if (expelled && FAIRPLAY_STYLES.includes(expelled.playstyle)) {
                             expelled = pickRandom(redCandidates);
                         } else {
                             break;
@@ -490,7 +562,7 @@ export class MatchSimulator {
                     if (expelled) {
                         events.cards.push({ minute, player: expelled.name, team: redTeam.name, type: 'red' });
                         if (isManagerMatch) rawEvents.push({ minute, type: 'red_card', expelledName: expelled.name, pStyle: expelled.playstyle, redTeamName: redTeam.name });
-                        performanceMap[expelled.id] = (performanceMap[expelled.id] || 0) - 4;
+                        performanceMap[expelled.id] = (performanceMap[expelled.id] || 0) + PERF_RED_CARD;
                     }
                 }
             }
@@ -498,7 +570,7 @@ export class MatchSimulator {
 
         // Penalties
         if (isCup && homeGoals === awayGoals) {
-            if (isManagerMatch) rawEvents.push({ minute: 90, type: 'penalties_tie' });
+            if (isManagerMatch) rawEvents.push({ minute: MATCH_MINUTES, type: 'penalties_tie' });
 
             // SPEC-144: penalty_stopper e penalty_king afetam resultado
             const homeGol = (homeTeam.squad || []).find(p => p.position === 'GOL' && p.isTitular);

@@ -5,6 +5,7 @@
  * + crashes. Callback de progress pra UI.
  */
 
+import { EngineLogger } from '../../engine/EngineLogger.js';
 import { Engine } from '../../engine/engine.js';
 import { createEngine } from '../../engine/engineFactory.js';
 import { setGlobalSeed } from '../../engine/rng.js';
@@ -56,12 +57,14 @@ export async function runBatch({
                         result.streakHistory.push({ week: w, ...trackStreaks(engine) });
                     }
                 } catch (we) {
+                    EngineLogger.capture(we, 'BatchRunner.weekAdvance');
                     result.crash = { week: w, message: we.message, stack: we.stack?.split('\n').slice(0, 3).join('\n') };
                     break;
                 }
             }
             result.snapshot = captureSnapshot(engine);
         } catch (e) {
+            EngineLogger.capture(e, 'BatchRunner.runBatch');
             result.crash = { week: -1, message: e.message, stack: e.stack?.split('\n').slice(0, 3).join('\n') };
         }
         results.push(result);

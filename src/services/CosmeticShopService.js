@@ -5,21 +5,23 @@
  * No gameplay impact, only visual.
  */
 
+import { COSMETIC } from '../engine/EmojiConstants.js';
+
 const STORAGE_KEY = 'olefut_cosmetics';
 
 export const COSMETICS = [
-    { id: 'kit_classic',  type: 'kit',     name: 'Kit Clássico SNES',  cost: 50,  emoji: '👕' },
-    { id: 'kit_neon',     type: 'kit',     name: 'Kit Neon Retrô',     cost: 100, emoji: '🌈' },
-    { id: 'kit_gold',     type: 'kit',     name: 'Kit Dourado Pacaembu', cost: 200, emoji: '⚜️' },
-    { id: 'badge_skull',  type: 'badge',   name: 'Badge Caveira',      cost: 75,  emoji: '💀' },
-    { id: 'badge_crown',  type: 'badge',   name: 'Badge Coroa',        cost: 150, emoji: '👑' },
-    { id: 'portrait_pro', type: 'portrait', name: 'Manager Profissional', cost: 100, emoji: '🤵' },
-    { id: 'portrait_zen', type: 'portrait', name: 'Manager Zen',        cost: 100, emoji: '🧘' },
-    { id: 'portrait_punk', type: 'portrait', name: 'Manager Punk',      cost: 150, emoji: '🤘' },
-    { id: 'stadium_grass_diamond', type: 'pitch', name: 'Grama Diamante', cost: 80, emoji: '🟢' },
-    { id: 'stadium_grass_spiral', type: 'pitch', name: 'Grama Espiral',  cost: 120, emoji: '🌀' },
-    { id: 'banner_flag', type: 'banner',  name: 'Bandeira Especial',  cost: 60,  emoji: '🚩' },
-    { id: 'banner_fireworks', type: 'banner', name: 'Fogos Celebração', cost: 200, emoji: '🎆' }
+    { id: 'kit_classic',  type: 'kit',     name: 'Kit Classico SNES',  cost: 50,  emoji: COSMETIC.SHIRT },
+    { id: 'kit_neon',     type: 'kit',     name: 'Kit Neon Retro',     cost: 100, emoji: COSMETIC.RAINBOW },
+    { id: 'kit_gold',     type: 'kit',     name: 'Kit Dourado Pacaembu', cost: 200, emoji: COSMETIC.FLEUR },
+    { id: 'badge_skull',  type: 'badge',   name: 'Badge Caveira',      cost: 75,  emoji: COSMETIC.SKULL },
+    { id: 'badge_crown',  type: 'badge',   name: 'Badge Coroa',        cost: 150, emoji: COSMETIC.CROWN },
+    { id: 'portrait_pro', type: 'portrait', name: 'Manager Profissional', cost: 100, emoji: COSMETIC.SUIT },
+    { id: 'portrait_zen', type: 'portrait', name: 'Manager Zen',        cost: 100, emoji: COSMETIC.ZEN },
+    { id: 'portrait_punk', type: 'portrait', name: 'Manager Punk',      cost: 150, emoji: COSMETIC.ROCK },
+    { id: 'stadium_grass_diamond', type: 'pitch', name: 'Grama Diamante', cost: 80, emoji: COSMETIC.GRASS },
+    { id: 'stadium_grass_spiral', type: 'pitch', name: 'Grama Espiral',  cost: 120, emoji: COSMETIC.SPIRAL },
+    { id: 'banner_flag', type: 'banner',  name: 'Bandeira Especial',  cost: 60,  emoji: COSMETIC.FLAG },
+    { id: 'banner_fireworks', type: 'banner', name: 'Fogos Celebracao', cost: 200, emoji: COSMETIC.FIREWORKS }
 ];
 
 function loadState() {
@@ -58,7 +60,7 @@ export function purchaseCosmetic(cosmeticId, currentPoints) {
     state.owned.push(cosmeticId);
     state.points = currentPoints - item.cost;
     saveState(state);
-    return { success: true };
+    return { success: true, msg: `${item.name} adquirido.` };
 }
 
 export function equipCosmetic(cosmeticId) {
@@ -68,5 +70,5 @@ export function equipCosmetic(cosmeticId) {
     if (!item) return { success: false, msg: 'Item não encontrado.' };
     state.equipped[item.type] = cosmeticId;
     saveState(state);
-    return { success: true };
+    return { success: true, msg: `${item.name} equipado.` };
 }

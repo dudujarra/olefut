@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 /**
  * §15.4: PWA Service — Service Worker registration + notification management.
  *
@@ -27,6 +28,7 @@ export async function registerServiceWorker() {
         console.log('[PWA] Service worker registered:', swRegistration.scope);
         return swRegistration;
     } catch (err) {
+        EngineLogger.capture(err, 'PWAService.register');
         console.warn('[PWA] SW registration failed:', err.message);
         return null;
     }

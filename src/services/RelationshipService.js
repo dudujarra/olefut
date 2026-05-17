@@ -144,7 +144,7 @@ export class RelationshipService {
         const current = engineOrSave.relations.club_club[key] || { rivalry: 0, alliance: 0 };
         current.alliance = clamp((current.alliance || 0) + delta);
         engineOrSave.relations.club_club[key] = current;
-        return { success: true, alliance: current.alliance };
+        return { success: true, msg: 'Alianca atualizada.', alliance: current.alliance };
     }
 
     /**
@@ -194,7 +194,7 @@ export class RelationshipService {
         const delta = result.dramatic ? 10 : 5;
         current.rivalry = Math.min(100, (current.rivalry || 0) + delta);
         engineOrSave.relations.club_club[key] = current;
-        return { success: true };
+        return { success: true, msg: 'Derby registrado.' };
     }
 
     /**
@@ -213,14 +213,14 @@ export class RelationshipService {
             current.rivalry = Math.min(100, (current.rivalry || 0) + 8);
             engineOrSave.relations.club_club[key] = current;
         }
-        return { success: true };
+        return { success: true, msg: 'Transferencia registrada.' };
     }
 
     /**
      * Decay rivalry vector (chamado weekly). Half-life ~540 dias = ~77 weeks.
      */
     decayRivalry(engineOrSave, daysElapsed = 7) {
-        if (!engineOrSave?.relations?.club_club) return { success: true };
+        if (!engineOrSave?.relations?.club_club) return { success: true, msg: 'Nenhuma rivalidade para decay.' };
         const halfLifeDays = 540;
         const decayFactor = Math.pow(0.5, daysElapsed / halfLifeDays);
         const floor = 0.10;
@@ -231,7 +231,7 @@ export class RelationshipService {
                 r.rivalry = Math.max(floor * 100, r.rivalry * decayFactor);
             }
         }
-        return { success: true };
+        return { success: true, msg: 'Decay aplicado.' };
     }
 
     /**
@@ -247,7 +247,7 @@ export class RelationshipService {
         engineOrSave.relations.manager_president.trust = clamp(
             (engineOrSave.relations.manager_president.trust || 60) + delta
         );
-        return { success: true, current: engineOrSave.relations.manager_president.trust };
+        return { success: true, msg: 'Confianca ajustada.', current: engineOrSave.relations.manager_president.trust };
     }
 
     /**
@@ -262,6 +262,6 @@ export class RelationshipService {
         };
         const next = (engineOrSave.relations.manager_president.patience || 70) + delta;
         engineOrSave.relations.manager_president.patience = Math.max(0, Math.min(100, next));
-        return { success: true, current: engineOrSave.relations.manager_president.patience };
+        return { success: true, msg: 'Paciencia ajustada.', current: engineOrSave.relations.manager_president.patience };
     }
 }

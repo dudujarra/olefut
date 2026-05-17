@@ -1,0 +1,107 @@
+/* LearningPanel — extracted from inline styles (SPEC-123) */
+
+.ef-learn__root {
+  margin-top: 0.5rem;
+  background: var(--color-forest-pulse);
+  border: 1px solid var(--color-success-mid);
+}
+
+.ef-learn__header {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--color-success-mid);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-learn__header-meta {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+}
+
+.ef-learn__icon-inline {
+  vertical-align: -2px;
+  margin-right: 6px;
+}
+
+/* Sparklines row */
+.ef-learn__sparklines {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.ef-learn__spark-label {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+/* Section label */
+.ef-learn__section {
+  margin-top: 12px;
+}
+
+.ef-learn__section-label {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+/* ActionBar helper */
+.ef-learn__action-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--ef-text-xs);
+  margin-bottom: 2px;
+}
+
+.ef-learn__action-label {
+  min-width: 120px;
+  font-family: var(--ef-font-family-mono);
+}
+
+.ef-learn__action-track {
+  flex: 1;
+  background: var(--color-shadow-deep);
+  height: 12px;
+  overflow: hidden;
+}
+
+.ef-learn__action-fill {
+  height: 100%;
+  transition: width 300ms;
+}
+
+.ef-learn__action-value {
+  min-width: 50px;
+  text-align: right;
+  font-family: var(--ef-font-family-mono);
+}
+
+/* Memory entry */
+.ef-learn__mem-entry {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--ef-text-xs);
+  padding: 2px 4px;
+  border-bottom: 1px solid var(--color-bg-deep);
+  font-family: var(--ef-font-family-mono);
+}
+
+/* Memory scroll container */
+.ef-learn__mem-scroll {
+  max-height: 160px;
+  overflow-y: auto;
+  background: var(--color-shadow-deep);
+  padding: 4px;
+}
+
+/* Sparkline empty state */
+.ef-learn__empty {
+  font-size: var(--ef-text-xs);
+  color: var(--text-muted);
+}

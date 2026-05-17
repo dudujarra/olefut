@@ -1,3 +1,4 @@
+import { EngineLogger } from '../engine/EngineLogger.js';
 /**
  * ChronicleService — v1.5 (AKITA-056)
  *
@@ -143,6 +144,7 @@ export class ChronicleService {
         try {
             return JSON.stringify(save, null, 2);
         } catch (e) {
+            EngineLogger.capture(e, 'ChronicleService.persist');
             return '{}';
         }
     }
